@@ -11,7 +11,7 @@
 *.sln.docstates
 
 # CMake files
-[Oo]ut/
+out/*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
