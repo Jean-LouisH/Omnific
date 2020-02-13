@@ -3,7 +3,9 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+project ("TestGame")
 project ("Lilliputian")
 
 # Include sub-projects.
+add_subdirectory("TestGame")
 add_subdirectory ("Lilliputian")
