@@ -13,15 +13,15 @@ This also started as a practical scenario to learn how to use CMake through CMak
 ## Target Features
 
 * Entity Component System Architecture
-* Multiple, Independent and Layered 2D Subscenes(For Backgrounds, Game Environment, HUD, etc)
+* Multiple, Independent and Layered 2D Subscenes (For Backgrounds, Game Environment, HUD, etc)
 * Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
 * An API for User Entity and Scene Management
 * Mouse, Keyboard and Game Controller Support
 * Input Action Mapping (Default Provided)
 * JPG and PNG for Sprites
 * Spritesheets and Animation
-* OGG for audio sources
-* [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) audio waveform generation and scripting
+* OGG for Audio Sources
+* [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) Audio Waveform Generation and Scripting
 * Physics, Collision Detection and Response
 
 ## Compilation Instructions
@@ -32,8 +32,8 @@ This also started as a practical scenario to learn how to use CMake through CMak
 
 ## Game Development Instructions
 
-* Create your own empty C++ project.
-* Add your Lilliputian build as a link library and dependency for your project. 
+* Create your own empty C++ project for your game.
+* Add your Lilliputian build as a link library and dependency for your game project. 
 * Declare a Lilliputian::API object in a function (typically main entry point) and via the object's method, attach a scene initializer subroutine (a function or method of your choice). In that subroutine you should at least define the main scene and attach all other executable scenes by manipulating Entity Component objects. Attach C++ scripts to those objects. These instructions and other API guidelines can be found in the API documentation.
 
 ## Documentation
