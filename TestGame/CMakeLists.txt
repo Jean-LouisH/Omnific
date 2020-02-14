@@ -5,6 +5,8 @@ cmake_minimum_required (VERSION 3.8)
 
 set (TEST_GAME_SOURCES
 		main.cpp
+		SceneDefiner.cpp
+		SceneDefiner.hpp
 )
 
 # Add source to this project's executable.
