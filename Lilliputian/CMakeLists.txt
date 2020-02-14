@@ -7,8 +7,8 @@ set(LILLIPUTIAN_SOURCES
 		Lilliputian.hpp
 		Core/Core.hpp
 		Core/Core.cpp
-		API/API.hpp
-		API/API.cpp
+		Editor/Editor.hpp
+		Editor/Editor.cpp
 )
 
 # Add source to this project's executable.
