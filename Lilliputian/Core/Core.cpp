@@ -42,15 +42,28 @@ Lilliputian::Core::~Core()
 
 void Lilliputian::Core::initialize()
 {
+	this->editor = new Editor();
 
+	for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
+	{
+		if (this->sceneDefinerCallbacks.at(i))
+			this->sceneDefinerCallbacks.at(i)(this->editor);
+	}
 }
 
 void Lilliputian::Core::run()
 {
+	this->initialize();
 
+	this->shutdown();
 }
 
 void Lilliputian::Core::shutdown()
 {
 
+}
+
+void Lilliputian::Core::addSceneDefiner(DefinerCallback sceneInitializerCallback)
+{
+	this->sceneDefinerCallbacks.push_back(sceneInitializerCallback);
 }

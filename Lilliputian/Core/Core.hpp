@@ -1,10 +1,20 @@
 #pragma once
 
+#include "../Editor/Editor.hpp"
+#include <vector>
+
 namespace Lilliputian
 {
+	using DefinerCallback = void(*)(Lilliputian::Editor*);
+
 	class Core
 	{
 	private:
+		std::vector<DefinerCallback> sceneDefinerCallbacks;
+		Editor* editor;
+
+		void initialize();
+		void shutdown();
 		void sleep();
 		void benchmark();
 		void input();
@@ -14,9 +24,9 @@ namespace Lilliputian
 	public:
 		Core();
 		~Core();
-		void initialize();
+
 		void run();
-		void shutdown();
+		void addSceneDefiner(DefinerCallback sceneInitializerCallback);
 	};
 }
 
