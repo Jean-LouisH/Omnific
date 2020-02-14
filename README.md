@@ -8,11 +8,11 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 It is being developed to replace the archived and unstable [Suprannua Engine](https://github.com/Jean-LouisH/SuprannuaEngine/blob/master/README.md) framework without being as large and aimless as the experimental [Lania](https://github.com/Jean-LouisH/Lania/blob/master/README.md) application. To achieve this, it will reuse code from my [SDL Sub-Engines](https://github.com/Jean-LouisH/SDLSubEngines), [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) and [Lania](https://github.com/Jean-LouisH/Lania/blob/master/README.md) repositories. 
 
-This also started as a practical scenario to learn how to use CMake through CMakeLists and to use unit testing frameworks like Google Test.
+This also started as a practical scenario to learn how to use [CMake](https://cmake.org/) through CMakeLists and to use unit testing frameworks like Google Test.
 
 ## Target Features
 
-* An API for User Defined Entity and Scene Management via an Editor object 
+* An API for User Defined Scene Management and Scripting
 * Mouse, Keyboard and Game Controller Support
 * Input Action Mapping (Default Provided)
 * JPG and PNG for Sprites
@@ -33,10 +33,10 @@ This also started as a practical scenario to learn how to use CMake through CMak
 
 * Create your empty C++ game project.
 * Add your Lilliputian build as a link library and dependency for your project. 
-* Declare the `Lilliputian::Core` object in a function (typically the main() entry point) and call the method `addSceneDefiner()` while passing a callback function or method of your choice. If you wish to define all scenes in one function, then you can pass just one, but you also have the choice of passing as many as you wish. The callback functions should receive a pointer to the Core's `Lilliputian::Editor` object, so their signatures should be "void myFunction(Lilliputian::Editor*)".
+* Declare the `Lilliputian::Core` object in a function (typically the `main()` entry point) and call the method `addSceneDefiner()` while passing a callback function or method of your choice. If you wish to define all scenes in one function, then you can pass just one, but you also have the choice of passing as many as you wish. The callback functions should receive a pointer to the Core's `Lilliputian::Editor` object, so their signatures should be `void myFunction(Lilliputian::Editor*)`.
 * In those callback functions, use the Editor object to define game objects. Then add your game script callbacks to script objects, your script objects to your game objects and your game objects to the main scene and all other executable scenes.
 * When you attach game script callbacks to script objects, they should receive a pointer to the Core's `Lilliputian::ScriptingAPI` so the API and engine data can be accessed and editted, respectively.
-* In the main function where you declared the Core object, call the method run() and the engine will execute everything and handle the lower level details for you, including terminating safely.
+* In the main function where you declared the `Lilliputian::Core` object, call the method `run()` and the engine will execute everything and handle the lower level details for you, including terminating safely.
 
 These instructions and other API guidelines can be found in the API documentation.
 
