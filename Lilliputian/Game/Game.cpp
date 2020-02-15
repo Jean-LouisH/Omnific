@@ -35,11 +35,6 @@ void Lilliputian::Game::interpretFinalLogic()
 
 }
 
-void Lilliputian::Game::buildRenderables()
-{
-
-}
-
 void Lilliputian::Game::deinitialize()
 {
 

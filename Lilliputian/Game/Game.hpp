@@ -5,7 +5,6 @@
 #include <string>
 #include "Scene2D.hpp"
 #include "ActionInputs.hpp"
-#include "../Utilities/Mathematics/Rectangle.hpp"
 
 namespace Lilliputian
 {
@@ -14,7 +13,6 @@ namespace Lilliputian
 	private:
 		std::vector<Scene2D> activeSubScenes2D;
 		std::multimap<std::string, ActionInputs> inputActionMap;
-		Rectangle windowDimensions;
 	public:
 		void initialize();
 		void interpretStartLogic();
@@ -23,7 +21,6 @@ namespace Lilliputian
 		void interpretComputeLogic(unsigned int computeTimeDelta_ms);
 		void interpretLateLogic();
 		void interpretFinalLogic();
-		void buildRenderables();
 		void deinitialize();
 	};
 }
