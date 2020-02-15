@@ -2,5 +2,5 @@
 
 namespace TestGame
 {
-	void defineAllScenes(Lilliputian::Editor* lilliputian);
+	void defineAllScenes(Lilliputian::Editor* editor);
 }
