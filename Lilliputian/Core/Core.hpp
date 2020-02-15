@@ -1,17 +1,20 @@
 #pragma once
 
-#include "../Editor/Editor.hpp"
 #include <vector>
+#include "../Editor/Editor.hpp"
+#include "../Game/Game.hpp"
+#include "../ScriptingAPI/ScriptingAPI.hpp"
 
 namespace Lilliputian
 {
-	using DefinerCallback = void(*)(Lilliputian::Editor*);
+	using SceneDefinerCallback = void(*)(Lilliputian::Editor*);
 
 	class Core
 	{
 	private:
-		std::vector<DefinerCallback> sceneDefinerCallbacks;
+		std::vector<SceneDefinerCallback> sceneDefinerCallbacks;
 		Editor* editor;
+		Game* game;
 
 		void initialize();
 		void shutdown();
@@ -26,7 +29,7 @@ namespace Lilliputian
 		~Core();
 
 		void run();
-		void addSceneDefiner(DefinerCallback sceneInitializerCallback);
+		void addSceneDefiner(SceneDefinerCallback sceneInitializerCallback);
 	};
 }
 

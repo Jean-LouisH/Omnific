@@ -60,10 +60,10 @@ void Lilliputian::Core::run()
 
 void Lilliputian::Core::shutdown()
 {
-
+	delete this->editor;
 }
 
-void Lilliputian::Core::addSceneDefiner(DefinerCallback sceneInitializerCallback)
+void Lilliputian::Core::addSceneDefiner(SceneDefinerCallback sceneDefinerCallback)
 {
-	this->sceneDefinerCallbacks.push_back(sceneInitializerCallback);
+	this->sceneDefinerCallbacks.push_back(sceneDefinerCallback);
 }
