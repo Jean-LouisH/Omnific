@@ -46,9 +46,14 @@ void Lilliputian::Core::initialize()
 
 	for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
 	{
-		if (this->sceneDefinerCallbacks.at(i))
+		if (this->sceneDefinerCallbacks.at(i) != nullptr)
 			this->sceneDefinerCallbacks.at(i)(this->editor);
 	}
+}
+
+void Lilliputian::Core::shutdown()
+{
+	delete this->editor;
 }
 
 void Lilliputian::Core::run()
@@ -56,11 +61,6 @@ void Lilliputian::Core::run()
 	this->initialize();
 
 	this->shutdown();
-}
-
-void Lilliputian::Core::shutdown()
-{
-	delete this->editor;
 }
 
 void Lilliputian::Core::addSceneDefiner(SceneDefinerCallback sceneDefinerCallback)

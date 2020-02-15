@@ -2,7 +2,7 @@
 
 Lilliputian::Editor::Editor()
 {
-	this->scriptingAPI = NULL;
+	this->scriptingAPI = nullptr;
 }
 
 Lilliputian::Scene2D Lilliputian::Editor::createNewScene2D()

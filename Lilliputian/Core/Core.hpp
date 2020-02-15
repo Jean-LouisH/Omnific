@@ -3,7 +3,6 @@
 #include <vector>
 #include "../Editor/Editor.hpp"
 #include "../Game/Game.hpp"
-#include "../ScriptingAPI/ScriptingAPI.hpp"
 
 namespace Lilliputian
 {

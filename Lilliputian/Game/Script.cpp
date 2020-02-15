@@ -3,6 +3,13 @@
 Lilliputian::Script::Script(ScriptingAPI* scriptingAPI)
 {
 	this->scriptingAPI = scriptingAPI;
+
+	this->startLogic = nullptr;
+	this->inputLogic = nullptr;
+	this->frameLogic = nullptr;
+	this->computeLogic = nullptr;
+	this->lateLogic = nullptr;
+	this->finalLogic = nullptr;
 }
 
 void Lilliputian::Script::addStartLogic(ScriptLogicCallback startLogic)
@@ -36,36 +43,36 @@ void Lilliputian::Script::addFinalLogic(ScriptLogicCallback finalLogic)
 
 void Lilliputian::Script::executeStartLogic()
 {
-	if (this->startLogic)
+	if (this->startLogic != nullptr)
 		this->startLogic(this->scriptingAPI);
 }
 
 void Lilliputian::Script::executeInputLogic()
 {
-	if (this->inputLogic)
+	if (this->inputLogic != nullptr)
 		this->inputLogic(this->scriptingAPI);
 }
 
 void Lilliputian::Script::executeFrameLogic()
 {
-	if (this->frameLogic)
+	if (this->frameLogic != nullptr)
 		this->frameLogic(this->scriptingAPI);
 }
 
 void Lilliputian::Script::executeComputeLogic()
 {
-	if (this->computeLogic)
+	if (this->computeLogic != nullptr)
 		this->computeLogic(this->scriptingAPI);
 }
 
 void Lilliputian::Script::executeLateLogic()
 {
-	if (this->lateLogic)
+	if (this->lateLogic != nullptr)
 		this->lateLogic(this->scriptingAPI);
 }
 
 void Lilliputian::Script::executeFinalLogic()
 {
-	if (this->finalLogic)
+	if (this->finalLogic != nullptr)
 		this->finalLogic(this->scriptingAPI);
 }
