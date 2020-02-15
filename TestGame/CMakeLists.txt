@@ -7,6 +7,7 @@ set (TEST_GAME_SOURCES
 		main.cpp
 		SceneDefiner.cpp
 		SceneDefiner.hpp
+		QuitOnEscapeKey.cpp
 )
 
 # Add source to this project's executable.
