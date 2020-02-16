@@ -23,5 +23,3 @@ add_dependencies (TestGame
 target_link_libraries (TestGame
 		Lilliputian
 )
-
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT TestGame)
