@@ -9,14 +9,14 @@ namespace Lilliputian
 	class Entity2D
 	{
 	private:
-		EntityID entityID;
 		std::vector<Script> scripts;
-		EntityID parentEntity;
-		std::vector<EntityID> childrenEntity;
+		Entity2D* parentEntity;
+		std::vector<Entity2D> childrenEntities;
 	public:
 		Entity2D();
 		void addParentEntity(Entity2D parentEntity);
 		void addChildEntity(Entity2D childEntity);
 		void addScript(Script script);
+		void executeFrameLogic();
 	};
 }

@@ -2,7 +2,7 @@
 
 ![screenshot](Documentation/Images/Screenshot.gif)
 
-[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny 2D game engine library** in which a complete engine link library is provided for the user to create small 2D games. This is achieved by updating engine scene trees via an `Editor` object and writing C++ game scripts. 
+[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny 2D game engine library** in which a complete engine link library is provided for the user to create small 2D games. This is achieved by updating game scene trees with a `Lilliputian::Editor` object and writing C++ game scripts with a `Lilliputian::ScriptingAPI` object. 
 
 It is named after the tiny inhabitants of the fictional Lilliput island that appears in Jonathan Swift's 1726 novel "Guilliver's Travels." This reflects the objective of keeping the engine as small as necessary.
 
@@ -15,9 +15,9 @@ This also started as a practical scenario to learn how to use [CMake](https://cm
 * An API for User Defined Scene Management and Scripting
 * Mouse, Keyboard and Game Controller Support
 * Input Action Mapping (Default Provided)
-* JPG and PNG for Sprites
+* JPG and PNG Support for Sprites
 * Spritesheets and Animation
-* OGG for Audio Sources
+* OGG Support for Audio Sources
 * Physics, Collision Detection and Response
 * Multiple, Independent and Layered 2D Subscenes (For Backgrounds, Game Environment, HUD, etc)
 * Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
@@ -34,7 +34,7 @@ This also started as a practical scenario to learn how to use [CMake](https://cm
 * Create your empty C++ game project.
 * Add your Lilliputian build as a link library and dependency for your project. 
 * Declare the `Lilliputian::Core` object in a function (typically the `main()` entry point) and call the method `addSceneDefiner()` while passing a callback function or method of your choice. If you wish to define all scenes in one function, then you can pass just one, but you also have the choice of passing as many as you wish. The callback functions should receive a pointer to the core's `Lilliputian::Editor` object, so their signatures should be `void myFunction(Lilliputian::Editor*)`.
-* In those callback functions, use the Editor object to define `Lilliputian::Entity2D` game objects. Then add your game script callbacks to `Lilliputian::Script` objects, your script objects to your game objects and your game objects to your `Lilliputian::Scene2D` main scene and all other executable scenes.
+* In those callback functions, use the Editor object to define `Lilliputian::Entity2D` game objects. Then add your game script callbacks to `Lilliputian::Script` objects, your script objects to your game objects and your game objects to your `Lilliputian::Scene` entry scene and all other executable scenes.
 * When you add game script callbacks to script objects, they should receive a pointer to the core's `Lilliputian::ScriptingAPI` so the API and engine data can be accessed and editted, respectively.
 * In the main function where you declared the `Lilliputian::Core` object, call the method `run()` and the engine will execute everything and handle the lower level details for you, including terminating safely.
 

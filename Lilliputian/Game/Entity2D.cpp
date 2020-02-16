@@ -2,20 +2,26 @@
 
 Lilliputian::Entity2D::Entity2D()
 {
-
+	this->parentEntity = nullptr;
 }
 
 void Lilliputian::Entity2D::addParentEntity(Entity2D entity)
 {
-	this->parentEntity = entity.entityID;
+	*this->parentEntity = entity;
 }
 
 void Lilliputian::Entity2D::addChildEntity(Entity2D entity)
 {
-	this->childrenEntity.push_back(entity.entityID);
+	this->childrenEntities.push_back(entity);
 }
 
 void Lilliputian::Entity2D::addScript(Script script)
 {
 	this->scripts.push_back(script);
+}
+
+void Lilliputian::Entity2D::executeFrameLogic()
+{
+	for (int i = 0; i < this->scripts.size(); i++)
+		this->scripts.at(i).executeFrameLogic();
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include "../Editor/Editor.hpp"
 #include "../Game/Game.hpp"
 
 namespace Lilliputian
@@ -12,7 +11,6 @@ namespace Lilliputian
 	{
 	private:
 		std::vector<SceneDefinerCallback> sceneDefinerCallbacks;
-		Editor* editor;
 		Game* game;
 
 		void initialize();
