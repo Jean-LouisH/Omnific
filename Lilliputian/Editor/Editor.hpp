@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "../Game/Scene2D.hpp"
+#include "../Game/Scene.hpp"
 #include "../Game/Script.hpp"
 #include "../Game/Entity2D.hpp"
 
@@ -11,14 +11,15 @@ namespace Lilliputian
 	{
 	private:
 		ScriptingAPI* scriptingAPI;
-		Scene2D mainScene2D;
-		std::vector<Scene2D> scene2Ds;
+		Scene* mainScene;
+		std::vector<Scene>* scenes;
 	public:
-		Editor();
-		Scene2D createNewScene2D();
+		Editor(Scene* mainScene2D, std::vector<Scene>* scenes);
+		Scene createNewScene();
 		Script createNewScript();
 		Entity2D createNewEntity2D();
-		void setMainScene2D(Scene2D scene2D);
+		void setMainScene(Scene scene);
+		void addScene(Scene scene);
 	};
 }
 

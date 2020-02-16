@@ -1,13 +1,15 @@
 #include "Editor.hpp"
 
-Lilliputian::Editor::Editor()
+Lilliputian::Editor::Editor(Scene* mainScene, std::vector<Scene>* scenes)
 {
-	this->scriptingAPI = nullptr;
+	this->scriptingAPI = new ScriptingAPI();
+	this->mainScene = mainScene;
+	this->scenes = scenes;
 }
 
-Lilliputian::Scene2D Lilliputian::Editor::createNewScene2D()
+Lilliputian::Scene Lilliputian::Editor::createNewScene()
 {
-	return Scene2D();
+	return Scene();
 }
 
 Lilliputian::Script Lilliputian::Editor::createNewScript()
@@ -20,7 +22,12 @@ Lilliputian::Entity2D Lilliputian::Editor::createNewEntity2D()
 	return Entity2D();
 }
 
-void Lilliputian::Editor::setMainScene2D(Scene2D scene2D)
+void Lilliputian::Editor::setMainScene(Scene scene)
 {
-	this->mainScene2D = scene2D;
+	*this->mainScene = scene;
+}
+
+void Lilliputian::Editor::addScene(Scene scene)
+{
+	this->scenes->push_back(scene);
 }

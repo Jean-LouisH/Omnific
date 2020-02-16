@@ -1,36 +1,41 @@
 #include "Game.hpp"
 
+Lilliputian::Game::Game()
+{
+	this->editor = new Editor(&this->entryScene, &this->scenes);
+}
+
 void Lilliputian::Game::initialize()
 {
-
+	this->activeScenes.push(this->entryScene);
 }
 
-void Lilliputian::Game::interpretStartLogic()
+void Lilliputian::Game::executeStartLogic()
 {
 
 }
 
-void Lilliputian::Game::interpretInputLogic()
+void Lilliputian::Game::executeInputLogic()
 {
 
 }
 
-void Lilliputian::Game::interpretFrameLogic()
+void Lilliputian::Game::executeFrameLogic()
+{
+	this->activeScenes.top().executeFrameLogic();
+}
+
+void Lilliputian::Game::executeComputeLogic(unsigned int computeTimeDelta_ms)
 {
 
 }
 
-void Lilliputian::Game::interpretComputeLogic(unsigned int computeTimeDelta_ms)
+void Lilliputian::Game::executeLateLogic()
 {
 
 }
 
-void Lilliputian::Game::interpretLateLogic()
-{
-
-}
-
-void Lilliputian::Game::interpretFinalLogic()
+void Lilliputian::Game::executeFinalLogic()
 {
 
 }
@@ -38,4 +43,9 @@ void Lilliputian::Game::interpretFinalLogic()
 void Lilliputian::Game::deinitialize()
 {
 
+}
+
+Lilliputian::Editor* Lilliputian::Game::getEditor()
+{
+	return this->editor;
 }

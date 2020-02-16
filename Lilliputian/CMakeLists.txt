@@ -15,8 +15,10 @@ set(LILLIPUTIAN_SOURCES
 		Game/Entity2D.hpp
 		Game/Game.hpp
 		Game/Game.cpp
-		Game/Scene2D.cpp
-		Game/Scene2D.hpp
+		Game/Scene.cpp
+		Game/Scene.hpp
+		Game/Subscene2D.hpp
+		Game/Subscene2D.cpp
 		Game/Script.cpp
 		Game/Script.hpp
 		ScriptingAPI/GameAPI.cpp

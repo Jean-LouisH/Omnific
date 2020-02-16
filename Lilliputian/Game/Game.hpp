@@ -2,25 +2,32 @@
 
 #include <vector>
 #include <map>
+#include <stack>
 #include <string>
-#include "Scene2D.hpp"
+#include "Scene.hpp"
 #include "ActionInputs.hpp"
+#include "../Editor/Editor.hpp"
 
 namespace Lilliputian
 {
 	class Game
 	{
 	private:
-		std::vector<Scene2D> activeSubScenes2D;
+		Editor* editor;
+		Scene entryScene;
+		std::vector<Scene> scenes;
+		std::stack<Scene> activeScenes;
 		std::multimap<std::string, ActionInputs> inputActionMap;
 	public:
+		Game();
 		void initialize();
-		void interpretStartLogic();
-		void interpretInputLogic();
-		void interpretFrameLogic();
-		void interpretComputeLogic(unsigned int computeTimeDelta_ms);
-		void interpretLateLogic();
-		void interpretFinalLogic();
+		void executeStartLogic();
+		void executeInputLogic();
+		void executeFrameLogic();
+		void executeComputeLogic(unsigned int computeTimeDelta_ms);
+		void executeLateLogic();
+		void executeFinalLogic();
 		void deinitialize();
+		Editor* getEditor();
 	};
 }
