@@ -1,8 +1,9 @@
 #include "Entity2D.hpp"
 
-Lilliputian::Entity2D::Entity2D()
+Lilliputian::Entity2D::Entity2D(EntityID id)
 {
 	this->parentEntity = nullptr;
+	this->id = id;
 }
 
 void Lilliputian::Entity2D::addParentEntity(Entity2D entity)

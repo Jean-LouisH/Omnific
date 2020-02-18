@@ -5,6 +5,7 @@ Lilliputian::Editor::Editor(Scene* mainScene, std::vector<Scene>* scenes)
 	this->scriptingAPI = new ScriptingAPI();
 	this->mainScene = mainScene;
 	this->scenes = scenes;
+	this->entityIDCount = 0;
 }
 
 Lilliputian::Scene Lilliputian::Editor::createNewScene()
@@ -19,7 +20,9 @@ Lilliputian::Script Lilliputian::Editor::createNewScript()
 
 Lilliputian::Entity2D Lilliputian::Editor::createNewEntity2D()
 {
-	return Entity2D();
+	Entity2D newEntity2D = Entity2D((EntityID)this->entityIDCount);
+	this->entityIDCount++;
+	return newEntity2D;
 }
 
 void Lilliputian::Editor::setMainScene(Scene scene)

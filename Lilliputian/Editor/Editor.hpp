@@ -13,6 +13,7 @@ namespace Lilliputian
 		ScriptingAPI* scriptingAPI;
 		Scene* mainScene;
 		std::vector<Scene>* scenes;
+		uint64_t entityIDCount;
 	public:
 		Editor(Scene* mainScene2D, std::vector<Scene>* scenes);
 		Scene createNewScene();
