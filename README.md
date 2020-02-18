@@ -42,6 +42,10 @@ These instructions and other API guidelines can be found in the API documentatio
 
 ## Documentation
 
+* [Manual](Documentation/Manual.md)
+* [API](Documentation/API.md)
+* [Architecture](Documentation/Architecture.md)
+
 ## Demos
 
 ## License
