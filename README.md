@@ -48,6 +48,10 @@ These instructions and other API guidelines can be found in the API documentatio
 
 ## Demos
 
+## Contributing
+
+* Jean-Louis Haywood (Jean-LouisH)
+
 ## License
 
 [MIT License](LICENSE)
