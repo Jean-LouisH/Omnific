@@ -7,7 +7,7 @@
 
 namespace Lilliputian
 {
-	using SceneDefinerCallback = void(*)(Lilliputian::Editor*);
+	using SceneDefinerCallback = void(*)(Lilliputian::EditorAPI*);
 
 	class Core
 	{

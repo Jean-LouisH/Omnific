@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ScriptingAPI/ScriptingAPI.hpp"
+#include "../UserAPIs/ScriptingAPI.hpp"
 
 namespace Lilliputian
 {

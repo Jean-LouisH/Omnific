@@ -4,10 +4,11 @@
 #include "../Game/Scene.hpp"
 #include "../Game/Script.hpp"
 #include "../Game/Entity2D.hpp"
+#include "ScriptingAPI.hpp"
 
 namespace Lilliputian
 {
-	class Editor
+	class EditorAPI
 	{
 	private:
 		ScriptingAPI* scriptingAPI;
@@ -15,7 +16,7 @@ namespace Lilliputian
 		std::vector<Scene>* scenes;
 		uint64_t entityIDCount;
 	public:
-		Editor(Scene* mainScene2D, std::vector<Scene>* scenes);
+		EditorAPI(Scene* mainScene2D, std::vector<Scene>* scenes);
 		Scene createNewScene();
 		Script createNewScript();
 		Entity2D createNewEntity2D();

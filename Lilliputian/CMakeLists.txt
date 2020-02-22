@@ -7,8 +7,6 @@ set(LILLIPUTIAN_SOURCES
 		Lilliputian.hpp
 		Core/Core.hpp
 		Core/Core.cpp
-		Editor/Editor.hpp
-		Editor/Editor.cpp
 		Game/ActionInputs.cpp
 		Game/ActionInputs.hpp
 		Game/Entity2D.cpp
@@ -21,12 +19,14 @@ set(LILLIPUTIAN_SOURCES
 		Game/Subscene2D.cpp
 		Game/Script.cpp
 		Game/Script.hpp
-		ScriptingAPI/GameAPI.cpp
-		ScriptingAPI/GameAPI.hpp
-		ScriptingAPI/InputAPI.cpp
-		ScriptingAPI/InputAPI.hpp
-		ScriptingAPI/ScriptingAPI.hpp
-		ScriptingAPI/ScriptingAPI.cpp
+		UserAPIs/EditorAPI.cpp
+		UserAPIs/EditorAPI.hpp
+		UserAPIs/GameAPI.cpp
+		UserAPIs/GameAPI.hpp
+		UserAPIs/InputAPI.cpp
+		UserAPIs/InputAPI.hpp
+		UserAPIs/ScriptingAPI.hpp
+		UserAPIs/ScriptingAPI.cpp
 		Utilities/Definitions/Constants.hpp
 		Utilities/Definitions/Aliases.hpp
 		Utilities/Mathematics/AABB2D.hpp
@@ -40,5 +40,15 @@ set(LILLIPUTIAN_SOURCES
 
 # Add source to this project's executable.
 add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES})
+
+include_directories("../ThirdParty/SDL2/SDL2-2.0.10/include")
+include_directories("../ThirdParty/SDL2_Image/SDL2_image-2.0.5/include")
+include_directories("../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/include")
+
+target_link_libraries (Lilliputian
+		SDL2,
+		SDL2_image,
+		SDL2_mixer
+)
 
 # TODO: Add tests and install targets if needed.

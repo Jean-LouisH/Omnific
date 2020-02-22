@@ -6,14 +6,14 @@
 #include <string>
 #include "Scene.hpp"
 #include "ActionInputs.hpp"
-#include "../Editor/Editor.hpp"
+#include "../UserAPIs/EditorAPI.hpp"
 
 namespace Lilliputian
 {
 	class Game
 	{
 	private:
-		Editor* editor;
+		EditorAPI* editor;
 		Scene entryScene;
 		std::vector<Scene> scenes;
 		std::stack<Scene> activeScenes;
@@ -28,6 +28,6 @@ namespace Lilliputian
 		void executeLateLogic();
 		void executeFinalLogic();
 		void deinitialize();
-		Editor* getEditor();
+		EditorAPI* getEditor();
 	};
 }

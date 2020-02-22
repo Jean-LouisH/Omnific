@@ -1,7 +1,7 @@
 #include "SceneDefiner.hpp"
 #include "QuitOnEscapeKey.hpp"
 
-void TestGame::defineAllScenes(Lilliputian::Editor* editor)
+void TestGame::defineAllScenes(Lilliputian::EditorAPI* editor)
 {
 	Lilliputian::Scene mainScene = editor->createNewScene();
 	Lilliputian::Script quitScript = editor->createNewScript();
