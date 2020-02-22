@@ -25,6 +25,7 @@ This also started as a practical scenario to learn how to use [CMake](https://cm
 
 ## Compilation Instructions
 
+* Requires the appropriate [SDL2](https://www.libsdl.org/), [SDL2_image](https://www.libsdl.org/projects/SDL_image/), and  [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) libraries for your development platform.
 * Include this source directory in CMake to generate a project from the top level CMakeLists.txt. 
 * Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want. 
 * Use your C++ IDE or compiler of choice to build the Lilliputian library file from the project. In the debug build, you also have the TestGame project to create a test executable for it.
