@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "../Game/Game.hpp"
+#include "../Engines/AudioEngine.hpp"
+#include "../Engines/RenderingEngine.hpp"
 
 namespace Lilliputian
 {
@@ -12,6 +14,8 @@ namespace Lilliputian
 	private:
 		std::vector<SceneDefinerCallback> sceneDefinerCallbacks;
 		Game* game;
+		AudioEngine* audioEngine;
+		RenderingEngine* renderingEngine;
 
 		void initialize();
 		void shutdown();
