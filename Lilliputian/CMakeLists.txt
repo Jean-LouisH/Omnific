@@ -36,18 +36,30 @@ set(LILLIPUTIAN_SOURCES
 		Utilities/Mathematics/Rectangle.hpp
 		Utilities/Mathematics/Transform2D.hpp
 		Utilities/Mathematics/Vector2.hpp
+		Utilities/GenericCollections/Map.hpp
+		Utilities/GenericCollections/Queue.hpp
+		Utilities/GenericCollections/Stack.hpp
+		Utilities/GenericCollections/String.hpp
+		Utilities/GenericCollections/Vector.hpp
 )
 
 # Add source to this project's executable.
 add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES})
 
-include_directories("../ThirdParty/SDL2/SDL2-2.0.10/include")
-include_directories("../ThirdParty/SDL2_Image/SDL2_image-2.0.5/include")
-include_directories("../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/include")
+include_directories(
+		"../ThirdParty/SDL2/SDL2-2.0.10/include"
+		"../ThirdParty/SDL2_Image/SDL2_image-2.0.5/include"
+		"../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/include")
+
+link_directories(
+		"../ThirdParty/SDL2/SDL2-2.0.10/lib/x64"
+		"../ThirdParty/SDL2_Image/SDL2_image-2.0.5/lib/x64"
+		"../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/lib/x64")
 
 target_link_libraries (Lilliputian
-		SDL2,
-		SDL2_image,
+		SDL2
+		SDL2main
+		SDL2_image
 		SDL2_mixer
 )
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <vector>
-#include <stack>
+#include "../Utilities/GenericCollections/Vector.hpp"
+#include "../Utilities/GenericCollections/Stack.hpp"
 #include "Subscene2D.hpp"
 
 namespace Lilliputian
@@ -9,7 +9,7 @@ namespace Lilliputian
 	class Scene
 	{
 	private:
-		std::vector<std::stack<Subscene2D>> subscene2Ds;
+		Vector<Stack<Subscene2D>> subscene2Ds;
 	public:
 		Scene();
 		void addEntity2D(Entity2D entity2D);

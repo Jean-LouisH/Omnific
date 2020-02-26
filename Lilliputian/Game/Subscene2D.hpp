@@ -2,13 +2,14 @@
 
 #include "Entity2D.hpp"
 #include "../Utilities/Mathematics/Rectangle.hpp"
+#include "../Utilities/GenericCollections/Vector.hpp"
 
 namespace Lilliputian
 {
 	class Subscene2D
 	{
 	private:
-		std::vector<Entity2D> entities2D;
+		Vector<Entity2D> entities2D;
 		Rectangle windowDimensions;
 	public:
 		Subscene2D();

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <vector>
-#include <map>
-#include <stack>
-#include <string>
 #include "Scene.hpp"
 #include "ActionInputs.hpp"
 #include "../UserAPIs/EditorAPI.hpp"
+#include "../Utilities/GenericCollections/Vector.hpp"
+#include "../Utilities/GenericCollections/Stack.hpp"
+#include "../Utilities/GenericCollections/Map.hpp"
+#include "../Utilities/GenericCollections/String.hpp"
 
 namespace Lilliputian
 {
@@ -15,9 +15,9 @@ namespace Lilliputian
 	private:
 		EditorAPI* editor;
 		Scene entryScene;
-		std::vector<Scene> scenes;
-		std::stack<Scene> activeScenes;
-		std::multimap<std::string, ActionInputs> inputActionMap;
+		Vector<Scene> scenes;
+		Stack<Scene> activeScenes;
+		Multimap<String, ActionInputs> inputActionMap;
 	public:
 		Game();
 		void initialize();

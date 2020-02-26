@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include "../Utilities/GenericCollections/Vector.hpp"
 #include "../Game/Game.hpp"
 #include "../Engines/AudioEngine.hpp"
 #include "../Engines/RenderingEngine.hpp"
@@ -12,7 +12,7 @@ namespace Lilliputian
 	class Core
 	{
 	private:
-		std::vector<SceneDefinerCallback> sceneDefinerCallbacks;
+		Vector<SceneDefinerCallback> sceneDefinerCallbacks;
 		Game* game;
 		AudioEngine* audioEngine;
 		RenderingEngine* renderingEngine;

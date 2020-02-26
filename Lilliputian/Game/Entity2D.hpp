@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Script.hpp"
-#include <vector>
 #include "../Utilities/Definitions/Aliases.hpp"
+#include "../Utilities/GenericCollections/Vector.hpp"
 
 namespace Lilliputian
 {
@@ -10,9 +10,9 @@ namespace Lilliputian
 	{
 	private:
 		EntityID id;
-		std::vector<Script> scripts;
+		Vector<Script> scripts;
 		Entity2D* parentEntity;
-		std::vector<Entity2D> childrenEntities;
+		Vector<Entity2D> childrenEntities;
 	public:
 		Entity2D(EntityID id);
 		void addParentEntity(Entity2D parentEntity);

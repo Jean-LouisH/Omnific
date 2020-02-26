@@ -19,13 +19,18 @@ include_directories("../ThirdParty/SDL2/SDL2-2.0.10/include")
 include_directories("../ThirdParty/SDL2_Image/SDL2_image-2.0.5/include")
 include_directories("../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/include")
 
+link_directories("../ThirdParty/SDL2/SDL2-2.0.10/lib/x64")
+link_directories("../ThirdParty/SDL2_Image/SDL2_image-2.0.5/lib/x64")
+link_directories("../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/lib/x64")
+
 add_dependencies (TestGame 
 		Lilliputian
 )
 
 target_link_libraries (TestGame
-		Lilliputian,
-		SDL2,
-		SDL2_image,
+		Lilliputian
+		SDL2
+		SDL2main
+		SDL2_image
 		SDL2_mixer
 )
