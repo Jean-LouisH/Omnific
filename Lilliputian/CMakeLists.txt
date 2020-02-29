@@ -7,6 +7,21 @@ set(LILLIPUTIAN_SOURCES
 		Lilliputian.hpp
 		Core/Core.hpp
 		Core/Core.cpp
+		Engines/AudioEngine/AudioEngine.cpp
+		Engines/AudioEngine/AudioEngine.hpp
+		Engines/AudioEngine/AudioSDL/AudioSDL.cpp
+		Engines/AudioEngine/AudioSDL/AudioSDL.hpp
+		Engines/RenderingEngine/RenderingEngine.hpp
+		Engines/RenderingEngine/RenderingEngine.cpp
+		Engines/RenderingEngine/RenderingSDL/Camera2D.hpp
+		Engines/RenderingEngine/RenderingSDL/Rect.hpp
+		Engines/RenderingEngine/RenderingSDL/RenderingSDL.cpp
+		Engines/RenderingEngine/RenderingSDL/RenderingSDL.hpp
+		Engines/RenderingEngine/RenderingSDL/SDLRenderable.hpp
+		Engines/RenderingEngine/RenderingSDL/Sprite2D.hpp
+		Engines/RenderingEngine/RenderingSDL/Texture.hpp
+		Engines/RenderingEngine/RenderingSDL/Transform2D.hpp
+		Engines/RenderingEngine/RenderingSDL/Vector2.hpp
 		Game/ActionInputs.cpp
 		Game/ActionInputs.hpp
 		Game/Entity2D.cpp
