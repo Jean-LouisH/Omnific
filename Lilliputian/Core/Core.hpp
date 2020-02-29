@@ -2,8 +2,8 @@
 
 #include "../Utilities/GenericCollections/Vector.hpp"
 #include "../Game/Game.hpp"
-#include "../Engines/AudioEngine.hpp"
-#include "../Engines/RenderingEngine.hpp"
+#include "../Engines/AudioEngine/AudioEngine.hpp"
+#include "../Engines/RenderingEngine/RenderingEngine.hpp"
 
 namespace Lilliputian
 {
