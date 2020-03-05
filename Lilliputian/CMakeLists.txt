@@ -78,4 +78,7 @@ target_link_libraries (Lilliputian
 		SDL2_mixer
 )
 
+include(CTest)
+add_test("UnitTest1" ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME})
+
 # TODO: Add tests and install targets if needed.
