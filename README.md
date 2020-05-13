@@ -2,13 +2,13 @@
 
 ![screenshot](Documentation/Images/Screenshot.gif)
 
+**This project is still a work in progress**
+
 [Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny 2D game engine library** in which a complete engine link library is provided for the user to create small 2D games. This is achieved by updating game scene trees with a `Lilliputian::EditorAPI` object and writing C++ game scripts with a `Lilliputian::ScriptingAPI` object. 
 
 It is named after the tiny inhabitants of the fictional Lilliput island that appears in Jonathan Swift's 1726 novel "Guilliver's Travels." This reflects the objective of keeping the engine as small as necessary.
 
 It is being developed to replace the archived and unstable [Suprannua Engine](https://github.com/Jean-LouisH/SuprannuaEngine/blob/master/README.md) framework without being as large and aimless as the experimental [Lania](https://github.com/Jean-LouisH/Lania/blob/master/README.md) application. To achieve this, it will reuse code from my [SDL Sub-Engines](https://github.com/Jean-LouisH/SDLSubEngines), [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) and [Lania](https://github.com/Jean-LouisH/Lania/blob/master/README.md) repositories. 
-
-This also started as a practical scenario to learn how to use [CMake](https://cmake.org/) through CMakeLists and to use unit testing frameworks like Google Test.
 
 ## Target Features
 
