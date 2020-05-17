@@ -2,6 +2,19 @@
 
 Lilliputian::Engine::Engine()
 {
+	this->game = NULL;
+	this->aiEngine = NULL;
+	this->animationEngine = NULL;
+	this->audioEngine = NULL;
+	this->hapticEngine = NULL;
+	this->physicsEngine = NULL;
+	this->renderingEngine = NULL;
+	this->osWindow = NULL;
+	this->platform = NULL;
+	this->frameCount = 0;
+	this->FPS = 0;
+	this->msPerComputeUpdate = 8;
+	this->targetFPS = 60;
 
 }
 
@@ -41,11 +54,25 @@ void Lilliputian::Engine::compute()
 
 void Lilliputian::Engine::output()
 {
+	if (this->renderingEngine != NULL)
+	{
 
+	}
+
+	if (this->audioEngine != NULL)
+	{
+
+	}
+
+	if (this->hapticEngine != NULL)
+	{
+
+	}
 }
 
 void Lilliputian::Engine::initialize()
 {
+	//this->state.setInitializing();
 	this->game = new Game();
 
 	for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
@@ -62,21 +89,38 @@ void Lilliputian::Engine::shutdown()
 
 void Lilliputian::Engine::run()
 {
-	this->initialize();
-	this->game->initialize();
-
-	//while()
+	//do
 	{
-		this->input();
-		this->logic();
-		this->compute();
-		this->output();
-		this->sleep();
-		this->benchmark();
-	}
+		this->initialize();
+		this->game->initialize();
 
-	this->game->deinitialize();
-	this->shutdown();
+		//while(this->state.isRunning())
+		{
+			this->input();
+			this->logic();
+			this->compute();
+			this->output();
+			this->sleep();
+			this->frameCount++;
+			this->benchmark();
+		}
+
+		this->game->deinitialize();
+		this->shutdown();
+	}// while (this->state.isRestarting());
+}
+
+void Lilliputian::Engine::setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate)
+{
+
+}
+
+void Lilliputian::Engine::setTargetFPS(uint32_t targetFPS)
+{
+	if (targetFPS > 0)
+		this->targetFPS = targetFPS;
+	else
+		this->targetFPS = 1;
 }
 
 void Lilliputian::Engine::addSceneDefiner(SceneDefinerCallback sceneDefinerCallback)
