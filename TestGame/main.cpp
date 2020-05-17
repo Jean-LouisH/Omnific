@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-	Lilliputian::Core lilliputian;
+	Lilliputian::Engine lilliputian;
 
 	lilliputian.addSceneDefiner(TestGame::defineAllScenes);
 	lilliputian.run();

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "../Utilities/GenericCollections/Vector.hpp"
-#include "../Game/Game.hpp"
-#include "../Engines/AIEngine/AIEngine.hpp"
-#include "../Engines/AnimationEngine/AnimationEngine.hpp"
-#include "../Engines/AudioEngine/AudioEngine.hpp"
-#include "../Engines/HapticEngine/HapticEngine.hpp"
-#include "../Engines/PhysicsEngine/PhysicsEngine.hpp"
-#include "../Engines/RenderingEngine/RenderingEngine.hpp"
+#include "Utilities/GenericCollections/Vector.hpp"
+#include "Game/Game.hpp"
+#include "Engines/AIEngine/AIEngine.hpp"
+#include "Engines/AnimationEngine/AnimationEngine.hpp"
+#include "Engines/AudioEngine/AudioEngine.hpp"
+#include "Engines/HapticEngine/HapticEngine.hpp"
+#include "Engines/PhysicsEngine/PhysicsEngine.hpp"
+#include "Engines/RenderingEngine/RenderingEngine.hpp"
 
 namespace Lilliputian
 {
 	using SceneDefinerCallback = void(*)(Lilliputian::EditorAPI*);
 
-	class Core
+	class Engine
 	{
 	private:
 		Vector<SceneDefinerCallback> sceneDefinerCallbacks;
@@ -35,8 +35,8 @@ namespace Lilliputian
 		void compute();
 		void output();
 	public:
-		Core();
-		~Core();
+		Engine();
+		~Engine();
 
 		void run();
 		void addSceneDefiner(SceneDefinerCallback sceneInitializerCallback);

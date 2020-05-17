@@ -5,8 +5,8 @@ cmake_minimum_required (VERSION 3.8)
 
 set(LILLIPUTIAN_SOURCES
 		Lilliputian.hpp
-		Core/Core.hpp
-		Core/Core.cpp
+		Engine.hpp
+		Engine.cpp
 		Engines/AIEngine/AIEngine.hpp
 		Engines/AIEngine/AIEngine.cpp
 		Engines/AnimationEngine/AnimationEngine.hpp
