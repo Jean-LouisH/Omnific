@@ -66,19 +66,4 @@ include_directories(
 		"../ThirdParty/SDL2_Image/SDL2_image-2.0.5/include"
 		"../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/include")
 
-link_directories(
-		"../ThirdParty/SDL2/SDL2-2.0.10/lib/x64"
-		"../ThirdParty/SDL2_Image/SDL2_image-2.0.5/lib/x64"
-		"../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/lib/x64")
-
-target_link_libraries (Lilliputian
-		SDL2
-		SDL2main
-		SDL2_image
-		SDL2_mixer
-)
-
-include(CTest)
-add_test("UnitTest1" ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME})
-
 # TODO: Add tests and install targets if needed.
