@@ -35,9 +35,6 @@ namespace Lilliputian
 
 		bool isRunning();
 
-		EngineState()
-		{
-			this->setInitializing();
-		}
+		EngineState();
 	};
 }

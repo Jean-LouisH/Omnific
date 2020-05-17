@@ -72,7 +72,7 @@ void Lilliputian::Engine::output()
 
 void Lilliputian::Engine::initialize()
 {
-	//this->state.setInitializing();
+	this->state.setInitializing();
 	this->game = new Game();
 
 	for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
@@ -89,12 +89,14 @@ void Lilliputian::Engine::shutdown()
 
 void Lilliputian::Engine::run()
 {
-	//do
+	do
 	{
 		this->initialize();
 		this->game->initialize();
 
-		//while(this->state.isRunning())
+		this->state.setRunningApplicationWindowed();
+
+		while(this->state.isRunning())
 		{
 			this->input();
 			this->logic();
@@ -107,7 +109,7 @@ void Lilliputian::Engine::run()
 
 		this->game->deinitialize();
 		this->shutdown();
-	}// while (this->state.isRestarting());
+	} while (this->state.isRestarting());
 }
 
 void Lilliputian::Engine::setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate)

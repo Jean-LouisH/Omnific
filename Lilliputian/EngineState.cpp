@@ -1,5 +1,9 @@
 #include "EngineState.hpp"
 
+Lilliputian::EngineState::EngineState()
+{
+	this->setInitializing();
+}
 
 void Lilliputian::EngineState::setInitializing()
 {

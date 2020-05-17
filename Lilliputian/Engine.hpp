@@ -34,7 +34,7 @@ namespace Lilliputian
 
 		uint64_t frameCount;
 		uint16_t FPS;
-		//EngineState state;
+		EngineState state;
 
 		uint32_t msPerComputeUpdate;
 		uint32_t targetFPS;
