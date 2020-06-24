@@ -12,7 +12,7 @@ set (TEST_GAME_SOURCES
 )
 
 # Add source to this project's executable.
-add_executable (TestGame ${TEST_GAME_SOURCES})
+add_executable (TestGame ${TEST_GAME_SOURCES} "ReturnToMenu.hpp" "ReturnToMenu.cpp" "PongClone/GenerateBall.cpp" "PongClone/PongClone.hpp" "PongClone/ManageScore.cpp" "PongClone/ShakeCamera.cpp" "PongClone/ControlPlayer.cpp" "PongClone/ControlAI.cpp")
 
 # TODO: Add tests and install targets if needed.
 include_directories("../Lilliputian")
