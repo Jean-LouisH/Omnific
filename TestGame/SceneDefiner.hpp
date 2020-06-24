@@ -2,5 +2,7 @@
 
 namespace TestGame
 {
-	void defineAllScenes(Lilliputian::EditorAPI* editor);
+	void splashScreen(Lilliputian::EditorAPI* editor);
+	void demoSelectionMenu(Lilliputian::EditorAPI* editor);
+	void systemTests(Lilliputian::EditorAPI* editor);
 }

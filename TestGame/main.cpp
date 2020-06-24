@@ -5,7 +5,9 @@ int main(int argc, char* argv[])
 {
 	Lilliputian::Engine lilliputian;
 
-	lilliputian.addSceneDefiner(TestGame::defineAllScenes);
+	lilliputian.addSceneDefiner(TestGame::splashScreen);
+	lilliputian.addSceneDefiner(TestGame::demoSelectionMenu);
+	lilliputian.addSceneDefiner(TestGame::systemTests);
 	lilliputian.run();
 	return 0;
 }
