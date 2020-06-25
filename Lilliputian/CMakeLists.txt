@@ -75,9 +75,18 @@ set(LILLIPUTIAN_SOURCES
 # Add source to this project's executable.
 add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES})
 
-include_directories(
-		"../ThirdParty/SDL2/SDL2-2.0.10/include"
-		"../ThirdParty/SDL2_Image/SDL2_image-2.0.5/include"
-		"../ThirdParty/SDL2_Mixer/SDL2_mixer-2.0.4/include")
+find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../ThirdParty/SDL2-2.0.12/lib/x64)
+find_library(SDL2_Image SDL2_image.lib PATHS ../ThirdParty/SDL2_image-2.0.5/lib/x64)
+find_library(SDL2_Mixer SDL2_mixer.lib PATHS ../ThirdParty/SDL2_mixer-2.0.4/lib/x64)
 
-# TODO: Add tests and install targets if needed.
+include_directories(
+		../ThirdParty/SDL2-2.0.12/include
+		../ThirdParty/SDL2_image-2.0.5/include
+		../ThirdParty/SDL2_mixer-2.0.4/include
+)
+
+target_link_libraries (Lilliputian
+		${SDL2}
+		${SDL2_Image}
+		${SDL2_Mixer}
+)
