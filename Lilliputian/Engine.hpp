@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Utilities/GenericCollections/Vector.hpp"
+#include "Utilities/GenericCollections/String.hpp"
 #include "Game/Game.hpp"
 #include "Engines/AIEngine/AIEngine.hpp"
 #include "Engines/AnimationEngine/AnimationEngine.hpp"
@@ -21,23 +22,23 @@ namespace Lilliputian
 	private:
 		Vector<SceneDefinerCallback> sceneDefinerCallbacks;
 		Game* game;
-
 		AIEngine* aiEngine;
 		AnimationEngine* animationEngine;
 		AudioEngine* audioEngine;
 		HapticEngine* hapticEngine;
 		PhysicsEngine* physicsEngine;
 		RenderingEngine* renderingEngine;
-
 		OSWindow* osWindow;
 		Platform* platform;
-
 		uint64_t frameCount;
 		uint16_t FPS;
 		EngineState state;
-
 		uint32_t msPerComputeUpdate;
 		uint32_t targetFPS;
+		String gameTitle;
+		uint16_t windowHeight;
+		uint16_t windowWidth;
+		bool isStartingFullscreen;
 
 		void initialize();
 		void shutdown();
@@ -52,8 +53,11 @@ namespace Lilliputian
 		~Engine();
 
 		void run();
+		void setGameTitle(const char* gameTitle);
+		void setWindowDimensions(uint16_t width, uint16_t height);
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		void setTargetFPS(uint32_t targetFPS);
+		void startInFullscreen();
 		void addSceneDefiner(SceneDefinerCallback sceneInitializerCallback);
 	};
 }
