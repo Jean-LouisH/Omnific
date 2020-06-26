@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Utilities/GenericCollections/Vector.hpp"
-#include "Utilities/GenericCollections/String.hpp"
+#include "Utilities/Collections/Vector.hpp"
+#include "Utilities/String.hpp"
 #include "Game/Game.hpp"
 #include "Engines/AIEngine/AIEngine.hpp"
 #include "Engines/AnimationEngine/AnimationEngine.hpp"
@@ -12,6 +12,7 @@
 #include "OSWindow.hpp"
 #include "Platform.hpp"
 #include "EngineState.hpp"
+#include "Profiler.hpp"
 
 namespace Lilliputian
 {
@@ -30,6 +31,7 @@ namespace Lilliputian
 		RenderingEngine* renderingEngine;
 		OSWindow* osWindow;
 		Platform* platform;
+		Profiler* profiler;
 		uint64_t frameCount;
 		uint16_t FPS;
 		EngineState state;

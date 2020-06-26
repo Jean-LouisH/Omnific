@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utilities/GenericCollections/Vector.hpp"
+#include "../Utilities/Collections/Vector.hpp"
 #include "../Game/Scene.hpp"
 #include "../Game/Script.hpp"
 #include "../Game/Entity2D.hpp"

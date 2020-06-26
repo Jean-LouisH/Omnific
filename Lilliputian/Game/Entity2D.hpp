@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Script.hpp"
-#include "../Utilities/Definitions/Aliases.hpp"
-#include "../Utilities/GenericCollections/Vector.hpp"
+#include "../Utilities/Aliases.hpp"
+#include "../Utilities/Collections/Vector.hpp"
 
 namespace Lilliputian
 {

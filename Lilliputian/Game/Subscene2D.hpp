@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Entity2D.hpp"
-#include "../Utilities/Mathematics/Rectangle.hpp"
-#include "../Utilities/GenericCollections/Vector.hpp"
+#include "../Utilities/Rectangle.hpp"
+#include "../Utilities/Collections/Vector.hpp"
 
 namespace Lilliputian
 {

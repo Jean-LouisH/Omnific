@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Utilities/GenericCollections/Vector.hpp"
-#include "../Utilities/GenericCollections/Stack.hpp"
+#include "../Utilities/Collections/Vector.hpp"
+#include "../Utilities/Collections/Stack.hpp"
 #include "Subscene2D.hpp"
 
 namespace Lilliputian

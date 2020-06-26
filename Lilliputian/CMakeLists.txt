@@ -13,6 +13,7 @@ set(LILLIPUTIAN_SOURCES
 		OSWindow.cpp
 		OSWindow.hpp
 		Platform.hpp
+		Profiler.hpp
 		Engines/AIEngine/AIEngine.hpp
 		Engines/AIEngine/AIEngine.cpp
 		Engines/AnimationEngine/AnimationEngine.hpp
@@ -56,20 +57,21 @@ set(LILLIPUTIAN_SOURCES
 		UserAPIs/InputAPI.hpp
 		UserAPIs/ScriptingAPI.hpp
 		UserAPIs/ScriptingAPI.cpp
-		Utilities/Definitions/Constants.hpp
-		Utilities/Definitions/Aliases.hpp
-		Utilities/Mathematics/AABB2D.hpp
-		Utilities/Mathematics/Colour.cpp
-		Utilities/Mathematics/Colour.hpp
-		Utilities/Mathematics/Mathematics.hpp
-		Utilities/Mathematics/Rectangle.hpp
-		Utilities/Mathematics/Transform2D.hpp
-		Utilities/Mathematics/Vector2.hpp
-		Utilities/GenericCollections/Map.hpp
-		Utilities/GenericCollections/Queue.hpp
-		Utilities/GenericCollections/Stack.hpp
-		Utilities/GenericCollections/String.hpp
-		Utilities/GenericCollections/Vector.hpp
+		Utilities/Constants.hpp
+		Utilities/Aliases.hpp
+		Utilities/AABB2D.hpp
+		Utilities/Colour.cpp
+		Utilities//Colour.hpp
+		Utilities/HiResTimer.hpp
+		Utilities/HiResTimer.cpp
+		Utilities/Rectangle.hpp
+		Utilities/String.hpp
+		Utilities/Transform2D.hpp
+		Utilities/Vector2.hpp
+		Utilities/Collections/Map.hpp
+		Utilities/Collections/Queue.hpp
+		Utilities/Collections/Stack.hpp
+		Utilities/Collections/Vector.hpp
 )
 
 # Add source to this project's executable.

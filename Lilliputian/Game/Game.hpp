@@ -3,10 +3,10 @@
 #include "Scene.hpp"
 #include "ActionInputs.hpp"
 #include "../UserAPIs/EditorAPI.hpp"
-#include "../Utilities/GenericCollections/Vector.hpp"
-#include "../Utilities/GenericCollections/Stack.hpp"
-#include "../Utilities/GenericCollections/Map.hpp"
-#include "../Utilities/GenericCollections/String.hpp"
+#include "../Utilities/Collections/Vector.hpp"
+#include "../Utilities/Collections/Stack.hpp"
+#include "../Utilities/Collections/Map.hpp"
+#include "../Utilities/String.hpp"
 
 namespace Lilliputian
 {
