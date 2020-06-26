@@ -11,6 +11,7 @@ Lilliputian::Engine::Engine()
 	this->renderingEngine = NULL;
 	this->osWindow = NULL;
 	this->platform = NULL;
+	this->profiler = NULL;
 	this->frameCount = 0;
 	this->FPS = 0;
 	this->msPerComputeUpdate = 8;
@@ -26,7 +27,9 @@ Lilliputian::Engine::~Engine()
 
 void Lilliputian::Engine::sleep()
 {
-	this->osWindow->sleep(1);
+	double targetFrameTime_ms = 1000.0 / this->targetFPS;
+	double ProcessTime_ms = this->profiler->process.getDelta_ns() / 1000.0;
+	this->osWindow->sleep(targetFrameTime_ms - ProcessTime_ms);
 }
 
 void Lilliputian::Engine::benchmark()
@@ -36,7 +39,10 @@ void Lilliputian::Engine::benchmark()
 
 void Lilliputian::Engine::input()
 {
-
+	this->osWindow->detectGameControllers();
+	this->osWindow->pollInputEvents();
+	if (this->osWindow->hasRequestedShutdown())
+		this->state.setShuttingDown();
 }
 
 void Lilliputian::Engine::logic()
@@ -57,7 +63,8 @@ void Lilliputian::Engine::output()
 {
 	if (this->renderingEngine != NULL)
 	{
-
+		this->renderingEngine->clearBuffers();
+		this->renderingEngine->render();
 	}
 
 	if (this->audioEngine != NULL)
@@ -87,6 +94,9 @@ void Lilliputian::Engine::initialize()
 		this->windowHeight,
 		this->windowWidth,
 		this->isStartingFullscreen);
+
+	this->profiler = new Profiler();
+	this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
 }
 
 void Lilliputian::Engine::shutdown()
@@ -105,10 +115,12 @@ void Lilliputian::Engine::run()
 
 		while(this->state.isRunning())
 		{
+			this->profiler->process.setStart();
 			this->input();
 			this->logic();
 			this->compute();
 			this->output();
+			this->profiler->process.setEnd();
 			this->sleep();
 			this->frameCount++;
 			this->benchmark();
