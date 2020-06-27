@@ -37,8 +37,8 @@ set(LILLIPUTIAN_SOURCES
 		Engines/RenderingEngine/RenderingSDL/Texture.hpp
 		Engines/RenderingEngine/RenderingSDL/Transform2D.hpp
 		Engines/RenderingEngine/RenderingSDL/Vector2.hpp
-		Game/ActionInputs.cpp
-		Game/ActionInputs.hpp
+		
+		
 		Game/Entity2D.cpp
 		Game/Entity2D.hpp
 		Game/Game.hpp
