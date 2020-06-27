@@ -25,16 +25,62 @@ Lilliputian::Engine::~Engine()
 
 }
 
-void Lilliputian::Engine::sleep()
+void Lilliputian::Engine::run()
 {
-	double targetFrameTime_ms = 1000.0 / this->targetFPS;
-	double ProcessTime_ms = this->profiler->process.getDelta_ns() / 1000.0;
-	this->osWindow->sleep(targetFrameTime_ms - ProcessTime_ms);
+	do
+	{
+		this->initialize();
+		this->game->initialize();
+
+		this->state.setRunningApplicationWindowed();
+
+		while (this->state.isRunning())
+		{
+			this->profiler->process.setStart();
+			this->input();
+			this->logic();
+			this->compute();
+			this->output();
+			this->profiler->process.setEnd();
+			this->sleep();
+			this->frameCount++;
+		}
+
+		this->game->deinitialize();
+		this->shutdown();
+	} while (this->state.isRestarting());
 }
 
-void Lilliputian::Engine::benchmark()
+void Lilliputian::Engine::initialize()
 {
+	this->state.setInitializing();
 
+	if (SDL_Init(SDL_INIT_EVERYTHING))
+	{
+		SDL_Log(
+			"SDL could not initialize because: %s",
+			SDL_GetError);
+		this->state.setShuttingDown();
+	}
+	else
+	{
+		this->game = new Game();
+
+		for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
+		{
+			if (this->sceneDefinerCallbacks.at(i) != nullptr)
+				this->sceneDefinerCallbacks.at(i)(this->game->getEditor());
+		}
+
+		this->osWindow = new OSWindow(
+			this->gameTitle.c_str(),
+			this->windowHeight,
+			this->windowWidth,
+			this->isStartingFullscreen);
+
+		this->profiler = new Profiler();
+		this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
+	}
 }
 
 void Lilliputian::Engine::input()
@@ -78,57 +124,19 @@ void Lilliputian::Engine::output()
 	}
 }
 
-void Lilliputian::Engine::initialize()
+void Lilliputian::Engine::sleep()
 {
-	this->state.setInitializing();
-	this->game = new Game();
-
-	for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
-	{
-		if (this->sceneDefinerCallbacks.at(i) != nullptr)
-			this->sceneDefinerCallbacks.at(i)(this->game->getEditor());
-	}
-
-	this->osWindow = new OSWindow(
-		this->gameTitle.c_str(),
-		this->windowHeight,
-		this->windowWidth,
-		this->isStartingFullscreen);
-
-	this->profiler = new Profiler();
-	this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
+	double targetFrameTime_ms = 1000.0 / this->targetFPS;
+	double ProcessTime_ms = this->profiler->process.getDelta_ns() / 1000.0;
+	this->osWindow->sleep(targetFrameTime_ms - ProcessTime_ms);
 }
 
 void Lilliputian::Engine::shutdown()
 {
+	delete this->osWindow;
+	delete this->profiler;
+	delete this->renderingEngine;
 	delete this->game;
-}
-
-void Lilliputian::Engine::run()
-{
-	do
-	{
-		this->initialize();
-		this->game->initialize();
-
-		this->state.setRunningApplicationWindowed();
-
-		while(this->state.isRunning())
-		{
-			this->profiler->process.setStart();
-			this->input();
-			this->logic();
-			this->compute();
-			this->output();
-			this->profiler->process.setEnd();
-			this->sleep();
-			this->frameCount++;
-			this->benchmark();
-		}
-
-		this->game->deinitialize();
-		this->shutdown();
-	} while (this->state.isRestarting());
 }
 
 void Lilliputian::Engine::setGameTitle(const char* gameTitle)
@@ -157,9 +165,9 @@ void Lilliputian::Engine::setTargetFPS(uint32_t targetFPS)
 		this->targetFPS = 1;
 }
 
-void Lilliputian::Engine::startInFullscreen()
+void Lilliputian::Engine::setFullscreenStart(bool value)
 {
-	this->isStartingFullscreen = true;
+	this->isStartingFullscreen = value;
 }
 
 void Lilliputian::Engine::addSceneDefiner(SceneDefinerCallback sceneDefinerCallback)

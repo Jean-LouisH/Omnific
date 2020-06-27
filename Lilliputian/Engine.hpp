@@ -43,13 +43,12 @@ namespace Lilliputian
 		bool isStartingFullscreen;
 
 		void initialize();
-		void shutdown();
-		void sleep();
-		void benchmark();
 		void input();
 		void logic();
 		void compute();
 		void output();
+		void sleep();
+		void shutdown();
 	public:
 		Engine();
 		~Engine();
@@ -59,7 +58,7 @@ namespace Lilliputian
 		void setWindowDimensions(uint16_t width, uint16_t height);
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		void setTargetFPS(uint32_t targetFPS);
-		void startInFullscreen();
+		void setFullscreenStart(bool value);
 		void addSceneDefiner(SceneDefinerCallback sceneInitializerCallback);
 	};
 }
