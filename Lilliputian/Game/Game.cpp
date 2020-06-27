@@ -49,3 +49,8 @@ Lilliputian::EditorAPI* Lilliputian::Game::getEditor()
 {
 	return this->editor;
 }
+
+Lilliputian::Scene* Lilliputian::Game::getActiveScene()
+{
+	return &this->activeScenes.top();
+}

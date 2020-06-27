@@ -29,5 +29,6 @@ namespace Lilliputian
 		void executeFinalLogic();
 		void deinitialize();
 		EditorAPI* getEditor();
+		Scene* getActiveScene();
 	};
 }
