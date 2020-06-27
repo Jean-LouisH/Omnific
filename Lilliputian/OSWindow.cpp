@@ -3,7 +3,17 @@
 
 Lilliputian::OSWindow::OSWindow(const char* title, uint16_t width, uint16_t height, bool isFullscreen)
 {
+	/*To prevent frame lag on first events.*/
+	this->controllerAxisEvents.reserve(8);
+	this->controllerButtonEvents.reserve(8);
+	this->keyboardEvents.reserve(8);
+	this->mouseButtonEvents.reserve(8);
+	this->mouseMotionEvents.reserve(8);
+	this->mouseWheelEvents.reserve(8);
+
 	this->shutdownRequest = false;
+	this->isFullscreen = isFullscreen;
+
 	this->sdlWindow = SDL_CreateWindow(
 		title,
 		SDL_WINDOWPOS_CENTERED,
@@ -51,62 +61,82 @@ void Lilliputian::OSWindow::pollInputEvents()
 {
 	SDL_Event SDLEvents;
 
-	this->releasedKeys.clear();
+	this->controllerAxisEvents.clear();
+	this->controllerButtonEvents.clear();
+	this->keyboardEvents.clear();
+	this->mouseButtonEvents.clear();
+	this->mouseMotionEvents.clear();
+	this->mouseWheelEvents.clear();
 
 	while (SDL_PollEvent(&SDLEvents))
 	{
 		switch (SDLEvents.type)
 		{
-			/*Close window button*/
 		case SDL_QUIT:
 			this->shutdownRequest = true;
 			break;
 
-			/*Keyboard inputs*/
 		case SDL_KEYDOWN:
-			KeyEvent press;
-			press.mod = SDLEvents.key.keysym.mod;
-			press.timestamp_ms = SDLEvents.key.timestamp;
-			this->pressedKeys.emplace(SDLEvents.key.keysym.sym, press);
-			break;
 		case SDL_KEYUP:
-			KeyEvent release;
-			release.mod = SDLEvents.key.keysym.mod;
-			release.timestamp_ms = SDLEvents.key.timestamp;
-			this->releasedKeys.emplace(SDLEvents.key.keysym.sym, release);
-			this->pressedKeys.erase(SDLEvents.key.keysym.sym);
+			keyboardEvents.push_back(SDLEvents.key);
 			break;
+
 		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
-			this->mouse.type = SDLEvents.type;
-			this->mouse.timestamp_ms = SDLEvents.button.timestamp;
-			this->mouse.windowID = SDLEvents.button.windowID;
-			this->mouse.button = SDLEvents.button.button;
-			this->mouse.buttonState = SDLEvents.button.state;
-			this->mouse.clicks = SDLEvents.button.clicks;
-			this->mouse.x = SDLEvents.button.x;
-			this->mouse.y = SDLEvents.button.y;
+			mouseButtonEvents.push_back(SDLEvents.button);
 			break;
+
 		case SDL_MOUSEMOTION:
-			this->mouse.type = SDL_MOUSEMOTION;
-			this->mouse.timestamp_ms = SDLEvents.motion.timestamp;
-			this->mouse.windowID = SDLEvents.motion.windowID;
-			this->mouse.motionState = SDLEvents.motion.state;
-			this->mouse.x = SDLEvents.motion.x;
-			this->mouse.y = SDLEvents.motion.y;
-			this->mouse.xrel = SDLEvents.motion.xrel;
-			this->mouse.yrel = SDLEvents.motion.yrel;
+			mouseMotionEvents.push_back(SDLEvents.motion);
 			break;
+
 		case SDL_MOUSEWHEEL:
-			this->mouse.type = SDL_MOUSEWHEEL;
-			this->mouse.timestamp_ms = SDLEvents.wheel.timestamp;
-			this->mouse.windowID = SDLEvents.wheel.windowID;
-			this->mouse.xScroll = SDLEvents.wheel.x;
-			this->mouse.yScroll = SDLEvents.wheel.y;
-			this->mouse.direction = SDLEvents.wheel.direction;
+			mouseWheelEvents.push_back(SDLEvents.wheel);
+			break;
+
+		case SDL_CONTROLLERBUTTONDOWN:
+		case SDL_CONTROLLERBUTTONUP:
+			controllerButtonEvents.push_back(SDLEvents.cbutton);
+			break;
+
+		case SDL_CONTROLLERAXISMOTION:
+			controllerAxisEvents.push_back(SDLEvents.caxis);
 			break;
 		}
 	}
+}
+
+void Lilliputian::OSWindow::setToWindowed(uint16_t width_px, uint16_t height_px)
+{
+	SDL_SetWindowFullscreen(this->sdlWindow, 0);
+	SDL_SetWindowSize(this->sdlWindow, width_px, height_px);
+
+}
+
+void Lilliputian::OSWindow::setToFullscreen(SDL_DisplayMode* mode)
+{
+	SDL_SetWindowDisplayMode(this->sdlWindow, mode);
+	SDL_SetWindowFullscreen(this->sdlWindow, SDL_WINDOW_FULLSCREEN);
+}
+
+void Lilliputian::OSWindow::toggleWindowedFullscreen()
+{
+	this->isFullscreen = !isFullscreen;
+
+	if (this->isFullscreen)
+	{
+		SDL_SetWindowFullscreen(this->sdlWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	}
+	else
+	{
+		SDL_SetWindowFullscreen(this->sdlWindow, 0);
+		SDL_SetWindowPosition(
+			this->sdlWindow,
+			SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED);
+	}
+
+	SDL_ShowCursor(!this->isFullscreen);
 }
 
 bool Lilliputian::OSWindow::hasRequestedShutdown()
@@ -117,4 +147,34 @@ bool Lilliputian::OSWindow::hasRequestedShutdown()
 SDL_Window* Lilliputian::OSWindow::getSDLWindow()
 {
 	return this->sdlWindow;
+}
+
+Lilliputian::Vector<SDL_ControllerAxisEvent> Lilliputian::OSWindow::getControllerAxisEvents()
+{
+	return this->controllerAxisEvents;
+}
+
+Lilliputian::Vector<SDL_ControllerButtonEvent> Lilliputian::OSWindow::getControllerButtonEvents()
+{
+	return this->controllerButtonEvents;
+}
+
+Lilliputian::Vector<SDL_KeyboardEvent> Lilliputian::OSWindow::getKeyboardEvents()
+{
+	return this->keyboardEvents;
+}
+
+Lilliputian::Vector<SDL_MouseButtonEvent> Lilliputian::OSWindow::getMouseButtonEvents()
+{
+	return this->mouseButtonEvents;
+}
+
+Lilliputian::Vector<SDL_MouseMotionEvent> Lilliputian::OSWindow::getMouseMotionEvents()
+{
+	return this->mouseMotionEvents;
+}
+
+Lilliputian::Vector<SDL_MouseWheelEvent> Lilliputian::OSWindow::getMouseWheelEvents()
+{
+	return this->mouseWheelEvents;
 }
