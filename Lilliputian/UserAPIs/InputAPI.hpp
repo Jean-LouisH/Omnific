@@ -140,9 +140,14 @@ namespace Lilliputian
 			MOUSE_BUTTON_RIGHT
 		};
 
-		InputAPI();
 		uint16_t analogueStickSensitivity;
+
+		InputAPI();
 		void insertActionInput(const char* actionName, uint8_t inputCode);
+		void replaceActionInput(const char* actionName, uint8_t inputCode);
+		void removeActionInput(const char* actionName, uint8_t inputCode);
+		void removeAllActionInputs(const char* actionName);
+		Map<String, Vector<uint8_t>> getActionInputs();
 		bool isKeyPressed(unsigned int keyCode);
 	};
 }
