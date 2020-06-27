@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Scene.hpp"
-#include "ActionInputs.hpp"
 #include "../UserAPIs/EditorAPI.hpp"
+#include "../UserAPIs/InputAPI.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Stack.hpp"
 #include "../Utilities/Collections/Map.hpp"
@@ -13,11 +13,11 @@ namespace Lilliputian
 	class Game
 	{
 	private:
-		EditorAPI* editor;
+		EditorAPI* editorAPI;
+		InputAPI* inputAPI;
 		Scene entryScene;
 		Vector<Scene> scenes;
 		Stack<Scene> activeScenes;
-		Multimap<String, ActionInputs> inputActionMap;
 	public:
 		Game();
 		void initialize();
@@ -28,7 +28,8 @@ namespace Lilliputian
 		void executeLateLogic();
 		void executeFinalLogic();
 		void deinitialize();
-		EditorAPI* getEditor();
+		EditorAPI* getEditorAPI();
+		InputAPI* getInputAPI();
 		Scene* getActiveScene();
 	};
 }

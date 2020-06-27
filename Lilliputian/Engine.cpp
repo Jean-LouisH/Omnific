@@ -69,7 +69,7 @@ void Lilliputian::Engine::initialize()
 		for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
 		{
 			if (this->sceneDefinerCallbacks.at(i) != nullptr)
-				this->sceneDefinerCallbacks.at(i)(this->game->getEditor());
+				this->sceneDefinerCallbacks.at(i)(this->game->getEditorAPI());
 		}
 
 		this->osWindow = new OSWindow(

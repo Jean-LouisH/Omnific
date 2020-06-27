@@ -2,7 +2,8 @@
 
 Lilliputian::Game::Game()
 {
-	this->editor = new EditorAPI(&this->entryScene, &this->scenes);
+	this->editorAPI = new EditorAPI(&this->entryScene, &this->scenes);
+	this->inputAPI = new InputAPI();
 }
 
 void Lilliputian::Game::initialize()
@@ -45,9 +46,14 @@ void Lilliputian::Game::deinitialize()
 
 }
 
-Lilliputian::EditorAPI* Lilliputian::Game::getEditor()
+Lilliputian::EditorAPI* Lilliputian::Game::getEditorAPI()
 {
-	return this->editor;
+	return this->editorAPI;
+}
+
+Lilliputian::InputAPI* Lilliputian::Game::getInputAPI()
+{
+	return this->inputAPI;
 }
 
 Lilliputian::Scene* Lilliputian::Game::getActiveScene()
