@@ -21,25 +21,28 @@ void Lilliputian::OSWindow::sleep(int time_ms)
 
 void Lilliputian::OSWindow::detectGameControllers()
 {
-	for (int i = 0; i < this->gameControllers.size(); ++i)
+	if (SDL_NumJoysticks() != this->gameControllers.size())
 	{
-		SDL_GameControllerClose(this->gameControllers.at(i));
-		SDL_HapticClose(this->haptics.at(i));
-	}
-
-	this->gameControllers.clear();
-	this->haptics.clear();
-
-	for (int i = 0; i < SDL_NumJoysticks(); ++i)
-	{
-		if (SDL_IsGameController(i))
+		for (int i = 0; i < this->gameControllers.size(); ++i)
 		{
-			SDL_GameController* newController = SDL_GameControllerOpen(i);
-			SDL_Joystick* joystick = SDL_GameControllerGetJoystick(newController);
-			this->gameControllers.push_back(newController);
-			this->haptics.push_back(SDL_HapticOpenFromJoystick(joystick));
-			if (!this->gameControllers.back())
-				fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
+			SDL_GameControllerClose(this->gameControllers.at(i));
+			SDL_HapticClose(this->haptics.at(i));
+		}
+
+		this->gameControllers.clear();
+		this->haptics.clear();
+
+		for (int i = 0; i < SDL_NumJoysticks(); ++i)
+		{
+			if (SDL_IsGameController(i))
+			{
+				SDL_GameController* newController = SDL_GameControllerOpen(i);
+				SDL_Joystick* joystick = SDL_GameControllerGetJoystick(newController);
+				this->gameControllers.push_back(newController);
+				this->haptics.push_back(SDL_HapticOpenFromJoystick(joystick));
+				if (!this->gameControllers.back())
+					fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
+			}
 		}
 	}
 }
