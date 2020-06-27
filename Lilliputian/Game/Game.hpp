@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdint.h>
 #include "Scene.hpp"
 #include "../UserAPIs/EditorAPI.hpp"
 #include "../UserAPIs/InputAPI.hpp"
@@ -15,7 +16,7 @@ namespace Lilliputian
 	private:
 		EditorAPI* editorAPI;
 		InputAPI* inputAPI;
-		Scene entryScene;
+		uint8_t entrySceneIndex;
 		Vector<Scene> scenes;
 		Stack<Scene> activeScenes;
 	public:

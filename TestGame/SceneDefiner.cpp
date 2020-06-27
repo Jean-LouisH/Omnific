@@ -11,7 +11,7 @@ void TestGame::splashScreen(Lilliputian::EditorAPI* editor)
 
 	mainScene.addEntity2D(rootEntity);
 	mainScene.addEntity2D(camera);
-	editor->setMainScene(mainScene);
+	editor->setEntryScene(mainScene);
 }
 
 void TestGame::demoSelectionMenu(Lilliputian::EditorAPI* editor)

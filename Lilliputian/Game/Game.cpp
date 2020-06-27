@@ -2,13 +2,13 @@
 
 Lilliputian::Game::Game()
 {
-	this->editorAPI = new EditorAPI(&this->entryScene, &this->scenes);
+	this->editorAPI = new EditorAPI(this->entrySceneIndex, &this->scenes);
 	this->inputAPI = new InputAPI();
 }
 
 void Lilliputian::Game::initialize()
 {
-	this->activeScenes.push(this->entryScene);
+	this->activeScenes.push(this->scenes.at(this->entrySceneIndex));
 }
 
 void Lilliputian::Game::executeStartLogic()
