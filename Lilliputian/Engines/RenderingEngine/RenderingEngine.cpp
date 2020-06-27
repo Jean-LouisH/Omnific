@@ -15,7 +15,7 @@ void Lilliputian::RenderingEngine::clearBuffers()
 	SDL_RenderClear(this->sdlRenderer);
 }
 
-void Lilliputian::RenderingEngine::render()
+void Lilliputian::RenderingEngine::render(Scene* scene)
 {
 	SDL_RenderPresent(this->sdlRenderer);
 }

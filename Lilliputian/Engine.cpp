@@ -64,7 +64,7 @@ void Lilliputian::Engine::output()
 	if (this->renderingEngine != NULL)
 	{
 		this->renderingEngine->clearBuffers();
-		this->renderingEngine->render();
+		this->renderingEngine->render(this->game->getActiveScene());
 	}
 
 	if (this->audioEngine != NULL)

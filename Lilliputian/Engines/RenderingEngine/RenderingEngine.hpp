@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL.h>
+#include "../../Game/Scene.hpp"
 
 namespace Lilliputian
 {
@@ -12,7 +13,7 @@ namespace Lilliputian
 	public:
 		RenderingEngine(SDL_Window* sdlWindow);
 		void clearBuffers();
-		void render();
+		void render(Scene* scene);
 	};
 }
 
