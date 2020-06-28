@@ -1,8 +1,6 @@
 #include <Lilliputian.hpp>
 #include  "SceneDefiner.hpp"
 
-#undef main
-
 int main(int argc, char* argv[])
 {
 	Lilliputian::Engine lilliputian;
@@ -13,6 +11,6 @@ int main(int argc, char* argv[])
 	lilliputian.addSceneDefiner(TestGame::demoSelectionMenu);
 	lilliputian.addSceneDefiner(TestGame::systemTests);
 	lilliputian.addSceneDefiner(TestGame::pongClone);
-	lilliputian.run();
+	lilliputian.runGame();
 	return 0;
 }
