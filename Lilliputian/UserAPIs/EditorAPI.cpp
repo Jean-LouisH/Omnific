@@ -1,6 +1,6 @@
 #include "EditorAPI.hpp"
 
-Lilliputian::EditorAPI::EditorAPI(uint8_t entrySceneIndex, std::vector<Scene>* scenes)
+Lilliputian::EditorAPI::EditorAPI(uint8_t* entrySceneIndex, std::vector<Scene>* scenes)
 {
 	this->scriptingAPI = new ScriptingAPI();
 	this->entrySceneIndex = entrySceneIndex;
@@ -28,7 +28,7 @@ Lilliputian::Entity2D Lilliputian::EditorAPI::createNewEntity2D()
 void Lilliputian::EditorAPI::setEntryScene(Scene scene)
 {
 	this->scenes->push_back(scene);
-	this->entrySceneIndex = this->scenes->size();
+	*this->entrySceneIndex = this->scenes->size();
 }
 
 void Lilliputian::EditorAPI::addScene(Scene scene)

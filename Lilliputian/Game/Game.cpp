@@ -2,7 +2,8 @@
 
 Lilliputian::Game::Game()
 {
-	this->editorAPI = new EditorAPI(this->entrySceneIndex, &this->scenes);
+	this->entrySceneIndex = 0;
+	this->editorAPI = new EditorAPI(&this->entrySceneIndex, &this->scenes);
 	this->inputAPI = new InputAPI();
 }
 

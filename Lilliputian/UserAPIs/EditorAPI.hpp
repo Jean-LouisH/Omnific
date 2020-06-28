@@ -12,11 +12,11 @@ namespace Lilliputian
 	{
 	private:
 		ScriptingAPI* scriptingAPI;
-		uint8_t entrySceneIndex;
+		uint8_t* entrySceneIndex;
 		Vector<Scene>* scenes;
 		uint64_t entityIDCount;
 	public:
-		EditorAPI(uint8_t entrySceneIndex, Vector<Scene>* scenes);
+		EditorAPI(uint8_t* entrySceneIndex, Vector<Scene>* scenes);
 		Scene createNewScene();
 		Script createNewScript();
 		Entity2D createNewEntity2D();
