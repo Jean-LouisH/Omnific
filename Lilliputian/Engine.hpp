@@ -53,7 +53,7 @@ namespace Lilliputian
 		Engine();
 		~Engine();
 
-		void run();
+		void runGame();
 		void setGameTitle(const char* gameTitle);
 		void setWindowDimensions(uint16_t width, uint16_t height);
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
