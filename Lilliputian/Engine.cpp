@@ -80,6 +80,7 @@ void Lilliputian::Engine::initialize()
 
 		this->profiler = new Profiler();
 		this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
+		this->hapticEngine = new HapticEngine();
 	}
 }
 
@@ -120,7 +121,7 @@ void Lilliputian::Engine::output()
 
 	if (this->hapticEngine != NULL)
 	{
-
+		this->hapticEngine->process(this->game->getActiveScene(), this->osWindow->getHaptics());
 	}
 }
 
