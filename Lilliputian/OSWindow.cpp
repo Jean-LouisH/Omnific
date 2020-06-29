@@ -50,6 +50,7 @@ void Lilliputian::OSWindow::detectGameControllers()
 				SDL_Joystick* joystick = SDL_GameControllerGetJoystick(newController);
 				this->gameControllers.push_back(newController);
 				this->haptics.push_back(SDL_HapticOpenFromJoystick(joystick));
+				SDL_HapticRumbleInit(this->haptics.back());
 				if (!this->gameControllers.back())
 					fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
 			}
@@ -177,4 +178,9 @@ Lilliputian::Vector<SDL_MouseMotionEvent> Lilliputian::OSWindow::getMouseMotionE
 Lilliputian::Vector<SDL_MouseWheelEvent> Lilliputian::OSWindow::getMouseWheelEvents()
 {
 	return this->mouseWheelEvents;
+}
+
+Lilliputian::Vector<SDL_Haptic*> Lilliputian::OSWindow::getHaptics()
+{
+	return this->haptics;
 }

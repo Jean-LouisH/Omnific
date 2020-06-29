@@ -22,7 +22,6 @@ namespace Lilliputian
 
 		Vector<SDL_GameController*> gameControllers;
 		Vector<SDL_Haptic*> haptics;
-		Vector<SDL_HapticEffect> hapticEffects;
 
 	public:
 		OSWindow(const char* title, uint16_t width, uint16_t height, bool isFullscreen);
@@ -40,5 +39,6 @@ namespace Lilliputian
 		Vector<SDL_MouseButtonEvent> getMouseButtonEvents();
 		Vector<SDL_MouseMotionEvent> getMouseMotionEvents();
 		Vector<SDL_MouseWheelEvent>  getMouseWheelEvents();
+		Vector<SDL_Haptic*> getHaptics();
 	};
 }
