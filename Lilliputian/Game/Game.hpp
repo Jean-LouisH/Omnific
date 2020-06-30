@@ -2,7 +2,8 @@
 
 #include <stdint.h>
 #include "Scene.hpp"
-#include "../UserAPIs/EditorAPI.hpp"
+#include "ScriptRegistry.hpp"
+#include "../UserAPIs/GameAPI.hpp"
 #include "../UserAPIs/InputAPI.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Stack.hpp"
@@ -14,10 +15,11 @@ namespace Lilliputian
 	class Game
 	{
 	private:
-		EditorAPI* editorAPI;
+		GameAPI* gameAPI;
 		InputAPI* inputAPI;
-		uint8_t entrySceneIndex;
-		Vector<Scene> scenes;
+		ScriptRegistry* scriptRegistry;
+		Map<String, Script> scripts;
+		Vector<Scene> preloadedScenes;
 		Stack<Scene> activeScenes;
 	public:
 		Game();
@@ -29,8 +31,8 @@ namespace Lilliputian
 		void executeLateLogic();
 		void executeFinalLogic();
 		void deinitialize();
-		EditorAPI* getEditorAPI();
 		InputAPI* getInputAPI();
+		ScriptRegistry* getScriptRegistry();
 		Scene* getActiveScene();
 	};
 }
