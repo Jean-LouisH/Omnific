@@ -16,4 +16,12 @@ void TestGame::compileAll(Lilliputian::ScriptRegistry* scriptRegistry)
 	pongShakeCameraScript.addFrameLogic(PongClone::shakeCamera);
 	pongControlPlayerScript.addFrameLogic(PongClone::controlPlayer);
 	pongControlAIScript.addFrameLogic(PongClone::controlAI);
+
+	scriptRegistry->linkScript(returnToMainMenuScript);
+	scriptRegistry->linkScript(pongGenerateBallScript);
+	scriptRegistry->linkScript(pongManageScoreScript);
+	scriptRegistry->linkScript(pongShakeCameraScript);
+	scriptRegistry->linkScript(pongControlPlayerScript);
+	scriptRegistry->linkScript(pongControlAIScript);
+
 }
