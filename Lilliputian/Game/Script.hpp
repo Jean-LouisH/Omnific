@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../UserAPIs/ScriptingAPI.hpp"
+#include "../Utilities/String.hpp"
 
 namespace Lilliputian
 {
@@ -18,7 +19,10 @@ namespace Lilliputian
 		ScriptLogicCallback lateLogic;
 		ScriptLogicCallback finalLogic;
 	public:
-		Script(ScriptingAPI* scriptingAPI);
+		Script(ScriptingAPI* scriptingAPI, const char* scriptName);
+
+		String name;
+
 		void addStartLogic(ScriptLogicCallback startLogic);
 		void addInputLogic(ScriptLogicCallback inputLogic);
 		void addFrameLogic(ScriptLogicCallback frameLogic);

@@ -1,8 +1,9 @@
 #include "Script.hpp"
 
-Lilliputian::Script::Script(ScriptingAPI* scriptingAPI)
+Lilliputian::Script::Script(ScriptingAPI* scriptingAPI, const char* scriptName)
 {
 	this->scriptingAPI = scriptingAPI;
+	this->name = scriptName;
 
 	this->startLogic = nullptr;
 	this->inputLogic = nullptr;
