@@ -18,6 +18,7 @@ Lilliputian::Engine::Engine()
 	this->targetFPS = 60;
 	this->windowHeight = 640;
 	this->windowWidth = 480;
+	this->isStartingFullscreen = false;
 }
 
 Lilliputian::Engine::~Engine()
@@ -66,10 +67,10 @@ void Lilliputian::Engine::initialize()
 	{
 		this->game = new Game();
 
-		for (int i = 0; i < this->sceneDefinerCallbacks.size(); i++)
+		for (int i = 0; i < this->scriptCompilerCallbacks.size(); i++)
 		{
-			if (this->sceneDefinerCallbacks.at(i) != nullptr)
-				this->sceneDefinerCallbacks.at(i)(this->game->getEditorAPI());
+			if (this->scriptCompilerCallbacks.at(i) != nullptr)
+				this->scriptCompilerCallbacks.at(i)(this->game->getScriptRegistry());
 		}
 
 		this->osWindow = new OSWindow(
@@ -145,6 +146,11 @@ void Lilliputian::Engine::setGameTitle(const char* gameTitle)
 	this->gameTitle = gameTitle;
 }
 
+void Lilliputian::Engine::setEntryScene(const char* entrySceneName)
+{
+
+}
+
 void Lilliputian::Engine::setWindowDimensions(uint16_t width, uint16_t height)
 {
 	if (height > 0)
@@ -171,7 +177,7 @@ void Lilliputian::Engine::setFullscreenStart(bool value)
 	this->isStartingFullscreen = value;
 }
 
-void Lilliputian::Engine::addSceneDefiner(SceneDefinerCallback sceneDefinerCallback)
+void Lilliputian::Engine::addScriptCompiler(ScriptCompilerCallback scriptCompilerCallback)
 {
-	this->sceneDefinerCallbacks.push_back(sceneDefinerCallback);
+	this->scriptCompilerCallbacks.push_back(scriptCompilerCallback);
 }

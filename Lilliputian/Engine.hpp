@@ -3,6 +3,7 @@
 #include "Utilities/Collections/Vector.hpp"
 #include "Utilities/String.hpp"
 #include "Game/Game.hpp"
+#include "Game/ScriptRegistry.hpp"
 #include "Engines/AIEngine/AIEngine.hpp"
 #include "Engines/AnimationEngine/AnimationEngine.hpp"
 #include "Engines/AudioEngine/AudioEngine.hpp"
@@ -16,12 +17,12 @@
 
 namespace Lilliputian
 {
-	using SceneDefinerCallback = void(*)(Lilliputian::EditorAPI*);
+	using ScriptCompilerCallback = void(*)(Lilliputian::ScriptRegistry*);
 
 	class Engine
 	{
 	private:
-		Vector<SceneDefinerCallback> sceneDefinerCallbacks;
+		Vector<ScriptCompilerCallback> scriptCompilerCallbacks;
 		Game* game;
 		AIEngine* aiEngine;
 		AnimationEngine* animationEngine;
@@ -55,11 +56,12 @@ namespace Lilliputian
 
 		void runGame();
 		void setGameTitle(const char* gameTitle);
+		void setEntryScene(const char* entrySceneName);
 		void setWindowDimensions(uint16_t width, uint16_t height);
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		void setTargetFPS(uint32_t targetFPS);
 		void setFullscreenStart(bool value);
-		void addSceneDefiner(SceneDefinerCallback sceneInitializerCallback);
+		void addScriptCompiler(ScriptCompilerCallback scriptCompilerCallback);
 	};
 }
 
