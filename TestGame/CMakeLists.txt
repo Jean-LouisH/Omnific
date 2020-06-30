@@ -3,16 +3,8 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-set (TEST_GAME_SOURCES
-		main.cpp
-		SceneDefiner.cpp
-		SceneDefiner.hpp
-		"Scripts/QuitOnEscapeKey.cpp"
-		"Scripts/QuitOnEscapeKey.hpp"
-)
-
 # Add source to this project's executable.
-add_executable (TestGame ${TEST_GAME_SOURCES} "Scripts/ReturnToMenu.hpp" "Scripts/ReturnToMenu.cpp" "Scripts/PongGenerateBall.cpp" "Scripts/PongClone.hpp" "Scripts/PongManageScore.cpp" "Scripts/PongShakeCamera.cpp" "Scripts/PongControlPlayer.cpp" "Scripts/PongControlAI.cpp")
+add_executable (TestGame "main.cpp" "Scripts/QuitOnEscapeKey.cpp" "Scripts/ReturnToMainMenu.cpp" "Scripts/PongGenerateBall.cpp" "Scripts/PongClone.hpp" "Scripts/PongManageScore.cpp" "Scripts/PongShakeCamera.cpp" "Scripts/PongControlPlayer.cpp" "Scripts/PongControlAI.cpp" "ScriptCompiler.hpp" "ScriptCompiler.cpp" "Scripts/Scripts.hpp")
 
 include_directories(
 		"../Lilliputian"
