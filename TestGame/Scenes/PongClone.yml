@@ -1,7 +1,7 @@
 Layer2D:
   Entity2D:
     name: "Camera"
-    Scripts: ["PongCameraShake"]
+    Scripts: ["PongShakeCamera"]
     Camera2D:
       viewport_px: [0, 0]
   Entity2D:
@@ -9,11 +9,11 @@ Layer2D:
     Scripts: ["ReturnToMainMenu"]
   Entity2D:
     name: "GameMechanics"
-    Scripts: ["PongBallGeneration", "PongManageScore"]
+    Scripts: ["PongGenerateBall", "PongManageScore"]
   Entity2D:
     name: "Paddle1"
     position_px: [0, 0]
-    Scripts: ["PongPlayerControl"]
+    Scripts: ["PongControlPlayer"]
     Entity2D:
       name: "ScoreCount1"
       position_px: [0, 0]
@@ -22,7 +22,7 @@ Layer2D:
   Entity2D:
     name: "Paddle2"
     position_px: [0, 0]
-    Scripts: ["PongAIControl"]
+    Scripts: ["PongControlAI"]
     Entity2D:
       name: "ScoreCount2"
       position_px: [0, 0]
