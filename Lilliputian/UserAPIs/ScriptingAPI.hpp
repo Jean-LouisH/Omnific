@@ -9,10 +9,10 @@ namespace Lilliputian
 	{
 	private:
 	public:
-		GameAPI game;
-		InputAPI input;
+		GameAPI* game;
+		InputAPI* input;
 
-		ScriptingAPI();
+		ScriptingAPI(GameAPI* gameAPI, InputAPI* inputAPI);
 	};
 }
 

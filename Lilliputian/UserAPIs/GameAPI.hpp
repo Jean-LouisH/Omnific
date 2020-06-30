@@ -6,6 +6,7 @@ namespace Lilliputian
 	{
 	private:
 	public:
+		GameAPI();
 		void quit();
 	};
 }

@@ -1,6 +1,7 @@
 #include "ScriptingAPI.hpp"
 
-Lilliputian::ScriptingAPI::ScriptingAPI()
+Lilliputian::ScriptingAPI::ScriptingAPI(GameAPI* gameAPI, InputAPI* inputAPI)
 {
-
+	this->game = gameAPI;
+	this->input = inputAPI;
 }
