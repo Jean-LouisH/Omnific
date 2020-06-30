@@ -1,7 +1,7 @@
 #include "SceneDefiner.hpp"
-#include "QuitOnEscapeKey.hpp"
-#include "ReturnToMenu.hpp"
-#include "PongClone/PongClone.hpp"
+#include "Scripts/QuitOnEscapeKey.hpp"
+#include "Scripts/ReturnToMenu.hpp"
+#include "Scripts/PongClone.hpp"
 
 void TestGame::splashScreen(Lilliputian::EditorAPI* editor)
 {

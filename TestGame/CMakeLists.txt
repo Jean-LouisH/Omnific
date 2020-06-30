@@ -7,12 +7,12 @@ set (TEST_GAME_SOURCES
 		main.cpp
 		SceneDefiner.cpp
 		SceneDefiner.hpp
-		QuitOnEscapeKey.cpp
-		QuitOnEscapeKey.hpp
+		"Scripts/QuitOnEscapeKey.cpp"
+		"Scripts/QuitOnEscapeKey.hpp"
 )
 
 # Add source to this project's executable.
-add_executable (TestGame ${TEST_GAME_SOURCES} "ReturnToMenu.hpp" "ReturnToMenu.cpp" "PongClone/GenerateBall.cpp" "PongClone/PongClone.hpp" "PongClone/ManageScore.cpp" "PongClone/ShakeCamera.cpp" "PongClone/ControlPlayer.cpp" "PongClone/ControlAI.cpp")
+add_executable (TestGame ${TEST_GAME_SOURCES} "Scripts/ReturnToMenu.hpp" "Scripts/ReturnToMenu.cpp" "Scripts/PongGenerateBall.cpp" "Scripts/PongClone.hpp" "Scripts/PongManageScore.cpp" "Scripts/PongShakeCamera.cpp" "Scripts/PongControlPlayer.cpp" "Scripts/PongControlAI.cpp")
 
 include_directories(
 		"../Lilliputian"
