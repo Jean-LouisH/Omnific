@@ -1,0 +1,8 @@
+Layer2D:
+  Entity2D:
+    name: "Camera"
+    Camera2D:
+      viewport_px: [0, 0]
+  Entity2D:
+    name: "Quit"
+    Scripts: ["QuitOnEscapeKey"]

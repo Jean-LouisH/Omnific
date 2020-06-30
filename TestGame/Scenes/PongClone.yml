@@ -1,0 +1,41 @@
+Layer2D:
+  Entity2D:
+    name: "Camera"
+    Scripts: ["CameraShake"]
+    Camera2D:
+      viewport_px: [0, 0]
+  Entity2D:
+    name: "System"
+    Scripts: ["ReturnToMainMenu"]
+  Entity2D:
+    name: "GameMechanics"
+    Scripts: ["BallGeneration", "Scoring"]
+  Entity2D:
+    name: "Paddle1"
+    position_px: [0, 0]
+    Scripts: ["PlayerControl"]
+    Entity2D:
+      name: "ScoreCount1"
+      position_px: [0, 0]
+      RichTextLabel:
+        text: ""
+  Entity2D:
+    name: "Paddle2"
+    position_px: [0, 0]
+    Scripts: ["AIControl"]
+    Entity2D:
+      name: "ScoreCount2"
+      position_px: [0, 0]
+      RichTextLabel:
+        text: ""
+  Entity2D:
+    name: "UpperBoundary"
+    position_px: [0, 0]
+    BoxCollider2D:
+      aabb: [[0.0, 0.0],[0.0, 0.0]]
+  Entity2D:
+    name: "LowerBoundary"
+    position_px: [0, 0]
+    scale: [1.0, 1.0]
+    BoxCollider2D:
+      aabb: [[0.0, 0.0],[0.0, 0.0]]
