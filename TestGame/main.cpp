@@ -3,11 +3,13 @@
 
 int main(int argc, char* argv[])
 {
-	Lilliputian::Engine lilliputian;
+	Lilliputian::Engine lilliputian(
+		"Lilliputian TestGame", 
+		480,
+		640,
+		"SplashScreen"
+	);
 
-	lilliputian.setGameTitle("Lilliputian TestGame");
-	lilliputian.setWindowDimensions(480, 640);
-	lilliputian.setEntryScene("SplashScreen");
 	lilliputian.addScriptCompiler(TestGame::compileAll);
 	lilliputian.runGame();
 	return 0;

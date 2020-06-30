@@ -51,7 +51,7 @@ namespace Lilliputian
 		void sleep();
 		void shutdown();
 	public:
-		Engine();
+		Engine(const char* gameTitle, uint16_t windowWidth, uint16_t windowHeight, const char* entrySceneName);
 		~Engine();
 
 		void runGame();

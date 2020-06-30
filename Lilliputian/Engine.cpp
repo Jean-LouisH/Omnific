@@ -1,6 +1,6 @@
 #include "Engine.hpp"
 
-Lilliputian::Engine::Engine()
+Lilliputian::Engine::Engine(const char* gameTitle, uint16_t windowWidth, uint16_t windowHeight, const char* entrySceneName)
 {
 	this->game = NULL;
 	this->aiEngine = NULL;
@@ -19,6 +19,10 @@ Lilliputian::Engine::Engine()
 	this->windowHeight = 640;
 	this->windowWidth = 480;
 	this->isStartingFullscreen = false;
+
+	this->setGameTitle(gameTitle);
+	this->setWindowDimensions(windowWidth, windowHeight);
+	this->setEntryScene(entrySceneName);
 }
 
 Lilliputian::Engine::~Engine()
