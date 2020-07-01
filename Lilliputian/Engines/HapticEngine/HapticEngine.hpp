@@ -17,6 +17,8 @@ namespace Lilliputian
 		}HapticRequest;
 
 		Vector<HapticRequest> hapticRequests;
+
+		void rumble(Vector<SDL_Haptic*> haptics);
 	public:
 		HapticEngine();
 		void process(Scene* scene, Vector<SDL_Haptic*> haptics);
