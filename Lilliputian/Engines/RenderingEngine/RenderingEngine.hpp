@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 #include "../../Game/Scene.hpp"
+#include "../../Utilities/Collections/Vector.hpp"
+#include "RenderingSDL/SDLRenderable.hpp"
 
 namespace Lilliputian
 {
@@ -10,10 +12,13 @@ namespace Lilliputian
 	private:
 		SDL_Renderer* sdlRenderer;
 		SDL_Window* sdlWindow;
+		Vector<SDLRenderable> sdlRenderables;
+
+		void clearBuffers();
+		void render();
 	public:
 		RenderingEngine(SDL_Window* sdlWindow);
-		void clearBuffers();
-		void render(Scene* scene);
+		void process(Scene* scene);
 	};
 }
 
