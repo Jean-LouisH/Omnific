@@ -41,7 +41,12 @@ namespace Lilliputian
 		String gameTitle;
 		uint16_t windowHeight;
 		uint16_t windowWidth;
+		String entrySceneName;
 		bool isStartingFullscreen;
+
+		void setGameTitle(const char* gameTitle);
+		void setEntryScene(const char* entrySceneName);
+		void setWindowDimensions(uint16_t width, uint16_t height);
 
 		void initialize();
 		void input();
@@ -55,9 +60,6 @@ namespace Lilliputian
 		~Engine();
 
 		void runGame();
-		void setGameTitle(const char* gameTitle);
-		void setEntryScene(const char* entrySceneName);
-		void setWindowDimensions(uint16_t width, uint16_t height);
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		void setTargetFPS(uint32_t targetFPS);
 		void setFullscreenStart(bool value);
