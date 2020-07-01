@@ -84,6 +84,7 @@ void Lilliputian::Engine::initialize()
 			this->isStartingFullscreen);
 
 		this->profiler = new Profiler();
+		this->audioEngine = new AudioEngine();
 		this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
 		this->hapticEngine = new HapticEngine();
 	}
@@ -114,20 +115,13 @@ void Lilliputian::Engine::compute()
 void Lilliputian::Engine::output()
 {
 	if (this->renderingEngine != NULL)
-	{
-		this->renderingEngine->clearBuffers();
-		this->renderingEngine->render(this->game->getActiveScene());
-	}
+		this->renderingEngine->process(this->game->getActiveScene());
 
 	if (this->audioEngine != NULL)
-	{
-
-	}
+		this->audioEngine->process(this->game->getActiveScene());
 
 	if (this->hapticEngine != NULL)
-	{
 		this->hapticEngine->process(this->game->getActiveScene(), this->osWindow->getHaptics());
-	}
 }
 
 void Lilliputian::Engine::sleep()
@@ -152,7 +146,7 @@ void Lilliputian::Engine::setGameTitle(const char* gameTitle)
 
 void Lilliputian::Engine::setEntryScene(const char* entrySceneName)
 {
-
+	this->entrySceneName = entrySceneName;
 }
 
 void Lilliputian::Engine::setWindowDimensions(uint16_t width, uint16_t height)
@@ -165,7 +159,10 @@ void Lilliputian::Engine::setWindowDimensions(uint16_t width, uint16_t height)
 
 void Lilliputian::Engine::setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
-
+	if (msPerComputeUpdate > (1.0 / (this->targetFPS * 2.0)))
+		this->msPerComputeUpdate = (1.0 / (this->targetFPS * 2.0));
+	else
+		this->msPerComputeUpdate = msPerComputeUpdate;
 }
 
 void Lilliputian::Engine::setTargetFPS(uint32_t targetFPS)
