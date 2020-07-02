@@ -1,5 +1,5 @@
 #include "ScriptCompiler.hpp"
-#include "Scripts/Scripts.hpp"
+#include "Scripts.hpp"
 
 void TestGame::compileAll(Lilliputian::ScriptRegistry* scriptRegistry)
 {

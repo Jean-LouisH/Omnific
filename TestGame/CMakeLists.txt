@@ -4,7 +4,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Add source to this project's executable.
-add_executable (TestGame "main.cpp" "Scripts/QuitOnEscapeKey.cpp" "Scripts/ReturnToMainMenu.cpp" "Scripts/PongGenerateBall.cpp" "Scripts/PongClone.hpp" "Scripts/PongManageScore.cpp" "Scripts/PongShakeCamera.cpp" "Scripts/PongControlPlayer.cpp" "Scripts/PongControlAI.cpp" "ScriptCompiler.hpp" "ScriptCompiler.cpp" "Scripts/Scripts.hpp")
+add_executable (TestGame "main.cpp" "QuitOnEscapeKey.cpp" "ReturnToMainMenu.cpp" "PongGenerateBall.cpp" "PongClone.hpp" "PongManageScore.cpp" "PongShakeCamera.cpp" "PongControlPlayer.cpp" "PongControlAI.cpp" "ScriptCompiler.hpp" "ScriptCompiler.cpp" "Scripts.hpp")
 
 include_directories(
 		"../Lilliputian"
