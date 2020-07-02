@@ -30,7 +30,7 @@ Lilliputian::Engine::~Engine()
 
 }
 
-void Lilliputian::Engine::runGame()
+void Lilliputian::Engine::run()
 {
 	do
 	{

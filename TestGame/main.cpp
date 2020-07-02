@@ -7,10 +7,10 @@ int main(int argc, char* argv[])
 		"Lilliputian TestGame", 
 		480,
 		640,
-		"SplashScreen"
+		"Scenes/SplashScreen.yml"
 	);
 
 	lilliputian.addScriptCompiler(TestGame::compileAll);
-	lilliputian.runGame();
+	lilliputian.run();
 	return 0;
 }

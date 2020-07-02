@@ -59,7 +59,7 @@ namespace Lilliputian
 		Engine(const char* gameTitle, uint16_t windowWidth, uint16_t windowHeight, const char* entrySceneName);
 		~Engine();
 
-		void runGame();
+		void run();
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		void setTargetFPS(uint32_t targetFPS);
 		void setFullscreenStart(bool value);
