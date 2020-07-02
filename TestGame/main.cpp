@@ -4,6 +4,8 @@
 int main(int argc, char* argv[])
 {
 	Lilliputian::Engine lilliputian(
+		argc,
+		argv,
 		"Lilliputian TestGame", 
 		480,
 		640,

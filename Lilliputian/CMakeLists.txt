@@ -75,7 +75,7 @@ set(LILLIPUTIAN_SOURCES
 )
 
 # Add source to this project's executable.
-add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES} "Game/ScriptRegistry.hpp" "Game/SceneLoader.hpp" "Game/SceneLoader.cpp")
+add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES} "Game/ScriptRegistry.hpp" "Game/SceneLoader.hpp" "Game/SceneLoader.cpp" "FileSystem.hpp" "FileSystem.cpp")
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../ThirdParty/SDL2-2.0.12/lib/x64)
 find_library(SDL2_Image SDL2_image.lib PATHS ../ThirdParty/SDL2_image-2.0.5/lib/x64)

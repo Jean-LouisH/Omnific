@@ -14,6 +14,7 @@
 #include "Platform.hpp"
 #include "EngineState.hpp"
 #include "Profiler.hpp"
+#include "FileSystem.hpp"
 
 namespace Lilliputian
 {
@@ -33,6 +34,7 @@ namespace Lilliputian
 		OSWindow* osWindow;
 		Platform* platform;
 		Profiler* profiler;
+		FileSystem* fileSystem;
 		uint64_t frameCount;
 		uint16_t FPS;
 		EngineState state;
@@ -56,7 +58,13 @@ namespace Lilliputian
 		void sleep();
 		void shutdown();
 	public:
-		Engine(const char* gameTitle, uint16_t windowWidth, uint16_t windowHeight, const char* entrySceneName);
+		Engine(
+			int argc,
+			char* argv[], 
+			const char* gameTitle, 
+			uint16_t windowWidth, 
+			uint16_t windowHeight, 
+			const char* entrySceneName);
 		~Engine();
 
 		void run();

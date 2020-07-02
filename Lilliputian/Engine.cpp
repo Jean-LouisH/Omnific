@@ -1,6 +1,12 @@
 #include "Engine.hpp"
 
-Lilliputian::Engine::Engine(const char* gameTitle, uint16_t windowWidth, uint16_t windowHeight, const char* entrySceneName)
+Lilliputian::Engine::Engine(
+	int argc, 
+	char* argv[], 
+	const char* gameTitle, 
+	uint16_t windowWidth, 
+	uint16_t windowHeight, 
+	const char* entrySceneName)
 {
 	this->game = NULL;
 	this->aiEngine = NULL;
@@ -11,7 +17,8 @@ Lilliputian::Engine::Engine(const char* gameTitle, uint16_t windowWidth, uint16_
 	this->renderingEngine = NULL;
 	this->osWindow = NULL;
 	this->platform = NULL;
-	this->profiler = NULL;
+	this->profiler = new Profiler();
+	this->fileSystem = new FileSystem(argv[0]);
 	this->frameCount = 0;
 	this->FPS = 0;
 	this->msPerComputeUpdate = 8;
@@ -83,7 +90,6 @@ void Lilliputian::Engine::initialize()
 			this->windowWidth,
 			this->isStartingFullscreen);
 
-		this->profiler = new Profiler();
 		this->audioEngine = new AudioEngine();
 		this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
 		this->hapticEngine = new HapticEngine();
