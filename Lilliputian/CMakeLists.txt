@@ -37,8 +37,6 @@ set(LILLIPUTIAN_SOURCES
 		Engines/RenderingEngine/RenderingSDL/Texture.hpp
 		Engines/RenderingEngine/RenderingSDL/Transform2D.hpp
 		Engines/RenderingEngine/RenderingSDL/Vector2.hpp
-		
-		
 		Game/Entity2D.cpp
 		Game/Entity2D.hpp
 		Game/Game.hpp
@@ -85,10 +83,15 @@ include_directories(
 		../ThirdParty/SDL2-2.0.12/include
 		../ThirdParty/SDL2_image-2.0.5/include
 		../ThirdParty/SDL2_mixer-2.0.4/include
+		../ThirdParty/yaml-cpp-0.6.3/include
 )
+
+add_dependencies(Lilliputian
+		yaml-cpp)
 
 target_link_libraries (Lilliputian
 		${SDL2}
 		${SDL2_Image}
 		${SDL2_Mixer}
+		yaml-cpp
 )
