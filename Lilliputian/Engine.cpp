@@ -42,7 +42,7 @@ void Lilliputian::Engine::run()
 	do
 	{
 		this->initialize();
-		this->game->initialize();
+		this->game->initialize(this->fileSystem->getExecutableName() + "_Assets/", this->entryScenePath);
 
 		this->state.setRunningApplicationWindowed();
 
@@ -150,9 +150,9 @@ void Lilliputian::Engine::setGameTitle(const char* gameTitle)
 	this->gameTitle = gameTitle;
 }
 
-void Lilliputian::Engine::setEntryScene(const char* entrySceneName)
+void Lilliputian::Engine::setEntryScene(const char* entryScenePath)
 {
-	this->entrySceneName = entrySceneName;
+	this->entryScenePath = entryScenePath;
 }
 
 void Lilliputian::Engine::setWindowDimensions(uint16_t width, uint16_t height)

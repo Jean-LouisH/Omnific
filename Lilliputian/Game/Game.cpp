@@ -6,11 +6,14 @@ Lilliputian::Game::Game()
 	this->inputAPI = new InputAPI();
 	this->scriptRegistry = new ScriptRegistry(new ScriptingAPI(this->gameAPI, this->inputAPI), &this->scripts);
 	this->activeScenes.emplace(Scene());
+	this->sceneLoader = NULL;
 }
 
-void Lilliputian::Game::initialize()
+void Lilliputian::Game::initialize(String assetsDirectory, String entryScenePath)
 {
-
+	this->sceneLoader = new SceneLoader(assetsDirectory);
+	Scene entryScene = this->sceneLoader->loadScene(entryScenePath.c_str());
+	this->activeScenes.emplace(entryScene);
 }
 
 void Lilliputian::Game::executeStartLogic()
