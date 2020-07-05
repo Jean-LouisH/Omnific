@@ -3,7 +3,14 @@
 
 Lilliputian::AudioEngine::AudioEngine()
 {
+	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
+	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
+}
 
+Lilliputian::AudioEngine::~AudioEngine()
+{
+	Mix_CloseAudio();
+	Mix_Quit();
 }
 
 void Lilliputian::AudioEngine::play()
