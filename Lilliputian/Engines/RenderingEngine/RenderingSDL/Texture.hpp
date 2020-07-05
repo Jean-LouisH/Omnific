@@ -3,8 +3,14 @@
 #include <SDL_video.h>
 #include "Rect.hpp"
 
-typedef struct Texture
+namespace Rendering2D
 {
-	SDL_Texture* data;
-	Rect pixels;
-}Texture;
+	namespace SDL
+	{
+		typedef struct Texture
+		{
+			SDL_Texture* data;
+			Rect pixels;
+		}Texture;
+	}
+}

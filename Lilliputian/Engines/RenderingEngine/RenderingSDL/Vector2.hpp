@@ -1,12 +1,19 @@
 #pragma once
 
-typedef struct Vector2
+namespace Rendering2D
 {
-	double x;
-	double y;
+	namespace SDL
+	{
+		typedef struct Vector2
+		{
+			double x;
+			double y;
 
-	Vector2():
-		x(0.0),
-		y(0.0)
-	{}
-}Vector2;
+			Vector2() :
+				x(0.0),
+				y(0.0)
+			{}
+		}Vector2;
+
+	}
+}

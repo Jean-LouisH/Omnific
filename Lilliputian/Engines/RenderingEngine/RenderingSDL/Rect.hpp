@@ -1,12 +1,18 @@
 #pragma once
 
-typedef struct Rect
+namespace Rendering2D
 {
-	double width;
-	double height;
+	namespace SDL
+	{
+		typedef struct Rect
+		{
+			double width;
+			double height;
 
-	Rect():
-		width(0.0),
-		height(0.0)
-	{}
-}Rect;
+			Rect() :
+				width(0.0),
+				height(0.0)
+			{}
+		}Rect;
+	}
+}
