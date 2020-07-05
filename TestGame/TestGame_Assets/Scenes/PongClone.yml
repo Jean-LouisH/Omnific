@@ -1,4 +1,4 @@
-Layer2D:
+Subscene2D:
   Entity2D:
     name: "Camera"
     Scripts: ["PongShakeCamera"]
