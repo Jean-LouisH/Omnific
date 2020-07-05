@@ -22,7 +22,7 @@ It is being developed to replace the archived and unstable [Suprannua Engine](ht
 * Stacked Scenes (For Saved States on Scene Transitions)
 * Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
 * Physics, Collision Detection and Response
-* OGG Support for Audio Sources
+* OGG and WAV Support for Audio Sources
 * [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) Audio Waveform Generation and Scripting
 
 ## Compilation Instructions
