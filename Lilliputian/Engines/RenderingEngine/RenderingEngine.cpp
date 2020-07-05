@@ -1,8 +1,11 @@
 #include "RenderingEngine.hpp"
 #include "RenderingSDL/RenderingSDL.hpp"
+#include <SDL_image.h>
 
 Lilliputian::RenderingEngine::RenderingEngine(SDL_Window* sdlWindow)
 {
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+
 	this->sdlWindow = sdlWindow;
 	this->sdlRenderer = SDL_CreateRenderer(
 		sdlWindow,
@@ -20,7 +23,7 @@ void Lilliputian::RenderingEngine::render()
 {
 	for (int i = 0; i < this->sdlRenderables.size(); i++)
 	{	
-		SDLRenderable sdlRenderable = this->sdlRenderables.at(i);
+		Rendering2D::SDL::SDLRenderable sdlRenderable = this->sdlRenderables.at(i);
 		SDL_RenderCopyEx(
 			this->sdlRenderer,
 			sdlRenderable.texture,
@@ -36,8 +39,8 @@ void Lilliputian::RenderingEngine::render()
 
 void Lilliputian::RenderingEngine::process(Scene* scene)
 {
-	Vector<Sprite2D> sprite2Ds;
-	Camera2D camera2D;
+	Vector<Rendering2D::SDL::Sprite2D> sprite2Ds;
+	Rendering2D::SDL::Camera2D camera2D;
 
 	//todo: build renderables from scene.
 

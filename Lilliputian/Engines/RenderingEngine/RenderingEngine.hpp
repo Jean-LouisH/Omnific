@@ -12,7 +12,7 @@ namespace Lilliputian
 	private:
 		SDL_Renderer* sdlRenderer;
 		SDL_Window* sdlWindow;
-		Vector<SDLRenderable> sdlRenderables;
+		Vector<Rendering2D::SDL::SDLRenderable> sdlRenderables;
 
 		void clearBuffers();
 		void render();
