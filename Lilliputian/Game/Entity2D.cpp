@@ -16,13 +16,32 @@ void Lilliputian::Entity2D::addChildEntity(Entity2D entity)
 	this->childrenEntities.push_back(entity);
 }
 
-void Lilliputian::Entity2D::addScript(Script script)
+void Lilliputian::Entity2D::addBoxCollider(ComponentID boxCollider)
 {
-	this->scripts.push_back(script);
+	this->components.emplace(COMPONENT_BOX_COLLIDER_2D, boxCollider);
 }
 
-void Lilliputian::Entity2D::executeFrameLogic()
+void Lilliputian::Entity2D::addCamera(ComponentID camera)
 {
-	for (int i = 0; i < this->scripts.size(); i++)
-		this->scripts.at(i).executeFrameLogic();
+	this->components.emplace(COMPONENT_CAMERA_2D, camera);
+}
+
+void Lilliputian::Entity2D::addRigidBody(ComponentID rigidBody)
+{
+	this->components.emplace(COMPONENT_RIGID_BODY_2D, rigidBody);
+}
+
+void Lilliputian::Entity2D::addSprite(ComponentID sprite)
+{
+	this->components.emplace(COMPONENT_SPRITE_2D, sprite);
+}
+
+void Lilliputian::Entity2D::addScript(String scriptName)
+{
+	this->scriptNames.push_back(scriptName);
+}
+
+Lilliputian::Map<Lilliputian::ComponentType, Lilliputian::ComponentID> Lilliputian::Entity2D::getComponents()
+{
+	return this->components;
 }
