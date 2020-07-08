@@ -3,9 +3,9 @@
 #include <SDL_mixer.h>
 #include <queue>
 
-namespace Audio
+namespace SDL
 {
-	namespace SDL
+	namespace Audio
 	{
 		void playSounds(
 			std::queue<Mix_Chunk*>* immediateSounds,

@@ -1,7 +1,7 @@
 #include "RenderingSDL.hpp"
 #include "SDLRenderable.hpp"
 
-void Rendering2D::SDL::buildRenderablesFromSprites(
+void SDL::Rendering2D::buildRenderablesFromSprites(
 	std::vector<SDLRenderable>* SDLRenderables,
 	std::vector<Sprite2D> sprite2Ds,
 	Camera2D camera2D,

@@ -2,9 +2,9 @@
 
 #include "Vector2.hpp"
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		typedef struct Transform2D
 		{

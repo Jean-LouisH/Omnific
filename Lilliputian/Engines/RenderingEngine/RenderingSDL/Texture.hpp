@@ -3,9 +3,9 @@
 #include <SDL_video.h>
 #include "Rect.hpp"
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		typedef struct Texture
 		{

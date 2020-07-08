@@ -23,7 +23,7 @@ void Lilliputian::RenderingEngine::render()
 {
 	for (int i = 0; i < this->sdlRenderables.size(); i++)
 	{	
-		Rendering2D::SDL::SDLRenderable sdlRenderable = this->sdlRenderables.at(i);
+		SDL::Rendering2D::SDLRenderable sdlRenderable = this->sdlRenderables.at(i);
 		SDL_RenderCopyEx(
 			this->sdlRenderer,
 			sdlRenderable.texture,
@@ -39,12 +39,12 @@ void Lilliputian::RenderingEngine::render()
 
 void Lilliputian::RenderingEngine::process(Scene* scene)
 {
-	Vector<Rendering2D::SDL::Sprite2D> sprite2Ds;
-	Rendering2D::SDL::Camera2D camera2D;
+	Vector<SDL::Rendering2D::Sprite2D> sprite2Ds;
+	SDL::Rendering2D::Camera2D camera2D;
 
 	//todo: build renderables from scene.
 
-	Rendering2D::SDL::buildRenderablesFromSprites(
+	SDL::Rendering2D::buildRenderablesFromSprites(
 		&this->sdlRenderables,
 		sprite2Ds,
 		camera2D,

@@ -6,9 +6,9 @@
 #include "Texture.hpp"
 #include "Transform2D.hpp"
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		typedef struct Sprite2D
 		{

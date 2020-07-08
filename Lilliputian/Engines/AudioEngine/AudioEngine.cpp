@@ -15,7 +15,7 @@ Lilliputian::AudioEngine::~AudioEngine()
 
 void Lilliputian::AudioEngine::play()
 {
-	Audio::SDL::playSounds(&this->immediateSounds, &this->scheduledSounds);
+	SDL::Audio::playSounds(&this->immediateSounds, &this->scheduledSounds);
 }
 
 void Lilliputian::AudioEngine::process(Scene* scene)

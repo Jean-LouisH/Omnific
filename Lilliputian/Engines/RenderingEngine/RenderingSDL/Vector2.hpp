@@ -1,8 +1,8 @@
 #pragma once
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		typedef struct Vector2
 		{

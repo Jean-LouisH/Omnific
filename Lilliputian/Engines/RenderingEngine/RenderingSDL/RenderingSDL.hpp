@@ -6,9 +6,9 @@
 #include "SDLRenderable.hpp"
 #include "Camera2D.hpp"
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		void buildRenderablesFromSprites(
 			std::vector<SDLRenderable>* SDLRenderables,

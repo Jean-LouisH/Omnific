@@ -2,9 +2,9 @@
 
 #include <SDL_render.h>
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		typedef struct SDLRenderable
 		{

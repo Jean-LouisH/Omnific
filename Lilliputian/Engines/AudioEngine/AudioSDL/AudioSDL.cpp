@@ -1,6 +1,6 @@
 #include "AudioSDL.hpp"
 
-void Audio::SDL::playSounds(
+void SDL::Audio::playSounds(
 	std::queue<Mix_Chunk*>* immediateSounds,
 	std::queue<Mix_Chunk*>* scheduledSounds)
 {

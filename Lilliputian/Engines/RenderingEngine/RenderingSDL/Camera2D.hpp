@@ -3,9 +3,9 @@
 #include "Rect.hpp"
 #include "Transform2D.hpp"
 
-namespace Rendering2D
+namespace SDL
 {
-	namespace SDL
+	namespace Rendering2D
 	{
 		typedef struct Camera2D
 		{
