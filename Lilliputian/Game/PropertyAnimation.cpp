@@ -3,6 +3,7 @@
 Lilliputian::PropertyAnimation::PropertyAnimation(EntityID entityID)
 {
 	this->targetDoubleProperty = NULL;
+	this->keyFrames.clear();
 	this->duration_s = 0.0;
 	this->playbackSpeed_pct = 1.0;
 	this->delay_s = 0.0;

@@ -3,6 +3,10 @@
 Lilliputian::Sprite2D::Sprite2D(EntityID entityID)
 {
 	this->entityID = entityID;
+	this->textureFrames.clear();
+	this->flip = 0;
+	this->frameIndex = 0;
+	this->alpha = 255;
 }
 
 void Lilliputian::Sprite2D::addTextureFrame(Texture texture)
