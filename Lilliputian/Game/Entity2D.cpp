@@ -1,39 +1,48 @@
 #include "Entity2D.hpp"
+#include "../Utilities/Constants.hpp"
 
 Lilliputian::Entity2D::Entity2D(EntityID id)
 {
-	this->parentEntity = nullptr;
+	this->parentEntity = NO_ENTITY;
 	this->id = id;
+	this->scriptNames.clear();
+	this->childrenEntities.clear();
+	this->components.clear();
 }
 
-void Lilliputian::Entity2D::addParentEntity(Entity2D entity)
+void Lilliputian::Entity2D::addParentEntity(EntityID parentEntityID)
 {
-	*this->parentEntity = entity;
+	this->parentEntity = parentEntityID;
 }
 
-void Lilliputian::Entity2D::addChildEntity(Entity2D entity)
+void Lilliputian::Entity2D::addChildEntity(EntityID childEntityID)
 {
-	this->childrenEntities.push_back(entity);
+	this->childrenEntities.push_back(childEntityID);
 }
 
-void Lilliputian::Entity2D::addBoxCollider(ComponentID boxCollider)
+void Lilliputian::Entity2D::addBoxCollider(ComponentID boxColliderID)
 {
-	this->components.emplace(COMPONENT_BOX_COLLIDER_2D, boxCollider);
+	this->components.emplace(COMPONENT_BOX_COLLIDER_2D, boxColliderID);
 }
 
-void Lilliputian::Entity2D::addCamera(ComponentID camera)
+void Lilliputian::Entity2D::addCamera(ComponentID cameraID)
 {
-	this->components.emplace(COMPONENT_CAMERA_2D, camera);
+	this->components.emplace(COMPONENT_CAMERA_2D, cameraID);
 }
 
-void Lilliputian::Entity2D::addRigidBody(ComponentID rigidBody)
+void Lilliputian::Entity2D::addRigidBody(ComponentID rigidBodyID)
 {
-	this->components.emplace(COMPONENT_RIGID_BODY_2D, rigidBody);
+	this->components.emplace(COMPONENT_RIGID_BODY_2D, rigidBodyID);
 }
 
-void Lilliputian::Entity2D::addSprite(ComponentID sprite)
+void Lilliputian::Entity2D::addSprite(ComponentID spriteID)
 {
-	this->components.emplace(COMPONENT_SPRITE_2D, sprite);
+	this->components.emplace(COMPONENT_SPRITE_2D, spriteID);
+}
+
+void Lilliputian::Entity2D::addPropertyAnimation(ComponentID propertyAnimationID)
+{
+	this->components.emplace(COMPONENT_PROPERTY_ANIMATION, propertyAnimationID);
 }
 
 void Lilliputian::Entity2D::addScript(String scriptName)
