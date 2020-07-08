@@ -11,6 +11,6 @@ namespace Lilliputian
 		Mix_Chunk* sound;
 	public:
 		Audio(const char* filepath);
-		~Audio();
+		void unload();
 	};
 }

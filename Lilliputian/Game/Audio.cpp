@@ -5,7 +5,7 @@ Lilliputian::Audio::Audio(const char* filepath)
 	this->sound = Mix_LoadWAV(filepath);
 }
 
-Lilliputian::Audio::~Audio()
+void Lilliputian::Audio::unload()
 {
 	Mix_FreeChunk(this->sound);
 }

@@ -7,7 +7,7 @@ Lilliputian::Texture::Texture(const char* filepath)
 	this->surface = IMG_Load(filepath);
 }
 
-Lilliputian::Texture::~Texture()
+void Lilliputian::Texture::unload()
 {
 	if (this->surface != NULL)
 		SDL_FreeSurface(this->surface);
@@ -15,17 +15,26 @@ Lilliputian::Texture::~Texture()
 
 SDL_Surface* Lilliputian::Texture::getSDLSurface()
 {
-	return this->surface;
+	if (this->surface != NULL)
+		return this->surface;
+	else
+		return NULL;
 }
 
 double Lilliputian::Texture::getWidth()
 {
-	return this->surface->w;
+	if (this->surface != NULL)
+		return this->surface->w;
+	else
+		return 0.0;
 }
 
 double Lilliputian::Texture::getHeight()
 {
-	return this->surface->h;
+	if (this->surface != NULL)
+		return this->surface->h;
+	else
+		return 0.0;
 }
 
 Lilliputian::Rectangle Lilliputian::Texture::getDimensions()

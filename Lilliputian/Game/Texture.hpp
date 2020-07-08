@@ -13,7 +13,7 @@ namespace Lilliputian
 		SDL_Surface* surface;
 	public:
 		Texture(const char* filepath);
-		~Texture();
+		void unload();
 		SDL_Surface* getSDLSurface();
 		double getWidth();
 		double getHeight();
