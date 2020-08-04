@@ -5,7 +5,7 @@ Lilliputian::Font::Font(const char* filepath)
 
 }
 
-Lilliputian::Font::~Font()
+void Lilliputian::Font::unload()
 {
 
 }

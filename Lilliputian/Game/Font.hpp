@@ -7,6 +7,6 @@ namespace Lilliputian
 	private:
 	public:
 		Font(const char* filepath);
-		~Font();
+		void unload();
 	};
 }
