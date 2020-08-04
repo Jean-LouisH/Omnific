@@ -1,0 +1,12 @@
+Subscene2D:
+  Entity2D:
+    name: "Camera"
+    Camera2D:
+      viewport_px: [0, 0]
+  Entity2D:
+    name: "SplashScreenSprite"
+    Sprite2D:
+      texture: ""
+  Entity2D:
+    name: "SceneTransition"
+    Scripts: [""]
