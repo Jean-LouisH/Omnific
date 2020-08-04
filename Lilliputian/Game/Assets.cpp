@@ -88,17 +88,17 @@ void Lilliputian::Assets::deleteAll()
 	deleteAllTextures();
 }
 
-Lilliputian::Map<String, Audio> Lilliputian::Assets::getAudios()
+Lilliputian::Map<Lilliputian::String, Lilliputian::Audio> Lilliputian::Assets::getAudios()
 {
 	return this->audios;
 }
 
-Lilliputian::Map<String, Font> Lilliputian::Assets::getFonts()
+Lilliputian::Map<Lilliputian::String, Lilliputian::Font> Lilliputian::Assets::getFonts()
 {
 	return this->fonts;
 }
 
-Lilliputian::Map<String, Texture> Lilliputian::Assets::getTextures()
+Lilliputian::Map<Lilliputian::String, Lilliputian::Texture> Lilliputian::Assets::getTextures()
 {
 	return this->textures;
 }
