@@ -10,13 +10,14 @@
 #include "Sprite2D.hpp"
 #include "../Utilities/Rectangle.hpp"
 #include "../Utilities/Collections/Vector.hpp"
+#include "../Utilities/Collections/Map.hpp"
 
 namespace Lilliputian
 {
 	class Subscene2D
 	{
 	private:
-		Vector<Entity2D> entities2D;
+		Map<EntityID, Entity2D> entities2D;
 		Vector<AudioListener2D> audioListeners2D;
 		Vector<AudioSource2D> audioSources2D;
 		Vector<BoxCollider2D> boxColliders2D;
@@ -26,8 +27,21 @@ namespace Lilliputian
 		Vector<Sprite2D> sprites2D;
 		Rectangle windowDimensions;
 	public:
-		Subscene2D();
+		Subscene2D()
+		{
+			this->windowDimensions.width = 0;
+			this->windowDimensions.height = 0;
+		}
+
 		void addEntity2D(Entity2D entity2D);
+		void addAudioListener2D(EntityID entityID, AudioListener2D audioListener2D);
+		void addAudioSource2D(EntityID entityID, AudioSource2D audioSource2D);
+		void addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D);
+		void addCamera2D(EntityID entityID, Camera2D camera2D);
+		void addPropertyAnimation(EntityID entityID, PropertyAnimation propertyAnimation);
+		void addRigidBody2D(EntityID entityID, RigidBody2D rigidBody2D);
+		void addSprite2D(EntityID entityID, Sprite2D sprite2D);
+
 		void executeFrameLogic();
 	};
 }
