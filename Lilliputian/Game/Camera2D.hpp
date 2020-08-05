@@ -3,18 +3,16 @@
 #include "../Utilities/Aliases.hpp"
 #include "../Utilities/Rectangle.hpp"
 #include "../Utilities/Vector2.hpp"
+#include "../Utilities/Constants.hpp"
 
 namespace Lilliputian
 {
 	class Camera2D
 	{
 	private:
-		EntityID entityID;
 	public:
+		EntityID entityID = NO_ENTITY;
 		Rectangle viewport_px;
 		Vector2 offset_px;
-
-		Camera2D(EntityID entityID);
-		EntityID getEntityID();
 	};
 }

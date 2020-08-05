@@ -2,6 +2,7 @@
 
 #include "../Utilities/Aliases.hpp"
 #include "../Utilities/Collections/Vector.hpp"
+#include "../Utilities/Constants.hpp"
 #include "Texture.hpp"
 
 namespace Lilliputian
@@ -15,20 +16,19 @@ namespace Lilliputian
 			FLIP_VERTICAL = 1 << 1
 		};
 
-		EntityID entityID;
 		Vector<Texture> textureFrames;
-		uint8_t flip;
+		uint8_t flip = 0;
 	public:
-		uint8_t frameIndex;
-		uint8_t alpha;
+		EntityID entityID = NO_ENTITY;
 
-		Sprite2D(EntityID entityID);
+		uint8_t frameIndex = 0;
+		uint8_t alpha = 255;
+
 		void addTextureFrame(Texture texture);
 		void flipHorizontally();
 		void flipVertically();
 		bool getVerticalFlip();
 		bool getHorizontalFlip();
 		Vector<Texture> getTextureFrames();
-		EntityID getEntityID();
 	};
 }

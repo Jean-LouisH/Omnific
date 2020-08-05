@@ -2,6 +2,7 @@
 
 #include "../Utilities/Aliases.hpp"
 #include "../Utilities/Collections/Vector.hpp"
+#include "../Utilities/Constants.hpp"
 #include <stdint.h>
 
 namespace Lilliputian
@@ -9,21 +10,19 @@ namespace Lilliputian
 	class PropertyAnimation
 	{
 	private:
-		EntityID entityID;
 	public:
-		double* targetDoubleProperty;
-		Vector<double> keyFrames;
-		double duration_s;
-		double playbackSpeed_pct;
-		double delay_s;
-		double progress_s;
-		double maximumValue;
-		double minimumValue;
-		uint8_t repeats;
-		uint8_t repeatCount;
-		bool isPlaying;
+		EntityID entityID = NO_ENTITY;
 
-		PropertyAnimation(EntityID entityID);
-		EntityID getEntityID();
+		double* targetDoubleProperty = NULL;
+		Vector<double> keyFrames;
+		double duration_s = 0.0;
+		double playbackSpeed_pct = 1.0;
+		double delay_s = 0.0;
+		double progress_s = 0.0;
+		double maximumValue = 0.0;
+		double minimumValue = 0.0;
+		uint8_t repeats = 0;
+		uint8_t repeatCount = 0;
+		bool isPlaying = false;
 	};
 }

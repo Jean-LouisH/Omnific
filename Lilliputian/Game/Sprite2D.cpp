@@ -1,14 +1,5 @@
 #include "Sprite2D.hpp"
 
-Lilliputian::Sprite2D::Sprite2D(EntityID entityID)
-{
-	this->entityID = entityID;
-	this->textureFrames.clear();
-	this->flip = 0;
-	this->frameIndex = 0;
-	this->alpha = 255;
-}
-
 void Lilliputian::Sprite2D::addTextureFrame(Texture texture)
 {
 	this->textureFrames.push_back(texture);
@@ -37,9 +28,4 @@ bool Lilliputian::Sprite2D::getHorizontalFlip()
 Lilliputian::Vector<Lilliputian::Texture> Lilliputian::Sprite2D::getTextureFrames()
 {
 	return this->textureFrames;
-}
-
-Lilliputian::EntityID Lilliputian::Sprite2D::getEntityID()
-{
-	return this->entityID;
 }

@@ -1,10 +1,5 @@
 #include "AudioSource2D.hpp"
 
-Lilliputian::AudioSource2D::AudioSource2D(EntityID entityID)
-{
-	this->entityID = entityID;
-}
-
 void Lilliputian::AudioSource2D::addAudio(AssetID audio)
 {
 	this->audioList.emplace(audio);
@@ -28,9 +23,4 @@ void Lilliputian::AudioSource2D::clearAudioPlayQueue()
 {
 	for (int i = 0; i < this->audioPlayQueue.size(); i++)
 		this->audioPlayQueue.pop();
-}
-
-Lilliputian::EntityID Lilliputian::AudioSource2D::getEntityID()
-{
-	return this->entityID;
 }

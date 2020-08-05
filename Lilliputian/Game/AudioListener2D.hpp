@@ -1,15 +1,14 @@
 #pragma once
 
 #include "../Utilities/Aliases.hpp"
+#include "../Utilities/Constants.hpp"
 
 namespace Lilliputian
 {
 	class AudioListener2D
 	{
 	private:
-		EntityID entityID;
 	public:
-		AudioListener2D(EntityID entityID);
-		EntityID getEntityID();
+		EntityID entityID = NO_ENTITY;
 	};
 }
