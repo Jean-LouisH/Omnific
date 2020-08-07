@@ -2,6 +2,9 @@
 
 #include <stdint.h>
 #include "Scene.hpp"
+#include "../OSWindow.hpp"
+#include "../FileSystem.hpp"
+#include "../Profiler.hpp"
 #include "ScriptRegistry.hpp"
 #include "../UserAPIs/GameAPI.hpp"
 #include "../UserAPIs/InputAPI.hpp"
@@ -16,6 +19,9 @@ namespace Lilliputian
 	class Game
 	{
 	private:
+		OSWindow* osWindow;
+		FileSystem* fileSystem;
+		Profiler* profiler;
 		GameAPI* gameAPI;
 		InputAPI* inputAPI;
 		ScriptRegistry* scriptRegistry;
@@ -24,7 +30,10 @@ namespace Lilliputian
 		Vector<Scene> preloadedScenes;
 		Stack<Scene> activeScenes;
 	public:
-		Game();
+		Game(
+			OSWindow* osWindow,
+			FileSystem* fileSystem,
+			Profiler* profiler);
 		void initialize(String assetsDirectory, String entryScenePath);
 		void executeStartLogic();
 		void executeInputLogic();

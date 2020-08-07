@@ -76,7 +76,7 @@ void Lilliputian::Engine::initialize()
 	}
 	else
 	{
-		this->game = new Game();
+		this->game = new Game(this->osWindow, this->fileSystem, this->profiler);
 
 		for (int i = 0; i < this->scriptCompilerCallbacks.size(); i++)
 		{

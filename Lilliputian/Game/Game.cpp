@@ -1,7 +1,13 @@
 #include "Game.hpp"
 
-Lilliputian::Game::Game()
+Lilliputian::Game::Game(
+	OSWindow* osWindow,
+	FileSystem* fileSystem,
+	Profiler* profiler)
 {
+	this->osWindow = osWindow;
+	this->fileSystem = fileSystem;
+	this->profiler = profiler;
 	this->gameAPI = new GameAPI();
 	this->inputAPI = new InputAPI();
 	this->scriptRegistry = new ScriptRegistry(new ScriptingAPI(this->gameAPI, this->inputAPI), &this->scripts);
