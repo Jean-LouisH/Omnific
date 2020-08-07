@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include "Utilities/Collections/Vector.hpp"
+#include "OSWindowInputs.hpp"
 
 namespace Lilliputian
 {
@@ -12,14 +13,7 @@ namespace Lilliputian
 
 		bool shutdownRequest;
 		bool isFullscreen;
-
-		Vector<SDL_ControllerAxisEvent> controllerAxisEvents;
-		Vector<SDL_ControllerButtonEvent> controllerButtonEvents;
-		Vector<SDL_KeyboardEvent> keyboardEvents;
-		Vector<SDL_MouseButtonEvent> mouseButtonEvents;
-		Vector<SDL_MouseMotionEvent> mouseMotionEvents;
-		Vector<SDL_MouseWheelEvent>  mouseWheelEvents;
-
+		OSWindowInputs inputs;
 		Vector<SDL_GameController*> gameControllers;
 		Vector<SDL_Haptic*> haptics;
 
@@ -33,12 +27,7 @@ namespace Lilliputian
 		void setToFullscreen(SDL_DisplayMode* mode);
 		void toggleWindowedFullscreen();
 		SDL_Window* getSDLWindow();
-		Vector<SDL_ControllerAxisEvent> getControllerAxisEvents();
-		Vector<SDL_ControllerButtonEvent> getControllerButtonEvents();
-		Vector<SDL_KeyboardEvent> getKeyboardEvents();
-		Vector<SDL_MouseButtonEvent> getMouseButtonEvents();
-		Vector<SDL_MouseMotionEvent> getMouseMotionEvents();
-		Vector<SDL_MouseWheelEvent>  getMouseWheelEvents();
+		OSWindowInputs getInputs();
 		Vector<SDL_Haptic*> getHaptics();
 	};
 }

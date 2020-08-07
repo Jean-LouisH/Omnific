@@ -4,12 +4,12 @@
 Lilliputian::OSWindow::OSWindow(const char* title, uint16_t width, uint16_t height, bool isFullscreen)
 {
 	/*To prevent frame lag on first events.*/
-	this->controllerAxisEvents.reserve(8);
-	this->controllerButtonEvents.reserve(8);
-	this->keyboardEvents.reserve(8);
-	this->mouseButtonEvents.reserve(8);
-	this->mouseMotionEvents.reserve(8);
-	this->mouseWheelEvents.reserve(8);
+	this->inputs.controllerAxisEvents.reserve(8);
+	this->inputs.controllerButtonEvents.reserve(8);
+	this->inputs.keyboardEvents.reserve(8);
+	this->inputs.mouseButtonEvents.reserve(8);
+	this->inputs.mouseMotionEvents.reserve(8);
+	this->inputs.mouseWheelEvents.reserve(8);
 
 	this->shutdownRequest = false;
 	this->isFullscreen = isFullscreen;
@@ -61,13 +61,8 @@ void Lilliputian::OSWindow::detectGameControllers()
 void Lilliputian::OSWindow::pollInputEvents()
 {
 	SDL_Event SDLEvents;
-
-	this->controllerAxisEvents.clear();
-	this->controllerButtonEvents.clear();
-	this->keyboardEvents.clear();
-	this->mouseButtonEvents.clear();
-	this->mouseMotionEvents.clear();
-	this->mouseWheelEvents.clear();
+	
+	this->inputs.clear();
 
 	while (SDL_PollEvent(&SDLEvents))
 	{
@@ -79,29 +74,29 @@ void Lilliputian::OSWindow::pollInputEvents()
 
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
-			keyboardEvents.push_back(SDLEvents.key);
+			this->inputs.keyboardEvents.push_back(SDLEvents.key);
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
-			mouseButtonEvents.push_back(SDLEvents.button);
+			this->inputs.mouseButtonEvents.push_back(SDLEvents.button);
 			break;
 
 		case SDL_MOUSEMOTION:
-			mouseMotionEvents.push_back(SDLEvents.motion);
+			this->inputs.mouseMotionEvents.push_back(SDLEvents.motion);
 			break;
 
 		case SDL_MOUSEWHEEL:
-			mouseWheelEvents.push_back(SDLEvents.wheel);
+			this->inputs.mouseWheelEvents.push_back(SDLEvents.wheel);
 			break;
 
 		case SDL_CONTROLLERBUTTONDOWN:
 		case SDL_CONTROLLERBUTTONUP:
-			controllerButtonEvents.push_back(SDLEvents.cbutton);
+			this->inputs.controllerButtonEvents.push_back(SDLEvents.cbutton);
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
-			controllerAxisEvents.push_back(SDLEvents.caxis);
+			this->inputs.controllerAxisEvents.push_back(SDLEvents.caxis);
 			break;
 		}
 	}
@@ -150,34 +145,9 @@ SDL_Window* Lilliputian::OSWindow::getSDLWindow()
 	return this->sdlWindow;
 }
 
-Lilliputian::Vector<SDL_ControllerAxisEvent> Lilliputian::OSWindow::getControllerAxisEvents()
+Lilliputian::OSWindowInputs Lilliputian::OSWindow::getInputs()
 {
-	return this->controllerAxisEvents;
-}
-
-Lilliputian::Vector<SDL_ControllerButtonEvent> Lilliputian::OSWindow::getControllerButtonEvents()
-{
-	return this->controllerButtonEvents;
-}
-
-Lilliputian::Vector<SDL_KeyboardEvent> Lilliputian::OSWindow::getKeyboardEvents()
-{
-	return this->keyboardEvents;
-}
-
-Lilliputian::Vector<SDL_MouseButtonEvent> Lilliputian::OSWindow::getMouseButtonEvents()
-{
-	return this->mouseButtonEvents;
-}
-
-Lilliputian::Vector<SDL_MouseMotionEvent> Lilliputian::OSWindow::getMouseMotionEvents()
-{
-	return this->mouseMotionEvents;
-}
-
-Lilliputian::Vector<SDL_MouseWheelEvent> Lilliputian::OSWindow::getMouseWheelEvents()
-{
-	return this->mouseWheelEvents;
+	return this->inputs;
 }
 
 Lilliputian::Vector<SDL_Haptic*> Lilliputian::OSWindow::getHaptics()

@@ -73,7 +73,7 @@ set(LILLIPUTIAN_SOURCES
 )
 
 # Add source to this project's executable.
-add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES} "Game/ScriptRegistry.hpp" "Game/SceneLoader.hpp" "Game/SceneLoader.cpp" "FileSystem.hpp" "FileSystem.cpp" "Game/Camera2D.hpp" "Game/RigidBody2D.hpp" "Game/Sprite2D.hpp" "Game/BoxCollider2D.hpp"  "Game/AudioListener2D.hpp" "Game/AudioSource2D.hpp"  "Game/Texture.hpp" "Game/Audio.hpp" "Game/Audio.cpp" "Game/AudioListener2D.cpp" "Game/AudioSource2D.cpp" "Utilities/Collections/Set.hpp" "Game/BoxCollider2D.cpp" "Game/Camera2D.cpp" "Game/RigidBody2D.cpp" "Game/Sprite2D.cpp" "Game/Texture.cpp" "Game/Font.hpp" "Game/Font.cpp" "Game/PropertyAnimation.hpp" "Game/PropertyAnimation.cpp" "Game/Assets.cpp" "Game/Assets.hpp")
+add_library(Lilliputian STATIC ${LILLIPUTIAN_SOURCES} "Game/ScriptRegistry.hpp" "Game/SceneLoader.hpp" "Game/SceneLoader.cpp" "FileSystem.hpp" "FileSystem.cpp" "Game/Camera2D.hpp" "Game/RigidBody2D.hpp" "Game/Sprite2D.hpp" "Game/BoxCollider2D.hpp"  "Game/AudioListener2D.hpp" "Game/AudioSource2D.hpp"  "Game/Texture.hpp" "Game/Audio.hpp" "Game/Audio.cpp" "Game/AudioListener2D.cpp" "Game/AudioSource2D.cpp" "Utilities/Collections/Set.hpp" "Game/BoxCollider2D.cpp" "Game/Camera2D.cpp" "Game/RigidBody2D.cpp" "Game/Sprite2D.cpp" "Game/Texture.cpp" "Game/Font.hpp" "Game/Font.cpp" "Game/PropertyAnimation.hpp" "Game/PropertyAnimation.cpp" "Game/Assets.cpp" "Game/Assets.hpp" "OSWindowInputs.cpp"  "OSWindowInputs.hpp")
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../ThirdParty/SDL2-2.0.12/lib/x64)
 find_library(SDL2_Image SDL2_image.lib PATHS ../ThirdParty/SDL2_image-2.0.5/lib/x64)
