@@ -10,12 +10,16 @@ namespace Lilliputian
 	{
 	private:
 	public:
-		Vector<SDL_ControllerAxisEvent> controllerAxisEvents;
-		Vector<SDL_ControllerButtonEvent> controllerButtonEvents;
-		Vector<SDL_KeyboardEvent> keyboardEvents;
-		Vector<SDL_MouseButtonEvent> mouseButtonEvents;
-		Vector<SDL_MouseMotionEvent> mouseMotionEvents;
-		Vector<SDL_MouseWheelEvent>  mouseWheelEvents;
+		using ControllerButtonCode = Uint8;
+		using ControllerAxisCode = Uint8;
+
+		Multimap<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
+		Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
+		Multimap<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
+		SDL_MouseButtonEvent mouseButtonEvent = { 0 };
+		SDL_MouseMotionEvent mouseMotionEvent = { 0 };
+		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };
+		SDL_WindowEvent windowEvent = { 0 };
 
 		void clear();
 	};
