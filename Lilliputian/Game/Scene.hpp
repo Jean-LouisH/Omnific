@@ -13,13 +13,6 @@ namespace Lilliputian
 	{
 	private:
 		uint64_t entityIDCount = 0;
-		uint64_t audioListenerIDCount = 0;
-		uint64_t audioSourceIDCount = 0;
-		uint64_t boxColliderIDCount = 0;
-		uint64_t cameraIDCount = 0;
-		uint64_t propertyAnimationIDCount = 0;
-		uint64_t rigidBodyIDCount = 0;
-		uint64_t spriteIDCount = 0;
 		Vector<Stack<Subscene2D>> subscene2Ds;
 		Assets assets;
 
