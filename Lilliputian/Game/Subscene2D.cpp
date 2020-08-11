@@ -47,11 +47,11 @@ void Lilliputian::Subscene2D::addRigidBody2D(EntityID entityID, RigidBody2D rigi
 	this->entities2D.at(entityID).addRigidBody(this->rigidBodies2D.size() - 1);
 }
 
-void Lilliputian::Subscene2D::addSprite2D(EntityID entityID, Sprite2D sprite2D)
+void Lilliputian::Subscene2D::addAnimatedSprite2D(EntityID entityID, AnimatedSprite2D sprite2D)
 {
 	sprite2D.entityID = entityID;
-	this->sprites2D.push_back(sprite2D);
-	this->entities2D.at(entityID).addSprite(this->sprites2D.size() - 1);
+	this->animatedSprites2D.push_back(sprite2D);
+	this->entities2D.at(entityID).addAnimatedSprite(this->animatedSprites2D.size() - 1);
 }
 
 void Lilliputian::Subscene2D::executeFrameLogic()

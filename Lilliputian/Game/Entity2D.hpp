@@ -20,7 +20,7 @@ namespace Lilliputian
 			COMPONENT_CAMERA_2D,
 			COMPONENT_PROPERTY_ANIMATION,
 			COMPONENT_RIGID_BODY_2D,
-			COMPONENT_SPRITE_2D
+			COMPONENT_ANIMATED_SPRITE_2D
 		};
 
 		Vector<String> scriptNames;
@@ -39,7 +39,7 @@ namespace Lilliputian
 		void addCamera(ComponentID cameraID);
 		void addPropertyAnimation(ComponentID propertyAnimationID);
 		void addRigidBody(ComponentID rigidBodyID);
-		void addSprite(ComponentID spriteID);
+		void addAnimatedSprite(ComponentID animatedSpriteID);
 		void addScript(String scriptName);
 		Map<ComponentType, ComponentID> getComponents();
 	};

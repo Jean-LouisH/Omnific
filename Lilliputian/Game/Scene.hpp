@@ -27,7 +27,7 @@ namespace Lilliputian
 		void addCamera2D(EntityID entityID, Camera2D camera2D);
 		void addPropertyAnimation(EntityID entityID, PropertyAnimation propertyAnimation);
 		void addRigidBody2D(EntityID entityID, RigidBody2D rigidBody2D);
-		void addSprite2D(EntityID entityID, Sprite2D sprite2D);
+		void addAnimatedSprite2D(EntityID entityID, AnimatedSprite2D sprite2D);
 
 		EntityID getLastEntityID();
 

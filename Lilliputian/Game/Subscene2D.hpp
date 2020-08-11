@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Entity2D.hpp"
+#include "AnimatedSprite2D.hpp"
 #include "AudioListener2D.hpp"
 #include "AudioSource2D.hpp"
 #include "BoxCollider2D.hpp"
 #include "Camera2D.hpp"
 #include "PropertyAnimation.hpp"
 #include "RigidBody2D.hpp"
-#include "Sprite2D.hpp"
 #include "../Utilities/Rectangle.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Map.hpp"
@@ -24,7 +24,7 @@ namespace Lilliputian
 		Vector<Camera2D> cameras2D;
 		Vector<PropertyAnimation> propertyAnimations;
 		Vector<RigidBody2D> rigidBodies2D;
-		Vector<Sprite2D> sprites2D;
+		Vector<AnimatedSprite2D> animatedSprites2D;
 		Rectangle windowDimensions;
 	public:
 		Subscene2D()
@@ -40,7 +40,7 @@ namespace Lilliputian
 		void addCamera2D(EntityID entityID, Camera2D camera2D);
 		void addPropertyAnimation(EntityID entityID, PropertyAnimation propertyAnimation);
 		void addRigidBody2D(EntityID entityID, RigidBody2D rigidBody2D);
-		void addSprite2D(EntityID entityID, Sprite2D sprite2D);
+		void addAnimatedSprite2D(EntityID entityID, AnimatedSprite2D sprite2D);
 
 		void executeFrameLogic();
 	};

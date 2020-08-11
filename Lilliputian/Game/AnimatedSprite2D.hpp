@@ -7,7 +7,7 @@
 
 namespace Lilliputian
 {
-	class Sprite2D
+	class AnimatedSprite2D
 	{
 	private:
 		enum FlipStates

@@ -41,9 +41,9 @@ void Lilliputian::Entity2D::addRigidBody(ComponentID rigidBodyID)
 	this->components.emplace(COMPONENT_RIGID_BODY_2D, rigidBodyID);
 }
 
-void Lilliputian::Entity2D::addSprite(ComponentID spriteID)
+void Lilliputian::Entity2D::addAnimatedSprite(ComponentID animatedSpriteID)
 {
-	this->components.emplace(COMPONENT_SPRITE_2D, spriteID);
+	this->components.emplace(COMPONENT_ANIMATED_SPRITE_2D, animatedSpriteID);
 }
 
 void Lilliputian::Entity2D::addScript(String scriptName)
