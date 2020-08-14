@@ -43,8 +43,8 @@ set(LILLIPUTIAN_SOURCES
 		Game/Game.cpp
 		Game/Scene.cpp
 		Game/Scene.hpp
-		Game/Subscene2D.hpp
-		Game/Subscene2D.cpp
+		"Game/SceneLayer2D.hpp"
+		"Game/SceneLayer2D.cpp"
 		Game/Script.cpp
 		Game/Script.hpp
 		Game/ScriptRegistry.cpp

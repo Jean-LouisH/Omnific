@@ -3,7 +3,7 @@
 #include "Entity2D.hpp"
 #include "AnimatedSprite2D.hpp"
 #include "AudioListener2D.hpp"
-#include "AudioSource2D.hpp"
+#include "StreamedAudioSource2D.hpp"
 #include "BoxCollider2D.hpp"
 #include "Camera2D.hpp"
 #include "PropertyAnimation.hpp"
@@ -14,12 +14,12 @@
 
 namespace Lilliputian
 {
-	class Subscene2D
+	class SceneLayer2D
 	{
 	private:
 		Map<EntityID, Entity2D> entities2D;
 		Vector<AudioListener2D> audioListeners2D;
-		Vector<StreamedAudioSource2D> audioSources2D;
+		Vector<StreamedAudioSource2D> streamedAudioSources2D;
 		Vector<BoxCollider2D> boxColliders2D;
 		Vector<Camera2D> cameras2D;
 		Vector<PropertyAnimation> propertyAnimations;
@@ -27,7 +27,7 @@ namespace Lilliputian
 		Vector<AnimatedSprite2D> animatedSprites2D;
 		Rectangle windowDimensions;
 	public:
-		Subscene2D()
+		SceneLayer2D()
 		{
 			this->windowDimensions.width = 0;
 			this->windowDimensions.height = 0;

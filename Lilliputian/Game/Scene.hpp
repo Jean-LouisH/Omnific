@@ -5,7 +5,7 @@
 #include "../Utilities/Collections/Queue.hpp"
 #include "../Utilities/Collections/Map.hpp"
 #include "Assets.hpp"
-#include "Subscene2D.hpp"
+#include "SceneLayer2D.hpp"
 
 namespace Lilliputian
 {
@@ -13,12 +13,12 @@ namespace Lilliputian
 	{
 	private:
 		uint64_t entityIDCount = 0;
-		Vector<Stack<Subscene2D>> subscene2Ds;
+		Vector<Stack<SceneLayer2D>> sceneLayer2Ds;
 		Assets assets;
 
-		Stack<Subscene2D>* getLastSubscene2D();
+		Stack<SceneLayer2D>* getLastSceneLayer2D();
 	public:
-		void incrementSubscene2D();
+		void incrementSceneLayer2D();
 
 		void addEntity2D(Entity2D entity2D);
 		void addAudioListener2D(EntityID entityID, AudioListener2D audioListener2D);
