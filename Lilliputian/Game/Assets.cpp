@@ -1,13 +1,13 @@
 #include "Assets.hpp"
 
-Lilliputian::Audio Lilliputian::Assets::loadAudio(const char* filepath)
+Lilliputian::StreamedAudio Lilliputian::Assets::loadStreamedAudio(const char* filepath)
 {
-	if (!this->audios.count(filepath))
+	if (!this->streamedAudios.count(filepath))
 	{
-		this->audios.emplace(filepath, Audio(filepath));
+		this->streamedAudios.emplace(filepath, StreamedAudio(filepath));
 	}
 
-	return this->audios.at(filepath);
+	return this->streamedAudios.at(filepath);
 }
 
 Lilliputian::Font Lilliputian::Assets::loadFont(const char* filepath)
@@ -30,9 +30,9 @@ Lilliputian::Texture Lilliputian::Assets::loadTexture(const char* filepath)
 	return this->textures.at(filepath);
 }
 
-void Lilliputian::Assets::deleteAudio(const char* filepath)
+void Lilliputian::Assets::deleteStreamedAudio(const char* filepath)
 {
-	this->audios.at(filepath).unload();
+	this->streamedAudios.at(filepath).unload();
 }
 
 void Lilliputian::Assets::deleteFont(const char* filepath)
@@ -47,13 +47,13 @@ void Lilliputian::Assets::deleteTexture(const char* filepath)
 
 void Lilliputian::Assets::deleteAllAudio()
 {
-	if (!this->audios.empty())
+	if (!this->streamedAudios.empty())
 	{
-		for (std::pair<String, Audio> element : this->audios)
+		for (std::pair<String, StreamedAudio> element : this->streamedAudios)
 		{
 			element.second.unload();
 		}
-		this->audios.clear();
+		this->streamedAudios.clear();
 	}
 }
 
@@ -88,9 +88,9 @@ void Lilliputian::Assets::deleteAll()
 	deleteAllTextures();
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Audio> Lilliputian::Assets::getAudios()
+Lilliputian::Map<Lilliputian::String, Lilliputian::StreamedAudio> Lilliputian::Assets::getStreamedAudios()
 {
-	return this->audios;
+	return this->streamedAudios;
 }
 
 Lilliputian::Map<Lilliputian::String, Lilliputian::Font> Lilliputian::Assets::getFonts()

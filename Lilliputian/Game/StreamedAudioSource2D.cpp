@@ -1,6 +1,6 @@
-#include "AudioSource2D.hpp"
+#include "StreamedAudioSource2D.hpp"
 
-void Lilliputian::StreamedAudioSource2D::addAudio(AssetID audio)
+void Lilliputian::StreamedAudioSource2D::addStreamedAudio(AssetID audio)
 {
 	this->audioList.emplace(audio);
 }

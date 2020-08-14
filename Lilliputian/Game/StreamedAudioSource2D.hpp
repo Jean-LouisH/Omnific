@@ -4,7 +4,7 @@
 #include "../Utilities/Collections/Set.hpp"
 #include "../Utilities/Collections/Queue.hpp"
 #include "../Utilities/Constants.hpp"
-#include "Audio.hpp"
+#include "StreamedAudio.hpp"
 
 namespace Lilliputian
 {
@@ -16,7 +16,7 @@ namespace Lilliputian
 	public:
 		EntityID entityID = NO_ENTITY;
 
-		void addAudio(AssetID audio);
+		void addStreamedAudio(AssetID audio);
 		void queueAudioToPlay(AssetID audio, uint8_t count);
 		Queue<AssetID> getAudioPlayQueue();
 		void clearAudioPlayQueue();

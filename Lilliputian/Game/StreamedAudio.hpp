@@ -5,12 +5,12 @@
 
 namespace Lilliputian
 {
-	class Audio
+	class StreamedAudio
 	{
 	private:
 		Mix_Chunk* sound;
 	public:
-		Audio(const char* filepath);
+		StreamedAudio(const char* filepath);
 		void unload();
 	};
 }
