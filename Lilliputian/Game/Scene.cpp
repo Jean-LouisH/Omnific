@@ -26,9 +26,9 @@ void Lilliputian::Scene::addAudioListener2D(EntityID entityID, AudioListener2D a
 	this->getLastSubscene2D()->top().addAudioListener2D(entityID, audioListener2D);
 }
 
-void Lilliputian::Scene::addAudioSource2D(EntityID entityID, AudioSource2D audioSource2D)
+void Lilliputian::Scene::addStreamedAudioSource2D(EntityID entityID, StreamedAudioSource2D streamedAudioSource2D)
 {
-	this->getLastSubscene2D()->top().addAudioSource2D(entityID, audioSource2D);
+	this->getLastSubscene2D()->top().addStreamedAudioSource2D(entityID, streamedAudioSource2D);
 }
 
 void Lilliputian::Scene::addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D)

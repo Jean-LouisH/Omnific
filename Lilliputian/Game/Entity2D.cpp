@@ -16,9 +16,9 @@ void Lilliputian::Entity2D::addAudioListener(ComponentID audioListenerID)
 	this->components.emplace(COMPONENT_AUDIO_LISTENER_2D, audioListenerID);
 }
 
-void Lilliputian::Entity2D::addAudioSource(ComponentID audioSourceID)
+void Lilliputian::Entity2D::addStreamedAudioSource(ComponentID streamedAudioSourceID)
 {
-	this->components.emplace(COMPONENT_AUDIO_SOURCE_2D, audioSourceID);
+	this->components.emplace(COMPONENT_STREAMED_AUDIO_SOURCE_2D, streamedAudioSourceID);
 }
 
 void Lilliputian::Entity2D::addBoxCollider(ComponentID boxColliderID)
@@ -51,7 +51,7 @@ void Lilliputian::Entity2D::addScript(String scriptName)
 	this->scriptNames.push_back(scriptName);
 }
 
-Lilliputian::Map<Lilliputian::ComponentType, Lilliputian::ComponentID> Lilliputian::Entity2D::getComponents()
+Lilliputian::Map<Lilliputian::Entity2D::ComponentType, Lilliputian::ComponentID> Lilliputian::Entity2D::getComponents()
 {
 	return this->components;
 }

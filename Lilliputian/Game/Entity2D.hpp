@@ -11,16 +11,16 @@ namespace Lilliputian
 	class Entity2D
 	{
 	private:
-		enum Components
+		enum ComponentType
 		{
 			COMPONENT_NONE,
+			COMPONENT_ANIMATED_SPRITE_2D,
 			COMPONENT_AUDIO_LISTENER_2D,
-			COMPONENT_AUDIO_SOURCE_2D,
 			COMPONENT_BOX_COLLIDER_2D,
 			COMPONENT_CAMERA_2D,
 			COMPONENT_PROPERTY_ANIMATION,
 			COMPONENT_RIGID_BODY_2D,
-			COMPONENT_ANIMATED_SPRITE_2D
+			COMPONENT_STREAMED_AUDIO_SOURCE_2D
 		};
 
 		Vector<String> scriptNames;
@@ -34,7 +34,7 @@ namespace Lilliputian
 		void addParentEntity(EntityID parentEntityID);
 		void addChildEntity(EntityID childEntityID);
 		void addAudioListener(ComponentID audioListenerID);
-		void addAudioSource(ComponentID audioSourceID);
+		void addStreamedAudioSource(ComponentID streamedAudioSourceID);
 		void addBoxCollider(ComponentID boxColliderID);
 		void addCamera(ComponentID cameraID);
 		void addPropertyAnimation(ComponentID propertyAnimationID);

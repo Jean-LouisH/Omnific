@@ -12,11 +12,11 @@ void Lilliputian::Subscene2D::addAudioListener2D(EntityID entityID, AudioListene
 	this->entities2D.at(entityID).addAudioListener(this->audioListeners2D.size() - 1);
 }
 
-void Lilliputian::Subscene2D::addAudioSource2D(EntityID entityID, AudioSource2D audioSource2D) 
+void Lilliputian::Subscene2D::addStreamedAudioSource2D(EntityID entityID, StreamedAudioSource2D streamedAudioSource2D)
 {
-	audioSource2D.entityID = entityID;
-	this->audioSources2D.push_back(audioSource2D);
-	this->entities2D.at(entityID).addAudioSource(this->audioSources2D.size() - 1);
+	streamedAudioSource2D.entityID = entityID;
+	this->audioSources2D.push_back(streamedAudioSource2D);
+	this->entities2D.at(entityID).addStreamedAudioSource(this->audioSources2D.size() - 1);
 }
 
 void Lilliputian::Subscene2D::addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D)

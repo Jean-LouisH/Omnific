@@ -8,7 +8,7 @@
 
 namespace Lilliputian
 {
-	class AudioSource2D
+	class StreamedAudioSource2D
 	{
 	private:
 		Set<AssetID> audioList;
