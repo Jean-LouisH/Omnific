@@ -7,7 +7,7 @@
 
 namespace Lilliputian
 {
-	class ProceduralAudioSource2D
+	class SynthesizedAudioSource2D
 	{
 	private:
 	public:
