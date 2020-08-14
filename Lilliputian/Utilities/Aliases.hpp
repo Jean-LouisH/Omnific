@@ -9,5 +9,4 @@ namespace Lilliputian
 	using ComponentID = uint32_t;
 	using AssetID = uint32_t;
 	using ScriptID = uint32_t;
-	using ComponentType = uint8_t;
 }
