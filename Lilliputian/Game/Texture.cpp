@@ -1,40 +1,37 @@
 #include "Texture.hpp"
-#include "../Utilities/Rectangle.hpp"
-#include <SDL_image.h>
 
-Lilliputian::Texture::Texture(const char* filepath)
+Lilliputian::Texture::Texture(Image* image)
 {
-	this->surface = IMG_Load(filepath);
+	this->image = image;
 }
 
 void Lilliputian::Texture::unload()
 {
-	if (this->surface != NULL)
-		SDL_FreeSurface(this->surface);
+	this->image = NULL;
 }
 
 SDL_Surface* Lilliputian::Texture::getSDLSurface()
 {
-	if (this->surface != NULL)
-		return this->surface;
+	if (this->image != NULL)
+		return this->image->getSDLSurface();
 	else
 		return NULL;
 }
 
-double Lilliputian::Texture::getWidth()
+uint32_t Lilliputian::Texture::getWidth()
 {
-	if (this->surface != NULL)
-		return this->surface->w;
+	if (this->image != NULL)
+		return this->image->getWidth();
 	else
-		return 0.0;
+		return 0;
 }
 
-double Lilliputian::Texture::getHeight()
+uint32_t Lilliputian::Texture::getHeight()
 {
-	if (this->surface != NULL)
-		return this->surface->h;
+	if (this->image != NULL)
+		return this->image->getHeight();
 	else
-		return 0.0;
+		return 0;
 }
 
 Lilliputian::Rectangle Lilliputian::Texture::getDimensions()
