@@ -8,8 +8,8 @@ namespace Lilliputian
 	{
 	private:
 	public:
-		unsigned int width;
-		unsigned int height;
+		uint32_t width;
+		uint32_t height;
 
 		Rectangle():
 			width(0),
