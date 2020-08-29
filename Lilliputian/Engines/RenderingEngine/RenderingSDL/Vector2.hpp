@@ -6,8 +6,8 @@ namespace SDL
 	{
 		typedef struct Vector2
 		{
-			double x;
-			double y;
+			float x;
+			float y;
 
 			Vector2() :
 				x(0.0),

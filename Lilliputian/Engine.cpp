@@ -132,8 +132,8 @@ void Lilliputian::Engine::output()
 
 void Lilliputian::Engine::sleep()
 {
-	double targetFrameTime_ms = 1000.0 / this->targetFPS;
-	double ProcessTime_ms = this->profiler->process.getDelta_ns() / 1000.0;
+	float targetFrameTime_ms = 1000.0 / this->targetFPS;
+	float ProcessTime_ms = this->profiler->process.getDelta_ns() / 1000.0;
 	this->osWindow->sleep(targetFrameTime_ms - ProcessTime_ms);
 }
 

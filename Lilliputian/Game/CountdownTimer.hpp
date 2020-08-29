@@ -9,13 +9,13 @@ namespace Lilliputian
 	{
 	private:
 		bool isActive = false;
-		double startTime = 0.0;
-		double currentTime = 0.0;
+		float startTime = 0.0;
+		float currentTime = 0.0;
 	public:
 		EntityID entityID = NO_ENTITY;
 
-		void start(double time);
-		void update(double deltaTime);
+		void start(float time);
+		void update(float deltaTime);
 		void stop();
 		bool isFinished();
 	};

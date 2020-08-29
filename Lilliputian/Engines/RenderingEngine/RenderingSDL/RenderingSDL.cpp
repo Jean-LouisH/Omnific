@@ -18,17 +18,17 @@ void SDL::Rendering2D::buildRenderablesFromSprites(
 	{
 		Sprite2D* sprite = &sprites[i];
 
-		double spriteWidth = sprite->textureFrames.at(sprite->frameIndex).pixels.width;
-		double spriteHeight = sprite->textureFrames.at(sprite->frameIndex).pixels.height;
-		double spriteWidthScaled = spriteWidth * sprite->transform.scale.x;
-		double spriteHeightScaled = spriteHeight * sprite->transform.scale.y;
-		double cameraWidth = camera2D.viewport_px.width;
-		double cameraHeight = camera2D.viewport_px.height;
-		double cameraX = camera2D.transform.position_px.x;
-		double cameraY = camera2D.transform.position_px.y;
-		double spriteX = sprite->transform.position_px.x;
-		double spriteY = sprite->transform.position_px.y;
-		double rotationRelativeToCamera = 
+		float spriteWidth = sprite->textureFrames.at(sprite->frameIndex).pixels.width;
+		float spriteHeight = sprite->textureFrames.at(sprite->frameIndex).pixels.height;
+		float spriteWidthScaled = spriteWidth * sprite->transform.scale.x;
+		float spriteHeightScaled = spriteHeight * sprite->transform.scale.y;
+		float cameraWidth = camera2D.viewport_px.width;
+		float cameraHeight = camera2D.viewport_px.height;
+		float cameraX = camera2D.transform.position_px.x;
+		float cameraY = camera2D.transform.position_px.y;
+		float spriteX = sprite->transform.position_px.x;
+		float spriteY = sprite->transform.position_px.y;
+		float rotationRelativeToCamera =
 			(sprite->transform.rotation_rad - camera2D.transform.rotation_rad) * 180.0;
 
 		SDLRenderable renderable;
@@ -39,10 +39,10 @@ void SDL::Rendering2D::buildRenderablesFromSprites(
 		renderable.textureRect.w = spriteWidth;
 		renderable.textureRect.h = spriteHeight;
 		
-		renderable.renderingRect.x = (int)((((spriteX - (spriteWidthScaled / 2.0) - cameraX) / cameraWidth) + 0.5) * (double)windowWidth_px);
-		renderable.renderingRect.y = (int)((((cameraY - spriteY - (spriteHeightScaled / 2.0)) / cameraHeight) + 0.5) * (double)windowHeight_px);
-		renderable.renderingRect.w = (int)(spriteWidthScaled / cameraWidth * (double)windowWidth_px);
-		renderable.renderingRect.h = (int)(spriteHeightScaled / cameraHeight * (double)windowHeight_px);
+		renderable.renderingRect.x = (int)((((spriteX - (spriteWidthScaled / 2.0) - cameraX) / cameraWidth) + 0.5) * (float)windowWidth_px);
+		renderable.renderingRect.y = (int)((((cameraY - spriteY - (spriteHeightScaled / 2.0)) / cameraHeight) + 0.5) * (float)windowHeight_px);
+		renderable.renderingRect.w = (int)(spriteWidthScaled / cameraWidth * (float)windowWidth_px);
+		renderable.renderingRect.h = (int)(spriteHeightScaled / cameraHeight * (float)windowHeight_px);
 		
 		renderable.rotation = rotationRelativeToCamera;
 		renderable.flip = sprite->flip;

@@ -6,8 +6,8 @@ namespace SDL
 	{
 		typedef struct Rect
 		{
-			double width;
-			double height;
+			float width;
+			float height;
 
 			Rect() :
 				width(0.0),

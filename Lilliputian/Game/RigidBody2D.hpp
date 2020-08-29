@@ -12,12 +12,12 @@ namespace Lilliputian
 	public:
 		EntityID entityID = NO_ENTITY;
 
-		double mass_kg = 1.0;
-		double friction_ratio = 1.0;
-		double angularDrag_ratio = 1.0;
-		double angularVelocity_rad_per_s = 0.0;
-		double gravity_scale = 1.0;
-		double elasticity_ratio = 0.01;
+		float mass_kg = 1.0;
+		float friction_ratio = 1.0;
+		float angularDrag_ratio = 1.0;
+		float angularVelocity_rad_per_s = 0.0;
+		float gravity_scale = 1.0;
+		float elasticity_ratio = 0.01;
 		Vector2 drag_ratio;
 		Vector2 velocity_px_per_s;
 

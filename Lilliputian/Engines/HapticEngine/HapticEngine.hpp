@@ -12,7 +12,7 @@ namespace Lilliputian
 		typedef struct HapticRequest
 		{
 			uint8_t controllerID;
-			double strength_pct;
+			float strength_pct;
 			uint16_t duration_ms;
 		}HapticRequest;
 

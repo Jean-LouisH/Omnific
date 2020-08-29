@@ -9,7 +9,7 @@ namespace SDL
 		typedef struct Transform2D
 		{
 			Vector2 position_px;
-			double rotation_rad;
+			float rotation_rad;
 			Vector2 scale;
 
 			Transform2D() :

@@ -8,10 +8,10 @@ namespace Lilliputian
 	class Colour
 	{
 	private:
-		double red;
-		double blue;
-		double green;
-		double alpha;
+		float red;
+		float blue;
+		float green;
+		float alpha;
 	public:
 		Colour();
 		Colour(std::string hex);

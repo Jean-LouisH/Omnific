@@ -11,7 +11,7 @@ namespace SDL
 			SDL_Texture* texture;
 			SDL_Rect textureRect;
 			SDL_Rect renderingRect;
-			double rotation;
+			float rotation;
 			SDL_RendererFlip flip;
 		}SDLRenderable;
 	}
