@@ -58,14 +58,14 @@ void Lilliputian::Game::deinitialize()
 
 }
 
-Lilliputian::InputAPI* Lilliputian::Game::getInputAPI()
+Lilliputian::InputAPI& Lilliputian::Game::getInputAPI()
 {
-	return this->inputAPI;
+	return *this->inputAPI;
 }
 
-Lilliputian::ScriptRegistry* Lilliputian::Game::getScriptRegistry()
+Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()
 {
-	return this->scriptRegistry;
+	return *this->scriptRegistry;
 }
 
 Lilliputian::Scene* Lilliputian::Game::getActiveScene()

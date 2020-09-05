@@ -1,6 +1,6 @@
 #include "Scripts.hpp"
 
-void TestGame::returnToMainMenu(Lilliputian::ScriptingAPI* API)
+void TestGame::returnToMainMenu(Lilliputian::ScriptingAPI& API)
 {
 
 }

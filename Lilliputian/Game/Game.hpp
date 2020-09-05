@@ -42,8 +42,8 @@ namespace Lilliputian
 		void executeLateLogic();
 		void executeFinalLogic();
 		void deinitialize();
-		InputAPI* getInputAPI();
-		ScriptRegistry* getScriptRegistry();
+		InputAPI& getInputAPI();
+		ScriptRegistry& getScriptRegistry();
 		Scene* getActiveScene();
 	};
 }

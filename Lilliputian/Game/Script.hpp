@@ -5,7 +5,7 @@
 
 namespace Lilliputian
 {
-	using ScriptLogicCallback = void(*)(Lilliputian::ScriptingAPI*);
+	using ScriptLogicCallback = void(*)(Lilliputian::ScriptingAPI&);
 
 	class Script
 	{

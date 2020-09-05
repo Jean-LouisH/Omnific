@@ -2,5 +2,5 @@
 
 namespace TestGame
 {
-	void compileAll(Lilliputian::ScriptRegistry* scriptRegistry);
+	void compileAll(Lilliputian::ScriptRegistry& scriptRegistry);
 }

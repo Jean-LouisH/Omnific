@@ -1,6 +1,6 @@
-#include "PongClone.hpp"
+#include "Scripts.hpp"
 
-void PongClone::controlPlayer(Lilliputian::ScriptingAPI* API)
+void TestGame::PongClone::controlPlayer(Lilliputian::ScriptingAPI& API)
 {
 
 }

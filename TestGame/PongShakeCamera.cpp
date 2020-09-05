@@ -1,6 +1,6 @@
-#include "PongClone.hpp"
+#include "Scripts.hpp"
 
-void PongClone::shakeCamera(Lilliputian::ScriptingAPI* API)
+void TestGame::PongClone::shakeCamera(Lilliputian::ScriptingAPI& API)
 {
 
 }

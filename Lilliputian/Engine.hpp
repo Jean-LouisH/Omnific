@@ -18,7 +18,7 @@
 
 namespace Lilliputian
 {
-	using ScriptCompilerCallback = void(*)(Lilliputian::ScriptRegistry*);
+	using ScriptCompilerCallback = void(*)(Lilliputian::ScriptRegistry&);
 
 	class Engine
 	{
