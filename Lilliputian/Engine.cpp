@@ -76,6 +76,12 @@ void Lilliputian::Engine::initialize()
 	}
 	else
 	{
+		this->osWindow = new OSWindow(
+			this->gameTitle.c_str(),
+			this->windowHeight,
+			this->windowWidth,
+			this->isStartingFullscreen);
+
 		this->game = new Game(this->osWindow, this->fileSystem, this->profiler);
 
 		for (int i = 0; i < this->scriptCompilerCallbacks.size(); i++)
@@ -83,12 +89,6 @@ void Lilliputian::Engine::initialize()
 			if (this->scriptCompilerCallbacks.at(i) != nullptr)
 				this->scriptCompilerCallbacks.at(i)(this->game->getScriptRegistry());
 		}
-
-		this->osWindow = new OSWindow(
-			this->gameTitle.c_str(),
-			this->windowHeight,
-			this->windowWidth,
-			this->isStartingFullscreen);
 
 		this->audioEngine = new AudioEngine();
 		this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
