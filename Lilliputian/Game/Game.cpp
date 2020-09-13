@@ -10,8 +10,14 @@ Lilliputian::Game::Game(
 	this->profiler = profiler;
 	this->gameAPI = new GameAPI();
 	this->inputAPI = new InputAPI();
-	this->scriptRegistry = new ScriptRegistry(new ScriptingAPI(this->gameAPI, this->inputAPI), &this->scripts);
-	this->activeScenes.emplace(Scene());
+	this->scriptRegistry = new ScriptRegistry(
+		new ScriptingAPI(
+			this->engineAPI, 
+			this->gameAPI, 
+			this->inputAPI, 
+			this->sceneAPI), 
+		&this->scripts);
+	this->activeSceneStack.emplace(Scene());
 	this->sceneLoader = NULL;
 }
 
@@ -19,7 +25,7 @@ void Lilliputian::Game::initialize(String assetsDirectory, String entryScenePath
 {
 	this->sceneLoader = new SceneLoader(assetsDirectory);
 	Scene entryScene = this->sceneLoader->loadScene(entryScenePath.c_str());
-	this->activeScenes.emplace(entryScene);
+	this->activeSceneStack.emplace(entryScene);
 }
 
 void Lilliputian::Game::executeStartLogic()
@@ -34,8 +40,8 @@ void Lilliputian::Game::executeInputLogic()
 
 void Lilliputian::Game::executeFrameLogic()
 {
-	if (this->activeScenes.size() > 0)
-		this->activeScenes.top().executeFrameLogic();
+	if (this->activeSceneStack.size() > 0)
+		this->activeSceneStack.top().executeFrameLogic();
 }
 
 void Lilliputian::Game::executeComputeLogic(unsigned int computeTimeDelta_ms)
@@ -70,5 +76,5 @@ Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()
 
 Lilliputian::Scene* Lilliputian::Game::getActiveScene()
 {
-	return &this->activeScenes.top();
+	return &this->activeSceneStack.top();
 }

@@ -8,6 +8,8 @@
 #include "ScriptRegistry.hpp"
 #include "../UserAPIs/GameAPI.hpp"
 #include "../UserAPIs/InputAPI.hpp"
+#include "../UserAPIs/EngineAPI.hpp"
+#include "../UserAPIs/SceneAPI.hpp"
 #include "SceneLoader.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Stack.hpp"
@@ -22,13 +24,15 @@ namespace Lilliputian
 		OSWindow* osWindow;
 		FileSystem* fileSystem;
 		Profiler* profiler;
+		EngineAPI* engineAPI;
 		GameAPI* gameAPI;
 		InputAPI* inputAPI;
+		SceneAPI* sceneAPI;
 		ScriptRegistry* scriptRegistry;
 		SceneLoader* sceneLoader;
 		Map<String, Script> scripts;
 		Vector<Scene> preloadedScenes;
-		Stack<Scene> activeScenes;
+		Stack<Scene> activeSceneStack;
 	public:
 		Game(
 			OSWindow* osWindow,

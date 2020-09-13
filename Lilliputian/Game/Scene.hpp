@@ -13,10 +13,10 @@ namespace Lilliputian
 	{
 	private:
 		uint64_t entityIDCount = 0;
-		Vector<Stack<SceneLayer2D>> sceneLayer2Ds;
+		Vector<Stack<SceneLayer2D>> sceneLayer2DStacks;
 		Assets assets;
 
-		Stack<SceneLayer2D>* getLastSceneLayer2D();
+		Stack<SceneLayer2D>* getLastSceneLayer2DStack();
 	public:
 		void incrementSceneLayer2D();
 
