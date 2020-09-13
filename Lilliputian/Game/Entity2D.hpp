@@ -8,21 +8,21 @@
 
 namespace Lilliputian
 {
+	enum ComponentType
+	{
+		COMPONENT_TYPE_NONE,
+		COMPONENT_TYPE_ANIMATED_SPRITE_2D,
+		COMPONENT_TYPE_AUDIO_LISTENER_2D,
+		COMPONENT_TYPE_BOX_COLLIDER_2D,
+		COMPONENT_TYPE_CAMERA_2D,
+		COMPONENT_TYPE_PROPERTY_ANIMATION,
+		COMPONENT_TYPE_RIGID_BODY_2D,
+		COMPONENT_TYPE_STREAMED_AUDIO_SOURCE_2D
+	};
+
 	class Entity2D
 	{
 	private:
-		enum ComponentType
-		{
-			COMPONENT_NONE,
-			COMPONENT_ANIMATED_SPRITE_2D,
-			COMPONENT_AUDIO_LISTENER_2D,
-			COMPONENT_BOX_COLLIDER_2D,
-			COMPONENT_CAMERA_2D,
-			COMPONENT_PROPERTY_ANIMATION,
-			COMPONENT_RIGID_BODY_2D,
-			COMPONENT_STREAMED_AUDIO_SOURCE_2D
-		};
-
 		Vector<String> scriptNames;
 		Map<ComponentType, ComponentID> components;
 	public:
@@ -33,13 +33,7 @@ namespace Lilliputian
 
 		void addParentEntity(EntityID parentEntityID);
 		void addChildEntity(EntityID childEntityID);
-		void addAudioListener(ComponentID audioListenerID);
-		void addStreamedAudioSource(ComponentID streamedAudioSourceID);
-		void addBoxCollider(ComponentID boxColliderID);
-		void addCamera(ComponentID cameraID);
-		void addPropertyAnimation(ComponentID propertyAnimationID);
-		void addRigidBody(ComponentID rigidBodyID);
-		void addAnimatedSprite(ComponentID animatedSpriteID);
+		void addComponent(ComponentType type, ComponentID ID);
 		void addScript(String scriptName);
 		Map<ComponentType, ComponentID> getComponents();
 	};
