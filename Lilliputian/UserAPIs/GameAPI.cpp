@@ -4,8 +4,3 @@ Lilliputian::GameAPI::GameAPI()
 {
 
 }
-
-void Lilliputian::GameAPI::quit()
-{
-
-}
