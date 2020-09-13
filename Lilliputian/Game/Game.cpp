@@ -8,14 +8,15 @@ Lilliputian::Game::Game(
 	this->osWindow = osWindow;
 	this->fileSystem = fileSystem;
 	this->profiler = profiler;
-	this->gameAPI = new GameAPI();
 	this->inputAPI = new InputAPI();
 	this->scriptRegistry = new ScriptRegistry(
 		new ScriptingAPI(
-			this->engineAPI, 
-			this->gameAPI, 
+			this->fileAPI,
 			this->inputAPI, 
-			this->sceneAPI), 
+			this->loggingAPI,
+			this->sceneAPI,
+			this->timeAPI,
+			this->windowAPI), 
 		&this->scripts);
 	this->activeSceneStack.emplace(Scene());
 	this->sceneLoader = NULL;

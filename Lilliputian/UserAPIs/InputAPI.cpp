@@ -106,7 +106,47 @@ Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<uint8_t>> Lilliputian:
 	return this->actionInputs;
 }
 
-bool Lilliputian::InputAPI::isKeyPressed(unsigned int keyCode)
+bool Lilliputian::InputAPI::isKeyOnPress(unsigned int keyCode)
 {
 	return false;
+}
+
+bool Lilliputian::InputAPI::isKeyOnDoublePress(unsigned int keyCode, unsigned int timeInterval_ms)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isKeyOnRelease(unsigned int keyCode)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isKeyOnHold(unsigned int keyCode)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isActionOnPress(const char* actionName)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isActionOnDoublePress(const char* actionName, unsigned int timeInterval_ms)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isActionOnRelease(const char* actionName)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isActionOnHold(const char* actionName, unsigned int timeInterval_ms)
+{
+	return false;
+}
+
+float Lilliputian::InputAPI::getAxisStrength(const char* axisActionName)
+{
+	return 0.0;
 }

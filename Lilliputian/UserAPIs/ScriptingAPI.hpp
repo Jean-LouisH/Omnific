@@ -1,30 +1,39 @@
 #pragma once
 
-#include "EngineAPI.hpp"
-#include "GameAPI.hpp"
+#include "FileAPI.hpp"
 #include "InputAPI.hpp"
+#include "LoggingAPI.hpp"
 #include "SceneAPI.hpp"
+#include "TimeAPI.hpp"
+#include "WindowAPI.hpp"
 
 namespace Lilliputian
 {
 	class ScriptingAPI
 	{
 	private:
-		EngineAPI* engineAPI;
-		GameAPI* gameAPI;
+		FileAPI* fileAPI;
 		InputAPI* inputAPI;
+		LoggingAPI* loggingAPI;
 		SceneAPI* sceneAPI;
+		TimeAPI* timeAPI;
+		WindowAPI* windowAPI;
 	public:
 		ScriptingAPI(
-			EngineAPI* engineAPI,
-			GameAPI* gameAPI, 
+			FileAPI* fileAPI,
 			InputAPI* inputAPI,
-			SceneAPI* sceneAPI
+			LoggingAPI* loggingAPI,
+			SceneAPI* sceneAPI,
+			TimeAPI* timeAPI,
+			WindowAPI* windowAPI
 		);
-		EngineAPI& engine() const;
-		GameAPI& game() const;
+
+		FileAPI& file() const;
 		InputAPI& input() const;
+		LoggingAPI& logging() const;
 		SceneAPI& scene() const;
+		TimeAPI& time() const;
+		WindowAPI& window() const;
 	};
 }
 

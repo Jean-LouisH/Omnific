@@ -2,8 +2,8 @@
 
 void TestGame::quitOnEscapeKey(Lilliputian::ScriptingAPI& API)
 {
-	if (API.input().isKeyPressed(API.input().KEY_ESCAPE))
+	if (API.input().isKeyOnPress(API.input().KEY_ESCAPE))
 	{
-		API.engine().quit();
+		API.window().quit();
 	}
 }

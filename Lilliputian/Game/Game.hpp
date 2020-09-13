@@ -6,10 +6,12 @@
 #include "../FileSystem.hpp"
 #include "../Profiler.hpp"
 #include "ScriptRegistry.hpp"
-#include "../UserAPIs/GameAPI.hpp"
+#include "../UserAPIs/FileAPI.hpp"
 #include "../UserAPIs/InputAPI.hpp"
-#include "../UserAPIs/EngineAPI.hpp"
+#include "../UserAPIs/LoggingAPI.hpp"
 #include "../UserAPIs/SceneAPI.hpp"
+#include "../UserAPIs/TimeAPI.hpp"
+#include "../UserAPIs/WindowAPI.hpp"
 #include "SceneLoader.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Stack.hpp"
@@ -24,10 +26,12 @@ namespace Lilliputian
 		OSWindow* osWindow;
 		FileSystem* fileSystem;
 		Profiler* profiler;
-		EngineAPI* engineAPI;
-		GameAPI* gameAPI;
+		FileAPI* fileAPI;
 		InputAPI* inputAPI;
+		LoggingAPI* loggingAPI;
 		SceneAPI* sceneAPI;
+		TimeAPI* timeAPI;
+		WindowAPI* windowAPI;
 		ScriptRegistry* scriptRegistry;
 		SceneLoader* sceneLoader;
 		Map<String, Script> scripts;

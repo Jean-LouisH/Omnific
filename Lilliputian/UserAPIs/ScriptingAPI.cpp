@@ -1,26 +1,25 @@
 #include "ScriptingAPI.hpp"
 
 Lilliputian::ScriptingAPI::ScriptingAPI(
-	EngineAPI* engineAPI,
-	GameAPI* gameAPI,
+	FileAPI* fileAPI,
 	InputAPI* inputAPI,
-	SceneAPI* sceneAPI
+	LoggingAPI* loggingAPI,
+	SceneAPI* sceneAPI,
+	TimeAPI* timeAPI,
+	WindowAPI* windowAPI
 )
 {
-	this->engineAPI = engineAPI;
-	this->gameAPI = gameAPI;
+	this->fileAPI = fileAPI;
 	this->inputAPI = inputAPI;
+	this->loggingAPI = loggingAPI;
 	this->sceneAPI = sceneAPI;
+	this->timeAPI = timeAPI;
+	this->windowAPI = windowAPI;
 }
 
-Lilliputian::EngineAPI& Lilliputian::ScriptingAPI::engine() const
+Lilliputian::FileAPI& Lilliputian::ScriptingAPI::file() const
 {
-	return *this->engineAPI;
-}
-
-Lilliputian::GameAPI& Lilliputian::ScriptingAPI::game() const
-{
-	return *this->gameAPI;
+	return *this->fileAPI;
 }
 
 Lilliputian::InputAPI& Lilliputian::ScriptingAPI::input() const
@@ -28,7 +27,22 @@ Lilliputian::InputAPI& Lilliputian::ScriptingAPI::input() const
 	return *this->inputAPI;
 }
 
+Lilliputian::LoggingAPI& Lilliputian::ScriptingAPI::logging() const
+{
+	return *this->loggingAPI;
+}
+
 Lilliputian::SceneAPI& Lilliputian::ScriptingAPI::scene() const
 {
 	return *this->sceneAPI;
+}
+
+Lilliputian::TimeAPI& Lilliputian::ScriptingAPI::time() const
+{
+	return *this->timeAPI;
+}
+
+Lilliputian::WindowAPI& Lilliputian::ScriptingAPI::window() const
+{
+	return *this->windowAPI;
 }

@@ -154,6 +154,14 @@ namespace Lilliputian
 		void removeActionInput(const char* actionName, uint8_t inputCode);
 		void removeAllActionInputs(const char* actionName);
 		Map<String, Vector<uint8_t>> getActionInputs();
-		bool isKeyPressed(unsigned int keyCode);
+		bool isKeyOnPress(unsigned int keyCode);
+		bool isKeyOnDoublePress(unsigned int keyCode, unsigned int timeInterval_ms);
+		bool isKeyOnRelease(unsigned int keyCode);
+		bool isKeyOnHold(unsigned int keyCode);
+		bool isActionOnPress(const char* actionName);
+		bool isActionOnDoublePress(const char* actionName, unsigned int timeInterval_ms);
+		bool isActionOnRelease(const char* actionName);
+		bool isActionOnHold(const char* actionName, unsigned int timeInterval_ms);
+		float getAxisStrength(const char* axisActionName);
 	};
 }

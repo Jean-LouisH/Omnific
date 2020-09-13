@@ -2,10 +2,10 @@
 
 namespace Lilliputian
 {
-	class GameAPI
+	class LoggingAPI
 	{
 	private:
 	public:
-		GameAPI();
+		LoggingAPI();
 	};
 }

@@ -2,11 +2,10 @@
 
 namespace Lilliputian
 {
-	class EngineAPI
+	class TimeAPI
 	{
 	private:
 	public:
-		EngineAPI();
-		void quit();
+		TimeAPI();
 	};
 }
