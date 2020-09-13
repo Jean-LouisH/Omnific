@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 		"Scenes/SplashScreen.yml"
 	);
 
-	lilliputian.addScriptCompiler(TestGame::compileAll);
+	lilliputian.addScriptCompilerFunction(TestGame::compileAll);
 	lilliputian.run();
 	return 0;
 }

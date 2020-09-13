@@ -16,7 +16,6 @@ Lilliputian::Engine::Engine(
 	this->physicsEngine = NULL;
 	this->renderingEngine = NULL;
 	this->osWindow = NULL;
-	this->platform = NULL;
 	this->profiler = new Profiler();
 	this->fileSystem = new FileSystem(argv[0]);
 	this->frameCount = 0;
@@ -184,7 +183,7 @@ void Lilliputian::Engine::setFullscreenStart(bool value)
 	this->isStartingFullscreen = value;
 }
 
-void Lilliputian::Engine::addScriptCompiler(ScriptCompilerCallback scriptCompilerCallback)
+void Lilliputian::Engine::addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback)
 {
 	this->scriptCompilerCallbacks.push_back(scriptCompilerCallback);
 }

@@ -11,7 +11,6 @@
 #include "Engines/PhysicsEngine/PhysicsEngine.hpp"
 #include "Engines/RenderingEngine/RenderingEngine.hpp"
 #include "OSWindow.hpp"
-#include "Platform.hpp"
 #include "EngineState.hpp"
 #include "Profiler.hpp"
 #include "FileSystem.hpp"
@@ -32,7 +31,6 @@ namespace Lilliputian
 		PhysicsEngine* physicsEngine;
 		RenderingEngine* renderingEngine;
 		OSWindow* osWindow;
-		Platform* platform;
 		Profiler* profiler;
 		FileSystem* fileSystem;
 		uint64_t frameCount;
@@ -71,7 +69,7 @@ namespace Lilliputian
 		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		void setTargetFPS(uint32_t targetFPS);
 		void setFullscreenStart(bool value);
-		void addScriptCompiler(ScriptCompilerCallback scriptCompilerCallback);
+		void addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback);
 	};
 }
 
