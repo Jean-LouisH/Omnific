@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Utilities/Collections/Map.hpp"
-#include "../Game/Script.hpp"
+#include "../Game/Scene/Script.hpp"
 #include "../UserAPIs/ScriptingAPI.hpp"
 #include "../Utilities/String.hpp"
 

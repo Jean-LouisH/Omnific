@@ -2,7 +2,7 @@
 
 #include <SDL_mixer.h>
 #include "../../Utilities/Collections/Queue.hpp"
-#include "../../Game/Scene.hpp"
+#include "../../Game/Scene/Scene.hpp"
 
 namespace Lilliputian
 {

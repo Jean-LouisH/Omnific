@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "../../Game/Scene.hpp"
+#include "../../Game/Scene/Scene.hpp"
 #include "../../Utilities/Collections/Vector.hpp"
 #include "RenderingSDL/SDLRenderable.hpp"
 

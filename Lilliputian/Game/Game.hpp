@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "Scene.hpp"
+#include "Scene/Scene.hpp"
 #include "../OSWindow.hpp"
 #include "../FileSystem.hpp"
 #include "../Profiler.hpp"

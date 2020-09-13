@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Game/Scene.hpp"
+#include "../../Game/Scene/Scene.hpp"
 #include <SDL.h>
 #include "../../Utilities/Collections/Vector.hpp"
 

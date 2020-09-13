@@ -8,9 +8,9 @@
 #include "Camera2D.hpp"
 #include "PropertyAnimation.hpp"
 #include "RigidBody2D.hpp"
-#include "../Utilities/Rectangle.hpp"
-#include "../Utilities/Collections/Vector.hpp"
-#include "../Utilities/Collections/Map.hpp"
+#include "../../Utilities/Rectangle.hpp"
+#include "../../Utilities/Collections/Vector.hpp"
+#include "../../Utilities/Collections/Map.hpp"
 
 namespace Lilliputian
 {

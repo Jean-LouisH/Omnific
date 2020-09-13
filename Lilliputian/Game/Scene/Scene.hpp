@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../Utilities/Collections/Vector.hpp"
-#include "../Utilities/Collections/Stack.hpp"
-#include "../Utilities/Collections/Queue.hpp"
-#include "../Utilities/Collections/Map.hpp"
-#include "Assets.hpp"
+#include "../../Utilities/Collections/Vector.hpp"
+#include "../../Utilities/Collections/Stack.hpp"
+#include "../../Utilities/Collections/Queue.hpp"
+#include "../../Utilities/Collections/Map.hpp"
+#include "Assets/Assets.hpp"
 #include "SceneLayer2D.hpp"
 
 namespace Lilliputian

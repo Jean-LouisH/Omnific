@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Utilities/Aliases.hpp"
-#include "../Utilities/Collections/Vector.hpp"
-#include "../Utilities/Constants.hpp"
-#include "Texture.hpp"
+#include "../../Utilities/Aliases.hpp"
+#include "../../Utilities/Collections/Vector.hpp"
+#include "../../Utilities/Constants.hpp"
+#include "Assets/Texture.hpp"
 
 namespace Lilliputian
 {

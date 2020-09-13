@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Utilities/Aliases.hpp"
+#include "../../../Utilities/Aliases.hpp"
 #include <SDL_mixer.h>
 
 namespace Lilliputian
