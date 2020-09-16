@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../../UserAPIs/ScriptingAPI.hpp"
+#include "../../ScriptingAPIs/ScriptingAPIs.hpp"
 #include "../../Utilities/String.hpp"
 
 namespace Lilliputian
 {
-	using ScriptLogicCallback = void(*)(Lilliputian::ScriptingAPI&);
+	using ScriptLogicCallback = void(*)(Lilliputian::ScriptingAPIs&);
 
 	class Script
 	{
 	private:
-		ScriptingAPI* scriptingAPI;
+		ScriptingAPIs* scriptingAPIs;
 
 		ScriptLogicCallback startLogic;
 		ScriptLogicCallback inputLogic;
@@ -19,7 +19,7 @@ namespace Lilliputian
 		ScriptLogicCallback lateLogic;
 		ScriptLogicCallback finalLogic;
 	public:
-		Script(ScriptingAPI* scriptingAPI, const char* scriptName);
+		Script(ScriptingAPIs* scriptingAPI, const char* scriptName);
 
 		String name;
 

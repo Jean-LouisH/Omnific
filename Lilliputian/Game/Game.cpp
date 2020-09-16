@@ -8,15 +8,9 @@ Lilliputian::Game::Game(
 	this->osWindow = osWindow;
 	this->fileSystem = fileSystem;
 	this->profiler = profiler;
-	this->inputAPI = new InputAPI();
+	this->scriptingAPIs = new ScriptingAPIs();
 	this->scriptRegistry = new ScriptRegistry(
-		new ScriptingAPI(
-			this->fileAPI,
-			this->inputAPI, 
-			this->loggingAPI,
-			this->sceneAPI,
-			this->timeAPI,
-			this->windowAPI), 
+		this->scriptingAPIs,
 		&this->scripts);
 	this->activeSceneStack.emplace(Scene());
 	this->sceneLoader = NULL;
@@ -63,11 +57,6 @@ void Lilliputian::Game::executeFinalLogic()
 void Lilliputian::Game::deinitialize()
 {
 
-}
-
-Lilliputian::InputAPI& Lilliputian::Game::getInputAPI()
-{
-	return *this->inputAPI;
 }
 
 Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()

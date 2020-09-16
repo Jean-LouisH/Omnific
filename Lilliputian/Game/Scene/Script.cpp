@@ -1,8 +1,8 @@
 #include "Script.hpp"
 
-Lilliputian::Script::Script(ScriptingAPI* scriptingAPI, const char* scriptName)
+Lilliputian::Script::Script(ScriptingAPIs* scriptingAPIs, const char* scriptName)
 {
-	this->scriptingAPI = scriptingAPI;
+	this->scriptingAPIs = scriptingAPIs;
 	this->name = scriptName;
 
 	this->startLogic = nullptr;
@@ -45,35 +45,35 @@ void Lilliputian::Script::addFinalLogic(ScriptLogicCallback finalLogic)
 void Lilliputian::Script::executeStartLogic()
 {
 	if (this->startLogic != nullptr)
-		this->startLogic(*this->scriptingAPI);
+		this->startLogic(*this->scriptingAPIs);
 }
 
 void Lilliputian::Script::executeInputLogic()
 {
 	if (this->inputLogic != nullptr)
-		this->inputLogic(*this->scriptingAPI);
+		this->inputLogic(*this->scriptingAPIs);
 }
 
 void Lilliputian::Script::executeFrameLogic()
 {
 	if (this->frameLogic != nullptr)
-		this->frameLogic(*this->scriptingAPI);
+		this->frameLogic(*this->scriptingAPIs);
 }
 
 void Lilliputian::Script::executeComputeLogic()
 {
 	if (this->computeLogic != nullptr)
-		this->computeLogic(*this->scriptingAPI);
+		this->computeLogic(*this->scriptingAPIs);
 }
 
 void Lilliputian::Script::executeLateLogic()
 {
 	if (this->lateLogic != nullptr)
-		this->lateLogic(*this->scriptingAPI);
+		this->lateLogic(*this->scriptingAPIs);
 }
 
 void Lilliputian::Script::executeFinalLogic()
 {
 	if (this->finalLogic != nullptr)
-		this->finalLogic(*this->scriptingAPI);
+		this->finalLogic(*this->scriptingAPIs);
 }

@@ -1,14 +1,14 @@
 #include "ScriptRegistry.hpp"
 
-Lilliputian::ScriptRegistry::ScriptRegistry(ScriptingAPI* scriptingAPI, Map<String, Script>* scripts)
+Lilliputian::ScriptRegistry::ScriptRegistry(ScriptingAPIs* scriptingAPIs, Map<String, Script>* scripts)
 {
-	this->scriptingAPI = scriptingAPI;
+	this->scriptingAPIs = scriptingAPIs;
 	this->scripts = scripts;
 }
 
 Lilliputian::Script Lilliputian::ScriptRegistry::createNewScript(const char* scriptName)
 {
-	return Script(this->scriptingAPI, scriptName);
+	return Script(this->scriptingAPIs, scriptName);
 }
 
 void Lilliputian::ScriptRegistry::linkScript(Script script)

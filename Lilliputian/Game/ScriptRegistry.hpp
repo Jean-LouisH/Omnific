@@ -2,7 +2,7 @@
 
 #include "../Utilities/Collections/Map.hpp"
 #include "../Game/Scene/Script.hpp"
-#include "../UserAPIs/ScriptingAPI.hpp"
+#include "../ScriptingAPIs/ScriptingAPIs.hpp"
 #include "../Utilities/String.hpp"
 
 namespace Lilliputian
@@ -10,10 +10,10 @@ namespace Lilliputian
 	class ScriptRegistry
 	{
 	private:
-		ScriptingAPI* scriptingAPI;
+		ScriptingAPIs* scriptingAPIs;
 		Map<String, Script>* scripts;
 	public:
-		ScriptRegistry(ScriptingAPI* scriptingAPI, Map<String, Script>* scripts);
+		ScriptRegistry(ScriptingAPIs* scriptingAPIs, Map<String, Script>* scripts);
 		Script createNewScript(const char* scriptName);
 		void linkScript(Script script);
 	};

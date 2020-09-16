@@ -6,12 +6,7 @@
 #include "../FileSystem.hpp"
 #include "../Profiler.hpp"
 #include "ScriptRegistry.hpp"
-#include "../UserAPIs/FileAPI.hpp"
-#include "../UserAPIs/InputAPI.hpp"
-#include "../UserAPIs/LoggingAPI.hpp"
-#include "../UserAPIs/SceneAPI.hpp"
-#include "../UserAPIs/TimeAPI.hpp"
-#include "../UserAPIs/WindowAPI.hpp"
+#include "../ScriptingAPIs/ScriptingAPIs.hpp"
 #include "SceneLoader.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Stack.hpp"
@@ -26,12 +21,7 @@ namespace Lilliputian
 		OSWindow* osWindow;
 		FileSystem* fileSystem;
 		Profiler* profiler;
-		FileAPI* fileAPI;
-		InputAPI* inputAPI;
-		LoggingAPI* loggingAPI;
-		SceneAPI* sceneAPI;
-		TimeAPI* timeAPI;
-		WindowAPI* windowAPI;
+		ScriptingAPIs* scriptingAPIs;
 		ScriptRegistry* scriptRegistry;
 		SceneLoader* sceneLoader;
 		Map<String, Script> scripts;
@@ -50,7 +40,6 @@ namespace Lilliputian
 		void executeLateLogic();
 		void executeFinalLogic();
 		void deinitialize();
-		InputAPI& getInputAPI();
 		ScriptRegistry& getScriptRegistry();
 		Scene* getActiveScene();
 	};

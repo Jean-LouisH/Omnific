@@ -2,15 +2,15 @@
 
 namespace TestGame
 {
-	void quitOnEscapeKey(Lilliputian::ScriptingAPI& API);
-	void returnToMainMenu(Lilliputian::ScriptingAPI& API);
+	void quitOnEscapeKey(Lilliputian::ScriptingAPIs& APIs);
+	void returnToMainMenu(Lilliputian::ScriptingAPIs& APIs);
 
 	namespace PongClone
 	{
-		void controlAI(Lilliputian::ScriptingAPI& API);
-		void controlPlayer(Lilliputian::ScriptingAPI& API);
-		void generateBall(Lilliputian::ScriptingAPI& API);
-		void manageScore(Lilliputian::ScriptingAPI& API);
-		void shakeCamera(Lilliputian::ScriptingAPI& API);
+		void controlAI(Lilliputian::ScriptingAPIs& APIs);
+		void controlPlayer(Lilliputian::ScriptingAPIs& APIs);
+		void generateBall(Lilliputian::ScriptingAPIs& APIs);
+		void manageScore(Lilliputian::ScriptingAPIs& APIs);
+		void shakeCamera(Lilliputian::ScriptingAPIs& APIs);
 	}
 }

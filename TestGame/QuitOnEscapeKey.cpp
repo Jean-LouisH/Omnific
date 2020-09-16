@@ -1,9 +1,9 @@
 #include "Scripts.hpp"
 
-void TestGame::quitOnEscapeKey(Lilliputian::ScriptingAPI& API)
+void TestGame::quitOnEscapeKey(Lilliputian::ScriptingAPIs& APIs)
 {
-	if (API.input().isKeyOnPress(API.input().KEY_ESCAPE))
+	if (APIs.input().isKeyOnPress(APIs.input().KEY_ESCAPE))
 	{
-		API.window().quit();
+		APIs.window().quit();
 	}
 }
