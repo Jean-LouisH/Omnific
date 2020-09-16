@@ -3,8 +3,13 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-# Add source to this project's executable.
-add_executable (TestGame "main.cpp" "QuitOnEscapeKey.cpp" "ReturnToMainMenu.cpp" "PongGenerateBall.cpp"  "PongManageScore.cpp" "PongShakeCamera.cpp" "PongControlPlayer.cpp" "PongControlAI.cpp" "ScriptCompiler.hpp" "ScriptCompiler.cpp" "Scripts.hpp")
+file(GLOB_RECURSE test_game_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE test_game_headers "[a-zA-Z]*.hpp")
+
+add_executable(TestGame 
+	  ${test_game_sources}
+	  ${test_game_headers}
+)
 
 include_directories(
 		"../Lilliputian"
