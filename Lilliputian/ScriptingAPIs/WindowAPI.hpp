@@ -6,7 +6,6 @@ namespace Lilliputian
 	{
 	private:
 	public:
-		WindowAPI();
 		void quit();
 	};
 }

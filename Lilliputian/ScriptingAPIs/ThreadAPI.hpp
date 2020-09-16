@@ -2,7 +2,7 @@
 
 namespace Lilliputian
 {
-	class LogAPI
+	class ThreadAPI
 	{
 	private:
 	public:

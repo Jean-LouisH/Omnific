@@ -6,6 +6,5 @@ namespace Lilliputian
 	{
 	private:
 	public:
-		FileAPI();
 	};
 }
