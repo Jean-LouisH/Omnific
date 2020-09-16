@@ -11,9 +11,11 @@
 #include "Engines/PhysicsEngine/PhysicsEngine.hpp"
 #include "Engines/RenderingEngine/RenderingEngine.hpp"
 #include "OSWindow.hpp"
+#include "EngineConfiguration.hpp"
 #include "EngineState.hpp"
 #include "Profiler.hpp"
 #include "FileSystem.hpp"
+#include "ThreadPool.hpp"
 
 namespace Lilliputian
 {
@@ -23,26 +25,19 @@ namespace Lilliputian
 	{
 	private:
 		Vector<ScriptCompilerCallback> scriptCompilerCallbacks;
-		Game* game;
-		AIEngine* aiEngine;
-		AnimationEngine* animationEngine;
-		AudioEngine* audioEngine;
-		HapticEngine* hapticEngine;
-		PhysicsEngine* physicsEngine;
-		RenderingEngine* renderingEngine;
-		OSWindow* osWindow;
-		Profiler* profiler;
-		FileSystem* fileSystem;
-		uint64_t frameCount;
-		uint16_t FPS;
+		Game* game = NULL;
+		AIEngine* aiEngine = NULL;
+		AnimationEngine* animationEngine = NULL;
+		AudioEngine* audioEngine = NULL;
+		HapticEngine* hapticEngine = NULL;
+		PhysicsEngine* physicsEngine = NULL;
+		RenderingEngine* renderingEngine = NULL;
+		OSWindow* osWindow = NULL;
+		Profiler* profiler = NULL;
+		ThreadPool* threadPool = NULL;
+		FileSystem* fileSystem = NULL;
+		EngineConfiguration configuration;
 		EngineState state;
-		uint32_t msPerComputeUpdate;
-		uint32_t targetFPS;
-		String gameTitle;
-		uint16_t windowHeight;
-		uint16_t windowWidth;
-		String entryScenePath;
-		bool isStartingFullscreen;
 
 		void setGameTitle(const char* gameTitle);
 		void setEntryScene(const char* entryScenePath);
