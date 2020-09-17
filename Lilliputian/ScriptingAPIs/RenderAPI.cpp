@@ -2,7 +2,7 @@
 
 Lilliputian::Image Lilliputian::RenderAPI::captureScreenshot()
 {
-	Image image;
+	Image image("");
 	return image;
 }
 
