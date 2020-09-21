@@ -5,6 +5,7 @@
 #include "../../Utilities/Collections/Vector.hpp"
 #include "../../Utilities/Transform2D.hpp"
 #include "../../Utilities/Constants.hpp"
+#include "../../Utilities/String.hpp"
 
 namespace Lilliputian
 {
@@ -49,6 +50,7 @@ namespace Lilliputian
 		EntityID id = NO_ENTITY;
 		EntityID parentEntity = NO_ENTITY;
 		Vector<EntityID> childrenEntities;
+		Vector<String> tags;
 
 		void addParentEntity(EntityID parentEntityID);
 		void addChildEntity(EntityID childEntityID);
