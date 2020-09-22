@@ -11,6 +11,7 @@
 #include "../../Utilities/Rectangle.hpp"
 #include "../../Utilities/Collections/Vector.hpp"
 #include "../../Utilities/Collections/Map.hpp"
+#include "../../Utilities/Aliases.hpp"
 
 namespace Lilliputian
 {
@@ -26,6 +27,7 @@ namespace Lilliputian
 		Vector<RigidBody2D> rigidBodies2D;
 		Vector<AnimatedSprite2D> animatedSprites2D;
 		Rectangle windowDimensions;
+		ComponentID currentCamera = 0;
 	public:
 		SceneLayer2D()
 		{
