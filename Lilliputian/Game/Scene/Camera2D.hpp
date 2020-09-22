@@ -13,6 +13,8 @@ namespace Lilliputian
 	public:
 		EntityID entityID = NO_ENTITY;
 		Rectangle viewport_px;
-		Vector2 offset_px;
+
+		void setViewportWidth(uint32_t width_px);
+		void setViewportHeight(uint32_t height_px);
 	};
 }
