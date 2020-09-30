@@ -38,12 +38,12 @@ void Lilliputian::Engine::run()
 
 		while (this->state.isRunning())
 		{
-			this->profiler->process.setStart();
+			this->profiler->process().setStart();
 			this->input();
 			this->logic();
 			this->compute();
 			this->output();
-			this->profiler->process.setEnd();
+			this->profiler->process().setEnd();
 			this->sleep();
 			this->profiler->frameCount++;
 		}
@@ -126,8 +126,8 @@ void Lilliputian::Engine::output()
 void Lilliputian::Engine::sleep()
 {
 	float targetFrameTime_ms = 1000.0 / this->configuration.targetFPS;
-	float ProcessTime_ms = this->profiler->process.getDelta_ns() / 1000.0;
-	this->osWindow->sleep(targetFrameTime_ms - ProcessTime_ms);
+	float processTime_ms = this->profiler->process().getDelta_ns() / 1000.0;
+	this->osWindow->sleep(targetFrameTime_ms - processTime_ms);
 }
 
 void Lilliputian::Engine::shutdown()

@@ -7,8 +7,10 @@ namespace Lilliputian
 {
 	class Profiler
 	{
+	private:
+		HiResTimer processTimer;
 	public:
-		HiResTimer process;
+		HiResTimer& process();
 		uint64_t lag_ms = 0;
 		uint64_t frameCount = 0;
 		uint16_t FPS = 0;
