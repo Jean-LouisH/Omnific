@@ -16,7 +16,7 @@ namespace Lilliputian
 	public:
 		AudioEngine();
 		~AudioEngine();
-		void process(Scene* scene);
+		void process(Scene& scene);
 	};
 }
 

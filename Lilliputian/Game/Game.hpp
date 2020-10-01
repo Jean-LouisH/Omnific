@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 #include "Scene/Scene.hpp"
-#include "../OSWindow.hpp"
-#include "../FileSystem.hpp"
+#include "../OS.hpp"
+#include "../FileAccess.hpp"
 #include "../Profiler.hpp"
 #include "ScriptRegistry.hpp"
 #include "../ScriptingAPIs/ScriptingAPIs.hpp"
@@ -18,8 +18,7 @@ namespace Lilliputian
 	class Game
 	{
 	private:
-		OSWindow* osWindow;
-		FileSystem* fileSystem;
+		OS* os;
 		Profiler* profiler;
 		ScriptingAPIs* scriptingAPIs;
 		ScriptRegistry* scriptRegistry;
@@ -29,8 +28,7 @@ namespace Lilliputian
 		Stack<Scene> activeSceneStack;
 	public:
 		Game(
-			OSWindow* osWindow,
-			FileSystem* fileSystem,
+			OS* os,
 			Profiler* profiler);
 		void initialize(String assetsDirectory, String entryScenePath);
 		void executeStartLogic();
@@ -41,6 +39,6 @@ namespace Lilliputian
 		void executeFinalLogic();
 		void deinitialize();
 		ScriptRegistry& getScriptRegistry();
-		Scene* getActiveScene();
+		Scene& getActiveScene();
 	};
 }

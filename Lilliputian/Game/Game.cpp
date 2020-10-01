@@ -1,12 +1,10 @@
 #include "Game.hpp"
 
 Lilliputian::Game::Game(
-	OSWindow* osWindow,
-	FileSystem* fileSystem,
+	OS* os,
 	Profiler* profiler)
 {
-	this->osWindow = osWindow;
-	this->fileSystem = fileSystem;
+	this->os = os;
 	this->profiler = profiler;
 	this->scriptingAPIs = new ScriptingAPIs();
 	this->scriptRegistry = new ScriptRegistry(
@@ -64,7 +62,7 @@ Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()
 	return *this->scriptRegistry;
 }
 
-Lilliputian::Scene* Lilliputian::Game::getActiveScene()
+Lilliputian::Scene& Lilliputian::Game::getActiveScene()
 {
-	return &this->activeSceneStack.top();
+	return this->activeSceneStack.top();
 }

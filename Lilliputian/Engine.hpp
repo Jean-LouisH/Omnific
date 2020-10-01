@@ -10,11 +10,10 @@
 #include "Engines/HapticEngine/HapticEngine.hpp"
 #include "Engines/PhysicsEngine/PhysicsEngine.hpp"
 #include "Engines/RenderingEngine/RenderingEngine.hpp"
-#include "OSWindow.hpp"
+#include "OS.hpp"
 #include "EngineConfiguration.hpp"
 #include "EngineState.hpp"
 #include "Profiler.hpp"
-#include "FileSystem.hpp"
 #include "ThreadPool.hpp"
 
 namespace Lilliputian
@@ -32,12 +31,13 @@ namespace Lilliputian
 		HapticEngine* hapticEngine = NULL;
 		PhysicsEngine* physicsEngine = NULL;
 		RenderingEngine* renderingEngine = NULL;
-		OSWindow* osWindow = NULL;
+		OS* os = NULL;
 		Profiler* profiler = NULL;
 		ThreadPool* threadPool = NULL;
-		FileSystem* fileSystem = NULL;
 		EngineConfiguration configuration;
 		EngineState state;
+
+		char** commandArguments = nullptr;
 
 		void setGameTitle(const char* gameTitle);
 		void setEntryScene(const char* entryScenePath);

@@ -20,11 +20,11 @@ void Lilliputian::HapticEngine::rumble(Vector<SDL_Haptic*> haptics)
 }
 
 void Lilliputian::HapticEngine::process(
-	Scene* scene,
-	Vector<SDL_Haptic*> haptics)
+	Scene& scene,
+	HumanInterfaceDevices& hid)
 {
 	//Todo: Populate requests from scene
 
-	this->rumble(haptics);
+	this->rumble(hid.getHaptics());
 	hapticRequests.clear();
 }

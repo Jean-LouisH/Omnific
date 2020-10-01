@@ -3,6 +3,7 @@
 #include "../../Game/Scene/Scene.hpp"
 #include <SDL.h>
 #include "../../Utilities/Collections/Vector.hpp"
+#include "../../HumanInterfaceDevices.hpp"
 
 namespace Lilliputian
 {
@@ -21,7 +22,7 @@ namespace Lilliputian
 		void rumble(Vector<SDL_Haptic*> haptics);
 	public:
 		HapticEngine();
-		void process(Scene* scene, Vector<SDL_Haptic*> haptics);
+		void process(Scene& scene, HumanInterfaceDevices& hid);
 	};
 }
 

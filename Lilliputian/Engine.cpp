@@ -10,7 +10,7 @@ Lilliputian::Engine::Engine(
 {
 	this->profiler = new Profiler();
 	this->threadPool = new ThreadPool();
-	this->fileSystem = new FileSystem(argv[0]);
+	this->commandArguments = argv;
 	this->configuration.msPerComputeUpdate = 8;
 	this->configuration.targetFPS = 60;
 	this->configuration.windowHeight = 640;
@@ -32,7 +32,7 @@ void Lilliputian::Engine::run()
 	do
 	{
 		this->initialize();
-		this->game->initialize(this->fileSystem->getExecutableName() + "_Assets/", this->configuration.entryScenePath);
+		this->game->initialize(this->os->fileAccess().getExecutableName() + "_Assets/", this->configuration.entryScenePath);
 
 		this->state.setRunningApplicationWindowed();
 
@@ -66,13 +66,14 @@ void Lilliputian::Engine::initialize()
 	}
 	else
 	{
-		this->osWindow = new OSWindow(
+		this->os = new OS(
 			this->configuration.gameTitle.c_str(),
 			this->configuration.windowHeight,
 			this->configuration.windowWidth,
-			this->configuration.isStartingFullscreen);
+			this->configuration.isStartingFullscreen,
+			this->commandArguments[0]);
 
-		this->game = new Game(this->osWindow, this->fileSystem, this->profiler);
+		this->game = new Game(this->os, this->profiler);
 
 		for (int i = 0; i < this->scriptCompilerCallbacks.size(); i++)
 		{
@@ -85,15 +86,15 @@ void Lilliputian::Engine::initialize()
 		this->audioEngine = new AudioEngine();
 		this->hapticEngine = new HapticEngine();
 		this->physicsEngine = new PhysicsEngine();
-		this->renderingEngine = new RenderingEngine(this->osWindow->getSDLWindow());
+		this->renderingEngine = new RenderingEngine(this->os->window());
 	}
 }
 
 void Lilliputian::Engine::input()
 {
-	this->osWindow->detectGameControllers();
-	this->osWindow->pollInputEvents();
-	if (this->osWindow->hasRequestedShutdown())
+	this->os->hid().detectGameControllers();
+	this->os->hid().pollInputEvents();
+	if (this->os->hid().hasRequestedShutdown())
 		this->state.setShuttingDown();
 }
 
@@ -120,19 +121,19 @@ void Lilliputian::Engine::output()
 		this->audioEngine->process(this->game->getActiveScene());
 
 	if (this->hapticEngine != NULL)
-		this->hapticEngine->process(this->game->getActiveScene(), this->osWindow->getHaptics());
+		this->hapticEngine->process(this->game->getActiveScene(), this->os->hid());
 }
 
 void Lilliputian::Engine::sleep()
 {
 	float targetFrameTime_ms = 1000.0 / this->configuration.targetFPS;
 	float processTime_ms = this->profiler->process().getDelta_ns() / 1000.0;
-	this->osWindow->sleep(targetFrameTime_ms - processTime_ms);
+	this->os->window().sleep(targetFrameTime_ms - processTime_ms);
 }
 
 void Lilliputian::Engine::shutdown()
 {
-	delete this->osWindow;
+	delete this->os;
 	delete this->game;
 	delete this->aiEngine;
 	delete this->animationEngine;

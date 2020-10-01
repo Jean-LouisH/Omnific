@@ -2,11 +2,11 @@
 #include "RenderingSDL/RenderingSDL.hpp"
 #include <SDL_image.h>
 
-Lilliputian::RenderingEngine::RenderingEngine(SDL_Window* sdlWindow)
+Lilliputian::RenderingEngine::RenderingEngine(Window& window)
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
-	this->sdlWindow = sdlWindow;
+	this->sdlWindow = window.getSDLWindow();
 	this->sdlRenderer = SDL_CreateRenderer(
 		sdlWindow,
 		-1,
@@ -37,7 +37,7 @@ void Lilliputian::RenderingEngine::render()
 	SDL_RenderPresent(this->sdlRenderer);
 }
 
-void Lilliputian::RenderingEngine::process(Scene* scene)
+void Lilliputian::RenderingEngine::process(Scene& scene)
 {
 	Vector<SDL::Rendering2D::Sprite2D> sprite2Ds;
 	SDL::Rendering2D::Camera2D camera2D;
