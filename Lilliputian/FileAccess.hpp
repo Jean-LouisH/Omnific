@@ -4,13 +4,12 @@
 
 namespace Lilliputian
 {
-	class FileSystem
+	class FileAccess
 	{
 	private:
-		String filepath;
+		String executableFilepath;
 	public:
-		FileSystem(const char* filepath);
-		void setFilePath(const char* filepath);
+		FileAccess(const char* executableFilepath);
 		String getFilePath();
 		String getExecutableName();
 	};
