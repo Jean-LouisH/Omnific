@@ -6,13 +6,11 @@
 
 namespace Lilliputian
 {
-	class OSWindowInputs
+	class HumanInterfaceDevices
 	{
-	private:
-	public:
 		using ControllerButtonCode = Uint8;
 		using ControllerAxisCode = Uint8;
-
+	private:
 		Multimap<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
 		Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
 		Multimap<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
@@ -21,6 +19,16 @@ namespace Lilliputian
 		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };
 		SDL_WindowEvent windowEvent = { 0 };
 
+		Vector<SDL_GameController*> gameControllers;
+		Vector<SDL_Haptic*> haptics;
+
+		bool shutdownRequest = false;
 		void clear();
+	public:
+		void detectGameControllers();
+		void pollInputEvents();
+		bool hasRequestedShutdown();
+
+		Vector<SDL_Haptic*> getHaptics();
 	};
 }
