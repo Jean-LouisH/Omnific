@@ -2,7 +2,7 @@
 
 namespace Lilliputian
 {
-	class AIEngine
+	class AISystem
 	{
 	private:
 	public:

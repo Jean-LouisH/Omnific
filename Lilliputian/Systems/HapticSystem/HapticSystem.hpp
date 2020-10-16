@@ -7,7 +7,7 @@
 
 namespace Lilliputian
 {
-	class HapticEngine
+	class HapticSystem
 	{
 	private:
 		typedef struct HapticRequest
@@ -21,7 +21,7 @@ namespace Lilliputian
 
 		void rumble(Vector<SDL_Haptic*> haptics);
 	public:
-		HapticEngine();
+		HapticSystem();
 		void process(Scene& scene, HumanInterfaceDevices& hid);
 	};
 }

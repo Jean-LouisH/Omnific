@@ -1,12 +1,12 @@
-#include "HapticEngine.hpp"
+#include "HapticSystem.hpp"
 #include <SDL.h>
 
-Lilliputian::HapticEngine::HapticEngine()
+Lilliputian::HapticSystem::HapticSystem()
 {
 	hapticRequests.reserve(8);
 }
 
-void Lilliputian::HapticEngine::rumble(Vector<SDL_Haptic*> haptics)
+void Lilliputian::HapticSystem::rumble(Vector<SDL_Haptic*> haptics)
 {
 	for (int i = 0; i < this->hapticRequests.size(); i++)
 	{
@@ -19,7 +19,7 @@ void Lilliputian::HapticEngine::rumble(Vector<SDL_Haptic*> haptics)
 	}
 }
 
-void Lilliputian::HapticEngine::process(
+void Lilliputian::HapticSystem::process(
 	Scene& scene,
 	HumanInterfaceDevices& hid)
 {

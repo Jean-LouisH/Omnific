@@ -81,12 +81,12 @@ void Lilliputian::Engine::initialize()
 				this->scriptCompilerCallbacks.at(i)(this->game->getScriptRegistry());
 		}
 
-		this->aiEngine = new AIEngine();
-		this->animationEngine = new AnimationEngine();
-		this->audioEngine = new AudioEngine();
-		this->hapticEngine = new HapticEngine();
-		this->physicsEngine = new PhysicsEngine();
-		this->renderingEngine = new RenderingEngine(this->os->window());
+		this->aiSystem = new AISystem();
+		this->animationSystem = new AnimationSystem();
+		this->audioSystem = new AudioSystem();
+		this->hapticSystem = new HapticSystem();
+		this->physicsSystem = new PhysicsSystem();
+		this->renderingSystem = new RenderingSystem(this->os->window());
 	}
 }
 
@@ -114,14 +114,14 @@ void Lilliputian::Engine::compute()
 
 void Lilliputian::Engine::output()
 {
-	if (this->renderingEngine != NULL)
-		this->renderingEngine->process(this->game->getActiveScene());
+	if (this->renderingSystem != NULL)
+		this->renderingSystem->process(this->game->getActiveScene());
 
-	if (this->audioEngine != NULL)
-		this->audioEngine->process(this->game->getActiveScene());
+	if (this->audioSystem != NULL)
+		this->audioSystem->process(this->game->getActiveScene());
 
-	if (this->hapticEngine != NULL)
-		this->hapticEngine->process(this->game->getActiveScene(), this->os->hid());
+	if (this->hapticSystem != NULL)
+		this->hapticSystem->process(this->game->getActiveScene(), this->os->hid());
 }
 
 void Lilliputian::Engine::sleep()
@@ -135,12 +135,12 @@ void Lilliputian::Engine::shutdown()
 {
 	delete this->os;
 	delete this->game;
-	delete this->aiEngine;
-	delete this->animationEngine;
-	delete this->audioEngine;
-	delete this->hapticEngine;
-	delete this->physicsEngine;
-	delete this->renderingEngine;
+	delete this->aiSystem;
+	delete this->animationSystem;
+	delete this->audioSystem;
+	delete this->hapticSystem;
+	delete this->physicsSystem;
+	delete this->renderingSystem;
 	delete this->profiler;
 }
 

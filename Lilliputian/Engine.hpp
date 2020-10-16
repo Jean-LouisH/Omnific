@@ -4,12 +4,12 @@
 #include "Utilities/String.hpp"
 #include "Game/Game.hpp"
 #include "Game/ScriptRegistry.hpp"
-#include "Engines/AIEngine/AIEngine.hpp"
-#include "Engines/AnimationEngine/AnimationEngine.hpp"
-#include "Engines/AudioEngine/AudioEngine.hpp"
-#include "Engines/HapticEngine/HapticEngine.hpp"
-#include "Engines/PhysicsEngine/PhysicsEngine.hpp"
-#include "Engines/RenderingEngine/RenderingEngine.hpp"
+#include "Systems/AISystem/AISystem.hpp"
+#include "Systems/AnimationSystem/AnimationSystem.hpp"
+#include "Systems/AudioSystem/AudioSystem.hpp"
+#include "Systems/HapticSystem/HapticSystem.hpp"
+#include "Systems/PhysicsSystem/PhysicsSystem.hpp"
+#include "Systems/RenderingSystem/RenderingSystem.hpp"
 #include "OS.hpp"
 #include "EngineConfiguration.hpp"
 #include "EngineState.hpp"
@@ -25,12 +25,12 @@ namespace Lilliputian
 	private:
 		Vector<ScriptCompilerCallback> scriptCompilerCallbacks;
 		Game* game = NULL;
-		AIEngine* aiEngine = NULL;
-		AnimationEngine* animationEngine = NULL;
-		AudioEngine* audioEngine = NULL;
-		HapticEngine* hapticEngine = NULL;
-		PhysicsEngine* physicsEngine = NULL;
-		RenderingEngine* renderingEngine = NULL;
+		AISystem* aiSystem = NULL;
+		AnimationSystem* animationSystem = NULL;
+		AudioSystem* audioSystem = NULL;
+		HapticSystem* hapticSystem = NULL;
+		PhysicsSystem* physicsSystem = NULL;
+		RenderingSystem* renderingSystem = NULL;
 		OS* os = NULL;
 		Profiler* profiler = NULL;
 		ThreadPool* threadPool = NULL;

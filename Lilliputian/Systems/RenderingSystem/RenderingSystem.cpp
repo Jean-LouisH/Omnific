@@ -1,8 +1,8 @@
-#include "RenderingEngine.hpp"
+#include "RenderingSystem.hpp"
 #include "RenderingSDL/RenderingSDL.hpp"
 #include <SDL_image.h>
 
-Lilliputian::RenderingEngine::RenderingEngine(Window& window)
+Lilliputian::RenderingSystem::RenderingSystem(Window& window)
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
@@ -13,13 +13,13 @@ Lilliputian::RenderingEngine::RenderingEngine(Window& window)
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
-void Lilliputian::RenderingEngine::clearBuffers()
+void Lilliputian::RenderingSystem::clearBuffers()
 {
 	SDL_SetRenderDrawColor(this->sdlRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(this->sdlRenderer);
 }
 
-void Lilliputian::RenderingEngine::render()
+void Lilliputian::RenderingSystem::render()
 {
 	for (int i = 0; i < this->sdlRenderables.size(); i++)
 	{	
@@ -37,7 +37,7 @@ void Lilliputian::RenderingEngine::render()
 	SDL_RenderPresent(this->sdlRenderer);
 }
 
-void Lilliputian::RenderingEngine::process(Scene& scene)
+void Lilliputian::RenderingSystem::process(Scene& scene)
 {
 	Vector<SDL::Rendering2D::Sprite2D> sprite2Ds;
 	SDL::Rendering2D::Camera2D camera2D;

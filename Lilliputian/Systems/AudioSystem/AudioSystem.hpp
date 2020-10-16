@@ -6,7 +6,7 @@
 
 namespace Lilliputian
 {
-	class AudioEngine
+	class AudioSystem
 	{
 	private:
 		Queue<Mix_Chunk*> immediateSounds;
@@ -14,8 +14,8 @@ namespace Lilliputian
 
 		void play();
 	public:
-		AudioEngine();
-		~AudioEngine();
+		AudioSystem();
+		~AudioSystem();
 		void process(Scene& scene);
 	};
 }

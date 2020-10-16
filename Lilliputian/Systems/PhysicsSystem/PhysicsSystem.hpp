@@ -2,7 +2,7 @@
 
 namespace Lilliputian
 {
-	class PhysicsEngine
+	class PhysicsSystem
 	{
 	private:
 	public:

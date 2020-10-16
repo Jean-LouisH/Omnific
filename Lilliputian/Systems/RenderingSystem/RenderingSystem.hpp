@@ -8,7 +8,7 @@
 
 namespace Lilliputian
 {
-	class RenderingEngine
+	class RenderingSystem
 	{
 	private:
 		SDL_Renderer* sdlRenderer;
@@ -18,7 +18,7 @@ namespace Lilliputian
 		void clearBuffers();
 		void render();
 	public:
-		RenderingEngine(Window& window);
+		RenderingSystem(Window& window);
 		void process(Scene& scene);
 	};
 }

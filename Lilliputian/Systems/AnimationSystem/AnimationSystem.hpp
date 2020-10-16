@@ -2,7 +2,7 @@
 
 namespace Lilliputian
 {
-	class AnimationEngine
+	class AnimationSystem
 	{
 	private:
 	public:
