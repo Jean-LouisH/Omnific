@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../Utilities/Aliases.hpp"
-#include "../../Utilities/Constants.hpp"
+#include "../../../Utilities/Aliases.hpp"
+#include "../../../Utilities/Constants.hpp"
 
 namespace Lilliputian
 {
-	class ItemList
+	class CircularItemList
 	{
 	private:
 		uint32_t lowerBound = 0;
