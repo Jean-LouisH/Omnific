@@ -6,10 +6,10 @@ cmake_minimum_required (VERSION 3.8)
 file(GLOB_RECURSE lilliputian_sources "[a-zA-Z]*.cpp")
 file(GLOB_RECURSE lilliputian_headers "[a-zA-Z]*.hpp")
 
-add_library(Lilliputian STATIC 
+add_executable(Lilliputian 
 	  ${lilliputian_sources}
 	  ${lilliputian_headers}
-)
+ "Game/VirtualMachine/VirtualMachine.hpp" "Game/VirtualMachine/VirtualMachine.cpp")
 
 add_dependencies (Lilliputian
 	YAML_CPP
