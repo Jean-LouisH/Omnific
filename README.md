@@ -4,14 +4,16 @@
 
 **This project is still a work in progress**
 
-[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny 2D game engine** which provides a simple all-in-one introduction to game development. It features an editor, integrate IDE and custom scripting language that runs on a virtual machine.
+[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny 2D game engine and IDE** for introductory game development, prototyping and programming learning. Its sole purpose is to provide the user with the entire development process in a single application and make it as simple as possible.
 
 It is named after the tiny inhabitants of the fictional Lilliput island that appears in Jonathan Swift's 1726 novel "Guilliver's Travels." This reflects the objective of keeping the engine as small as necessary.
 
 ## Target Features
 
-* Editor
-* Integrated IDE for "LilliScript", a Custom Typed Language based on Pseudocode.
+* Scene Editor
+* IDE and VM for "LilliScript", a Custom Typed Language Heavily Based on Pseudocode, with Debugging and Testing Support.
+* In-Editor Prototyping
+* Game Executable Exporting
 * Mouse, Keyboard and Game Controller Support
 * Haptic Feedback Support
 * Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
