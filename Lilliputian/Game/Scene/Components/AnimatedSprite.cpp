@@ -1,60 +1,60 @@
-#include "AnimatedSprite2D.hpp"
+#include "AnimatedSprite.hpp"
 
-void Lilliputian::AnimatedSprite2D::addEmptyFrameSequence(String frameSequenceName)
+void Lilliputian::AnimatedSprite::addEmptyFrameSequence(String frameSequenceName)
 {
 	FrameSequence frameSequence;
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite2D::addFrameSequence(String frameSequenceName, FrameSequence frameSequence)
+void Lilliputian::AnimatedSprite::addFrameSequence(String frameSequenceName, FrameSequence frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite2D::addFrameToFrameSequence(String frameSequenceName, Frame frame)
+void Lilliputian::AnimatedSprite::addFrameToFrameSequence(String frameSequenceName, Frame frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
 }
 
-void Lilliputian::AnimatedSprite2D::clearFrameSequences()
+void Lilliputian::AnimatedSprite::clearFrameSequences()
 {
 	this->frameSequences.clear();
 }
 
-void Lilliputian::AnimatedSprite2D::setAlpha(uint8_t value)
+void Lilliputian::AnimatedSprite::setAlpha(uint8_t value)
 {
 	if (value >= 0 && value <= 255)
 		this->alpha = value;
 }
 
-uint8_t Lilliputian::AnimatedSprite2D::getAlpha()
+uint8_t Lilliputian::AnimatedSprite::getAlpha()
 {
 	return this->alpha;
 }
 
-void Lilliputian::AnimatedSprite2D::hide()
+void Lilliputian::AnimatedSprite::hide()
 {
 	this->alpha = 0;
 }
 
-void Lilliputian::AnimatedSprite2D::show()
+void Lilliputian::AnimatedSprite::show()
 {
 	this->alpha = 255;
 }
 
-void Lilliputian::AnimatedSprite2D::setAnimationSpeed(float value_fps)
+void Lilliputian::AnimatedSprite::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)
 		this->animationSpeed_fps = value_fps;
 }
 
-float Lilliputian::AnimatedSprite2D::getAnimationSpeed()
+float Lilliputian::AnimatedSprite::getAnimationSpeed()
 {
 	return this->animationSpeed_fps;
 }
 
-void Lilliputian::AnimatedSprite2D::update(float delta_s)
+void Lilliputian::AnimatedSprite::update(float delta_s)
 {
 	if (this->isPlaying)
 	{
@@ -76,7 +76,7 @@ void Lilliputian::AnimatedSprite2D::update(float delta_s)
 	}
 }
 
-void Lilliputian::AnimatedSprite2D::play(String frameSequenceName)
+void Lilliputian::AnimatedSprite::play(String frameSequenceName)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -85,47 +85,47 @@ void Lilliputian::AnimatedSprite2D::play(String frameSequenceName)
 	}
 }
 
-void Lilliputian::AnimatedSprite2D::play()
+void Lilliputian::AnimatedSprite::play()
 {
 	this->isPlaying = true;
 }
 
-void Lilliputian::AnimatedSprite2D::pause()
+void Lilliputian::AnimatedSprite::pause()
 {
 	this->isPlaying = false;
 }
 
-void Lilliputian::AnimatedSprite2D::stop()
+void Lilliputian::AnimatedSprite::stop()
 {
 	this->pause();
 	this->currentFrameIndex = 0;
 }
 
-void Lilliputian::AnimatedSprite2D::setBackwards()
+void Lilliputian::AnimatedSprite::setBackwards()
 {
 	this->isBackwards = true;
 }
-void Lilliputian::AnimatedSprite2D::setForwards()
+void Lilliputian::AnimatedSprite::setForwards()
 {
 	this->isBackwards = false;
 }
 
-void Lilliputian::AnimatedSprite2D::flipVertically()
+void Lilliputian::AnimatedSprite::flipVertically()
 {
 	this->isFlippedVertically != this->isFlippedVertically;
 }
 
-void Lilliputian::AnimatedSprite2D::flipHorizontally()
+void Lilliputian::AnimatedSprite::flipHorizontally()
 {
 	this->isFlippedHorizontally != this->isFlippedHorizontally;
 }
 
-Lilliputian::AnimatedSprite2D::Frame Lilliputian::AnimatedSprite2D::getCurrentFrame()
+Lilliputian::AnimatedSprite::Frame Lilliputian::AnimatedSprite::getCurrentFrame()
 {
 	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
 }
 
-Lilliputian::Vector<Lilliputian::String> Lilliputian::AnimatedSprite2D::getFrameSequenceNames()
+Lilliputian::Vector<Lilliputian::String> Lilliputian::AnimatedSprite::getFrameSequenceNames()
 {
 	Vector<String> frameSequenceNames;
 
@@ -139,7 +139,7 @@ Lilliputian::Vector<Lilliputian::String> Lilliputian::AnimatedSprite2D::getFrame
 	return frameSequenceNames;
 }
 
-Lilliputian::AnimatedSprite2D::FrameSequence Lilliputian::AnimatedSprite2D::getFrameSequenceByName(String frameSequenceName)
+Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getFrameSequenceByName(String frameSequenceName)
 {
 	FrameSequence frameSequence;
 
@@ -149,7 +149,7 @@ Lilliputian::AnimatedSprite2D::FrameSequence Lilliputian::AnimatedSprite2D::getF
 	return frameSequence;
 }
 
-Lilliputian::AnimatedSprite2D::FrameSequence Lilliputian::AnimatedSprite2D::getCurrentFrameSequence()
+Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getCurrentFrameSequence()
 {
 	return this->frameSequences.at(this->currentFrameSequenceName);
 }

@@ -5,7 +5,7 @@
 
 namespace Lilliputian
 {
-	class ItemList
+	class UIItemList
 	{
 	private:
 		uint32_t lowerBound = 0;

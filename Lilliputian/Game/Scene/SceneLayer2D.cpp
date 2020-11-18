@@ -47,11 +47,11 @@ void Lilliputian::SceneLayer2D::addRigidBody2D(EntityID entityID, RigidBody2D ri
 	this->entities2D.at(entityID).addComponent(COMPONENT_TYPE_RIGID_BODY_2D, this->rigidBodies2D.size() - 1);
 }
 
-void Lilliputian::SceneLayer2D::addAnimatedSprite2D(EntityID entityID, AnimatedSprite2D sprite2D)
+void Lilliputian::SceneLayer2D::addAnimatedSprite2D(EntityID entityID, AnimatedSprite animatedSprite2D)
 {
-	sprite2D.entityID = entityID;
-	this->animatedSprites2D.push_back(sprite2D);
-	this->entities2D.at(entityID).addComponent(COMPONENT_TYPE_ANIMATED_SPRITE_2D, this->animatedSprites2D.size() - 1);
+	animatedSprite2D.entityID = entityID;
+	this->animatedSprites.push_back(animatedSprite2D);
+	this->entities2D.at(entityID).addComponent(COMPONENT_TYPE_ANIMATED_SPRITE_2D, this->animatedSprites.size() - 1);
 }
 
 void Lilliputian::SceneLayer2D::executeFrameLogic()

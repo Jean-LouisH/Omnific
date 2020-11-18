@@ -5,7 +5,7 @@
 
 namespace Lilliputian
 {
-	class CircularItemList
+	class UICircularItemList
 	{
 	private:
 		uint32_t lowerBound = 0;

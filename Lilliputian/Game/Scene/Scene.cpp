@@ -51,9 +51,9 @@ void Lilliputian::Scene::addRigidBody2D(EntityID entityID, RigidBody2D rigidBody
 	this->getLastSceneLayer2DStack()->top().addRigidBody2D(entityID, rigidBody2D);
 }
 
-void Lilliputian::Scene::addAnimatedSprite2D(EntityID entityID, AnimatedSprite2D sprite2D)
+void Lilliputian::Scene::addAnimatedSprite2D(EntityID entityID, AnimatedSprite animedSprite2D)
 {
-	this->getLastSceneLayer2DStack()->top().addAnimatedSprite2D(entityID, sprite2D);
+	this->getLastSceneLayer2DStack()->top().addAnimatedSprite2D(entityID, animedSprite2D);
 }
 
 Lilliputian::EntityID Lilliputian::Scene::getLastEntityID()

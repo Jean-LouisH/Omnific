@@ -9,7 +9,7 @@
 
 namespace Lilliputian
 {
-	class AnimatedSprite2D
+	class AnimatedSprite
 	{
 		using Frame = Texture;
 		using FrameIndex = uint16_t;
