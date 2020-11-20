@@ -3,10 +3,11 @@
 #include "../../../Utilities/Aliases.hpp"
 #include "../../../Utilities/AABB2D.hpp"
 #include "../../../Utilities/Constants.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class RectangularCollider2D
+	class RectangularCollider2D : public Component
 	{
 	private:
 	public:
@@ -19,7 +20,6 @@ namespace Lilliputian
 			PLATFORM_SIDE_BOTTOM
 		};
 
-		EntityID entityID = NO_ENTITY;
 		AABB2D aabb;
 		PlatformSide platformSide = PLATFORM_SIDE_NONE;
 	};

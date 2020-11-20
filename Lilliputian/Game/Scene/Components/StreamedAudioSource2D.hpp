@@ -5,17 +5,16 @@
 #include "../../../Utilities/Collections/Queue.hpp"
 #include "../../../Utilities/Constants.hpp"
 #include "../Assets/StreamedAudio.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class StreamedAudioSource2D
+	class StreamedAudioSource2D : public Component
 	{
 	private:
 		Set<AssetID> audioList;
 		Queue<AssetID> audioPlayQueue;
 	public:
-		EntityID entityID = NO_ENTITY;
-
 		void addStreamedAudio(AssetID audio);
 		void queueAudioToPlay(AssetID audio, uint8_t count);
 		Queue<AssetID> getAudioPlayQueue();

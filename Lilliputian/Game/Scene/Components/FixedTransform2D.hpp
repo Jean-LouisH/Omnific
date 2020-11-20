@@ -3,14 +3,14 @@
 #include "../../../Utilities/Aliases.hpp"
 #include "../../../Utilities/Constants.hpp"
 #include "../../../Utilities/Transform2D.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class FixedTransform2D
+	class FixedTransform2D : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
 		Transform2D transform;
 	};
 }

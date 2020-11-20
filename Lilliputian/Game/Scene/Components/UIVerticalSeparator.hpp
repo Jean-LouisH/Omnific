@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UIVerticalSeparator
+	class UIVerticalSeparator : public Component
 	{
 	private:
 	public:

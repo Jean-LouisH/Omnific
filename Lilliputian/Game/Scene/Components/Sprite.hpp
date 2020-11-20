@@ -6,10 +6,11 @@
 #include "../../../Utilities/Constants.hpp"
 #include "../../../Utilities/String.hpp"
 #include "../Assets/Texture.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class Sprite
+	class Sprite : public Component
 	{
 	private:
 		Texture texture;
@@ -17,8 +18,6 @@ namespace Lilliputian
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;
 	public:
-		EntityID entityID = NO_ENTITY;
-
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		void hide();

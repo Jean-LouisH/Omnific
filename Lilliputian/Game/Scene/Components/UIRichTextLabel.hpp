@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UIRichTextLabel
+	class UIRichTextLabel : public Component
 	{
 	private:
 	public:

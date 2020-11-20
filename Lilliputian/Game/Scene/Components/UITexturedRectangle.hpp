@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UITexturedRectangle
+	class UITexturedRectangle : public Component
 	{
 	private:
 	public:

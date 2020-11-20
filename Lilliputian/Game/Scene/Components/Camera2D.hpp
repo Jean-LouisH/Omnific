@@ -4,14 +4,14 @@
 #include "../../../Utilities/Rectangle.hpp"
 #include "../../../Utilities/Vector2.hpp"
 #include "../../../Utilities/Constants.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class Camera2D
+	class Camera2D : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
 		Rectangle viewport_px;
 
 		void setViewportWidth(uint32_t width_px);

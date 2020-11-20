@@ -2,13 +2,13 @@
 
 #include "../../../Utilities/Aliases.hpp"
 #include "../../../Utilities/Constants.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class AudioListener2D
+	class AudioListener2D : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
 	};
 }

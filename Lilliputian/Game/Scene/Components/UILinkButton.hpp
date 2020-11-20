@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UILinkButton
+	class UILinkButton : public Component
 	{
 	private:
 	public:

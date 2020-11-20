@@ -4,13 +4,13 @@
 #include "../../../Utilities/Constants.hpp"
 #include "../../../Utilities/Collections/Vector.hpp"
 #include "../../../Utilities/Vector2.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class NavigationMeshAgent2D
+	class NavigationMeshAgent2D : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
 	};
 }

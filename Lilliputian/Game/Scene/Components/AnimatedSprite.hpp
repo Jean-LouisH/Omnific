@@ -6,10 +6,11 @@
 #include "../../../Utilities/Constants.hpp"
 #include "../../../Utilities/String.hpp"
 #include "../Assets/Texture.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class AnimatedSprite
+	class AnimatedSprite : public Component
 	{
 		using Frame = Texture;
 		using FrameIndex = uint16_t;
@@ -25,7 +26,6 @@ namespace Lilliputian
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;
 	public:
-		EntityID entityID = NO_ENTITY;
 		String currentFrameSequenceName = "";
 
 		void addEmptyFrameSequence(String frameSequenceName);

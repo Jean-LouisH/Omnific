@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UISpinBox
+	class UISpinBox : public Component
 	{
 	private:
 	public:

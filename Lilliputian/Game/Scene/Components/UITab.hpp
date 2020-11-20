@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UITab
+	class UITab : public Component
 	{
 	private:
 	public:

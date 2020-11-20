@@ -9,7 +9,7 @@ file(GLOB_RECURSE lilliputian_headers "[a-zA-Z]*.hpp")
 add_executable(Lilliputian 
 	  ${lilliputian_sources}
 	  ${lilliputian_headers}
- "Game/VirtualMachine/VirtualMachine.hpp" "Game/VirtualMachine/VirtualMachine.cpp")
+)
 
 add_dependencies (Lilliputian
 	YAML_CPP

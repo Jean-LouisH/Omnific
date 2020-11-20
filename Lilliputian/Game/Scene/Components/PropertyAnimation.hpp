@@ -4,15 +4,14 @@
 #include "../../../Utilities/Collections/Vector.hpp"
 #include "../../../Utilities/Constants.hpp"
 #include <stdint.h>
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class PropertyAnimation
+	class PropertyAnimation : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
-
 		float* targetDoubleProperty = NULL;
 		Vector<float> keyFrames;
 		float duration_s = 0.0;

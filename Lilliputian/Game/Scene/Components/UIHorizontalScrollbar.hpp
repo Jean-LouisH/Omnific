@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UIHorizontalScrollbar
+	class UIHorizontalScrollbar : public Component
 	{
 	private:
 	public:

@@ -5,14 +5,14 @@
 #include "../../../Utilities/Collections/Set.hpp"
 #include "../../../Utilities/String.hpp"
 #include "../../../Utilities/Constants.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class RectangularTriggerArea2D
+	class RectangularTriggerArea2D : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
 		AABB2D aabb;
 
 		Set<EntityID> enteringEntityIDs;

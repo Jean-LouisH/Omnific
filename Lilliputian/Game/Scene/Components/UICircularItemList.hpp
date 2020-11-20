@@ -2,10 +2,11 @@
 
 #include "../../../Utilities/Aliases.hpp"
 #include "../../../Utilities/Constants.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class UICircularItemList
+	class UICircularItemList : public Component
 	{
 	private:
 		uint32_t lowerBound = 0;

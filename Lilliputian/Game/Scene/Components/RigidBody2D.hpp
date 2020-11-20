@@ -3,15 +3,14 @@
 #include "../../../Utilities/Aliases.hpp"
 #include "../../../Utilities/Vector2.hpp"
 #include "../../../Utilities/Constants.hpp"
+#include "Component.hpp"
 
 namespace Lilliputian
 {
-	class RigidBody2D
+	class RigidBody2D : public Component
 	{
 	private:
 	public:
-		EntityID entityID = NO_ENTITY;
-
 		float mass_kg = 1.0;
 		float friction_ratio = 1.0;
 		float angularDrag_ratio = 1.0;

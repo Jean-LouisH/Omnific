@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UITexturedButton
+	class UITexturedButton : public Component
 	{
 	private:
 	public:

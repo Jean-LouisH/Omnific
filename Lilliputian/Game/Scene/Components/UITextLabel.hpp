@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class UITextLabel
+	class UITextLabel : public Component
 	{
 	private:
 	public:

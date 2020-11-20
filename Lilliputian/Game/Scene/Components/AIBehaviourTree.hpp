@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Component.hpp"
+
 namespace Lilliputian
 {
-	class AIBehaviourTree
+	class AIBehaviourTree : public Component
 	{
 	private:
 	public:
