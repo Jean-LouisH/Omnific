@@ -8,7 +8,7 @@
 
 namespace Lilliputian
 {
-	class BoxTriggerArea2D
+	class RectangularTriggerArea2D
 	{
 	private:
 	public:
