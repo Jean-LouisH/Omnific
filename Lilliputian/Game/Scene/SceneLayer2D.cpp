@@ -19,7 +19,7 @@ void Lilliputian::SceneLayer2D::addStreamedAudioSource2D(EntityID entityID, Stre
 	this->entities2D.at(entityID).addComponent(COMPONENT_TYPE_STREAMED_AUDIO_SOURCE_2D, this->streamedAudioSources2D.size() - 1);
 }
 
-void Lilliputian::SceneLayer2D::addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D)
+void Lilliputian::SceneLayer2D::addRectangularCollider2D(EntityID entityID, RectangularCollider2D boxCollider2D)
 {
 	boxCollider2D.entityID = entityID;
 	this->boxColliders2D.push_back(boxCollider2D);

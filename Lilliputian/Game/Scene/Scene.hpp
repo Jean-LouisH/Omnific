@@ -23,7 +23,7 @@ namespace Lilliputian
 		void addEntity2D(Entity2D entity2D);
 		void addAudioListener2D(EntityID entityID, AudioListener2D audioListener2D);
 		void addStreamedAudioSource2D(EntityID entityID, StreamedAudioSource2D streamedAudioSource2D);
-		void addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D);
+		void addRectangularCollider2D(EntityID entityID, RectangularCollider2D rectangularCollider2D);
 		void addCamera2D(EntityID entityID, Camera2D camera2D);
 		void addPropertyAnimation(EntityID entityID, PropertyAnimation propertyAnimation);
 		void addRigidBody2D(EntityID entityID, RigidBody2D rigidBody2D);

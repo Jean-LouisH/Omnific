@@ -4,7 +4,7 @@
 #include "Components/AnimatedSprite.hpp"
 #include "Components/AudioListener2D.hpp"
 #include "Components/StreamedAudioSource2D.hpp"
-#include "Components/BoxCollider2D.hpp"
+#include "Components/RectangularCollider2D.hpp"
 #include "Components/Camera2D.hpp"
 #include "Components/PropertyAnimation.hpp"
 #include "Components/RigidBody2D.hpp"
@@ -21,7 +21,7 @@ namespace Lilliputian
 		Map<EntityID, Entity2D> entities2D;
 		Vector<AudioListener2D> audioListeners2D;
 		Vector<StreamedAudioSource2D> streamedAudioSources2D;
-		Vector<BoxCollider2D> boxColliders2D;
+		Vector<RectangularCollider2D> boxColliders2D;
 		Vector<Camera2D> cameras2D;
 		Vector<PropertyAnimation> propertyAnimations;
 		Vector<RigidBody2D> rigidBodies2D;
@@ -38,7 +38,7 @@ namespace Lilliputian
 		void addEntity2D(Entity2D entity2D);
 		void addAudioListener2D(EntityID entityID, AudioListener2D audioListener2D);
 		void addStreamedAudioSource2D(EntityID entityID, StreamedAudioSource2D streamedAudioSource2D);
-		void addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D);
+		void addRectangularCollider2D(EntityID entityID, RectangularCollider2D rectangularCollider2D);
 		void addCamera2D(EntityID entityID, Camera2D camera2D);
 		void addPropertyAnimation(EntityID entityID, PropertyAnimation propertyAnimation);
 		void addRigidBody2D(EntityID entityID, RigidBody2D rigidBody2D);

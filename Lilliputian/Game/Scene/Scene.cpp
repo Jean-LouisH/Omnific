@@ -31,9 +31,9 @@ void Lilliputian::Scene::addStreamedAudioSource2D(EntityID entityID, StreamedAud
 	this->getLastSceneLayer2DStack()->top().addStreamedAudioSource2D(entityID, streamedAudioSource2D);
 }
 
-void Lilliputian::Scene::addBoxCollider2D(EntityID entityID, BoxCollider2D boxCollider2D)
+void Lilliputian::Scene::addRectangularCollider2D(EntityID entityID, RectangularCollider2D boxCollider2D)
 {
-	this->getLastSceneLayer2DStack()->top().addBoxCollider2D(entityID, boxCollider2D);
+	this->getLastSceneLayer2DStack()->top().addRectangularCollider2D(entityID, boxCollider2D);
 }
 
 void Lilliputian::Scene::addCamera2D(EntityID entityID, Camera2D camera2D)

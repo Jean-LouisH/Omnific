@@ -6,7 +6,7 @@
 
 namespace Lilliputian
 {
-	class BoxCollider2D
+	class RectangularCollider2D
 	{
 	private:
 	public:
