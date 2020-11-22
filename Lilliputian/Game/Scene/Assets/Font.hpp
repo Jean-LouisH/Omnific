@@ -9,5 +9,6 @@ namespace Lilliputian
 	private:
 	public:
 		Font(const char* filepath);
+		virtual void unload();
 	};
 }

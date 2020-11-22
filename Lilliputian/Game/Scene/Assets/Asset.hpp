@@ -1,4 +1,4 @@
-
+#pragma once
 
 namespace Lilliputian
 {
@@ -6,6 +6,6 @@ namespace Lilliputian
 	{
 	private:
 	public:
-		void unload();
+		virtual void unload() = 0;
 	};
 }

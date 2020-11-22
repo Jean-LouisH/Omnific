@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../../../Utilities/Collections/Map.hpp"
 #include "../../../Utilities/String.hpp"
 #include "../../../Utilities/Image.hpp"

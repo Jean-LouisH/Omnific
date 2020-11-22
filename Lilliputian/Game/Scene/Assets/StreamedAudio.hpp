@@ -12,5 +12,6 @@ namespace Lilliputian
 		Mix_Chunk* sound;
 	public:
 		StreamedAudio(const char* filepath);
+		virtual void unload();
 	};
 }

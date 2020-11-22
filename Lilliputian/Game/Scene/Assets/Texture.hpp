@@ -20,5 +20,6 @@ namespace Lilliputian
 		uint32_t getWidth();
 		uint32_t getHeight();
 		Rectangle getDimensions();
+		virtual void unload();
 	};
 }

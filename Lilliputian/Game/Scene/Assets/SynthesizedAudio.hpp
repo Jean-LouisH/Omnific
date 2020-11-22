@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Asset.hpp"
 
 namespace Lilliputian
@@ -6,5 +8,6 @@ namespace Lilliputian
 	{
 	private:
 	public:
+		virtual void unload();
 	};
 }
