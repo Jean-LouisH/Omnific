@@ -10,21 +10,21 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Target Features
 
-* Scene Editor
-* IDE and VM for "LilliScript", a Custom Typed Language Heavily Based on Pseudocode, with Debugging and Testing Support.
-* In-Editor Prototyping
-* Game Executable Exporting
-* Mouse, Keyboard and Game Controller Support
-* Haptic Feedback Support
-* Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
-* JPG and PNG Support for Sprites
-* Spritesheets and Animation
-* Multiple and Independent 2D Scene Layers (For Backgrounds, Game Environment, HUD, etc)
-* Stacked Scenes (For Saved States on Scene Transitions)
-* Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
-* Physics, Collision Detection and Response
-* OGG and WAV Support for Audio Sources
-* [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) Audio Waveform Generation and Scripting
+- [] Scene Editor
+- [] IDE and VM for "LilliScript", a Custom Typed Language Heavily Based on Pseudocode, with Debugging and Testing Support.
+- [] In-Editor Prototyping
+- [] Game Executable Exporting
+- [x] Mouse, Keyboard and Game Controller Support
+- [x] Haptic Feedback Support
+- [x] Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
+- [] JPG and PNG Support for Sprites
+- [] Spritesheets and Animation
+- [x] Multiple and Independent 2D Scene Layers (For Backgrounds, Game Environment, HUD, etc)
+- [x] Stacked Scenes (For Saved States on Scene Transitions)
+- [] Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
+- [] Physics, Collision Detection and Response
+- [] OGG and WAV Support for Audio Sources
+- [] [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) Audio Waveform Generation and Scripting
 
 ## Compilation Instructions
 
