@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UITextEdit : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

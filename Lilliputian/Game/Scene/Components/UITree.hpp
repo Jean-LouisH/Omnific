@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UITree : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class PhysicsConstraint2D : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

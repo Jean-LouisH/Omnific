@@ -7,10 +7,6 @@ namespace Lilliputian
 {
 	class HiResTimer
 	{
-	private:
-		uint64_t delta_ns;
-		std::chrono::time_point<std::chrono::steady_clock> start;
-		std::chrono::time_point<std::chrono::steady_clock> end;
 	public:
 		uint64_t getDelta_ns();
 		void setStart();
@@ -18,5 +14,9 @@ namespace Lilliputian
 		HiResTimer() :
 			delta_ns(0)
 		{}
+	private:
+		uint64_t delta_ns;
+		std::chrono::time_point<std::chrono::steady_clock> start;
+		std::chrono::time_point<std::chrono::steady_clock> end;
 	};
 }

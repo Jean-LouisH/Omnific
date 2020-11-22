@@ -11,12 +11,6 @@ namespace Lilliputian
 {
 	class Scene
 	{
-	private:
-		uint64_t entityIDCount = 0;
-		Vector<Stack<SceneLayer2D>> sceneLayer2DStacks;
-		Assets assets;
-
-		Stack<SceneLayer2D>* getLastSceneLayer2DStack();
 	public:
 		void incrementSceneLayer2D();
 
@@ -32,5 +26,11 @@ namespace Lilliputian
 		EntityID getLastEntityID();
 
 		void executeFrameLogic();
+	private:
+		uint64_t entityIDCount = 0;
+		Vector<Stack<SceneLayer2D>> sceneLayer2DStacks;
+		Assets assets;
+
+		Stack<SceneLayer2D>* getLastSceneLayer2DStack();
 	};
 }

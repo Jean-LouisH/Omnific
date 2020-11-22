@@ -9,7 +9,6 @@ namespace Lilliputian
 {
 	class RectangularCollider2D : public Component
 	{
-	private:
 	public:
 		enum PlatformSide
 		{
@@ -22,5 +21,6 @@ namespace Lilliputian
 
 		AABB2D aabb;
 		PlatformSide platformSide = PLATFORM_SIDE_NONE;
+	private:
 	};
 }

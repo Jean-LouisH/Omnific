@@ -9,12 +9,12 @@ namespace Lilliputian
 {
 	class Editor
 	{
-	private:
-		OS* os;
 	public:
 		Editor(OS* os);
 		Scene loadProjectList();
 		Scene loadMainUI();
 		void exportProject(String filepath);
+	private:
+		OS* os;
 	};
 }

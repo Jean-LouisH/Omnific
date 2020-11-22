@@ -18,19 +18,6 @@ namespace Lilliputian
 {
 	class Game
 	{
-	private:
-		OS* os;
-		Profiler* profiler;
-		Editor* editor;
-		ScriptingAPIs* scriptingAPIs;
-		ScriptRegistry* scriptRegistry;
-		SceneLoader* sceneLoader;
-		Map<String, Script> scripts;
-		Vector<Scene> preloadedScenes;
-		Stack<Scene> activeSceneStack;
-
-		void initializeEditor();
-		void initializeGame(String assetsDirectory);
 	public:
 		Game(
 			OS* os,
@@ -45,5 +32,18 @@ namespace Lilliputian
 		void deinitialize();
 		ScriptRegistry& getScriptRegistry();
 		Scene& getActiveScene();
+	private:
+		OS* os;
+		Profiler* profiler;
+		Editor* editor;
+		ScriptingAPIs* scriptingAPIs;
+		ScriptRegistry* scriptRegistry;
+		SceneLoader* sceneLoader;
+		Map<String, Script> scripts;
+		Vector<Scene> preloadedScenes;
+		Stack<Scene> activeSceneStack;
+
+		void initializeEditor();
+		void initializeGame(String assetsDirectory);
 	};
 }

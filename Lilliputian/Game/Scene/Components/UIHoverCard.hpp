@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIHoverCard : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

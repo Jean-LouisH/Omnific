@@ -12,8 +12,6 @@ namespace Lilliputian
 {
 	class Texture : public Asset
 	{
-	private:
-		Image* image = NULL;
 	public:
 		Texture(Image* image);
 		SDL_Surface* getSDLSurface();
@@ -21,5 +19,7 @@ namespace Lilliputian
 		uint32_t getHeight();
 		Rectangle getDimensions();
 		virtual void unload();
+	private:
+		Image* image = NULL;
 	};
 }

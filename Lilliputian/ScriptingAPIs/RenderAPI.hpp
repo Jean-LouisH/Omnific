@@ -6,9 +6,9 @@ namespace Lilliputian
 {
 	class RenderAPI
 	{
-	private:
 	public:
 		Image captureScreenshot();
 		void captureScreenshotToFile(const char* filename);
+	private:
 	};
 }

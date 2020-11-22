@@ -9,8 +9,8 @@ namespace Lilliputian
 {
 	class NavigationMeshBoxObstacle2D : public Component
 	{
-	private:
 	public:
 		AABB2D aabb;
+	private:
 	};
 }

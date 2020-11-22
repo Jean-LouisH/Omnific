@@ -42,9 +42,6 @@ namespace Lilliputian
 
 	class Entity2D
 	{
-	private:
-		Vector<String> scriptNames;
-		Map<ComponentType, ComponentID> components;
 	public:
 		Transform2D transform2D;
 		EntityID id = NO_ENTITY;
@@ -57,5 +54,8 @@ namespace Lilliputian
 		void addComponent(ComponentType type, ComponentID ID);
 		void addScript(String scriptName);
 		Map<ComponentType, ComponentID> getComponents();
+	private:
+		Vector<String> scriptNames;
+		Map<ComponentType, ComponentID> components;
 	};
 }

@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIHorizontalSlider : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

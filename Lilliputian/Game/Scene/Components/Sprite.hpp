@@ -12,11 +12,6 @@ namespace Lilliputian
 {
 	class Sprite : public Component
 	{
-	private:
-		Texture texture;
-		uint8_t alpha = 255;
-		bool isFlippedVertically = false;
-		bool isFlippedHorizontally = false;
 	public:
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
@@ -27,5 +22,10 @@ namespace Lilliputian
 		void flipHorizontally();
 
 		Texture getTexture();
+	private:
+		Texture texture;
+		uint8_t alpha = 255;
+		bool isFlippedVertically = false;
+		bool isFlippedHorizontally = false;
 	};
 }

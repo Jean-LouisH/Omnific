@@ -15,16 +15,6 @@ namespace Lilliputian
 		using Frame = Texture;
 		using FrameIndex = uint16_t;
 		using FrameSequence = Vector<Frame>;
-	private:
-		Map<String, FrameSequence> frameSequences;
-		uint8_t alpha = 255;
-		float animationSpeed_fps = 12.0;
-		float frameTime_s = 0.0;
-		FrameIndex currentFrameIndex = 0;
-		bool isPlaying = false;
-		bool isBackwards = false;
-		bool isFlippedVertically = false;
-		bool isFlippedHorizontally = false;
 	public:
 		String currentFrameSequenceName = "";
 
@@ -58,5 +48,15 @@ namespace Lilliputian
 		Vector<String> getFrameSequenceNames();
 		FrameSequence getFrameSequenceByName(String frameSequenceName);
 		FrameSequence getCurrentFrameSequence();
+	private:
+		Map<String, FrameSequence> frameSequences;
+		uint8_t alpha = 255;
+		float animationSpeed_fps = 12.0;
+		float frameTime_s = 0.0;
+		FrameIndex currentFrameIndex = 0;
+		bool isPlaying = false;
+		bool isBackwards = false;
+		bool isFlippedVertically = false;
+		bool isFlippedHorizontally = false;
 	};
 }

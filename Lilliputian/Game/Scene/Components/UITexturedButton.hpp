@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UITexturedButton : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

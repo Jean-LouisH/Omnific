@@ -10,7 +10,6 @@ namespace Lilliputian
 {
 	class PropertyAnimation : public Component
 	{
-	private:
 	public:
 		float* targetDoubleProperty = NULL;
 		Vector<float> keyFrames;
@@ -23,5 +22,6 @@ namespace Lilliputian
 		uint8_t repeats = 0;
 		uint8_t repeatCount = 0;
 		bool isPlaying = false;
+	private:
 	};
 }

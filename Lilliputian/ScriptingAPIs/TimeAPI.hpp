@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class TimeAPI
 	{
-	private:
 	public:
+	private:
 	};
 }

@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIColouredRectangle : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

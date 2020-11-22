@@ -7,10 +7,10 @@ namespace Lilliputian
 {
 	class SceneLoader
 	{
-	private:
-		String assetsDirectory;
 	public:
 		SceneLoader(String assetsDirectory);
 		Scene loadScene(const char* filepath);
+	private:
+		String assetsDirectory;
 	};
 }

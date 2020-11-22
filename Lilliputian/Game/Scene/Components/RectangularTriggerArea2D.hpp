@@ -11,7 +11,6 @@ namespace Lilliputian
 {
 	class RectangularTriggerArea2D : public Component
 	{
-	private:
 	public:
 		AABB2D aabb;
 
@@ -20,5 +19,6 @@ namespace Lilliputian
 
 		bool hasEntityEntered(EntityID entityID);
 		bool hasEntityWithTagEntered(String entityTag);
+	private:
 	};
 }

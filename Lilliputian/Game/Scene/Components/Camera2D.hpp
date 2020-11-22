@@ -10,11 +10,11 @@ namespace Lilliputian
 {
 	class Camera2D : public Component
 	{
-	private:
 	public:
 		Rectangle viewport_px;
 
 		void setViewportWidth(uint32_t width_px);
 		void setViewportHeight(uint32_t height_px);
+	private:
 	};
 }

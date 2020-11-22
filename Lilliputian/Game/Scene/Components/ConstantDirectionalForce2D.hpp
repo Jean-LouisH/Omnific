@@ -9,8 +9,8 @@ namespace Lilliputian
 {
 	class ConstantDirectionalForce2D : public Component
 	{
-	private:
 	public:
 		Vector2 force_N;
+	private:
 	};
 }

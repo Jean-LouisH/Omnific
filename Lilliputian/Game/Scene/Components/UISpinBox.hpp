@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UISpinBox : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

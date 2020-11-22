@@ -9,8 +9,6 @@ namespace Lilliputian
 {
 	class InputAPI
 	{
-	private:
-		Map<String, Vector<uint8_t>> actionInputs;
 	public:
 		enum inputCodes
 		{
@@ -163,5 +161,7 @@ namespace Lilliputian
 		bool isActionOnRelease(const char* actionName);
 		bool isActionOnHold(const char* actionName, unsigned int timeInterval_ms);
 		float getAxisStrength(const char* axisActionName);
+	private:
+		Map<String, Vector<uint8_t>> actionInputs;
 	};
 }

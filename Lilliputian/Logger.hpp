@@ -4,8 +4,7 @@ namespace Lilliputian
 {
 	class Logger
 	{
-	private:
 	public:
-
+	private:
 	};
 }

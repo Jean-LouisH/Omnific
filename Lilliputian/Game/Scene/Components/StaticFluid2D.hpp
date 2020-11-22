@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class StaticFluid2D : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

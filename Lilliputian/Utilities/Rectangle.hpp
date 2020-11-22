@@ -6,14 +6,14 @@ namespace Lilliputian
 {
 	class Rectangle
 	{
-	private:
 	public:
 		uint32_t width;
 		uint32_t height;
 
-		Rectangle():
+		Rectangle() :
 			width(0),
 			height(0)
 		{}
+	private:
 	};
 }

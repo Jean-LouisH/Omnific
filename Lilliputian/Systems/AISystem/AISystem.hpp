@@ -4,8 +4,8 @@ namespace Lilliputian
 {
 	class AISystem
 	{
-	private:
 	public:
+	private:
 	};
 }
 

@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class AIBehaviourTree : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

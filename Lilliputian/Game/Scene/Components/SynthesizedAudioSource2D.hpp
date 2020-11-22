@@ -10,7 +10,7 @@ namespace Lilliputian
 {
 	class SynthesizedAudioSource2D : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

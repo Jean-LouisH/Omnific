@@ -13,15 +13,6 @@ namespace Lilliputian
 {
 	class ScriptingAPIs
 	{
-	private:
-		FileAPI* fileAPI = NULL;
-		InputAPI* inputAPI = NULL;
-		LogAPI* logAPI = NULL;
-		RenderAPI* renderAPI = NULL;
-		SceneAPI* sceneAPI = NULL;
-		ThreadAPI* threadAPI = NULL;
-		TimeAPI* timeAPI = NULL;
-		WindowAPI* windowAPI = NULL;
 	public:
 		ScriptingAPIs();
 
@@ -33,6 +24,15 @@ namespace Lilliputian
 		ThreadAPI& thread() const;
 		TimeAPI& time() const;
 		WindowAPI& window() const;
+	private:
+		FileAPI* fileAPI = NULL;
+		InputAPI* inputAPI = NULL;
+		LogAPI* logAPI = NULL;
+		RenderAPI* renderAPI = NULL;
+		SceneAPI* sceneAPI = NULL;
+		ThreadAPI* threadAPI = NULL;
+		TimeAPI* timeAPI = NULL;
+		WindowAPI* windowAPI = NULL;
 	};
 }
 

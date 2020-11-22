@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class ThreadPool
 	{
-	private:
 	public:
+	private:
 	};
 }

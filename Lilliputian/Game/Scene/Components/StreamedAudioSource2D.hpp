@@ -11,13 +11,13 @@ namespace Lilliputian
 {
 	class StreamedAudioSource2D : public Component
 	{
-	private:
-		Set<AssetID> audioList;
-		Queue<AssetID> audioPlayQueue;
 	public:
 		void addStreamedAudio(AssetID audio);
 		void queueAudioToPlay(AssetID audio, uint8_t count);
 		Queue<AssetID> getAudioPlayQueue();
 		void clearAudioPlayQueue();
+	private:
+		Set<AssetID> audioList;
+		Queue<AssetID> audioPlayQueue;
 	};
 }

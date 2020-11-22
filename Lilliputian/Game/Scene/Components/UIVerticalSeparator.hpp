@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIVerticalSeparator : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

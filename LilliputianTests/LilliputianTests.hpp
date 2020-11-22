@@ -2,7 +2,6 @@
 
 class LilliputianTests
 {
-private:
 public:
-
+private:
 };

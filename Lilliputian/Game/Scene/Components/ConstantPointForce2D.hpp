@@ -9,8 +9,8 @@ namespace Lilliputian
 {
 	class ConstantPointForce2D : public Component
 	{
-	private:
 	public:
 		float force_N;
+	private:
 	};
 }

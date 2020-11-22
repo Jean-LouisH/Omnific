@@ -7,6 +7,7 @@ namespace Lilliputian
 {
 	class Component
 	{
+	private:
 	public:
 		EntityID entityID = NO_ENTITY;
 	};

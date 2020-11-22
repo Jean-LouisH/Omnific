@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIPanel : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

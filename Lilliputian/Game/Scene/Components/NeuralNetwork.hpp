@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class NeuralNetwork : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

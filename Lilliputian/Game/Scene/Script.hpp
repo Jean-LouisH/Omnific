@@ -9,15 +9,6 @@ namespace Lilliputian
 
 	class Script
 	{
-	private:
-		ScriptingAPIs* scriptingAPIs;
-
-		ScriptLogicCallback startLogic;
-		ScriptLogicCallback inputLogic;
-		ScriptLogicCallback frameLogic;
-		ScriptLogicCallback computeLogic;
-		ScriptLogicCallback lateLogic;
-		ScriptLogicCallback finalLogic;
 	public:
 		Script(ScriptingAPIs* scriptingAPI, const char* scriptName);
 
@@ -36,5 +27,14 @@ namespace Lilliputian
 		void executeComputeLogic();
 		void executeLateLogic();
 		void executeFinalLogic();
+	private:
+		ScriptingAPIs* scriptingAPIs;
+
+		ScriptLogicCallback startLogic;
+		ScriptLogicCallback inputLogic;
+		ScriptLogicCallback frameLogic;
+		ScriptLogicCallback computeLogic;
+		ScriptLogicCallback lateLogic;
+		ScriptLogicCallback finalLogic;
 	};
 }

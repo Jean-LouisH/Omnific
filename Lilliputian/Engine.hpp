@@ -22,6 +22,21 @@ namespace Lilliputian
 
 	class Engine
 	{
+	public:
+		Engine(
+			int argc,
+			char* argv[],
+			const char* gameTitle,
+			uint16_t windowWidth,
+			uint16_t windowHeight,
+			const char* entryScenePath);
+		~Engine();
+
+		void run();
+		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
+		void setTargetFPS(uint32_t targetFPS);
+		void setFullscreenStart(bool value);
+		void addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback);
 	private:
 		Vector<ScriptCompilerCallback> scriptCompilerCallbacks;
 		Game* game = NULL;
@@ -50,21 +65,6 @@ namespace Lilliputian
 		void output();
 		void sleep();
 		void shutdown();
-	public:
-		Engine(
-			int argc,
-			char* argv[], 
-			const char* gameTitle, 
-			uint16_t windowWidth, 
-			uint16_t windowHeight, 
-			const char* entryScenePath);
-		~Engine();
-
-		void run();
-		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
-		void setTargetFPS(uint32_t targetFPS);
-		void setFullscreenStart(bool value);
-		void addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback);
 	};
 }
 

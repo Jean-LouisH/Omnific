@@ -10,8 +10,6 @@ namespace Lilliputian
 {
 	class Image
 	{
-	private:
-		SDL_Surface* surface;
 	public:
 		Image(const char* filepath);
 		void unload();
@@ -19,5 +17,7 @@ namespace Lilliputian
 		uint32_t getWidth();
 		uint32_t getHeight();
 		Rectangle getDimensions();
+	private:
+		SDL_Surface* surface;
 	};
 }

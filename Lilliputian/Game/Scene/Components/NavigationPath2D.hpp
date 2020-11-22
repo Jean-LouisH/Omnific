@@ -10,8 +10,8 @@ namespace Lilliputian
 {
 	class NavigationPath2D : public Component
 	{
-	private:
 	public:
 		Vector<Vector2> waypoints;
+	private:
 	};
 }

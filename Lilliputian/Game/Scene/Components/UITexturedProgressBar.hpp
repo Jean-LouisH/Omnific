@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UITexturedProgressBar : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

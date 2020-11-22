@@ -8,8 +8,8 @@ namespace Lilliputian
 {
 	class CircleCollider2D : public Component
 	{
-	private:
 	public:
 		float radius = 0.0;
+	private:
 	};
 }

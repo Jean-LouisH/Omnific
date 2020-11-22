@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class AISoundPerception2D : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class LogAPI
 	{
-	private:
 	public:
+	private:
 	};
 }

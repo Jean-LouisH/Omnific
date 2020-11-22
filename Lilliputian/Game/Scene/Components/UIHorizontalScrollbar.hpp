@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIHorizontalScrollbar : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

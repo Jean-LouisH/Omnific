@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIVerticalScrollbar : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

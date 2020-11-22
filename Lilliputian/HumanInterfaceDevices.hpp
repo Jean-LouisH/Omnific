@@ -10,6 +10,12 @@ namespace Lilliputian
 	{
 		using ControllerButtonCode = Uint8;
 		using ControllerAxisCode = Uint8;
+	public:
+		void detectGameControllers();
+		void pollInputEvents();
+		bool hasRequestedShutdown();
+
+		Vector<SDL_Haptic*> getHaptics();
 	private:
 		Multimap<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
 		Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
@@ -24,11 +30,5 @@ namespace Lilliputian
 
 		bool shutdownRequest = false;
 		void clear();
-	public:
-		void detectGameControllers();
-		void pollInputEvents();
-		bool hasRequestedShutdown();
-
-		Vector<SDL_Haptic*> getHaptics();
 	};
 }

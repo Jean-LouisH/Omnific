@@ -4,7 +4,6 @@ namespace Lilliputian
 {
 	class EngineConfiguration
 	{
-	private:
 	public:
 		uint32_t msPerComputeUpdate;
 		uint32_t targetFPS;
@@ -13,5 +12,6 @@ namespace Lilliputian
 		uint16_t windowWidth;
 		String entryScenePath;
 		bool isStartingFullscreen;
+	private:
 	};
 }

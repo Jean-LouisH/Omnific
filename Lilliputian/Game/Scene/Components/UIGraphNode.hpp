@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIGraphNode : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

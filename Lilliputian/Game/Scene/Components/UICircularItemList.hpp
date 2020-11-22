@@ -8,10 +8,6 @@ namespace Lilliputian
 {
 	class UICircularItemList : public Component
 	{
-	private:
-		uint32_t lowerBound = 0;
-		uint32_t upperBound;
-		uint32_t index = 0;
 	public:
 		void setLowerBound(uint32_t lowerBound);
 		void setUpperBound(uint32_t upperBound);
@@ -19,5 +15,9 @@ namespace Lilliputian
 		void decrement();
 		void setIndex(uint32_t index);
 		uint32_t getIndex();
+	private:
+		uint32_t lowerBound = 0;
+		uint32_t upperBound;
+		uint32_t index = 0;
 	};
 }

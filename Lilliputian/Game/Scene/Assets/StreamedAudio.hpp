@@ -8,10 +8,10 @@ namespace Lilliputian
 {
 	class StreamedAudio : public Asset
 	{
-	private:
-		Mix_Chunk* sound;
 	public:
 		StreamedAudio(const char* filepath);
 		virtual void unload();
+	private:
+		Mix_Chunk* sound;
 	};
 }

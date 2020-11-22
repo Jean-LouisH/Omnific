@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIVerticalSlider : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

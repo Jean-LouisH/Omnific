@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UITab : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

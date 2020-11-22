@@ -9,7 +9,6 @@ namespace Lilliputian
 {
 	class RigidBody2D : public Component
 	{
-	private:
 	public:
 		float mass_kg = 1.0;
 		float friction_ratio = 1.0;
@@ -25,5 +24,6 @@ namespace Lilliputian
 			this->drag_ratio.x = 0.0001;
 			this->drag_ratio.y = 1.0;
 		}
+	private:
 	};
 }

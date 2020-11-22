@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIRichTextLabel : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

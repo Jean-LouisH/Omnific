@@ -8,7 +8,7 @@ namespace Lilliputian
 {
 	class AudioListener2D : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

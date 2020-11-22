@@ -6,18 +6,6 @@ namespace Lilliputian
 {
 	class EngineState
 	{
-	private:
-		enum EngineStates
-		{
-			ENGINE_STATE_INITIALIZING,
-			ENGINE_STATE_RUNNING_APPLICATION_WINDOWED,
-			ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN,
-			ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP,
-			ENGINE_STATE_RESTARTING,
-			ENGINE_STATE_SHUTTING_DOWN,
-		};
-
-		uint8_t value;
 	public:
 		void setInitializing();
 		void setRunningApplicationWindowed();
@@ -36,5 +24,17 @@ namespace Lilliputian
 		bool isRunning();
 
 		EngineState();
+	private:
+		enum EngineStates
+		{
+			ENGINE_STATE_INITIALIZING,
+			ENGINE_STATE_RUNNING_APPLICATION_WINDOWED,
+			ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN,
+			ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP,
+			ENGINE_STATE_RESTARTING,
+			ENGINE_STATE_SHUTTING_DOWN,
+		};
+
+		uint8_t value;
 	};
 }

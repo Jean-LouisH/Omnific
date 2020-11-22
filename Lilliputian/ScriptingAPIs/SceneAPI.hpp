@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class SceneAPI
 	{
-	private:
 	public:
+	private:
 	};
 }

@@ -4,8 +4,8 @@ namespace Lilliputian
 {
 	class PhysicsSystem
 	{
-	private:
 	public:
+	private:
 	};
 }
 

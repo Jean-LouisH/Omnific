@@ -6,8 +6,8 @@ namespace Lilliputian
 {
 	class Text : public Asset
 	{
-	private:
 	public:
 		virtual void unload();
+	private:
 	};
 }

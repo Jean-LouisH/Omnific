@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIButton : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

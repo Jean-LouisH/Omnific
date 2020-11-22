@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class ThreadAPI
 	{
-	private:
 	public:
+	private:
 	};
 }

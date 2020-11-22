@@ -4,7 +4,6 @@ namespace Lilliputian
 {
 	class Vector2
 	{
-	private:
 	public:
 		int x;
 		int y;
@@ -13,5 +12,6 @@ namespace Lilliputian
 			x(0),
 			y(0)
 		{}
+	private:
 	};
 }

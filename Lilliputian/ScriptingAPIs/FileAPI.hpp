@@ -4,7 +4,7 @@ namespace Lilliputian
 {
 	class FileAPI
 	{
-	private:
 	public:
+	private:
 	};
 }

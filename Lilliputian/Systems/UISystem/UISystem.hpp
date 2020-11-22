@@ -7,10 +7,10 @@ namespace Lilliputian
 {
 	class UISystem
 	{
-	private:
 	public:
 		UISystem();
 		void process(Scene& scene, HumanInterfaceDevices& hid);
+	private:
 	};
 }
 

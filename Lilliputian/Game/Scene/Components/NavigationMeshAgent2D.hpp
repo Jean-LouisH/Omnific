@@ -10,7 +10,7 @@ namespace Lilliputian
 {
 	class NavigationMeshAgent2D : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

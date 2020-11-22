@@ -4,8 +4,8 @@ namespace Lilliputian
 {
 	class AnimationSystem
 	{
-	private:
 	public:
+	private:
 	};
 }
 

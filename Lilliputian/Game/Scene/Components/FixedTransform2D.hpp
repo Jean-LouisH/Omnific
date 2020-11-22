@@ -9,8 +9,8 @@ namespace Lilliputian
 {
 	class FixedTransform2D : public Component
 	{
-	private:
 	public:
 		Transform2D transform;
+	private:
 	};
 }

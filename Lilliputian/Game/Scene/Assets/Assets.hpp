@@ -11,10 +11,6 @@ namespace Lilliputian
 {
 	class Assets
 	{
-	private:
-		Map<String, StreamedAudio> streamedAudios;
-		Map<String, Font> fonts;
-		Map<Image*, Texture> textures;
 	public:
 		StreamedAudio loadStreamedAudio(const char* filepath);
 		Font loadFont(const char* filepath);
@@ -33,5 +29,9 @@ namespace Lilliputian
 		Map<String, StreamedAudio> getStreamedAudios();
 		Map<String, Font> getFonts();
 		Map<Image*, Texture> getTextures();
+	private:
+		Map<String, StreamedAudio> streamedAudios;
+		Map<String, Font> fonts;
+		Map<Image*, Texture> textures;
 	};
 }

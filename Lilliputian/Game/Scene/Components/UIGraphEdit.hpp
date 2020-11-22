@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UIGraphEdit : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }

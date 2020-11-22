@@ -17,17 +17,6 @@ namespace Lilliputian
 {
 	class SceneLayer2D
 	{
-	private:
-		Map<EntityID, Entity2D> entities2D;
-		Vector<AudioListener2D> audioListeners2D;
-		Vector<StreamedAudioSource2D> streamedAudioSources2D;
-		Vector<RectangularCollider2D> boxColliders2D;
-		Vector<Camera2D> cameras2D;
-		Vector<PropertyAnimation> propertyAnimations;
-		Vector<RigidBody2D> rigidBodies2D;
-		Vector<AnimatedSprite> animatedSprites;
-		Rectangle windowDimensions;
-		ComponentID currentCamera = 0;
 	public:
 		SceneLayer2D()
 		{
@@ -45,5 +34,16 @@ namespace Lilliputian
 		void addAnimatedSprite2D(EntityID entityID, AnimatedSprite animatedSprite);
 
 		void executeFrameLogic();
+	private:
+		Map<EntityID, Entity2D> entities2D;
+		Vector<AudioListener2D> audioListeners2D;
+		Vector<StreamedAudioSource2D> streamedAudioSources2D;
+		Vector<RectangularCollider2D> boxColliders2D;
+		Vector<Camera2D> cameras2D;
+		Vector<PropertyAnimation> propertyAnimations;
+		Vector<RigidBody2D> rigidBodies2D;
+		Vector<AnimatedSprite> animatedSprites;
+		Rectangle windowDimensions;
+		ComponentID currentCamera = 0;
 	};
 }

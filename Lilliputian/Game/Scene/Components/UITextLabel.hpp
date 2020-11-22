@@ -6,7 +6,7 @@ namespace Lilliputian
 {
 	class UITextLabel : public Component
 	{
-	private:
 	public:
+	private:
 	};
 }
