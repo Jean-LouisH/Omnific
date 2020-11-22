@@ -21,6 +21,12 @@ void Lilliputian::Game::initialize(String assetsDirectory, String entryScenePath
 	this->activeSceneStack.emplace(entryScene);
 }
 
+void Lilliputian::Game::initializeEditor()
+{
+	Scene editorScene;
+	this->activeSceneStack.emplace(editorScene);
+}
+
 void Lilliputian::Game::executeStartLogic()
 {
 

@@ -11,4 +11,4 @@ add_subdirectory ("Lilliputian")
 add_subdirectory("LilliputianTests")
 add_subdirectory("ThirdParty")
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LilliputianTests)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Lilliputian)

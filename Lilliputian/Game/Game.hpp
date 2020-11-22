@@ -5,6 +5,7 @@
 #include "../OS.hpp"
 #include "../FileAccess.hpp"
 #include "../Profiler.hpp"
+#include "../Editor/Editor.hpp"
 #include "ScriptRegistry.hpp"
 #include "../ScriptingAPIs/ScriptingAPIs.hpp"
 #include "SceneLoader.hpp"
@@ -20,6 +21,7 @@ namespace Lilliputian
 	private:
 		OS* os;
 		Profiler* profiler;
+		Editor* editor;
 		ScriptingAPIs* scriptingAPIs;
 		ScriptRegistry* scriptRegistry;
 		SceneLoader* sceneLoader;
@@ -31,6 +33,7 @@ namespace Lilliputian
 			OS* os,
 			Profiler* profiler);
 		void initialize(String assetsDirectory, String entryScenePath);
+		void initializeEditor();
 		void executeStartLogic();
 		void executeInputLogic();
 		void executeFrameLogic();
