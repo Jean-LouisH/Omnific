@@ -12,5 +12,6 @@ namespace Lilliputian
 		FileAccess(const char* executableFilepath);
 		String getFilePath();
 		String getExecutableName();
+		bool exists(String filepath);
 	};
 }

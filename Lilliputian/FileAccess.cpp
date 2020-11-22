@@ -1,5 +1,6 @@
 #include "FileAccess.hpp"
 #include <SDL.h>
+#include <fstream>
 
 Lilliputian::FileAccess::FileAccess(const char* executableFilepath)
 {
@@ -27,4 +28,10 @@ Lilliputian::String Lilliputian::FileAccess::getExecutableName()
 		executableName += this->executableFilepath.at(j);
 
 	return executableName;
+}
+
+bool Lilliputian::FileAccess::exists(String filepath)
+{
+	std::ifstream inputFile(filepath);
+	return inputFile.good();
 }
