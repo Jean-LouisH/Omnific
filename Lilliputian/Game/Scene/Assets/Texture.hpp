@@ -6,16 +6,16 @@
 #include <SDL_render.h>
 #include <stdint.h>
 #include "../../../Utilities/Image.hpp"
+#include "Asset.hpp"
 
 namespace Lilliputian
 {
-	class Texture
+	class Texture : public Asset
 	{
 	private:
 		Image* image = NULL;
 	public:
 		Texture(Image* image);
-		void unload();
 		SDL_Surface* getSDLSurface();
 		uint32_t getWidth();
 		uint32_t getHeight();

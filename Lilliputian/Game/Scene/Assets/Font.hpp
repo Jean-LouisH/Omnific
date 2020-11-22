@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Asset.hpp"
+
 namespace Lilliputian
 {
-	class Font
+	class Font : public Asset
 	{
 	private:
 	public:
 		Font(const char* filepath);
-		void unload();
 	};
 }
