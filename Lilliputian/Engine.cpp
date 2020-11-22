@@ -32,7 +32,7 @@ void Lilliputian::Engine::run()
 	do
 	{
 		this->initialize();
-		this->game->initialize(this->os->fileAccess().getExecutableName() + "_Assets/", this->configuration.entryScenePath);
+		this->game->initialize();
 
 		this->state.setRunningApplicationWindowed();
 

@@ -10,21 +10,32 @@ Lilliputian::Game::Game(
 	this->scriptRegistry = new ScriptRegistry(
 		this->scriptingAPIs,
 		&this->scripts);
+	this->editor = new Editor(os);
 	this->activeSceneStack.emplace(Scene());
 	this->sceneLoader = NULL;
 }
 
-void Lilliputian::Game::initialize(String assetsDirectory, String entryScenePath)
+void Lilliputian::Game::initialize()
 {
-	this->sceneLoader = new SceneLoader(assetsDirectory);
-	Scene entryScene = this->sceneLoader->loadScene(entryScenePath.c_str());
-	this->activeSceneStack.emplace(entryScene);
+	String assetsDirectory = this->os->fileAccess().getExecutableName() + "_Assets/";
+
+	if (this->os->fileAccess().exists(assetsDirectory))
+		this->initializeGame(assetsDirectory);
+	else
+		this->initializeEditor();
 }
 
 void Lilliputian::Game::initializeEditor()
 {
 	Scene editorScene;
 	this->activeSceneStack.emplace(editorScene);
+}
+
+void Lilliputian::Game::initializeGame(String assetsDirectory)
+{
+	this->sceneLoader = new SceneLoader(assetsDirectory);
+	Scene entryScene;
+	this->activeSceneStack.emplace(entryScene);
 }
 
 void Lilliputian::Game::executeStartLogic()

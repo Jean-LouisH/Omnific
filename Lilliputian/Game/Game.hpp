@@ -28,12 +28,14 @@ namespace Lilliputian
 		Map<String, Script> scripts;
 		Vector<Scene> preloadedScenes;
 		Stack<Scene> activeSceneStack;
+
+		void initializeEditor();
+		void initializeGame(String assetsDirectory);
 	public:
 		Game(
 			OS* os,
 			Profiler* profiler);
-		void initialize(String assetsDirectory, String entryScenePath);
-		void initializeEditor();
+		void initialize();
 		void executeStartLogic();
 		void executeInputLogic();
 		void executeFrameLogic();
