@@ -24,6 +24,7 @@ namespace Lilliputian
 		SDL_MouseMotionEvent mouseMotionEvent = { 0 };
 		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };
 		SDL_WindowEvent windowEvent = { 0 };
+		SDL_DropEvent dropEvent = { 0 };
 
 		Vector<SDL_GameController*> gameControllers;
 		Vector<SDL_Haptic*> haptics;

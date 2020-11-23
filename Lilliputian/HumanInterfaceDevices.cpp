@@ -5,6 +5,12 @@ void Lilliputian::HumanInterfaceDevices::clear()
 	this->controllerAxisEvents.clear();
 	this->controllerButtonEvents.clear();
 	this->keyboardEvents.clear();
+
+	if (dropEvent.file != NULL)
+	{
+		SDL_free(dropEvent.file);
+		dropEvent = { 0 };
+	}
 }
 
 void Lilliputian::HumanInterfaceDevices::detectGameControllers()
@@ -76,6 +82,9 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 		case SDL_CONTROLLERAXISMOTION:
 			this->controllerAxisEvents.emplace(SDLEvents.caxis.axis, SDLEvents.caxis);
 			break;
+
+		case SDL_DROPFILE:
+			this->dropEvent = SDLEvents.drop;
 		}
 	}
 }
