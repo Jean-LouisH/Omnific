@@ -46,6 +46,16 @@ void Lilliputian::Window::toggleWindowedFullscreen()
 	SDL_ShowCursor(!this->isFullscreen);
 }
 
+void Lilliputian::Window::resizeWindow(uint16_t width_px, uint16_t height_px)
+{
+
+}
+
+void Lilliputian::Window::changeTitle(const char* title)
+{
+
+}
+
 void Lilliputian::Window::sleep(int time_ms)
 {
 	if (time_ms > 0)
