@@ -5,11 +5,11 @@
 
 namespace Lilliputian
 {
-	class SceneLoader
+	class SceneSerializer
 	{
 	public:
-		SceneLoader(String assetsDirectory);
-		Scene loadScene(const char* filepath);
+		SceneSerializer(String assetsDirectory);
+		Scene loadFromFile(const char* filepath);
 	private:
 		String assetsDirectory;
 	};

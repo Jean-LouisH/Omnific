@@ -1,14 +1,14 @@
-#include "SceneLoader.hpp"
+#include "SceneSerializer.hpp"
 #include <yaml-cpp/yaml.h>
 #include "../Utilities/String.hpp"
 #include "Scene/Scene.hpp"
 
-Lilliputian::SceneLoader::SceneLoader(String assetsDirectory)
+Lilliputian::SceneSerializer::SceneSerializer(String assetsDirectory)
 {
 	this->assetsDirectory = assetsDirectory;
 }
 
-Lilliputian::Scene Lilliputian::SceneLoader::loadScene(const char* filepath)
+Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(const char* filepath)
 {
 	Scene scene;
 	const std::string fullFilepath = this->assetsDirectory + filepath;
