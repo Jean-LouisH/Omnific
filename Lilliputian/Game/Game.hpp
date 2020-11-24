@@ -8,7 +8,8 @@
 #include "../Editor/Editor.hpp"
 #include "ScriptRegistry.hpp"
 #include "../ScriptingAPIs/ScriptingAPIs.hpp"
-#include "SceneLoader.hpp"
+#include "SceneSerializer.hpp"
+#include "../EngineConfiguration.hpp"
 #include "../Utilities/Collections/Vector.hpp"
 #include "../Utilities/Collections/Stack.hpp"
 #include "../Utilities/Collections/Map.hpp"
@@ -22,7 +23,7 @@ namespace Lilliputian
 		Game(
 			OS* os,
 			Profiler* profiler);
-		void initialize();
+		EngineConfiguration initialize();
 		void executeStartLogic();
 		void executeInputLogic();
 		void executeFrameLogic();
@@ -38,12 +39,12 @@ namespace Lilliputian
 		Editor* editor;
 		ScriptingAPIs* scriptingAPIs;
 		ScriptRegistry* scriptRegistry;
-		SceneLoader* sceneLoader;
+		SceneSerializer* sceneSerializer;
 		Map<String, Script> scripts;
 		Vector<Scene> preloadedScenes;
 		Stack<Scene> activeSceneStack;
 
-		void initializeEditor();
-		void initializeGame(String assetsDirectory);
+		EngineConfiguration initializeEditor();
+		EngineConfiguration initializeGame(String assetsDirectory);
 	};
 }

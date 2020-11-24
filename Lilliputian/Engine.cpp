@@ -2,11 +2,7 @@
 
 Lilliputian::Engine::Engine(
 	int argc, 
-	char* argv[], 
-	const char* gameTitle, 
-	uint16_t windowWidth, 
-	uint16_t windowHeight, 
-	const char* entrySceneName)
+	char* argv[])
 {
 	this->profiler = new Profiler();
 	this->threadPool = new ThreadPool();
@@ -16,10 +12,6 @@ Lilliputian::Engine::Engine(
 	this->configuration.windowHeight = 640;
 	this->configuration.windowWidth = 480;
 	this->configuration.isStartingFullscreen = false;
-
-	this->setGameTitle(gameTitle);
-	this->setWindowDimensions(windowWidth, windowHeight);
-	this->setEntryScene(entrySceneName);
 }
 
 Lilliputian::Engine::~Engine()
@@ -31,10 +23,11 @@ void Lilliputian::Engine::run()
 {
 	do
 	{
-		this->initialize();
-		this->game->initialize();
-
-		this->state.setRunningApplicationWindowed();
+		if (this->initializeSystems())
+		{
+			this->state.setRunningApplicationWindowed();
+			this->loadConfiguration(this->game->initialize());
+		}
 
 		while (this->state.isRunning())
 		{
@@ -53,8 +46,10 @@ void Lilliputian::Engine::run()
 	} while (this->state.isRestarting());
 }
 
-void Lilliputian::Engine::initialize()
+bool Lilliputian::Engine::initializeSystems()
 {
+	bool isInitializedOK = false;
+
 	this->state.setInitializing();
 
 	if (SDL_Init(SDL_INIT_EVERYTHING))
@@ -87,7 +82,17 @@ void Lilliputian::Engine::initialize()
 		this->hapticSystem = new HapticSystem();
 		this->physicsSystem = new PhysicsSystem();
 		this->renderingSystem = new RenderingSystem(this->os->window());
+
+		isInitializedOK = true;
 	}
+
+	return isInitializedOK;
+}
+
+void Lilliputian::Engine::loadConfiguration(EngineConfiguration configuration)
+{
+	this->os->window().resizeWindow(configuration.windowWidth, configuration.windowHeight);
+	this->os->window().changeTitle(configuration.gameTitle.c_str());
 }
 
 void Lilliputian::Engine::input()

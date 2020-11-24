@@ -25,11 +25,7 @@ namespace Lilliputian
 	public:
 		Engine(
 			int argc,
-			char* argv[],
-			const char* gameTitle,
-			uint16_t windowWidth,
-			uint16_t windowHeight,
-			const char* entryScenePath);
+			char* argv[]);
 		~Engine();
 
 		void run();
@@ -58,7 +54,8 @@ namespace Lilliputian
 		void setEntryScene(const char* entryScenePath);
 		void setWindowDimensions(uint16_t width, uint16_t height);
 
-		void initialize();
+		bool initializeSystems();
+		void loadConfiguration(EngineConfiguration configuration);
 		void input();
 		void logic();
 		void compute();
