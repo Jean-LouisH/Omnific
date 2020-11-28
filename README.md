@@ -8,12 +8,14 @@
 
 It is named after the tiny inhabitants of the fictional Lilliput island that appears in Jonathan Swift's 1726 novel "Guilliver's Travels." This reflects the objective of keeping the engine as small as necessary.
 
-## Target Features
+## Notable Target Features
 
 - [ ] Scene Editor
-- [ ] IDE and VM for "LilliScript", a Custom Typed Language Heavily Based on Pseudocode, with Debugging and Testing Support.
 - [ ] In-Editor Prototyping
 - [ ] Game Executable Exporting
+- [ ] IDE and VM for "LilliScript", a Custom Typed Language Heavily Based on Pseudocode
+- [ ] Debugging Support 
+- [ ] Testing Support
 - [x] Mouse, Keyboard and Game Controller Support
 - [x] Haptic Feedback Support
 - [x] Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
@@ -28,16 +30,17 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Compilation Instructions
 
-* Requires the [SDL2](https://www.libsdl.org/), [SDL2_image](https://www.libsdl.org/projects/SDL_image/), and  [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) libraries for your development platform.
+* Requires the [SDL2](https://www.libsdl.org/), [SDL2_image](https://www.libsdl.org/projects/SDL_image/), [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/) and  [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) libraries for your development platform.
 * Include this source directory in CMake to generate a project from the top level CMakeLists.txt. 
 * Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want. 
-* Use your C++ IDE or compiler of choice to build Lilliputian and LilliputianTests from the project.
+* Use your C++ IDE or compiler of choice to build Lilliputian and Tests from the project.
 
 ## Documentation
 
-* [Manual](Documentation/Manual/Manual.md)
-* [API](Documentation/API/API.md)
-* [Architecture](Documentation/Architecture/Architecture.md)
+* [Objectives](Documentation/Objectives/Objectives.md)
+* [Design](Documentation/Design/Design.md)
+* [End User Manual](Documentation/End User Manual/End User Manual.md)
+* [Scripting API](Documentation/End User Manual/Scripting API/Scripting API.md)
 
 ## Demos
 
