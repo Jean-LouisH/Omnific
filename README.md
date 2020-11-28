@@ -39,8 +39,8 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 * [Objectives](Documentation/Objectives/Objectives.md)
 * [Design](Documentation/Design/Design.md)
-* [End User Manual](Documentation/End User Manual/End User Manual.md)
-* [Scripting API](Documentation/End User Manual/Scripting API/Scripting API.md)
+* [End User Manual](Documentation/End_User_Manual/End_User_Manual.md)
+* [Scripting API](Documentation/End_User_Manual/Scripting_API/Scripting_API.md)
 
 ## Demos
 
