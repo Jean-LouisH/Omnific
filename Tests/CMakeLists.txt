@@ -3,12 +3,12 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE lilliputian_tests_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE lilliputian_tests_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE tests_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE tests_headers "[a-zA-Z]*.hpp")
 
 add_executable(LilliputianTests 
-	  ${lilliputian_tests_sources}
-	  ${lilliputian_tests_headers}
+	  ${tests_sources}
+	  ${tests_headers}
 )
 
 include_directories(
@@ -21,12 +21,12 @@ include_directories(
 		../ThirdParty/Libretti/include
 )
 
-add_dependencies (LilliputianTests 
+add_dependencies (Tests 
 		Lilliputian
 )
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../ThirdParty/SDL2-2.0.12/lib/x64)
 
-target_link_libraries (LilliputianTests
+target_link_libraries (Tests
 		${SDL2}
 )

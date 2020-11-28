@@ -1,7 +1,0 @@
-
-
-class LilliputianTests
-{
-public:
-private:
-};
