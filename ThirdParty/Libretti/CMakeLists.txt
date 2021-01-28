@@ -13,7 +13,7 @@ include_directories(
 	 "include/"
 )
 
-add_library(Libretti STATIC 
+add_library(libretti STATIC 
 	  ${libretti_sources}
 	  ${libretti_headers}
 )

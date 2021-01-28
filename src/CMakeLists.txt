@@ -3,9 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project("yaml_cpp")
-project("libretti")
+project ("lilliputian")
 
 # Include sub-projects.
-add_subdirectory("yaml-cpp-0.6.3")
-add_subdirectory ("libretti")
+add_subdirectory ("lilliputian")

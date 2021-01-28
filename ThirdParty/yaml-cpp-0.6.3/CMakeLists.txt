@@ -14,7 +14,7 @@ include_directories(
 	 "include"
 )
 
-add_library(YAML_CPP STATIC 
+add_library(yaml_cpp STATIC 
 	  ${yaml_cpp_sources}
 	  ${yaml_cpp_public_headers}
 	  ${yaml_cpp_private_headers}
