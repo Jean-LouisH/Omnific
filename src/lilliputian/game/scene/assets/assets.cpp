@@ -20,6 +20,16 @@ Lilliputian::Font Lilliputian::Assets::loadFont(const char* filepath)
 	return this->fonts.at(filepath);
 }
 
+Lilliputian::Text Lilliputian::Assets::loadText(const char* filepath)
+{
+	if (!this->texts.count(filepath))
+	{
+		this->texts.emplace(filepath, Text(filepath));
+	}
+
+	return this->texts.at(filepath);
+}
+
 Lilliputian::Texture Lilliputian::Assets::loadTexture(Image* image)
 {
 	if (!this->textures.count(image))
@@ -38,6 +48,11 @@ void Lilliputian::Assets::deleteStreamedAudio(const char* filepath)
 void Lilliputian::Assets::deleteFont(const char* filepath)
 {
 	this->fonts.at(filepath).unload();
+}
+
+void Lilliputian::Assets::deleteText(const char* filepath)
+{
+	this->texts.at(filepath).unload();
 }
 
 void Lilliputian::Assets::deleteTexture(Image* image)
@@ -69,6 +84,18 @@ void Lilliputian::Assets::deleteAllFonts()
 	}
 }
 
+void Lilliputian::Assets::deleteAllTexts()
+{
+	if (!this->texts.empty())
+	{
+		for (std::pair<String, Text> element : this->texts)
+		{
+			element.second.unload();
+		}
+		this->texts.clear();
+	}
+}
+
 void Lilliputian::Assets::deleteAllTextures()
 {
 	if (!this->textures.empty())
@@ -96,6 +123,11 @@ Lilliputian::Map<Lilliputian::String, Lilliputian::StreamedAudio> Lilliputian::A
 Lilliputian::Map<Lilliputian::String, Lilliputian::Font> Lilliputian::Assets::getFonts()
 {
 	return this->fonts;
+}
+
+Lilliputian::Map<Lilliputian::String, Lilliputian::Text> Lilliputian::Assets::getTexts()
+{
+	return this->texts;
 }
 
 Lilliputian::Map<Lilliputian::Image*, Lilliputian::Texture> Lilliputian::Assets::getTextures()
