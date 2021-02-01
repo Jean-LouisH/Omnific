@@ -5,7 +5,6 @@
 #include "../os.hpp"
 #include "../file_access.hpp"
 #include "../profiler.hpp"
-#include "../editor/editor.hpp"
 #include "script_registry.hpp"
 #include "../scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
@@ -36,7 +35,6 @@ namespace Lilliputian
 	private:
 		OS* os;
 		Profiler* profiler;
-		Editor* editor;
 		ScriptingAPIs* scriptingAPIs;
 		ScriptRegistry* scriptRegistry;
 		SceneSerializer* sceneSerializer;

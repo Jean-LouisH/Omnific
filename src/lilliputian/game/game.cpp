@@ -10,7 +10,6 @@ Lilliputian::Game::Game(
 	this->scriptRegistry = new ScriptRegistry(
 		this->scriptingAPIs,
 		&this->scripts);
-	this->editor = new Editor(os);
 	this->activeSceneStack.emplace(Scene());
 	this->sceneSerializer = NULL;
 }
