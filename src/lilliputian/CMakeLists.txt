@@ -13,7 +13,6 @@ add_executable(lilliputian
 
 add_dependencies (lilliputian
 	yaml_cpp
-	libretti
 )
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
@@ -27,12 +26,10 @@ include_directories(
 		../../thirdparty/SDL2_mixer-2.0.4/include
 		../../thirdparty/SDL2_ttf-2.0.15/include
 		../../thirdparty/yaml-cpp-0.6.3/include
-		../../thirdparty/Libretti/include
 )
 
 target_link_libraries (lilliputian
 		yaml_cpp
-		libretti
 		${SDL2}
 		${SDL2_Image}
 		${SDL2_Mixer}

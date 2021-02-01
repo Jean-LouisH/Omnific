@@ -26,7 +26,6 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 - [ ] Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
 - [ ] Physics, Collision Detection and Response
 - [ ] OGG and WAV Support for Audio Sources
-- [ ] [Libretti](https://github.com/Jean-LouisH/Libretti/blob/master/README.md) Audio Waveform Generation and Scripting
 
 ## Compilation Instructions
 
