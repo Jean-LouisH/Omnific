@@ -11,21 +11,17 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 ## Notable Target Features
 
 - [ ] Scene Editor
-- [ ] In-Editor Prototyping
+- [ ] Python Scripting and IDE
 - [ ] Game Executable Exporting
-- [ ] IDE and VM for "LilliScript", a Custom Typed Language Heavily Based on Pseudocode
-- [ ] Debugging Support 
-- [ ] Testing Support
 - [x] Mouse, Keyboard and Game Controller Support
 - [x] Haptic Feedback Support
 - [x] Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
-- [ ] JPG and PNG Support for Sprites
-- [ ] Spritesheets and Animation
-- [x] Multiple and Independent 2D Scene Layers (For Backgrounds, Game Environment, HUD, etc)
-- [x] Stacked Scenes (For Saved States on Scene Transitions)
+- [ ] JPG and PNG Support for Sprites and Animation
+- [ ] OGG and WAV Support for Audio Sources
 - [ ] Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
 - [ ] Physics, Collision Detection and Response
-- [ ] OGG and WAV Support for Audio Sources
+- [x] Multiple and Independent 2D Scene Layers (For Backgrounds, Game Environment, HUD, etc)
+- [x] Stacked Scenes (For Saved States on Scene Transitions)
 
 ## Compilation Instructions
 
