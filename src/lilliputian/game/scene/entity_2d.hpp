@@ -1,12 +1,12 @@
 #pragma once
 
 #include "script.hpp"
-#include "../../utilities/aliases.hpp"
-#include "../../utilities/collections/vector.hpp"
-#include "../../utilities/collections/map.hpp"
-#include "../../utilities/transform_2d.hpp"
-#include "../../utilities/constants.hpp"
-#include "../../utilities/string.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/collections/map.hpp"
+#include "utilities/transform_2d.hpp"
+#include "utilities/constants.hpp"
+#include "utilities/string.hpp"
 
 namespace Lilliputian
 {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/aabb_2d.hpp"
-#include "../../../utilities/collections/set.hpp"
-#include "../../../utilities/string.hpp"
-#include "../../../utilities/constants.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/aabb_2d.hpp"
+#include "utilities/collections/set.hpp"
+#include "utilities/string.hpp"
+#include "utilities/constants.hpp"
 #include "component.hpp"
 
 namespace Lilliputian

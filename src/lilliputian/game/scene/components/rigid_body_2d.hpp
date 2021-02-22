@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/vector2.hpp"
-#include "../../../utilities/constants.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/vector2.hpp"
+#include "utilities/constants.hpp"
 #include "component.hpp"
 
 namespace Lilliputian

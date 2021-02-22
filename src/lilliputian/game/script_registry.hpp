@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../utilities/collections/map.hpp"
-#include "../game/scene/script.hpp"
-#include "../scripting_apis/scripting_apis.hpp"
-#include "../utilities/string.hpp"
+#include "utilities/collections/map.hpp"
+#include "game/scene/script.hpp"
+#include "scripting_apis/scripting_apis.hpp"
+#include "utilities/string.hpp"
 
 namespace Lilliputian
 {

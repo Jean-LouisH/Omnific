@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/constants.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/constants.hpp"
 
 namespace Lilliputian
 {

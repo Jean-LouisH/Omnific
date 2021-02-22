@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../scripting_apis/scripting_apis.hpp"
-#include "../../utilities/string.hpp"
+#include "scripting_apis/scripting_apis.hpp"
+#include "utilities/string.hpp"
 
 namespace Lilliputian
 {

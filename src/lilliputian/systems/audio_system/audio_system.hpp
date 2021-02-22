@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SDL_mixer.h>
-#include "../../utilities/collections/queue.hpp"
-#include "../../game/scene/scene.hpp"
+#include "utilities/collections/queue.hpp"
+#include "game/scene/scene.hpp"
 
 namespace Lilliputian
 {

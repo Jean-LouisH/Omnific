@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/collections/vector.hpp"
-#include "../../../utilities/constants.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/constants.hpp"
 #include <stdint.h>
 #include "component.hpp"
 

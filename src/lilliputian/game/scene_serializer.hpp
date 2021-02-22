@@ -1,7 +1,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "../utilities/string.hpp"
+#include "utilities/string.hpp"
 
 namespace Lilliputian
 {

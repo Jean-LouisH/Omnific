@@ -1,9 +1,9 @@
 #pragma once
 
 #include <stdint.h>
-#include "../utilities/collections/map.hpp"
-#include "../utilities/collections/vector.hpp"
-#include "../utilities/string.hpp"
+#include "utilities/collections/map.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/string.hpp"
 
 namespace Lilliputian
 {

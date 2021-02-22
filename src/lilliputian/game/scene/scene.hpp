@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../utilities/collections/vector.hpp"
-#include "../../utilities/collections/stack.hpp"
-#include "../../utilities/collections/queue.hpp"
-#include "../../utilities/collections/map.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/collections/stack.hpp"
+#include "utilities/collections/queue.hpp"
+#include "utilities/collections/map.hpp"
 #include "assets/assets.hpp"
 #include "scene_layer_2d.hpp"
 

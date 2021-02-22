@@ -8,10 +8,10 @@
 #include "components/camera_2d.hpp"
 #include "components/property_animation.hpp"
 #include "components/rigid_body_2d.hpp"
-#include "../../utilities/rectangle.hpp"
-#include "../../utilities/collections/vector.hpp"
-#include "../../utilities/collections/map.hpp"
-#include "../../utilities/aliases.hpp"
+#include "utilities/rectangle.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/collections/map.hpp"
+#include "utilities/aliases.hpp"
 
 namespace Lilliputian
 {

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../game/scene/scene.hpp"
+#include "game/scene/scene.hpp"
 #include <SDL.h>
-#include "../../utilities/collections/vector.hpp"
-#include "../../human_interface_devices.hpp"
+#include "utilities/collections/vector.hpp"
+#include "human_interface_devices.hpp"
 
 namespace Lilliputian
 {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/collections/set.hpp"
-#include "../../../utilities/collections/queue.hpp"
-#include "../../../utilities/constants.hpp"
-#include "../assets/streamed_audio.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/collections/set.hpp"
+#include "utilities/collections/queue.hpp"
+#include "utilities/constants.hpp"
+#include "game/scene/assets/streamed_audio.hpp"
 #include "component.hpp"
 
 namespace Lilliputian

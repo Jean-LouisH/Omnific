@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/collections/vector.hpp"
-#include "../../../utilities/collections/map.hpp"
-#include "../../../utilities/constants.hpp"
-#include "../../../utilities/string.hpp"
-#include "../assets/texture.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/collections/map.hpp"
+#include "utilities/constants.hpp"
+#include "utilities/string.hpp"
+#include "game/scene/assets/texture.hpp"
 #include "component.hpp"
 
 namespace Lilliputian

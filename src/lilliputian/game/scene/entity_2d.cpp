@@ -1,5 +1,5 @@
 #include "entity_2d.hpp"
-#include "../../utilities/constants.hpp"
+#include "utilities/constants.hpp"
 
 void Lilliputian::Entity2D::addParentEntity(EntityID parentEntityID)
 {

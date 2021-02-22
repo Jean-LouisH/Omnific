@@ -1,6 +1,6 @@
 #include "scene_serializer.hpp"
 #include <yaml-cpp/yaml.h>
-#include "../utilities/string.hpp"
+#include "utilities/string.hpp"
 #include "scene/scene.hpp"
 
 Lilliputian::SceneSerializer::SceneSerializer(String assetsDirectory)

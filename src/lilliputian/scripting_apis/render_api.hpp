@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utilities/image.hpp"
+#include "utilities/image.hpp"
 
 namespace Lilliputian
 {
