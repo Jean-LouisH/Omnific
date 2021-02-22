@@ -35,16 +35,16 @@ namespace Lilliputian
 		void addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback);
 	private:
 		Vector<ScriptCompilerCallback> scriptCompilerCallbacks;
-		Game* game = NULL;
-		AISystem* aiSystem = NULL;
-		AnimationSystem* animationSystem = NULL;
-		AudioSystem* audioSystem = NULL;
-		HapticSystem* hapticSystem = NULL;
-		PhysicsSystem* physicsSystem = NULL;
-		RenderingSystem* renderingSystem = NULL;
-		OS* os = NULL;
-		Profiler* profiler = NULL;
-		ThreadPool* threadPool = NULL;
+		Game* game = nullptr;
+		AISystem* aiSystem = nullptr;
+		AnimationSystem* animationSystem = nullptr;
+		AudioSystem* audioSystem = nullptr;
+		HapticSystem* hapticSystem = nullptr;
+		PhysicsSystem* physicsSystem = nullptr;
+		RenderingSystem* renderingSystem = nullptr;
+		OS* os = nullptr;
+		Profiler* profiler = nullptr;
+		ThreadPool* threadPool = nullptr;
 		EngineConfiguration configuration;
 		EngineState state;
 
