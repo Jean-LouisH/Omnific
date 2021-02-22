@@ -14,7 +14,6 @@
 #include "engine_configuration.hpp"
 #include "engine_state.hpp"
 #include "profiler.hpp"
-#include "thread_pool.hpp"
 
 namespace Lilliputian
 {
@@ -44,7 +43,6 @@ namespace Lilliputian
 		RenderingSystem* renderingSystem = nullptr;
 		OS* os = nullptr;
 		Profiler* profiler = nullptr;
-		ThreadPool* threadPool = nullptr;
 		EngineConfiguration configuration;
 		EngineState state;
 

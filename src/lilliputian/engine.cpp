@@ -5,7 +5,6 @@ Lilliputian::Engine::Engine(
 	char* argv[])
 {
 	this->profiler = new Profiler();
-	this->threadPool = new ThreadPool();
 	this->commandArguments = argv;
 	this->configuration.msPerComputeUpdate = 8;
 	this->configuration.targetFPS = 60;
