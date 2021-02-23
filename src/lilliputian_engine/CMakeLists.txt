@@ -1,17 +1,15 @@
-﻿# CMakeList.txt : CMake project for Lilliputian, include source and define
-# project specific logic here.
-#
+﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE lilliputian_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE lilliputian_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE lilliputian_engine_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE lilliputian_engine_headers "[a-zA-Z]*.hpp")
 
-add_executable(lilliputian 
-	  ${lilliputian_sources}
-	  ${lilliputian_headers}
+add_library(lilliputian_engine SHARED
+	  ${lilliputian_engine_sources}
+	  ${lilliputian_engine_headers}
 )
 
-add_dependencies (lilliputian
+add_dependencies (lilliputian_engine
 	yaml_cpp
 )
 
@@ -29,10 +27,12 @@ include_directories(
 		.
 )
 
-target_link_libraries (lilliputian
+target_link_libraries (lilliputian_engine
 		yaml_cpp
 		${SDL2}
 		${SDL2_Image}
 		${SDL2_Mixer}
 		${SDL2_TTF}
 )
+
+add_definitions(-D_LILLIPUTIAN_ENGINE_EXPORTS)

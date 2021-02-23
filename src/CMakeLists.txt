@@ -3,7 +3,9 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("lilliputian")
+project ("lilliputian_engine")
+project ("lilliputian_main")
 
 # Include sub-projects.
-add_subdirectory ("lilliputian")
+add_subdirectory ("lilliputian_engine")
+add_subdirectory ("lilliputian_main")

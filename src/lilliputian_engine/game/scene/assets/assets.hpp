@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../utilities/collections/map.hpp"
-#include "../../../utilities/string.hpp"
-#include "../../../utilities/image.hpp"
+#include "utilities/collections/map.hpp"
+#include "utilities/string.hpp"
+#include "utilities/image.hpp"
 #include "streamed_audio.hpp"
 #include "font.hpp"
 #include "text.hpp"

@@ -15,11 +15,21 @@
 #include "engine_state.hpp"
 #include "profiler.hpp"
 
+#if defined (_WIN32)
+#if defined(_LILLIPUTIAN_ENGINE_EXPORTS)
+#define  LILLIPUTIAN_ENGINE_API __declspec(dllexport)
+#else
+#define  LILLIPUTIAN_ENGINE_API __declspec(dllimport)
+#endif
+#else
+#define LILLIPUTIAN_ENGINE_API
+#endif
+
 namespace Lilliputian
 {
 	using ScriptCompilerCallback = void(*)(Lilliputian::ScriptRegistry&);
 
-	class Engine
+	class LILLIPUTIAN_ENGINE_API Engine
 	{
 	public:
 		Engine(

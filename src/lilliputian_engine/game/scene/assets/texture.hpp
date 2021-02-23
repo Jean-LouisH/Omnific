@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../../../utilities/aliases.hpp"
-#include "../../../utilities/rectangle.hpp"
+#include "utilities/aliases.hpp"
+#include "utilities/rectangle.hpp"
 #include <SDL_surface.h>
 #include <SDL_render.h>
 #include <stdint.h>
-#include "../../../utilities/image.hpp"
+#include "utilities/image.hpp"
 #include "asset.hpp"
 
 namespace Lilliputian
