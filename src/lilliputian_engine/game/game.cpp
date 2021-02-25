@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "boot_loader.hpp"
 
 Lilliputian::Game::Game(
 	OS* os,
@@ -16,34 +17,19 @@ Lilliputian::Game::Game(
 
 Lilliputian::EngineConfiguration Lilliputian::Game::initialize()
 {
-	String assetsDirectory = this->os->fileAccess().getExecutableName() + "_Assets/";
 	EngineConfiguration configuration;
-
-	if (this->os->fileAccess().exists(assetsDirectory))
-		configuration = this->initializeGame(assetsDirectory);
-	else
-		configuration = this->initializeEditor();
-
-	return configuration;
-}
-
-Lilliputian::EngineConfiguration Lilliputian::Game::initializeEditor()
-{
-	Scene editorScene;
-	EngineConfiguration configuration;
-
-	this->activeSceneStack.emplace(editorScene);
-
-	return configuration;
-}
-
-Lilliputian::EngineConfiguration Lilliputian::Game::initializeGame(String assetsDirectory)
-{
+	BootLoader bootLoader;
 	Scene entryScene;
-	EngineConfiguration configuration;
+	String assetsDirectory = "data/";
+	String bootFilepath = "boot.yml";
 
-	this->sceneSerializer = new SceneSerializer(assetsDirectory);
-	this->activeSceneStack.emplace(entryScene);
+	if (this->os->fileAccess().exists(assetsDirectory + bootFilepath))
+	{
+		configuration = bootLoader.loadFromFile(assetsDirectory + bootFilepath);
+		this->sceneSerializer = new SceneSerializer(assetsDirectory);
+		entryScene = this->sceneSerializer->loadFromFile(configuration.entryScenePath);
+		this->activeSceneStack.emplace(entryScene);
+	}
 
 	return configuration;
 }

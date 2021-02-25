@@ -41,8 +41,5 @@ namespace Lilliputian
 		Map<String, Script> scripts;
 		Vector<Scene> preloadedScenes;
 		Stack<Scene> activeSceneStack;
-
-		EngineConfiguration initializeEditor();
-		EngineConfiguration initializeGame(String assetsDirectory);
 	};
 }
