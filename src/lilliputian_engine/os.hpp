@@ -12,6 +12,7 @@ namespace Lilliputian
 	{
 	public:
 		OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath);
+		~OS();
 		Window& window();
 		HumanInterfaceDevices& hid();
 		FileAccess& fileAccess();

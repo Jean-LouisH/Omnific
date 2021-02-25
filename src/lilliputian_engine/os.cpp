@@ -8,6 +8,13 @@ Lilliputian::OS::OS(const char* title, uint16_t width, uint16_t height, bool isF
 	this->_fileAccess = new FileAccess(executableFilepath);
 }
 
+Lilliputian::OS::~OS()
+{
+	delete this->_window;
+	delete this->_hid;
+	delete this->_fileAccess;
+}
+
 Lilliputian::Window& Lilliputian::OS::window()
 {
 	return *this->_window;
