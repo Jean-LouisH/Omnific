@@ -1,6 +1,6 @@
 # [Lilliputian](https://github.com/Jean-LouisH/Lilliputian)
 
-![screenshot](Documentation/Images/Screenshot.gif)
+![screenshot](Screenshot.png)
 
 **This project is still a work in progress**
 

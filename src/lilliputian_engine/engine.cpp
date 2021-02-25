@@ -156,7 +156,7 @@ void Lilliputian::Engine::benchmark()
 		String FPSString = std::to_string(this->profiler->getFPS());
 		String frameUtilizationString =
 			std::to_string((int)(((double)this->profiler->process().getDelta_ns() / (double)this->profiler->frame().getDelta_ns()) * 100));
-		this->os->window().changeTitle((this->game->configuration().gameTitle + " ->" +
+		this->os->window().changeTitle((this->game->configuration().gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString +
 			", Frame Time Utilization: " + frameUtilizationString + "%").c_str()
 		);
