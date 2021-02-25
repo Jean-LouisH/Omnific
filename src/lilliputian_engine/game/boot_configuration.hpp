@@ -12,7 +12,7 @@ namespace Lilliputian
 		String version;
 		String developer;
 		String iconFilepath;
-		String entryScenePath;
+		String entrySceneFilepath;
 		//Game Window
 		uint16_t windowHeight;
 		uint16_t windowWidth;
