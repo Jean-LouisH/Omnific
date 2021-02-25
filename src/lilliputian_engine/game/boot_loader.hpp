@@ -8,6 +8,6 @@ namespace Lilliputian
 	class BootLoader
 	{
 	public:
-		BootConfiguration* loadFromFile(String filepath);
+		BootConfiguration* loadFromFile(String bootFilepath);
 	};
 }
