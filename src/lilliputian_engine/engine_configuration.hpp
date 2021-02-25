@@ -5,13 +5,21 @@ namespace Lilliputian
 	class EngineConfiguration
 	{
 	public:
-		uint32_t msPerComputeUpdate;
-		uint32_t targetFPS;
+		//Game
 		String gameTitle;
+		String version;
+		String developer;
+		String iconFilepath;
+		String entryScenePath;
+		//Game Window
 		uint16_t windowHeight;
 		uint16_t windowWidth;
-		String entryScenePath;
 		bool isStartingFullscreen;
+		bool isStartingMaximized;
+		bool isResizable;
+		//Time
+		uint32_t msPerComputeUpdate;
+		uint32_t targetFPS;
 	private:
 	};
 }
