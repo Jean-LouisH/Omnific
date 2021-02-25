@@ -7,12 +7,6 @@ Lilliputian::Engine::Engine(
 	this->profiler = new Profiler();
 	this->argc = argc;
 	this->argv = argv;
-	this->configuration.gameTitle = "";
-	this->configuration.windowHeight = 640;
-	this->configuration.windowWidth = 480;
-	this->configuration.isStartingFullscreen = false;
-	this->configuration.targetFPS = 60;
-	this->configuration.msPerComputeUpdate = 8;
 }
 
 Lilliputian::Engine::~Engine()
@@ -24,10 +18,14 @@ void Lilliputian::Engine::run()
 {
 	do
 	{
-		if (this->initializeSystems())
+		if (this->initialize())
 		{
+			this->game->initialize();
+			BootConfiguration configuration = this->game->configuration();
+			Window window = this->os->window();
+			window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
+			window.changeTitle(configuration.gameTitle.c_str());
 			this->state.setRunningApplicationWindowed();
-			this->loadConfiguration(this->game->initialize());
 		}
 
 		while (this->state.isRunning())
@@ -47,7 +45,7 @@ void Lilliputian::Engine::run()
 	} while (this->state.isRestarting());
 }
 
-bool Lilliputian::Engine::initializeSystems()
+bool Lilliputian::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
@@ -62,21 +60,8 @@ bool Lilliputian::Engine::initializeSystems()
 	}
 	else
 	{
-		this->os = new OS(
-			this->configuration.gameTitle.c_str(),
-			this->configuration.windowHeight,
-			this->configuration.windowWidth,
-			this->configuration.isStartingFullscreen,
-			this->argv[0]);
-
+		this->os = new OS("", 640, 480, false, this->argv[0]);
 		this->game = new Game(this->os, this->profiler);
-
-		for (int i = 0; i < this->scriptCompilerCallbacks.size(); i++)
-		{
-			if (this->scriptCompilerCallbacks.at(i) != nullptr)
-				this->scriptCompilerCallbacks.at(i)(this->game->getScriptRegistry());
-		}
-
 		this->aiSystem = new AISystem();
 		this->animationSystem = new AnimationSystem();
 		this->audioSystem = new AudioSystem();
@@ -90,17 +75,13 @@ bool Lilliputian::Engine::initializeSystems()
 	return isInitializedOK;
 }
 
-void Lilliputian::Engine::loadConfiguration(EngineConfiguration configuration)
-{
-	this->os->window().resizeWindow(configuration.windowWidth, configuration.windowHeight);
-	this->os->window().changeTitle(configuration.gameTitle.c_str());
-}
-
 void Lilliputian::Engine::input()
 {
-	this->os->hid().detectGameControllers();
-	this->os->hid().pollInputEvents();
-	if (this->os->hid().hasRequestedShutdown())
+	HumanInterfaceDevices hid = this->os->hid();
+
+	hid.detectGameControllers();
+	hid.pollInputEvents();
+	if (hid.hasRequestedShutdown())
 		this->state.setShuttingDown();
 }
 
@@ -120,19 +101,19 @@ void Lilliputian::Engine::compute()
 
 void Lilliputian::Engine::output()
 {
-	if (this->renderingSystem != NULL)
+	if (this->renderingSystem != nullptr)
 		this->renderingSystem->process(this->game->getActiveScene());
 
-	if (this->audioSystem != NULL)
+	if (this->audioSystem != nullptr)
 		this->audioSystem->process(this->game->getActiveScene());
 
-	if (this->hapticSystem != NULL)
+	if (this->hapticSystem != nullptr)
 		this->hapticSystem->process(this->game->getActiveScene(), this->os->hid());
 }
 
 void Lilliputian::Engine::sleep()
 {
-	float targetFrameTime_ms = 1000.0 / this->configuration.targetFPS;
+	float targetFrameTime_ms = 1000.0 / this->game->configuration().targetFPS;
 	float processTime_ms = this->profiler->process().getDelta_ns() / 1000.0;
 	this->os->window().sleep(targetFrameTime_ms - processTime_ms);
 }
@@ -148,48 +129,4 @@ void Lilliputian::Engine::shutdown()
 	delete this->physicsSystem;
 	delete this->renderingSystem;
 	delete this->profiler;
-}
-
-void Lilliputian::Engine::setGameTitle(const char* gameTitle)
-{
-	this->configuration.gameTitle = gameTitle;
-}
-
-void Lilliputian::Engine::setEntryScene(const char* entryScenePath)
-{
-	this->configuration.entryScenePath = entryScenePath;
-}
-
-void Lilliputian::Engine::setWindowDimensions(uint16_t width, uint16_t height)
-{
-	if (height > 0)
-		this->configuration.windowHeight = height;
-	if (width > 0)
-		this->configuration.windowWidth = width;
-}
-
-void Lilliputian::Engine::setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate)
-{
-	if (msPerComputeUpdate > (1.0 / (this->configuration.targetFPS * 2.0)))
-		this->configuration.msPerComputeUpdate = (1.0 / (this->configuration.targetFPS * 2.0));
-	else
-		this->configuration.msPerComputeUpdate = msPerComputeUpdate;
-}
-
-void Lilliputian::Engine::setTargetFPS(uint32_t targetFPS)
-{
-	if (targetFPS > 0)
-		this->configuration.targetFPS = targetFPS;
-	else
-		this->configuration.targetFPS = 1;
-}
-
-void Lilliputian::Engine::setFullscreenStart(bool value)
-{
-	this->configuration.isStartingFullscreen = value;
-}
-
-void Lilliputian::Engine::addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback)
-{
-	this->scriptCompilerCallbacks.push_back(scriptCompilerCallback);
 }

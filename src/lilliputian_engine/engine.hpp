@@ -11,7 +11,6 @@
 #include "systems/physics_system/physics_system.hpp"
 #include "systems/rendering_system/rendering_system.hpp"
 #include "os.hpp"
-#include "engine_configuration.hpp"
 #include "engine_state.hpp"
 #include "profiler.hpp"
 
@@ -27,23 +26,17 @@
 
 namespace Lilliputian
 {
-	using ScriptCompilerCallback = void(*)(Lilliputian::ScriptRegistry&);
-
 	class LILLIPUTIAN_ENGINE_API Engine
 	{
 	public:
 		Engine(
 			int argc,
 			char* argv[]);
+
 		~Engine();
 
 		void run();
-		void setMillisecondsPerComputeUpdate(uint32_t msPerComputeUpdate);
-		void setTargetFPS(uint32_t targetFPS);
-		void setFullscreenStart(bool value);
-		void addScriptCompilerFunction(ScriptCompilerCallback scriptCompilerCallback);
 	private:
-		Vector<ScriptCompilerCallback> scriptCompilerCallbacks;
 		Game* game = nullptr;
 		AISystem* aiSystem = nullptr;
 		AnimationSystem* animationSystem = nullptr;
@@ -53,18 +46,12 @@ namespace Lilliputian
 		RenderingSystem* renderingSystem = nullptr;
 		OS* os = nullptr;
 		Profiler* profiler = nullptr;
-		EngineConfiguration configuration;
 		EngineState state;
 
 		int argc = 0;
 		char** argv = nullptr;
 
-		void setGameTitle(const char* gameTitle);
-		void setEntryScene(const char* entryScenePath);
-		void setWindowDimensions(uint16_t width, uint16_t height);
-
-		bool initializeSystems();
-		void loadConfiguration(EngineConfiguration configuration);
+		bool initialize();
 		void input();
 		void logic();
 		void compute();

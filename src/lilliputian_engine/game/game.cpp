@@ -12,26 +12,32 @@ Lilliputian::Game::Game(
 		this->scriptingAPIs,
 		&this->scripts);
 	this->activeSceneStack.emplace(Scene());
-	this->sceneSerializer = NULL;
 }
 
-Lilliputian::EngineConfiguration Lilliputian::Game::initialize()
+void Lilliputian::Game::initialize()
 {
-	EngineConfiguration configuration;
 	BootLoader bootLoader;
 	Scene entryScene;
 	String assetsDirectory = "data/";
-	String bootFilepath = "boot.yml";
+	String bootFilename = "boot.yml";
+	String bootFilepath = assetsDirectory + bootFilename;
 
-	if (this->os->fileAccess().exists(assetsDirectory + bootFilepath))
+	if (this->os->fileAccess().exists(bootFilepath))
 	{
-		configuration = bootLoader.loadFromFile(assetsDirectory + bootFilepath);
+		this->_configuration = bootLoader.loadFromFile(bootFilepath);
 		this->sceneSerializer = new SceneSerializer(assetsDirectory);
-		entryScene = this->sceneSerializer->loadFromFile(configuration.entryScenePath);
+		entryScene = this->sceneSerializer->loadFromFile(_configuration->entryScenePath);
 		this->activeSceneStack.emplace(entryScene);
 	}
-
-	return configuration;
+	else
+	{
+		this->_configuration = new BootConfiguration();
+		this->_configuration->windowHeight = 640;
+		this->_configuration->windowWidth = 480;
+		this->_configuration->isResizable = false;
+		this->_configuration->isStartingFullscreen = false;
+		this->_configuration->isStartingMaximized = false;
+	}
 }
 
 void Lilliputian::Game::executeStartLogic()
@@ -67,7 +73,10 @@ void Lilliputian::Game::executeFinalLogic()
 
 void Lilliputian::Game::deinitialize()
 {
-
+	delete this->_configuration;
+	delete this->scriptingAPIs;
+	delete this->scriptRegistry;
+	delete this->sceneSerializer;
 }
 
 Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()
@@ -78,4 +87,9 @@ Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()
 Lilliputian::Scene& Lilliputian::Game::getActiveScene()
 {
 	return this->activeSceneStack.top();
+}
+
+Lilliputian::BootConfiguration& Lilliputian::Game::configuration()
+{
+	return *this->_configuration;
 }

@@ -4,7 +4,7 @@
 
 namespace Lilliputian 
 {
-	class EngineConfiguration
+	class BootConfiguration
 	{
 	public:
 		//Game

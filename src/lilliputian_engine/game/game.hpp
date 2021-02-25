@@ -8,7 +8,7 @@
 #include "script_registry.hpp"
 #include "scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
-#include "engine_configuration.hpp"
+#include "boot_configuration.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/stack.hpp"
 #include "utilities/collections/map.hpp"
@@ -22,7 +22,7 @@ namespace Lilliputian
 		Game(
 			OS* os,
 			Profiler* profiler);
-		EngineConfiguration initialize();
+		void initialize();
 		void executeStartLogic();
 		void executeInputLogic();
 		void executeFrameLogic();
@@ -32,12 +32,14 @@ namespace Lilliputian
 		void deinitialize();
 		ScriptRegistry& getScriptRegistry();
 		Scene& getActiveScene();
+		BootConfiguration& configuration();
 	private:
-		OS* os;
-		Profiler* profiler;
-		ScriptingAPIs* scriptingAPIs;
-		ScriptRegistry* scriptRegistry;
-		SceneSerializer* sceneSerializer;
+		OS* os = nullptr;
+		Profiler* profiler = nullptr;
+		BootConfiguration* _configuration = nullptr;
+		ScriptingAPIs* scriptingAPIs = nullptr;
+		ScriptRegistry* scriptRegistry = nullptr;
+		SceneSerializer* sceneSerializer = nullptr;
 		Map<String, Script> scripts;
 		Vector<Scene> preloadedScenes;
 		Stack<Scene> activeSceneStack;
