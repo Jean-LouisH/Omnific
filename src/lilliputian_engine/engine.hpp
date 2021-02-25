@@ -10,6 +10,7 @@
 #include "systems/haptic_system/haptic_system.hpp"
 #include "systems/physics_system/physics_system.hpp"
 #include "systems/rendering_system/rendering_system.hpp"
+#include "systems/ui_system/ui_system.hpp"
 #include "os.hpp"
 #include "engine_state.hpp"
 #include "profiler.hpp"
@@ -33,8 +34,6 @@ namespace Lilliputian
 			int argc,
 			char* argv[]);
 
-		~Engine();
-
 		void run();
 	private:
 		Game* game = nullptr;
@@ -44,6 +43,7 @@ namespace Lilliputian
 		HapticSystem* hapticSystem = nullptr;
 		PhysicsSystem* physicsSystem = nullptr;
 		RenderingSystem* renderingSystem = nullptr;
+		UISystem* uiSystem = nullptr;
 		OS* os = nullptr;
 		Profiler* profiler = nullptr;
 		EngineState state;
@@ -53,8 +53,7 @@ namespace Lilliputian
 
 		bool initialize();
 		void input();
-		void logic();
-		void compute();
+		void update();
 		void output();
 		void sleep();
 		void shutdown();

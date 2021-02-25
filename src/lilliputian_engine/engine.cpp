@@ -9,11 +9,6 @@ Lilliputian::Engine::Engine(
 	this->argv = argv;
 }
 
-Lilliputian::Engine::~Engine()
-{
-
-}
-
 void Lilliputian::Engine::run()
 {
 	do
@@ -47,8 +42,7 @@ void Lilliputian::Engine::run()
 			this->profiler->frame().setStart();
 			this->profiler->process().setStart();
 			this->input();
-			this->logic();
-			this->compute();
+			this->update();
 			this->output();
 			this->profiler->process().setEnd();
 			this->sleep();
@@ -84,6 +78,7 @@ bool Lilliputian::Engine::initialize()
 		this->hapticSystem = new HapticSystem();
 		this->physicsSystem = new PhysicsSystem();
 		this->renderingSystem = new RenderingSystem(this->os->window());
+		this->uiSystem = new UISystem();
 
 		isInitializedOK = true;
 	}
@@ -101,20 +96,22 @@ void Lilliputian::Engine::input()
 		this->state.setShuttingDown();
 }
 
-void Lilliputian::Engine::logic()
+void Lilliputian::Engine::update()
 {
-	this->game->executeOnStartMethods();
-	this->game->executeOnInputMethods();
-	this->game->executeOnFrameMethods();
-}
-
-void Lilliputian::Engine::compute()
-{
+	Scene activeScene = this->game->getActiveScene();
 	uint32_t msPerComputeUpdate = this->game->configuration().msPerComputeUpdate;
+
+	this->game->executeOnInputMethods();
+	this->game->executeOnStartMethods();
+	this->game->executeOnFrameMethods();
+	this->uiSystem->process(activeScene, this->os->hid());
+	this->aiSystem->process(activeScene);
 
 	while (this->profiler->getLag_ms() >= msPerComputeUpdate)
 	{
 		this->game->executeOnComputeMethods();
+		this->animationSystem->process(activeScene);
+		this->physicsSystem->process(activeScene);
 		this->profiler->decrementLagCount(msPerComputeUpdate);
 	}
 
@@ -152,5 +149,6 @@ void Lilliputian::Engine::shutdown()
 	delete this->hapticSystem;
 	delete this->physicsSystem;
 	delete this->renderingSystem;
+	delete this->uiSystem;
 	delete this->profiler;
 }

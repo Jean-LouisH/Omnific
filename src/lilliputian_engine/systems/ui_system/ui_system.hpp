@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../game/scene/scene.hpp"
-#include "../../human_interface_devices.hpp"
+#include "game/scene/scene.hpp"
+#include "human_interface_devices.hpp"
 
 namespace Lilliputian
 {
