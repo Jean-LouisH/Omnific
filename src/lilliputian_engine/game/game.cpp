@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include "boot_loader.hpp"
+#include "utilities/constants.hpp"
 
 Lilliputian::Game::Game(
 	OS* os,
@@ -19,6 +20,9 @@ void Lilliputian::Game::initialize()
 	BootLoader bootLoader;
 	Scene entryScene;
 	String assetsDirectory = "data/";
+#ifdef _DEBUG
+	assetsDirectory = DEBUG_DATA_FILEPATH;
+#endif
 	String bootFilename = "boot.yml";
 	String bootFilepath = assetsDirectory + bootFilename;
 
@@ -26,7 +30,7 @@ void Lilliputian::Game::initialize()
 	{
 		this->_configuration = bootLoader.loadFromFile(bootFilepath);
 		this->sceneSerializer = new SceneSerializer(assetsDirectory);
-		entryScene = this->sceneSerializer->loadFromFile(_configuration->entryScenePath);
+		entryScene = this->sceneSerializer->loadFromFile(_configuration->entrySceneFilepath);
 		this->activeSceneStack.emplace(entryScene);
 	}
 	else

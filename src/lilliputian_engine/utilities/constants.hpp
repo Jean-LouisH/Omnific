@@ -24,4 +24,13 @@ namespace Lilliputian
 #define EARTH_MASS 5.9722e24
 
 #define NO_ENTITY 0 
+
+#define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
+#define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
+#define DEBUG_DATA_FILEPATH DEBUG_EDITOR_DATA_FILEPATH
+#define DEBUG_DEMO_MODE false
+
+#if (DEBUG_DEMO_MODE)
+	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
+#endif
 }
