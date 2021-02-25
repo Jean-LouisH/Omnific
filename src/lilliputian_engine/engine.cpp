@@ -30,6 +30,7 @@ void Lilliputian::Engine::run()
 
 		while (this->state.isRunning())
 		{
+			this->profiler->frame().setStart();
 			this->profiler->process().setStart();
 			this->input();
 			this->logic();
@@ -37,7 +38,8 @@ void Lilliputian::Engine::run()
 			this->output();
 			this->profiler->process().setEnd();
 			this->sleep();
-			this->profiler->frameCount++;
+			this->profiler->frame().setEnd();
+			this->profiler->incrementFrameCount();
 		}
 
 		this->game->deinitialize();
@@ -94,9 +96,17 @@ void Lilliputian::Engine::logic()
 
 void Lilliputian::Engine::compute()
 {
+	uint32_t msPerComputeUpdate = this->game->configuration().msPerComputeUpdate;
+
+	while (this->profiler->getLag_ms() >= msPerComputeUpdate)
+	{
+		this->game->executeComputeLogic();
+		this->profiler->decrementLagCount(msPerComputeUpdate);
+	}
 
 	this->game->executeLateLogic();
 	this->game->executeFinalLogic();
+	this->profiler->incrementLagCount(this->profiler->frame().getDelta_ns() / NS_IN_MS);
 }
 
 void Lilliputian::Engine::output()
