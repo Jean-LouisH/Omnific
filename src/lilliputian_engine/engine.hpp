@@ -55,6 +55,7 @@ namespace Lilliputian
 		void input();
 		void update();
 		void output();
+		void benchmark();
 		void sleep();
 		void shutdown();
 	};
