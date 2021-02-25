@@ -5,12 +5,14 @@ Lilliputian::Engine::Engine(
 	char* argv[])
 {
 	this->profiler = new Profiler();
-	this->commandArguments = argv;
-	this->configuration.msPerComputeUpdate = 8;
-	this->configuration.targetFPS = 60;
+	this->argc = argc;
+	this->argv = argv;
+	this->configuration.gameTitle = "";
 	this->configuration.windowHeight = 640;
 	this->configuration.windowWidth = 480;
 	this->configuration.isStartingFullscreen = false;
+	this->configuration.targetFPS = 60;
+	this->configuration.msPerComputeUpdate = 8;
 }
 
 Lilliputian::Engine::~Engine()
@@ -65,7 +67,7 @@ bool Lilliputian::Engine::initializeSystems()
 			this->configuration.windowHeight,
 			this->configuration.windowWidth,
 			this->configuration.isStartingFullscreen,
-			this->commandArguments[0]);
+			this->argv[0]);
 
 		this->game = new Game(this->os, this->profiler);
 

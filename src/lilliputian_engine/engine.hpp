@@ -56,7 +56,8 @@ namespace Lilliputian
 		EngineConfiguration configuration;
 		EngineState state;
 
-		char** commandArguments = nullptr;
+		int argc = 0;
+		char** argv = nullptr;
 
 		void setGameTitle(const char* gameTitle);
 		void setEntryScene(const char* entryScenePath);
