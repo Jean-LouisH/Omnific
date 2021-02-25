@@ -2,8 +2,8 @@ game:
   title: Lilliputian Editor
   version: 1.0.0
   developer: Jean-LouisH
-  icon: icon.png
-  main_scene: assets/scenes/splash_screen.yml
+  icon_filepath: icon.png
+  entry_scene_filepath: assets/scenes/splash_screen.yml
 game_window:
   width: 853
   height: 480
