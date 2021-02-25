@@ -23,12 +23,12 @@ namespace Lilliputian
 			OS* os,
 			Profiler* profiler);
 		void initialize();
-		void executeStartLogic();
-		void executeInputLogic();
-		void executeFrameLogic();
-		void executeComputeLogic();
-		void executeLateLogic();
-		void executeFinalLogic();
+		void executeOnStartMethods();
+		void executeOnInputMethods();
+		void executeOnFrameMethods();
+		void executeOnComputeMethods();
+		void executeOnLateMethods();
+		void executeOnFinalMethods();
 		void deinitialize();
 		ScriptRegistry& getScriptRegistry();
 		Scene& getActiveScene();

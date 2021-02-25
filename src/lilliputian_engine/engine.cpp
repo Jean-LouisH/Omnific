@@ -89,9 +89,9 @@ void Lilliputian::Engine::input()
 
 void Lilliputian::Engine::logic()
 {
-	this->game->executeStartLogic();
-	this->game->executeInputLogic();
-	this->game->executeFrameLogic();
+	this->game->executeOnStartMethods();
+	this->game->executeOnInputMethods();
+	this->game->executeOnFrameMethods();
 }
 
 void Lilliputian::Engine::compute()
@@ -100,12 +100,12 @@ void Lilliputian::Engine::compute()
 
 	while (this->profiler->getLag_ms() >= msPerComputeUpdate)
 	{
-		this->game->executeComputeLogic();
+		this->game->executeOnComputeMethods();
 		this->profiler->decrementLagCount(msPerComputeUpdate);
 	}
 
-	this->game->executeLateLogic();
-	this->game->executeFinalLogic();
+	this->game->executeOnLateMethods();
+	this->game->executeOnFinalMethods();
 	this->profiler->incrementLagCount(this->profiler->frame().getDelta_ns() / NS_IN_MS);
 }
 

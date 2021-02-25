@@ -44,33 +44,33 @@ void Lilliputian::Game::initialize()
 	}
 }
 
-void Lilliputian::Game::executeStartLogic()
+void Lilliputian::Game::executeOnStartMethods()
 {
 
 }
 
-void Lilliputian::Game::executeInputLogic()
+void Lilliputian::Game::executeOnInputMethods()
 {
 
 }
 
-void Lilliputian::Game::executeFrameLogic()
+void Lilliputian::Game::executeOnFrameMethods()
 {
 	if (this->activeSceneStack.size() > 0)
 		this->activeSceneStack.top().executeFrameLogic();
 }
 
-void Lilliputian::Game::executeComputeLogic()
+void Lilliputian::Game::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->_configuration->msPerComputeUpdate;
 }
 
-void Lilliputian::Game::executeLateLogic()
+void Lilliputian::Game::executeOnLateMethods()
 {
 
 }
 
-void Lilliputian::Game::executeFinalLogic()
+void Lilliputian::Game::executeOnFinalMethods()
 {
 
 }
