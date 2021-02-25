@@ -36,11 +36,7 @@ void Lilliputian::Game::initialize()
 	else
 	{
 		this->_configuration = new BootConfiguration();
-		this->_configuration->windowHeight = 640;
-		this->_configuration->windowWidth = 480;
-		this->_configuration->isResizable = false;
-		this->_configuration->isStartingFullscreen = false;
-		this->_configuration->isStartingMaximized = false;
+		this->_configuration->isLoaded = false;
 	}
 }
 

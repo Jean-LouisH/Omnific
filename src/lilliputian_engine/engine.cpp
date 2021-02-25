@@ -22,10 +22,24 @@ void Lilliputian::Engine::run()
 		{
 			this->game->initialize();
 			BootConfiguration configuration = this->game->configuration();
-			Window window = this->os->window();
-			window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
-			window.changeTitle(configuration.gameTitle.c_str());
-			this->state.setRunningApplicationWindowed();
+
+			if (configuration.isLoaded)
+			{
+				Window window = this->os->window();
+				window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
+				window.changeTitle(configuration.gameTitle.c_str());
+				this->state.setRunningApplicationWindowed();
+			}
+			else
+			{
+				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+					"Could not load game data",
+					"The game data is either missing or corrupted. Reinstall and try again",
+					NULL
+				);
+				this->state.setShuttingDown();
+			}
+
 		}
 
 		while (this->state.isRunning())

@@ -78,14 +78,12 @@ Lilliputian::BootConfiguration* Lilliputian::BootLoader::loadFromFile(String boo
 				}
 			}
 		}
+
+		configuration->isLoaded = true;
 	}
 	catch (int e)
 	{
-		configuration->windowHeight = 640;
-		configuration->windowWidth = 480;
-		configuration->isResizable = false;
-		configuration->isStartingFullscreen = false;
-		configuration->isStartingMaximized = false;
+		configuration->isLoaded = false;
 	}
 
 	return configuration;

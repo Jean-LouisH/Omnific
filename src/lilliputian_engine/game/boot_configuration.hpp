@@ -22,6 +22,8 @@ namespace Lilliputian
 		//Time
 		uint32_t msPerComputeUpdate;
 		uint32_t targetFPS;
+		//Status
+		bool isLoaded;
 	private:
 	};
 }
