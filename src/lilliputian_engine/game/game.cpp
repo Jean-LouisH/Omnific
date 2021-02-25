@@ -60,9 +60,9 @@ void Lilliputian::Game::executeFrameLogic()
 		this->activeSceneStack.top().executeFrameLogic();
 }
 
-void Lilliputian::Game::executeComputeLogic(unsigned int computeTimeDelta_ms)
+void Lilliputian::Game::executeComputeLogic()
 {
-
+	uint32_t msPerComputeUpdate = this->_configuration->msPerComputeUpdate;
 }
 
 void Lilliputian::Game::executeLateLogic()

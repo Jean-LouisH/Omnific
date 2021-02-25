@@ -26,7 +26,7 @@ namespace Lilliputian
 		void executeStartLogic();
 		void executeInputLogic();
 		void executeFrameLogic();
-		void executeComputeLogic(unsigned int computeTimeDelta_ms);
+		void executeComputeLogic();
 		void executeLateLogic();
 		void executeFinalLogic();
 		void deinitialize();
