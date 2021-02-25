@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utilities/string.hpp"
+
 namespace Lilliputian 
 {
 	class EngineConfiguration
