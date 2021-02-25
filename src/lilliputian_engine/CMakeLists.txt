@@ -36,3 +36,7 @@ target_link_libraries (lilliputian_engine
 )
 
 add_definitions(-D_LILLIPUTIAN_ENGINE_EXPORTS)
+
+add_custom_command(TARGET lilliputian_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:lilliputian_engine> ${PROJECT_BINARY_DIR}/lilliputian_main/lilliputian_engine.dll
+)
