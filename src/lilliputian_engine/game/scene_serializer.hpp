@@ -1,6 +1,6 @@
 #pragma once
 
-#include "scene/scene.hpp"
+#include "scene/scene_forest.hpp"
 #include "utilities/string.hpp"
 
 namespace Lilliputian
@@ -9,7 +9,7 @@ namespace Lilliputian
 	{
 	public:
 		SceneSerializer(String assetsDirectory);
-		Scene loadFromFile(const char* filepath);
+		SceneForest loadFromFile(String filepath);
 	private:
 		String assetsDirectory;
 	};

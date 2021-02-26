@@ -1,17 +1,18 @@
 #include "scene_serializer.hpp"
 #include <yaml-cpp/yaml.h>
 #include "utilities/string.hpp"
-#include "scene/scene.hpp"
+#include "utilities/collections/set.hpp"
+#include "scene/scene_forest.hpp"
 
 Lilliputian::SceneSerializer::SceneSerializer(String assetsDirectory)
 {
 	this->assetsDirectory = assetsDirectory;
 }
 
-Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(const char* filepath)
+Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filepath)
 {
-	Scene scene;
-	const std::string fullFilepath = this->assetsDirectory + filepath;
+	SceneForest scene;
+	const String fullFilepath = this->assetsDirectory + filepath;
 
 	try
 	{
@@ -19,134 +20,759 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(const char* filepa
 
 		for (YAML::const_iterator it0 = yamlNode.begin(); it0 != yamlNode.end(); ++it0)
 		{
-			if (it0->first.as<std::string>() == "Subscene2D")
+			if (it0->first.as<std::string>() == "SceneLayer2D")
 			{
-				scene.incrementSceneLayer2D();
+				scene.incrementSceneTree2D();
 
-				/*for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
+				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
 					if (it1->first.as<std::string>() == "Entity2D")
 					{
-						String name = "";
-						Transform2D transform2D;
-
-						bool hasParent = false;
+						String name;
 						String parentName;
+						Transform2D transform2D;
+						Set<String> components;
 
-						bool hasCamera2D = false;
-						Vector2 cameraViewport_px;
-
-						bool hasSprite2D = false;
-						Vector<String> textureFrameFilePaths;
-
-						bool hasRigidBody2D = false;
-						bool hasBoxCollider2D = false;
-						bool hasPointLock2D = false;
+						Entity2D entity2D;
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
+							//Entity attributes
 							if (it2->first.as<std::string>() == "name")
 							{
 								name = it2->second.as<std::string>();
 							}
 							else if (it2->first.as<std::string>() == "parent")
 							{
-								hasParent = true;
 								parentName = it2->second.as<std::string>();
 							}
 							else if (it2->first.as<std::string>() == "position_px")
 							{
-								transform.position_px.x = it2->second[0].as<double>();
-								transform.position_px.y = it2->second[1].as<double>();
+								transform2D.position_px.x = it2->second[0].as<double>();
+								transform2D.position_px.y = it2->second[1].as<double>();
 							}
 							else if (it2->first.as<std::string>() == "rotation_rad")
 							{
-								transform.rotation_rad = it2->second.as<double>();
+								transform2D.rotation_rad = it2->second.as<double>();
 							}
 							else if (it2->first.as<std::string>() == "scale")
 							{
-								transform.scale.x = it2->second[0].as<double>();
-								transform.scale.y = it2->second[1].as<double>();
+								transform2D.scale.x = it2->second[0].as<double>();
+								transform2D.scale.y = it2->second[1].as<double>();
 							}
-							else if (it2->first.as<std::string>() == "shader2D")
+							//Components
+							else if (it2->first.as<std::string>() == "AIBehaviourTree")
 							{
-								MemoryPoolU8 shaderContents = FileSystem::readString(this->dataFilePath + it2->second.as<std::string>());
-								shaders2D.push_back((const char*)shaderContents.getData());
-								shaderContents.deallocate();
-
-							}
-							else if (it2->first.as<std::string>() == "Camera2D")
-							{
-								hasCamera2D = true;
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "viewport_px")
+									if (it3->first.as<std::string>() == "default")
 									{
-										cameraViewport_px.x = it3->second[0].as<double>();
-										cameraViewport_px.y = it3->second[1].as<double>();
+
+									}
+									else if(it3->first.as<std::string>() == "")
+									{
+
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "Sprite2D")
+							else if (it2->first.as<std::string>() == "AISightPerception")
 							{
-								hasSprite2D = true;
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "texture")
+									if (it3->first.as<std::string>() == "default")
 									{
-										textureFrameFilePaths.push_back(it3->second.as<std::string>());
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "AnimatedSprite")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "AudioListener2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "Camera2D")
+							{
+								Camera2D camera2D;
+
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+										camera2D.setViewportHeight(480);
+										camera2D.setIsStreaming(true);
+									}
+									else if (it3->first.as<std::string>() == "viewport_px")
+									{
+										camera2D.setViewportHeight(it3->second[1].as<double>());
+										camera2D.setViewportWidth(it3->second[0].as<double>());
+									}
+									else if (it3->first.as<std::string>() == "limits_px")
+									{
+										camera2D.setLimits(
+											it3->second[0].as<double>(),
+											it3->second[1].as<double>(),
+											it3->second[2].as<double>(),
+											it3->second[3].as<double>()
+										);
+									}
+									else if (it3->first.as<std::string>() == "keepAspect")
+									{
+										camera2D.setKeepAspect(it3->second.as<bool>());
+									}
+									else if (it3->first.as<std::string>() == "isStreaming")
+									{
+										camera2D.setIsStreaming(it3->second.as<bool>());
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "CircleCollider2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "ConstantDirectionalForce2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "ConstantPointForce2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "CountdownTimer")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "FixedTransform2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "NavigationMeshAgent2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "NavigationMeshBoxObstacle2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "NavigationPath2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "NeuralNetwork")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "PhysicsConstraint2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "PhysicsThruster2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "PropertyAnimation")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "RectangularCollider2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "RectangularMesh2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "RectangularTriggerArea2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "RegularPolygonalMesh2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
 									}
 								}
 							}
 							else if (it2->first.as<std::string>() == "RigidBody2D")
 							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
 
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
 							}
-							else if (it2->first.as<std::string>() == "BoxCollider2D")
+							else if (it2->first.as<std::string>() == "Sprite")
 							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
 
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
 							}
-							else if (it2->first.as<std::string>() == "PointLock2D")
+							else if (it2->first.as<std::string>() == "StaticFluid2D")
 							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
 
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "StreamedAudioSource2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIButton")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIColouredRectangle")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIGraphEdit")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIGraphNode")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIHorizontalScrollbar")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIHorizontalSeparator")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIHorizontalSlider")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIHoverCard")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIItemList")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UILinkButton")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIPanel")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIProgressBar")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIRichTextLabel")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UISpinBox")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITab")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITextEdit")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITextLabel")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITexturedButton")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITexturedProgressBar")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITexturedRectangle")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UITree")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIVerticalScrollbar")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIVerticalSeparator")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "UIVerticalSlider")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
 							}
 						}
 
-						LayerID lastLayer = this->layerTypeList.size() - 1;
-
-						this->addEntity2D(
-							lastLayer,
-							name,
-							transform.position_px.x,
-							transform.position_px.y,
-							transform.rotation_rad,
-							transform.scale.x,
-							transform.scale.y);
-
-						Vector<Entity2D>* entities = &this->subScenes2D.at(lastLayer).entities;
-						EntityID lastEntity = this->subScenes2D.at(lastLayer).entities.size() - 1;
-
-						entities->at(lastEntity).shaders2D = shaders2D;
-
-						if (hasParent)
-						{
-							this->addParentToEntity2D(lastLayer, lastEntity, parentName);
-						}
-						if (hasCamera2D)
-						{
-							this->addCamera2D(lastLayer, lastEntity);
-						}
-						if (hasSprite2D)
-						{
-							this->addSprite2D(lastLayer, lastEntity);
-							for (int i = 0; i < textureFrameFilePaths.size(); i++)
-								this->addSpriteTextureFrame(
-									lastLayer,
-									entities->at(lastEntity).components.at(Entity2D::components::SPRITE_2D),
-									this->dataFilePath + textureFrameFilePaths.at(i));
-						}
+						scene.addEntity2D(entity2D);
 					}
-				}*/
+				}
 			}
 		}
 	}
