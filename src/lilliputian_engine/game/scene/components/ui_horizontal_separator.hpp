@@ -4,7 +4,7 @@
 
 namespace Lilliputian
 {
-	class UIHorizotalSeparator : public Component
+	class UIHorizontalSeparator : public Component
 	{
 	public:
 	private:
