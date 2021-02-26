@@ -10,7 +10,7 @@
 
 namespace Lilliputian
 {
-	class Assets
+	class AssetCache
 	{
 	public:
 		StreamedAudio loadStreamedAudio(const char* filepath);
