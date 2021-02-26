@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/scene/scene.hpp"
+#include "game/scene/scene_forest.hpp"
 #include "human_interface_devices.hpp"
 
 namespace Lilliputian
@@ -9,7 +9,7 @@ namespace Lilliputian
 	{
 	public:
 		UISystem();
-		void process(Scene& scene, HumanInterfaceDevices& hid);
+		void process(SceneForest& scene, HumanInterfaceDevices& hid);
 	private:
 	};
 }

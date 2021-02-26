@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "scene/scene.hpp"
+#include "scene/scene_forest.hpp"
 #include "os.hpp"
 #include "file_access.hpp"
 #include "profiler.hpp"
@@ -31,7 +31,7 @@ namespace Lilliputian
 		void executeOnFinalMethods();
 		void deinitialize();
 		ScriptRegistry& getScriptRegistry();
-		Scene& getActiveScene();
+		SceneForest& getActiveScene();
 		BootConfiguration& configuration();
 	private:
 		OS* os = nullptr;
@@ -41,7 +41,7 @@ namespace Lilliputian
 		ScriptRegistry* scriptRegistry = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
 		Map<String, Script> scripts;
-		Vector<Scene> preloadedScenes;
-		Stack<Scene> activeSceneStack;
+		Vector<SceneForest> preloadedScenes;
+		Stack<SceneForest> activeSceneStack;
 	};
 }

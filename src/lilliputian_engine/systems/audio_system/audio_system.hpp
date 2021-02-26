@@ -2,7 +2,7 @@
 
 #include <SDL_mixer.h>
 #include "utilities/collections/queue.hpp"
-#include "game/scene/scene.hpp"
+#include "game/scene/scene_forest.hpp"
 
 namespace Lilliputian
 {
@@ -11,7 +11,7 @@ namespace Lilliputian
 	public:
 		AudioSystem();
 		~AudioSystem();
-		void process(Scene& scene);
+		void process(SceneForest& scene);
 	private:
 		Queue<Mix_Chunk*> immediateSounds;
 		Queue<Mix_Chunk*> scheduledSounds;

@@ -12,13 +12,13 @@ Lilliputian::Game::Game(
 	this->scriptRegistry = new ScriptRegistry(
 		this->scriptingAPIs,
 		&this->scripts);
-	this->activeSceneStack.emplace(Scene());
+	this->activeSceneStack.emplace(SceneForest());
 }
 
 void Lilliputian::Game::initialize()
 {
 	BootLoader bootLoader;
-	Scene entryScene;
+	SceneForest entryScene;
 	String assetsDirectory = "data/";
 #ifdef _DEBUG
 	assetsDirectory = DEBUG_DATA_FILEPATH;
@@ -84,7 +84,7 @@ Lilliputian::ScriptRegistry& Lilliputian::Game::getScriptRegistry()
 	return *this->scriptRegistry;
 }
 
-Lilliputian::Scene& Lilliputian::Game::getActiveScene()
+Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
 {
 	return this->activeSceneStack.top();
 }

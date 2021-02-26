@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/scene/scene.hpp"
+#include "game/scene/scene_forest.hpp"
 #include <SDL.h>
 #include "utilities/collections/vector.hpp"
 #include "human_interface_devices.hpp"
@@ -11,7 +11,7 @@ namespace Lilliputian
 	{
 	public:
 		HapticSystem();
-		void process(Scene& scene, HumanInterfaceDevices& hid);
+		void process(SceneForest& scene, HumanInterfaceDevices& hid);
 	private:
 		typedef struct HapticRequest
 		{

@@ -106,7 +106,7 @@ void Lilliputian::Engine::input()
 void Lilliputian::Engine::update()
 {
 	this->profiler->update().setStart();
-	Scene activeScene = this->game->getActiveScene();
+	SceneForest activeScene = this->game->getActiveScene();
 	uint32_t msPerComputeUpdate = this->game->configuration().msPerComputeUpdate;
 
 	this->game->executeOnInputMethods();

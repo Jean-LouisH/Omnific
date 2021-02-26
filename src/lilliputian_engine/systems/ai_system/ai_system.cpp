@@ -10,7 +10,7 @@ Lilliputian::AISystem::~AISystem()
 
 }
 
-void Lilliputian::AISystem::process(Scene& scene)
+void Lilliputian::AISystem::process(SceneForest& scene)
 {
 
 }

@@ -5,7 +5,7 @@ Lilliputian::UISystem::UISystem()
 
 }
 
-void Lilliputian::UISystem::process(Scene& scene, HumanInterfaceDevices& hid)
+void Lilliputian::UISystem::process(SceneForest& scene, HumanInterfaceDevices& hid)
 {
 
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/scene/scene.hpp"
+#include "game/scene/scene_forest.hpp"
 
 namespace Lilliputian
 {
@@ -9,7 +9,7 @@ namespace Lilliputian
 	public:
 		AISystem();
 		~AISystem();
-		void process(Scene& scene);
+		void process(SceneForest& scene);
 	private:
 	};
 }

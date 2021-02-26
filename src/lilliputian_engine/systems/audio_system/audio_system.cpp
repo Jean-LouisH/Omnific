@@ -18,7 +18,7 @@ void Lilliputian::AudioSystem::play()
 	SDL::Audio::playSounds(&this->immediateSounds, &this->scheduledSounds);
 }
 
-void Lilliputian::AudioSystem::process(Scene& scene)
+void Lilliputian::AudioSystem::process(SceneForest& scene)
 {
 	//todo: build sounds lists from scene
 }
