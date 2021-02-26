@@ -1,13 +1,12 @@
-SceneLayer2D:
+SceneTree2D:
   Entity2D:
     name: "Camera"
-    Camera2D:
-      viewport_px: [0, 0]
+    Camera2D: "default"
   Entity2D:
     name: "SplashScreenSprite"
     Sprite2D:
       texture: "textures/lilliputian_wordmark.png"
   Entity2D:
     name: "SceneTransition"
-    CountdownTimer:
+    CountdownTimer: "default"
     Scripts: ["splash_screen_transition"]
