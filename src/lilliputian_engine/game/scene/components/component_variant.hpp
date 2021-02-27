@@ -56,14 +56,13 @@
 
 namespace Lilliputian
 {
-    class ComponentVariant
+    struct ComponentVariant
     {
-	public:
         Component::ComponentType type = Component::ComponentType::COMPONENT_TYPE_NONE;
 		EntityID entityID = NO_ENTITY;
 
 		ComponentVariant() = default;
-		ComponentVariant(const ComponentVariant&)
+		ComponentVariant(const ComponentVariant& componentVariant)
 		{
 
 		}
@@ -125,6 +124,5 @@ namespace Lilliputian
 			UIVerticalSeparator uiVerticalSeparator;
 			UIVerticalSlider uiVerticalSlider;
         };
-	private:
     };
 }
