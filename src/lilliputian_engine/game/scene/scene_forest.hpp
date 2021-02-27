@@ -16,6 +16,11 @@ namespace Lilliputian
 		void incrementSceneTree2D();
 
 		void addEntity2D(Entity2D entity2D);
+		void addNameToLastEntity(String name);
+		void addParentToLastEntityByName(String name);
+		void addPositionToEntity2D(Vector2 position_px);
+		void addRotationToEntity2D(float rotation_rad);
+		void addScaleToEntity2D(Vector2 scale);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 		void addComponentToLastEntity(ComponentVariant componentVariant);
 
