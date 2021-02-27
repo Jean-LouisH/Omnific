@@ -3,6 +3,7 @@
 #include "utilities/string.hpp"
 #include "utilities/collections/set.hpp"
 #include "scene/scene_forest.hpp"
+#include "scene/components/component_variant.hpp"
 
 Lilliputian::SceneSerializer::SceneSerializer(String assetsDirectory)
 {
@@ -28,37 +29,39 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 				{
 					if (it1->first.as<std::string>() == "Entity2D")
 					{
-						String name;
-						String parentName;
-						Transform2D transform2D;
-						Set<String> components;
-
 						Entity2D entity2D;
+						scene.addEntity2D(entity2D);
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
+//							ComponentVariant componentVariant;
+
 							//Entity attributes
 							if (it2->first.as<std::string>() == "name")
 							{
-								name = it2->second.as<std::string>();
+								scene.addNameToLastEntity(it2->second.as<std::string>());
 							}
 							else if (it2->first.as<std::string>() == "parent")
 							{
-								parentName = it2->second.as<std::string>();
+								scene.addParentToLastEntityByName(it2->second.as<std::string>());
 							}
 							else if (it2->first.as<std::string>() == "position_px")
 							{
-								transform2D.position_px.x = it2->second[0].as<double>();
-								transform2D.position_px.y = it2->second[1].as<double>();
+								Vector2 position_px;
+								position_px.x = it2->second[0].as<double>();
+								position_px.y = it2->second[1].as<double>();
+								scene.addPositionToEntity2D(position_px);
 							}
 							else if (it2->first.as<std::string>() == "rotation_rad")
 							{
-								transform2D.rotation_rad = it2->second.as<double>();
+								scene.addRotationToEntity2D(it2->second.as<double>());
 							}
 							else if (it2->first.as<std::string>() == "scale")
 							{
-								transform2D.scale.x = it2->second[0].as<double>();
-								transform2D.scale.y = it2->second[1].as<double>();
+								Vector2 scale;
+								scale.x = it2->second[0].as<double>();
+								scale.y = it2->second[1].as<double>();
+								scene.addScaleToEntity2D(scale);
 							}
 							//Components
 							else if (it2->first.as<std::string>() == "AIBehaviourTree")
@@ -151,6 +154,10 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 										camera2D.setIsStreaming(it3->second.as<bool>());
 									}
 								}
+
+//								componantVariant.type = Component::ComponentType::COMPONENT_TYPE_CAMERA_2D;
+//								componentVariant.camera2D = camera2D;
+//								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "CircleCollider2D")
 							{
