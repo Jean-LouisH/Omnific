@@ -1,17 +1,22 @@
 #include "entity_2d.hpp"
 #include "utilities/constants.hpp"
 
+void Lilliputian::Entity2D::setTransform(TransformID transformID)
+{
+	this->transformID = transformID;
+}
+
 void Lilliputian::Entity2D::addParentEntity(EntityID parentEntityID)
 {
-	this->parentEntity = parentEntityID;
+	this->parentID = parentEntityID;
 }
 
 void Lilliputian::Entity2D::addChildEntity(EntityID childEntityID)
 {
-	this->childrenEntities.push_back(childEntityID);
+	this->childIDs.push_back(childEntityID);
 }
 
-void Lilliputian::Entity2D::addComponent(Component::ComponentType type, ComponentID ID)
+void Lilliputian::Entity2D::addComponent(ComponentVariant::Type type, ComponentID ID)
 {
 	this->components.emplace(type, ID);
 }

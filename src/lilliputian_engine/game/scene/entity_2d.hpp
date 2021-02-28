@@ -1,7 +1,7 @@
 #pragma once
 
 #include "script.hpp"
-#include "components/component.hpp"
+#include "components/component_variant.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/map.hpp"
@@ -14,17 +14,18 @@ namespace Lilliputian
 	class Entity2D
 	{
 	public:
-		Transform2D transform2D;
-		EntityID id = NO_ENTITY;
-		EntityID parentEntity = NO_ENTITY;
-		Vector<EntityID> childrenEntities;
+		EntityID ID = NO_ENTITY;
+		EntityID parentID = NO_ENTITY;
+		TransformID transformID = NO_TRANSFORM;
+		Vector<EntityID> childIDs;
 		Vector<String> tags;
 		Vector<String> scriptNames;
-		Map<Component::ComponentType, ComponentID> components;
+		Map<ComponentVariant::Type, ComponentID> components;
 
+		void setTransform(TransformID);
 		void addParentEntity(EntityID parentEntityID);
 		void addChildEntity(EntityID childEntityID);
-		void addComponent(Component::ComponentType type, ComponentID ID);
+		void addComponent(ComponentVariant::Type type, ComponentID ID);
 		void addScript(String scriptName);
 	private:
 	};
