@@ -4,9 +4,9 @@ SceneTree2D:
     Camera2D: "default"
   Entity2D:
     name: "SplashScreenSprite"
-    Sprite2D:
-      texture: "textures/lilliputian_wordmark.png"
+    Sprite:
+      texture: "assets/textures/lilliputian_wordmark.png"
   Entity2D:
     name: "SceneTransition"
     CountdownTimer: "default"
-    Scripts: ["splash_screen_transition"]
+    Scripts: ["assets/scripts/splash_screen_transition.py"]
