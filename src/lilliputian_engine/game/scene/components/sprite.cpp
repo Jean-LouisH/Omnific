@@ -1,5 +1,11 @@
 #include "sprite.hpp"
 
+
+void Lilliputian::Sprite::setTexture(Texture texture)
+{
+	this->texture = texture;
+}
+
 void Lilliputian::Sprite::setAlpha(uint8_t value)
 {
 
@@ -30,7 +36,7 @@ void Lilliputian::Sprite::flipHorizontally()
 
 }
 
-Lilliputian::Texture Lilliputian::Sprite::getTexture()
+Lilliputian::Texture& Lilliputian::Sprite::getTexture()
 {
 	return this->texture;
 }

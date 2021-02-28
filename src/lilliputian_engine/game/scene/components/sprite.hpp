@@ -13,6 +13,7 @@ namespace Lilliputian
 	class Sprite : public Component
 	{
 	public:
+		void setTexture(Texture texture);
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		void hide();
@@ -21,7 +22,7 @@ namespace Lilliputian
 		void flipVertically();
 		void flipHorizontally();
 
-		Texture getTexture();
+		Texture& getTexture();
 	private:
 		Texture texture;
 		uint8_t alpha = 255;
