@@ -18,7 +18,15 @@ void Lilliputian::SceneForest::incrementSceneTree2D()
 
 void Lilliputian::SceneForest::addEntity2D(Entity2D entity2D)
 {
-	entity2D.id = this->entityIDCount;
+	entity2D.ID = this->entityIDCount;
+	this->entityIDCount++;
+	this->getLastSceneTree2DStack()->top().addEntity2D(entity2D);
+	this->getLastSceneTree2DStack()->top().addTransform(this->getPreviousEntityID());
+}
+
+void Lilliputian::SceneForest::addEmptyEntity2D(Entity2D entity2D)
+{
+	entity2D.ID = this->entityIDCount;
 	this->entityIDCount++;
 	this->getLastSceneTree2DStack()->top().addEntity2D(entity2D);
 }
@@ -62,6 +70,16 @@ void Lilliputian::SceneForest::addComponentToLastEntity(ComponentVariant compone
 Lilliputian::EntityID Lilliputian::SceneForest::getPreviousEntityID()
 {
 	return this->entityIDCount - 1;
+}
+
+Lilliputian::AssetCache& Lilliputian::SceneForest::assetCache()
+{
+	return this->_assetCache;
+}
+
+Lilliputian::Vector<Lilliputian::Stack<Lilliputian::SceneTree2D>>& Lilliputian::SceneForest::getSceneTree2DStacks()
+{
+	return this->sceneTree2DStacks;
 }
 
 void Lilliputian::SceneForest::executeFrameLogic()

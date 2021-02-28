@@ -16,6 +16,7 @@ namespace Lilliputian
 		void incrementSceneTree2D();
 
 		void addEntity2D(Entity2D entity2D);
+		void addEmptyEntity2D(Entity2D entity2D);
 		void addNameToLastEntity(String name);
 		void addParentToLastEntityByName(String name);
 		void addPositionToEntity2D(Vector2 position_px);
@@ -24,14 +25,16 @@ namespace Lilliputian
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 		void addComponentToLastEntity(ComponentVariant componentVariant);
 
-		EntityID getPreviousEntityID();
-
 		void executeFrameLogic();
+
+		EntityID getPreviousEntityID();
+		AssetCache& assetCache();
+		Vector<Stack<SceneTree2D>>& getSceneTree2DStacks();
 	private:
 		uint64_t entityIDCount = 0;
 		Map<String, EntityID> entityNameRegistry;
 		Vector<Stack<SceneTree2D>> sceneTree2DStacks;
-		AssetCache assetCache;
+		AssetCache _assetCache;
 
 		Stack<SceneTree2D>* getLastSceneTree2DStack();
 	};
