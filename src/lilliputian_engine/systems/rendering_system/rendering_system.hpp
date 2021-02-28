@@ -17,6 +17,7 @@ namespace Lilliputian
 		SDL_Renderer* sdlRenderer;
 		SDL_Window* sdlWindow;
 		Vector<SDL::Rendering2D::SDLRenderable> sdlRenderables;
+		Map<SDL_Surface*, SDL_Texture*> sdlTextureCache;
 
 		void clearBuffers();
 		void render();
