@@ -12,24 +12,23 @@ Lilliputian::Game::Game(
 	this->scriptRegistry = new ScriptRegistry(
 		this->scriptingAPIs,
 		&this->scripts);
-	this->activeSceneStack.emplace(SceneForest());
 }
 
 void Lilliputian::Game::initialize()
 {
 	BootLoader bootLoader;
 	SceneForest entryScene;
-	String assetsDirectory = "data/";
+	String dataDirectory = "data/";
 #ifdef _DEBUG
-	assetsDirectory = DEBUG_DATA_FILEPATH;
+	dataDirectory = DEBUG_DATA_FILEPATH;
 #endif
 	String bootFilename = "boot.yml";
-	String bootFilepath = assetsDirectory + bootFilename;
+	String bootFilepath = dataDirectory + bootFilename;
 
 	if (this->os->fileAccess().exists(bootFilepath))
 	{
 		this->_configuration = bootLoader.loadFromFile(bootFilepath);
-		this->sceneSerializer = new SceneSerializer(assetsDirectory);
+		this->sceneSerializer = new SceneSerializer(dataDirectory);
 		entryScene = this->sceneSerializer->loadFromFile(_configuration->entrySceneFilepath);
 		this->activeSceneStack.emplace(entryScene);
 	}
