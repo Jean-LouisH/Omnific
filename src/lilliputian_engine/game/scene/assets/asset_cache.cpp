@@ -30,14 +30,14 @@ Lilliputian::Text Lilliputian::AssetCache::loadText(const char* filepath)
 	return this->texts.at(filepath);
 }
 
-Lilliputian::Texture Lilliputian::AssetCache::loadTexture(Image* image)
+Lilliputian::Texture Lilliputian::AssetCache::loadTexture(Image image)
 {
-	if (!this->textures.count(image))
+	if (!this->textures.count(image.hash()))
 	{
-		this->textures.emplace(image, Texture(image));
+		this->textures.emplace(image.hash(), Texture(image));
 	}
 
-	return this->textures.at(image);
+	return this->textures.at(image.hash());
 }
 
 void Lilliputian::AssetCache::deleteStreamedAudio(const char* filepath)
@@ -55,9 +55,9 @@ void Lilliputian::AssetCache::deleteText(const char* filepath)
 	this->texts.at(filepath).unload();
 }
 
-void Lilliputian::AssetCache::deleteTexture(Image* image)
+void Lilliputian::AssetCache::deleteTexture(Image image)
 {
-	this->textures.at(image).unload();
+	this->textures.at(image.hash()).unload();
 }
 
 void Lilliputian::AssetCache::deleteAllAudio()
@@ -100,7 +100,7 @@ void Lilliputian::AssetCache::deleteAllTextures()
 {
 	if (!this->textures.empty())
 	{
-		for (std::pair<Image*, Texture> element : this->textures)
+		for (std::pair<ImageHash, Texture> element : this->textures)
 		{
 			element.second.unload();
 		}
@@ -130,7 +130,7 @@ Lilliputian::Map<Lilliputian::String, Lilliputian::Text> Lilliputian::AssetCache
 	return this->texts;
 }
 
-Lilliputian::Map<Lilliputian::Image*, Lilliputian::Texture> Lilliputian::AssetCache::getTextures()
+Lilliputian::Map<Lilliputian::ImageHash, Lilliputian::Texture> Lilliputian::AssetCache::getTextures()
 {
 	return this->textures;
 }
