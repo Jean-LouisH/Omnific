@@ -11,6 +11,6 @@ namespace Lilliputian
 		SceneSerializer(String assetsDirectory);
 		SceneForest loadFromFile(String filepath);
 	private:
-		String assetsDirectory;
+		String dataDirectory;
 	};
 }

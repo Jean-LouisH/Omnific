@@ -5,15 +5,15 @@
 #include "scene/scene_forest.hpp"
 #include "scene/components/component_variant.hpp"
 
-Lilliputian::SceneSerializer::SceneSerializer(String assetsDirectory)
+Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory)
 {
-	this->assetsDirectory = assetsDirectory;
+	this->dataDirectory = dataDirectory;
 }
 
 Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filepath)
 {
 	SceneForest scene;
-	const String fullFilepath = this->assetsDirectory + filepath;
+	const String fullFilepath = this->dataDirectory + filepath;
 
 	try
 	{
@@ -21,7 +21,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 
 		for (YAML::const_iterator it0 = yamlNode.begin(); it0 != yamlNode.end(); ++it0)
 		{
-			if (it0->first.as<std::string>() == "SceneLayer2D")
+			if (it0->first.as<std::string>() == "SceneTree2D")
 			{
 				scene.incrementSceneTree2D();
 
@@ -34,7 +34,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
-//							ComponentVariant componentVariant;
+							ComponentVariant componentVariant;
 
 							//Entity attributes
 							if (it2->first.as<std::string>() == "name")
@@ -66,6 +66,8 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 							//Components
 							else if (it2->first.as<std::string>() == "AIBehaviourTree")
 							{
+								AIBehaviourTree* aiBehaviourTree = new AIBehaviourTree();
+
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
 									if (it3->first.as<std::string>() == "default")
@@ -77,6 +79,10 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 
 									}
 								}
+
+								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_AI_BEHAVIOUR_TREE;
+								componentVariant.aiBehaviourTree = aiBehaviourTree;
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "AISightPerception")
 							{
@@ -122,23 +128,21 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 							}
 							else if (it2->first.as<std::string>() == "Camera2D")
 							{
-								Camera2D camera2D;
+								Camera2D* camera2D = new Camera2D();
+
+								camera2D->setViewportHeight(480);
+								camera2D->setIsStreaming(true);
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "default")
+									if (it3->first.as<std::string>() == "viewport_px")
 									{
-										camera2D.setViewportHeight(480);
-										camera2D.setIsStreaming(true);
-									}
-									else if (it3->first.as<std::string>() == "viewport_px")
-									{
-										camera2D.setViewportHeight(it3->second[1].as<double>());
-										camera2D.setViewportWidth(it3->second[0].as<double>());
+										camera2D->setViewportHeight(it3->second[1].as<double>());
+										camera2D->setViewportWidth(it3->second[0].as<double>());
 									}
 									else if (it3->first.as<std::string>() == "limits_px")
 									{
-										camera2D.setLimits(
+										camera2D->setLimits(
 											it3->second[0].as<double>(),
 											it3->second[1].as<double>(),
 											it3->second[2].as<double>(),
@@ -147,17 +151,17 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 									}
 									else if (it3->first.as<std::string>() == "keepAspect")
 									{
-										camera2D.setKeepAspect(it3->second.as<bool>());
+										camera2D->setKeepAspect(it3->second.as<bool>());
 									}
 									else if (it3->first.as<std::string>() == "isStreaming")
 									{
-										camera2D.setIsStreaming(it3->second.as<bool>());
+										camera2D->setIsStreaming(it3->second.as<bool>());
 									}
 								}
 
-//								componantVariant.type = Component::ComponentType::COMPONENT_TYPE_CAMERA_2D;
-//								componentVariant.camera2D = camera2D;
-//								scene.addComponentToLastEntity(componentVariant);
+								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D;
+								componentVariant.camera2D = camera2D;
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "CircleCollider2D")
 							{
@@ -203,17 +207,20 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 							}
 							else if (it2->first.as<std::string>() == "CountdownTimer")
 							{
+
+								CountdownTimer* countdownTimer = new CountdownTimer();
+
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
+									if (it3->first.as<std::string>() == "")
 									{
 
 									}
 								}
+
+								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_COUNTDOWN_TIMER;
+								componentVariant.countdownTimer = countdownTimer;
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "FixedTransform2D")
 							{
@@ -399,17 +406,21 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 							}
 							else if (it2->first.as<std::string>() == "Sprite")
 							{
+								Sprite* sprite = new Sprite();
+
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "default")
+									if (it3->first.as<std::string>() == "texture")
 									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
+										Image image((dataDirectory + it3->second.as<std::string>()).c_str());
+										Texture texture = scene.assetCache().loadTexture(image);
+										sprite->setTexture(texture);
 									}
 								}
+
+								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_SPRITE;
+								componentVariant.sprite = sprite;
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "StaticFluid2D")
 							{
@@ -776,8 +787,6 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 								}
 							}
 						}
-
-						scene.addEntity2D(entity2D);
 					}
 				}
 			}
