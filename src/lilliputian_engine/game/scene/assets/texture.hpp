@@ -13,13 +13,14 @@ namespace Lilliputian
 	class Texture : public Asset
 	{
 	public:
-		Texture(Image* image);
+		Texture();
+		Texture(Image image);
 		SDL_Surface* getSDLSurface();
 		uint32_t getWidth();
 		uint32_t getHeight();
 		Rectangle getDimensions();
 		virtual void unload();
 	private:
-		Image* image = NULL;
+		Image image;
 	};
 }
