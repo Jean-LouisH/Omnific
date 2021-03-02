@@ -56,10 +56,70 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 			ComponentVariant componentVariant = componentVariants.at(j);
 			Camera2D* camera2D;
 			Sprite* sprite;
+			AnimatedSprite* animatedSprite;
 			SDL::Rendering2D::Texture sdlRendererTexture;
 			Texture texture;
 
-			if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D)
+			if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_SPRITE || 
+				componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE)
+			{
+				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.entityID);
+				Vector2 position_px = transform2D.position_px;
+				Vector2 scale = transform2D.scale;
+				SDL_Texture* sdlTexture;
+
+				sdlSprite2D.transform.position_px.x = position_px.x;
+				sdlSprite2D.transform.position_px.y = position_px.y;
+				sdlSprite2D.transform.scale.x = scale.x;
+				sdlSprite2D.transform.scale.y = scale.y;
+				sdlSprite2D.transform.rotation_rad = transform2D.rotation_rad;
+
+				if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_SPRITE)
+				{
+					sprite = componentVariant.sprite;
+					texture = sprite->getTexture();
+					sdlRendererTexture.pixels.width = texture.getWidth();
+					sdlRendererTexture.pixels.height = texture.getHeight();
+
+					if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
+					{
+						sdlRendererTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
+						this->sdlTextureCache.emplace(texture.getSDLSurface(), sdlRendererTexture.data);
+					}
+					else
+					{
+						sdlRendererTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
+					}
+
+					sdlSprite2D.textureFrames.push_back(sdlRendererTexture);
+					sdlSprite2D.alpha = sprite->getAlpha();
+
+					sprite2Ds.push_back(sdlSprite2D);
+				}
+				else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE)
+				{
+					animatedSprite = componentVariant.animatedSprite;
+					texture = animatedSprite->getCurrentFrame();
+					sdlRendererTexture.pixels.width = texture.getWidth();
+					sdlRendererTexture.pixels.height = texture.getHeight();
+
+					if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
+					{
+						sdlRendererTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
+						this->sdlTextureCache.emplace(texture.getSDLSurface(), sdlRendererTexture.data);
+					}
+					else
+					{
+						sdlRendererTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
+					}
+
+					sdlSprite2D.textureFrames.push_back(sdlRendererTexture);
+					sdlSprite2D.alpha = animatedSprite->getAlpha();
+
+					sprite2Ds.push_back(sdlSprite2D);
+				}
+			}
+			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D)
 			{
 				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.entityID);
 				Vector2 position_px = transform2D.position_px;
@@ -76,44 +136,6 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				sdlCamera2D.viewport_px.width = viewport_px.width;
 				sdlCamera2D.viewport_px.height = viewport_px.height;
 			}
-			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_SPRITE)
-			{
-				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.entityID);
-				Vector2 position_px = transform2D.position_px;
-				Vector2 scale = transform2D.scale;
-				SDL_Texture* sdlTexture;
-
-				sdlSprite2D.transform.position_px.x = position_px.x;
-				sdlSprite2D.transform.position_px.y = position_px.y;
-				sdlSprite2D.transform.scale.x = scale.x;
-				sdlSprite2D.transform.scale.y = scale.y;
-				sdlSprite2D.transform.rotation_rad = transform2D.rotation_rad;
-
-				sprite = componentVariant.sprite;
-				texture = sprite->getTexture();
-				sdlRendererTexture.pixels.width = texture.getWidth();
-				sdlRendererTexture.pixels.height = texture.getHeight();
-
-				if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
-				{
-					sdlRendererTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
-					this->sdlTextureCache.emplace(texture.getSDLSurface(), sdlRendererTexture.data);
-				}
-				else
-				{
-					sdlRendererTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
-				}
-
-				sdlSprite2D.textureFrames.push_back(sdlRendererTexture);
-				sdlSprite2D.alpha = sprite->getAlpha();
-
-				sprite2Ds.push_back(sdlSprite2D);
-			}
-			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE)
-			{
-
-			}
-
 		}
 	}
 
