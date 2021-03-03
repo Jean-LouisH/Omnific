@@ -9,7 +9,9 @@ namespace Lilliputian
 	class StreamedAudio : public Asset
 	{
 	public:
+		StreamedAudio();
 		StreamedAudio(const char* filepath);
+		Mix_Chunk* getSDLMixChunk();
 		virtual void unload();
 	private:
 		Mix_Chunk* sound;
