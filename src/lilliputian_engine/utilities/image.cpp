@@ -20,7 +20,7 @@ void Lilliputian::Image::unload()
 
 Lilliputian::ImageHash Lilliputian::Image::hash()
 {
-	return (uint64_t)this;
+	return (uint64_t)this->surface;
 }
 
 SDL_Surface* Lilliputian::Image::getSDLSurface()
