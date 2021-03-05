@@ -21,6 +21,7 @@ namespace Lilliputian
 
 		void clearBuffers();
 		void render();
+		bool isRenderableType(ComponentVariant::Type componentVariantType);
 	};
 }
 
