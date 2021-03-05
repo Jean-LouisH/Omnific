@@ -3,7 +3,7 @@
 #include "utilities/collections/map.hpp"
 #include "utilities/string.hpp"
 #include "utilities/image.hpp"
-#include "streamed_audio.hpp"
+#include "audio_stream.hpp"
 #include "font.hpp"
 #include "text.hpp"
 #include "texture.hpp"
@@ -13,7 +13,7 @@ namespace Lilliputian
 	class AssetCache
 	{
 	public:
-		StreamedAudio loadStreamedAudio(const char* filepath);
+		AudioStream loadStreamedAudio(const char* filepath);
 		Font loadFont(const char* filepath);
 		Text loadText(const char* filepath);
 		Texture loadTexture(Image image);
@@ -30,12 +30,12 @@ namespace Lilliputian
 
 		void deleteAll();
 
-		Map<String, StreamedAudio> getStreamedAudios();
+		Map<String, AudioStream> getStreamedAudios();
 		Map<String, Font> getFonts();
 		Map<String, Text> getTexts();
 		Map<ImageHash, Texture> getTextures();
 	private:
-		Map<String, StreamedAudio> streamedAudios;
+		Map<String, AudioStream> streamedAudios;
 		Map<String, Font> fonts;
 		Map<String, Text> texts;
 		Map<ImageHash, Texture> textures;

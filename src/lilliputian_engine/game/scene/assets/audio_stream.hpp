@@ -6,11 +6,11 @@
 
 namespace Lilliputian
 {
-	class StreamedAudio : public Asset
+	class AudioStream : public Asset
 	{
 	public:
-		StreamedAudio();
-		StreamedAudio(const char* filepath);
+		AudioStream();
+		AudioStream(const char* filepath);
 		Mix_Chunk* getSDLMixChunk();
 		virtual void unload();
 	private:

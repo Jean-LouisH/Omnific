@@ -1,10 +1,10 @@
 #include "asset_cache.hpp"
 
-Lilliputian::StreamedAudio Lilliputian::AssetCache::loadStreamedAudio(const char* filepath)
+Lilliputian::AudioStream Lilliputian::AssetCache::loadStreamedAudio(const char* filepath)
 {
 	if (!this->streamedAudios.count(filepath))
 	{
-		this->streamedAudios.emplace(filepath, StreamedAudio(filepath));
+		this->streamedAudios.emplace(filepath, AudioStream(filepath));
 	}
 
 	return this->streamedAudios.at(filepath);
@@ -64,7 +64,7 @@ void Lilliputian::AssetCache::deleteAllAudio()
 {
 	if (!this->streamedAudios.empty())
 	{
-		for (std::pair<String, StreamedAudio> element : this->streamedAudios)
+		for (std::pair<String, AudioStream> element : this->streamedAudios)
 		{
 			element.second.unload();
 		}
@@ -115,7 +115,7 @@ void Lilliputian::AssetCache::deleteAll()
 	deleteAllTextures();
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::StreamedAudio> Lilliputian::AssetCache::getStreamedAudios()
+Lilliputian::Map<Lilliputian::String, Lilliputian::AudioStream> Lilliputian::AssetCache::getStreamedAudios()
 {
 	return this->streamedAudios;
 }
