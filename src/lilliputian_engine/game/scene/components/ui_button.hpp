@@ -8,5 +8,7 @@ namespace Lilliputian
 	{
 	public:
 	private:
+		bool isLink = false;
+		bool isTextured = false;
 	};
 }

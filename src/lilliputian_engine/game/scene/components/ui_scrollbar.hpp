@@ -4,9 +4,10 @@
 
 namespace Lilliputian
 {
-	class UITexturedRectangle : public Component
+	class UIScrollbar : public Component
 	{
 	public:
 	private:
+		bool isVertical = false;
 	};
 }

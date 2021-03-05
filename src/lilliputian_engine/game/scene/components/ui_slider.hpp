@@ -4,9 +4,10 @@
 
 namespace Lilliputian
 {
-	class UITexturedProgressBar : public Component
+	class UISlider : public Component
 	{
 	public:
 	private:
+		bool isVertical = false;
 	};
 }

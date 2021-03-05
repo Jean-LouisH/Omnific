@@ -4,9 +4,10 @@
 
 namespace Lilliputian
 {
-	class UIHorizontalScrollbar : public Component
+	class UISeparator : public Component
 	{
 	public:
 	private:
+		bool isVertical = false;
 	};
 }

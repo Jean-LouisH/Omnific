@@ -4,7 +4,7 @@
 
 namespace Lilliputian
 {
-	class UIRichTextLabel : public Component
+	class UIRectangle : public Component
 	{
 	public:
 	private:
