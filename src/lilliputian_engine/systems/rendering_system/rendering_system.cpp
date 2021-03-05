@@ -73,49 +73,68 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				outputSprite2D.transform.scale.y = scale.y;
 				outputSprite2D.transform.rotation_rad = transform2D.rotation_rad;
 
-				if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_SPRITE)
+				switch (componentVariant.type)
 				{
-					sprite = componentVariant.sprite;
-					texture = sprite->getTexture();
-					outputTexture.pixels.width = texture.getWidth();
-					outputTexture.pixels.height = texture.getHeight();
+					case ComponentVariant::Type::COMPONENT_TYPE_SPRITE:
+						sprite = componentVariant.sprite;
+						texture = sprite->getTexture();
+						outputTexture.pixels.width = texture.getWidth();
+						outputTexture.pixels.height = texture.getHeight();
 
-					if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
-					{
-						outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
-						this->sdlTextureCache.emplace(texture.getSDLSurface(), outputTexture.data);
-					}
-					else
-					{
-						outputTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
-					}
+						if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
+						{
+							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
+							this->sdlTextureCache.emplace(texture.getSDLSurface(), outputTexture.data);
+						}
+						else
+						{
+							outputTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
+						}
 
-					outputSprite2D.textureFrames.push_back(outputTexture);
-					outputSprite2D.alpha = sprite->getAlpha();
+						outputSprite2D.textureFrames.push_back(outputTexture);
+						outputSprite2D.alpha = sprite->getAlpha();
 
-					outputsprite2Ds.push_back(outputSprite2D);
-				}
-				else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE)
-				{
-					animatedSprite = componentVariant.animatedSprite;
-					texture = animatedSprite->getCurrentFrame();
-					outputTexture.pixels.width = texture.getWidth();
-					outputTexture.pixels.height = texture.getHeight();
+						outputsprite2Ds.push_back(outputSprite2D);
+						break;
+					case ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE:
+						animatedSprite = componentVariant.animatedSprite;
+						texture = animatedSprite->getCurrentFrame();
+						outputTexture.pixels.width = texture.getWidth();
+						outputTexture.pixels.height = texture.getHeight();
 
-					if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
-					{
-						outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
-						this->sdlTextureCache.emplace(texture.getSDLSurface(), outputTexture.data);
-					}
-					else
-					{
-						outputTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
-					}
+						if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
+						{
+							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
+							this->sdlTextureCache.emplace(texture.getSDLSurface(), outputTexture.data);
+						}
+						else
+						{
+							outputTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
+						}
 
-					outputSprite2D.textureFrames.push_back(outputTexture);
-					outputSprite2D.alpha = animatedSprite->getAlpha();
+						outputSprite2D.textureFrames.push_back(outputTexture);
+						outputSprite2D.alpha = animatedSprite->getAlpha();
 
-					outputsprite2Ds.push_back(outputSprite2D);
+						outputsprite2Ds.push_back(outputSprite2D);
+						break;
+					case ComponentVariant::Type::COMPONENT_TYPE_RECTANGULAR_MESH_2D: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_REGULAR_POLYGONAL_MESH_2D: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_BUTTON: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_RECTANGLE: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_GRAPH_EDIT: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_GRAPH_NODE: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SCROLLBAR: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SEPARATOR: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SLIDER: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_HOVER_CARD: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_ITEM_LIST: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_PANEL: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_PROGRESS_BAR: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SPIN_BOX: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TAB: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_EDIT: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TREE:; break;
 				}
 			}
 			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D)
