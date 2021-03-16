@@ -10,9 +10,14 @@ Lilliputian::Texture::Texture(Image image)
 	this->image = image;
 }
 
+Lilliputian::Texture::Texture(String text, Font font, Colour colour, Rectangle rectangle)
+{
+
+}
+
 void Lilliputian::Texture::unload()
 {
-	this->image = NULL;
+	this->image.unload();
 }
 
 SDL_Surface* Lilliputian::Texture::getSDLSurface()
