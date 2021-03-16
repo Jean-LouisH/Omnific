@@ -15,6 +15,7 @@ namespace Lilliputian
 	public:
 		Image();
 		Image(const char* filepath);
+		Image(SDL_Surface* surface);
 		void unload();
 		ImageHash hash();
 		SDL_Surface* getSDLSurface();

@@ -12,6 +12,11 @@ Lilliputian::Image::Image(const char* filepath)
 	this->surface = IMG_Load(filepath);
 }
 
+Lilliputian::Image::Image(SDL_Surface* surface)
+{
+	this->surface = surface;
+}
+
 void Lilliputian::Image::unload()
 {
 	if (this->surface != NULL)
