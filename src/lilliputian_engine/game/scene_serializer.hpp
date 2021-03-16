@@ -12,5 +12,6 @@ namespace Lilliputian
 		SceneForest loadFromFile(String filepath);
 	private:
 		String dataDirectory;
+		SceneForest loadFromTextFile(String filepath);
 	};
 }

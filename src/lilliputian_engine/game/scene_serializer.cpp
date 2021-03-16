@@ -13,6 +13,19 @@ Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory)
 Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filepath)
 {
 	SceneForest scene;
+
+	if (true)
+	{
+		scene = this->loadFromTextFile(filepath);
+	}
+
+	return scene;
+
+}
+
+Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String filepath)
+{
+	SceneForest scene;
 	const String fullFilepath = this->dataDirectory + filepath;
 
 	try
@@ -74,7 +87,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 									{
 
 									}
-									else if(it3->first.as<std::string>() == "")
+									else if (it3->first.as<std::string>() == "")
 									{
 
 									}
