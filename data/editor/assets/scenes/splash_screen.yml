@@ -10,3 +10,11 @@ SceneTree2D:
     name: "SceneTransition"
     CountdownTimer: "default"
     Scripts: ["assets/scripts/splash_screen_transition.py"]
+  Entity2D:
+    name: "Text"
+    position_px: [50, 50]
+    UITextLabel: 
+      text: "This is a UITextLabel test"
+      font: "assets/fonts/Lato-Regular.ttf"
+      rectangle: [850, 850]
+      colour: [255, 0, 0, 255]
