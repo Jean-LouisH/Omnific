@@ -22,6 +22,7 @@ void Lilliputian::Engine::run()
 
 			if (configuration.isLoaded)
 			{
+				this->os->addGameControllerMappings();
 				Window window = this->os->window();
 				window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
 				window.changeTitle(configuration.gameTitle.c_str());

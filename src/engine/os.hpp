@@ -16,6 +16,7 @@ namespace Lilliputian
 		Window& window();
 		HumanInterfaceDevices& hid();
 		FileAccess& fileAccess();
+		void addGameControllerMappings();
 	private:
 		Window* _window = nullptr;
 		HumanInterfaceDevices* _hid = nullptr;
