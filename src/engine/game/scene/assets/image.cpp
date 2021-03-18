@@ -1,11 +1,16 @@
 #include "image.hpp"
-#include "rectangle.hpp"
 #include <SDL_image.h>
 
 Lilliputian::Image::Image()
 {
 	this->surface = NULL;
 }
+
+Lilliputian::Image::Image(String text, Font font, Colour colour, Rectangle rectangle)
+{
+
+}
+
 
 Lilliputian::Image::Image(const char* filepath)
 {
@@ -21,11 +26,6 @@ void Lilliputian::Image::unload()
 {
 	if (this->surface != NULL)
 		SDL_FreeSurface(this->surface);
-}
-
-Lilliputian::ImageHash Lilliputian::Image::hash()
-{
-	return (uint64_t)this->surface;
 }
 
 SDL_Surface* Lilliputian::Image::getSDLSurface()

@@ -2,11 +2,10 @@
 
 #include "utilities/collections/map.hpp"
 #include "utilities/string.hpp"
-#include "utilities/image.hpp"
 #include "audio_stream.hpp"
 #include "font.hpp"
 #include "text.hpp"
-#include "texture.hpp"
+#include "image.hpp"
 
 namespace Lilliputian
 {
@@ -16,12 +15,12 @@ namespace Lilliputian
 		AudioStream loadStreamedAudio(const char* filepath);
 		Font loadFont(const char* filepath);
 		Text loadText(const char* filepath);
-		Texture loadTexture(Image image);
+		Image loadTexture(const char* filepath);
 
 		void deleteStreamedAudio(const char* filepath);
 		void deleteFont(const char* filepath);
 		void deleteText(const char* filepath);
-		void deleteTexture(Image image);
+		void deleteTexture(const char* filepath);
 
 		void deleteAllAudio();
 		void deleteAllFonts();
@@ -33,11 +32,11 @@ namespace Lilliputian
 		Map<String, AudioStream> getStreamedAudios();
 		Map<String, Font> getFonts();
 		Map<String, Text> getTexts();
-		Map<ImageHash, Texture> getTextures();
+		Map<String, Image> getTextures();
 	private:
 		Map<String, AudioStream> streamedAudios;
 		Map<String, Font> fonts;
 		Map<String, Text> texts;
-		Map<ImageHash, Texture> textures;
+		Map<String, Image> textures;
 	};
 }

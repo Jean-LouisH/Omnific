@@ -58,7 +58,7 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 			Sprite* sprite;
 			AnimatedSprite* animatedSprite;
 			SDL::Rendering2D::Texture outputTexture;
-			Texture texture;
+			Image texture;
 
 			if (isRenderableType(componentVariant.type))
 			{

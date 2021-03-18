@@ -1,7 +1,7 @@
 #pragma once
 
 #include "component.hpp"
-#include "game/scene/assets/texture.hpp"
+#include "game/scene/assets/image.hpp"
 #include "utilities/string.hpp"
 #include "game/scene/assets/font.hpp"
 #include "utilities/rectangle.hpp"
@@ -22,7 +22,7 @@ namespace Lilliputian
 		Rectangle rectangle;
 		Colour colour;
 
-		Texture texture;
+		Image texture;
 
 		void generateTexture();
 	};

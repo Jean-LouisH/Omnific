@@ -1,7 +1,7 @@
 #include "sprite.hpp"
 
 
-void Lilliputian::Sprite::setTexture(Texture texture)
+void Lilliputian::Sprite::setTexture(Image texture)
 {
 	this->texture = texture;
 }
@@ -36,7 +36,7 @@ void Lilliputian::Sprite::flipHorizontally()
 
 }
 
-Lilliputian::Texture& Lilliputian::Sprite::getTexture()
+Lilliputian::Image& Lilliputian::Sprite::getTexture()
 {
 	return this->texture;
 }

@@ -5,14 +5,14 @@
 #include "utilities/collections/map.hpp"
 #include "utilities/constants.hpp"
 #include "utilities/string.hpp"
-#include "game/scene/assets/texture.hpp"
+#include "game/scene/assets/image.hpp"
 #include "component.hpp"
 
 namespace Lilliputian
 {
 	class AnimatedSprite : public Component
 	{
-		using Frame = Texture;
+		using Frame = Image;
 		using FrameIndex = uint16_t;
 		using FrameSequence = Vector<Frame>;
 	public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utilities/image.hpp"
+#include "game/scene/assets/image.hpp"
 
 namespace Lilliputian
 {

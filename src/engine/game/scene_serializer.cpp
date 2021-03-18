@@ -421,8 +421,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 								{
 									if (it3->first.as<std::string>() == "texture")
 									{
-										Image image((dataDirectory + it3->second.as<std::string>()).c_str());
-										Texture texture = scene.assetCache().loadTexture(image);
+										Image texture = scene.assetCache().loadTexture((dataDirectory + it3->second.as<std::string>()).c_str());
 										sprite->setTexture(texture);
 									}
 								}

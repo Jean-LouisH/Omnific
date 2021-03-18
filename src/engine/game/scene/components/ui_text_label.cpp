@@ -25,5 +25,5 @@ void Lilliputian::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blu
 void Lilliputian::UITextLabel::generateTexture()
 {
 	this->texture.unload();
-	this->texture = Texture(this->text, this->font, this->colour, this->rectangle);
+	this->texture = Image(this->text, this->font, this->colour, this->rectangle);
 }

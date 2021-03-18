@@ -5,7 +5,7 @@
 #include "utilities/collections/map.hpp"
 #include "utilities/constants.hpp"
 #include "utilities/string.hpp"
-#include "game/scene/assets/texture.hpp"
+#include "game/scene/assets/image.hpp"
 #include "component.hpp"
 
 namespace Lilliputian
@@ -13,7 +13,7 @@ namespace Lilliputian
 	class Sprite : public Component
 	{
 	public:
-		void setTexture(Texture texture);
+		void setTexture(Image texture);
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		void hide();
@@ -22,9 +22,9 @@ namespace Lilliputian
 		void flipVertically();
 		void flipHorizontally();
 
-		Texture& getTexture();
+		Image& getTexture();
 	private:
-		Texture texture;
+		Image texture;
 		uint8_t alpha = 255;
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;
