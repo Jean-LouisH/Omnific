@@ -29,6 +29,7 @@
 #include "rigid_body_2d.hpp"
 #include "sprite.hpp"
 #include "static_fluid_2d.hpp"
+#include "transform_2d.hpp"
 #include "ui_button.hpp"
 #include "ui_rectangle.hpp"
 #include "ui_graph_edit.hpp"
@@ -80,6 +81,7 @@ namespace Lilliputian
 			COMPONENT_TYPE_RIGID_BODY_2D,
 			COMPONENT_TYPE_SPRITE,
 			COMPONENT_TYPE_STATIC_FLUID_2D,
+			COMPONENT_TYPE_TRANSFORM_2D,
 			COMPONENT_TYPE_UI_BUTTON,
 			COMPONENT_TYPE_UI_RECTANGLE,
 			COMPONENT_TYPE_UI_GRAPH_EDIT,
@@ -119,7 +121,7 @@ namespace Lilliputian
 				case COMPONENT_TYPE_AI_SOUND_PERCEPTION: this->aiSoundPerception2D = new AISoundPerception2D(*other.aiSoundPerception2D); break;
 				case COMPONENT_TYPE_ANIMATED_SPRITE:this->animatedSprite = new AnimatedSprite(*other.animatedSprite); break;
 				case COMPONENT_TYPE_AUDIO_LISTENER_2D:this->audioListener2D = new AudioListener2D(*other.audioListener2D); break;
-				case COMPONENT_TYPE_AUDIO_STREAM_SOURCE_2D:this->streamedAudioSource2D = new AudioStreamSource2D(*other.streamedAudioSource2D); break;
+				case COMPONENT_TYPE_AUDIO_STREAM_SOURCE_2D:this->audioStreamSource2D = new AudioStreamSource2D(*other.audioStreamSource2D); break;
 				case COMPONENT_TYPE_CAMERA_2D: this->camera2D = new Camera2D(*other.camera2D); break;
 				case COMPONENT_TYPE_CIRCLE_COLLIDER_2D:this->circleCollider2D = new CircleCollider2D(*other.circleCollider2D); break;
 				case COMPONENT_TYPE_CONSTANT_DIRECTIONAL_FORCE_2D:this->constantDirectionalForce2D = new ConstantDirectionalForce2D(*other.constantDirectionalForce2D); break;
@@ -140,6 +142,7 @@ namespace Lilliputian
 				case COMPONENT_TYPE_RIGID_BODY_2D:this->rigidBody2D = new RigidBody2D(*other.rigidBody2D); break;
 				case COMPONENT_TYPE_SPRITE:this->sprite = new Sprite(*other.sprite); break;
 				case COMPONENT_TYPE_STATIC_FLUID_2D:this->staticFluid2D = new StaticFluid2D(*other.staticFluid2D); break;
+				case COMPONENT_TYPE_TRANSFORM_2D:this->transform2D = new Transform2D(*other.transform2D); break;
 				case COMPONENT_TYPE_UI_BUTTON:this->uiButton = new UIButton(*other.uiButton); break;
 				case COMPONENT_TYPE_UI_RECTANGLE:this->uiRectangle = new UIRectangle(*other.uiRectangle); break;
 				case COMPONENT_TYPE_UI_GRAPH_EDIT:this->uiGraphEdit = new UIGraphEdit(*other.uiGraphEdit); break;
@@ -168,7 +171,7 @@ namespace Lilliputian
 				case COMPONENT_TYPE_AI_SOUND_PERCEPTION: delete this->aiSoundPerception2D; break;
 				case COMPONENT_TYPE_ANIMATED_SPRITE:delete this->animatedSprite; break;
 				case COMPONENT_TYPE_AUDIO_LISTENER_2D:delete this->audioListener2D; break;
-				case COMPONENT_TYPE_AUDIO_STREAM_SOURCE_2D:delete this->streamedAudioSource2D; break;
+				case COMPONENT_TYPE_AUDIO_STREAM_SOURCE_2D:delete this->audioStreamSource2D; break;
 				case COMPONENT_TYPE_CAMERA_2D: delete this->camera2D; break;
 				case COMPONENT_TYPE_CIRCLE_COLLIDER_2D:delete this->circleCollider2D; break;
 				case COMPONENT_TYPE_CONSTANT_DIRECTIONAL_FORCE_2D:delete this->constantDirectionalForce2D; break;
@@ -189,6 +192,7 @@ namespace Lilliputian
 				case COMPONENT_TYPE_RIGID_BODY_2D:delete this->rigidBody2D; break;
 				case COMPONENT_TYPE_SPRITE:delete this->sprite; break;
 				case COMPONENT_TYPE_STATIC_FLUID_2D:delete this->staticFluid2D; break;
+				case COMPONENT_TYPE_TRANSFORM_2D: delete this->transform2D; break;
 				case COMPONENT_TYPE_UI_BUTTON:delete this->uiButton; break;
 				case COMPONENT_TYPE_UI_RECTANGLE:delete this->uiRectangle; break;
 				case COMPONENT_TYPE_UI_GRAPH_EDIT:delete this->uiGraphEdit; break;
@@ -235,7 +239,8 @@ namespace Lilliputian
 			RigidBody2D* rigidBody2D;
 			Sprite* sprite;
 			StaticFluid2D* staticFluid2D;
-			AudioStreamSource2D* streamedAudioSource2D;
+			Transform2D* transform2D;
+			AudioStreamSource2D* audioStreamSource2D;
 			UIButton* uiButton;
 			UIRectangle* uiRectangle;
 			UIGraphEdit* uiGraphEdit;

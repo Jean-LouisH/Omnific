@@ -1,11 +1,6 @@
 #include "entity_2d.hpp"
 #include "utilities/constants.hpp"
 
-void Lilliputian::Entity2D::setTransform(TransformID transformID)
-{
-	this->transformID = transformID;
-}
-
 void Lilliputian::Entity2D::addParentEntity(EntityID parentEntityID)
 {
 	this->parentID = parentEntityID;

@@ -19,7 +19,6 @@ namespace Lilliputian
 		}
 
 		void addEntity2D(Entity2D entity2D);
-		void addTransform(EntityID entityID);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 
 		void executeFrameLogic();
@@ -29,8 +28,8 @@ namespace Lilliputian
 	private:
 
 		Map<EntityID, Entity2D> entities2D;
-		Vector<Transform2D> transforms2D;
 		Vector<ComponentVariant> componentVariants;
+		Vector<ComponentID> transform2DIndexCache;
 
 		Rectangle windowDimensions;
 		ComponentID currentCamera = 0;

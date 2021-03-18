@@ -58,24 +58,6 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 							{
 								scene.addParentToLastEntityByName(it2->second.as<std::string>());
 							}
-							else if (it2->first.as<std::string>() == "position_px")
-							{
-								Vector2 position_px;
-								position_px.x = it2->second[0].as<double>();
-								position_px.y = it2->second[1].as<double>();
-								scene.addPositionToEntity2D(position_px);
-							}
-							else if (it2->first.as<std::string>() == "rotation_rad")
-							{
-								scene.addRotationToEntity2D(it2->second.as<double>());
-							}
-							else if (it2->first.as<std::string>() == "scale")
-							{
-								Vector2 scale;
-								scale.x = it2->second[0].as<double>();
-								scale.y = it2->second[1].as<double>();
-								scene.addScaleToEntity2D(scale);
-							}
 							//Components
 							else if (it2->first.as<std::string>() == "AIBehaviourTree")
 							{
@@ -126,6 +108,20 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 								}
 							}
 							else if (it2->first.as<std::string>() == "AudioListener2D")
+							{
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
+									{
+
+									}
+									else if (it3->first.as<std::string>() == "")
+									{
+
+									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "AudioStreamSource2D")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -449,19 +445,31 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "StreamedAudioSource2D")
+							else if (it2->first.as<std::string>() == "Transform2D")
 							{
+								Transform2D* transform2D = new Transform2D();
+
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "default")
+									if (it3->first.as<std::string>() == "position_px")
 									{
-
+										transform2D->position_px.x = it3->second[0].as<double>();
+										transform2D->position_px.y = it3->second[1].as<double>();
 									}
-									else if (it3->first.as<std::string>() == "")
+									else if (it3->first.as<std::string>() == "rotation_rad")
 									{
-
+										transform2D->rotation_rad = it3->second.as<double>();
+									}
+									else if (it3->first.as<std::string>() == "scale")
+									{
+										transform2D->scale.x = it3->second[0].as<double>();
+										transform2D->scale.y = it3->second[1].as<double>();
 									}
 								}
+
+								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_TRANSFORM_2D;
+								componentVariant.transform2D = transform2D;
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
 							{

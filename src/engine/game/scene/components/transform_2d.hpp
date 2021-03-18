@@ -1,10 +1,11 @@
 #pragma once
 
-#include "vector2.hpp"
+#include "component.hpp"
+#include "utilities/vector2.hpp"
 
 namespace Lilliputian
 {
-	class Transform2D
+	class Transform2D : public Component
 	{
 	public:
 		Vector2 position_px;

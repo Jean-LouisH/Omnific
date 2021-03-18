@@ -21,7 +21,6 @@ void Lilliputian::SceneForest::addEntity2D(Entity2D entity2D)
 	entity2D.ID = this->entityIDCount;
 	this->entityIDCount++;
 	this->getLastSceneTree2DStack()->top().addEntity2D(entity2D);
-	this->getLastSceneTree2DStack()->top().addTransform(this->getPreviousEntityID());
 }
 
 void Lilliputian::SceneForest::addEmptyEntity2D(Entity2D entity2D)
@@ -37,21 +36,6 @@ void Lilliputian::SceneForest::addNameToLastEntity(String name)
 }
 
 void Lilliputian::SceneForest::addParentToLastEntityByName(String name)
-{
-
-}
-
-void Lilliputian::SceneForest::addPositionToEntity2D(Vector2 position_px)
-{
-
-}
-
-void Lilliputian::SceneForest::addRotationToEntity2D(float rotation_rad)
-{
-
-}
-
-void Lilliputian::SceneForest::addScaleToEntity2D(Vector2 scale)
 {
 
 }
