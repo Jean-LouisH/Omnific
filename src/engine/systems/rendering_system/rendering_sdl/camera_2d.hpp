@@ -11,6 +11,7 @@ namespace SDL
 		{
 			Transform2D transform;
 			Rect viewport_px;
+			bool isStreaming;
 		}Camera2D;
 	}
 }

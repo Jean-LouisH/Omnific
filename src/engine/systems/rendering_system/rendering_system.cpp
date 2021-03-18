@@ -41,6 +41,7 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 {
 	Vector<SDL::Rendering2D::Sprite2D> outputsprite2Ds;
 	SDL::Rendering2D::Camera2D outputCamera2D;
+	outputCamera2D.isStreaming = false;
 
 	Vector<Stack<SceneTree2D>> sceneTree2DStacks = scene.getSceneTree2DStacks();
 	int sceneTree2DCount = sceneTree2DStacks.size();
@@ -137,7 +138,8 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TREE:; break;
 				}
 			}
-			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D)
+			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D &&
+				 j == sceneTree2D.getCurrentCameraIndex())
 			{
 				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.entityID);
 				Vector2 position_px = transform2D.position_px;
@@ -145,6 +147,7 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				camera2D = componentVariant.camera2D;
 				Rectangle viewport_px = camera2D->getViewportDimensions();
 
+				outputCamera2D.isStreaming = true;
 				outputCamera2D.transform.position_px.x = position_px.x;
 				outputCamera2D.transform.position_px.y = position_px.y;
 				outputCamera2D.transform.scale.x = scale.x;
@@ -157,11 +160,14 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 		}
 	}
 
-	SDL::Rendering2D::buildRenderablesFromSprites(
-		&this->sdlRenderables,
-		outputsprite2Ds,
-		outputCamera2D,
-		this->sdlWindow);
+	if (outputCamera2D.isStreaming)
+	{
+		SDL::Rendering2D::buildRenderablesFromSprites(
+			&this->sdlRenderables,
+			outputsprite2Ds,
+			outputCamera2D,
+			this->sdlWindow);
+	}
 
 	this->clearBuffers();
 	this->render();

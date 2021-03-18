@@ -12,9 +12,10 @@ void Lilliputian::SceneTree2D::addComponent(EntityID entityID, ComponentVariant 
 	this->entities2D.at(entityID).addComponent(componentVariant.type, this->componentVariants.size() - 1);
 
 	if (componentVariant.type == ComponentVariant::COMPONENT_TYPE_TRANSFORM_2D)
-	{
 		this->transform2DIndexCache.push_back(this->componentVariants.size() - 1);
-	}
+	else if (componentVariant.type == ComponentVariant::COMPONENT_TYPE_CAMERA_2D)
+		if (componentVariant.camera2D->getIsStreaming())
+			this->currentCamera = this->componentVariants.size() - 1;
 }
 
 void Lilliputian::SceneTree2D::executeFrameLogic()
@@ -23,6 +24,11 @@ void Lilliputian::SceneTree2D::executeFrameLogic()
 	{
 
 	}
+}
+
+Lilliputian::ComponentID Lilliputian::SceneTree2D::getCurrentCameraIndex()
+{
+	return this->currentCamera;
 }
 
 Lilliputian::Vector<Lilliputian::ComponentVariant>& Lilliputian::SceneTree2D::getComponentVariants()

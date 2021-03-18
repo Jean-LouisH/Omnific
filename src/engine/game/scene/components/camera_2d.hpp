@@ -15,6 +15,7 @@ namespace Lilliputian
 		Camera2D();
 		void resetAspect();
 		Rectangle getViewportDimensions();
+		bool getIsStreaming();
 		void setViewportWidth(uint32_t width_px);
 		void setViewportHeight(uint32_t height_px);
 		void setLimits(float left, float bottom, float top, float right);

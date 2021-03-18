@@ -15,6 +15,11 @@ Lilliputian::Rectangle Lilliputian::Camera2D::getViewportDimensions()
 	return this->viewport_px;
 }
 
+bool Lilliputian::Camera2D::getIsStreaming()
+{
+	return this->isStreaming;
+}
+
 void Lilliputian::Camera2D::setViewportWidth(uint32_t width_px)
 {
 	this->viewport_px.width = width_px;

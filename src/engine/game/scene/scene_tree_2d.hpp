@@ -23,6 +23,7 @@ namespace Lilliputian
 
 		void executeFrameLogic();
 
+		ComponentID getCurrentCameraIndex();
 		Vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
 	private:
@@ -32,6 +33,6 @@ namespace Lilliputian
 		Vector<ComponentID> transform2DIndexCache;
 
 		Rectangle windowDimensions;
-		ComponentID currentCamera = 0;
+		ComponentID currentCamera = -1;
 	};
 }
