@@ -25,7 +25,7 @@
 void Lilliputian::UITextLabel::setText(String text)
 {
 	this->text = text;
-	this->generateTexture();
+	this->generateImage();
 }
 
 void Lilliputian::UITextLabel::setFont(Font font)
@@ -44,8 +44,8 @@ void Lilliputian::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blu
 	this->colour = Colour(red, green, blue, alpha);
 }
 
-void Lilliputian::UITextLabel::generateTexture()
+void Lilliputian::UITextLabel::generateImage()
 {
-	this->texture.unload();
-	this->texture = Image(this->text, this->font, this->colour, this->rectangle);
+	this->image.unload();
+	this->image = Image(this->text, this->font, this->colour, this->rectangle);
 }

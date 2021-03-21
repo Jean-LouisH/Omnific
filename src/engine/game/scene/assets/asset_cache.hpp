@@ -34,31 +34,31 @@ namespace Lilliputian
 	class AssetCache
 	{
 	public:
-		AudioStream loadStreamedAudio(const char* filepath);
+		AudioStream loadAudioStream(const char* filepath);
 		Font loadFont(const char* filepath);
 		Text loadText(const char* filepath);
-		Image loadTexture(const char* filepath);
+		Image loadImage(const char* filepath);
 
-		void deleteStreamedAudio(const char* filepath);
+		void deleteAudioStream(const char* filepath);
 		void deleteFont(const char* filepath);
 		void deleteText(const char* filepath);
-		void deleteTexture(const char* filepath);
+		void deleteImage(const char* filepath);
 
-		void deleteAllAudio();
+		void deleteAllAudioStreams();
 		void deleteAllFonts();
 		void deleteAllTexts();
-		void deleteAllTextures();
+		void deleteAllImages();
 
 		void deleteAll();
 
-		Map<String, AudioStream> getStreamedAudios();
+		Map<String, AudioStream> getAudioStreams();
 		Map<String, Font> getFonts();
 		Map<String, Text> getTexts();
-		Map<String, Image> getTextures();
+		Map<String, Image> getImages();
 	private:
-		Map<String, AudioStream> streamedAudios;
+		Map<String, AudioStream> audioStreams;
 		Map<String, Font> fonts;
 		Map<String, Text> texts;
-		Map<String, Image> textures;
+		Map<String, Image> images;
 	};
 }

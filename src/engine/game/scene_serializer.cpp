@@ -441,10 +441,10 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "texture")
+									if (it3->first.as<std::string>() == "image")
 									{
-										Image texture = scene.assetCache().loadTexture((dataDirectory + it3->second.as<std::string>()).c_str());
-										sprite->setTexture(texture);
+										Image image = scene.assetCache().loadImage((dataDirectory + it3->second.as<std::string>()).c_str());
+										sprite->setImage(image);
 									}
 								}
 

@@ -5,7 +5,7 @@ SceneTree2D:
   Entity2D:
     name: "SplashScreenSprite"
     Sprite:
-      texture: "assets/textures/lilliputian_wordmark.png"
+      image: "assets/images/lilliputian_wordmark.png"
   Entity2D:
     name: "SceneTransition"
     CountdownTimer: "default"

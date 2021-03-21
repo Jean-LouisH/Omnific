@@ -100,7 +100,7 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				{
 					case ComponentVariant::Type::COMPONENT_TYPE_SPRITE:
 						sprite = componentVariant.sprite;
-						texture = sprite->getTexture();
+						texture = sprite->getImage();
 						outputTexture.pixels.width = texture.getWidth();
 						outputTexture.pixels.height = texture.getHeight();
 

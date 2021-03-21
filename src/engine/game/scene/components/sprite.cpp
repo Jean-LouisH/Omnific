@@ -23,9 +23,9 @@
 #include "sprite.hpp"
 
 
-void Lilliputian::Sprite::setTexture(Image texture)
+void Lilliputian::Sprite::setImage(Image image)
 {
-	this->texture = texture;
+	this->image = image;
 }
 
 void Lilliputian::Sprite::setAlpha(uint8_t value)
@@ -58,7 +58,7 @@ void Lilliputian::Sprite::flipHorizontally()
 
 }
 
-Lilliputian::Image& Lilliputian::Sprite::getTexture()
+Lilliputian::Image& Lilliputian::Sprite::getImage()
 {
-	return this->texture;
+	return this->image;
 }

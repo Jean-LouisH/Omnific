@@ -35,7 +35,7 @@ namespace Lilliputian
 	class Sprite : public Component
 	{
 	public:
-		void setTexture(Image texture);
+		void setImage(Image image);
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		void hide();
@@ -44,9 +44,9 @@ namespace Lilliputian
 		void flipVertically();
 		void flipHorizontally();
 
-		Image& getTexture();
+		Image& getImage();
 	private:
-		Image texture;
+		Image image;
 		uint8_t alpha = 255;
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;

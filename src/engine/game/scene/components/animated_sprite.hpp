@@ -34,15 +34,14 @@ namespace Lilliputian
 {
 	class AnimatedSprite : public Component
 	{
-		using Frame = Image;
 		using FrameIndex = uint16_t;
-		using FrameSequence = Vector<Frame>;
+		using FrameSequence = Vector<Image>;
 	public:
 		String currentFrameSequenceName = "";
 
 		void addEmptyFrameSequence(String frameSequenceName);
 		void addFrameSequence(String frameSequenceName, FrameSequence frameSequence);
-		void addFrameToFrameSequence(String frameSequenceName, Frame frame);
+		void addFrameToFrameSequence(String frameSequenceName, Image frame);
 		void clearFrameSequences();
 
 		void setAlpha(uint8_t value);
@@ -66,7 +65,7 @@ namespace Lilliputian
 		void flipVertically();
 		void flipHorizontally();
 
-		Frame getCurrentFrame();
+		Image getCurrentFrame();
 		Vector<String> getFrameSequenceNames();
 		FrameSequence getFrameSequenceByName(String frameSequenceName);
 		FrameSequence getCurrentFrameSequence();

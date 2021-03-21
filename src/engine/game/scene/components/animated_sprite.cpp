@@ -33,7 +33,7 @@ void Lilliputian::AnimatedSprite::addFrameSequence(String frameSequenceName, Fra
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite::addFrameToFrameSequence(String frameSequenceName, Frame frame)
+void Lilliputian::AnimatedSprite::addFrameToFrameSequence(String frameSequenceName, Image frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
@@ -142,7 +142,7 @@ void Lilliputian::AnimatedSprite::flipHorizontally()
 	this->isFlippedHorizontally != this->isFlippedHorizontally;
 }
 
-Lilliputian::AnimatedSprite::Frame Lilliputian::AnimatedSprite::getCurrentFrame()
+Lilliputian::Image Lilliputian::AnimatedSprite::getCurrentFrame()
 {
 	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
 }

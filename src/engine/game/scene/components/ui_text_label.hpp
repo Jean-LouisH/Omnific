@@ -44,8 +44,8 @@ namespace Lilliputian
 		Rectangle rectangle;
 		Colour colour;
 
-		Image texture;
+		Image image;
 
-		void generateTexture();
+		void generateImage();
 	};
 }
