@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class AISoundPerception2D : public Component
+	class AISoundPerception2D
 	{
 	public:
 	private:

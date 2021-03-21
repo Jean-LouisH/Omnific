@@ -25,11 +25,11 @@
 #include "utilities/aliases.hpp"
 #include "utilities/vector2.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class RigidBody2D : public Component
+	class RigidBody2D
 	{
 	public:
 		float mass_kg = 1.0;

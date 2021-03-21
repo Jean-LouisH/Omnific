@@ -28,11 +28,11 @@
 #include "utilities/constants.hpp"
 #include "utilities/string.hpp"
 #include "game/scene/assets/image.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class AnimatedSprite : public Component
+	class AnimatedSprite
 	{
 		using FrameIndex = uint16_t;
 		using FrameSequence = Vector<Image>;

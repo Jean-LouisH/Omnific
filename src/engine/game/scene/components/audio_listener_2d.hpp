@@ -24,11 +24,11 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class AudioListener2D : public Component
+	class AudioListener2D
 	{
 	public:
 	private:

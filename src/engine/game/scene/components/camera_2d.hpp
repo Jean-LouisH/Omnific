@@ -27,11 +27,11 @@
 #include "utilities/aabb_2d.hpp"
 #include "utilities/vector2.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class Camera2D : public Component
+	class Camera2D
 	{
 	public:
 		Camera2D();

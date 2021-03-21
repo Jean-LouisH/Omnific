@@ -30,11 +30,11 @@
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/map.hpp"
 #include "game/scene/assets/audio_stream.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class AudioStreamSource2D : public Component
+	class AudioStreamSource2D
 	{
 	public:
 		void addAudioStream(AudioStream audioStream);

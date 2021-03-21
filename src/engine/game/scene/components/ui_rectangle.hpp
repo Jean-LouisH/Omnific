@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UIRectangle : public Component
+	class UIRectangle
 	{
 	public:
 	private:

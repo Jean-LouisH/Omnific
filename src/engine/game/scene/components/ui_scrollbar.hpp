@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UIScrollbar : public Component
+	class UIScrollbar
 	{
 	public:
 	private:

@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UITab : public Component
+	class UITab
 	{
 	public:
 	private:

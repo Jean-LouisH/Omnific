@@ -24,11 +24,11 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UIItemList : public Component
+	class UIItemList
 	{
 	public:
 		void setLowerBound(uint32_t lowerBound);

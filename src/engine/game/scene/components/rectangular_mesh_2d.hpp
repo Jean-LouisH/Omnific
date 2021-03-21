@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class RectangularMesh2D : public Component
+	class RectangularMesh2D
 	{
 	public:
 	private:

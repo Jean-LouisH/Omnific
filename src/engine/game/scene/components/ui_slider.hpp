@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UISlider : public Component
+	class UISlider
 	{
 	public:
 	private:

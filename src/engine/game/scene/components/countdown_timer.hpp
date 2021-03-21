@@ -24,11 +24,11 @@
 
 #include "../../../utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class CountdownTimer : public Component
+	class CountdownTimer
 	{
 	public:
 		void start(float time);

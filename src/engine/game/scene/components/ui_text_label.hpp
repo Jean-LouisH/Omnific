@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "component.hpp"
+
 #include "game/scene/assets/image.hpp"
 #include "utilities/string.hpp"
 #include "game/scene/assets/font.hpp"
@@ -31,7 +31,7 @@
 
 namespace Lilliputian
 {
-	class UITextLabel : public Component
+	class UITextLabel
 	{
 	public:
 		void setText(String text);

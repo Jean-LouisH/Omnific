@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "component.hpp"
+
 #include "utilities/aliases.hpp"
 
 #include "ai_behaviour_tree.hpp"

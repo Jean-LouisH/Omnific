@@ -26,11 +26,11 @@
 #include "utilities/collections/vector.hpp"
 #include "utilities/constants.hpp"
 #include <stdint.h>
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class PropertyAnimation : public Component
+	class PropertyAnimation
 	{
 	public:
 		float* targetDoubleProperty = NULL;

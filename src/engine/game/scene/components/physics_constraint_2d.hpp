@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class PhysicsConstraint2D : public Component
+	class PhysicsConstraint2D
 	{
 	public:
 	private:

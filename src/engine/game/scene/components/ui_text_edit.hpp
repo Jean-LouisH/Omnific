@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UITextEdit : public Component
+	class UITextEdit
 	{
 	public:
 	private:

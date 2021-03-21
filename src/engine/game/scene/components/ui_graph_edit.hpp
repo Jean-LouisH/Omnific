@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UIGraphEdit : public Component
+	class UIGraphEdit
 	{
 	public:
 	private:

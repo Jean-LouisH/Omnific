@@ -27,11 +27,11 @@
 #include "utilities/collections/set.hpp"
 #include "utilities/string.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class RectangularTriggerArea2D : public Component
+	class RectangularTriggerArea2D
 	{
 	public:
 		AABB2D aabb;

@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UIButton : public Component
+	class UIButton
 	{
 	public:
 	private:

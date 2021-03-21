@@ -25,11 +25,11 @@
 #include "utilities/aliases.hpp"
 #include "utilities/aabb_2d.hpp"
 #include "utilities/constants.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class RectangularCollider2D : public Component
+	class RectangularCollider2D
 	{
 	public:
 		enum PlatformSide

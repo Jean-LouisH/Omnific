@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UISpinBox : public Component
+	class UISpinBox
 	{
 	public:
 	private:

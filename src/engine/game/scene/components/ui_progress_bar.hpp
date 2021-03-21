@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class UIProgressBar : public Component
+	class UIProgressBar
 	{
 	public:
 	private:

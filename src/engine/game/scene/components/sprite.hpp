@@ -28,11 +28,11 @@
 #include "utilities/constants.hpp"
 #include "utilities/string.hpp"
 #include "game/scene/assets/image.hpp"
-#include "component.hpp"
+
 
 namespace Lilliputian
 {
-	class Sprite : public Component
+	class Sprite
 	{
 	public:
 		void setImage(Image image);
