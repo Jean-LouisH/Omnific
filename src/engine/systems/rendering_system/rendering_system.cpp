@@ -80,10 +80,11 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 			Camera2D* camera2D;
 			Sprite* sprite;
 			AnimatedSprite* animatedSprite;
+			UITextLabel* uiTextLabel;
 			SDL::Rendering2D::Texture outputTexture;
-			Image texture;
+			Image image;
 
-			if (isRenderableType(componentVariant.type))
+			if (this->isRenderableType(componentVariant.type))
 			{
 				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.entityID);
 				Vector2 position_px = transform2D.position_px;
@@ -100,18 +101,18 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				{
 					case ComponentVariant::Type::COMPONENT_TYPE_SPRITE:
 						sprite = componentVariant.sprite;
-						texture = sprite->getImage();
-						outputTexture.pixels.width = texture.getWidth();
-						outputTexture.pixels.height = texture.getHeight();
+						image = sprite->getImage();
+						outputTexture.pixels.width = image.getWidth();
+						outputTexture.pixels.height = image.getHeight();
 
-						if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
+						if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
 						{
-							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
-							this->sdlTextureCache.emplace(texture.getSDLSurface(), outputTexture.data);
+							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
+							this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
 						}
 						else
 						{
-							outputTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
+							outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
 						}
 
 						outputSprite2D.textureFrames.push_back(outputTexture);
@@ -121,18 +122,18 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 						break;
 					case ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE:
 						animatedSprite = componentVariant.animatedSprite;
-						texture = animatedSprite->getCurrentFrame();
-						outputTexture.pixels.width = texture.getWidth();
-						outputTexture.pixels.height = texture.getHeight();
+						image = animatedSprite->getCurrentFrame();
+						outputTexture.pixels.width = image.getWidth();
+						outputTexture.pixels.height = image.getHeight();
 
-						if (this->sdlTextureCache.count(texture.getSDLSurface()) == 0)
+						if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
 						{
-							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, texture.getSDLSurface());
-							this->sdlTextureCache.emplace(texture.getSDLSurface(), outputTexture.data);
+							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
+							this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
 						}
 						else
 						{
-							outputTexture.data = this->sdlTextureCache.at(texture.getSDLSurface());
+							outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
 						}
 
 						outputSprite2D.textureFrames.push_back(outputTexture);
@@ -156,7 +157,27 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_SPIN_BOX: break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TAB: break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_EDIT: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL: 
+						uiTextLabel = componentVariant.uiTextLabel;
+						image = uiTextLabel->getImage();
+						outputTexture.pixels.width = image.getWidth();
+						outputTexture.pixels.height = image.getHeight();
+
+						if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
+						{
+							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
+							this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
+						}
+						else
+						{
+							outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
+						}
+
+						outputSprite2D.textureFrames.push_back(outputTexture);
+						outputSprite2D.alpha = uiTextLabel->getAlpha();
+
+						outputsprite2Ds.push_back(outputSprite2D);
+						break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TREE:; break;
 				}
 			}
