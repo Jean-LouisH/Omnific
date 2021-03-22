@@ -42,3 +42,24 @@ Lilliputian::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t al
 	this->blue = float(blue) / 255.0;
 	this->alpha = float(alpha) / 255.0;
 }
+
+uint8_t Lilliputian::Colour::getRed()
+{
+	return (uint8_t)(this->red * 255.0);
+}
+
+uint8_t Lilliputian::Colour::getGreen()
+{
+	return (uint8_t)(this->green * 255.0);
+}
+
+
+uint8_t Lilliputian::Colour::getBlue()
+{
+	return (uint8_t)(this->blue * 255.0);
+}
+
+uint8_t Lilliputian::Colour::getAlpha()
+{
+	return (uint8_t)(this->alpha * 255.0);
+}

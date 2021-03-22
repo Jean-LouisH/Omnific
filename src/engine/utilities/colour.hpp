@@ -33,6 +33,10 @@ namespace Lilliputian
 		Colour();
 		Colour(std::string hex);
 		Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		uint8_t getRed();
+		uint8_t getGreen();
+		uint8_t getBlue();
+		uint8_t getAlpha();
 	private:
 		float red;
 		float green;
