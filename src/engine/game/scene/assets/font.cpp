@@ -22,12 +22,29 @@
 
 #include "font.hpp"
 
-Lilliputian::Font::Font(const char* filepath)
-{
 
+Lilliputian::Font::Font()
+{
+	this->font = nullptr;
+}
+
+Lilliputian::Font::Font(const char* filepath, uint16_t size_px)
+{
+	this->font = TTF_OpenFont(filepath, size_px);
+}
+
+Lilliputian::Font::Font(TTF_Font* font)
+{
+	this->font = font;
+}
+
+TTF_Font* Lilliputian::Font::getSDLTTFFont()
+{
+	return this->font;
 }
 
 void Lilliputian::Font::unload()
 {
-
+	TTF_CloseFont(this->font);
+	this->font = nullptr;
 }

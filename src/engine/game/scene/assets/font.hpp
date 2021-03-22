@@ -23,14 +23,36 @@
 #pragma once
 
 #include "asset.hpp"
+#include "stdint.h"
+#include "SDL_ttf.h"
 
 namespace Lilliputian
 {
 	class Font : public Asset
 	{
 	public:
-		Font(const char* filepath);
+		enum class Style
+		{
+			NORMAL,
+			BOLD,
+			ITALIC,
+			UNDERLINE,
+			STRIKETHROUGH
+		};
+
+		enum class RenderMode
+		{
+			SOLID,
+			SHADED,
+			BLENDED
+		};
+
+		Font();
+		Font(const char* filepath, uint16_t size_px);
+		Font(TTF_Font* font);
+		TTF_Font* getSDLTTFFont();
 		virtual void unload();
 	private:
+		TTF_Font* font;
 	};
 }

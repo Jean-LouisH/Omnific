@@ -35,7 +35,7 @@ namespace Lilliputian
 	{
 	public:
 		AudioStream loadAudioStream(const char* filepath);
-		Font loadFont(const char* filepath);
+		Font loadFont(const char* filepath, uint16_t size_px);
 		Text loadText(const char* filepath);
 		Image loadImage(const char* filepath);
 

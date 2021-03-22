@@ -32,11 +32,11 @@ Lilliputian::AudioStream Lilliputian::AssetCache::loadAudioStream(const char* fi
 	return this->audioStreams.at(filepath);
 }
 
-Lilliputian::Font Lilliputian::AssetCache::loadFont(const char* filepath)
+Lilliputian::Font Lilliputian::AssetCache::loadFont(const char* filepath, uint16_t size_px)
 {
 	if (!this->fonts.count(filepath))
 	{
-		this->fonts.emplace(filepath, Font(filepath));
+		this->fonts.emplace(filepath, Font(filepath, size_px));
 	}
 
 	return this->fonts.at(filepath);
