@@ -660,20 +660,6 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIRichTextLabel")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
 							else if (it2->first.as<std::string>() == "UISpinBox")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
@@ -718,17 +704,36 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 							}
 							else if (it2->first.as<std::string>() == "UITextLabel")
 							{
+								UITextLabel* uiTextLabel = new UITextLabel();
+
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "default")
+									if (it3->first.as<std::string>() == "text")
 									{
-
+										uiTextLabel->setText(it3->second.as<std::string>());
 									}
-									else if (it3->first.as<std::string>() == "")
+									else if (it3->first.as<std::string>() == "font")
 									{
+										Font font = scene.assetCache().loadFont((
+											dataDirectory + it3->second[0].as<std::string>()).c_str(),
+											it3->second[1].as<int>());
 
+										uiTextLabel->setFont(font, it3->second[1].as<int>());
+									}
+									else if (it3->first.as<std::string>() == "colour")
+									{
+										uiTextLabel->setColour(
+											it3->second[0].as<int>(),
+											it3->second[1].as<int>(),
+											it3->second[2].as<int>(),
+											it3->second[3].as<int>()
+										);
 									}
 								}
+
+								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL;
+								componentVariant.uiTextLabel = uiTextLabel;
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UITexturedButton")
 							{
