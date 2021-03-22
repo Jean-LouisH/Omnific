@@ -32,6 +32,7 @@
 #include "utilities/rectangle.hpp"
 #include "utilities/string.hpp"
 #include "utilities/colour.hpp"
+#include "font.hpp"
 
 namespace Lilliputian
 {
@@ -41,7 +42,7 @@ namespace Lilliputian
 		using ImageHash = uint64_t;
 
 		Image();
-		Image(String text, Font font, Colour colour, Rectangle rectangle);
+		Image(String text, Font font, Colour colour, Font::RenderMode mode);
 		Image(const char* filepath);
 		Image(SDL_Surface* surface);
 		virtual void unload();

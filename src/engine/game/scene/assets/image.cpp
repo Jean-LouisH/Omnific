@@ -25,14 +25,27 @@
 
 Lilliputian::Image::Image()
 {
-	this->surface = NULL;
+	this->surface = nullptr;
 }
 
-Lilliputian::Image::Image(String text, Font font, Colour colour, Rectangle rectangle)
+Lilliputian::Image::Image(String text, Font font, Colour colour, Font::RenderMode mode)
 {
+	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
+	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
 
+	switch (mode)
+	{
+	case Font::RenderMode::SOLID:
+		this->surface = TTF_RenderUTF8_Solid(font.getSDLTTFFont(), text.c_str(), sdlColor);
+		break;
+	case Font::RenderMode::SHADED:
+		this->surface = TTF_RenderUTF8_Shaded(font.getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor);
+		break;
+	case Font::RenderMode::BLENDED:
+		this->surface = TTF_RenderUTF8_Blended(font.getSDLTTFFont(), text.c_str(), sdlColor);
+		break;
+	}
 }
-
 
 Lilliputian::Image::Image(const char* filepath)
 {
@@ -46,21 +59,24 @@ Lilliputian::Image::Image(SDL_Surface* surface)
 
 void Lilliputian::Image::unload()
 {
-	if (this->surface != NULL)
+	if (this->surface != nullptr)
+	{
 		SDL_FreeSurface(this->surface);
+		this->surface = nullptr;
+	}
 }
 
 SDL_Surface* Lilliputian::Image::getSDLSurface()
 {
-	if (this->surface != NULL)
+	if (this->surface != nullptr)
 		return this->surface;
 	else
-		return NULL;
+		return nullptr;
 }
 
 uint32_t Lilliputian::Image::getWidth()
 {
-	if (this->surface != NULL)
+	if (this->surface != nullptr)
 		return this->surface->w;
 	else
 		return 0;
@@ -68,7 +84,7 @@ uint32_t Lilliputian::Image::getWidth()
 
 uint32_t Lilliputian::Image::getHeight()
 {
-	if (this->surface != NULL)
+	if (this->surface != nullptr)
 		return this->surface->h;
 	else
 		return 0;
