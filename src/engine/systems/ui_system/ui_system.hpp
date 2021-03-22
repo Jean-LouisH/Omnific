@@ -31,6 +31,7 @@ namespace Lilliputian
 	{
 	public:
 		UISystem();
+		~UISystem();
 		void process(SceneForest& scene, HumanInterfaceDevices& hid);
 	private:
 	};

@@ -21,10 +21,17 @@
 // SOFTWARE.
 
 #include "ui_system.hpp"
+#include "SDL_ttf.h"
 
 Lilliputian::UISystem::UISystem()
 {
+	if (TTF_Init() == -1) 
+		printf("TTF_Init: %s\n", TTF_GetError());
+}
 
+Lilliputian::UISystem::~UISystem()
+{
+	TTF_Quit();
 }
 
 void Lilliputian::UISystem::process(SceneForest& scene, HumanInterfaceDevices& hid)
