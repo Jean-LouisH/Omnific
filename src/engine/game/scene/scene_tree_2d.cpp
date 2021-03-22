@@ -64,10 +64,10 @@ Lilliputian::Transform2D& Lilliputian::SceneTree2D::getEntityTransform(EntityID 
 
 	for (int i = 0; i < this->transform2DIndexCache.size(); i++)
 	{
-		if (this->componentVariants.at(i).entityID == entityID)
+		if (this->componentVariants.at(this->transform2DIndexCache.at(i)).entityID == entityID)
 		{
 			delete transform2D;
-			transform2D = this->componentVariants.at(i).transform2D;
+			transform2D = this->componentVariants.at(this->transform2DIndexCache.at(i)).transform2D;
 		}
 	}
 
