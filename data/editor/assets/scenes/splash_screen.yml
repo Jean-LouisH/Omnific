@@ -12,9 +12,9 @@ SceneTree2D:
     Scripts: ["assets/scripts/splash_screen_transition.py"]
   Entity2D:
     name: "Text"
-    position_px: [50, 50]
+    Transform2D:
+      position_px: [0, -200]
     UITextLabel: 
       text: "This is a UITextLabel test"
-      font: "assets/fonts/Lato-Regular.ttf"
-      rectangle: [850, 850]
+      font: ["assets/fonts/Lato-Regular.ttf", 32]
       colour: [255, 0, 0, 255]
