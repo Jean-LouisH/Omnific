@@ -34,11 +34,7 @@ namespace Lilliputian
 	class SceneTree2D
 	{
 	public:
-		SceneTree2D()
-		{
-			this->windowDimensions.width = 0;
-			this->windowDimensions.height = 0;
-		}
+		SceneTree2D();
 
 		void addEntity2D(Entity2D entity2D);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
@@ -56,5 +52,9 @@ namespace Lilliputian
 
 		Rectangle windowDimensions;
 		ComponentID currentCamera = -1;
+
+		//Default, "empty" transform for rendering 
+		//Transformless entities
+		Transform2D* dummyTransform2D;
 	};
 }

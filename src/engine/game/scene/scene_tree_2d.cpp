@@ -22,6 +22,11 @@
 
 #include "scene_tree_2d.hpp"
 
+Lilliputian::SceneTree2D::SceneTree2D()
+{
+	this->dummyTransform2D = new Transform2D();
+}
+
 void Lilliputian::SceneTree2D::addEntity2D(Entity2D entity2D)
 {
 	this->entities2D.emplace(entity2D.ID, entity2D);
@@ -60,15 +65,14 @@ Lilliputian::Vector<Lilliputian::ComponentVariant>& Lilliputian::SceneTree2D::ge
 
 Lilliputian::Transform2D& Lilliputian::SceneTree2D::getEntityTransform(EntityID entityID)
 {
-	Transform2D* transform2D = new Transform2D();
+	Transform2D* transform2D = this->dummyTransform2D;
 
 	for (int i = 0; i < this->transform2DIndexCache.size(); i++)
 	{
-		if (this->componentVariants.at(this->transform2DIndexCache.at(i)).entityID == entityID)
-		{
-			delete transform2D;
-			transform2D = this->componentVariants.at(this->transform2DIndexCache.at(i)).transform2D;
-		}
+		ComponentID transform2DID = this->transform2DIndexCache.at(i);
+
+		if (this->componentVariants.at(transform2DID).entityID == entityID)
+			transform2D = this->componentVariants.at(transform2DID).transform2D;
 	}
 
 	return *transform2D;
