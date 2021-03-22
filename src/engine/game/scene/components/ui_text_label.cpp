@@ -22,30 +22,105 @@
 
 #include "ui_text_label.hpp"
 
+
+Lilliputian::UITextLabel::UITextLabel()
+{
+	this->image = Image();
+}
+
 void Lilliputian::UITextLabel::setText(String text)
 {
 	this->text = text;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFont(Font font)
+void Lilliputian::UITextLabel::setFont(Font font, uint16_t size_px)
 {
 	this->font = font;
+	this->size_px = size_px;
+	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setDimensions(float width, float height)
+void Lilliputian::UITextLabel::setFontStyleNormal()
 {
-	this->rectangle.width = width;
-	this->rectangle.height = height;
+	this->style = Font::Style::NORMAL;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontStyleBold()
+{
+	this->style = Font::Style::BOLD;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontStyleItalic()
+{
+	this->style = Font::Style::ITALIC;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontStyleUnderline()
+{
+	this->style = Font::Style::UNDERLINE;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontStyleStrikethrough()
+{
+	this->style = Font::Style::STRIKETHROUGH;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontRenderModeSolid()
+{
+	this->mode = Font::RenderMode::SOLID;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontRenderModeShaded()
+{
+	this->mode = Font::RenderMode::SHADED;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontRenderModeBlended()
+{
+	this->mode = Font::RenderMode::BLENDED;
+	this->generateImage();
+}
+
+void Lilliputian::UITextLabel::setFontSize(uint16_t size_px)
+{
+
+	this->generateImage();
 }
 
 void Lilliputian::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->colour = Colour(red, green, blue, alpha);
+	this->generateImage();
+}
+
+Lilliputian::Font::Style Lilliputian::UITextLabel::getFontStyle()
+{
+	return this->style;
+}
+
+Lilliputian::Image& Lilliputian::UITextLabel::getImage()
+{
+	return this->image;
+}
+
+uint8_t Lilliputian::UITextLabel::getAlpha()
+{
+	return this->alpha;
 }
 
 void Lilliputian::UITextLabel::generateImage()
 {
-	this->image.unload();
-	this->image = Image(this->text, this->font, this->colour, this->rectangle);
+	if (this->font.getSDLTTFFont() != nullptr)
+	{
+		this->image.unload();
+		this->image = Image(this->text, this->font, this->colour, this->mode);
+	}
 }

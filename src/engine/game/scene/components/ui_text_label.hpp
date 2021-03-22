@@ -34,17 +34,34 @@ namespace Lilliputian
 	class UITextLabel
 	{
 	public:
+
+		UITextLabel();
 		void setText(String text);
-		void setFont(Font font);
-		void setDimensions(float width, float height);
+		void setFont(Font font, uint16_t size_px);
+		void setFontStyleNormal();
+		void setFontStyleBold();
+		void setFontStyleItalic();
+		void setFontStyleUnderline();
+		void setFontStyleStrikethrough();
+		void setFontRenderModeSolid();
+		void setFontRenderModeShaded();
+		void setFontRenderModeBlended();
+		void setFontSize(uint16_t size_px);
 		void setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		Font::Style getFontStyle();
+
+		Image& getImage();
+		uint8_t getAlpha();
 	private:
 		String text;
 		Font font;
-		Rectangle rectangle;
+		Font::Style style = Font::Style::NORMAL;
+		Font::RenderMode mode = Font::RenderMode::SOLID;
+		uint16_t size_px = 0;
 		Colour colour;
 
 		Image image;
+		uint8_t alpha = 255;
 
 		void generateImage();
 	};
