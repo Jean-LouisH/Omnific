@@ -97,3 +97,13 @@ Lilliputian::Rectangle Lilliputian::Image::getDimensions()
 	dimensions.height = this->getHeight();
 	return dimensions;
 }
+
+void Lilliputian::Image::setAlpha(uint8_t value)
+{
+	this->alpha = value;
+}
+
+uint8_t Lilliputian::Image::getAlpha()
+{
+	return this->alpha;
+}

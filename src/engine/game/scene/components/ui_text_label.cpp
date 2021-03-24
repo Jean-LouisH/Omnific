@@ -111,9 +111,14 @@ Lilliputian::Image& Lilliputian::UITextLabel::getImage()
 	return this->image;
 }
 
+void Lilliputian::UITextLabel::setAlpha(uint8_t value)
+{
+	this->image.setAlpha(value);
+}
+
 uint8_t Lilliputian::UITextLabel::getAlpha()
 {
-	return this->alpha;
+	return this->image.getAlpha();
 }
 
 void Lilliputian::UITextLabel::generateImage()

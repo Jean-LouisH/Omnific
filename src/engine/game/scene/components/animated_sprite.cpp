@@ -46,8 +46,8 @@ void Lilliputian::AnimatedSprite::clearFrameSequences()
 
 void Lilliputian::AnimatedSprite::setAlpha(uint8_t value)
 {
-	if (value >= 0 && value <= 255)
-		this->alpha = value;
+	this->alpha = value;
+	//apply to all frames...
 }
 
 uint8_t Lilliputian::AnimatedSprite::getAlpha()
@@ -58,11 +58,13 @@ uint8_t Lilliputian::AnimatedSprite::getAlpha()
 void Lilliputian::AnimatedSprite::hide()
 {
 	this->alpha = 0;
+	//apply to all frames...
 }
 
 void Lilliputian::AnimatedSprite::show()
 {
 	this->alpha = 255;
+	//apply to all frames...
 }
 
 void Lilliputian::AnimatedSprite::setAnimationSpeed(float value_fps)

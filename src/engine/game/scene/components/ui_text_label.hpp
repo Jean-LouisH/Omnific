@@ -51,6 +51,7 @@ namespace Lilliputian
 		Font::Style getFontStyle();
 
 		Image& getImage();
+		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 	private:
 		String text;
@@ -61,7 +62,6 @@ namespace Lilliputian
 		Colour colour;
 
 		Image image;
-		uint8_t alpha = 255;
 
 		void generateImage();
 	};

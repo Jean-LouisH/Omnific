@@ -50,7 +50,10 @@ namespace Lilliputian
 		uint32_t getWidth();
 		uint32_t getHeight();
 		Rectangle getDimensions();
+		void setAlpha(uint8_t value);
+		uint8_t getAlpha();
 	private:
 		SDL_Surface* surface;
+		uint8_t alpha = 255;
 	};
 }

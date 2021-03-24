@@ -99,48 +99,8 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 
 				switch (componentVariant.type)
 				{
-					case ComponentVariant::Type::COMPONENT_TYPE_SPRITE:
-						sprite = componentVariant.sprite;
-						image = sprite->getImage();
-						outputTexture.pixels.width = image.getWidth();
-						outputTexture.pixels.height = image.getHeight();
-
-						if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
-						{
-							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
-							this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
-						}
-						else
-						{
-							outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
-						}
-
-						outputSprite2D.textureFrames.push_back(outputTexture);
-						outputSprite2D.alpha = sprite->getAlpha();
-
-						outputsprite2Ds.push_back(outputSprite2D);
-						break;
-					case ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE:
-						animatedSprite = componentVariant.animatedSprite;
-						image = animatedSprite->getCurrentFrame();
-						outputTexture.pixels.width = image.getWidth();
-						outputTexture.pixels.height = image.getHeight();
-
-						if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
-						{
-							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
-							this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
-						}
-						else
-						{
-							outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
-						}
-
-						outputSprite2D.textureFrames.push_back(outputTexture);
-						outputSprite2D.alpha = animatedSprite->getAlpha();
-
-						outputsprite2Ds.push_back(outputSprite2D);
-						break;
+					case ComponentVariant::Type::COMPONENT_TYPE_SPRITE: image = componentVariant.sprite->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE: image = componentVariant.animatedSprite->getCurrentFrame(); break;
 					case ComponentVariant::Type::COMPONENT_TYPE_RECTANGULAR_MESH_2D: break;
 					case ComponentVariant::Type::COMPONENT_TYPE_REGULAR_POLYGONAL_MESH_2D: break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_BUTTON: break;
@@ -157,29 +117,27 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_SPIN_BOX: break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TAB: break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_EDIT: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL: 
-						uiTextLabel = componentVariant.uiTextLabel;
-						image = uiTextLabel->getImage();
-						outputTexture.pixels.width = image.getWidth();
-						outputTexture.pixels.height = image.getHeight();
-
-						if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
-						{
-							outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
-							this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
-						}
-						else
-						{
-							outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
-						}
-
-						outputSprite2D.textureFrames.push_back(outputTexture);
-						outputSprite2D.alpha = uiTextLabel->getAlpha();
-
-						outputsprite2Ds.push_back(outputSprite2D);
-						break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL: image = componentVariant.uiTextLabel->getImage(); break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TREE:; break;
 				}
+
+				outputTexture.pixels.width = image.getWidth();
+				outputTexture.pixels.height = image.getHeight();
+
+				if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
+				{
+					outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
+					this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
+				}
+				else
+				{
+					outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
+				}
+
+				outputSprite2D.textureFrames.push_back(outputTexture);
+				outputSprite2D.alpha = image.getAlpha();
+				outputsprite2Ds.push_back(outputSprite2D);
+
 			}
 			else if (componentVariant.type == ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D &&
 				 j == sceneTree2D.getCurrentCameraIndex())
@@ -196,7 +154,6 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				outputCamera2D.transform.scale.x = scale.x;
 				outputCamera2D.transform.scale.y = scale.y;
 				outputCamera2D.transform.rotation_rad = transform2D.rotation_rad;
-
 				outputCamera2D.viewport_px.width = viewport_px.width;
 				outputCamera2D.viewport_px.height = viewport_px.height;
 			}

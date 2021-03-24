@@ -47,7 +47,6 @@ namespace Lilliputian
 		Image& getImage();
 	private:
 		Image image;
-		uint8_t alpha = 255;
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;
 	};

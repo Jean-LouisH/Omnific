@@ -30,22 +30,22 @@ void Lilliputian::Sprite::setImage(Image image)
 
 void Lilliputian::Sprite::setAlpha(uint8_t value)
 {
-
+	this->image.setAlpha(value);
 }
 
 uint8_t Lilliputian::Sprite::getAlpha()
 {
-	return this->alpha;
+	return this->image.getAlpha();
 }
 
 void Lilliputian::Sprite::hide()
 {
-	this->alpha = 0;
+	this->image.setAlpha(0);
 }
 
 void Lilliputian::Sprite::show()
 {
-	this->alpha = 255;
+	this->image.setAlpha(255);
 }
 
 void Lilliputian::Sprite::flipVertically()
