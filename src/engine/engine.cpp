@@ -116,7 +116,7 @@ bool Lilliputian::Engine::initialize()
 void Lilliputian::Engine::input()
 {
 	this->profiler->input().setStart();
-	HumanInterfaceDevices hid = this->os->hid();
+	HumanInterfaceDevices& hid = this->os->hid();
 
 	hid.detectGameControllers();
 	hid.pollInputEvents();

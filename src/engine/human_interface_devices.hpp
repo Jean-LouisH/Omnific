@@ -36,6 +36,8 @@ namespace Lilliputian
 		void detectGameControllers();
 		void pollInputEvents();
 		bool hasRequestedShutdown();
+		bool hasRequestedCommandLine();
+		void forceShutdownRequest();
 
 		Vector<SDL_Haptic*> getHaptics();
 	private:

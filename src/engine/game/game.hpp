@@ -31,6 +31,7 @@
 #include "scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
 #include "boot_configuration.hpp"
+#include "command_line.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/stack.hpp"
 #include "utilities/collections/map.hpp"
@@ -62,6 +63,7 @@ namespace Lilliputian
 		ScriptingAPIs* scriptingAPIs = nullptr;
 		ScriptRegistry* scriptRegistry = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
+		CommandLine* commandLine = nullptr;
 		Map<String, Script> scripts;
 		Vector<SceneForest> preloadedScenes;
 		Stack<SceneForest> activeSceneStack;

@@ -116,6 +116,21 @@ bool Lilliputian::HumanInterfaceDevices::hasRequestedShutdown()
 	return this->shutdownRequest;
 }
 
+void Lilliputian::HumanInterfaceDevices::forceShutdownRequest()
+{
+	this->shutdownRequest = true;
+}
+
+bool Lilliputian::HumanInterfaceDevices::hasRequestedCommandLine()
+{
+	bool backquoteReleased = false;
+
+	if (this->keyboardEvents.count(SDLK_BACKQUOTE))
+		backquoteReleased = this->keyboardEvents.at(SDLK_BACKQUOTE).type == SDL_KEYUP;
+
+	return backquoteReleased;	 
+}
+
 Lilliputian::Vector<SDL_Haptic*> Lilliputian::HumanInterfaceDevices::getHaptics()
 {
 	return this->haptics;

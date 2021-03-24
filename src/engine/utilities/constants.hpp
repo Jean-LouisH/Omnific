@@ -56,4 +56,8 @@ namespace Lilliputian
 #if (DEBUG_DEMO_MODE)
 	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
 #endif
+
+#if _DEBUG
+	#define DEBUG_CONSOLE_ENABLED
+#endif
 }

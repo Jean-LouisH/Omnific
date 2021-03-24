@@ -20,56 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scripting_apis.hpp"
+#include "command_line_api.hpp"
 
-Lilliputian::ScriptingAPIs::ScriptingAPIs()
+bool Lilliputian::CommandLineAPI::getIsUserPriviledgeEnabled()
 {
-	this->commandLineAPI = new CommandLineAPI();
-	this->fileAPI = new FileAPI();
-	this->inputAPI = new InputAPI();
-	this->logAPI = new LogAPI();
-	this->renderAPI = new RenderAPI();
-	this->sceneAPI = new SceneAPI();
-	this->timeAPI = new TimeAPI();
-	this->windowAPI = new WindowAPI();
-}
-
-Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::commandLine() const
-{
-	return *this->commandLineAPI;
-}
-
-Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::file() const
-{
-	return *this->fileAPI;
-}
-
-Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::input() const
-{
-	return *this->inputAPI;
-}
-
-Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::log() const
-{
-	return *this->logAPI;
-}
-
-Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::render() const
-{
-	return *this->renderAPI;
-}
-
-Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::scene() const
-{
-	return *this->sceneAPI;
-}
-
-Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::time() const
-{
-	return *this->timeAPI;
-}
-
-Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::window() const
-{
-	return *this->windowAPI;
+	return this->isUserPriviledgeEnabled;
 }

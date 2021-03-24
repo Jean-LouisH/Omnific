@@ -20,56 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scripting_apis.hpp"
+#pragma once
 
-Lilliputian::ScriptingAPIs::ScriptingAPIs()
-{
-	this->commandLineAPI = new CommandLineAPI();
-	this->fileAPI = new FileAPI();
-	this->inputAPI = new InputAPI();
-	this->logAPI = new LogAPI();
-	this->renderAPI = new RenderAPI();
-	this->sceneAPI = new SceneAPI();
-	this->timeAPI = new TimeAPI();
-	this->windowAPI = new WindowAPI();
-}
+#include "utilities/string.hpp"
+#include "utilities/collections/map.hpp"
+#include "utilities/collections/vector.hpp"
+#include "utilities/collections/stack.hpp"
+#include "scene_serializer.hpp"
+#include "os.hpp"
+#include "profiler.hpp"
 
-Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::commandLine() const
+namespace Lilliputian
 {
-	return *this->commandLineAPI;
-}
+	class CommandLine
+	{
+	public:
+		CommandLine(
+			Map<String, Script>* scripts,
+			Vector<SceneForest>* preloadedScenes,
+			Stack<SceneForest>* activeSceneStack,
+			SceneSerializer* sceneSerializer,
+			OS* os,
+			Profiler* profiler
+			);
 
-Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::file() const
-{
-	return *this->fileAPI;
-}
-
-Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::input() const
-{
-	return *this->inputAPI;
-}
-
-Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::log() const
-{
-	return *this->logAPI;
-}
-
-Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::render() const
-{
-	return *this->renderAPI;
-}
-
-Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::scene() const
-{
-	return *this->sceneAPI;
-}
-
-Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::time() const
-{
-	return *this->timeAPI;
-}
-
-Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::window() const
-{
-	return *this->windowAPI;
+		void execute(String command);
+	private:
+		Map<String, Script>* scripts = nullptr;
+		Vector<SceneForest>* preloadedScenes = nullptr;
+		Stack<SceneForest>* activeSceneStack = nullptr;
+		SceneSerializer* sceneSerializer = nullptr;
+		OS* os = nullptr;
+		Profiler* profiler = nullptr;
+	};
 }

@@ -20,56 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scripting_apis.hpp"
+#include "command_line.hpp"
 
-Lilliputian::ScriptingAPIs::ScriptingAPIs()
+Lilliputian::CommandLine::CommandLine(
+	Map<String, Script>* scripts,
+	Vector<SceneForest>* preloadedScenes,
+	Stack<SceneForest>* activeSceneStack,
+	SceneSerializer* sceneSerializer,
+	OS* os,
+	Profiler* profiler
+)
 {
-	this->commandLineAPI = new CommandLineAPI();
-	this->fileAPI = new FileAPI();
-	this->inputAPI = new InputAPI();
-	this->logAPI = new LogAPI();
-	this->renderAPI = new RenderAPI();
-	this->sceneAPI = new SceneAPI();
-	this->timeAPI = new TimeAPI();
-	this->windowAPI = new WindowAPI();
+	this->scripts = scripts;
+	this->preloadedScenes = preloadedScenes;
+	this->activeSceneStack = activeSceneStack;
+	this->sceneSerializer = sceneSerializer;
+	this->os = os;
+	this->profiler = profiler;
 }
 
-Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::commandLine() const
+void Lilliputian::CommandLine::execute(String command)
 {
-	return *this->commandLineAPI;
-}
-
-Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::file() const
-{
-	return *this->fileAPI;
-}
-
-Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::input() const
-{
-	return *this->inputAPI;
-}
-
-Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::log() const
-{
-	return *this->logAPI;
-}
-
-Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::render() const
-{
-	return *this->renderAPI;
-}
-
-Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::scene() const
-{
-	return *this->sceneAPI;
-}
-
-Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::time() const
-{
-	return *this->timeAPI;
-}
-
-Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::window() const
-{
-	return *this->windowAPI;
+	if (command == "shutdown" || command == "exit")
+		this->os->hid().forceShutdownRequest();
 }

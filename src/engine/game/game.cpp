@@ -23,6 +23,7 @@
 #include "game.hpp"
 #include "boot_loader.hpp"
 #include "utilities/constants.hpp"
+#include <iostream>
 
 Lilliputian::Game::Game(
 	OS* os,
@@ -34,6 +35,13 @@ Lilliputian::Game::Game(
 	this->scriptRegistry = new ScriptRegistry(
 		this->scriptingAPIs,
 		&this->scripts);
+	this->commandLine = new CommandLine(
+		&this->scripts,
+		&this->preloadedScenes,
+		&this->activeSceneStack,
+		this->sceneSerializer,
+		this->os,
+		this->profiler);
 }
 
 void Lilliputian::Game::initialize()
@@ -59,6 +67,15 @@ void Lilliputian::Game::initialize()
 		this->_configuration = new BootConfiguration();
 		this->_configuration->isLoaded = false;
 	}
+
+#ifdef DEBUG_CONSOLE_ENABLED
+	std::cout << "\tLilliputian Engine Debug Console Enabled";
+	std::cout << "\n\nPress '`' in-game to write to command line via console.";
+	std::cout << "\n\nIf user priviledges are enabled through the command line API, the ";
+	std::cout << "\ncommand line will be accessed in the game window instead.";
+	std::cout << "\n\nTo see the list of commands, enter 'commands'.";
+	std::cout << "\n\n";
+#endif
 }
 
 void Lilliputian::Game::executeOnStartMethods()
@@ -68,7 +85,19 @@ void Lilliputian::Game::executeOnStartMethods()
 
 void Lilliputian::Game::executeOnInputMethods()
 {
+#ifdef DEBUG_CONSOLE_ENABLED
+	if (!this->scriptingAPIs->commandLine().getIsUserPriviledgeEnabled() &&
+		this->os->hid().hasRequestedCommandLine())
+	{
+		String command;
 
+		this->os->window().hide();
+		std::cout << ">";
+		std::getline(std::cin, command);
+		this->commandLine->execute(command);
+		this->os->window().show();
+	}
+#endif
 }
 
 void Lilliputian::Game::executeOnFrameMethods()

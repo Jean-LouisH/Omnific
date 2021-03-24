@@ -22,12 +22,12 @@
 
 #pragma once
 
+#include "command_line_api.hpp"
 #include "file_api.hpp"
 #include "input_api.hpp"
 #include "log_api.hpp"
 #include "render_api.hpp"
 #include "scene_api.hpp"
-#include "thread_api.hpp"
 #include "time_api.hpp"
 #include "window_api.hpp"
 
@@ -38,23 +38,23 @@ namespace Lilliputian
 	public:
 		ScriptingAPIs();
 
+		CommandLineAPI& commandLine() const;
 		FileAPI& file() const;
 		InputAPI& input() const;
 		LogAPI& log() const;
 		RenderAPI& render() const;
 		SceneAPI& scene() const;
-		ThreadAPI& thread() const;
 		TimeAPI& time() const;
 		WindowAPI& window() const;
 	private:
-		FileAPI* fileAPI = NULL;
-		InputAPI* inputAPI = NULL;
-		LogAPI* logAPI = NULL;
-		RenderAPI* renderAPI = NULL;
-		SceneAPI* sceneAPI = NULL;
-		ThreadAPI* threadAPI = NULL;
-		TimeAPI* timeAPI = NULL;
-		WindowAPI* windowAPI = NULL;
+		CommandLineAPI* commandLineAPI = nullptr;
+		FileAPI* fileAPI = nullptr;
+		InputAPI* inputAPI = nullptr;
+		LogAPI* logAPI = nullptr;
+		RenderAPI* renderAPI = nullptr;
+		SceneAPI* sceneAPI = nullptr;
+		TimeAPI* timeAPI = nullptr;
+		WindowAPI* windowAPI = nullptr;
 	};
 }
 
