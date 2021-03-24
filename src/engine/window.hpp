@@ -37,6 +37,8 @@ namespace Lilliputian
 		void toggleWindowedFullscreen();
 		void resizeWindow(uint16_t width_px, uint16_t height_px);
 		void changeTitle(const char* title);
+		void hide();
+		void show();
 		void sleep(int time_ms);
 
 		SDL_Window* getSDLWindow();

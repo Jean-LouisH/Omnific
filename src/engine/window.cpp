@@ -79,6 +79,16 @@ void Lilliputian::Window::changeTitle(const char* title)
 	SDL_SetWindowTitle(this->sdlWindow, title);
 }
 
+void Lilliputian::Window::hide()
+{
+	SDL_HideWindow(this->sdlWindow);
+}
+
+void Lilliputian::Window::show()
+{
+	SDL_ShowWindow(this->sdlWindow);
+}
+
 void Lilliputian::Window::sleep(int time_ms)
 {
 	if (time_ms > 0)
