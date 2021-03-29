@@ -101,24 +101,24 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				{
 					case ComponentVariant::Type::COMPONENT_TYPE_SPRITE: image = componentVariant.sprite->getImage(); break;
 					case ComponentVariant::Type::COMPONENT_TYPE_ANIMATED_SPRITE: image = componentVariant.animatedSprite->getCurrentFrame(); break;
-					case ComponentVariant::Type::COMPONENT_TYPE_RECTANGULAR_MESH_2D: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_REGULAR_POLYGONAL_MESH_2D: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_BUTTON: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_RECTANGLE: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_GRAPH_EDIT: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_GRAPH_NODE: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_SCROLLBAR: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_SEPARATOR: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_SLIDER: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_HOVER_CARD: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_ITEM_LIST: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_PANEL: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_PROGRESS_BAR: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_SPIN_BOX: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_TAB: break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_EDIT: break;
+					case ComponentVariant::Type::COMPONENT_TYPE_RECTANGULAR_MESH_2D: image = componentVariant.rectangularMesh2D->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_REGULAR_POLYGONAL_MESH_2D: image = componentVariant.regularPolygonalMesh2D->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_BUTTON: image = componentVariant.uiButton->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_RECTANGLE: image = componentVariant.uiRectangle->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_GRAPH_EDIT: image = componentVariant.uiGraphEdit->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_GRAPH_NODE: image = componentVariant.uiGraphNode->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SCROLLBAR: image = componentVariant.uiScrollbar->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SEPARATOR: image = componentVariant.uiSeparator->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SLIDER: image = componentVariant.uiSlider->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_HOVER_CARD: image = componentVariant.uiHoverCard->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_ITEM_LIST: image = componentVariant.uiItemList->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_PANEL: image = componentVariant.uiPanel->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_PROGRESS_BAR: image = componentVariant.uiProgressBar->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_SPIN_BOX: image = componentVariant.uiSpinBox->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TAB: image = componentVariant.uiTab->getImage(); break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_EDIT: image = componentVariant.uiTextEdit->getImage(); break;
 					case ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL: image = componentVariant.uiTextLabel->getImage(); break;
-					case ComponentVariant::Type::COMPONENT_TYPE_UI_TREE:; break;
+					case ComponentVariant::Type::COMPONENT_TYPE_UI_TREE:; image = componentVariant.uiTree->getImage(); break;
 				}
 
 				outputTexture.pixels.width = image.getWidth();

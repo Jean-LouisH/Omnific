@@ -22,14 +22,16 @@
 
 #pragma once
 
-
+#include "game/scene/assets/image.hpp"
 
 namespace Lilliputian
 {
 	class UIScrollbar
 	{
 	public:
+		Image& getImage();
 	private:
+		Image image;
 		bool isVertical = false;
 	};
 }

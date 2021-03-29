@@ -20,17 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "ui_graph_node.hpp"
 
-#include "game/scene/assets/image.hpp"
-
-namespace Lilliputian
+Lilliputian::Image& Lilliputian::UIGraphNode::getImage()
 {
-	class UITextEdit
-	{
-	public:
-		Image& getImage();
-	private:
-		Image image;
-	};
+	return this->image;
 }

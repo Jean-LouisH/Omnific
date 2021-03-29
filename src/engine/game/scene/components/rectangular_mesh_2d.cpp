@@ -20,3 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "rectangular_mesh_2d.hpp"
+
+Lilliputian::Image& Lilliputian::RectangularMesh2D::getImage()
+{
+	return this->image;
+}

@@ -24,6 +24,7 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
+#include "game/scene/assets/image.hpp"
 
 
 namespace Lilliputian
@@ -37,7 +38,9 @@ namespace Lilliputian
 		void decrement();
 		void setIndex(uint32_t index);
 		uint32_t getIndex();
+		Image& getImage();
 	private:
+		Image image;
 		uint32_t lowerBound = 0;
 		uint32_t upperBound;
 		uint32_t index = 0;

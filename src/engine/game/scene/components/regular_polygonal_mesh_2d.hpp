@@ -20,13 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
+#include "game/scene/assets/image.hpp"
 
 namespace Lilliputian
 {
 	class RegularPolygonalMesh2D
 	{
 	public:
+		Image& getImage();
 	private:
+		Image image;
 	};
 }

@@ -22,13 +22,15 @@
 
 #pragma once
 
-
+#include "game/scene/assets/image.hpp"
 
 namespace Lilliputian
 {
 	class UIGraphEdit
 	{
 	public:
+		Image& getImage();
 	private:
+		Image image;
 	};
 }

@@ -22,14 +22,16 @@
 
 #pragma once
 
-
+#include "game/scene/assets/image.hpp"
 
 namespace Lilliputian
 {
 	class UIButton
 	{
 	public:
+		Image& getImage();
 	private:
+		Image image;
 		bool isLink = false;
 		bool isTextured = false;
 	};

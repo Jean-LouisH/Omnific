@@ -68,3 +68,8 @@ uint32_t Lilliputian::UIItemList::getIndex()
 {
 	return this->index;
 }
+
+Lilliputian::Image& Lilliputian::UIItemList::getImage()
+{
+	return this->image;
+}

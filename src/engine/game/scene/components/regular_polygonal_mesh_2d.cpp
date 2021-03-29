@@ -20,3 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "regular_polygonal_mesh_2d.hpp"
+
+Lilliputian::Image& Lilliputian::RegularPolygonalMesh2D::getImage()
+{
+	return this->image;
+}
