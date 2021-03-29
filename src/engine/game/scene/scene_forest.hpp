@@ -47,13 +47,13 @@ namespace Lilliputian
 		void executeFrameLogic();
 
 		EntityID getPreviousEntityID();
-		AssetCache& assetCache();
+		AssetCache& getAssetCache();
 		Vector<Stack<SceneTree2D>>& getSceneTree2DStacks();
 	private:
 		uint64_t entityIDCount = 0;
 		Map<String, EntityID> entityNameRegistry;
 		Vector<Stack<SceneTree2D>> sceneTree2DStacks;
-		AssetCache _assetCache;
+		AssetCache assetCache;
 
 		Stack<SceneTree2D>* getLastSceneTree2DStack();
 	};

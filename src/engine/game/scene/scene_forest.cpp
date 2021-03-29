@@ -78,9 +78,9 @@ Lilliputian::EntityID Lilliputian::SceneForest::getPreviousEntityID()
 	return this->entityIDCount - 1;
 }
 
-Lilliputian::AssetCache& Lilliputian::SceneForest::assetCache()
+Lilliputian::AssetCache& Lilliputian::SceneForest::getAssetCache()
 {
-	return this->_assetCache;
+	return this->assetCache;
 }
 
 Lilliputian::Vector<Lilliputian::Stack<Lilliputian::SceneTree2D>>& Lilliputian::SceneForest::getSceneTree2DStacks()

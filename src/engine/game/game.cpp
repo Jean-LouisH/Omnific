@@ -57,15 +57,15 @@ void Lilliputian::Game::initialize()
 
 	if (this->os->getFileAccess().exists(bootFilepath))
 	{
-		this->_configuration = bootLoader.loadFromFile(bootFilepath);
+		this->configuration = bootLoader.loadFromFile(bootFilepath);
 		this->sceneSerializer = new SceneSerializer(dataDirectory);
-		entryScene = this->sceneSerializer->loadFromFile(_configuration->entrySceneFilepath);
+		entryScene = this->sceneSerializer->loadFromFile(configuration->entrySceneFilepath);
 		this->activeSceneStack.emplace(entryScene);
 	}
 	else
 	{
-		this->_configuration = new BootConfiguration();
-		this->_configuration->isLoaded = false;
+		this->configuration = new BootConfiguration();
+		this->configuration->isLoaded = false;
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
@@ -108,7 +108,7 @@ void Lilliputian::Game::executeOnFrameMethods()
 
 void Lilliputian::Game::executeOnComputeMethods()
 {
-	uint32_t msPerComputeUpdate = this->_configuration->msPerComputeUpdate;
+	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
 }
 
 void Lilliputian::Game::executeOnLateMethods()
@@ -123,7 +123,7 @@ void Lilliputian::Game::executeOnFinalMethods()
 
 void Lilliputian::Game::deinitialize()
 {
-	delete this->_configuration;
+	delete this->configuration;
 	delete this->scriptingAPIs;
 	delete this->scriptRegistry;
 	delete this->sceneSerializer;
@@ -139,7 +139,7 @@ Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
 	return this->activeSceneStack.top();
 }
 
-Lilliputian::BootConfiguration& Lilliputian::Game::configuration()
+Lilliputian::BootConfiguration& Lilliputian::Game::getConfiguration()
 {
-	return *this->_configuration;
+	return *this->configuration;
 }

@@ -443,7 +443,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 								{
 									if (it3->first.as<std::string>() == "image")
 									{
-										Image image = scene.assetCache().loadImage((dataDirectory + it3->second.as<std::string>()).c_str());
+										Image image = scene.getAssetCache().loadImage((dataDirectory + it3->second.as<std::string>()).c_str());
 										sprite->setImage(image);
 									}
 								}
@@ -714,7 +714,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 									else if (it3->first.as<std::string>() == "font")
 									{
-										Font font = scene.assetCache().loadFont((
+										Font font = scene.getAssetCache().loadFont((
 											dataDirectory + it3->second[0].as<std::string>()).c_str(),
 											it3->second[1].as<int>());
 

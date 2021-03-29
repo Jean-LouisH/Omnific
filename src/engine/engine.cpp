@@ -40,7 +40,7 @@ void Lilliputian::Engine::run()
 		if (this->initialize())
 		{
 			this->game->initialize();
-			BootConfiguration configuration = this->game->configuration();
+			BootConfiguration configuration = this->game->getConfiguration();
 
 			if (configuration.isLoaded)
 			{
@@ -130,7 +130,7 @@ void Lilliputian::Engine::update()
 {
 	this->profiler->getUpdateTimer().setStart();
 	SceneForest activeScene = this->game->getActiveScene();
-	const uint32_t msPerComputeUpdate = this->game->configuration().msPerComputeUpdate;
+	const uint32_t msPerComputeUpdate = this->game->getConfiguration().msPerComputeUpdate;
 
 	this->game->executeOnInputMethods();
 	this->game->executeOnStartMethods();
@@ -174,7 +174,7 @@ void Lilliputian::Engine::benchmark()
 		String FPSString = std::to_string(this->profiler->getFPS());
 		String frameUtilizationString =
 			std::to_string((int)(((double)this->profiler->getProcessTimer().getDelta_ns() / (double)this->profiler->getFrameTimer().getDelta_ns()) * 100));
-		this->os->getWindow().changeTitle((this->game->configuration().gameTitle + " (DEBUG) ->" +
+		this->os->getWindow().changeTitle((this->game->getConfiguration().gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString +
 			", Frame Time Utilization: " + frameUtilizationString + "%").c_str()
 		);
@@ -185,7 +185,7 @@ void Lilliputian::Engine::benchmark()
 
 void Lilliputian::Engine::sleep()
 {
-	float targetFrameTime_ms = 1000.0 / this->game->configuration().targetFPS;
+	float targetFrameTime_ms = 1000.0 / this->game->getConfiguration().targetFPS;
 	float processTime_ms = this->profiler->getProcessTimer().getDelta_ns() / NS_IN_MS;
 	this->os->getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }

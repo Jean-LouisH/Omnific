@@ -55,11 +55,11 @@ namespace Lilliputian
 		void deinitialize();
 		ScriptRegistry& getScriptRegistry();
 		SceneForest& getActiveScene();
-		BootConfiguration& configuration();
+		BootConfiguration& getConfiguration();
 	private:
 		OS* os = nullptr;
 		Profiler* profiler = nullptr;
-		BootConfiguration* _configuration = nullptr;
+		BootConfiguration* configuration = nullptr;
 		ScriptingAPIs* scriptingAPIs = nullptr;
 		ScriptRegistry* scriptRegistry = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
