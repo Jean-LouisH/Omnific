@@ -39,7 +39,12 @@ namespace Lilliputian
 		void addEntity2D(Entity2D entity2D);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 
-		void executeFrameLogic();
+		void executeOnStartMethods();
+		void executeOnInputMethods();
+		void executeOnFrameMethods();
+		void executeOnComputeMethods(uint32_t msPerComputeUpdate);
+		void executeOnLateMethods();
+		void executeOnFinalMethods();
 
 		ComponentID getCurrentCameraIndex();
 		Vector<ComponentVariant>& getComponentVariants();

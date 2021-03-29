@@ -44,7 +44,12 @@ namespace Lilliputian
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 		void addComponentToLastEntity(ComponentVariant componentVariant);
 
-		void executeFrameLogic();
+		void executeOnStartMethods();
+		void executeOnInputMethods();
+		void executeOnFrameMethods();
+		void executeOnComputeMethods(uint32_t msPerComputeUpdate);
+		void executeOnLateMethods();
+		void executeOnFinalMethods();
 
 		EntityID getPreviousEntityID();
 		AssetCache& getAssetCache();

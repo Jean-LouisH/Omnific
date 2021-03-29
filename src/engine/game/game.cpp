@@ -80,7 +80,8 @@ void Lilliputian::Game::initialize()
 
 void Lilliputian::Game::executeOnStartMethods()
 {
-
+	if (this->activeSceneStack.size() > 0)
+		this->activeSceneStack.top().executeOnStartMethods();
 }
 
 void Lilliputian::Game::executeOnInputMethods()
@@ -98,27 +99,35 @@ void Lilliputian::Game::executeOnInputMethods()
 		this->os->getWindow().show();
 	}
 #endif
+
+	if (this->activeSceneStack.size() > 0)
+		this->activeSceneStack.top().executeOnInputMethods();
 }
 
 void Lilliputian::Game::executeOnFrameMethods()
 {
 	if (this->activeSceneStack.size() > 0)
-		this->activeSceneStack.top().executeFrameLogic();
+		this->activeSceneStack.top().executeOnFrameMethods();
 }
 
 void Lilliputian::Game::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
+
+	if (this->activeSceneStack.size() > 0)
+		this->activeSceneStack.top().executeOnComputeMethods(msPerComputeUpdate);
 }
 
 void Lilliputian::Game::executeOnLateMethods()
 {
-
+	if (this->activeSceneStack.size() > 0)
+		this->activeSceneStack.top().executeOnLateMethods();
 }
 
 void Lilliputian::Game::executeOnFinalMethods()
 {
-
+	if (this->activeSceneStack.size() > 0)
+		this->activeSceneStack.top().executeOnFinalMethods();
 }
 
 void Lilliputian::Game::deinitialize()

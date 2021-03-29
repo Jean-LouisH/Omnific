@@ -88,8 +88,38 @@ Lilliputian::Vector<Lilliputian::Stack<Lilliputian::SceneTree2D>>& Lilliputian::
 	return this->sceneTree2DStacks;
 }
 
-void Lilliputian::SceneForest::executeFrameLogic()
+void Lilliputian::SceneForest::executeOnStartMethods()
 {
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeFrameLogic();
+		this->sceneTree2DStacks.at(i).top().executeOnStartMethods();
+}
+
+void Lilliputian::SceneForest::executeOnInputMethods()
+{
+	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+		this->sceneTree2DStacks.at(i).top().executeOnInputMethods();
+}
+
+void Lilliputian::SceneForest::executeOnFrameMethods()
+{
+	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+		this->sceneTree2DStacks.at(i).top().executeOnFrameMethods();
+}
+
+void Lilliputian::SceneForest::executeOnComputeMethods(uint32_t msPerComputeUpdate)
+{
+	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+		this->sceneTree2DStacks.at(i).top().executeOnComputeMethods(msPerComputeUpdate);
+}
+
+void Lilliputian::SceneForest::executeOnLateMethods()
+{
+	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+		this->sceneTree2DStacks.at(i).top().executeOnLateMethods();
+}
+
+void Lilliputian::SceneForest::executeOnFinalMethods()
+{
+	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+		this->sceneTree2DStacks.at(i).top().executeOnFinalMethods();
 }

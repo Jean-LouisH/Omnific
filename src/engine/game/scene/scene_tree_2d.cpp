@@ -45,7 +45,47 @@ void Lilliputian::SceneTree2D::addComponent(EntityID entityID, ComponentVariant 
 			this->currentCamera = this->componentVariants.size() - 1;
 }
 
-void Lilliputian::SceneTree2D::executeFrameLogic()
+void Lilliputian::SceneTree2D::executeOnStartMethods()
+{
+	for (int i = 0; i < this->entities2D.size(); i++)
+	{
+
+	}
+}
+
+void Lilliputian::SceneTree2D::executeOnInputMethods()
+{
+	for (int i = 0; i < this->entities2D.size(); i++)
+	{
+
+	}
+}
+
+void Lilliputian::SceneTree2D::executeOnFrameMethods()
+{
+	for (int i = 0; i < this->entities2D.size(); i++)
+	{
+
+	}
+}
+
+void Lilliputian::SceneTree2D::executeOnComputeMethods(uint32_t msPerComputeUpdate)
+{
+	for (int i = 0; i < this->entities2D.size(); i++)
+	{
+
+	}
+}
+
+void Lilliputian::SceneTree2D::executeOnLateMethods()
+{
+	for (int i = 0; i < this->entities2D.size(); i++)
+	{
+
+	}
+}
+
+void Lilliputian::SceneTree2D::executeOnFinalMethods()
 {
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
