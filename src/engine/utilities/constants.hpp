@@ -46,7 +46,6 @@ namespace Lilliputian
 #define EARTH_MASS 5.9722e24
 
 #define NO_ENTITY 0 
-#define NO_TRANSFORM 0
 
 #define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
 #define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
