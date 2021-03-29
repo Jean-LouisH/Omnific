@@ -27,31 +27,31 @@
 
 Lilliputian::OS::OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath)
 {
-	this->_window = new Window(title, width, height, isFullscreen);
-	this->_hid = new HumanInterfaceDevices();
-	this->_fileAccess = new FileAccess(executableFilepath);
+	this->window = new Window(title, width, height, isFullscreen);
+	this->hid = new HumanInterfaceDevices();
+	this->fileAccess = new FileAccess(executableFilepath);
 }
 
 Lilliputian::OS::~OS()
 {
-	delete this->_window;
-	delete this->_hid;
-	delete this->_fileAccess;
+	delete this->window;
+	delete this->hid;
+	delete this->fileAccess;
 }
 
-Lilliputian::Window& Lilliputian::OS::window()
+Lilliputian::Window& Lilliputian::OS::getWindow()
 {
-	return *this->_window;
+	return *this->window;
 }
 
-Lilliputian::HumanInterfaceDevices& Lilliputian::OS::hid()
+Lilliputian::HumanInterfaceDevices& Lilliputian::OS::getHid()
 {
-	return *this->_hid;
+	return *this->hid;
 }
 
-Lilliputian::FileAccess& Lilliputian::OS::fileAccess()
+Lilliputian::FileAccess& Lilliputian::OS::getFileAccess()
 {
-	return *this->_fileAccess;
+	return *this->fileAccess;
 }
 
 void Lilliputian::OS::addGameControllerMappings()

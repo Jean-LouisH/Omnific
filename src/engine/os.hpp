@@ -35,13 +35,13 @@ namespace Lilliputian
 	public:
 		OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath);
 		~OS();
-		Window& window();
-		HumanInterfaceDevices& hid();
-		FileAccess& fileAccess();
+		Window& getWindow();
+		HumanInterfaceDevices& getHid();
+		FileAccess& getFileAccess();
 		void addGameControllerMappings();
 	private:
-		Window* _window = nullptr;
-		HumanInterfaceDevices* _hid = nullptr;
-		FileAccess* _fileAccess = nullptr;
+		Window* window = nullptr;
+		HumanInterfaceDevices* hid = nullptr;
+		FileAccess* fileAccess = nullptr;
 	};
 }

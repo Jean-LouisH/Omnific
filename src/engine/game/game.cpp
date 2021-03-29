@@ -55,7 +55,7 @@ void Lilliputian::Game::initialize()
 	String bootFilename = "boot.yml";
 	String bootFilepath = dataDirectory + bootFilename;
 
-	if (this->os->fileAccess().exists(bootFilepath))
+	if (this->os->getFileAccess().exists(bootFilepath))
 	{
 		this->_configuration = bootLoader.loadFromFile(bootFilepath);
 		this->sceneSerializer = new SceneSerializer(dataDirectory);
@@ -87,15 +87,15 @@ void Lilliputian::Game::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (!this->scriptingAPIs->commandLine().getIsUserPriviledgeEnabled() &&
-		this->os->hid().hasRequestedCommandLine())
+		this->os->getHid().hasRequestedCommandLine())
 	{
 		String command;
 
-		this->os->window().hide();
+		this->os->getWindow().hide();
 		std::cout << ">";
 		std::getline(std::cin, command);
 		this->commandLine->execute(command);
-		this->os->window().show();
+		this->os->getWindow().show();
 	}
 #endif
 }

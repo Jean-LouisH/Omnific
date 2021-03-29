@@ -27,8 +27,8 @@ Lilliputian::Engine::Engine(
 	char* argv[])
 {
 	this->profiler = new Profiler();
-	this->profiler->run().setStart();
-	this->profiler->benchmark().setStart();
+	this->profiler->getRunTimer().setStart();
+	this->profiler->getBenchmarkTimer().setStart();
 	this->argc = argc;
 	this->argv = argv;
 }
@@ -45,7 +45,7 @@ void Lilliputian::Engine::run()
 			if (configuration.isLoaded)
 			{
 				this->os->addGameControllerMappings();
-				Window window = this->os->window();
+				Window window = this->os->getWindow();
 				window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
 				window.changeTitle(configuration.gameTitle.c_str());
 				this->state.setRunningApplicationWindowed();
@@ -64,16 +64,16 @@ void Lilliputian::Engine::run()
 
 		while (this->state.isRunning())
 		{
-			this->profiler->frame().setStart();
-			this->profiler->process().setStart();
+			this->profiler->getFrameTimer().setStart();
+			this->profiler->getProcessTimer().setStart();
 			this->input();
 			this->update();
 			this->output();
 			this->benchmark();
-			this->profiler->process().setEnd();
+			this->profiler->getProcessTimer().setEnd();
 			this->sleep();
-			this->profiler->frame().setEnd();
-			this->profiler->run().setEnd();
+			this->profiler->getFrameTimer().setEnd();
+			this->profiler->getRunTimer().setEnd();
 			this->profiler->incrementFrameCount();
 		}
 
@@ -104,7 +104,7 @@ bool Lilliputian::Engine::initialize()
 		this->audioSystem = new AudioSystem();
 		this->hapticSystem = new HapticSystem();
 		this->physicsSystem = new PhysicsSystem();
-		this->renderingSystem = new RenderingSystem(this->os->window());
+		this->renderingSystem = new RenderingSystem(this->os->getWindow());
 		this->uiSystem = new UISystem();
 
 		isInitializedOK = true;
@@ -115,27 +115,27 @@ bool Lilliputian::Engine::initialize()
 
 void Lilliputian::Engine::input()
 {
-	this->profiler->input().setStart();
-	HumanInterfaceDevices& hid = this->os->hid();
+	this->profiler->getInputTimer().setStart();
+	HumanInterfaceDevices& hid = this->os->getHid();
 
 	hid.detectGameControllers();
 	hid.pollInputEvents();
 	if (hid.hasRequestedShutdown())
 		this->state.setShuttingDown();
 
-	this->profiler->input().setEnd();
+	this->profiler->getInputTimer().setEnd();
 }
 
 void Lilliputian::Engine::update()
 {
-	this->profiler->update().setStart();
+	this->profiler->getUpdateTimer().setStart();
 	SceneForest activeScene = this->game->getActiveScene();
-	uint32_t msPerComputeUpdate = this->game->configuration().msPerComputeUpdate;
+	const uint32_t msPerComputeUpdate = this->game->configuration().msPerComputeUpdate;
 
 	this->game->executeOnInputMethods();
 	this->game->executeOnStartMethods();
 	this->game->executeOnFrameMethods();
-	this->uiSystem->process(activeScene, this->os->hid());
+	this->uiSystem->process(activeScene, this->os->getHid());
 	this->aiSystem->process(activeScene);
 
 	while (this->profiler->getLag_ms() >= msPerComputeUpdate)
@@ -148,24 +148,19 @@ void Lilliputian::Engine::update()
 
 	this->game->executeOnLateMethods();
 	this->game->executeOnFinalMethods();
-	this->profiler->incrementLagCount(this->profiler->frame().getDelta_ns() / NS_IN_MS);
-	this->profiler->update().setEnd();
+	this->profiler->incrementLagCount(this->profiler->getFrameTimer().getDelta_ns() / NS_IN_MS);
+	this->profiler->getUpdateTimer().setEnd();
 }
 
 void Lilliputian::Engine::output()
 {
-	this->profiler->output().setStart();
+	this->profiler->getOutputTimer().setStart();
 
-	if (this->renderingSystem != nullptr)
-		this->renderingSystem->process(this->game->getActiveScene());
+	this->renderingSystem->process(this->game->getActiveScene());
+	this->audioSystem->process(this->game->getActiveScene());
+	this->hapticSystem->process(this->game->getActiveScene(), this->os->getHid());
 
-	if (this->audioSystem != nullptr)
-		this->audioSystem->process(this->game->getActiveScene());
-
-	if (this->hapticSystem != nullptr)
-		this->hapticSystem->process(this->game->getActiveScene(), this->os->hid());
-
-	this->profiler->output().setEnd();
+	this->profiler->getOutputTimer().setEnd();
 }
 
 void Lilliputian::Engine::benchmark()
@@ -173,26 +168,26 @@ void Lilliputian::Engine::benchmark()
 #ifdef _DEBUG
 	uint32_t FPSUpdateSeconds = 1;
 
-	if (this->profiler->benchmark().getDelta_ns() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
+	if (this->profiler->getBenchmarkTimer().getDelta_ns() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
 	{
-		this->profiler->benchmark().setStart();
+		this->profiler->getBenchmarkTimer().setStart();
 		String FPSString = std::to_string(this->profiler->getFPS());
 		String frameUtilizationString =
-			std::to_string((int)(((double)this->profiler->process().getDelta_ns() / (double)this->profiler->frame().getDelta_ns()) * 100));
-		this->os->window().changeTitle((this->game->configuration().gameTitle + " (DEBUG) ->" +
+			std::to_string((int)(((double)this->profiler->getProcessTimer().getDelta_ns() / (double)this->profiler->getFrameTimer().getDelta_ns()) * 100));
+		this->os->getWindow().changeTitle((this->game->configuration().gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString +
 			", Frame Time Utilization: " + frameUtilizationString + "%").c_str()
 		);
 	}
 #endif
-	this->profiler->benchmark().setEnd();
+	this->profiler->getBenchmarkTimer().setEnd();
 }
 
 void Lilliputian::Engine::sleep()
 {
 	float targetFrameTime_ms = 1000.0 / this->game->configuration().targetFPS;
-	float processTime_ms = this->profiler->process().getDelta_ns() / NS_IN_MS;
-	this->os->window().sleep(targetFrameTime_ms - processTime_ms);
+	float processTime_ms = this->profiler->getProcessTimer().getDelta_ns() / NS_IN_MS;
+	this->os->getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }
 
 void Lilliputian::Engine::shutdown()

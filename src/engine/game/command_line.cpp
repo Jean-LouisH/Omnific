@@ -42,5 +42,5 @@ Lilliputian::CommandLine::CommandLine(
 void Lilliputian::CommandLine::execute(String command)
 {
 	if (command == "shutdown" || command == "exit")
-		this->os->hid().forceShutdownRequest();
+		this->os->getHid().forceShutdownRequest();
 }

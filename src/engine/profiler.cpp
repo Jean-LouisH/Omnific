@@ -23,44 +23,44 @@
 #include "profiler.hpp"
 #include "utilities/constants.hpp"
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::process()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getProcessTimer()
 {
-	return this->_process;
+	return this->process;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::frame()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getFrameTimer()
 {
-	return this->_frame;
+	return this->frame;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::input()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getInputTimer()
 {
-	return this->_input;
+	return this->input;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::update()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getUpdateTimer()
 {
-	return this->_update;
+	return this->update;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::output()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getOutputTimer()
 {
-	return this->_output;
+	return this->output;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::run()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getRunTimer()
 {
-	return this->_run;
+	return this->run;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::benchmark()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getBenchmarkTimer()
 {
-	return this->_FPS;
+	return this->FPS;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::debug()
+Lilliputian::HiResTimer& Lilliputian::Profiler::getDebugTimer()
 {
-	return this->_debug;
+	return this->debug;
 }
 
 void Lilliputian::Profiler::incrementFrameCount()
@@ -85,5 +85,5 @@ uint64_t Lilliputian::Profiler::getLag_ms()
 
 uint16_t Lilliputian::Profiler::getFPS()
 {
-	return (1.0 / (this->frame().getDelta_ns() / NS_IN_S));
+	return (1.0 / (this->getFrameTimer().getDelta_ns() / NS_IN_S));
 }
