@@ -63,7 +63,6 @@ namespace Lilliputian
 		Map<String, EntityID> entityNameRegistry;
 		Vector<Stack<SceneTree2D>> sceneTree2DStacks;
 		AssetCache assetCache;
-		VirtualMachine* vm;
 
 		Stack<SceneTree2D>* getLastSceneTree2DStack();
 	};

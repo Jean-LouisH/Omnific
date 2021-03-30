@@ -66,8 +66,6 @@ namespace Lilliputian
 		Rectangle windowDimensions;
 		ComponentID currentCamera = -1;
 
-		VirtualMachine* vm;
-
 		//Default, "empty" transform for rendering 
 		//Transformless entities
 		Transform2D* dummyTransform2D;
