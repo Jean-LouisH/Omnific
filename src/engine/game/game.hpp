@@ -27,11 +27,11 @@
 #include "os.hpp"
 #include "file_access.hpp"
 #include "profiler.hpp"
-#include "script_registry.hpp"
 #include "scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
 #include "boot_configuration.hpp"
 #include "command_line.hpp"
+#include "virtual_machine/virtual_machine.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/stack.hpp"
 #include "utilities/collections/map.hpp"
@@ -53,7 +53,6 @@ namespace Lilliputian
 		void executeOnLateMethods();
 		void executeOnFinalMethods();
 		void deinitialize();
-		ScriptRegistry& getScriptRegistry();
 		SceneForest& getActiveScene();
 		BootConfiguration& getConfiguration();
 	private:
@@ -61,9 +60,9 @@ namespace Lilliputian
 		Profiler* profiler = nullptr;
 		BootConfiguration* configuration = nullptr;
 		ScriptingAPIs* scriptingAPIs = nullptr;
-		ScriptRegistry* scriptRegistry = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
 		CommandLine* commandLine = nullptr;
+		VirtualMachine* vm = nullptr;
 		Map<String, Script> scripts;
 		Vector<SceneForest> preloadedScenes;
 		Stack<SceneForest> activeSceneStack;

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "scene_tree_2d.hpp"
+#include "game/virtual_machine/script_call_batch.hpp"
 
 Lilliputian::SceneTree2D::SceneTree2D()
 {
@@ -29,6 +30,7 @@ Lilliputian::SceneTree2D::SceneTree2D()
 
 void Lilliputian::SceneTree2D::addEntity2D(Entity2D entity2D)
 {
+	this->startEntitiesQueue.emplace(entity2D.ID);
 	this->entities2D.emplace(entity2D.ID, entity2D);
 }
 
@@ -45,52 +47,134 @@ void Lilliputian::SceneTree2D::addComponent(EntityID entityID, ComponentVariant 
 			this->currentCamera = this->componentVariants.size() - 1;
 }
 
-void Lilliputian::SceneTree2D::executeOnStartMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnStartCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
+		Entity2D entity2D = this->entities2D.at(i);
 
+		if (!this->startEntitiesQueue.empty())
+		{
+			if (entity2D.ID == this->startEntitiesQueue.front())
+			{
+				ScriptCallBatch scriptCallBatch;
+
+				scriptCallBatch.scriptNames = entity2D.scriptNames;
+				scriptCallBatch.entityID = entity2D.ID;
+				scriptCallBatch.sceneTreeID = this->ID;
+
+				scriptCallBatches.push_back(scriptCallBatch);
+				this->startEntitiesQueue.pop();
+			}
+		}
 	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneTree2D::executeOnInputMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnInputCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
+		Entity2D entity2D = this->entities2D.at(i);
+		ScriptCallBatch scriptCallBatch;
 
+		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.entityID = entity2D.ID;
+		scriptCallBatch.sceneTreeID = this->ID;
+
+		scriptCallBatches.push_back(scriptCallBatch);
 	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneTree2D::executeOnFrameMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnFrameCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
+		Entity2D entity2D = this->entities2D.at(i);
+		ScriptCallBatch scriptCallBatch;
 
+		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.entityID = entity2D.ID;
+		scriptCallBatch.sceneTreeID = this->ID;
+
+		scriptCallBatches.push_back(scriptCallBatch);
 	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneTree2D::executeOnComputeMethods(uint32_t msPerComputeUpdate)
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnComputeCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
+		Entity2D entity2D = this->entities2D.at(i);
+		ScriptCallBatch scriptCallBatch;
 
+		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.entityID = entity2D.ID;
+		scriptCallBatch.sceneTreeID = this->ID;
+
+		scriptCallBatches.push_back(scriptCallBatch);
 	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneTree2D::executeOnLateMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnLateCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
+		Entity2D entity2D = this->entities2D.at(i);
+		ScriptCallBatch scriptCallBatch;
 
+		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.entityID = entity2D.ID;
+		scriptCallBatch.sceneTreeID = this->ID;
+
+		scriptCallBatches.push_back(scriptCallBatch);
 	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneTree2D::executeOnFinalMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnFinalCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->entities2D.size(); i++)
 	{
+		Entity2D entity2D = this->entities2D.at(i);
 
+		if (!this->finishEntitiesQueue.empty())
+		{
+			if (entity2D.ID == this->finishEntitiesQueue.front())
+			{
+				ScriptCallBatch scriptCallBatch;
+
+				scriptCallBatch.scriptNames = entity2D.scriptNames;
+				scriptCallBatch.entityID = entity2D.ID;
+				scriptCallBatch.sceneTreeID = this->ID;
+
+				scriptCallBatches.push_back(scriptCallBatch);
+				this->finishEntitiesQueue.pop();
+			}
+		}
 	}
+
+	return scriptCallBatches;
 }
 
 Lilliputian::ComponentID Lilliputian::SceneTree2D::getCurrentCameraIndex()
@@ -116,4 +200,9 @@ Lilliputian::Transform2D& Lilliputian::SceneTree2D::getEntityTransform(EntityID 
 	}
 
 	return *transform2D;
+}
+
+void Lilliputian::SceneTree2D::setID(SceneTreeID ID)
+{
+	this->ID = ID;
 }

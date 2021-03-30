@@ -27,7 +27,9 @@
 #include "utilities/rectangle.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/map.hpp"
+#include "utilities/collections/queue.hpp"
 #include "utilities/aliases.hpp"
+#include "game/virtual_machine/virtual_machine.hpp"
 
 namespace Lilliputian
 {
@@ -39,24 +41,32 @@ namespace Lilliputian
 		void addEntity2D(Entity2D entity2D);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 
-		void executeOnStartMethods();
-		void executeOnInputMethods();
-		void executeOnFrameMethods();
-		void executeOnComputeMethods(uint32_t msPerComputeUpdate);
-		void executeOnLateMethods();
-		void executeOnFinalMethods();
+		Vector<ScriptCallBatch> generateOnStartCallBatches();
+		Vector<ScriptCallBatch> generateOnInputCallBatches();
+		Vector<ScriptCallBatch> generateOnFrameCallBatches();
+		Vector<ScriptCallBatch> generateOnComputeCallBatches();
+		Vector<ScriptCallBatch> generateOnLateCallBatches();
+		Vector<ScriptCallBatch> generateOnFinalCallBatches();
 
 		ComponentID getCurrentCameraIndex();
 		Vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
+
+		void setID(SceneTreeID ID);
 	private:
+		SceneTreeID ID = 0;
 
 		Map<EntityID, Entity2D> entities2D;
 		Vector<ComponentVariant> componentVariants;
 		Vector<ComponentID> transform2DIndexCache;
 
+		Queue<EntityID> startEntitiesQueue;
+		Queue<EntityID> finishEntitiesQueue;
+
 		Rectangle windowDimensions;
 		ComponentID currentCamera = -1;
+
+		VirtualMachine* vm;
 
 		//Default, "empty" transform for rendering 
 		//Transformless entities

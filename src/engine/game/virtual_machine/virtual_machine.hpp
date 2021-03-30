@@ -20,3 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
+#include "script_call_batch.hpp"
+
+namespace Lilliputian
+{
+	class VirtualMachine
+	{
+	public:
+		VirtualMachine();
+		~VirtualMachine();
+		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches, uint32_t msPerComputeUpdate);
+		void executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches);
+	private:
+	};
+}

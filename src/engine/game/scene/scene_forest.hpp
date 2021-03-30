@@ -27,6 +27,7 @@
 #include "utilities/collections/queue.hpp"
 #include "utilities/collections/map.hpp"
 #include "components/component_variant.hpp"
+#include "game/virtual_machine/virtual_machine.hpp"
 #include "assets/asset_cache.hpp"
 #include "scene_tree_2d.hpp"
 
@@ -35,6 +36,7 @@ namespace Lilliputian
 	class SceneForest
 	{
 	public:
+		SceneForest();
 		void incrementSceneTree2D();
 
 		void addEntity2D(Entity2D entity2D);
@@ -44,21 +46,24 @@ namespace Lilliputian
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 		void addComponentToLastEntity(ComponentVariant componentVariant);
 
-		void executeOnStartMethods();
-		void executeOnInputMethods();
-		void executeOnFrameMethods();
-		void executeOnComputeMethods(uint32_t msPerComputeUpdate);
-		void executeOnLateMethods();
-		void executeOnFinalMethods();
+		Vector<ScriptCallBatch> generateOnStartCallBatches();
+		Vector<ScriptCallBatch> generateOnInputCallBatches();
+		Vector<ScriptCallBatch> generateOnFrameCallBatches();
+		Vector<ScriptCallBatch> generateOnComputeCallBatches();
+		Vector<ScriptCallBatch> generateOnLateCallBatches();
+		Vector<ScriptCallBatch> generateOnFinalBatches();
 
 		EntityID getPreviousEntityID();
 		AssetCache& getAssetCache();
 		Vector<Stack<SceneTree2D>>& getSceneTree2DStacks();
 	private:
 		uint64_t entityIDCount = 0;
+		uint64_t componentIDCount = 0;
+		uint64_t sceneTreeCount = 0;
 		Map<String, EntityID> entityNameRegistry;
 		Vector<Stack<SceneTree2D>> sceneTree2DStacks;
 		AssetCache assetCache;
+		VirtualMachine* vm;
 
 		Stack<SceneTree2D>* getLastSceneTree2DStack();
 	};

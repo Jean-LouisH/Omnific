@@ -20,3 +20,74 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "virtual_machine.hpp"
+
+Lilliputian::VirtualMachine::VirtualMachine()
+{
+
+}
+
+Lilliputian::VirtualMachine::~VirtualMachine()
+{
+
+}
+
+void Lilliputian::VirtualMachine::executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	for (int i = 0; i < scriptCallBatches.size(); i++)
+	{
+		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
+
+
+	}
+}
+
+void Lilliputian::VirtualMachine::executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	for (int i = 0; i < scriptCallBatches.size(); i++)
+	{
+		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
+
+
+	}
+}
+
+void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	for (int i = 0; i < scriptCallBatches.size(); i++)
+	{
+		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
+
+
+	}
+}
+
+void Lilliputian::VirtualMachine::executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches, uint32_t msPerComputeUpdate)
+{
+	for (int i = 0; i < scriptCallBatches.size(); i++)
+	{
+		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
+
+
+	}
+}
+
+void Lilliputian::VirtualMachine::executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	for (int i = 0; i < scriptCallBatches.size(); i++)
+	{
+		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
+
+
+	}
+}
+
+void Lilliputian::VirtualMachine::executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	for (int i = 0; i < scriptCallBatches.size(); i++)
+	{
+		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
+
+
+	}
+}

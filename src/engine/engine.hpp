@@ -25,7 +25,6 @@
 #include "utilities/collections/vector.hpp"
 #include "utilities/string.hpp"
 #include "game/game.hpp"
-#include "game/script_registry.hpp"
 #include "systems/ai_system/ai_system.hpp"
 #include "systems/animation_system/animation_system.hpp"
 #include "systems/audio_system/audio_system.hpp"

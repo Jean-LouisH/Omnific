@@ -21,6 +21,12 @@
 // SOFTWARE.
 
 #include "scene_forest.hpp"
+#include "game/virtual_machine/script_call_batch.hpp"
+
+Lilliputian::SceneForest::SceneForest()
+{
+
+}
 
 Lilliputian::Stack<Lilliputian::SceneTree2D>* Lilliputian::SceneForest::getLastSceneTree2DStack()
 {
@@ -33,6 +39,8 @@ void Lilliputian::SceneForest::incrementSceneTree2D()
 	SceneTree2D sceneTree2D;
 	Stack<SceneTree2D> sceneTree2DStack;
 
+	sceneTree2D.setID(this->sceneTreeCount);
+	this->sceneTreeCount++;
 	sceneTree2DStack.push(sceneTree2D);
 	this->sceneTree2DStacks.push_back(sceneTree2DStack);
 	this->addEntity2D(emptyEntity2D);
@@ -64,13 +72,15 @@ void Lilliputian::SceneForest::addParentToLastEntityByName(String name)
 
 void Lilliputian::SceneForest::addComponent(EntityID entityID, ComponentVariant componentVariant)
 {
+	componentVariant.ID = this->componentIDCount;
+	this->componentIDCount++;
 	this->getLastSceneTree2DStack()->top().addComponent(entityID, componentVariant);
 }
 
 void Lilliputian::SceneForest::addComponentToLastEntity(ComponentVariant componentVariant)
 {
 	EntityID lastEntityID = this->getPreviousEntityID();
-	this->getLastSceneTree2DStack()->top().addComponent(lastEntityID, componentVariant);
+	this->addComponent(lastEntityID, componentVariant);
 }
 
 Lilliputian::EntityID Lilliputian::SceneForest::getPreviousEntityID()
@@ -88,38 +98,116 @@ Lilliputian::Vector<Lilliputian::Stack<Lilliputian::SceneTree2D>>& Lilliputian::
 	return this->sceneTree2DStacks;
 }
 
-void Lilliputian::SceneForest::executeOnStartMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnStartCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeOnStartMethods();
+	{
+		Vector<ScriptCallBatch> newScriptCallBatches = 
+			this->sceneTree2DStacks.at(i).top().generateOnStartCallBatches();
+
+		scriptCallBatches.insert(
+			scriptCallBatches.end(), 
+			newScriptCallBatches.begin(), 
+			newScriptCallBatches.end()
+		);
+	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneForest::executeOnInputMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnInputCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeOnInputMethods();
+	{
+		Vector<ScriptCallBatch> newScriptCallBatches =
+			this->sceneTree2DStacks.at(i).top().generateOnInputCallBatches();
+
+		scriptCallBatches.insert(
+			scriptCallBatches.end(),
+			newScriptCallBatches.begin(),
+			newScriptCallBatches.end()
+		);
+	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneForest::executeOnFrameMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnFrameCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeOnFrameMethods();
+	{
+		Vector<ScriptCallBatch> newScriptCallBatches =
+			this->sceneTree2DStacks.at(i).top().generateOnFrameCallBatches();
+
+		scriptCallBatches.insert(
+			scriptCallBatches.end(),
+			newScriptCallBatches.begin(),
+			newScriptCallBatches.end()
+		);
+	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneForest::executeOnComputeMethods(uint32_t msPerComputeUpdate)
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnComputeCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeOnComputeMethods(msPerComputeUpdate);
+	{
+		Vector<ScriptCallBatch> newScriptCallBatches =
+			this->sceneTree2DStacks.at(i).top().generateOnComputeCallBatches();
+
+		scriptCallBatches.insert(
+			scriptCallBatches.end(),
+			newScriptCallBatches.begin(),
+			newScriptCallBatches.end()
+		);
+	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneForest::executeOnLateMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnLateCallBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeOnLateMethods();
+	{
+		Vector<ScriptCallBatch> newScriptCallBatches =
+			this->sceneTree2DStacks.at(i).top().generateOnLateCallBatches();
+
+		scriptCallBatches.insert(
+			scriptCallBatches.end(),
+			newScriptCallBatches.begin(),
+			newScriptCallBatches.end()
+		);
+	}
+
+	return scriptCallBatches;
 }
 
-void Lilliputian::SceneForest::executeOnFinalMethods()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnFinalBatches()
 {
+	Vector<ScriptCallBatch> scriptCallBatches;
+
 	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
-		this->sceneTree2DStacks.at(i).top().executeOnFinalMethods();
+	{
+		Vector<ScriptCallBatch> newScriptCallBatches =
+			this->sceneTree2DStacks.at(i).top().generateOnFinalCallBatches();
+
+		scriptCallBatches.insert(
+			scriptCallBatches.end(),
+			newScriptCallBatches.begin(),
+			newScriptCallBatches.end()
+		);
+	}
+
+	return scriptCallBatches;
 }

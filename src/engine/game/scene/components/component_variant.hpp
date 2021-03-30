@@ -122,7 +122,7 @@ namespace Lilliputian
 			COMPONENT_TYPE_UI_TREE
 		};
 
-
+		ComponentID ID = 0;
         Type type = Type::COMPONENT_TYPE_NONE;
 		EntityID entityID = NO_ENTITY;
 

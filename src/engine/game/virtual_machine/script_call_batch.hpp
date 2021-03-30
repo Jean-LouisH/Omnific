@@ -22,18 +22,16 @@
 
 #pragma once
 
-#include "scripting_apis/scripting_apis.hpp"
 #include "utilities/string.hpp"
 #include "utilities/aliases.hpp"
+#include "utilities/collections/vector.hpp"
 
 namespace Lilliputian
 {
-	class Script
+	typedef struct ScriptCallBatch
 	{
-	public:
-		Script(String dataFilepath);
-		String getFilepath();
-	private:
-		String dataFilepath;
+		Vector<String> scriptNames;
+		SceneTreeID sceneTreeID = 0;
+		EntityID entityID = 0;
 	};
 }
