@@ -33,6 +33,8 @@ void Lilliputian::HumanInterfaceDevices::clear()
 		SDL_free(dropEvent.file);
 		dropEvent = { 0 };
 	}
+
+	this->hasDetectedInputChanges = false;
 }
 
 void Lilliputian::HumanInterfaceDevices::detectGameControllers()
@@ -69,6 +71,7 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 	SDL_Event SDLEvents;
 
 	this->clear();
+	this->hasDetectedInputChanges = true;
 
 	while (SDL_PollEvent(&SDLEvents))
 	{
@@ -107,6 +110,9 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 
 		case SDL_DROPFILE:
 			this->dropEvent = SDLEvents.drop;
+
+		default: 
+			this->hasDetectedInputChanges = false;
 		}
 	}
 }
@@ -119,6 +125,11 @@ bool Lilliputian::HumanInterfaceDevices::hasRequestedShutdown()
 void Lilliputian::HumanInterfaceDevices::forceShutdownRequest()
 {
 	this->shutdownRequest = true;
+}
+
+bool Lilliputian::HumanInterfaceDevices::getHasDetectedInputChanges()
+{
+	return this->hasDetectedInputChanges;
 }
 
 bool Lilliputian::HumanInterfaceDevices::hasRequestedCommandLine()

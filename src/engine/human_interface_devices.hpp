@@ -38,6 +38,7 @@ namespace Lilliputian
 		bool hasRequestedShutdown();
 		bool hasRequestedCommandLine();
 		void forceShutdownRequest();
+		bool getHasDetectedInputChanges();
 
 		Vector<SDL_Haptic*> getHaptics();
 	private:
@@ -53,6 +54,7 @@ namespace Lilliputian
 		Vector<SDL_GameController*> gameControllers;
 		Vector<SDL_Haptic*> haptics;
 
+		bool hasDetectedInputChanges = false;
 		bool shutdownRequest = false;
 		void clear();
 	};
