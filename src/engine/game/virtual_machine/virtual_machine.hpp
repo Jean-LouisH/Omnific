@@ -23,13 +23,15 @@
 #pragma once
 
 #include "script_call_batch.hpp"
+#include "utilities/collections/map.hpp"
+#include "game/scene/script.hpp"
 
 namespace Lilliputian
 {
 	class VirtualMachine
 	{
 	public:
-		VirtualMachine();
+		VirtualMachine(Map<String, Script>* scripts);
 		~VirtualMachine();
 		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches);
@@ -38,5 +40,6 @@ namespace Lilliputian
 		void executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches);
 	private:
+		Map<String, Script>* scripts;
 	};
 }

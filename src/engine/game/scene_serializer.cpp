@@ -27,9 +27,10 @@
 #include "scene/scene_forest.hpp"
 #include "scene/components/component_variant.hpp"
 
-Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory)
+Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory, Map<String, Script>* scripts)
 {
 	this->dataDirectory = dataDirectory;
+	this->scripts = scripts;
 }
 
 Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filepath)
@@ -443,7 +444,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 								{
 									if (it3->first.as<std::string>() == "image")
 									{
-										Image image = scene.getAssetCache().loadImage((dataDirectory + it3->second.as<std::string>()).c_str());
+										Image image = scene.getAssetCache().loadImage((this->dataDirectory + it3->second.as<std::string>()).c_str());
 										sprite->setImage(image);
 									}
 								}
@@ -715,7 +716,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									else if (it3->first.as<std::string>() == "font")
 									{
 										Font font = scene.getAssetCache().loadFont((
-											dataDirectory + it3->second[0].as<std::string>()).c_str(),
+											this->dataDirectory + it3->second[0].as<std::string>()).c_str(),
 											it3->second[1].as<int>());
 
 										uiTextLabel->setFont(font, it3->second[1].as<int>());
@@ -831,6 +832,15 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									{
 
 									}
+								}
+							}
+							else if (it2->first.as<std::string>() == "Scripts")
+							{
+								for (int i = 0; i < it2->second.size(); i++)
+								{
+									String scriptPath = this->dataDirectory + it2->second[i].as<std::string>();
+									scripts->emplace(scriptPath, Script(scriptPath));
+									scene.addScriptToLastEntity(scriptPath);
 								}
 							}
 						}

@@ -45,6 +45,8 @@ namespace Lilliputian
 		void addParentToLastEntityByName(String name);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 		void addComponentToLastEntity(ComponentVariant componentVariant);
+		void addScript(EntityID entityID, String scriptPath);
+		void addScriptToLastEntity(String scriptPath);
 
 		Vector<ScriptCallBatch> generateOnStartCallBatches();
 		Vector<ScriptCallBatch> generateOnInputCallBatches();

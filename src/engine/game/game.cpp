@@ -32,7 +32,7 @@ Lilliputian::Game::Game(
 	this->os = os;
 	this->profiler = profiler;
 	this->scriptingAPIs = new ScriptingAPIs();
-	this->vm = new VirtualMachine();
+	this->vm = new VirtualMachine(&this->scripts);
 	this->commandLine = new CommandLine(
 		&this->scripts,
 		&this->preloadedScenes,
@@ -56,7 +56,7 @@ void Lilliputian::Game::initialize()
 	if (this->os->getFileAccess().exists(bootFilepath))
 	{
 		this->configuration = bootLoader.loadFromFile(bootFilepath);
-		this->sceneSerializer = new SceneSerializer(dataDirectory);
+		this->sceneSerializer = new SceneSerializer(dataDirectory, &this->scripts);
 		entryScene = this->sceneSerializer->loadFromFile(configuration->entrySceneFilepath);
 		this->activeSceneStack.emplace(entryScene);
 	}

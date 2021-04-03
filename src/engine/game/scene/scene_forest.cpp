@@ -83,6 +83,17 @@ void Lilliputian::SceneForest::addComponentToLastEntity(ComponentVariant compone
 	this->addComponent(lastEntityID, componentVariant);
 }
 
+void Lilliputian::SceneForest::addScript(EntityID entityID, String scriptPath)
+{
+	this->getLastSceneTree2DStack()->top().addScript(entityID, scriptPath);
+}
+
+void Lilliputian::SceneForest::addScriptToLastEntity(String scriptPath)
+{
+	EntityID lastEntityID = this->getPreviousEntityID();
+	this->addScript(lastEntityID, scriptPath);
+}
+
 Lilliputian::EntityID Lilliputian::SceneForest::getPreviousEntityID()
 {
 	return this->entityIDCount - 1;

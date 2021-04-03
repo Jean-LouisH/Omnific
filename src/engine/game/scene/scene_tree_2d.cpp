@@ -47,6 +47,11 @@ void Lilliputian::SceneTree2D::addComponent(EntityID entityID, ComponentVariant 
 			this->currentCamera = this->componentVariants.size() - 1;
 }
 
+void Lilliputian::SceneTree2D::addScript(EntityID entityID, String scriptPath)
+{
+	this->entities2D.at(entityID).addScript(scriptPath);
+}
+
 Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnStartCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
@@ -61,7 +66,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 			{
 				ScriptCallBatch scriptCallBatch;
 
-				scriptCallBatch.scriptNames = entity2D.scriptNames;
+				scriptCallBatch.scriptPaths = entity2D.scriptPaths;
 				scriptCallBatch.entityID = entity2D.ID;
 				scriptCallBatch.sceneTreeID = this->ID;
 
@@ -83,7 +88,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 		Entity2D entity2D = this->entities2D.at(i);
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.scriptPaths = entity2D.scriptPaths;
 		scriptCallBatch.entityID = entity2D.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
@@ -102,7 +107,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 		Entity2D entity2D = this->entities2D.at(i);
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.scriptPaths = entity2D.scriptPaths;
 		scriptCallBatch.entityID = entity2D.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
@@ -121,7 +126,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 		Entity2D entity2D = this->entities2D.at(i);
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.scriptPaths = entity2D.scriptPaths;
 		scriptCallBatch.entityID = entity2D.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
@@ -140,7 +145,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 		Entity2D entity2D = this->entities2D.at(i);
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scriptNames = entity2D.scriptNames;
+		scriptCallBatch.scriptPaths = entity2D.scriptPaths;
 		scriptCallBatch.entityID = entity2D.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
@@ -164,7 +169,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 			{
 				ScriptCallBatch scriptCallBatch;
 
-				scriptCallBatch.scriptNames = entity2D.scriptNames;
+				scriptCallBatch.scriptPaths = entity2D.scriptPaths;
 				scriptCallBatch.entityID = entity2D.ID;
 				scriptCallBatch.sceneTreeID = this->ID;
 

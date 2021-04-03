@@ -30,6 +30,7 @@
 #include "utilities/collections/queue.hpp"
 #include "utilities/aliases.hpp"
 #include "game/virtual_machine/virtual_machine.hpp"
+#include "utilities/string.hpp"
 
 namespace Lilliputian
 {
@@ -40,6 +41,7 @@ namespace Lilliputian
 
 		void addEntity2D(Entity2D entity2D);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
+		void addScript(EntityID entityID, String scriptPath);
 
 		Vector<ScriptCallBatch> generateOnStartCallBatches();
 		Vector<ScriptCallBatch> generateOnInputCallBatches();

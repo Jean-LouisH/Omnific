@@ -24,16 +24,18 @@
 
 #include "scene/scene_forest.hpp"
 #include "utilities/string.hpp"
+#include "utilities/collections/map.hpp"
 
 namespace Lilliputian
 {
 	class SceneSerializer
 	{
 	public:
-		SceneSerializer(String assetsDirectory);
+		SceneSerializer(String assetsDirectory, Map<String, Script>* scripts);
 		SceneForest loadFromFile(String filepath);
 	private:
 		String dataDirectory;
 		SceneForest loadFromTextFile(String filepath);
+		Map<String, Script>* scripts;
 	};
 }

@@ -22,9 +22,9 @@
 
 #include "virtual_machine.hpp"
 
-Lilliputian::VirtualMachine::VirtualMachine()
+Lilliputian::VirtualMachine::VirtualMachine(Map<String, Script>* scripts)
 {
-
+	this->scripts = scripts;
 }
 
 Lilliputian::VirtualMachine::~VirtualMachine()
@@ -58,7 +58,13 @@ void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> 
 	{
 		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
 
+		for (int j = 0; j < scriptCallBatch.scriptPaths.size(); j++)
+		{
+			Script script = this->scripts->at(scriptCallBatch.scriptPaths.at(j));
+			String scriptPath = script.getFilepath();
 
+
+		}
 	}
 }
 
