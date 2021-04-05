@@ -133,6 +133,7 @@ void Lilliputian::Game::deinitialize()
 	delete this->configuration;
 	delete this->scriptingAPIs;
 	delete this->sceneSerializer;
+	delete this->vm;
 }
 
 Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
