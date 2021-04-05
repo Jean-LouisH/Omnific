@@ -21,15 +21,23 @@
 // SOFTWARE.
 
 #include "virtual_machine.hpp"
+#ifdef _DEBUG
+#undef _DEBUG
+#include <python.h>
+#define _DEBUG
+#else
+#include <python.h>
+#endif
 
 Lilliputian::VirtualMachine::VirtualMachine(Map<String, Script>* scripts)
 {
 	this->scripts = scripts;
+	Py_Initialize();
 }
 
 Lilliputian::VirtualMachine::~VirtualMachine()
 {
-
+	Py_Finalize();
 }
 
 void Lilliputian::VirtualMachine::executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches)
