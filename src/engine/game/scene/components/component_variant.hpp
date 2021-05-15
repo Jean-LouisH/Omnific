@@ -224,7 +224,7 @@ namespace Lilliputian
 		ComponentID getID();
 		Type getType();
 		EntityID getEntityID();
-		Image getImage();
+		Image& getImage();
 
 	private:
 

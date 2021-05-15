@@ -741,33 +741,32 @@ Lilliputian::EntityID Lilliputian::ComponentVariant::getEntityID()
 	return this->entityID;
 }
 
-Lilliputian::Image Lilliputian::ComponentVariant::getImage()
+Lilliputian::Image& Lilliputian::ComponentVariant::getImage()
 {
-	Image image; 
-
 	switch (this->type)
 	{
-		case ComponentVariant::Type::SPRITE: image = this->sprite->getImage(); break;
-		case ComponentVariant::Type::ANIMATED_SPRITE: image = this->animatedSprite->getCurrentFrame(); break;
-		case ComponentVariant::Type::RECTANGULAR_MESH_2D: image = this->rectangularMesh2D->getImage(); break;
-		case ComponentVariant::Type::REGULAR_POLYGONAL_MESH_2D: image = this->regularPolygonalMesh2D->getImage(); break;
-		case ComponentVariant::Type::UI_BUTTON: image = this->uiButton->getImage(); break;
-		case ComponentVariant::Type::UI_RECTANGLE: image = this->uiRectangle->getImage(); break;
-		case ComponentVariant::Type::UI_GRAPH_EDIT: image = this->uiGraphEdit->getImage(); break;
-		case ComponentVariant::Type::UI_GRAPH_NODE: image = this->uiGraphNode->getImage(); break;
-		case ComponentVariant::Type::UI_SCROLLBAR: image = this->uiScrollbar->getImage(); break;
-		case ComponentVariant::Type::UI_SEPARATOR: image = this->uiSeparator->getImage(); break;
-		case ComponentVariant::Type::UI_SLIDER: image = this->uiSlider->getImage(); break;
-		case ComponentVariant::Type::UI_HOVER_CARD: image = this->uiHoverCard->getImage(); break;
-		case ComponentVariant::Type::UI_ITEM_LIST: image = this->uiItemList->getImage(); break;
-		case ComponentVariant::Type::UI_PANEL: image = this->uiPanel->getImage(); break;
-		case ComponentVariant::Type::UI_PROGRESS_BAR: image = this->uiProgressBar->getImage(); break;
-		case ComponentVariant::Type::UI_SPIN_BOX: image = this->uiSpinBox->getImage(); break;
-		case ComponentVariant::Type::UI_TAB: image = this->uiTab->getImage(); break;
-		case ComponentVariant::Type::UI_TEXT_EDIT: image = this->uiTextEdit->getImage(); break;
-		case ComponentVariant::Type::UI_TEXT_LABEL: image = this->uiTextLabel->getImage(); break;
-		case ComponentVariant::Type::UI_TREE:; image = this->uiTree->getImage(); break;
+		case ComponentVariant::Type::SPRITE: return (this->sprite->getImage()); break;
+		case ComponentVariant::Type::ANIMATED_SPRITE: return (this->animatedSprite->getCurrentFrame()); break;
+		case ComponentVariant::Type::RECTANGULAR_MESH_2D: return (this->rectangularMesh2D->getImage()); break;
+		case ComponentVariant::Type::REGULAR_POLYGONAL_MESH_2D: return (this->regularPolygonalMesh2D->getImage()); break;
+		case ComponentVariant::Type::UI_BUTTON: return (this->uiButton->getImage()); break;
+		case ComponentVariant::Type::UI_RECTANGLE: return (this->uiRectangle->getImage()); break;
+		case ComponentVariant::Type::UI_GRAPH_EDIT: return (this->uiGraphEdit->getImage()); break;
+		case ComponentVariant::Type::UI_GRAPH_NODE: return (this->uiGraphNode->getImage()); break;
+		case ComponentVariant::Type::UI_SCROLLBAR: return (this->uiScrollbar->getImage()); break;
+		case ComponentVariant::Type::UI_SEPARATOR: return (this->uiSeparator->getImage()); break;
+		case ComponentVariant::Type::UI_SLIDER: return (this->uiSlider->getImage()); break;
+		case ComponentVariant::Type::UI_HOVER_CARD: return (this->uiHoverCard->getImage()); break;
+		case ComponentVariant::Type::UI_ITEM_LIST: return (this->uiItemList->getImage()); break;
+		case ComponentVariant::Type::UI_PANEL: return (this->uiPanel->getImage()); break;
+		case ComponentVariant::Type::UI_PROGRESS_BAR: return (this->uiProgressBar->getImage()); break;
+		case ComponentVariant::Type::UI_SPIN_BOX: return (this->uiSpinBox->getImage()); break;
+		case ComponentVariant::Type::UI_TAB: return (this->uiTab->getImage()); break;
+		case ComponentVariant::Type::UI_TEXT_EDIT: return (this->uiTextEdit->getImage()); break;
+		case ComponentVariant::Type::UI_TEXT_LABEL: return (this->uiTextLabel->getImage()); break;
+		case ComponentVariant::Type::UI_TREE:; return (this->uiTree->getImage()); break;
 	}
 
-	return image;
+	Image* image = new Image();
+	return *image;
 }
