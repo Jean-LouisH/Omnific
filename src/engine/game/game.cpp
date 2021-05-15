@@ -32,7 +32,9 @@ Lilliputian::Game::Game(
 	this->os = os;
 	this->profiler = profiler;
 	this->scriptingAPIs = new ScriptingAPIs();
-	this->vm = new VirtualMachine(&this->scripts);
+	this->vm = new VirtualMachine(
+		&this->scripts,
+		this->scriptingAPIs);
 	this->commandLine = new CommandLine(
 		&this->scripts,
 		&this->loadedScenes,

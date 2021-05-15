@@ -28,16 +28,19 @@
 #else
 #include <python.h>
 #endif
+#include "pybind11/embed.h"
 
-Lilliputian::VirtualMachine::VirtualMachine(Map<String, Script>* scripts)
+Lilliputian::VirtualMachine::VirtualMachine(
+	Map<String, Script>* scripts,
+	ScriptingAPIs* scriptingAPIs)
 {
 	this->scripts = scripts;
-	Py_Initialize();
+	this->scriptingAPIs = scriptingAPIs;
 }
 
 Lilliputian::VirtualMachine::~VirtualMachine()
 {
-	Py_Finalize();
+
 }
 
 void Lilliputian::VirtualMachine::executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches)
