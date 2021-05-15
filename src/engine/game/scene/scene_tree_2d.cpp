@@ -36,14 +36,14 @@ void Lilliputian::SceneTree2D::addEntity2D(Entity2D entity2D)
 
 void Lilliputian::SceneTree2D::addComponent(EntityID entityID, ComponentVariant componentVariant)
 {
-	componentVariant.entityID = entityID;
+	componentVariant.setEntityID(entityID);
 	this->componentVariants.push_back(componentVariant);
-	this->entities2D.at(entityID).addComponent(componentVariant.type, this->componentVariants.size() - 1);
+	this->entities2D.at(entityID).addComponent(componentVariant.getType(), this->componentVariants.size() - 1);
 
-	if (componentVariant.type == ComponentVariant::COMPONENT_TYPE_TRANSFORM_2D)
+	if (componentVariant.getType() == ComponentVariant::Type::TRANSFORM_2D)
 		this->transform2DIndexCache.push_back(this->componentVariants.size() - 1);
-	else if (componentVariant.type == ComponentVariant::COMPONENT_TYPE_CAMERA_2D)
-		if (componentVariant.camera2D->getIsStreaming())
+	else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D)
+		if (componentVariant.getCamera2D()->getIsStreaming())
 			this->currentCamera = this->componentVariants.size() - 1;
 }
 
@@ -200,8 +200,8 @@ Lilliputian::Transform2D& Lilliputian::SceneTree2D::getEntityTransform(EntityID 
 	{
 		ComponentID transform2DID = this->transform2DIndexCache.at(i);
 
-		if (this->componentVariants.at(transform2DID).entityID == entityID)
-			transform2D = this->componentVariants.at(transform2DID).transform2D;
+		if (this->componentVariants.at(transform2DID).getEntityID() == entityID)
+			transform2D = this->componentVariants.at(transform2DID).getTransform2D();
 	}
 
 	return *transform2D;

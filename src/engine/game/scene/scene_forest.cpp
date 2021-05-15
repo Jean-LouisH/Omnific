@@ -72,7 +72,7 @@ void Lilliputian::SceneForest::addParentToLastEntityByName(String name)
 
 void Lilliputian::SceneForest::addComponent(EntityID entityID, ComponentVariant componentVariant)
 {
-	componentVariant.ID = this->componentIDCount;
+	componentVariant.setComponentID(this->componentIDCount);
 	this->componentIDCount++;
 	this->getLastSceneTree2DStack()->top().addComponent(entityID, componentVariant);
 }

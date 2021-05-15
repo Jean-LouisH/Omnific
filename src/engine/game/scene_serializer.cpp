@@ -98,8 +98,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 
-								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_AI_BEHAVIOUR_TREE;
-								componentVariant.aiBehaviourTree = aiBehaviourTree;
+								componentVariant.setToAIBehaviourTree(aiBehaviourTree);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "AISightPerception")
@@ -191,8 +190,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 
-								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_CAMERA_2D;
-								componentVariant.camera2D = camera2D;
+								componentVariant.setToCamera2D(camera2D);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "CircleCollider2D")
@@ -250,8 +248,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 
-								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_COUNTDOWN_TIMER;
-								componentVariant.countdownTimer = countdownTimer;
+								componentVariant.setToCountdownTimer(countdownTimer);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "FixedTransform2D")
@@ -449,8 +446,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 
-								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_SPRITE;
-								componentVariant.sprite = sprite;
+								componentVariant.setToSprite(sprite);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "StaticFluid2D")
@@ -489,8 +485,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 
-								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_TRANSFORM_2D;
-								componentVariant.transform2D = transform2D;
+								componentVariant.setToTransform2D(transform2D);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
@@ -732,8 +727,7 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 									}
 								}
 
-								componentVariant.type = ComponentVariant::Type::COMPONENT_TYPE_UI_TEXT_LABEL;
-								componentVariant.uiTextLabel = uiTextLabel;
+								componentVariant.setToUITextLabel(uiTextLabel);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UITexturedButton")
