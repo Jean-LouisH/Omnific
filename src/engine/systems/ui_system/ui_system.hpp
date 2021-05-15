@@ -24,6 +24,8 @@
 
 #include "game/scene/scene_forest.hpp"
 #include "human_interface_devices.hpp"
+#include "utilities/input_code.hpp"
+#include "utilities/input_button_mode.hpp"
 
 namespace Lilliputian
 {
@@ -34,6 +36,13 @@ namespace Lilliputian
 		~UISystem();
 		void process(SceneForest& scene, HumanInterfaceDevices& hid);
 	private:
+		void orderUIComponentsByHierarchy();
+		void positionUIComponentsByHierarchy();
+		bool isCursorHoveringOverUIComponent(ComponentID componentID);
+		bool isCursorInInputStateOnUIComponent(
+			ComponentID componentID, 
+			InputCode inputCode, 
+			InputButtonMode inputButtonMode);
 	};
 }
 

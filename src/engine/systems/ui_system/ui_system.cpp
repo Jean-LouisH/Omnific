@@ -38,3 +38,26 @@ void Lilliputian::UISystem::process(SceneForest& scene, HumanInterfaceDevices& h
 {
 
 }
+
+void Lilliputian::UISystem::orderUIComponentsByHierarchy()
+{
+
+}
+
+void Lilliputian::UISystem::positionUIComponentsByHierarchy()
+{
+
+}
+
+bool Lilliputian::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
+{
+	return false;
+}
+
+bool Lilliputian::UISystem::isCursorInInputStateOnUIComponent(
+	ComponentID componentID,
+	InputCode inputCode,
+	InputButtonMode inputButtonMode)
+{
+	return false;
+}
