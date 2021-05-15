@@ -21,6 +21,8 @@ include_directories(
 		../../thirdparty/SDL2_mixer-2.0.4/include
 		../../thirdparty/SDL2_ttf-2.0.15/include
 		../../thirdparty/yaml-cpp-0.6.3/include
+		../../thirdparty/python37/include
+		../../thirdparty/pybind11-2.6.2/include
 		../engine
 		.
 )
