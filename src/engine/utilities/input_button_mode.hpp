@@ -22,36 +22,13 @@
 
 #pragma once
 
-#include <stdint.h>
-#include "utilities/collections/map.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/string.hpp"
-#include "utilities/input_code.hpp"
-
 namespace Lilliputian
 {
-	class InputAPI
+	enum class InputButtonMode
 	{
-	public:
-
-		uint16_t analogueStickSensitivity;
-
-		InputAPI();
-		void insertActionInput(const char* actionName, InputCode inputCode);
-		void replaceActionInput(const char* actionName, InputCode inputCode);
-		void removeActionInput(const char* actionName, InputCode inputCode);
-		void removeAllActionInputs(const char* actionName);
-		Map<String, Vector<InputCode>> getActionInputs();
-		bool isKeyOnPress(unsigned int keyCode);
-		bool isKeyOnDoublePress(unsigned int keyCode, unsigned int timeInterval_ms);
-		bool isKeyOnRelease(unsigned int keyCode);
-		bool isKeyOnHold(unsigned int keyCode);
-		bool isActionOnPress(const char* actionName);
-		bool isActionOnDoublePress(const char* actionName, unsigned int timeInterval_ms);
-		bool isActionOnRelease(const char* actionName);
-		bool isActionOnHold(const char* actionName, unsigned int timeInterval_ms);
-		float getAxisStrength(const char* axisActionName);
-	private:
-		Map<String, Vector<InputCode>> actionInputs;
+		NEUTRAL,
+		ON_PRESS,
+		HELD,
+		ON_RELEASE
 	};
 }
