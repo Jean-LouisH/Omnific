@@ -231,8 +231,8 @@ namespace Lilliputian
 		ComponentID ID = 0;
 		Type type = Type::NONE;
 		EntityID entityID = NO_ENTITY;
-
-        union
+		
+		union
         {
 			AIBehaviourTree* aiBehaviourTree;
 			AISightPerception2D* aiSightPerception2D;

@@ -603,11 +603,11 @@ Lilliputian::NavigationMeshAgent2D* Lilliputian::ComponentVariant::getNavigation
 }
 Lilliputian::NavigationMeshBoxObstacle2D* Lilliputian::ComponentVariant::getNavigationMeshBoxObstacle2D()
 {
-	return this->setToNavigationMeshBoxObstacle2D;
+	return this->navigationMeshBoxObstacle2D;
 }
 Lilliputian::NavigationPath2D* Lilliputian::ComponentVariant::getNavigationPath2D()
 {
-	return this->getNavigationPath2D;
+	return this->navigationPath2D;
 }
 Lilliputian::NeuralNetwork* Lilliputian::ComponentVariant::getNeuralNetwork()
 {
@@ -745,28 +745,28 @@ Lilliputian::Image Lilliputian::ComponentVariant::getImage()
 {
 	Image image; 
 
-	switch (componentVariant.type)
+	switch (this->type)
 	{
-		case ComponentVariant::Type::SPRITE: image = componentVariant.sprite->getImage(); break;
-		case ComponentVariant::Type::ANIMATED_SPRITE: image = componentVariant.animatedSprite->getCurrentFrame(); break;
-		case ComponentVariant::Type::RECTANGULAR_MESH_2D: image = componentVariant.rectangularMesh2D->getImage(); break;
-		case ComponentVariant::Type::REGULAR_POLYGONAL_MESH_2D: image = componentVariant.regularPolygonalMesh2D->getImage(); break;
-		case ComponentVariant::Type::UI_BUTTON: image = componentVariant.uiButton->getImage(); break;
-		case ComponentVariant::Type::UI_RECTANGLE: image = componentVariant.uiRectangle->getImage(); break;
-		case ComponentVariant::Type::UI_GRAPH_EDIT: image = componentVariant.uiGraphEdit->getImage(); break;
-		case ComponentVariant::Type::UI_GRAPH_NODE: image = componentVariant.uiGraphNode->getImage(); break;
-		case ComponentVariant::Type::UI_SCROLLBAR: image = componentVariant.uiScrollbar->getImage(); break;
-		case ComponentVariant::Type::UI_SEPARATOR: image = componentVariant.uiSeparator->getImage(); break;
-		case ComponentVariant::Type::UI_SLIDER: image = componentVariant.uiSlider->getImage(); break;
-		case ComponentVariant::Type::UI_HOVER_CARD: image = componentVariant.uiHoverCard->getImage(); break;
-		case ComponentVariant::Type::UI_ITEM_LIST: image = componentVariant.uiItemList->getImage(); break;
-		case ComponentVariant::Type::UI_PANEL: image = componentVariant.uiPanel->getImage(); break;
-		case ComponentVariant::Type::UI_PROGRESS_BAR: image = componentVariant.uiProgressBar->getImage(); break;
-		case ComponentVariant::Type::UI_SPIN_BOX: image = componentVariant.uiSpinBox->getImage(); break;
-		case ComponentVariant::Type::UI_TAB: image = componentVariant.uiTab->getImage(); break;
-		case ComponentVariant::Type::UI_TEXT_EDIT: image = componentVariant.uiTextEdit->getImage(); break;
-		case ComponentVariant::Type::UI_TEXT_LABEL: image = componentVariant.uiTextLabel->getImage(); break;
-		case ComponentVariant::Type::UI_TREE:; image = componentVariant.uiTree->getImage(); break;
+		case ComponentVariant::Type::SPRITE: image = this->sprite->getImage(); break;
+		case ComponentVariant::Type::ANIMATED_SPRITE: image = this->animatedSprite->getCurrentFrame(); break;
+		case ComponentVariant::Type::RECTANGULAR_MESH_2D: image = this->rectangularMesh2D->getImage(); break;
+		case ComponentVariant::Type::REGULAR_POLYGONAL_MESH_2D: image = this->regularPolygonalMesh2D->getImage(); break;
+		case ComponentVariant::Type::UI_BUTTON: image = this->uiButton->getImage(); break;
+		case ComponentVariant::Type::UI_RECTANGLE: image = this->uiRectangle->getImage(); break;
+		case ComponentVariant::Type::UI_GRAPH_EDIT: image = this->uiGraphEdit->getImage(); break;
+		case ComponentVariant::Type::UI_GRAPH_NODE: image = this->uiGraphNode->getImage(); break;
+		case ComponentVariant::Type::UI_SCROLLBAR: image = this->uiScrollbar->getImage(); break;
+		case ComponentVariant::Type::UI_SEPARATOR: image = this->uiSeparator->getImage(); break;
+		case ComponentVariant::Type::UI_SLIDER: image = this->uiSlider->getImage(); break;
+		case ComponentVariant::Type::UI_HOVER_CARD: image = this->uiHoverCard->getImage(); break;
+		case ComponentVariant::Type::UI_ITEM_LIST: image = this->uiItemList->getImage(); break;
+		case ComponentVariant::Type::UI_PANEL: image = this->uiPanel->getImage(); break;
+		case ComponentVariant::Type::UI_PROGRESS_BAR: image = this->uiProgressBar->getImage(); break;
+		case ComponentVariant::Type::UI_SPIN_BOX: image = this->uiSpinBox->getImage(); break;
+		case ComponentVariant::Type::UI_TAB: image = this->uiTab->getImage(); break;
+		case ComponentVariant::Type::UI_TEXT_EDIT: image = this->uiTextEdit->getImage(); break;
+		case ComponentVariant::Type::UI_TEXT_LABEL: image = this->uiTextLabel->getImage(); break;
+		case ComponentVariant::Type::UI_TREE:; image = this->uiTree->getImage(); break;
 	}
 
 	return image;
