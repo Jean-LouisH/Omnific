@@ -34,6 +34,7 @@ namespace Lilliputian
 	{
 	public:
 		RenderingSystem(Window& window);
+		~RenderingSystem();
 		void process(SceneForest& scene);
 	private:
 		SDL_Renderer* sdlRenderer;

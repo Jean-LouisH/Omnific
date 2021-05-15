@@ -35,6 +35,12 @@ Lilliputian::RenderingSystem::RenderingSystem(Window& window)
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
+Lilliputian::RenderingSystem::~RenderingSystem()
+{
+	SDL_DestroyRenderer(this->sdlRenderer);
+	IMG_Quit();
+}
+
 void Lilliputian::RenderingSystem::clearBuffers()
 {
 	SDL_SetRenderDrawColor(this->sdlRenderer, 0, 0, 0, 255);
