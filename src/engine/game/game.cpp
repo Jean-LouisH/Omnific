@@ -35,8 +35,7 @@ Lilliputian::Game::Game(
 	this->vm = new VirtualMachine(&this->scripts);
 	this->commandLine = new CommandLine(
 		&this->scripts,
-		&this->preloadedScenes,
-		&this->activeSceneStack,
+		&this->loadedScenes,
 		this->sceneSerializer,
 		this->os,
 		this->profiler);
@@ -58,7 +57,7 @@ void Lilliputian::Game::initialize()
 		this->configuration = bootLoader.loadFromFile(bootFilepath);
 		this->sceneSerializer = new SceneSerializer(dataDirectory, &this->scripts);
 		entryScene = this->sceneSerializer->loadFromFile(configuration->entrySceneFilepath);
-		this->activeSceneStack.emplace(entryScene);
+		this->addLoadedScene(entryScene);
 	}
 	else
 	{
@@ -78,8 +77,8 @@ void Lilliputian::Game::initialize()
 
 void Lilliputian::Game::executeOnStartMethods()
 {
-	if (this->activeSceneStack.size() > 0)
-		this->vm->executeOnStartMethods(this->activeSceneStack.top().generateOnStartCallBatches());
+	if (this->loadedScenes.size() > 0)
+		this->vm->executeOnStartMethods(this->getActiveScene().generateOnStartCallBatches());
 }
 
 void Lilliputian::Game::executeOnInputMethods()
@@ -98,34 +97,34 @@ void Lilliputian::Game::executeOnInputMethods()
 	}
 #endif
 
-	if (this->activeSceneStack.size() > 0 && this->os->getHid().getHasDetectedInputChanges())
-		this->vm->executeOnInputMethods(this->activeSceneStack.top().generateOnInputCallBatches());
+	if (this->loadedScenes.size() > 0 && this->os->getHid().getHasDetectedInputChanges())
+		this->vm->executeOnInputMethods(this->getActiveScene().generateOnInputCallBatches());
 }
 
 void Lilliputian::Game::executeOnFrameMethods()
 {
-	if (this->activeSceneStack.size() > 0)
-		this->vm->executeOnFrameMethods(this->activeSceneStack.top().generateOnFrameCallBatches());
+	if (this->loadedScenes.size() > 0)
+		this->vm->executeOnFrameMethods(this->getActiveScene().generateOnFrameCallBatches());
 }
 
 void Lilliputian::Game::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
 
-	if (this->activeSceneStack.size() > 0)
-		this->vm->executeOnComputeMethods(this->activeSceneStack.top().generateOnComputeCallBatches(), msPerComputeUpdate);
+	if (this->loadedScenes.size() > 0)
+		this->vm->executeOnComputeMethods(this->getActiveScene().generateOnComputeCallBatches(), msPerComputeUpdate);
 }
 
 void Lilliputian::Game::executeOnLateMethods()
 {
-	if (this->activeSceneStack.size() > 0)
-		this->vm->executeOnFrameMethods(this->activeSceneStack.top().generateOnLateCallBatches());
+	if (this->loadedScenes.size() > 0)
+		this->vm->executeOnFrameMethods(this->getActiveScene().generateOnLateCallBatches());
 }
 
 void Lilliputian::Game::executeOnFinalMethods()
 {
-	if (this->activeSceneStack.size() > 0)
-		this->vm->executeOnFrameMethods(this->activeSceneStack.top().generateOnFinalBatches());
+	if (this->loadedScenes.size() > 0)
+		this->vm->executeOnFrameMethods(this->getActiveScene().generateOnFinalBatches());
 }
 
 void Lilliputian::Game::deinitialize()
@@ -136,9 +135,15 @@ void Lilliputian::Game::deinitialize()
 	delete this->vm;
 }
 
+void Lilliputian::Game::addLoadedScene(SceneForest scene)
+{
+	this->loadedScenes.push_back(scene);
+	this->sceneIndex = this->loadedScenes.size() - 1;
+}
+
 Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
 {
-	return this->activeSceneStack.top();
+	return this->loadedScenes.at(this->sceneIndex);
 }
 
 Lilliputian::BootConfiguration& Lilliputian::Game::getConfiguration()

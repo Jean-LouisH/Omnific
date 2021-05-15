@@ -57,15 +57,15 @@ namespace Lilliputian
 
 		EntityID getPreviousEntityID();
 		AssetCache& getAssetCache();
-		Vector<Stack<SceneTree2D>>& getSceneTree2DStacks();
+		Vector<SceneTree2D>& getSceneTree2Ds();
 	private:
 		uint64_t entityIDCount = 0;
 		uint64_t componentIDCount = 0;
 		uint64_t sceneTreeCount = 0;
 		Map<String, EntityID> entityNameRegistry;
-		Vector<Stack<SceneTree2D>> sceneTree2DStacks;
+		Vector<SceneTree2D> sceneTree2Ds;
 		AssetCache assetCache;
 
-		Stack<SceneTree2D>* getLastSceneTree2DStack();
+		SceneTree2D* getLastSceneTree2D();
 	};
 }

@@ -28,21 +28,19 @@ Lilliputian::SceneForest::SceneForest()
 
 }
 
-Lilliputian::Stack<Lilliputian::SceneTree2D>* Lilliputian::SceneForest::getLastSceneTree2DStack()
+Lilliputian::SceneTree2D* Lilliputian::SceneForest::getLastSceneTree2D()
 {
-	return &(this->sceneTree2DStacks.at(this->sceneTree2DStacks.size() - 1));
+	return &(this->sceneTree2Ds.at(this->sceneTree2Ds.size() - 1));
 }
 
 void Lilliputian::SceneForest::incrementSceneTree2D()
 {
 	Entity2D emptyEntity2D;
 	SceneTree2D sceneTree2D;
-	Stack<SceneTree2D> sceneTree2DStack;
 
 	sceneTree2D.setID(this->sceneTreeCount);
 	this->sceneTreeCount++;
-	sceneTree2DStack.push(sceneTree2D);
-	this->sceneTree2DStacks.push_back(sceneTree2DStack);
+	this->sceneTree2Ds.push_back(sceneTree2D);
 	this->addEntity2D(emptyEntity2D);
 }
 
@@ -50,14 +48,14 @@ void Lilliputian::SceneForest::addEntity2D(Entity2D entity2D)
 {
 	entity2D.ID = this->entityIDCount;
 	this->entityIDCount++;
-	this->getLastSceneTree2DStack()->top().addEntity2D(entity2D);
+	this->getLastSceneTree2D()->addEntity2D(entity2D);
 }
 
 void Lilliputian::SceneForest::addEmptyEntity2D(Entity2D entity2D)
 {
 	entity2D.ID = this->entityIDCount;
 	this->entityIDCount++;
-	this->getLastSceneTree2DStack()->top().addEntity2D(entity2D);
+	this->getLastSceneTree2D()->addEntity2D(entity2D);
 }
 
 void Lilliputian::SceneForest::addNameToLastEntity(String name)
@@ -74,7 +72,7 @@ void Lilliputian::SceneForest::addComponent(EntityID entityID, ComponentVariant 
 {
 	componentVariant.setComponentID(this->componentIDCount);
 	this->componentIDCount++;
-	this->getLastSceneTree2DStack()->top().addComponent(entityID, componentVariant);
+	this->getLastSceneTree2D()->addComponent(entityID, componentVariant);
 }
 
 void Lilliputian::SceneForest::addComponentToLastEntity(ComponentVariant componentVariant)
@@ -85,7 +83,7 @@ void Lilliputian::SceneForest::addComponentToLastEntity(ComponentVariant compone
 
 void Lilliputian::SceneForest::addScript(EntityID entityID, String scriptPath)
 {
-	this->getLastSceneTree2DStack()->top().addScript(entityID, scriptPath);
+	this->getLastSceneTree2D()->addScript(entityID, scriptPath);
 }
 
 void Lilliputian::SceneForest::addScriptToLastEntity(String scriptPath)
@@ -104,19 +102,19 @@ Lilliputian::AssetCache& Lilliputian::SceneForest::getAssetCache()
 	return this->assetCache;
 }
 
-Lilliputian::Vector<Lilliputian::Stack<Lilliputian::SceneTree2D>>& Lilliputian::SceneForest::getSceneTree2DStacks()
+Lilliputian::Vector<Lilliputian::SceneTree2D>& Lilliputian::SceneForest::getSceneTree2Ds()
 {
-	return this->sceneTree2DStacks;
+	return this->sceneTree2Ds;
 }
 
 Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::generateOnStartCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
-	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
 		Vector<ScriptCallBatch> newScriptCallBatches = 
-			this->sceneTree2DStacks.at(i).top().generateOnStartCallBatches();
+			this->sceneTree2Ds.at(i).generateOnStartCallBatches();
 
 		scriptCallBatches.insert(
 			scriptCallBatches.end(), 
@@ -132,10 +130,10 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::gene
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
-	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
 		Vector<ScriptCallBatch> newScriptCallBatches =
-			this->sceneTree2DStacks.at(i).top().generateOnInputCallBatches();
+			this->sceneTree2Ds.at(i).generateOnInputCallBatches();
 
 		scriptCallBatches.insert(
 			scriptCallBatches.end(),
@@ -151,10 +149,10 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::gene
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
-	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
 		Vector<ScriptCallBatch> newScriptCallBatches =
-			this->sceneTree2DStacks.at(i).top().generateOnFrameCallBatches();
+			this->sceneTree2Ds.at(i).generateOnFrameCallBatches();
 
 		scriptCallBatches.insert(
 			scriptCallBatches.end(),
@@ -170,10 +168,10 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::gene
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
-	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
 		Vector<ScriptCallBatch> newScriptCallBatches =
-			this->sceneTree2DStacks.at(i).top().generateOnComputeCallBatches();
+			this->sceneTree2Ds.at(i).generateOnComputeCallBatches();
 
 		scriptCallBatches.insert(
 			scriptCallBatches.end(),
@@ -189,10 +187,10 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::gene
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
-	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
 		Vector<ScriptCallBatch> newScriptCallBatches =
-			this->sceneTree2DStacks.at(i).top().generateOnLateCallBatches();
+			this->sceneTree2Ds.at(i).generateOnLateCallBatches();
 
 		scriptCallBatches.insert(
 			scriptCallBatches.end(),
@@ -208,10 +206,10 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::gene
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
-	for (int i = 0; i < this->sceneTree2DStacks.size(); i++)
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
 		Vector<ScriptCallBatch> newScriptCallBatches =
-			this->sceneTree2DStacks.at(i).top().generateOnFinalCallBatches();
+			this->sceneTree2Ds.at(i).generateOnFinalCallBatches();
 
 		scriptCallBatches.insert(
 			scriptCallBatches.end(),

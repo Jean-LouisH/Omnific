@@ -36,6 +36,7 @@
 #include "utilities/collections/stack.hpp"
 #include "utilities/collections/map.hpp"
 #include "utilities/string.hpp"
+#include "utilities/aliases.hpp"
 
 namespace Lilliputian
 {
@@ -53,6 +54,7 @@ namespace Lilliputian
 		void executeOnLateMethods();
 		void executeOnFinalMethods();
 		void deinitialize();
+		void addLoadedScene(SceneForest scene);
 		SceneForest& getActiveScene();
 		BootConfiguration& getConfiguration();
 	private:
@@ -64,7 +66,7 @@ namespace Lilliputian
 		CommandLine* commandLine = nullptr;
 		VirtualMachine* vm = nullptr;
 		Map<String, Script> scripts;
-		Vector<SceneForest> preloadedScenes;
-		Stack<SceneForest> activeSceneStack;
+		Vector<SceneForest> loadedScenes;
+		SceneForestIndex sceneIndex = 0;
 	};
 }

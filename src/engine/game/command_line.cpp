@@ -24,16 +24,14 @@
 
 Lilliputian::CommandLine::CommandLine(
 	Map<String, Script>* scripts,
-	Vector<SceneForest>* preloadedScenes,
-	Stack<SceneForest>* activeSceneStack,
+	Vector<SceneForest>* loadedScenes,
 	SceneSerializer* sceneSerializer,
 	OS* os,
 	Profiler* profiler
 )
 {
 	this->scripts = scripts;
-	this->preloadedScenes = preloadedScenes;
-	this->activeSceneStack = activeSceneStack;
+	this->loadedScenes = loadedScenes;
 	this->sceneSerializer = sceneSerializer;
 	this->os = os;
 	this->profiler = profiler;

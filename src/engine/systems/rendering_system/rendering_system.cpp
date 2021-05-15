@@ -65,12 +65,12 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 	SDL::Rendering2D::Camera2D outputCamera2D;
 	outputCamera2D.isStreaming = false;
 
-	Vector<Stack<SceneTree2D>> sceneTree2DStacks = scene.getSceneTree2DStacks();
-	int sceneTree2DCount = sceneTree2DStacks.size();
+	Vector<SceneTree2D> sceneTree2Ds = scene.getSceneTree2Ds();
+	int sceneTree2DCount = sceneTree2Ds.size();
 
 	for (int i = 0; i < sceneTree2DCount; i++)
 	{
-		SceneTree2D sceneTree2D = sceneTree2DStacks.at(i).top();
+		SceneTree2D sceneTree2D = sceneTree2Ds.at(i);
 		Vector<ComponentVariant> componentVariants = sceneTree2D.getComponentVariants();
 
 		for (int j = 0; j < componentVariants.size(); j++)
