@@ -25,13 +25,13 @@
 #include <SDL.h>
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/map.hpp"
+#include "utilities/input_code.hpp"
+#include "utilities/input_button_mode.hpp"
 
 namespace Lilliputian
 {
 	class HumanInterfaceDevices
 	{
-		using ControllerButtonCode = Uint8;
-		using ControllerAxisCode = Uint8;
 	public:
 		void detectGameControllers();
 		void pollInputEvents();
@@ -42,6 +42,9 @@ namespace Lilliputian
 
 		Vector<SDL_Haptic*> getHaptics();
 	private:
+		using ControllerButtonCode = Uint8;
+		using ControllerAxisCode = Uint8;
+
 		Multimap<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
 		Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
 		Multimap<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
