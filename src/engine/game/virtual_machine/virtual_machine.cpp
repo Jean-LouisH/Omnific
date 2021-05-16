@@ -21,17 +21,9 @@
 // SOFTWARE.
 
 #include "virtual_machine.hpp"
-#ifdef _DEBUG
-#undef _DEBUG
-#include <python.h>
-#define _DEBUG
-#else
-#include <python.h>
-#endif
-#include "pybind11/embed.h"
 
 Lilliputian::VirtualMachine::VirtualMachine(
-	Map<String, Script>* scripts,
+	Vector<String>* scripts,
 	ScriptingAPIs* scriptingAPIs)
 {
 	this->scripts = scripts;
@@ -41,6 +33,23 @@ Lilliputian::VirtualMachine::VirtualMachine(
 Lilliputian::VirtualMachine::~VirtualMachine()
 {
 
+}
+
+void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules()
+{
+	for (int i = 0; i < this->scripts->size(); i++)
+	{
+		try
+		{
+			String moduleName = this->scripts->at(i);
+			pybind11::module_ newModule = pybind11::module_::import(moduleName.c_str());
+			this->modules.emplace(moduleName, newModule);
+		}
+		catch (const std::exception& e)
+		{
+
+		}
+	}
 }
 
 void Lilliputian::VirtualMachine::executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches)
@@ -69,11 +78,9 @@ void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> 
 	{
 		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
 
-		for (int j = 0; j < scriptCallBatch.scriptPaths.size(); j++)
+		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
-			Script script = this->scripts->at(scriptCallBatch.scriptPaths.at(j));
-			String scriptPath = script.getFilepath();
-
+			String scriptPath = scriptCallBatch.scripts.at(j);
 
 		}
 	}
