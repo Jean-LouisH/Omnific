@@ -41,7 +41,7 @@ namespace Lilliputian
 
 		void addEntity2D(Entity2D entity2D);
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
-		void addScript(EntityID entityID, String scriptPath);
+		void addScript(EntityID entityID, String script);
 
 		Vector<ScriptCallBatch> generateOnStartCallBatches();
 		Vector<ScriptCallBatch> generateOnInputCallBatches();

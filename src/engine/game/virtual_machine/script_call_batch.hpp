@@ -30,7 +30,7 @@ namespace Lilliputian
 {
 	typedef struct ScriptCallBatch
 	{
-		Vector<String> scriptPaths;
+		Vector<String> scripts;
 		SceneTreeID sceneTreeID = 0;
 		EntityID entityID = 0;
 	};

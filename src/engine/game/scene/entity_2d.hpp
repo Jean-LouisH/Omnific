@@ -39,13 +39,13 @@ namespace Lilliputian
 		EntityID parentID = NO_ENTITY;
 		Vector<EntityID> childIDs;
 		Vector<String> tags;
-		Vector<String> scriptPaths;
+		Vector<String> scripts;
 		Map<ComponentVariant::Type, ComponentID> components;
 
 		void addParentEntity(EntityID parentEntityID);
 		void addChildEntity(EntityID childEntityID);
 		void addComponent(ComponentVariant::Type type, ComponentID ID);
-		void addScript(String scriptPath);
+		void addScript(String script);
 	private:
 	};
 }

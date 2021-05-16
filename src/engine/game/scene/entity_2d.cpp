@@ -38,7 +38,7 @@ void Lilliputian::Entity2D::addComponent(ComponentVariant::Type type, ComponentI
 	this->components.emplace(type, ID);
 }
 
-void Lilliputian::Entity2D::addScript(String scriptPath)
+void Lilliputian::Entity2D::addScript(String script)
 {
-	this->scriptPaths.push_back(scriptPath);
+	this->scripts.push_back(script);
 }

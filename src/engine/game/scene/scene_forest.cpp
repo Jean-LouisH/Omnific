@@ -81,15 +81,15 @@ void Lilliputian::SceneForest::addComponentToLastEntity(ComponentVariant compone
 	this->addComponent(lastEntityID, componentVariant);
 }
 
-void Lilliputian::SceneForest::addScript(EntityID entityID, String scriptPath)
+void Lilliputian::SceneForest::addScript(EntityID entityID, String script)
 {
-	this->getLastSceneTree2D()->addScript(entityID, scriptPath);
+	this->getLastSceneTree2D()->addScript(entityID, script);
 }
 
-void Lilliputian::SceneForest::addScriptToLastEntity(String scriptPath)
+void Lilliputian::SceneForest::addScriptToLastEntity(String script)
 {
 	EntityID lastEntityID = this->getPreviousEntityID();
-	this->addScript(lastEntityID, scriptPath);
+	this->addScript(lastEntityID, script);
 }
 
 Lilliputian::EntityID Lilliputian::SceneForest::getPreviousEntityID()
