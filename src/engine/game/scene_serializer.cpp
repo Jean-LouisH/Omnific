@@ -27,7 +27,7 @@
 #include "scene/scene_forest.hpp"
 #include "scene/components/component_variant.hpp"
 
-Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory, Map<String, Script>* scripts)
+Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory, Vector<String>* scripts)
 {
 	this->dataDirectory = dataDirectory;
 	this->scripts = scripts;
@@ -832,9 +832,9 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String f
 							{
 								for (int i = 0; i < it2->second.size(); i++)
 								{
-									String scriptPath = this->dataDirectory + it2->second[i].as<std::string>();
-									scripts->emplace(scriptPath, Script(scriptPath));
-									scene.addScriptToLastEntity(scriptPath);
+									String script = it2->second[i].as<std::string>();
+									scripts->push_back(script);
+									scene.addScriptToLastEntity(script);
 								}
 							}
 						}

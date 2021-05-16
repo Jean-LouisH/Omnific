@@ -23,7 +23,7 @@
 #include "command_line.hpp"
 
 Lilliputian::CommandLine::CommandLine(
-	Map<String, Script>* scripts,
+	Vector<String>* scripts,
 	Vector<SceneForest>* loadedScenes,
 	SceneSerializer* sceneSerializer,
 	OS* os,

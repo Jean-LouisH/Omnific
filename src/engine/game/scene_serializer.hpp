@@ -31,11 +31,11 @@ namespace Lilliputian
 	class SceneSerializer
 	{
 	public:
-		SceneSerializer(String assetsDirectory, Map<String, Script>* scripts);
+		SceneSerializer(String assetsDirectory, Vector<String>* scripts);
 		SceneForest loadFromFile(String filepath);
 	private:
 		String dataDirectory;
 		SceneForest loadFromTextFile(String filepath);
-		Map<String, Script>* scripts;
+		Vector<String>* scripts;
 	};
 }

@@ -59,6 +59,7 @@ void Lilliputian::Game::initialize()
 		this->configuration = bootLoader.loadFromFile(bootFilepath);
 		this->sceneSerializer = new SceneSerializer(dataDirectory, &this->scripts);
 		entryScene = this->sceneSerializer->loadFromFile(configuration->entrySceneFilepath);
+		this->vm->loadCurrentSceneScriptModules();
 		this->addLoadedScene(entryScene);
 	}
 	else

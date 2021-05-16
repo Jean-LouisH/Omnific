@@ -36,7 +36,7 @@ namespace Lilliputian
 	{
 	public:
 		CommandLine(
-			Map<String, Script>* scripts,
+			Vector<String>* scripts,
 			Vector<SceneForest>* loadedScenes,
 			SceneSerializer* sceneSerializer,
 			OS* os,
@@ -45,7 +45,7 @@ namespace Lilliputian
 
 		void execute(String command);
 	private:
-		Map<String, Script>* scripts = nullptr;
+		Vector<String>* scripts = nullptr;
 		Vector<SceneForest>* loadedScenes = nullptr;
 		Stack<SceneForest>* activeSceneStack = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;

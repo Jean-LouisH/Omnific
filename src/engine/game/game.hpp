@@ -34,7 +34,6 @@
 #include "virtual_machine/virtual_machine.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/stack.hpp"
-#include "utilities/collections/map.hpp"
 #include "utilities/string.hpp"
 #include "utilities/aliases.hpp"
 
@@ -65,7 +64,7 @@ namespace Lilliputian
 		SceneSerializer* sceneSerializer = nullptr;
 		CommandLine* commandLine = nullptr;
 		VirtualMachine* vm = nullptr;
-		Map<String, Script> scripts;
+		Vector<String> scripts;
 		Vector<SceneForest> loadedScenes;
 		SceneForestIndex sceneIndex = 0;
 	};
