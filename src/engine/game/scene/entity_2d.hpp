@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include "script.hpp"
 #include "components/component_variant.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/collections/vector.hpp"
