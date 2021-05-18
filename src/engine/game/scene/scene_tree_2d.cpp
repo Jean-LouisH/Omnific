@@ -207,6 +207,11 @@ Lilliputian::Transform2D& Lilliputian::SceneTree2D::getEntityTransform(EntityID 
 	return *transform2D;
 }
 
+Lilliputian::Entity2D& Lilliputian::SceneTree2D::getEntity2D(EntityID entityID)
+{
+	return this->entities2D.at(entityID);
+}
+
 void Lilliputian::SceneTree2D::setID(SceneTreeID ID)
 {
 	this->ID = ID;

@@ -29,7 +29,7 @@
 #include "utilities/collections/map.hpp"
 #include "utilities/collections/queue.hpp"
 #include "utilities/aliases.hpp"
-#include "game/virtual_machine/virtual_machine.hpp"
+#include "game/virtual_machine/script_call_batch.hpp"
 #include "utilities/string.hpp"
 
 namespace Lilliputian
@@ -53,6 +53,7 @@ namespace Lilliputian
 		ComponentID getCurrentCameraIndex();
 		Vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
+		Entity2D& getEntity2D(EntityID entityID);
 
 		void setID(SceneTreeID ID);
 	private:
