@@ -50,5 +50,7 @@ namespace Lilliputian
 		ScriptingAPIs* scriptingAPIs;
 		pybind11::scoped_interpreter guard{};
 		Map<String, pybind11::module_> modules;
+
+		void executeMethods(Vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
 	};
 }

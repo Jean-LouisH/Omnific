@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "virtual_machine.hpp"
+#include <iostream>
 
 Lilliputian::VirtualMachine::VirtualMachine(
 	Vector<String>* scripts,
@@ -45,34 +46,44 @@ void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules()
 			pybind11::module_ newModule = pybind11::module_::import(moduleName.c_str());
 			this->modules.emplace(moduleName, newModule);
 		}
-		catch (const std::exception& e)
+		catch (const pybind11::error_already_set& e)
 		{
-
+			std::cout << e.what() << std::endl;
 		}
 	}
 }
 
 void Lilliputian::VirtualMachine::executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches)
 {
-	for (int i = 0; i < scriptCallBatches.size(); i++)
-	{
-		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
-
-
-	}
+	this->executeMethods(scriptCallBatches, "on_start");
 }
 
 void Lilliputian::VirtualMachine::executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches)
 {
-	for (int i = 0; i < scriptCallBatches.size(); i++)
-	{
-		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
-
-
-	}
+	this->executeMethods(scriptCallBatches, "on_input");
 }
 
 void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	this->executeMethods(scriptCallBatches, "on_frame");
+}
+
+void Lilliputian::VirtualMachine::executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches, uint32_t msPerComputeUpdate)
+{
+	this->executeMethods(scriptCallBatches, "on_compute");
+}
+
+void Lilliputian::VirtualMachine::executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	this->executeMethods(scriptCallBatches, "on_late");
+}
+
+void Lilliputian::VirtualMachine::executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches)
+{
+	this->executeMethods(scriptCallBatches, "on_final");
+}
+
+void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
 {
 	for (int i = 0; i < scriptCallBatches.size(); i++)
 	{
@@ -80,38 +91,21 @@ void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> 
 
 		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
-			String scriptPath = scriptCallBatch.scripts.at(j);
+			String script = scriptCallBatch.scripts.at(j);
+
+			try
+			{
+				if (this->modules.count(script))
+				{
+					pybind11::object result = this->modules.at(script)(methodName)();
+					result;
+				}
+			}
+			catch (const pybind11::error_already_set& e) //ignore method calls
+			{
+
+			}
 
 		}
-	}
-}
-
-void Lilliputian::VirtualMachine::executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches, uint32_t msPerComputeUpdate)
-{
-	for (int i = 0; i < scriptCallBatches.size(); i++)
-	{
-		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
-
-
-	}
-}
-
-void Lilliputian::VirtualMachine::executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches)
-{
-	for (int i = 0; i < scriptCallBatches.size(); i++)
-	{
-		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
-
-
-	}
-}
-
-void Lilliputian::VirtualMachine::executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches)
-{
-	for (int i = 0; i < scriptCallBatches.size(); i++)
-	{
-		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
-
-
 	}
 }
