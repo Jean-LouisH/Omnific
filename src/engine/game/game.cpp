@@ -57,8 +57,11 @@ void Lilliputian::Game::initialize()
 	if (this->os->getFileAccess().exists(bootFilepath))
 	{
 		this->configuration = bootLoader.loadFromFile(bootFilepath);
+#ifdef _DEBUG
+		this->configuration->entrySceneFilepath = "assets/scenes/engine_debug.yml";
+#endif
 		this->sceneSerializer = new SceneSerializer(dataDirectory, &this->scripts);
-		entryScene = this->sceneSerializer->loadFromFile(configuration->entrySceneFilepath);
+		entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
 		this->vm->loadCurrentSceneScriptModules();
 		this->addLoadedScene(entryScene);
 	}
