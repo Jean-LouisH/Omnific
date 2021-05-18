@@ -22,11 +22,15 @@
 
 #pragma once
 
+#include "file_access.hpp"
+
 namespace Lilliputian
 {
 	class FileAPI
 	{
 	public:
+		void initialize(FileAccess& fileAccess);
 	private:
+		FileAccess* fileAccess = nullptr;
 	};
 }

@@ -22,12 +22,16 @@
 
 #pragma once
 
+#include "window.hpp"
+
 namespace Lilliputian
 {
 	class WindowAPI
 	{
 	public:
-		void quit();
+		void initialize(Window& window);
+		void toggleWindowedFullscreen();
 	private:
+		Window* window = nullptr;
 	};
 }

@@ -22,11 +22,22 @@
 
 #pragma once
 
+#include "utilities/string.hpp"
+#include <game/scene/components/component_variant.hpp>
+#include <game/scene/scene_forest.hpp>
+#include <utilities/aliases.hpp>
+
 namespace Lilliputian
 {
 	class SceneAPI
 	{
 	public:
+		void initialize(SceneForest& scene);
+		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
+		UITextLabel* getUITextLabel();
 	private:
+		SceneTreeID boundSceneTreeID = 0;
+		EntityID boundEntityID = 0;
+		SceneForest* scene = nullptr;
 	};
 }

@@ -27,6 +27,7 @@
 #include "utilities/collections/vector.hpp"
 #include "utilities/string.hpp"
 #include "utilities/input_code.hpp"
+#include "human_interface_devices.hpp"
 
 namespace Lilliputian
 {
@@ -37,6 +38,7 @@ namespace Lilliputian
 		uint16_t analogueStickSensitivity;
 
 		InputAPI();
+		void initialize(HumanInterfaceDevices& hid);
 		void insertActionInput(const char* actionName, InputCode inputCode);
 		void replaceActionInput(const char* actionName, InputCode inputCode);
 		void removeActionInput(const char* actionName, InputCode inputCode);
@@ -52,6 +54,7 @@ namespace Lilliputian
 		bool isActionOnHold(const char* actionName, unsigned int timeInterval_ms);
 		float getAxisStrength(const char* axisActionName);
 	private:
+		HumanInterfaceDevices* hid = nullptr;
 		Map<String, Vector<InputCode>> actionInputs;
 	};
 }
