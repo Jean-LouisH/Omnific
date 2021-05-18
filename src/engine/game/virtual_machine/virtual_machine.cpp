@@ -21,14 +21,13 @@
 // SOFTWARE.
 
 #include "virtual_machine.hpp"
+#include "embedded_module.hpp"
 #include <iostream>
 
 Lilliputian::VirtualMachine::VirtualMachine(
-	Vector<String>* scripts,
-	ScriptingAPIs* scriptingAPIs)
+	Vector<String>* scripts)
 {
 	this->scripts = scripts;
-	this->scriptingAPIs = scriptingAPIs;
 }
 
 Lilliputian::VirtualMachine::~VirtualMachine()
@@ -92,18 +91,20 @@ void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptC
 		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
 			String script = scriptCallBatch.scripts.at(j);
+			ScriptingAPIs::getInstance()->bindEntity(
+				scriptCallBatch.sceneTreeID,
+				scriptCallBatch.entityID);
 
 			try
 			{
 				if (this->modules.count(script))
 				{
-					pybind11::object result = this->modules.at(script)(methodName)();
-					result;
+					this->modules.at(script).attr(methodName)();
 				}
 			}
 			catch (const pybind11::error_already_set& e) //ignore method calls
 			{
-
+				std::cout << e.what() << std::endl;
 			}
 
 		}

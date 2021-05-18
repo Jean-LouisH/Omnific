@@ -24,7 +24,6 @@
 
 #include "script_call_batch.hpp"
 #include "utilities/collections/map.hpp"
-#include "game/scene/script.hpp"
 #include "scripting_apis/scripting_apis.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
@@ -35,8 +34,7 @@ namespace Lilliputian
 	{
 	public:
 		VirtualMachine(
-			Vector<String>* scripts,
-			ScriptingAPIs* scriptingAPIs);
+			Vector<String>* scripts);
 		~VirtualMachine();
 		void loadCurrentSceneScriptModules();
 		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
@@ -47,7 +45,6 @@ namespace Lilliputian
 		void executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches);
 	private:
 		Vector<String>* scripts;
-		ScriptingAPIs* scriptingAPIs;
 		pybind11::scoped_interpreter guard{};
 		Map<String, pybind11::module_> modules;
 

@@ -60,7 +60,6 @@ namespace Lilliputian
 		OS* os = nullptr;
 		Profiler* profiler = nullptr;
 		BootConfiguration* configuration = nullptr;
-		ScriptingAPIs* scriptingAPIs = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
 		CommandLine* commandLine = nullptr;
 		VirtualMachine* vm = nullptr;

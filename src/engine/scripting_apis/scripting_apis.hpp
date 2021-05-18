@@ -31,12 +31,18 @@
 #include "time_api.hpp"
 #include "window_api.hpp"
 
+#include "game/scene/scene_forest.hpp"
+#include "utilities/aliases.hpp"
+#include "os.hpp"
+
 namespace Lilliputian
 {
 	class ScriptingAPIs
 	{
 	public:
-		ScriptingAPIs();
+		void initialize(OS* os);
+		void bindScene(SceneForest& scene);
+		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		CommandLineAPI& commandLine() const;
 		FileAPI& file() const;
@@ -46,7 +52,17 @@ namespace Lilliputian
 		SceneAPI& scene() const;
 		TimeAPI& time() const;
 		WindowAPI& window() const;
+
+		void setTestString(const char* text);
+		const char* getTestString();
+
+		static ScriptingAPIs* getInstance();
 	private:
+		static ScriptingAPIs* instance;
+
+		OS* os = nullptr;
+		String testString = "testString found.";
+
 		CommandLineAPI* commandLineAPI = nullptr;
 		FileAPI* fileAPI = nullptr;
 		InputAPI* inputAPI = nullptr;

@@ -22,54 +22,90 @@
 
 #include "scripting_apis.hpp"
 
-Lilliputian::ScriptingAPIs::ScriptingAPIs()
+Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::instance = nullptr;
+
+void Lilliputian::ScriptingAPIs::initialize(OS* os)
 {
-	this->commandLineAPI = new CommandLineAPI();
-	this->fileAPI = new FileAPI();
-	this->inputAPI = new InputAPI();
-	this->logAPI = new LogAPI();
-	this->renderAPI = new RenderAPI();
-	this->sceneAPI = new SceneAPI();
-	this->timeAPI = new TimeAPI();
-	this->windowAPI = new WindowAPI();
+	ScriptingAPIs* newInstance = getInstance();
+
+	newInstance->commandLineAPI = new CommandLineAPI();
+	newInstance->fileAPI = new FileAPI();
+	newInstance->inputAPI = new InputAPI();
+	newInstance->logAPI = new LogAPI();
+	newInstance->renderAPI = new RenderAPI();
+	newInstance->sceneAPI = new SceneAPI();
+	newInstance->timeAPI = new TimeAPI();
+	newInstance->windowAPI = new WindowAPI();
+
+	newInstance->os = os;
+	newInstance->fileAPI->initialize(os->getFileAccess());
+	newInstance->inputAPI->initialize(os->getHid());
+	newInstance->windowAPI->initialize(os->getWindow());
+}
+
+void Lilliputian::ScriptingAPIs::bindScene(SceneForest& scene)
+{
+	getInstance()->sceneAPI->initialize(scene);
+}
+
+void Lilliputian::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
+{
+	getInstance()->sceneAPI->bindEntity(sceneTreeID, entityID);
 }
 
 Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::commandLine() const
 {
-	return *this->commandLineAPI;
+	return *getInstance()->commandLineAPI;
 }
 
 Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::file() const
 {
-	return *this->fileAPI;
+	return *getInstance()->fileAPI;
 }
 
 Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::input() const
 {
-	return *this->inputAPI;
+	return *getInstance()->inputAPI;
 }
 
 Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::log() const
 {
-	return *this->logAPI;
+	return *getInstance()->logAPI;
 }
 
 Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::render() const
 {
-	return *this->renderAPI;
+	return *getInstance()->renderAPI;
 }
 
 Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::scene() const
 {
-	return *this->sceneAPI;
+	return *getInstance()->sceneAPI;
 }
 
 Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::time() const
 {
-	return *this->timeAPI;
+	return *getInstance()->timeAPI;
 }
 
 Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::window() const
 {
-	return *this->windowAPI;
+	return *getInstance()->windowAPI;
+}
+
+Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::getInstance()
+{
+	if (instance == nullptr)
+		instance = new ScriptingAPIs();
+	return instance;
+}
+
+void Lilliputian::ScriptingAPIs::setTestString(const char* text)
+{
+	getInstance()->testString = text;
+}
+
+const char* Lilliputian::ScriptingAPIs::getTestString()
+{
+	return getInstance()->testString.c_str();
 }

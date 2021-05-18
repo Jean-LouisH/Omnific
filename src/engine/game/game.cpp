@@ -31,16 +31,17 @@ Lilliputian::Game::Game(
 {
 	this->os = os;
 	this->profiler = profiler;
-	this->scriptingAPIs = new ScriptingAPIs();
 	this->vm = new VirtualMachine(
-		&this->scripts,
-		this->scriptingAPIs);
+		&this->scripts);
 	this->commandLine = new CommandLine(
 		&this->scripts,
 		&this->loadedScenes,
 		this->sceneSerializer,
 		this->os,
 		this->profiler);
+
+	ScriptingAPIs::getInstance()->initialize(this->os);
+	ScriptingAPIs::getInstance()->setTestString("Game has set testString.");
 }
 
 void Lilliputian::Game::initialize()
@@ -93,7 +94,7 @@ void Lilliputian::Game::executeOnStartMethods()
 void Lilliputian::Game::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
-	if (!this->scriptingAPIs->commandLine().getIsUserPriviledgeEnabled() &&
+	if (!ScriptingAPIs::getInstance()->commandLine().getIsUserPriviledgeEnabled() &&
 		this->os->getHid().hasRequestedCommandLine())
 	{
 		String command;
@@ -139,7 +140,6 @@ void Lilliputian::Game::executeOnFinalMethods()
 void Lilliputian::Game::deinitialize()
 {
 	delete this->configuration;
-	delete this->scriptingAPIs;
 	delete this->sceneSerializer;
 	delete this->vm;
 }
@@ -148,6 +148,7 @@ void Lilliputian::Game::addLoadedScene(SceneForest scene)
 {
 	this->loadedScenes.push_back(scene);
 	this->sceneIndex = this->loadedScenes.size() - 1;
+	ScriptingAPIs::getInstance()->bindScene(scene);
 }
 
 Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
