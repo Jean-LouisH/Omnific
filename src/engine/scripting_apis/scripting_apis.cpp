@@ -38,12 +38,12 @@ void Lilliputian::ScriptingAPIs::initialize(OS* os)
 	newInstance->windowAPI = new WindowAPI();
 
 	newInstance->os = os;
-	newInstance->fileAPI->initialize(os->getFileAccess());
-	newInstance->inputAPI->initialize(os->getHid());
-	newInstance->windowAPI->initialize(os->getWindow());
+	newInstance->fileAPI->initialize(&os->getFileAccess());
+	newInstance->inputAPI->initialize(&os->getHid());
+	newInstance->windowAPI->initialize(&os->getWindow());
 }
 
-void Lilliputian::ScriptingAPIs::bindScene(SceneForest& scene)
+void Lilliputian::ScriptingAPIs::bindScene(SceneForest* scene)
 {
 	getInstance()->sceneAPI->initialize(scene);
 }
@@ -98,14 +98,4 @@ Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::getInstance()
 	if (instance == nullptr)
 		instance = new ScriptingAPIs();
 	return instance;
-}
-
-void Lilliputian::ScriptingAPIs::setTestString(const char* text)
-{
-	getInstance()->testString = text;
-}
-
-const char* Lilliputian::ScriptingAPIs::getTestString()
-{
-	return getInstance()->testString.c_str();
 }

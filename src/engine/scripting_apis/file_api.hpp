@@ -29,7 +29,7 @@ namespace Lilliputian
 	class FileAPI
 	{
 	public:
-		void initialize(FileAccess& fileAccess);
+		void initialize(FileAccess* fileAccess);
 	private:
 		FileAccess* fileAccess = nullptr;
 	};

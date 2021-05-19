@@ -41,7 +41,6 @@ Lilliputian::Game::Game(
 		this->profiler);
 
 	ScriptingAPIs::getInstance()->initialize(this->os);
-	ScriptingAPIs::getInstance()->setTestString("Game has set testString.");
 }
 
 void Lilliputian::Game::initialize()
@@ -148,7 +147,7 @@ void Lilliputian::Game::addLoadedScene(SceneForest scene)
 {
 	this->loadedScenes.push_back(scene);
 	this->sceneIndex = this->loadedScenes.size() - 1;
-	ScriptingAPIs::getInstance()->bindScene(scene);
+	ScriptingAPIs::getInstance()->bindScene(&this->loadedScenes.at(this->sceneIndex));
 }
 
 Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()

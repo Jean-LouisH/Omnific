@@ -41,7 +41,7 @@ namespace Lilliputian
 	{
 	public:
 		void initialize(OS* os);
-		void bindScene(SceneForest& scene);
+		void bindScene(SceneForest* scene);
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		CommandLineAPI& commandLine() const;
@@ -53,15 +53,11 @@ namespace Lilliputian
 		TimeAPI& time() const;
 		WindowAPI& window() const;
 
-		void setTestString(const char* text);
-		const char* getTestString();
-
 		static ScriptingAPIs* getInstance();
 	private:
 		static ScriptingAPIs* instance;
 
 		OS* os = nullptr;
-		String testString = "testString found.";
 
 		CommandLineAPI* commandLineAPI = nullptr;
 		FileAPI* fileAPI = nullptr;

@@ -23,9 +23,9 @@
 #include "scene_api.hpp"
 
 
-void Lilliputian::SceneAPI::initialize(SceneForest& scene)
+void Lilliputian::SceneAPI::initialize(SceneForest* scene)
 {
-	this->scene = &scene;
+	this->scene = scene;
 }
 
 void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
@@ -34,13 +34,14 @@ void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityI
 	this->boundEntityID = entityID;
 }
 
-Lilliputian::UITextLabel* Lilliputian::SceneAPI::getUITextLabel()
+Lilliputian::UITextLabel& Lilliputian::SceneAPI::getUITextLabel()
 {
 	UITextLabel* uiTextLabel;
 
-	SceneTree2D sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
-	Entity2D entity2D = sceneTree2D.getEntity2D(this->boundEntityID);
-	uiTextLabel = sceneTree2D.getComponentVariants().at(entity2D.components.at(ComponentVariant::Type::UI_TEXT_LABEL)).getUITextLabel();
+	SceneTree2D& sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
+	Entity2D& entity2D = sceneTree2D.getEntity2D(this->boundEntityID);
+	ComponentVariant& componentVariant = sceneTree2D.getComponentVariants().at(entity2D.components.at(ComponentVariant::Type::UI_TEXT_LABEL));
+	uiTextLabel = componentVariant.getUITextLabel();
 
-	return uiTextLabel;
+	return *uiTextLabel;
 }

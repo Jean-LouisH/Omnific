@@ -38,7 +38,7 @@ namespace Lilliputian
 		uint16_t analogueStickSensitivity;
 
 		InputAPI();
-		void initialize(HumanInterfaceDevices& hid);
+		void initialize(HumanInterfaceDevices* hid);
 		void insertActionInput(const char* actionName, InputCode inputCode);
 		void replaceActionInput(const char* actionName, InputCode inputCode);
 		void removeActionInput(const char* actionName, InputCode inputCode);

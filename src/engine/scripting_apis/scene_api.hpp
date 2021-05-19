@@ -32,9 +32,9 @@ namespace Lilliputian
 	class SceneAPI
 	{
 	public:
-		void initialize(SceneForest& scene);
+		void initialize(SceneForest* scene);
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
-		UITextLabel* getUITextLabel();
+		UITextLabel& getUITextLabel();
 	private:
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;

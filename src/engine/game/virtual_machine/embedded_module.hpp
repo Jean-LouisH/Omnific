@@ -28,9 +28,8 @@
 
 PYBIND11_EMBEDDED_MODULE(lilliputian, m) 
 {
-    pybind11::class_<Lilliputian::ScriptingAPIs>(m, "ScriptingAPIs")
+    pybind11::class_<Lilliputian::ScriptingAPIs>(m, "apis")
         .def(pybind11::init<>())
-        .def("get_test_string", &Lilliputian::ScriptingAPIs::getTestString)
         .def("scene", &Lilliputian::ScriptingAPIs::scene);
 
     pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
@@ -43,6 +42,5 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 
     pybind11::class_<Lilliputian::UITextLabel>(m, "UITextLabel")
         .def(pybind11::init<>())
-        .def("get_text", &Lilliputian::UITextLabel::getText)
         .def("set_text", &Lilliputian::UITextLabel::setText);
 }

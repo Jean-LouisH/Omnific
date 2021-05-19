@@ -22,7 +22,7 @@
 
 #include "file_api.hpp"
 
-void Lilliputian::FileAPI::initialize(FileAccess& fileAccess)
+void Lilliputian::FileAPI::initialize(FileAccess* fileAccess)
 {
-	this->fileAccess = &fileAccess;
+	this->fileAccess = fileAccess;
 }

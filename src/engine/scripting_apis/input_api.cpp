@@ -77,9 +77,9 @@ Lilliputian::InputAPI::InputAPI()
 	this->insertActionInput("right trigger", InputCode::KEY_RIGHT_SHIFT);
 }
 
-void Lilliputian::InputAPI::initialize(HumanInterfaceDevices& hid)
+void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
 {
-	this->hid = &hid;
+	this->hid = hid;
 }
 
 void Lilliputian::InputAPI::insertActionInput(const char* actionName, InputCode inputCode)

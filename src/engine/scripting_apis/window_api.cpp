@@ -22,9 +22,9 @@
 
 #include "window_api.hpp"
 
-void Lilliputian::WindowAPI::initialize(Window& window)
+void Lilliputian::WindowAPI::initialize(Window* window)
 {
-	this->window = &window;
+	this->window = window;
 }
 
 void Lilliputian::WindowAPI::toggleWindowedFullscreen()

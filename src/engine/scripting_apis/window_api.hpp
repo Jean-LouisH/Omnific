@@ -29,7 +29,7 @@ namespace Lilliputian
 	class WindowAPI
 	{
 	public:
-		void initialize(Window& window);
+		void initialize(Window* window);
 		void toggleWindowedFullscreen();
 	private:
 		Window* window = nullptr;
