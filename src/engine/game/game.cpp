@@ -40,7 +40,7 @@ Lilliputian::Game::Game(
 		this->os,
 		this->profiler);
 
-	ScriptingAPIs::getInstance()->initialize(this->os);
+	ScriptingAPIs::initialize(this->os);
 }
 
 void Lilliputian::Game::initialize()
@@ -93,7 +93,7 @@ void Lilliputian::Game::executeOnStartMethods()
 void Lilliputian::Game::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
-	if (!ScriptingAPIs::getInstance()->commandLine().getIsUserPriviledgeEnabled() &&
+	if (!ScriptingAPIs::commandLine().getIsUserPriviledgeEnabled() &&
 		this->os->getHid().hasRequestedCommandLine())
 	{
 		String command;
@@ -147,7 +147,7 @@ void Lilliputian::Game::addLoadedScene(SceneForest scene)
 {
 	this->loadedScenes.push_back(scene);
 	this->sceneIndex = this->loadedScenes.size() - 1;
-	ScriptingAPIs::getInstance()->bindScene(&this->loadedScenes.at(this->sceneIndex));
+	ScriptingAPIs::bindScene(&this->loadedScenes.at(this->sceneIndex));
 }
 
 Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()

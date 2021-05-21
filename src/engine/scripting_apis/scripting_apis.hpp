@@ -40,20 +40,18 @@ namespace Lilliputian
 	class ScriptingAPIs
 	{
 	public:
-		void initialize(OS* os);
-		void bindScene(SceneForest* scene);
-		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
+		static void initialize(OS* os);
+		static void bindScene(SceneForest* scene);
+		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
-		CommandLineAPI& commandLine() const;
-		FileAPI& file() const;
-		InputAPI& input() const;
-		LogAPI& log() const;
-		RenderAPI& render() const;
-		SceneAPI& scene() const;
-		TimeAPI& time() const;
-		WindowAPI& window() const;
-
-		static ScriptingAPIs* getInstance();
+		static CommandLineAPI& commandLine();
+		static FileAPI& file();
+		static InputAPI& input();
+		static LogAPI& log();
+		static RenderAPI& render();
+		static SceneAPI& scene();
+		static TimeAPI& time();
+		static WindowAPI& window();
 	private:
 		static ScriptingAPIs* instance;
 
@@ -67,6 +65,8 @@ namespace Lilliputian
 		SceneAPI* sceneAPI = nullptr;
 		TimeAPI* timeAPI = nullptr;
 		WindowAPI* windowAPI = nullptr;
+
+		static ScriptingAPIs* getInstance();
 	};
 }
 

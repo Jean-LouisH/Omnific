@@ -91,7 +91,7 @@ void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptC
 		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
 			String script = scriptCallBatch.scripts.at(j);
-			ScriptingAPIs::getInstance()->bindEntity(
+			ScriptingAPIs::bindEntity(
 				scriptCallBatch.sceneTreeID,
 				scriptCallBatch.entityID);
 
