@@ -104,7 +104,7 @@ void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptC
 			}
 			catch (const pybind11::error_already_set& e) //ignore method calls
 			{
-				std::cout << e.what() << std::endl;
+
 			}
 
 		}

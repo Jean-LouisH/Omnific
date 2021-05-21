@@ -29,15 +29,12 @@
 PYBIND11_EMBEDDED_MODULE(lilliputian, m) 
 {
     pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
-        .def(pybind11::init<>())
-        .def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel);
+        .def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference);
 
     pybind11::class_<Lilliputian::WindowAPI>(m, "WindowAPI")
-        .def(pybind11::init<>())
         .def("toggle_windowed_fullscreen", &Lilliputian::WindowAPI::toggleWindowedFullscreen);
 
     pybind11::class_<Lilliputian::UITextLabel>(m, "UITextLabel")
-        .def(pybind11::init<>())
         .def("set_text", &Lilliputian::UITextLabel::setText);
 
     m.def("get_scene_api", &Lilliputian::ScriptingAPIs::scene);
