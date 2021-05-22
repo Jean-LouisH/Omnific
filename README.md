@@ -39,6 +39,8 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Demos
 
+![screenshot](Simple Clock.png)
+
 ## Contributing
 
 * Jean-Louis Haywood (Jean-LouisH)
