@@ -30,8 +30,11 @@ Lilliputian::UITextLabel::UITextLabel()
 
 void Lilliputian::UITextLabel::setText(String text)
 {
-	this->text = text;
-	this->generateImage();
+	if (text != this->text)
+	{
+		this->text = text;
+		this->generateImage();
+	}
 }
 
 void Lilliputian::UITextLabel::setFont(Font font, uint16_t size_px)
