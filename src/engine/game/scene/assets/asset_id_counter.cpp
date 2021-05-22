@@ -20,40 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "asset_id_counter.hpp"
 
-#include "utilities/aliases.hpp"
-#include "utilities/rectangle.hpp"
-#include <SDL_surface.h>
-#include <SDL_render.h>
-#include <stdint.h>
-#include "asset.hpp"
-#include "font.hpp"
-#include "utilities/rectangle.hpp"
-#include "utilities/string.hpp"
-#include "utilities/colour.hpp"
-#include "font.hpp"
+Lilliputian::AssetIDCounter* Lilliputian::AssetIDCounter::instance = nullptr;
 
-namespace Lilliputian
+Lilliputian::AssetID Lilliputian::AssetIDCounter::getNewID()
 {
-	class Image : public Asset
-	{
-	public:
-		Image();
-		Image(String text, Font font, Colour colour, Font::RenderMode mode);
-		Image(const char* filepath);
-		Image(SDL_Surface* surface);
-		virtual void unload();
-		SDL_Surface* getSDLSurface();
-		uint32_t getWidth();
-		uint32_t getHeight();
-		Rectangle getDimensions();
-		void setAlpha(uint8_t value);
-		uint8_t getAlpha();
-		AssetID getID();
-	private:
-		AssetID id;
-		SDL_Surface* surface;
-		uint8_t alpha = 255;
-	};
+	return ++getInstance()->idCount;
+}
+
+Lilliputian::AssetIDCounter* Lilliputian::AssetIDCounter::getInstance()
+{
+	if (instance == nullptr)
+		instance = new AssetIDCounter();
+	return instance;
 }

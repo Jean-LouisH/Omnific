@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "image.hpp"
+#include "asset_id_counter.hpp"
 #include <SDL_image.h>
 
 Lilliputian::Image::Image()
@@ -45,16 +46,20 @@ Lilliputian::Image::Image(String text, Font font, Colour colour, Font::RenderMod
 		this->surface = TTF_RenderUTF8_Blended(font.getSDLTTFFont(), text.c_str(), sdlColor);
 		break;
 	}
+
+	this->id = AssetIDCounter::getNewID();
 }
 
 Lilliputian::Image::Image(const char* filepath)
 {
 	this->surface = IMG_Load(filepath);
+	this->id = AssetIDCounter::getNewID();
 }
 
 Lilliputian::Image::Image(SDL_Surface* surface)
 {
 	this->surface = surface;
+	this->id = AssetIDCounter::getNewID();
 }
 
 void Lilliputian::Image::unload()
@@ -106,4 +111,9 @@ void Lilliputian::Image::setAlpha(uint8_t value)
 uint8_t Lilliputian::Image::getAlpha()
 {
 	return this->alpha;
+}
+
+Lilliputian::AssetID Lilliputian::Image::getID()
+{
+	return this->id;
 }

@@ -22,38 +22,17 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
-#include "utilities/rectangle.hpp"
-#include <SDL_surface.h>
-#include <SDL_render.h>
-#include <stdint.h>
-#include "asset.hpp"
-#include "font.hpp"
-#include "utilities/rectangle.hpp"
-#include "utilities/string.hpp"
-#include "utilities/colour.hpp"
-#include "font.hpp"
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
-	class Image : public Asset
+	class AssetIDCounter
 	{
 	public:
-		Image();
-		Image(String text, Font font, Colour colour, Font::RenderMode mode);
-		Image(const char* filepath);
-		Image(SDL_Surface* surface);
-		virtual void unload();
-		SDL_Surface* getSDLSurface();
-		uint32_t getWidth();
-		uint32_t getHeight();
-		Rectangle getDimensions();
-		void setAlpha(uint8_t value);
-		uint8_t getAlpha();
-		AssetID getID();
+		static AssetID getNewID();
 	private:
-		AssetID id;
-		SDL_Surface* surface;
-		uint8_t alpha = 255;
+		AssetID idCount = 0;
+		static AssetIDCounter* instance;
+		static AssetIDCounter* getInstance();
 	};
 }
