@@ -108,14 +108,14 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 				outputTexture.pixels.width = image.getWidth();
 				outputTexture.pixels.height = image.getHeight();
 
-				if (this->sdlTextureCache.count(image.getSDLSurface()) == 0)
+				if (!this->textureCache.containsKey(image.getID()))
 				{
 					outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
-					this->sdlTextureCache.emplace(image.getSDLSurface(), outputTexture.data);
+					this->textureCache.emplace(image.getID(), outputTexture.data);
 				}
 				else
 				{
-					outputTexture.data = this->sdlTextureCache.at(image.getSDLSurface());
+					outputTexture.data = this->textureCache.at(image.getID());
 				}
 
 				outputSprite2D.textureFrames.push_back(outputTexture);
@@ -155,4 +155,5 @@ void Lilliputian::RenderingSystem::process(SceneForest& scene)
 
 	this->clearBuffers();
 	this->render();
+	this->textureCache.collectGarbage();
 }

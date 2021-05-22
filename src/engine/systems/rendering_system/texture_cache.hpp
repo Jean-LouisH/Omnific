@@ -22,30 +22,24 @@
 
 #pragma once
 
+#include <utilities/aliases.hpp>
 #include <SDL.h>
-#include "game/scene/scene_forest.hpp"
-#include "utilities/collections/vector.hpp"
-#include "rendering_sdl/sdl_renderable.hpp"
-#include "window.hpp"
-#include "utilities/aliases.hpp"
-#include "texture_cache.hpp"
+#include <stdint.h>
+#include <utilities/collections/map.hpp>
 
 namespace Lilliputian
 {
-	class RenderingSystem
+	class TextureCache
 	{
 	public:
-		RenderingSystem(Window& window);
-		~RenderingSystem();
-		void process(SceneForest& scene);
+		bool containsKey(AssetID assetID);
+		void emplace(AssetID assetID, SDL_Texture* sdlTexture);
+		SDL_Texture* at(AssetID assetID);
+		void collectGarbage();
+		void setAllowableMissedFrames(unsigned int missedFrameCount);
 	private:
-		SDL_Renderer* sdlRenderer;
-		SDL_Window* sdlWindow;
-		Vector<SDL::Rendering2D::SDLRenderable> sdlRenderables;
-		TextureCache textureCache;
-
-		void clearBuffers();
-		void render();
+		unsigned int allowableMissedFrames = 0;
+		Map<AssetID, SDL_Texture*> sdlTextureCache;
+		Map<AssetID, unsigned int> missedFrameCounts;
 	};
 }
-
