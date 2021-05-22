@@ -10,18 +10,18 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Notable Target Features
 
-- [ ] Scene Editor
-- [ ] Python Scripting and IDE
+- [ ] Scene Editor and IDE
+- [x] Python Scripting
+- [ ] Scripting APIs
 - [ ] Game Executable Exporting
 - [x] Mouse, Keyboard and Game Controller Support
 - [x] Haptic Feedback Support
 - [x] Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
-- [ ] JPG and PNG Support for Sprites and Animation
+- [x] JPG and PNG Support for Sprites and Animation
 - [ ] OGG and WAV Support for Audio Sources
 - [ ] Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
 - [ ] Physics, Collision Detection and Response
 - [x] Multiple and Independent 2D Scene Trees in one Scene Forest (For Backgrounds, Game Environment, HUD, etc)
-- [x] Stacked Scene Trees (For Saved States on Scene Transitions)
 
 ## Compilation Instructions
 
@@ -39,7 +39,8 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Demos
 
-![screenshot](simple_clock.png)
+Simple Clock
+![screenshot](SimpleClock.png)
 
 ## Contributing
 
