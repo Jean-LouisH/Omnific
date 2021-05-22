@@ -39,7 +39,7 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Demos
 
-![screenshot](Simple Clock.png)
+![screenshot](simple_clock.png)
 
 ## Contributing
 
