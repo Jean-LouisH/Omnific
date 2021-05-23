@@ -9,7 +9,7 @@ SceneTree2D:
   Entity2D:
     name: "SceneTransition"
     CountdownTimer: "default"
-    Scripts: ["splash_screen_transition"]
+    Scripts: ["assets/scripts/splash_screen_transition.py"]
   Entity2D:
     name: "Text"
     Transform2D:
