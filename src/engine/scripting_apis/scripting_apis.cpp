@@ -24,7 +24,7 @@
 
 Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::instance = nullptr;
 
-void Lilliputian::ScriptingAPIs::initialize(OS* os)
+void Lilliputian::ScriptingAPIs::initialize()
 {
 	ScriptingAPIs* newInstance = getInstance();
 
@@ -37,10 +37,9 @@ void Lilliputian::ScriptingAPIs::initialize(OS* os)
 	newInstance->timeAPI = new TimeAPI();
 	newInstance->windowAPI = new WindowAPI();
 
-	newInstance->os = os;
-	newInstance->fileAPI->initialize(&os->getFileAccess());
-	newInstance->inputAPI->initialize(&os->getHid());
-	newInstance->windowAPI->initialize(&os->getWindow());
+	newInstance->fileAPI->initialize(&OS::getFileAccess());
+	newInstance->inputAPI->initialize(&OS::getHid());
+	newInstance->windowAPI->initialize(&OS::getWindow());
 }
 
 void Lilliputian::ScriptingAPIs::bindScene(SceneForest* scene)

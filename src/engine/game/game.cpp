@@ -25,22 +25,17 @@
 #include "utilities/constants.hpp"
 #include <iostream>
 
-Lilliputian::Game::Game(
-	OS* os,
-	Profiler* profiler)
+Lilliputian::Game::Game(Profiler* profiler)
 {
-	this->os = os;
 	this->profiler = profiler;
-	this->vm = new VirtualMachine(
-		&this->scripts);
+	this->vm = new VirtualMachine(&this->scripts);
 	this->commandLine = new CommandLine(
 		&this->scripts,
 		&this->loadedScenes,
 		this->sceneSerializer,
-		this->os,
 		this->profiler);
 
-	ScriptingAPIs::initialize(this->os);
+	ScriptingAPIs::initialize();
 }
 
 void Lilliputian::Game::initialize()
@@ -54,7 +49,7 @@ void Lilliputian::Game::initialize()
 	String bootFilename = "boot.yml";
 	String bootFilepath = dataDirectory + bootFilename;
 
-	if (this->os->getFileAccess().exists(bootFilepath))
+	if (OS::getFileAccess().exists(bootFilepath))
 	{
 		this->configuration = bootLoader.loadFromFile(bootFilepath);
 #ifdef _DEBUG
@@ -94,19 +89,19 @@ void Lilliputian::Game::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (!ScriptingAPIs::commandLine().getIsUserPriviledgeEnabled() &&
-		this->os->getHid().hasRequestedCommandLine())
+		OS::getHid().hasRequestedCommandLine())
 	{
 		String command;
 
-		this->os->getWindow().hide();
+		OS::getWindow().hide();
 		std::cout << ">";
 		std::getline(std::cin, command);
 		this->commandLine->execute(command);
-		this->os->getWindow().show();
+		OS::getWindow().show();
 	}
 #endif
 
-	if (this->loadedScenes.size() > 0 && this->os->getHid().getHasDetectedInputChanges())
+	if (this->loadedScenes.size() > 0 && OS::getHid().getHasDetectedInputChanges())
 		this->vm->executeOnInputMethods(this->getActiveScene().generateOnInputCallBatches());
 }
 

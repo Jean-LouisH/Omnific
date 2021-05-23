@@ -40,7 +40,7 @@ namespace Lilliputian
 	class ScriptingAPIs
 	{
 	public:
-		static void initialize(OS* os);
+		static void initialize();
 		static void bindScene(SceneForest* scene);
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
@@ -54,8 +54,6 @@ namespace Lilliputian
 		static WindowAPI& window();
 	private:
 		static ScriptingAPIs* instance;
-
-		OS* os = nullptr;
 
 		CommandLineAPI* commandLineAPI = nullptr;
 		FileAPI* fileAPI = nullptr;

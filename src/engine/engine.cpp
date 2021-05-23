@@ -44,8 +44,8 @@ void Lilliputian::Engine::run()
 
 			if (configuration.isLoaded)
 			{
-				this->os->addGameControllerMappings();
-				Window window = this->os->getWindow();
+				OS::addGameControllerMappings();
+				Window window = OS::getWindow();
 				window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
 				window.changeTitle(configuration.gameTitle.c_str());
 				this->state.setRunningApplicationWindowed();
@@ -97,14 +97,14 @@ bool Lilliputian::Engine::initialize()
 	}
 	else
 	{
-		this->os = new OS("", 640, 480, false, this->argv[0]);
-		this->game = new Game(this->os, this->profiler);
+		OS::OS("", 640, 480, false, this->argv[0]);
+		this->game = new Game(this->profiler);
 		this->aiSystem = new AISystem();
 		this->animationSystem = new AnimationSystem();
 		this->audioSystem = new AudioSystem();
 		this->hapticSystem = new HapticSystem();
 		this->physicsSystem = new PhysicsSystem();
-		this->renderingSystem = new RenderingSystem(this->os->getWindow());
+		this->renderingSystem = new RenderingSystem(OS::getWindow());
 		this->uiSystem = new UISystem();
 
 		isInitializedOK = true;
@@ -116,7 +116,7 @@ bool Lilliputian::Engine::initialize()
 void Lilliputian::Engine::input()
 {
 	this->profiler->getInputTimer().setStart();
-	HumanInterfaceDevices& hid = this->os->getHid();
+	HumanInterfaceDevices& hid = OS::getHid();
 
 	hid.detectGameControllers();
 	hid.pollInputEvents();
@@ -135,7 +135,7 @@ void Lilliputian::Engine::update()
 	this->game->executeOnInputMethods();
 	this->game->executeOnStartMethods();
 	this->game->executeOnFrameMethods();
-	this->uiSystem->process(activeScene, this->os->getHid());
+	this->uiSystem->process(activeScene, OS::getHid());
 	this->aiSystem->process(activeScene);
 
 	while (this->profiler->getLag_ms() >= msPerComputeUpdate)
@@ -158,7 +158,7 @@ void Lilliputian::Engine::output()
 
 	this->renderingSystem->process(this->game->getActiveScene());
 	this->audioSystem->process(this->game->getActiveScene());
-	this->hapticSystem->process(this->game->getActiveScene(), this->os->getHid());
+	this->hapticSystem->process(this->game->getActiveScene(), OS::getHid());
 
 	this->profiler->getOutputTimer().setEnd();
 }
@@ -174,7 +174,7 @@ void Lilliputian::Engine::benchmark()
 		String FPSString = std::to_string(this->profiler->getFPS());
 		String frameUtilizationString =
 			std::to_string((int)(((double)this->profiler->getProcessTimer().getDelta_ns() / (double)this->profiler->getFrameTimer().getDelta_ns()) * 100));
-		this->os->getWindow().changeTitle((this->game->getConfiguration().gameTitle + " (DEBUG) ->" +
+		OS::getWindow().changeTitle((this->game->getConfiguration().gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
 	}
@@ -186,12 +186,11 @@ void Lilliputian::Engine::sleep()
 {
 	float targetFrameTime_ms = 1000.0 / this->game->getConfiguration().targetFPS;
 	float processTime_ms = this->profiler->getProcessTimer().getDelta_ns() / NS_IN_MS;
-	this->os->getWindow().sleep(targetFrameTime_ms - processTime_ms);
+	OS::getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }
 
 void Lilliputian::Engine::shutdown()
 {
-	delete this->os;
 	delete this->game;
 	delete this->aiSystem;
 	delete this->animationSystem;

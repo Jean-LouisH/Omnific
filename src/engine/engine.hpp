@@ -65,7 +65,6 @@ namespace Lilliputian
 		PhysicsSystem* physicsSystem = nullptr;
 		RenderingSystem* renderingSystem = nullptr;
 		UISystem* uiSystem = nullptr;
-		OS* os = nullptr;
 		Profiler* profiler = nullptr;
 		EngineState state;
 

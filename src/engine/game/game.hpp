@@ -42,9 +42,7 @@ namespace Lilliputian
 	class Game
 	{
 	public:
-		Game(
-			OS* os,
-			Profiler* profiler);
+		Game(Profiler* profiler);
 		void initialize();
 		void executeOnStartMethods();
 		void executeOnInputMethods();
@@ -57,7 +55,6 @@ namespace Lilliputian
 		SceneForest& getActiveScene();
 		BootConfiguration& getConfiguration();
 	private:
-		OS* os = nullptr;
 		Profiler* profiler = nullptr;
 		BootConfiguration* configuration = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;

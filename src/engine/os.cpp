@@ -25,11 +25,20 @@
 #include "SDL.h"
 #include "utilities/constants.hpp"
 
+Lilliputian::OS* Lilliputian::OS::instance = nullptr;
+
+Lilliputian::OS::OS()
+{
+
+}
+
 Lilliputian::OS::OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath)
 {
-	this->window = new Window(title, width, height, isFullscreen);
-	this->hid = new HumanInterfaceDevices();
-	this->fileAccess = new FileAccess(executableFilepath);
+	OS* newInstance = getInstance();
+
+	newInstance->window = new Window(title, width, height, isFullscreen);
+	newInstance->hid = new HumanInterfaceDevices();
+	newInstance->fileAccess = new FileAccess(executableFilepath);
 }
 
 Lilliputian::OS::~OS()
@@ -41,17 +50,17 @@ Lilliputian::OS::~OS()
 
 Lilliputian::Window& Lilliputian::OS::getWindow()
 {
-	return *this->window;
+	return *getInstance()->window;
 }
 
 Lilliputian::HumanInterfaceDevices& Lilliputian::OS::getHid()
 {
-	return *this->hid;
+	return *getInstance()->hid;
 }
 
 Lilliputian::FileAccess& Lilliputian::OS::getFileAccess()
 {
-	return *this->fileAccess;
+	return *getInstance()->fileAccess;
 }
 
 void Lilliputian::OS::addGameControllerMappings()
@@ -64,4 +73,11 @@ void Lilliputian::OS::addGameControllerMappings()
 	String mappingFilepath = dataDirectory + mappingFilename;
 
 	SDL_GameControllerAddMappingsFromFile(mappingFilepath.c_str());
+}
+
+Lilliputian::OS* Lilliputian::OS::getInstance()
+{
+	if (instance == nullptr)
+		instance = new OS();
+	return instance;
 }

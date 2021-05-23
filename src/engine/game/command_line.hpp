@@ -39,7 +39,6 @@ namespace Lilliputian
 			Vector<String>* scripts,
 			Vector<SceneForest>* loadedScenes,
 			SceneSerializer* sceneSerializer,
-			OS* os,
 			Profiler* profiler
 			);
 
@@ -49,7 +48,6 @@ namespace Lilliputian
 		Vector<SceneForest>* loadedScenes = nullptr;
 		Stack<SceneForest>* activeSceneStack = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
-		OS* os = nullptr;
 		Profiler* profiler = nullptr;
 	};
 }

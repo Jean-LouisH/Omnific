@@ -26,19 +26,17 @@ Lilliputian::CommandLine::CommandLine(
 	Vector<String>* scripts,
 	Vector<SceneForest>* loadedScenes,
 	SceneSerializer* sceneSerializer,
-	OS* os,
 	Profiler* profiler
 )
 {
 	this->scripts = scripts;
 	this->loadedScenes = loadedScenes;
 	this->sceneSerializer = sceneSerializer;
-	this->os = os;
 	this->profiler = profiler;
 }
 
 void Lilliputian::CommandLine::execute(String command)
 {
 	if (command == "shutdown" || command == "exit")
-		this->os->getHid().forceShutdownRequest();
+		OS::getHid().forceShutdownRequest();
 }

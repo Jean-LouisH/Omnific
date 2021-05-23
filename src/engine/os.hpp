@@ -33,15 +33,20 @@ namespace Lilliputian
 	class OS
 	{
 	public:
+		OS();
 		OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath);
 		~OS();
-		Window& getWindow();
-		HumanInterfaceDevices& getHid();
-		FileAccess& getFileAccess();
-		void addGameControllerMappings();
+		static Window& getWindow();
+		static HumanInterfaceDevices& getHid();
+		static FileAccess& getFileAccess();
+		static void addGameControllerMappings();
 	private:
+		static OS* instance;
+
 		Window* window = nullptr;
 		HumanInterfaceDevices* hid = nullptr;
 		FileAccess* fileAccess = nullptr;
+
+		static OS* getInstance();
 	};
 }
