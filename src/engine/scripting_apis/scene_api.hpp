@@ -34,10 +34,14 @@ namespace Lilliputian
 	public:
 		void initialize(SceneForest* scene);
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
+		bool hasComponent(String typeString);
+		ComponentVariant& getComponentVariant(ComponentVariant::Type type);
 		UITextLabel& getUITextLabel();
 	private:
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
 		SceneForest* scene = nullptr;
+
+		ComponentVariant::Type convertStringToType(String typeString);
 	};
 }

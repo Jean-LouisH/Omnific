@@ -34,14 +34,38 @@ void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityI
 	this->boundEntityID = entityID;
 }
 
-Lilliputian::UITextLabel& Lilliputian::SceneAPI::getUITextLabel()
+bool Lilliputian::SceneAPI::hasComponent(String typeString)
 {
-	UITextLabel* uiTextLabel;
+	ComponentVariant::Type type = this->convertStringToType(typeString);
 
 	SceneTree2D& sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
+	return sceneTree2D.getEntity2D(this->boundEntityID).components.count(type) > 0;
+}
+
+Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(ComponentVariant::Type type)
+{
+	SceneTree2D& sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
 	Entity2D& entity2D = sceneTree2D.getEntity2D(this->boundEntityID);
-	ComponentVariant& componentVariant = sceneTree2D.getComponentVariants().at(entity2D.components.at(ComponentVariant::Type::UI_TEXT_LABEL));
-	uiTextLabel = componentVariant.getUITextLabel();
+	return sceneTree2D.getComponentVariants().at(entity2D.components.at(type));
+}
+
+Lilliputian::UITextLabel& Lilliputian::SceneAPI::getUITextLabel()
+{
+	UITextLabel* uiTextLabel = nullptr;
+	String typeString = "ui_text_label";
+
+	if (this->hasComponent(typeString))
+		uiTextLabel = this->getComponentVariant(this->convertStringToType(typeString)).getUITextLabel();
 
 	return *uiTextLabel;
+}
+
+Lilliputian::ComponentVariant::Type Lilliputian::SceneAPI::convertStringToType(String typeString)
+{
+	ComponentVariant::Type type = ComponentVariant::Type::NONE;
+
+	if (typeString == "ui_text_label")
+		type = ComponentVariant::Type::UI_TEXT_LABEL;
+
+	return type;
 }
