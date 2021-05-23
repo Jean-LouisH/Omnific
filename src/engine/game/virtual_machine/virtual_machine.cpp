@@ -23,6 +23,7 @@
 #include "virtual_machine.hpp"
 #include "embedded_module.hpp"
 #include <iostream>
+#include <utilities/collections/set.hpp>
 
 Lilliputian::VirtualMachine::VirtualMachine(
 	Vector<String>* scripts)
@@ -37,11 +38,40 @@ Lilliputian::VirtualMachine::~VirtualMachine()
 
 void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules()
 {
+	pybind11::module_ sys = pybind11::module_::import("sys");
+	pybind11::object path = sys.attr("path");
+	Set<String> addedPaths;
+
 	for (int i = 0; i < this->scripts->size(); i++)
 	{
 		try
 		{
-			String moduleName = this->scripts->at(i);
+			String scriptFilepath = this->scripts->at(i);
+
+			if (addedPaths.count(scriptFilepath) == 0)
+			{
+				String newPath = OS::getFileAccess().getPathBeforeExecutable() + 
+					"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
+#ifdef _DEBUG
+				newPath = OS::getFileAccess().getPathBeforeExecutable();
+				newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
+				String dataFolder = "data//editor//";
+#if (DEBUG_DEMO_MODE)
+				dataFolder = "data//demos//";
+#endif
+				newPath += dataFolder + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
+#endif
+
+				pybind11::str newPathObj = pybind11::str(newPath);
+				newPathObj = newPathObj.attr("replace")("//", "/");
+				newPathObj = newPathObj.attr("replace")("/", "\\");
+				newPath = newPathObj.cast<std::string>();
+
+				path.attr("insert")(0, newPath);
+				addedPaths.emplace(newPath);
+			}
+
+			String moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
 			pybind11::module_ newModule = pybind11::module_::import(moduleName.c_str());
 			this->modules.emplace(moduleName, newModule);
 		}
@@ -90,16 +120,18 @@ void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptC
 
 		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
-			String script = scriptCallBatch.scripts.at(j);
+			String scriptPath = scriptCallBatch.scripts.at(j);
 			ScriptingAPIs::bindEntity(
 				scriptCallBatch.sceneTreeID,
 				scriptCallBatch.entityID);
 
 			try
 			{
-				if (this->modules.count(script))
+				String scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
+
+				if (this->modules.count(scriptName))
 				{
-					this->modules.at(script).attr(methodName)();
+					this->modules.at(scriptName).attr(methodName)();
 				}
 			}
 			catch (const pybind11::error_already_set& e) //ignore method calls
