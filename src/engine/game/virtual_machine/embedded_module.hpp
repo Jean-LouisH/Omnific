@@ -28,14 +28,37 @@
 
 PYBIND11_EMBEDDED_MODULE(lilliputian, m) 
 {
-    pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
+	/*API classes*/
+	pybind11::class_<Lilliputian::CommandLineAPI>(m, "CommandLineAPI");
+
+	pybind11::class_<Lilliputian::FileAPI>(m, "FileAPI");
+
+	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI");
+
+	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI");
+
+	pybind11::class_<Lilliputian::RenderAPI>(m, "RenderAPI");
+
+	pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
+		.def("has_component", &Lilliputian::SceneAPI::hasComponent)
         .def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference);
+
+	pybind11::class_<Lilliputian::TimeAPI>(m, "TimeAPI");
 
     pybind11::class_<Lilliputian::WindowAPI>(m, "WindowAPI")
         .def("toggle_windowed_fullscreen", &Lilliputian::WindowAPI::toggleWindowedFullscreen);
 
+	/*Component classes*/
     pybind11::class_<Lilliputian::UITextLabel>(m, "UITextLabel")
         .def("set_text", &Lilliputian::UITextLabel::setText);
 
+	/*API getters*/
+	m.def("get_command_line_api", &Lilliputian::ScriptingAPIs::commandLine);
+	m.def("get_file_api", &Lilliputian::ScriptingAPIs::file);
+	m.def("get_input_api", &Lilliputian::ScriptingAPIs::input);
+	m.def("get_log_api", &Lilliputian::ScriptingAPIs::log);
+	m.def("get_render_api", &Lilliputian::ScriptingAPIs::render);
     m.def("get_scene_api", &Lilliputian::ScriptingAPIs::scene);
+	m.def("get_time_api", &Lilliputian::ScriptingAPIs::time);
+	m.def("get_window_api", &Lilliputian::ScriptingAPIs::window);
 }
