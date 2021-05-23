@@ -30,8 +30,11 @@ namespace Lilliputian
 	{
 	public:
 		FileAccess(const char* executableFilepath);
-		String getFilePath();
+		String getExecutableFilePath();
 		String getExecutableName();
+		String getPathBeforeExecutable();
+		String getFileNameWithoutExtension(String filepath);
+		String getPathBeforeFile(String filepath);
 		bool exists(String filepath);
 	private:
 		String executableFilepath;

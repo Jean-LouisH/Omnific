@@ -23,33 +23,62 @@
 #include "file_access.hpp"
 #include <SDL.h>
 #include <fstream>
+#include <algorithm>
 
 Lilliputian::FileAccess::FileAccess(const char* executableFilepath)
 {
 	this->executableFilepath = executableFilepath;
 }
 
-Lilliputian::String Lilliputian::FileAccess::getFilePath()
+Lilliputian::String Lilliputian::FileAccess::getExecutableFilePath()
 {
 	return this->executableFilepath;
 }
 
 Lilliputian::String Lilliputian::FileAccess::getExecutableName()
 {
-	String executableName;
+	return this->getFileNameWithoutExtension(this->executableFilepath);
+}
+
+Lilliputian::String Lilliputian::FileAccess::getPathBeforeExecutable()
+{
+	return this->getPathBeforeFile(this->executableFilepath);
+}
+
+Lilliputian::String Lilliputian::FileAccess::getFileNameWithoutExtension(String filepath)
+{
+	String fileName;
 	int nameIndexStart = 0;
 
 	//Find the first slash from the end
-	for (nameIndexStart = this->executableFilepath.size() - 1;
-		this->executableFilepath.at(nameIndexStart) != '/' && this->executableFilepath.at(nameIndexStart) != '\\';
+	for (nameIndexStart = filepath.size() - 1;
+		filepath.at(nameIndexStart) != '/' && filepath.at(nameIndexStart) != '\\';
 		nameIndexStart--)
 		;
 
 	//append from the start index to the extension name.
-	for (int j = nameIndexStart + 1; this->executableFilepath.at(j) != '.'; j++)
-		executableName += this->executableFilepath.at(j);
+	for (int j = nameIndexStart + 1; filepath.at(j) != '.';	j++)
+		fileName += filepath.at(j);
 
-	return executableName;
+	return fileName;
+}
+
+Lilliputian::String Lilliputian::FileAccess::getPathBeforeFile(String filepath)
+{
+	String path;
+	int nameEndIndex = 0;
+
+	//Find the first slash from the end
+	for (nameEndIndex = filepath.size() - 1;
+		filepath.at(nameEndIndex) != '/' && filepath.at(nameEndIndex) != '\\';
+		nameEndIndex--)
+		;
+
+	//append from the start index to the extension name.
+	for (int j = 0; j != nameEndIndex; j++)
+		path += filepath.at(j);
+
+	return path;
 }
 
 bool Lilliputian::FileAccess::exists(String filepath)
