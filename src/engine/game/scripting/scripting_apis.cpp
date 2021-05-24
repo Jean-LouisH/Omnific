@@ -52,42 +52,42 @@ void Lilliputian::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID en
 	getInstance()->sceneAPI->bindEntity(sceneTreeID, entityID);
 }
 
-Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::commandLine()
+Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::getCommandLineAPI()
 {
 	return *getInstance()->commandLineAPI;
 }
 
-Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::file()
+Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::getFileAPI()
 {
 	return *getInstance()->fileAPI;
 }
 
-Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::input()
+Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::getInputAPI()
 {
 	return *getInstance()->inputAPI;
 }
 
-Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::log()
+Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::getLogAPI()
 {
 	return *getInstance()->logAPI;
 }
 
-Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::render()
+Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::getRenderAPI()
 {
 	return *getInstance()->renderAPI;
 }
 
-Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::scene()
+Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::getSceneAPI()
 {
 	return *getInstance()->sceneAPI;
 }
 
-Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::time()
+Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::getTimeAPI()
 {
 	return *getInstance()->timeAPI;
 }
 
-Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::window()
+Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::getWindowAPI()
 {
 	return *getInstance()->windowAPI;
 }

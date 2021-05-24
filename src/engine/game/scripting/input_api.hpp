@@ -27,7 +27,7 @@
 #include "utilities/collections/vector.hpp"
 #include "utilities/string.hpp"
 #include "utilities/input_code.hpp"
-#include "human_interface_devices.hpp"
+#include "os/human_interface_devices.hpp"
 
 namespace Lilliputian
 {

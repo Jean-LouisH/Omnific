@@ -22,16 +22,49 @@
 
 #pragma once
 
-#include "window.hpp"
+#include "command_line_api.hpp"
+#include "file_api.hpp"
+#include "input_api.hpp"
+#include "log_api.hpp"
+#include "render_api.hpp"
+#include "scene_api.hpp"
+#include "time_api.hpp"
+#include "window_api.hpp"
+
+#include "game/scene/scene_forest.hpp"
+#include "utilities/aliases.hpp"
+#include "os/os.hpp"
 
 namespace Lilliputian
 {
-	class WindowAPI
+	class ScriptingAPIs
 	{
 	public:
-		void initialize(Window* window);
-		void toggleWindowedFullscreen();
+		static void initialize();
+		static void bindScene(SceneForest* scene);
+		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
+
+		static CommandLineAPI& getCommandLineAPI();
+		static FileAPI& getFileAPI();
+		static InputAPI& getInputAPI();
+		static LogAPI& getLogAPI();
+		static RenderAPI& getRenderAPI();
+		static SceneAPI& getSceneAPI();
+		static TimeAPI& getTimeAPI();
+		static WindowAPI& getWindowAPI();
 	private:
-		Window* window = nullptr;
+		static ScriptingAPIs* instance;
+
+		CommandLineAPI* commandLineAPI = nullptr;
+		FileAPI* fileAPI = nullptr;
+		InputAPI* inputAPI = nullptr;
+		LogAPI* logAPI = nullptr;
+		RenderAPI* renderAPI = nullptr;
+		SceneAPI* sceneAPI = nullptr;
+		TimeAPI* timeAPI = nullptr;
+		WindowAPI* windowAPI = nullptr;
+
+		static ScriptingAPIs* getInstance();
 	};
 }
+
