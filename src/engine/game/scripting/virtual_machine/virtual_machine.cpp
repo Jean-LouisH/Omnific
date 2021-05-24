@@ -97,7 +97,7 @@ void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> 
 	this->executeMethods(scriptCallBatches, "on_frame");
 }
 
-void Lilliputian::VirtualMachine::executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches, uint32_t msPerComputeUpdate)
+void Lilliputian::VirtualMachine::executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_compute");
 }

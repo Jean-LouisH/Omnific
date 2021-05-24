@@ -25,15 +25,14 @@
 #include "utilities/constants.hpp"
 #include <iostream>
 
-Lilliputian::Game::Game(Profiler* profiler)
+Lilliputian::Game::Game()
 {
-	this->profiler = profiler;
-	this->vm = new VirtualMachine(&this->scripts);
+	this->scripting = new Scripting();
 	this->commandLine = new CommandLine(
-		&this->scripts,
+		this->scripting->getScripts(),
 		&this->loadedScenes,
 		this->sceneSerializer,
-		this->profiler);
+		&this->activeSceneIndex);
 
 	ScriptingAPIs::initialize();
 }
@@ -58,9 +57,9 @@ void Lilliputian::Game::initialize()
 		if (debugDataFilepath == debugEditorDataFilepath)
 			this->configuration->entrySceneFilepath = "assets/scenes/engine_debug.yml";
 #endif
-		this->sceneSerializer = new SceneSerializer(dataDirectory, &this->scripts);
+		this->sceneSerializer = new SceneSerializer(dataDirectory, this->scripting->getScripts());
 		entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
-		this->vm->loadCurrentSceneScriptModules();
+		this->scripting->loadCurrentSceneScriptModules();
 		this->addLoadedScene(entryScene);
 	}
 	else
@@ -82,13 +81,13 @@ void Lilliputian::Game::initialize()
 void Lilliputian::Game::executeOnStartMethods()
 {
 	if (this->loadedScenes.size() > 0)
-		this->vm->executeOnStartMethods(this->getActiveScene().generateOnStartCallBatches());
+		this->scripting->executeOnStartMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
-	if (!ScriptingAPIs::commandLine().getIsUserPriviledgeEnabled() &&
+	if (!ScriptingAPIs::getCommandLineAPI().getIsUserPriviledgeEnabled() &&
 		OS::getHid().hasRequestedCommandLine())
 	{
 		String command;
@@ -102,13 +101,13 @@ void Lilliputian::Game::executeOnInputMethods()
 #endif
 
 	if (this->loadedScenes.size() > 0 && OS::getHid().getHasDetectedInputChanges())
-		this->vm->executeOnInputMethods(this->getActiveScene().generateOnInputCallBatches());
+		this->scripting->executeOnInputMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnFrameMethods()
 {
 	if (this->loadedScenes.size() > 0)
-		this->vm->executeOnFrameMethods(this->getActiveScene().generateOnFrameCallBatches());
+		this->scripting->executeOnFrameMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnComputeMethods()
@@ -116,38 +115,38 @@ void Lilliputian::Game::executeOnComputeMethods()
 	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
 
 	if (this->loadedScenes.size() > 0)
-		this->vm->executeOnComputeMethods(this->getActiveScene().generateOnComputeCallBatches(), msPerComputeUpdate);
+		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnLateMethods()
 {
 	if (this->loadedScenes.size() > 0)
-		this->vm->executeOnFrameMethods(this->getActiveScene().generateOnLateCallBatches());
+		this->scripting->executeOnLateMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnFinalMethods()
 {
 	if (this->loadedScenes.size() > 0)
-		this->vm->executeOnFrameMethods(this->getActiveScene().generateOnFinalBatches());
+		this->scripting->executeOnFinalMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::deinitialize()
 {
 	delete this->configuration;
 	delete this->sceneSerializer;
-	delete this->vm;
+	delete this->scripting;
 }
 
 void Lilliputian::Game::addLoadedScene(SceneForest scene)
 {
 	this->loadedScenes.push_back(scene);
-	this->sceneIndex = this->loadedScenes.size() - 1;
-	ScriptingAPIs::bindScene(&this->loadedScenes.at(this->sceneIndex));
+	this->activeSceneIndex = this->loadedScenes.size() - 1;
+	this->scripting->bindScene(&this->loadedScenes.at(this->activeSceneIndex));
 }
 
 Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
 {
-	return this->loadedScenes.at(this->sceneIndex);
+	return this->loadedScenes.at(this->activeSceneIndex);
 }
 
 Lilliputian::BootConfiguration& Lilliputian::Game::getConfiguration()

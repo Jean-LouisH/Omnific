@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "scene_tree_2d.hpp"
-#include "game/virtual_machine/script_call_batch.hpp"
+#include "game/scripting/virtual_machine/script_call_batch.hpp"
 
 Lilliputian::SceneTree2D::SceneTree2D()
 {

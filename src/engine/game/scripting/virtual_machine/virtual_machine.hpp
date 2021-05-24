@@ -24,7 +24,7 @@
 
 #include "script_call_batch.hpp"
 #include "utilities/collections/map.hpp"
-#include "scripting_apis/scripting_apis.hpp"
+#include "game/scripting/scripting_apis.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
 
@@ -40,7 +40,7 @@ namespace Lilliputian
 		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches, uint32_t msPerComputeUpdate);
+		void executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches);
 	private:

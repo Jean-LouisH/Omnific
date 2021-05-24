@@ -22,45 +22,28 @@
 
 #pragma once
 
-#include <stdint.h>
-#include "scene/scene_forest.hpp"
-#include "os/os.hpp"
-#include "os/file_access.hpp"
-#include "os/profiler.hpp"
-#include "game/scripting/scripting_apis.hpp"
-#include "scene_serializer.hpp"
-#include "boot_configuration.hpp"
-#include "command_line.hpp"
-#include "scripting/virtual_machine/virtual_machine.hpp"
-#include "scripting/scripting.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/stack.hpp"
-#include "utilities/string.hpp"
+#include "virtual_machine/virtual_machine.hpp"
+#include "game/scene/scene_forest.hpp"
 #include "utilities/aliases.hpp"
 
 namespace Lilliputian
 {
-	class Game
+	class Scripting
 	{
 	public:
-		Game();
-		void initialize();
-		void executeOnStartMethods();
-		void executeOnInputMethods();
-		void executeOnFrameMethods();
-		void executeOnComputeMethods();
-		void executeOnLateMethods();
-		void executeOnFinalMethods();
-		void deinitialize();
-		void addLoadedScene(SceneForest scene);
-		SceneForest& getActiveScene();
-		BootConfiguration& getConfiguration();
+		Scripting();
+		void loadCurrentSceneScriptModules();
+		void executeOnStartMethods(SceneForest& scene);
+		void executeOnInputMethods(SceneForest& scene);
+		void executeOnFrameMethods(SceneForest& scene);
+		void executeOnComputeMethods(SceneForest& scene);
+		void executeOnLateMethods(SceneForest& scene);
+		void executeOnFinalMethods(SceneForest& scene);
+		void bindScene(SceneForest* scene);
+		Vector<String>* getScripts();
 	private:
-		BootConfiguration* configuration = nullptr;
-		SceneSerializer* sceneSerializer = nullptr;
-		CommandLine* commandLine = nullptr;
-		Scripting* scripting = nullptr;
-		Vector<SceneForest> loadedScenes;
-		SceneForestIndex activeSceneIndex = 0;
+		VirtualMachine* vm = nullptr;
+		Vector<String> scripts;
 	};
 }
+

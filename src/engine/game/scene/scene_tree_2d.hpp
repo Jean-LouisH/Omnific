@@ -29,7 +29,7 @@
 #include "utilities/collections/map.hpp"
 #include "utilities/collections/queue.hpp"
 #include "utilities/aliases.hpp"
-#include "game/virtual_machine/script_call_batch.hpp"
+#include "game/scripting/virtual_machine/script_call_batch.hpp"
 #include "utilities/string.hpp"
 
 namespace Lilliputian

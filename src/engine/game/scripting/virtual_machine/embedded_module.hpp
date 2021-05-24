@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <scripting_apis/scripting_apis.hpp>
+#include <game/scripting/scripting_apis.hpp>
 #include <game/scene/components/ui_text_label.hpp>
 #include <pybind11/embed.h>
 
@@ -53,12 +53,12 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
         .def("set_text", &Lilliputian::UITextLabel::setText);
 
 	/*API getters*/
-	m.def("get_command_line_api", &Lilliputian::ScriptingAPIs::commandLine);
-	m.def("get_file_api", &Lilliputian::ScriptingAPIs::file);
-	m.def("get_input_api", &Lilliputian::ScriptingAPIs::input);
-	m.def("get_log_api", &Lilliputian::ScriptingAPIs::log);
-	m.def("get_render_api", &Lilliputian::ScriptingAPIs::render);
-    m.def("get_scene_api", &Lilliputian::ScriptingAPIs::scene);
-	m.def("get_time_api", &Lilliputian::ScriptingAPIs::time);
-	m.def("get_window_api", &Lilliputian::ScriptingAPIs::window);
+	m.def("get_command_line_api", &Lilliputian::ScriptingAPIs::getCommandLineAPI);
+	m.def("get_file_api", &Lilliputian::ScriptingAPIs::getFileAPI);
+	m.def("get_input_api", &Lilliputian::ScriptingAPIs::getInputAPI);
+	m.def("get_log_api", &Lilliputian::ScriptingAPIs::getLogAPI);
+	m.def("get_render_api", &Lilliputian::ScriptingAPIs::getRenderAPI);
+    m.def("get_scene_api", &Lilliputian::ScriptingAPIs::getSceneAPI);
+	m.def("get_time_api", &Lilliputian::ScriptingAPIs::getTimeAPI);
+	m.def("get_window_api", &Lilliputian::ScriptingAPIs::getWindowAPI);
 }
