@@ -27,18 +27,19 @@
 
 Lilliputian::OS* Lilliputian::OS::instance = nullptr;
 
-Lilliputian::OS::OS()
-{
-
-}
-
-Lilliputian::OS::OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath)
+void Lilliputian::OS::initialize(
+	const char* title, 
+	uint16_t width, 
+	uint16_t height, 
+	bool isFullscreen, 
+	const char* executableFilepath)
 {
 	OS* newInstance = getInstance();
 
 	newInstance->window = new Window(title, width, height, isFullscreen);
 	newInstance->hid = new HumanInterfaceDevices();
 	newInstance->fileAccess = new FileAccess(executableFilepath);
+	newInstance->profiler = new Profiler();
 }
 
 Lilliputian::OS::~OS()
@@ -61,6 +62,11 @@ Lilliputian::HumanInterfaceDevices& Lilliputian::OS::getHid()
 Lilliputian::FileAccess& Lilliputian::OS::getFileAccess()
 {
 	return *getInstance()->fileAccess;
+}
+
+Lilliputian::Profiler& Lilliputian::OS::getProfiler()
+{
+	return *getInstance()->profiler;
 }
 
 void Lilliputian::OS::addGameControllerMappings()

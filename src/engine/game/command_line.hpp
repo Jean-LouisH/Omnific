@@ -27,8 +27,8 @@
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/stack.hpp"
 #include "scene_serializer.hpp"
-#include "os.hpp"
-#include "profiler.hpp"
+#include "os/os.hpp"
+#include "os/profiler.hpp"
 
 namespace Lilliputian
 {
@@ -39,7 +39,7 @@ namespace Lilliputian
 			Vector<String>* scripts,
 			Vector<SceneForest>* loadedScenes,
 			SceneSerializer* sceneSerializer,
-			Profiler* profiler
+			SceneForestIndex* activeSceneIndex
 			);
 
 		void execute(String command);
@@ -48,6 +48,7 @@ namespace Lilliputian
 		Vector<SceneForest>* loadedScenes = nullptr;
 		Stack<SceneForest>* activeSceneStack = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
+		SceneForestIndex* activeSceneIndex = nullptr;
 		Profiler* profiler = nullptr;
 	};
 }

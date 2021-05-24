@@ -32,9 +32,9 @@
 #include "systems/physics_system/physics_system.hpp"
 #include "systems/rendering_system/rendering_system.hpp"
 #include "systems/ui_system/ui_system.hpp"
-#include "os.hpp"
+#include "os/os.hpp"
 #include "engine_state.hpp"
-#include "profiler.hpp"
+#include "os/profiler.hpp"
 
 #if defined (_WIN32)
 #if defined(_LILLIPUTIAN_ENGINE_EXPORTS)
@@ -65,7 +65,6 @@ namespace Lilliputian
 		PhysicsSystem* physicsSystem = nullptr;
 		RenderingSystem* renderingSystem = nullptr;
 		UISystem* uiSystem = nullptr;
-		Profiler* profiler = nullptr;
 		EngineState state;
 
 		int argc = 0;

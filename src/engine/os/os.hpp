@@ -26,6 +26,7 @@
 #include "utilities/collections/vector.hpp"
 #include "human_interface_devices.hpp"
 #include "window.hpp"
+#include "profiler.hpp"
 #include "file_access.hpp"
 
 namespace Lilliputian
@@ -33,12 +34,17 @@ namespace Lilliputian
 	class OS
 	{
 	public:
-		OS();
-		OS(const char* title, uint16_t width, uint16_t height, bool isFullscreen, const char* executableFilepath);
 		~OS();
+		static void initialize(
+			const char* title, 
+			uint16_t width, 
+			uint16_t height, 
+			bool isFullscreen, 
+			const char* executableFilepath);
 		static Window& getWindow();
 		static HumanInterfaceDevices& getHid();
 		static FileAccess& getFileAccess();
+		static Profiler& getProfiler();
 		static void addGameControllerMappings();
 	private:
 		static OS* instance;
@@ -46,6 +52,7 @@ namespace Lilliputian
 		Window* window = nullptr;
 		HumanInterfaceDevices* hid = nullptr;
 		FileAccess* fileAccess = nullptr;
+		Profiler* profiler = nullptr;
 
 		static OS* getInstance();
 	};

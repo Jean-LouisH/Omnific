@@ -26,13 +26,13 @@ Lilliputian::CommandLine::CommandLine(
 	Vector<String>* scripts,
 	Vector<SceneForest>* loadedScenes,
 	SceneSerializer* sceneSerializer,
-	Profiler* profiler
+	SceneForestIndex* activeSceneIndex
 )
 {
 	this->scripts = scripts;
 	this->loadedScenes = loadedScenes;
 	this->sceneSerializer = sceneSerializer;
-	this->profiler = profiler;
+	this->activeSceneIndex = activeSceneIndex;
 }
 
 void Lilliputian::CommandLine::execute(String command)

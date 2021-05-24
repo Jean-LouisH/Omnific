@@ -26,7 +26,7 @@
 #include "game/scene/scene_forest.hpp"
 #include "utilities/collections/vector.hpp"
 #include "rendering_sdl/sdl_renderable.hpp"
-#include "window.hpp"
+#include "os/window.hpp"
 #include "utilities/aliases.hpp"
 #include "texture_cache.hpp"
 

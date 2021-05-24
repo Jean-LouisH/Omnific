@@ -25,7 +25,7 @@
 #include "game/scene/scene_forest.hpp"
 #include <SDL.h>
 #include "utilities/collections/vector.hpp"
-#include "human_interface_devices.hpp"
+#include "os/human_interface_devices.hpp"
 
 namespace Lilliputian
 {

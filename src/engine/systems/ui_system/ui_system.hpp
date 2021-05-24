@@ -23,7 +23,7 @@
 #pragma once
 
 #include "game/scene/scene_forest.hpp"
-#include "human_interface_devices.hpp"
+#include "os/human_interface_devices.hpp"
 #include "utilities/input_code.hpp"
 #include "utilities/input_button_mode.hpp"
 
