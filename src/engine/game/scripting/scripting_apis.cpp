@@ -44,7 +44,7 @@ void Lilliputian::ScriptingAPIs::initialize()
 
 void Lilliputian::ScriptingAPIs::bindScene(SceneForest* scene)
 {
-	getInstance()->sceneAPI->initialize(scene);
+	getInstance()->sceneAPI->bindScene(scene);
 }
 
 void Lilliputian::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)

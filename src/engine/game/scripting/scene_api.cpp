@@ -23,7 +23,7 @@
 #include "scene_api.hpp"
 
 
-void Lilliputian::SceneAPI::initialize(SceneForest* scene)
+void Lilliputian::SceneAPI::bindScene(SceneForest* scene)
 {
 	this->scene = scene;
 }
@@ -40,6 +40,20 @@ bool Lilliputian::SceneAPI::hasComponent(String typeString)
 
 	SceneTree2D& sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
 	return sceneTree2D.getEntity2D(this->boundEntityID).components.count(type) > 0;
+}
+
+void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
+{
+	if (this->sceneSerializer->doesSceneExist(sceneFilename))
+	{
+		delete this->scene;
+		this->scene = new SceneForest(this->sceneSerializer->loadFromFile(sceneFilename));
+	}
+}
+
+void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
+{
+	this->sceneSerializer = sceneSerializer;
 }
 
 Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(ComponentVariant::Type type)
