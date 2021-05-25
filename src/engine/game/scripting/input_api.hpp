@@ -39,22 +39,23 @@ namespace Lilliputian
 
 		InputAPI();
 		void initialize(HumanInterfaceDevices* hid);
-		void insertActionInput(const char* actionName, InputCode inputCode);
-		void replaceActionInput(const char* actionName, InputCode inputCode);
-		void removeActionInput(const char* actionName, InputCode inputCode);
-		void removeAllActionInputs(const char* actionName);
+		void insertActionInput(String actionName, InputCode inputCode);
+		void replaceActionInput(String actionName, InputCode inputCode);
+		void removeActionInput(String actionName, InputCode inputCode);
+		void removeAllActionInputs(String actionName);
 		Map<String, Vector<InputCode>> getActionInputs();
-		bool isKeyOnPress(unsigned int keyCode);
-		bool isKeyOnDoublePress(unsigned int keyCode, unsigned int timeInterval_ms);
-		bool isKeyOnRelease(unsigned int keyCode);
-		bool isKeyOnHold(unsigned int keyCode);
-		bool isActionOnPress(const char* actionName);
-		bool isActionOnDoublePress(const char* actionName, unsigned int timeInterval_ms);
-		bool isActionOnRelease(const char* actionName);
-		bool isActionOnHold(const char* actionName, unsigned int timeInterval_ms);
-		float getAxisStrength(const char* axisActionName);
+		bool isOnPress(String inputCode);
+		bool isOnDoublePress(String keyCode, unsigned int timeInterval_ms);
+		bool isOnRelease(String keyCode);
+		bool isOnHold(String keyCode);
+		bool isActionOnPress(String actionName);
+		bool isActionOnDoublePress(String actionName, unsigned int timeInterval_ms);
+		bool isActionOnRelease(String actionName);
+		bool isActionOnHold(String actionName, unsigned int timeInterval_ms);
+		float getAxisStrength(String axisActionName);
 	private:
 		HumanInterfaceDevices* hid = nullptr;
 		Map<String, Vector<InputCode>> actionInputs;
+		Map<String, InputCode> inputCodeStrings;
 	};
 }

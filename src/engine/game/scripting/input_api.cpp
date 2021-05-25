@@ -82,7 +82,7 @@ void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
 	this->hid = hid;
 }
 
-void Lilliputian::InputAPI::insertActionInput(const char* actionName, InputCode inputCode)
+void Lilliputian::InputAPI::insertActionInput(String actionName, InputCode inputCode)
 {
 	String actionString = actionName;
 
@@ -98,7 +98,7 @@ void Lilliputian::InputAPI::insertActionInput(const char* actionName, InputCode 
 	}
 }
 
-void Lilliputian::InputAPI::replaceActionInput(const char* actionName, InputCode inputCode)
+void Lilliputian::InputAPI::replaceActionInput(String actionName, InputCode inputCode)
 {
 	String actionString = actionName;
 
@@ -116,12 +116,12 @@ void Lilliputian::InputAPI::replaceActionInput(const char* actionName, InputCode
 
 }
 
-void Lilliputian::InputAPI::removeActionInput(const char* actionName, InputCode inputCode)
+void Lilliputian::InputAPI::removeActionInput(String actionName, InputCode inputCode)
 {
 
 }
 
-void Lilliputian::InputAPI::removeAllActionInputs(const char* actionName)
+void Lilliputian::InputAPI::removeAllActionInputs(String actionName)
 {
 	String actionString = actionName;
 	if (this->actionInputs.count(actionString))
@@ -133,47 +133,47 @@ Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::InputCode
 	return this->actionInputs;
 }
 
-bool Lilliputian::InputAPI::isKeyOnPress(unsigned int keyCode)
+bool Lilliputian::InputAPI::isOnPress(String keyCode)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isKeyOnDoublePress(unsigned int keyCode, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isOnDoublePress(String keyCode, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isKeyOnRelease(unsigned int keyCode)
+bool Lilliputian::InputAPI::isOnRelease(String keyCode)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isKeyOnHold(unsigned int keyCode)
+bool Lilliputian::InputAPI::isOnHold(String keyCode)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnPress(const char* actionName)
+bool Lilliputian::InputAPI::isActionOnPress(String actionName)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnDoublePress(const char* actionName, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isActionOnDoublePress(String actionName, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnRelease(const char* actionName)
+bool Lilliputian::InputAPI::isActionOnRelease(String actionName)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnHold(const char* actionName, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isActionOnHold(String actionName, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-float Lilliputian::InputAPI::getAxisStrength(const char* axisActionName)
+float Lilliputian::InputAPI::getAxisStrength(String axisActionName)
 {
 	return 0.0;
 }
