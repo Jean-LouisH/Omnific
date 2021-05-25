@@ -33,7 +33,8 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 
 	pybind11::class_<Lilliputian::FileAPI>(m, "FileAPI");
 
-	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI");
+	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI")
+		.def("is_on_press", &Lilliputian::InputAPI::isOnPress);
 
 	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI");
 
@@ -41,6 +42,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 
 	pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
 		.def("has_component", &Lilliputian::SceneAPI::hasComponent)
+		.def("change_to_scene", &Lilliputian::SceneAPI::changeToScene)
         .def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Lilliputian::TimeAPI>(m, "TimeAPI");
