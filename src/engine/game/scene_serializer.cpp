@@ -26,6 +26,7 @@
 #include "utilities/collections/set.hpp"
 #include "scene/scene_forest.hpp"
 #include "scene/components/component_variant.hpp"
+#include <os/os.hpp>
 
 Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory, Vector<String>* scripts)
 {
@@ -44,6 +45,11 @@ Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filep
 
 	return scene;
 
+}
+
+bool Lilliputian::SceneSerializer::doesSceneExist(String filepath)
+{
+	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
 Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String filepath)

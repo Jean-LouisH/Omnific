@@ -55,12 +55,21 @@ void Lilliputian::Game::initialize()
 		String debugDataFilepath = DEBUG_DATA_FILEPATH;
 		String debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
 		if (debugDataFilepath == debugEditorDataFilepath)
-			this->configuration->entrySceneFilepath = "assets/scenes/engine_debug.yml";
+			this->configuration->entrySceneFilepath = "assets/scenes/debug.yml";
 #endif
 		this->sceneSerializer = new SceneSerializer(dataDirectory, this->scripting->getScripts());
-		entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
-		this->scripting->loadCurrentSceneScriptModules();
-		this->addLoadedScene(entryScene);
+		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer);
+
+		if (this->sceneSerializer->doesSceneExist(this->configuration->entrySceneFilepath))
+		{
+			entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
+			this->scripting->loadCurrentSceneScriptModules();
+			this->addLoadedScene(entryScene);
+		}
+		else
+		{
+			;
+		}
 	}
 	else
 	{

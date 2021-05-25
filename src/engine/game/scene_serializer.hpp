@@ -33,6 +33,7 @@ namespace Lilliputian
 	public:
 		SceneSerializer(String assetsDirectory, Vector<String>* scripts);
 		SceneForest loadFromFile(String filepath);
+		bool doesSceneExist(String filepath);
 	private:
 		String dataDirectory;
 		SceneForest loadFromTextFile(String filepath);
