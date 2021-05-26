@@ -146,3 +146,33 @@ Lilliputian::Vector<SDL_Haptic*> Lilliputian::HumanInterfaceDevices::getHaptics(
 {
 	return this->haptics;
 }
+
+Lilliputian::Map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Lilliputian::HumanInterfaceDevices::getControllerButtonEvents()
+{
+	return this->controllerButtonEvents;
+}
+
+Lilliputian::Map<SDL_Keycode, SDL_KeyboardEvent> Lilliputian::HumanInterfaceDevices::getKeyboardEvents()
+{
+	return this->keyboardEvents;
+}
+
+Lilliputian::Map<Lilliputian::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Lilliputian::HumanInterfaceDevices::getControllerAxisEvents()
+{
+	return this->controllerAxisEvents;
+}
+
+SDL_MouseButtonEvent Lilliputian::HumanInterfaceDevices::getMouseButtonEvent()
+{
+	return this->mouseButtonEvent;
+}
+
+SDL_MouseMotionEvent Lilliputian::HumanInterfaceDevices::getMouseMotionEvent()
+{
+	return this->mouseMotionEvent;
+}
+
+SDL_MouseWheelEvent  Lilliputian::HumanInterfaceDevices::getMouseWheelEvent()
+{
+	return this->mouseWheelEvent;
+}

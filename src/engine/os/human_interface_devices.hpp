@@ -33,6 +33,9 @@ namespace Lilliputian
 	class HumanInterfaceDevices
 	{
 	public:
+		using ControllerButtonCode = Uint8;
+		using ControllerAxisCode = Uint8;
+
 		void detectGameControllers();
 		void pollInputEvents();
 		bool hasRequestedShutdown();
@@ -41,13 +44,17 @@ namespace Lilliputian
 		bool getHasDetectedInputChanges();
 
 		Vector<SDL_Haptic*> getHaptics();
+		Map<ControllerButtonCode, SDL_ControllerButtonEvent> getControllerButtonEvents();
+		Map<SDL_Keycode, SDL_KeyboardEvent> getKeyboardEvents();
+		Map<ControllerAxisCode, SDL_ControllerAxisEvent> getControllerAxisEvents();
+		SDL_MouseButtonEvent getMouseButtonEvent();
+		SDL_MouseMotionEvent getMouseMotionEvent();
+		SDL_MouseWheelEvent  getMouseWheelEvent();
 	private:
-		using ControllerButtonCode = Uint8;
-		using ControllerAxisCode = Uint8;
 
-		Multimap<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
+		Map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
 		Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
-		Multimap<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
+		Map<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
 		SDL_MouseButtonEvent mouseButtonEvent = { 0 };
 		SDL_MouseMotionEvent mouseMotionEvent = { 0 };
 		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };
