@@ -46,8 +46,8 @@ void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		delete this->scene;
-		this->scene = new SceneForest(this->sceneSerializer->loadFromFile(sceneFilename));
+		this->scene->cleanup();
+		*this->scene = this->sceneSerializer->loadFromFile(sceneFilename);
 	}
 }
 

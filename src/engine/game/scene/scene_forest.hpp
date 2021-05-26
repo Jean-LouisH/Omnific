@@ -58,6 +58,8 @@ namespace Lilliputian
 		EntityID getPreviousEntityID();
 		AssetCache& getAssetCache();
 		Vector<SceneTree2D>& getSceneTree2Ds();
+
+		void cleanup();
 	private:
 		uint64_t entityIDCount = 0;
 		uint64_t componentIDCount = 0;

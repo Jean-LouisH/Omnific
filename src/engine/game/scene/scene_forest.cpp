@@ -220,3 +220,8 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneForest::gene
 
 	return scriptCallBatches;
 }
+
+void Lilliputian::SceneForest::cleanup()
+{
+
+}
