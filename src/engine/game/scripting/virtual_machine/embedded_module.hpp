@@ -34,7 +34,8 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::FileAPI>(m, "FileAPI");
 
 	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI")
-		.def("is_on_press", &Lilliputian::InputAPI::isOnPress);
+		.def("is_on_press", &Lilliputian::InputAPI::isOnPress)
+		.def("is_on_release", &Lilliputian::InputAPI::isOnRelease);
 
 	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI");
 
