@@ -25,8 +25,6 @@
 #include <SDL.h>
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/map.hpp"
-#include "utilities/input_code.hpp"
-#include "utilities/input_button_mode.hpp"
 
 namespace Lilliputian
 {

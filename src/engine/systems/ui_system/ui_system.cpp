@@ -54,10 +54,10 @@ bool Lilliputian::UISystem::isCursorHoveringOverUIComponent(ComponentID componen
 	return false;
 }
 
-bool Lilliputian::UISystem::isCursorInInputStateOnUIComponent(
-	ComponentID componentID,
-	InputCode inputCode,
-	InputButtonMode inputButtonMode)
-{
-	return false;
-}
+//bool Lilliputian::UISystem::isCursorInInputStateOnUIComponent(
+//	ComponentID componentID,
+//	InputCode inputCode,
+//	InputButtonMode inputButtonMode)
+//{
+//	return false;
+//}

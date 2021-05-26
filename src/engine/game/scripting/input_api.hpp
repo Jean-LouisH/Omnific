@@ -26,7 +26,6 @@
 #include "utilities/collections/map.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/string.hpp"
-#include "utilities/input_code.hpp"
 #include "os/human_interface_devices.hpp"
 
 namespace Lilliputian
@@ -34,28 +33,37 @@ namespace Lilliputian
 	class InputAPI
 	{
 	public:
+		typedef struct MappedInputs
+		{
+			Vector<SDL_Keycode> keyboardEvents;
+			Vector<HumanInterfaceDevices::ControllerButtonCode> controllerButtons;
+			Vector<HumanInterfaceDevices::ControllerAxisCode> controllerAxisEvents;
+		};
 
 		uint16_t analogueStickSensitivity;
 
 		InputAPI();
 		void initialize(HumanInterfaceDevices* hid);
-		void insertActionInput(String actionName, InputCode inputCode);
-		void replaceActionInput(String actionName, InputCode inputCode);
-		void removeActionInput(String actionName, InputCode inputCode);
-		void removeAllActionInputs(String actionName);
-		Map<String, Vector<InputCode>> getActionInputs();
+		//void insertActionInput(String actionName, InputCode inputCode);
+		//void replaceActionInput(String actionName, InputCode inputCode);
+		//void removeActionInput(String actionName, InputCode inputCode);
+		//void removeAllActionInputs(String actionName);
+		//Map<String, Vector<InputCode>> getActionInputs();
 		bool isOnPress(String inputCode);
 		bool isOnDoublePress(String keyCode, unsigned int timeInterval_ms);
 		bool isOnRelease(String keyCode);
 		bool isOnHold(String keyCode);
-		bool isActionOnPress(String actionName);
-		bool isActionOnDoublePress(String actionName, unsigned int timeInterval_ms);
-		bool isActionOnRelease(String actionName);
-		bool isActionOnHold(String actionName, unsigned int timeInterval_ms);
+		//bool isActionOnPress(String actionName);
+		//bool isActionOnDoublePress(String actionName, unsigned int timeInterval_ms);
+		//bool isActionOnRelease(String actionName);
+		//bool isActionOnHold(String actionName, unsigned int timeInterval_ms);
 		float getAxisStrength(String axisActionName);
 	private:
 		HumanInterfaceDevices* hid = nullptr;
-		Map<String, Vector<InputCode>> actionInputs;
-		Map<String, InputCode> inputCodeStrings;
+		//Map<String, Vector<InputCode>> actionMappedInputs;
+
+		Map<String, SDL_Keycode> keyboardEventsByString;
+		Map<String, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
+		Map<String, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
 	};
 }
