@@ -27,6 +27,7 @@
 #include "game/scripting/scripting_apis.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
+#include "module.hpp"
 
 namespace Lilliputian
 {
@@ -46,7 +47,7 @@ namespace Lilliputian
 	private:
 		Vector<String>* scripts;
 		pybind11::scoped_interpreter guard{};
-		Map<String, pybind11::module_> modules;
+		Map<String, Module> modules;
 
 		void executeMethods(Vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
 	};

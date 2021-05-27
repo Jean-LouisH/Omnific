@@ -71,8 +71,27 @@ void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules()
 				addedPaths.emplace(newPath);
 			}
 
+			Module newModule;
+			Vector<String> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_late", "on_final" };
 			String moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
-			pybind11::module_ newModule = pybind11::module_::import(moduleName.c_str());
+			pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
+
+			newModule.setData(newPybind11Module);
+
+			for (int i = 0; i < methodNames.size(); i++)
+			{
+				try
+				{
+					String methodName = methodNames.at(i);
+					pybind11::object test = newPybind11Module.attr(methodName.c_str());
+					newModule.setCallable(methodName);
+				}
+				catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
+				{
+
+				}
+			}
+
 			this->modules.emplace(moduleName, newModule);
 		}
 		catch (const pybind11::error_already_set& e)
@@ -121,24 +140,18 @@ void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptC
 		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
 			String scriptPath = scriptCallBatch.scripts.at(j);
-			ScriptingAPIs::bindEntity(
-				scriptCallBatch.sceneTreeID,
-				scriptCallBatch.entityID);
+			String scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
 
-			try
+			if (this->modules.count(scriptName))
 			{
-				String scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
-
-				if (this->modules.count(scriptName))
+				if (this->modules.at(scriptName).hasCallable(methodName))
 				{
-					this->modules.at(scriptName).attr(methodName)();
+					ScriptingAPIs::bindEntity(
+						scriptCallBatch.sceneTreeID,
+						scriptCallBatch.entityID);
+					this->modules.at(scriptName).call(methodName);
 				}
 			}
-			catch (const pybind11::error_already_set& e) //ignore method calls
-			{
-
-			}
-
 		}
 	}
 }
