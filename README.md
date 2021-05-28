@@ -25,7 +25,7 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 
 ## Compilation Instructions
 
-* Requires the [SDL2](https://www.libsdl.org/), [SDL2_image](https://www.libsdl.org/projects/SDL_image/), [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/) and  [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) libraries for your development platform.
+* Requires the [SDL2](https://www.libsdl.org/), [SDL2_image](https://www.libsdl.org/projects/SDL_image/), [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and Python 3.7 libraries for your development platform.
 * Include this source directory in CMake to generate a project from the top level CMakeLists.txt. 
 * Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want. 
 * Use your C++ IDE or compiler of choice to build Lilliputian and Tests from the project.
@@ -40,6 +40,7 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 ## Demos
 
 Simple Clock
+
 ![screenshot](SimpleClock.png)
 
 ## Contributing
