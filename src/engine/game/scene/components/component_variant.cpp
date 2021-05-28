@@ -25,13 +25,15 @@
 
 Lilliputian::ComponentVariant::ComponentVariant()
 {
-
+	this->dummyImage = new Image();
 }
 
 Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 {
 	this->type = other.type;
 	this->entityID = other.entityID;
+
+	this->dummyImage = new Image();
 
 	switch (other.type)
 	{
@@ -83,6 +85,8 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 
 Lilliputian::ComponentVariant::~ComponentVariant()
 {
+	delete this->dummyImage;
+
 	switch (this->type)
 	{
 		case Type::AI_BEHAVIOUR_TREE: delete this->aiBehaviourTree; break;
@@ -752,6 +756,10 @@ Lilliputian::Image& Lilliputian::ComponentVariant::getImage()
 		case ComponentVariant::Type::UI_TREE:; return (this->uiTree->getImage()); break;
 	}
 
-	Image* image = new Image();
-	return *image;
+	return *this->dummyImage;
+}
+
+void Lilliputian::ComponentVariant::unloadImage()
+{
+	this->getImage().unload();
 }

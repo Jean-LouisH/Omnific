@@ -222,11 +222,15 @@ namespace Lilliputian
 		EntityID getEntityID();
 		Image& getImage();
 
+		void unloadImage();
+
 	private:
 
 		ComponentID ID = 0;
 		Type type = Type::NONE;
 		EntityID entityID = NO_ENTITY;
+
+		Image* dummyImage;
 		
 		union
         {
