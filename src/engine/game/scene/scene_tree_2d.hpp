@@ -56,6 +56,8 @@ namespace Lilliputian
 		Entity2D& getEntity2D(EntityID entityID);
 
 		void setID(SceneTreeID ID);
+
+		void unload();
 	private:
 		SceneTreeID ID = 0;
 

@@ -221,7 +221,12 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	return scriptCallBatches;
 }
 
-void Lilliputian::Scene::cleanup()
+void Lilliputian::Scene::unload()
 {
+	this->assetCache.deleteAll();
 
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
+		this->sceneTree2Ds.at(i).unload();
+
+	this->sceneTree2Ds.clear();
 }

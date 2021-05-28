@@ -59,7 +59,7 @@ namespace Lilliputian
 		AssetCache& getAssetCache();
 		Vector<SceneTree2D>& getSceneTree2Ds();
 
-		void cleanup();
+		void unload();
 	private:
 		uint64_t entityIDCount = 0;
 		uint64_t componentIDCount = 0;

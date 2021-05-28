@@ -216,3 +216,11 @@ void Lilliputian::SceneTree2D::setID(SceneTreeID ID)
 {
 	this->ID = ID;
 }
+
+void Lilliputian::SceneTree2D::unload()
+{
+	for (int i = 0; i < this->componentVariants.size(); i++)
+		this->componentVariants.at(i).unloadImage();
+
+	delete this->dummyTransform2D;
+}
