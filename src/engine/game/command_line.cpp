@@ -24,9 +24,9 @@
 
 Lilliputian::CommandLine::CommandLine(
 	Vector<String>* scripts,
-	Vector<SceneForest>* loadedScenes,
+	Vector<Scene>* loadedScenes,
 	SceneSerializer* sceneSerializer,
-	SceneForestIndex* activeSceneIndex
+	SceneIndex* activeSceneIndex
 )
 {
 	this->scripts = scripts;

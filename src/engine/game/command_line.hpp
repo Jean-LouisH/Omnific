@@ -37,18 +37,18 @@ namespace Lilliputian
 	public:
 		CommandLine(
 			Vector<String>* scripts,
-			Vector<SceneForest>* loadedScenes,
+			Vector<Scene>* loadedScenes,
 			SceneSerializer* sceneSerializer,
-			SceneForestIndex* activeSceneIndex
+			SceneIndex* activeSceneIndex
 			);
 
 		void execute(String command);
 	private:
 		Vector<String>* scripts = nullptr;
-		Vector<SceneForest>* loadedScenes = nullptr;
-		Stack<SceneForest>* activeSceneStack = nullptr;
+		Vector<Scene>* loadedScenes = nullptr;
+		Stack<Scene>* activeSceneStack = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
-		SceneForestIndex* activeSceneIndex = nullptr;
+		SceneIndex* activeSceneIndex = nullptr;
 		Profiler* profiler = nullptr;
 	};
 }

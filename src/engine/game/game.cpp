@@ -40,7 +40,7 @@ Lilliputian::Game::Game()
 void Lilliputian::Game::initialize()
 {
 	BootLoader bootLoader;
-	SceneForest entryScene;
+	Scene entryScene;
 	String dataDirectory = "data/";
 #ifdef _DEBUG
 	dataDirectory = DEBUG_DATA_FILEPATH;
@@ -146,14 +146,14 @@ void Lilliputian::Game::deinitialize()
 	delete this->scripting;
 }
 
-void Lilliputian::Game::addLoadedScene(SceneForest scene)
+void Lilliputian::Game::addLoadedScene(Scene scene)
 {
 	this->loadedScenes.push_back(scene);
 	this->activeSceneIndex = this->loadedScenes.size() - 1;
 	this->scripting->bindScene(&this->loadedScenes.at(this->activeSceneIndex));
 }
 
-Lilliputian::SceneForest& Lilliputian::Game::getActiveScene()
+Lilliputian::Scene& Lilliputian::Game::getActiveScene()
 {
 	return this->loadedScenes.at(this->activeSceneIndex);
 }

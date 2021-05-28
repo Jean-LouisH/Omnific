@@ -33,37 +33,37 @@ void Lilliputian::Scripting::loadCurrentSceneScriptModules()
 	this->vm->loadCurrentSceneScriptModules();
 }
 
-void Lilliputian::Scripting::executeOnStartMethods(SceneForest& scene)
+void Lilliputian::Scripting::executeOnStartMethods(Scene& scene)
 {
 	this->vm->executeOnStartMethods(scene.generateOnStartCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnInputMethods(SceneForest& scene)
+void Lilliputian::Scripting::executeOnInputMethods(Scene& scene)
 {
 	this->vm->executeOnInputMethods(scene.generateOnInputCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnFrameMethods(SceneForest& scene)
+void Lilliputian::Scripting::executeOnFrameMethods(Scene& scene)
 {
 	this->vm->executeOnFrameMethods(scene.generateOnFrameCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnComputeMethods(SceneForest& scene)
+void Lilliputian::Scripting::executeOnComputeMethods(Scene& scene)
 {
 	this->vm->executeOnComputeMethods(scene.generateOnComputeCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnLateMethods(SceneForest& scene)
+void Lilliputian::Scripting::executeOnLateMethods(Scene& scene)
 {
 	this->vm->executeOnLateMethods(scene.generateOnLateCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnFinalMethods(SceneForest& scene)
+void Lilliputian::Scripting::executeOnFinalMethods(Scene& scene)
 {
 	this->vm->executeOnFinalMethods(scene.generateOnFinalBatches());
 }
 
-void Lilliputian::Scripting::bindScene(SceneForest* scene)
+void Lilliputian::Scripting::bindScene(Scene* scene)
 {
 	ScriptingAPIs::bindScene(scene);
 }

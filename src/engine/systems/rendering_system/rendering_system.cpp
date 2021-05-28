@@ -65,7 +65,7 @@ void Lilliputian::RenderingSystem::render()
 	SDL_RenderPresent(this->sdlRenderer);
 }
 
-void Lilliputian::RenderingSystem::process(SceneForest& scene)
+void Lilliputian::RenderingSystem::process(Scene& scene)
 {
 	Vector<SDL::Rendering2D::Sprite2D> outputsprite2Ds;
 	SDL::Rendering2D::Camera2D outputCamera2D;

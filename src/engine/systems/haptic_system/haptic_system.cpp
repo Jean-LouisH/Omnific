@@ -42,7 +42,7 @@ void Lilliputian::HapticSystem::rumble(Vector<SDL_Haptic*> haptics)
 }
 
 void Lilliputian::HapticSystem::process(
-	SceneForest& scene,
+	Scene& scene,
 	HumanInterfaceDevices& hid)
 {
 	//Todo: Populate requests from scene

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "game/scene/scene_forest.hpp"
+#include "game/scene/scene.hpp"
 
 namespace Lilliputian
 {
@@ -31,7 +31,7 @@ namespace Lilliputian
 	public:
 		AISystem();
 		~AISystem();
-		void process(SceneForest& scene);
+		void process(Scene& scene);
 	private:
 	};
 }

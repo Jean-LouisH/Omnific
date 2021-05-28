@@ -23,7 +23,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "scene/scene_forest.hpp"
+#include "scene/scene.hpp"
 #include "os/os.hpp"
 #include "os/file_access.hpp"
 #include "os/profiler.hpp"
@@ -52,15 +52,15 @@ namespace Lilliputian
 		void executeOnLateMethods();
 		void executeOnFinalMethods();
 		void deinitialize();
-		void addLoadedScene(SceneForest scene);
-		SceneForest& getActiveScene();
+		void addLoadedScene(Scene scene);
+		Scene& getActiveScene();
 		BootConfiguration& getConfiguration();
 	private:
 		BootConfiguration* configuration = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
 		CommandLine* commandLine = nullptr;
 		Scripting* scripting = nullptr;
-		Vector<SceneForest> loadedScenes;
-		SceneForestIndex activeSceneIndex = 0;
+		Vector<Scene> loadedScenes;
+		SceneIndex activeSceneIndex = 0;
 	};
 }

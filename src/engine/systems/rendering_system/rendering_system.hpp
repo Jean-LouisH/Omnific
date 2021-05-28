@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "game/scene/scene_forest.hpp"
+#include "game/scene/scene.hpp"
 #include "utilities/collections/vector.hpp"
 #include "rendering_sdl/sdl_renderable.hpp"
 #include "os/window.hpp"
@@ -37,7 +37,7 @@ namespace Lilliputian
 	public:
 		RenderingSystem(Window& window);
 		~RenderingSystem();
-		void process(SceneForest& scene);
+		void process(Scene& scene);
 	private:
 		SDL_Renderer* sdlRenderer;
 		SDL_Window* sdlWindow;

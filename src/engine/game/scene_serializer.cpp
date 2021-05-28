@@ -24,7 +24,7 @@
 #include <yaml-cpp/yaml.h>
 #include "utilities/string.hpp"
 #include "utilities/collections/set.hpp"
-#include "scene/scene_forest.hpp"
+#include "scene/scene.hpp"
 #include "scene/components/component_variant.hpp"
 #include <os/os.hpp>
 
@@ -34,9 +34,9 @@ Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory, Vector<Strin
 	this->scripts = scripts;
 }
 
-Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromFile(String filepath)
+Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(String filepath)
 {
-	SceneForest scene;
+	Scene scene;
 
 	if (true)
 	{
@@ -52,9 +52,9 @@ bool Lilliputian::SceneSerializer::doesSceneExist(String filepath)
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-Lilliputian::SceneForest Lilliputian::SceneSerializer::loadFromTextFile(String filepath)
+Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepath)
 {
-	SceneForest scene;
+	Scene scene;
 	const String fullFilepath = this->dataDirectory + filepath;
 
 	try

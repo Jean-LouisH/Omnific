@@ -23,7 +23,7 @@
 #include "scene_api.hpp"
 
 
-void Lilliputian::SceneAPI::bindScene(SceneForest* scene)
+void Lilliputian::SceneAPI::bindScene(Scene* scene)
 {
 	this->scene = scene;
 }

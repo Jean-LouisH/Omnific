@@ -135,7 +135,7 @@ void Lilliputian::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
-	SceneForest activeScene = this->game->getActiveScene();
+	Scene activeScene = this->game->getActiveScene();
 	const uint32_t msPerComputeUpdate = this->game->getConfiguration().msPerComputeUpdate;
 
 	this->game->executeOnInputMethods();

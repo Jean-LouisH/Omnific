@@ -33,10 +33,10 @@
 
 namespace Lilliputian
 {
-	class SceneForest
+	class Scene
 	{
 	public:
-		SceneForest();
+		Scene();
 		void incrementSceneTree2D();
 
 		void addEntity2D(Entity2D entity2D);

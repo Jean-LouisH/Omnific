@@ -23,7 +23,7 @@
 #pragma once
 
 #include "virtual_machine/virtual_machine.hpp"
-#include "game/scene/scene_forest.hpp"
+#include "game/scene/scene.hpp"
 #include "utilities/aliases.hpp"
 
 namespace Lilliputian
@@ -33,13 +33,13 @@ namespace Lilliputian
 	public:
 		Scripting();
 		void loadCurrentSceneScriptModules();
-		void executeOnStartMethods(SceneForest& scene);
-		void executeOnInputMethods(SceneForest& scene);
-		void executeOnFrameMethods(SceneForest& scene);
-		void executeOnComputeMethods(SceneForest& scene);
-		void executeOnLateMethods(SceneForest& scene);
-		void executeOnFinalMethods(SceneForest& scene);
-		void bindScene(SceneForest* scene);
+		void executeOnStartMethods(Scene& scene);
+		void executeOnInputMethods(Scene& scene);
+		void executeOnFrameMethods(Scene& scene);
+		void executeOnComputeMethods(Scene& scene);
+		void executeOnLateMethods(Scene& scene);
+		void executeOnFinalMethods(Scene& scene);
+		void bindScene(Scene* scene);
 		Vector<String>* getScripts();
 	private:
 		VirtualMachine* vm = nullptr;

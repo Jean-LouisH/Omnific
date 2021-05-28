@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "game/scene/scene_forest.hpp"
+#include "game/scene/scene.hpp"
 #include "os/human_interface_devices.hpp"
 
 namespace Lilliputian
@@ -32,7 +32,7 @@ namespace Lilliputian
 	public:
 		UISystem();
 		~UISystem();
-		void process(SceneForest& scene, HumanInterfaceDevices& hid);
+		void process(Scene& scene, HumanInterfaceDevices& hid);
 	private:
 		void orderUIComponentsByHierarchy();
 		void positionUIComponentsByHierarchy();

@@ -27,7 +27,7 @@
 namespace Lilliputian
 {
 	using EntityID = uint64_t;
-	using SceneForestIndex = uint64_t;
+	using SceneIndex = uint64_t;
 	using SceneTreeID = uint64_t;
 	using ComponentID = uint64_t;
 	using AssetID = uint64_t;

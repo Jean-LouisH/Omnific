@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "scene/scene_forest.hpp"
+#include "scene/scene.hpp"
 #include "utilities/string.hpp"
 #include "utilities/collections/map.hpp"
 
@@ -32,11 +32,11 @@ namespace Lilliputian
 	{
 	public:
 		SceneSerializer(String assetsDirectory, Vector<String>* scripts);
-		SceneForest loadFromFile(String filepath);
+		Scene loadFromFile(String filepath);
 		bool doesSceneExist(String filepath);
 	private:
 		String dataDirectory;
-		SceneForest loadFromTextFile(String filepath);
+		Scene loadFromTextFile(String filepath);
 		Vector<String>* scripts;
 	};
 }
