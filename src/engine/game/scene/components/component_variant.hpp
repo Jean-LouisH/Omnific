@@ -40,7 +40,6 @@
 #include "navigation_mesh_agent_2d.hpp"
 #include "navigation_mesh_box_obstacle_2d.hpp"
 #include "navigation_path_2d.hpp"
-#include "neural_network.hpp"
 #include "physics_constraint_2d.hpp"
 #include "physics_thruster_2d.hpp"
 #include "property_animation.hpp"
@@ -94,7 +93,6 @@ namespace Lilliputian
 			NAVIGATION_MESH_AGENT_2D,
 			NAVIGATION_MESH_BOX_OBSTACLE_2D,
 			NAVIGATION_PATH_2D,
-			NEURAL_NETWORK,
 			PHYSICS_CONSTRAINT_2D,
 			PHYSICS_THRUSTER_2D,
 			PROPERTY_ANIMATION,
@@ -145,7 +143,6 @@ namespace Lilliputian
 		void setToNavigationMeshAgent2D(NavigationMeshAgent2D* navigationMeshAgent2D);
 		void setToNavigationMeshBoxObstacle2D(NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D);
 		void setToNavigationPath2D(NavigationPath2D* navigationPath2D);
-		void setToNeuralNetwork(NeuralNetwork* neuralNetwork);
 		void setToPhysicsConstraint2D(PhysicsConstraint2D* physicsConstraint2D);
 		void setToPhysicsThruster2D(PhysicsThruster2D* physicsThruster2D);
 		void setToPropertyAnimation(PropertyAnimation* propertyAnimation);
@@ -191,7 +188,6 @@ namespace Lilliputian
 		NavigationMeshAgent2D* getNavigationMeshAgent2D();
 		NavigationMeshBoxObstacle2D* getNavigationMeshBoxObstacle2D();
 		NavigationPath2D* getNavigationPath2D();
-		NeuralNetwork* getNeuralNetwork();
 		PhysicsConstraint2D* getPhysicsConstraint2D();
 		PhysicsThruster2D* getPhysicsThruster2D();
 		PropertyAnimation* getPropertyAnimation();
@@ -248,7 +244,6 @@ namespace Lilliputian
 			NavigationMeshAgent2D* navigationMeshAgent2D;
 			NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D;
 			NavigationPath2D* navigationPath2D;
-			NeuralNetwork* neuralNetwork;
 			PhysicsConstraint2D* physicsConstraint2D;
 			PhysicsThruster2D* physicsThruster2D;
 			PropertyAnimation* propertyAnimation;

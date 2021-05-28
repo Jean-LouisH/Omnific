@@ -51,7 +51,6 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 		case Type::NAVIGATION_MESH_AGENT_2D:this->navigationMeshAgent2D = new NavigationMeshAgent2D(*other.navigationMeshAgent2D); break;
 		case Type::NAVIGATION_MESH_BOX_OBSTACLE_2D:this->navigationMeshBoxObstacle2D = new NavigationMeshBoxObstacle2D(*other.navigationMeshBoxObstacle2D); break;
 		case Type::NAVIGATION_PATH_2D:this->navigationPath2D = new NavigationPath2D(*other.navigationPath2D); break;
-		case Type::NEURAL_NETWORK:this->neuralNetwork = new NeuralNetwork(*other.neuralNetwork); break;
 		case Type::PHYSICS_CONSTRAINT_2D:this->physicsConstraint2D = new PhysicsConstraint2D(*other.physicsConstraint2D); break;
 		case Type::PHYSICS_THRUSTER_2D:this->physicsThruster2D = new PhysicsThruster2D(*other.physicsThruster2D); break;
 		case Type::PROPERTY_ANIMATION:this->propertyAnimation = new PropertyAnimation(*other.propertyAnimation); break;
@@ -101,7 +100,6 @@ Lilliputian::ComponentVariant::~ComponentVariant()
 		case Type::NAVIGATION_MESH_AGENT_2D:delete this->navigationMeshAgent2D; break;
 		case Type::NAVIGATION_MESH_BOX_OBSTACLE_2D:delete this->navigationMeshBoxObstacle2D; break;
 		case Type::NAVIGATION_PATH_2D:delete this->navigationPath2D; break;
-		case Type::NEURAL_NETWORK:delete this->neuralNetwork; break;
 		case Type::PHYSICS_CONSTRAINT_2D:delete this->physicsConstraint2D; break;
 		case Type::PHYSICS_THRUSTER_2D:delete this->physicsThruster2D; break;
 		case Type::PROPERTY_ANIMATION:delete this->propertyAnimation; break;
@@ -265,15 +263,6 @@ void Lilliputian::ComponentVariant::setToNavigationPath2D(NavigationPath2D* navi
 	{
 		this->navigationPath2D = navigationPath2D;
 		this->type = Type::NAVIGATION_PATH_2D;
-	}
-}
-
-void Lilliputian::ComponentVariant::setToNeuralNetwork(NeuralNetwork* neuralNetwork)
-{
-	if (this->type == Type::NONE)
-	{
-		this->neuralNetwork = neuralNetwork;
-		this->type = Type::NEURAL_NETWORK;
 	}
 }
 
@@ -608,10 +597,6 @@ Lilliputian::NavigationMeshBoxObstacle2D* Lilliputian::ComponentVariant::getNavi
 Lilliputian::NavigationPath2D* Lilliputian::ComponentVariant::getNavigationPath2D()
 {
 	return this->navigationPath2D;
-}
-Lilliputian::NeuralNetwork* Lilliputian::ComponentVariant::getNeuralNetwork()
-{
-	return this->neuralNetwork;
 }
 Lilliputian::PhysicsConstraint2D* Lilliputian::ComponentVariant::getPhysicsConstraint2D()
 {
