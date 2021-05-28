@@ -32,7 +32,6 @@ void Lilliputian::ScriptingAPIs::initialize()
 	newInstance->fileAPI = new FileAPI();
 	newInstance->inputAPI = new InputAPI();
 	newInstance->logAPI = new LogAPI();
-	newInstance->renderAPI = new RenderAPI();
 	newInstance->sceneAPI = new SceneAPI();
 	newInstance->timeAPI = new TimeAPI();
 	newInstance->windowAPI = new WindowAPI();
@@ -42,7 +41,7 @@ void Lilliputian::ScriptingAPIs::initialize()
 	newInstance->windowAPI->initialize(&OS::getWindow());
 }
 
-void Lilliputian::ScriptingAPIs::bindScene(SceneForest* scene)
+void Lilliputian::ScriptingAPIs::bindScene(Scene* scene)
 {
 	getInstance()->sceneAPI->bindScene(scene);
 }
@@ -70,11 +69,6 @@ Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::getInputAPI()
 Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::getLogAPI()
 {
 	return *getInstance()->logAPI;
-}
-
-Lilliputian::RenderAPI& Lilliputian::ScriptingAPIs::getRenderAPI()
-{
-	return *getInstance()->renderAPI;
 }
 
 Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::getSceneAPI()
