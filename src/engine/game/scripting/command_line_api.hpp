@@ -27,8 +27,7 @@ namespace Lilliputian
 	class CommandLineAPI
 	{
 	public:
-		bool getIsUserPriviledgeEnabled();
+		void openWindow();
 	private:
-		bool isUserPriviledgeEnabled = false;
 	};
 }

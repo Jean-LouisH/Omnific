@@ -21,8 +21,19 @@
 // SOFTWARE.
 
 #include "command_line_api.hpp"
+#include "scripting_apis.hpp"
+#include <game/scene/components/component_variant.hpp>
 
-bool Lilliputian::CommandLineAPI::getIsUserPriviledgeEnabled()
+void Lilliputian::CommandLineAPI::openWindow()
 {
-	return this->isUserPriviledgeEnabled;
+	Entity2D panelEntity;
+	Entity2D textEditEntity;
+	ComponentVariant componentVariant;
+
+	UIPanel* uiPanel = new UIPanel();
+	UITextEdit* uiTextEdit = new UITextEdit();
+
+	//Fill data
+
+
 }

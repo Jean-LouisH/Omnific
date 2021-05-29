@@ -96,8 +96,7 @@ void Lilliputian::Game::executeOnStartMethods()
 void Lilliputian::Game::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
-	if (!ScriptingAPIs::getCommandLineAPI().getIsUserPriviledgeEnabled() &&
-		OS::getHid().hasRequestedCommandLine())
+	if (OS::getHid().hasRequestedCommandLine())
 	{
 		String command;
 
