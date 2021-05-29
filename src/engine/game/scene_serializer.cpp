@@ -65,14 +65,14 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 		{
 			if (it0->first.as<std::string>() == "SceneTree2D")
 			{
-				scene.incrementSceneTree2D();
+				SceneTree2D sceneTree2D;
 
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
 					if (it1->first.as<std::string>() == "Entity2D")
 					{
 						Entity2D entity2D;
-						scene.addEntity2D(entity2D);
+						sceneTree2D.addEntity2D(entity2D);
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
@@ -81,11 +81,11 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 							//Entity attributes
 							if (it2->first.as<std::string>() == "name")
 							{
-								scene.addNameToLastEntity(it2->second.as<std::string>());
+								sceneTree2D.getLastEntity2D().name = it2->second.as<std::string>();
 							}
 							else if (it2->first.as<std::string>() == "parent")
 							{
-								scene.addParentToLastEntityByName(it2->second.as<std::string>());
+								sceneTree2D.getLastEntity2D().parentID = sceneTree2D.getEntity2DByName(it2->second.as<std::string>()).ID;
 							}
 							//Components
 							else if (it2->first.as<std::string>() == "AIBehaviourTree")
@@ -105,7 +105,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								}
 
 								componentVariant.setToAIBehaviourTree(aiBehaviourTree);
-								scene.addComponentToLastEntity(componentVariant);
+								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "AISightPerception")
 							{
@@ -197,7 +197,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								}
 
 								componentVariant.setToCamera2D(camera2D);
-								scene.addComponentToLastEntity(componentVariant);
+								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "CircleCollider2D")
 							{
@@ -255,7 +255,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								}
 
 								componentVariant.setToCountdownTimer(countdownTimer);
-								scene.addComponentToLastEntity(componentVariant);
+								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "FixedTransform2D")
 							{
@@ -453,7 +453,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								}
 
 								componentVariant.setToSprite(sprite);
-								scene.addComponentToLastEntity(componentVariant);
+								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "StaticFluid2D")
 							{
@@ -492,7 +492,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								}
 
 								componentVariant.setToTransform2D(transform2D);
-								scene.addComponentToLastEntity(componentVariant);
+								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
 							{
@@ -734,7 +734,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								}
 
 								componentVariant.setToUITextLabel(uiTextLabel);
-								scene.addComponentToLastEntity(componentVariant);
+								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UITexturedButton")
 							{
@@ -840,12 +840,14 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								{
 									String script = it2->second[i].as<std::string>();
 									scripts->push_back(script);
-									scene.addScriptToLastEntity(script);
+									sceneTree2D.getLastEntity2D().scripts.push_back(script);
 								}
 							}
 						}
 					}
 				}
+
+				scene.addSceneTree2D(sceneTree2D);
 			}
 		}
 	}
