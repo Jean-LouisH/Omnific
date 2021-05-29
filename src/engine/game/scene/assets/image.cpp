@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "image.hpp"
-#include "asset_id_counter.hpp"
+#include <game/scene/id_counter.hpp>
 #include <SDL_image.h>
 
 Lilliputian::Image::Image()
@@ -47,19 +47,19 @@ Lilliputian::Image::Image(String text, Font font, Colour colour, Font::RenderMod
 		break;
 	}
 
-	this->id = AssetIDCounter::getNewID();
+	this->id = IDCounter::getNewID();
 }
 
 Lilliputian::Image::Image(const char* filepath)
 {
 	this->surface = IMG_Load(filepath);
-	this->id = AssetIDCounter::getNewID();
+	this->id = IDCounter::getNewID();
 }
 
 Lilliputian::Image::Image(SDL_Surface* surface)
 {
 	this->surface = surface;
-	this->id = AssetIDCounter::getNewID();
+	this->id = IDCounter::getNewID();
 }
 
 void Lilliputian::Image::unload()

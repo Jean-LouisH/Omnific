@@ -124,7 +124,7 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 
 			}
 			else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D &&
-				 j == sceneTree2D.getCurrentCameraIndex())
+				 componentVariant.getID() == sceneTree2D.getCurrentCameraIndex())
 			{
 				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.getEntityID());
 				Vector2 position_px = transform2D.position_px;

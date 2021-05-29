@@ -74,7 +74,7 @@ namespace Lilliputian
     {
 	public:
 
-		enum class Type
+		enum Type
 		{
 			NONE,
 			AI_BEHAVIOUR_TREE,
@@ -126,7 +126,6 @@ namespace Lilliputian
 		ComponentVariant(const ComponentVariant& other);
 		~ComponentVariant();
 
-		void setComponentID(ComponentID componentID);
 		void setEntityID(EntityID entityID);
 
 		void setToAIBehaviourTree(AIBehaviourTree* aiBehaviourTree);
@@ -229,8 +228,6 @@ namespace Lilliputian
 		ComponentID ID = 0;
 		Type type = Type::NONE;
 		EntityID entityID = NO_ENTITY;
-
-		Image* dummyImage;
 		
 		union
         {
@@ -277,5 +274,7 @@ namespace Lilliputian
 			UITextLabel* uiTextLabel;
 			UITree* uiTree;
         };
+
+		void initialize();
     };
 }

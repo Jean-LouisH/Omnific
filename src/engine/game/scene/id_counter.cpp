@@ -20,18 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "asset_id_counter.hpp"
+#include "id_counter.hpp"
 
-Lilliputian::AssetIDCounter* Lilliputian::AssetIDCounter::instance = nullptr;
+Lilliputian::IDCounter* Lilliputian::IDCounter::instance = nullptr;
 
-Lilliputian::AssetID Lilliputian::AssetIDCounter::getNewID()
+uint64_t Lilliputian::IDCounter::getNewID()
 {
 	return ++getInstance()->idCount;
 }
 
-Lilliputian::AssetIDCounter* Lilliputian::AssetIDCounter::getInstance()
+Lilliputian::IDCounter* Lilliputian::IDCounter::getInstance()
 {
 	if (instance == nullptr)
-		instance = new AssetIDCounter();
+		instance = new IDCounter();
 	return instance;
 }

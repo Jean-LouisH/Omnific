@@ -26,13 +26,13 @@
 
 namespace Lilliputian
 {
-	class AssetIDCounter
+	class IDCounter
 	{
 	public:
-		static AssetID getNewID();
+		static uint64_t getNewID();
 	private:
-		AssetID idCount = 0;
-		static AssetIDCounter* instance;
-		static AssetIDCounter* getInstance();
+		uint64_t idCount = 0;
+		static IDCounter* instance;
+		static IDCounter* getInstance();
 	};
 }

@@ -21,19 +21,20 @@
 // SOFTWARE.
 
 #include "component_variant.hpp"
+#include <game/scene/id_counter.hpp>
 
 
 Lilliputian::ComponentVariant::ComponentVariant()
 {
-	this->dummyImage = new Image();
+	this->initialize();
 }
 
 Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 {
+	this->initialize();
+	this->ID = other.ID;
 	this->type = other.type;
 	this->entityID = other.entityID;
-
-	this->dummyImage = new Image();
 
 	switch (other.type)
 	{
@@ -85,8 +86,6 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 
 Lilliputian::ComponentVariant::~ComponentVariant()
 {
-	delete this->dummyImage;
-
 	switch (this->type)
 	{
 		case Type::AI_BEHAVIOUR_TREE: delete this->aiBehaviourTree; break;
@@ -132,11 +131,6 @@ Lilliputian::ComponentVariant::~ComponentVariant()
 		case Type::UI_TEXT_LABEL:delete this->uiTextLabel; break;
 		case Type::UI_TREE:delete this->uiTree; break;
 	}
-}
-
-void Lilliputian::ComponentVariant::setComponentID(ComponentID componentID)
-{
-	this->ID = componentID;
 }
 
 void Lilliputian::ComponentVariant::setEntityID(EntityID entityID)
@@ -732,6 +726,8 @@ Lilliputian::EntityID Lilliputian::ComponentVariant::getEntityID()
 
 Lilliputian::Image& Lilliputian::ComponentVariant::getImage()
 {
+	Image* image = nullptr;
+
 	switch (this->type)
 	{
 		case ComponentVariant::Type::SPRITE: return (this->sprite->getImage()); break;
@@ -756,10 +752,18 @@ Lilliputian::Image& Lilliputian::ComponentVariant::getImage()
 		case ComponentVariant::Type::UI_TREE:; return (this->uiTree->getImage()); break;
 	}
 
-	return *this->dummyImage;
+	return *image;
 }
 
 void Lilliputian::ComponentVariant::unloadImage()
 {
-	this->getImage().unload();
+	Image* image = &this->getImage();
+
+	if (image != nullptr)
+		image->unload();
+}
+
+void Lilliputian::ComponentVariant::initialize()
+{
+	this->ID = IDCounter::getNewID();
 }
