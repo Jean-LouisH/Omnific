@@ -37,37 +37,25 @@ namespace Lilliputian
 	{
 	public:
 		Scene();
-		void incrementSceneTree2D();
 
-		void addEntity2D(Entity2D entity2D);
-		void addEmptyEntity2D(Entity2D entity2D);
-		void addNameToLastEntity(String name);
-		void addParentToLastEntityByName(String name);
-		void addComponent(EntityID entityID, ComponentVariant componentVariant);
-		void addComponentToLastEntity(ComponentVariant componentVariant);
-		void addScript(EntityID entityID, String script);
-		void addScriptToLastEntity(String script);
+		void addSceneTree2D(SceneTree2D sceneTree2D);
+		void removeSceneTree2D(SceneTreeID sceneTreeID);
 
-		Vector<ScriptCallBatch> generateOnStartCallBatches();
-		Vector<ScriptCallBatch> generateOnInputCallBatches();
-		Vector<ScriptCallBatch> generateOnFrameCallBatches();
-		Vector<ScriptCallBatch> generateOnComputeCallBatches();
-		Vector<ScriptCallBatch> generateOnLateCallBatches();
-		Vector<ScriptCallBatch> generateOnFinalBatches();
+		Vector<ScriptCallBatch> getAllOnStartCallBatches();
+		Vector<ScriptCallBatch> getAllOnInputCallBatches();
+		Vector<ScriptCallBatch> getAllOnFrameCallBatches();
+		Vector<ScriptCallBatch> getAllOnComputeCallBatches();
+		Vector<ScriptCallBatch> getAllOnLateCallBatches();
+		Vector<ScriptCallBatch> getAllOnFinalBatches();
 
-		EntityID getPreviousEntityID();
 		AssetCache& getAssetCache();
+		SceneTree2D& getSceneTree(SceneTreeID sceneTreeID);
+		SceneTree2D& getLastSceneTree2D();
 		Vector<SceneTree2D>& getSceneTree2Ds();
 
 		void unload();
 	private:
-		uint64_t entityIDCount = 0;
-		uint64_t componentIDCount = 0;
-		uint64_t sceneTreeCount = 0;
-		Map<String, EntityID> entityNameRegistry;
 		Vector<SceneTree2D> sceneTree2Ds;
 		AssetCache assetCache;
-
-		SceneTree2D* getLastSceneTree2D();
 	};
 }

@@ -28,86 +28,21 @@ Lilliputian::Scene::Scene()
 
 }
 
-Lilliputian::SceneTree2D* Lilliputian::Scene::getLastSceneTree2D()
+void Lilliputian::Scene::addSceneTree2D(SceneTree2D sceneTree2D)
 {
-	return &(this->sceneTree2Ds.at(this->sceneTree2Ds.size() - 1));
-}
-
-void Lilliputian::Scene::incrementSceneTree2D()
-{
-	Entity2D emptyEntity2D;
-	SceneTree2D sceneTree2D;
-
-	sceneTree2D.setID(this->sceneTreeCount);
-	this->sceneTreeCount++;
 	this->sceneTree2Ds.push_back(sceneTree2D);
-	this->addEntity2D(emptyEntity2D);
 }
 
-void Lilliputian::Scene::addEntity2D(Entity2D entity2D)
+void Lilliputian::Scene::removeSceneTree2D(SceneTreeID sceneTreeID)
 {
-	entity2D.ID = this->entityIDCount;
-	this->entityIDCount++;
-	this->getLastSceneTree2D()->addEntity2D(entity2D);
+	for (auto it = this->sceneTree2Ds.begin(); it != this->sceneTree2Ds.end();)
+		if (it->getID() == sceneTreeID)
+			it = this->sceneTree2Ds.erase(it);
+		else
+			++it;
 }
 
-void Lilliputian::Scene::addEmptyEntity2D(Entity2D entity2D)
-{
-	entity2D.ID = this->entityIDCount;
-	this->entityIDCount++;
-	this->getLastSceneTree2D()->addEntity2D(entity2D);
-}
-
-void Lilliputian::Scene::addNameToLastEntity(String name)
-{
-
-}
-
-void Lilliputian::Scene::addParentToLastEntityByName(String name)
-{
-
-}
-
-void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant componentVariant)
-{
-	componentVariant.setComponentID(this->componentIDCount);
-	this->componentIDCount++;
-	this->getLastSceneTree2D()->addComponent(entityID, componentVariant);
-}
-
-void Lilliputian::Scene::addComponentToLastEntity(ComponentVariant componentVariant)
-{
-	EntityID lastEntityID = this->getPreviousEntityID();
-	this->addComponent(lastEntityID, componentVariant);
-}
-
-void Lilliputian::Scene::addScript(EntityID entityID, String script)
-{
-	this->getLastSceneTree2D()->addScript(entityID, script);
-}
-
-void Lilliputian::Scene::addScriptToLastEntity(String script)
-{
-	EntityID lastEntityID = this->getPreviousEntityID();
-	this->addScript(lastEntityID, script);
-}
-
-Lilliputian::EntityID Lilliputian::Scene::getPreviousEntityID()
-{
-	return this->entityIDCount - 1;
-}
-
-Lilliputian::AssetCache& Lilliputian::Scene::getAssetCache()
-{
-	return this->assetCache;
-}
-
-Lilliputian::Vector<Lilliputian::SceneTree2D>& Lilliputian::Scene::getSceneTree2Ds()
-{
-	return this->sceneTree2Ds;
-}
-
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnStartCallBatches()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnStartCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
@@ -126,7 +61,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnInputCallBatches()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnInputCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
@@ -145,7 +80,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFrameCallBatches()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFrameCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
@@ -164,7 +99,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnComputeCallBatches()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnComputeCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
@@ -183,7 +118,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnLateCallBatches()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLateCallBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
@@ -202,7 +137,7 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinalBatches()
+Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFinalBatches()
 {
 	Vector<ScriptCallBatch> scriptCallBatches;
 
@@ -219,6 +154,32 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOn
 	}
 
 	return scriptCallBatches;
+}
+
+Lilliputian::SceneTree2D& Lilliputian::Scene::getLastSceneTree2D()
+{
+	return this->sceneTree2Ds.at(this->sceneTree2Ds.size() - 1);
+}
+
+Lilliputian::AssetCache& Lilliputian::Scene::getAssetCache()
+{
+	return this->assetCache;
+}
+
+Lilliputian::SceneTree2D& Lilliputian::Scene::getSceneTree(SceneTreeID sceneTreeID)
+{
+	SceneTree2D* sceneTree2D = nullptr;
+
+	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
+		if (this->sceneTree2Ds.at(i).getID() == sceneTreeID)
+			sceneTree2D = &this->sceneTree2Ds.at(i);
+
+	return *sceneTree2D;
+}
+
+Lilliputian::Vector<Lilliputian::SceneTree2D>& Lilliputian::Scene::getSceneTree2Ds()
+{
+	return this->sceneTree2Ds;
 }
 
 void Lilliputian::Scene::unload()
