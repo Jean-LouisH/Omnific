@@ -40,8 +40,12 @@ namespace Lilliputian
 		SceneTree2D();
 
 		void addEntity2D(Entity2D entity2D);
+		void addEmptyEntity2D();
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
-		void addScript(EntityID entityID, String script);
+		void addComponentToLastEntity(ComponentVariant componentVariant);
+
+		void removeEntity2D(EntityID entityID);
+		void removeComponent(EntityID entityID, ComponentVariant::Type type);
 
 		Vector<ScriptCallBatch> generateOnStartCallBatches();
 		Vector<ScriptCallBatch> generateOnInputCallBatches();
@@ -54,8 +58,10 @@ namespace Lilliputian
 		Vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
 		Entity2D& getEntity2D(EntityID entityID);
-
-		void setID(SceneTreeID ID);
+		Entity2D& getEntity2DByName(String name);
+		Entity2D& getLastEntity2D();
+		Map<EntityID, Entity2D>& getEntity2Ds();
+		SceneTreeID getID();
 
 		void unload();
 	private:
@@ -63,16 +69,15 @@ namespace Lilliputian
 
 		Map<EntityID, Entity2D> entities2D;
 		Vector<ComponentVariant> componentVariants;
-		Vector<ComponentID> transform2DIndexCache;
+		Vector<uint64_t> transform2DIndexCache;
 
 		Queue<EntityID> startEntitiesQueue;
 		Queue<EntityID> finishEntitiesQueue;
 
-		Rectangle windowDimensions;
 		ComponentID currentCamera = -1;
+		EntityID dummyEntityID = NO_ENTITY;
+		EntityID lastEntityID = NO_ENTITY;
 
-		//Default, "empty" transform for rendering 
-		//Transformless entities
-		Transform2D* dummyTransform2D;
+		Entity2D& getDummyEntity2D();
 	};
 }
