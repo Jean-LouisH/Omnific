@@ -24,27 +24,27 @@
 
 #include "components/component_variant.hpp"
 #include "utilities/aliases.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/map.hpp"
 #include "utilities/constants.hpp"
-#include "utilities/string.hpp"
+#include <vector>
+#include <map>
+#include <string>
+#include <game/scene/id_counter.hpp>
 
 namespace Lilliputian
 {
-	class Entity2D
+	typedef struct Entity2D
 	{
-	public:
 		EntityID ID = NO_ENTITY;
 		EntityID parentID = NO_ENTITY;
-		Vector<EntityID> childIDs;
-		Vector<String> tags;
-		Vector<String> scripts;
-		Map<ComponentVariant::Type, ComponentID> components;
+		std::vector<EntityID> childIDs;
+		std::string name;
+		std::vector<std::string> tags;
+		std::map<ComponentVariant::Type, ComponentID> components;
+		std::vector<std::string> scripts;
 
-		void addParentEntity(EntityID parentEntityID);
-		void addChildEntity(EntityID childEntityID);
-		void addComponent(ComponentVariant::Type type, ComponentID ID);
-		void addScript(String script);
-	private:
+		Entity2D()
+		{
+			this->ID = IDCounter::getNewID();
+		}
 	};
 }
