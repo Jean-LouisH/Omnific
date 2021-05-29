@@ -36,10 +36,17 @@ void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityI
 
 bool Lilliputian::SceneAPI::hasComponent(String typeString)
 {
+	bool result = false;
+
 	ComponentVariant::Type type = this->convertStringToType(typeString);
 
-	SceneTree2D& sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
-	return sceneTree2D.getEntity2D(this->boundEntityID).components.count(type) > 0;
+	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
+	for (int i = 0; i < sceneTree2Ds.size(); i++)
+		if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
+			if (sceneTree2Ds.at(i).getEntity2D(this->boundEntityID).components.count(type) > 0)
+				return true;
+
+	return result;
 }
 
 void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
@@ -56,20 +63,51 @@ void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 	this->sceneSerializer = sceneSerializer;
 }
 
+Lilliputian::Entity2D& Lilliputian::SceneAPI::getThisEntity2D()
+{
+	return this->getThisSceneTree2D().getEntity2D(this->boundEntityID);
+}
+
+Lilliputian::SceneTree2D& Lilliputian::SceneAPI::getThisSceneTree2D()
+{
+	return this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
+}
+
+Lilliputian::Scene& Lilliputian::SceneAPI::getScene()
+{
+	return *this->scene;
+}
+
 Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(ComponentVariant::Type type)
 {
-	SceneTree2D& sceneTree2D = this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
-	Entity2D& entity2D = sceneTree2D.getEntity2D(this->boundEntityID);
-	return sceneTree2D.getComponentVariants().at(entity2D.components.at(type));
+	ComponentVariant* componentVariant = nullptr;
+	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
+	SceneTree2D* sceneTree2D = nullptr;
+
+	for (int i = 0; i < sceneTree2Ds.size(); i++)
+		if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
+			sceneTree2D = &sceneTree2Ds.at(i);
+	
+	Entity2D& entity2D = sceneTree2D->getEntity2D(this->boundEntityID);
+	Vector<ComponentVariant>& componentVariants = sceneTree2D->getComponentVariants();
+
+	for (int i = 0; i < componentVariants.size(); i++)
+		if (componentVariants.at(i).getID() == entity2D.components.at(type))
+			componentVariant = &componentVariants.at(i);
+
+	return *componentVariant;
 }
 
 Lilliputian::UITextLabel& Lilliputian::SceneAPI::getUITextLabel()
 {
 	UITextLabel* uiTextLabel = nullptr;
 	String typeString = "ui_text_label";
+	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
 
 	if (this->hasComponent(typeString))
-		uiTextLabel = this->getComponentVariant(this->convertStringToType(typeString)).getUITextLabel();
+		for (int i = 0; i < sceneTree2Ds.size(); i++)
+			if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
+				uiTextLabel = this->getComponentVariant(this->convertStringToType(typeString)).getUITextLabel();
 
 	return *uiTextLabel;
 }

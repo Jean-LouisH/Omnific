@@ -38,6 +38,10 @@ namespace Lilliputian
 		bool hasComponent(String typeString);
 		void changeToScene(String sceneFilename);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
+
+		Entity2D& getThisEntity2D();
+		SceneTree2D& getThisSceneTree2D();
+		Scene& getScene();
 		ComponentVariant& getComponentVariant(ComponentVariant::Type type);
 		UITextLabel& getUITextLabel();
 	private:
