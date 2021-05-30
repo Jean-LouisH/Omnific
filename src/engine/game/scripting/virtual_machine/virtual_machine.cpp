@@ -149,7 +149,15 @@ void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptC
 					ScriptingAPIs::bindEntity(
 						scriptCallBatch.sceneTreeID,
 						scriptCallBatch.entityID);
-					this->modules.at(scriptName).call(methodName);
+
+					try
+					{
+						this->modules.at(scriptName).call(methodName);
+					}
+					catch (const pybind11::error_already_set& e)
+					{
+						std::cout << e.what() << std::endl;
+					}
 				}
 			}
 		}
