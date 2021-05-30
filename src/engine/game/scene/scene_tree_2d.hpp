@@ -67,7 +67,13 @@ namespace Lilliputian
 	private:
 		SceneTreeID ID = 0;
 
+		/*Entities are stored in maps for fast random access
+		when Components invoke changes in other Components
+		attached to the Entity.*/
 		Map<EntityID, Entity2D> entities2D;
+
+		/*Components are stored in vectors for fast linear access
+		in engine system process loops.*/
 		Vector<ComponentVariant> componentVariants;
 		Vector<size_t> transform2DIndexCache;
 

@@ -55,6 +55,8 @@ namespace Lilliputian
 
 		void unload();
 	private:
+		/*SceneTrees are stored in vectors for sequential access
+		in engine systems.*/
 		Vector<SceneTree2D> sceneTree2Ds;
 		AssetCache assetCache;
 	};
