@@ -34,8 +34,8 @@ namespace Lilliputian
 {
 	typedef struct Entity2D
 	{
-		EntityID ID = NO_ENTITY;
-		EntityID parentID = NO_ENTITY;
+		EntityID ID = DUMMY_ENTITY;
+		EntityID parentID = DUMMY_ENTITY;
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;

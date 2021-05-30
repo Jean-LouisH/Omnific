@@ -227,7 +227,7 @@ namespace Lilliputian
 
 		ComponentID ID = 0;
 		Type type = Type::NONE;
-		EntityID entityID = NO_ENTITY;
+		EntityID entityID = DUMMY_ENTITY;
 		
 		union
         {

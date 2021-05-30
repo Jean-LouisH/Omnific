@@ -45,7 +45,7 @@ namespace Lilliputian
 #define GRAVITATIONAL_CONSTANT 6.67408e-11
 #define EARTH_MASS 5.9722e24
 
-#define NO_ENTITY 0 
+#define DUMMY_ENTITY 0 
 
 #define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
 #define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
