@@ -26,10 +26,11 @@
 
 namespace Lilliputian
 {
-	using EntityID = uint64_t;
-	using SceneIndex = uint64_t;
-	using SceneTreeID = uint64_t;
-	using ComponentID = uint64_t;
-	using AssetID = uint64_t;
-	using ScriptID = uint64_t;
+	using ID = uint64_t;
+	using EntityID = ID;
+	using SceneIndex = ID;
+	using SceneTreeID = ID;
+	using ComponentID = ID;
+	using AssetID = ID;
+	using ScriptID = ID;
 }

@@ -59,7 +59,7 @@ void Lilliputian::SceneTree2D::addComponent(EntityID entityID, ComponentVariant 
 		this->transform2DIndexCache.push_back(this->componentVariants.size() - 1);
 	else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D)
 		if (componentVariant.getCamera2D()->getIsStreaming())
-			this->currentCamera = componentVariant.getID();
+			this->currentCameraID = componentVariant.getID();
 }
 
 void Lilliputian::SceneTree2D::addComponentToLastEntity(ComponentVariant componentVariant)
@@ -79,7 +79,7 @@ void Lilliputian::SceneTree2D::removeEntity2D(EntityID entityID)
 	Vector<EntityID> childIDs = this->getEntity2D(entityID).childIDs;
 
 	for (int i = 0; i < childIDs.size(); i++)
-		this->getEntity2D(childIDs.at(i)).parentID = NO_ENTITY;
+		this->getEntity2D(childIDs.at(i)).parentID = DUMMY_ENTITY;
 
 	EntityID parentID = this->getEntity2D(entityID).parentID;
 	Vector<EntityID> parentChildIDs = this->getEntity2D(parentID).childIDs;
@@ -92,8 +92,8 @@ void Lilliputian::SceneTree2D::removeComponent(EntityID entityID, ComponentVaria
 
 	entity2D.components.erase(type);
 
-	if (componentID == this->currentCamera)
-		this->currentCamera = -1;
+	if (componentID == this->currentCameraID)
+		this->currentCameraID = -1;
 
 	for (auto it = this->componentVariants.begin(); it != this->componentVariants.end();)
 		if (it->getID() == componentID)
@@ -232,9 +232,9 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 	return scriptCallBatches;
 }
 
-Lilliputian::ComponentID Lilliputian::SceneTree2D::getCurrentCameraIndex()
+Lilliputian::ComponentID Lilliputian::SceneTree2D::getCurrentCameraID()
 {
-	return this->currentCamera;
+	return this->currentCameraID;
 }
 
 Lilliputian::Vector<Lilliputian::ComponentVariant>& Lilliputian::SceneTree2D::getComponentVariants()

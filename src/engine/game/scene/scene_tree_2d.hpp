@@ -54,7 +54,7 @@ namespace Lilliputian
 		Vector<ScriptCallBatch> generateOnLateCallBatches();
 		Vector<ScriptCallBatch> generateOnFinalCallBatches();
 
-		ComponentID getCurrentCameraIndex();
+		ComponentID getCurrentCameraID();
 		Vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
 		Entity2D& getEntity2D(EntityID entityID);
@@ -69,14 +69,14 @@ namespace Lilliputian
 
 		Map<EntityID, Entity2D> entities2D;
 		Vector<ComponentVariant> componentVariants;
-		Vector<uint64_t> transform2DIndexCache;
+		Vector<size_t> transform2DIndexCache;
 
 		Queue<EntityID> startEntitiesQueue;
 		Queue<EntityID> finishEntitiesQueue;
 
-		ComponentID currentCamera = -1;
-		EntityID dummyEntityID = NO_ENTITY;
-		EntityID lastEntityID = NO_ENTITY;
+		ComponentID currentCameraID = -1;
+		EntityID dummyEntityID = DUMMY_ENTITY;
+		EntityID lastEntityID = DUMMY_ENTITY;
 
 		Entity2D& getDummyEntity2D();
 	};
