@@ -28,12 +28,23 @@ void Lilliputian::CommandLineAPI::openWindow()
 {
 	Entity2D panelEntity;
 	Entity2D textEditEntity;
-	ComponentVariant componentVariant;
 
 	UIPanel* uiPanel = new UIPanel();
 	UITextEdit* uiTextEdit = new UITextEdit();
 
 	//Fill data
+	//...
+	//...
 
+	SceneTree2D& sceneTree2D = ScriptingAPIs::getSceneAPI().getThisSceneTree2D();
 
+	ComponentVariant uiPanelComponent;
+	sceneTree2D.addEntity2D(panelEntity);
+	uiPanelComponent.setToUIPanel(uiPanel);
+	sceneTree2D.addComponentToLastEntity(uiPanelComponent);
+
+	ComponentVariant textEditComponent;
+	sceneTree2D.addEntity2D(textEditEntity);
+	textEditComponent.setToUITextEdit(uiTextEdit);
+	sceneTree2D.addComponentToLastEntity(textEditComponent);
 }
