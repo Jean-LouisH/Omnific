@@ -23,8 +23,9 @@
 #pragma once
 
 #include <game/scripting/scripting_apis.hpp>
-#include <game/scene/components/ui_text_label.hpp>
+#include <game/scene/components/component_variant.hpp>
 #include <pybind11/embed.h>
+
 
 PYBIND11_EMBEDDED_MODULE(lilliputian, m) 
 {
@@ -45,7 +46,47 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("get_this_entity_2d", &Lilliputian::SceneAPI::getThisEntity2D, pybind11::return_value_policy::reference)
 		.def("get_this_scene_tree_2d", &Lilliputian::SceneAPI::getThisSceneTree2D, pybind11::return_value_policy::reference)
 		.def("get_scene", &Lilliputian::SceneAPI::getScene, pybind11::return_value_policy::reference)
-        .def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference);
+		.def("get_ai_behaviour_tree", &Lilliputian::SceneAPI::getAIBehaviourTree, pybind11::return_value_policy::reference)
+		.def("get_ai_sight_perception_2d", &Lilliputian::SceneAPI::getAISightPerception2D, pybind11::return_value_policy::reference)
+		.def("get_ai_sound_perception_2d", &Lilliputian::SceneAPI::getAISoundPerception2D, pybind11::return_value_policy::reference)
+		.def("get_animated_sprite", &Lilliputian::SceneAPI::getAnimatedSprite, pybind11::return_value_policy::reference)
+		.def("get_audio_listener_2d", &Lilliputian::SceneAPI::getAudioListener2D, pybind11::return_value_policy::reference)
+		.def("get_audio_stream_source_2d", &Lilliputian::SceneAPI::getAudioStreamSource2D, pybind11::return_value_policy::reference)
+		.def("get_camera_2d", &Lilliputian::SceneAPI::getCamera2D, pybind11::return_value_policy::reference)
+		.def("get_circle_collider_2d", &Lilliputian::SceneAPI::getCircleCollider2D, pybind11::return_value_policy::reference)
+		.def("get_constant_directional_force_2d", &Lilliputian::SceneAPI::getConstantDirectionalForce2D, pybind11::return_value_policy::reference)
+		.def("get_constant_point_force_2d", &Lilliputian::SceneAPI::getConstantPointForce2D, pybind11::return_value_policy::reference)
+		.def("get_countdown_timer", &Lilliputian::SceneAPI::getCountdownTimer, pybind11::return_value_policy::reference)
+		.def("get_fixed_transform_2d", &Lilliputian::SceneAPI::getFixedTransform2D, pybind11::return_value_policy::reference)
+		.def("get_navigation_mesh_agent_2d", &Lilliputian::SceneAPI::getNavigationMeshAgent2D, pybind11::return_value_policy::reference)
+		.def("get_navigation_mesh_box_obstacle_2d", &Lilliputian::SceneAPI::getNavigationMeshBoxObstacle2D, pybind11::return_value_policy::reference)
+		.def("get_naviation_path_2d", &Lilliputian::SceneAPI::getNavigationPath2D, pybind11::return_value_policy::reference)
+		.def("get_physics_constraint_2d", &Lilliputian::SceneAPI::getPhysicsConstraint2D, pybind11::return_value_policy::reference)
+		.def("get_physics_thruster_2d", &Lilliputian::SceneAPI::getPhysicsThruster2D, pybind11::return_value_policy::reference)
+		.def("get_property_animation", &Lilliputian::SceneAPI::getPropertyAnimation, pybind11::return_value_policy::reference)
+		.def("get_rectangular_collider_2d", &Lilliputian::SceneAPI::getRectangularCollider2D, pybind11::return_value_policy::reference)
+		.def("get_rectangular_trigger_area_2d", &Lilliputian::SceneAPI::getRectangularTriggerArea2D, pybind11::return_value_policy::reference)
+		.def("get_regular_polygonal_mesh_2d", &Lilliputian::SceneAPI::getRegularPolygonalMesh2D, pybind11::return_value_policy::reference)
+		.def("get_rigid_body_2d", &Lilliputian::SceneAPI::getRigidBody2D, pybind11::return_value_policy::reference)
+		.def("get_sprite", &Lilliputian::SceneAPI::getSprite, pybind11::return_value_policy::reference)
+		.def("get_static_fluid_2d", &Lilliputian::SceneAPI::getStaticFluid2D, pybind11::return_value_policy::reference)
+		.def("get_transform_2d", &Lilliputian::SceneAPI::getTransform2D, pybind11::return_value_policy::reference)
+		.def("get_ui_button", &Lilliputian::SceneAPI::getUIButton, pybind11::return_value_policy::reference)
+		.def("get_ui_graph_edit", &Lilliputian::SceneAPI::getUIGraphEdit, pybind11::return_value_policy::reference)
+		.def("get_ui_graph_node", &Lilliputian::SceneAPI::getUIGraphNode, pybind11::return_value_policy::reference)
+		.def("get_ui_hover_card", &Lilliputian::SceneAPI::getUIHoverCard, pybind11::return_value_policy::reference)
+		.def("get_ui_item_list", &Lilliputian::SceneAPI::getUIItemList, pybind11::return_value_policy::reference)
+		.def("get_ui_panel", &Lilliputian::SceneAPI::getUIPanel, pybind11::return_value_policy::reference)
+		.def("get_ui_progress_bar", &Lilliputian::SceneAPI::getUIProgressBar, pybind11::return_value_policy::reference)
+		.def("get_ui_rectangle", &Lilliputian::SceneAPI::getUIRectangle, pybind11::return_value_policy::reference)
+		.def("get_ui_scrollbar", &Lilliputian::SceneAPI::getUIScrollbar, pybind11::return_value_policy::reference)
+		.def("get_ui_separator", &Lilliputian::SceneAPI::getUISeparator, pybind11::return_value_policy::reference)
+		.def("get_ui_slider", &Lilliputian::SceneAPI::getUISlider, pybind11::return_value_policy::reference)
+		.def("get_ui_spin_box", &Lilliputian::SceneAPI::getUISpinBox, pybind11::return_value_policy::reference)
+		.def("get_ui_tab", &Lilliputian::SceneAPI::getUITab, pybind11::return_value_policy::reference)
+		.def("get_ui_text_edit", &Lilliputian::SceneAPI::getUITextEdit, pybind11::return_value_policy::reference)
+		.def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference)
+        .def("get_ui_tree", &Lilliputian::SceneAPI::getUITree, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Lilliputian::TimeAPI>(m, "TimeAPI");
 
@@ -66,10 +107,53 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::Scene>(m, "Scene");
 
 	/*Component classes*/
-    pybind11::class_<Lilliputian::UITextLabel>(m, "UITextLabel")
-        .def("set_text", &Lilliputian::UITextLabel::setText);
+	pybind11::class_<Lilliputian::AIBehaviourTree>(m, "AIBehaviourTree");
+	pybind11::class_<Lilliputian::AISightPerception2D>(m, "AISightPerception2D");
+	pybind11::class_<Lilliputian::AISoundPerception2D>(m, "AISoundPerception2D");
+	pybind11::class_<Lilliputian::AnimatedSprite>(m, "AnimatedSprite");
+	pybind11::class_<Lilliputian::AudioListener2D>(m, "AudioListener2D");
+	pybind11::class_<Lilliputian::AudioStreamSource2D>(m, "AudioStreamSource2D");
+	pybind11::class_<Lilliputian::Camera2D>(m, "Camera2D");
+	pybind11::class_<Lilliputian::CircleCollider2D>(m, "CircleCollider2D");
+	pybind11::class_<Lilliputian::ConstantDirectionalForce2D>(m, "ConstantDirectionalForce2D");
+	pybind11::class_<Lilliputian::ConstantPointForce2D>(m, "ConstantPointForce2D");
+	pybind11::class_<Lilliputian::CountdownTimer>(m, "CountdownTimer");
+	pybind11::class_<Lilliputian::FixedTransform2D>(m, "FixedTransform2D");
+	pybind11::class_<Lilliputian::NavigationMeshAgent2D>(m, "NavigationMeshAgent2D");
+	pybind11::class_<Lilliputian::NavigationMeshBoxObstacle2D>(m, "NavigationMeshBoxObstacle2D");
+	pybind11::class_<Lilliputian::NavigationPath2D>(m, "NavigationPath2D");
+	pybind11::class_<Lilliputian::PhysicsConstraint2D>(m, "PhysicsConstraint2D");
+	pybind11::class_<Lilliputian::PhysicsThruster2D>(m, "PhysicsThruster2D");
+	pybind11::class_<Lilliputian::PropertyAnimation>(m, "PropertyAnimation");
+	pybind11::class_<Lilliputian::RectangularCollider2D>(m, "RectangularCollider2D");
+	pybind11::class_<Lilliputian::RectangularMesh2D>(m, "RectangularMesh2D");
+	pybind11::class_<Lilliputian::RectangularTriggerArea2D>(m, "RectangularTriggerArea2D");
+	pybind11::class_<Lilliputian::RegularPolygonalMesh2D>(m, "RegularPolygonalMesh2D");
+	pybind11::class_<Lilliputian::RigidBody2D>(m, "RigidBody2D");
+	pybind11::class_<Lilliputian::Sprite>(m, "Sprite");
+	pybind11::class_<Lilliputian::StaticFluid2D>(m, "StaticFluid2D");
+	pybind11::class_<Lilliputian::Transform2D>(m, "Transform2D");
+	pybind11::class_<Lilliputian::UIButton>(m, "UIButton");
+	pybind11::class_<Lilliputian::UIGraphEdit>(m, "UIGraphEdit");
+	pybind11::class_<Lilliputian::UIGraphNode>(m, "UIGraphNode");
+	pybind11::class_<Lilliputian::UIHoverCard>(m, "UIHoverCard");
+	pybind11::class_<Lilliputian::UIItemList>(m, "UIItemList");
+	pybind11::class_<Lilliputian::UIPanel>(m, "UIPanel");
+	pybind11::class_<Lilliputian::UIProgressBar>(m, "UIProgressBar");
+	pybind11::class_<Lilliputian::UIRectangle>(m, "UIRectangle");
+	pybind11::class_<Lilliputian::UIScrollbar>(m, "UIScrollbar");
+	pybind11::class_<Lilliputian::UISeparator>(m, "UISeparator");
+	pybind11::class_<Lilliputian::UISlider>(m, "UISlider");
+	pybind11::class_<Lilliputian::UISpinBox>(m, "UISpinBox");
+	pybind11::class_<Lilliputian::UITab>(m, "UITab");
+	pybind11::class_<Lilliputian::UITextEdit>(m, "UITextEdit");
+	pybind11::class_<Lilliputian::UITextLabel>(m, "UITextLabel")
+		.def("set_text", &Lilliputian::UITextLabel::setText);
+	pybind11::class_<Lilliputian::UITree>(m, "UITree");
 
-	pybind11::enum_<Lilliputian::ComponentVariant::Type>(m, "Type")
+	/*ComponentVariant types*/
+	pybind11::class_<Lilliputian::ComponentVariant> componentVariant(m, "ComponentVariant");
+	pybind11::enum_<Lilliputian::ComponentVariant::Type>(componentVariant, "Type")
 		.value("NONE", Lilliputian::ComponentVariant::Type::NONE)
 		.value("AI_BEHAVIOUR_TREE", Lilliputian::ComponentVariant::Type::AI_BEHAVIOUR_TREE)
 		.value("AI_SIGHT_PERCEPTION", Lilliputian::ComponentVariant::Type::AI_SIGHT_PERCEPTION)
@@ -113,7 +197,8 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.value("UI_TAB", Lilliputian::ComponentVariant::Type::UI_TAB)
 		.value("UI_TEXT_EDIT", Lilliputian::ComponentVariant::Type::UI_TEXT_EDIT)
 		.value("UI_TEXT_LABEL", Lilliputian::ComponentVariant::Type::UI_TEXT_LABEL)
-		.value("UI_TREE", Lilliputian::ComponentVariant::Type::UI_TREE);
+		.value("UI_TREE", Lilliputian::ComponentVariant::Type::UI_TREE)
+		.export_values();
 
 	/*API getters*/
 	m.def("get_command_line_api", &Lilliputian::ScriptingAPIs::getCommandLineAPI);

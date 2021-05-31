@@ -35,21 +35,62 @@ namespace Lilliputian
 	public:
 		void bindScene(Scene* scene);
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
-		bool hasComponent(String typeString);
+		bool hasComponent(ComponentVariant::Type type);
 		void changeToScene(String sceneFilename);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
 		Entity2D& getThisEntity2D();
 		SceneTree2D& getThisSceneTree2D();
 		Scene& getScene();
+
 		ComponentVariant& getComponentVariant(ComponentVariant::Type type);
+
+		AIBehaviourTree& getAIBehaviourTree();
+		AISightPerception2D& getAISightPerception2D();
+		AISoundPerception2D& getAISoundPerception2D();
+		AnimatedSprite& getAnimatedSprite();
+		AudioListener2D& getAudioListener2D();
+		AudioStreamSource2D& getAudioStreamSource2D();
+		Camera2D& getCamera2D();
+		CircleCollider2D& getCircleCollider2D();
+		ConstantDirectionalForce2D& getConstantDirectionalForce2D();
+		ConstantPointForce2D& getConstantPointForce2D();
+		CountdownTimer& getCountdownTimer();
+		FixedTransform2D& getFixedTransform2D();
+		NavigationMeshAgent2D& getNavigationMeshAgent2D();
+		NavigationMeshBoxObstacle2D& getNavigationMeshBoxObstacle2D();
+		NavigationPath2D& getNavigationPath2D();
+		PhysicsConstraint2D& getPhysicsConstraint2D();
+		PhysicsThruster2D& getPhysicsThruster2D();
+		PropertyAnimation& getPropertyAnimation();
+		RectangularCollider2D& getRectangularCollider2D();
+		RectangularMesh2D& getRectangularMesh2D();
+		RectangularTriggerArea2D& getRectangularTriggerArea2D();
+		RegularPolygonalMesh2D& getRegularPolygonalMesh2D();
+		RigidBody2D& getRigidBody2D();
+		Sprite& getSprite();
+		StaticFluid2D& getStaticFluid2D();
+		Transform2D& getTransform2D();
+		UIButton& getUIButton();
+		UIGraphEdit& getUIGraphEdit();
+		UIGraphNode& getUIGraphNode();
+		UIHoverCard& getUIHoverCard();
+		UIItemList& getUIItemList();
+		UIPanel& getUIPanel();
+		UIProgressBar& getUIProgressBar();
+		UIRectangle& getUIRectangle();
+		UIScrollbar& getUIScrollbar();
+		UISeparator& getUISeparator();
+		UISlider& getUISlider();
+		UISpinBox& getUISpinBox();
+		UITab& getUITab();
+		UITextEdit& getUITextEdit();
 		UITextLabel& getUITextLabel();
+		UITree& getUITree();
 	private:
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
 		Scene* scene = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
-
-		ComponentVariant::Type convertStringToType(String typeString);
 	};
 }

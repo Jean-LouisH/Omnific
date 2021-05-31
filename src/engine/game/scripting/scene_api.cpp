@@ -34,13 +34,11 @@ void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityI
 	this->boundEntityID = entityID;
 }
 
-bool Lilliputian::SceneAPI::hasComponent(String typeString)
+bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
 {
 	bool result = false;
-
-	ComponentVariant::Type type = this->convertStringToType(typeString);
-
 	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
+
 	for (int i = 0; i < sceneTree2Ds.size(); i++)
 		if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
 			if (sceneTree2Ds.at(i).getEntity2D(this->boundEntityID).components.count(type) > 0)
@@ -98,26 +96,465 @@ Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(Compon
 	return *componentVariant;
 }
 
+Lilliputian::AIBehaviourTree& Lilliputian::SceneAPI::getAIBehaviourTree()
+{
+	AIBehaviourTree* aiBehaviourTree = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::AI_BEHAVIOUR_TREE;
+
+	if (this->hasComponent(type))
+		aiBehaviourTree = this->getComponentVariant(type).getAIBehaviourTree();
+
+	return *aiBehaviourTree;
+}
+
+Lilliputian::AISightPerception2D& Lilliputian::SceneAPI::getAISightPerception2D()
+{
+	AISightPerception2D* aiSightPerception2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::AI_SIGHT_PERCEPTION;
+
+	if (this->hasComponent(type))
+		aiSightPerception2D = this->getComponentVariant(type).getAISightPerception2D();
+
+	return *aiSightPerception2D;
+}
+
+Lilliputian::AISoundPerception2D& Lilliputian::SceneAPI::getAISoundPerception2D()
+{
+	AISoundPerception2D* aiSoundPerception2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::AI_SOUND_PERCEPTION;
+
+	if (this->hasComponent(type))
+		aiSoundPerception2D = this->getComponentVariant(type).getAISoundPerception2D();
+
+	return *aiSoundPerception2D;
+}
+
+Lilliputian::AnimatedSprite& Lilliputian::SceneAPI::getAnimatedSprite()
+{
+	AnimatedSprite* animatedSprite = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::ANIMATED_SPRITE;
+
+	if (this->hasComponent(type))
+		animatedSprite = this->getComponentVariant(type).getAnimatedSprite();
+
+	return *animatedSprite;
+}
+
+Lilliputian::AudioListener2D& Lilliputian::SceneAPI::getAudioListener2D()
+{
+	AudioListener2D* audioListener2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::AUDIO_LISTENER_2D;
+
+	if (this->hasComponent(type))
+		audioListener2D = this->getComponentVariant(type).getAudioListener2D();
+
+	return *audioListener2D;
+}
+
+Lilliputian::AudioStreamSource2D& Lilliputian::SceneAPI::getAudioStreamSource2D()
+{
+	AudioStreamSource2D* audioStreamSource2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::AUDIO_STREAM_SOURCE_2D;
+
+	if (this->hasComponent(type))
+		audioStreamSource2D = this->getComponentVariant(type).getAudioStreamSource2D();
+
+	return *audioStreamSource2D;
+}
+
+Lilliputian::Camera2D& Lilliputian::SceneAPI::getCamera2D()
+{
+	Camera2D* camera2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::CAMERA_2D;
+
+	if (this->hasComponent(type))
+		camera2D = this->getComponentVariant(type).getCamera2D();
+
+	return *camera2D;
+}
+
+Lilliputian::CircleCollider2D& Lilliputian::SceneAPI::getCircleCollider2D()
+{
+	CircleCollider2D* circleCollider2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::CIRCLE_COLLIDER_2D;
+
+	if (this->hasComponent(type))
+		circleCollider2D = this->getComponentVariant(type).getCircleCollider2D();
+
+	return *circleCollider2D;
+}
+
+Lilliputian::ConstantDirectionalForce2D& Lilliputian::SceneAPI::getConstantDirectionalForce2D()
+{
+	ConstantDirectionalForce2D* constantDirectionalForce2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_TEXT_LABEL;
+
+	if (this->hasComponent(type))
+		constantDirectionalForce2D = this->getComponentVariant(type).getConstantDirectionalForce2D();
+
+	return *constantDirectionalForce2D;
+}
+
+Lilliputian::ConstantPointForce2D& Lilliputian::SceneAPI::getConstantPointForce2D()
+{
+	ConstantPointForce2D* constantPointForce2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::CONSTANT_POINT_FORCE_2D;
+
+	if (this->hasComponent(type))
+		constantPointForce2D = this->getComponentVariant(type).getConstantPointForce2D();
+
+	return *constantPointForce2D;
+}
+
+Lilliputian::CountdownTimer& Lilliputian::SceneAPI::getCountdownTimer()
+{
+	CountdownTimer* countdownTimer = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::COUNTDOWN_TIMER;
+
+	if (this->hasComponent(type))
+		countdownTimer = this->getComponentVariant(type).getCountdownTimer();
+
+	return *countdownTimer;
+}
+
+Lilliputian::FixedTransform2D& Lilliputian::SceneAPI::getFixedTransform2D()
+{
+	FixedTransform2D* fixedTransform2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::TRANSFORM_2D;
+
+	if (this->hasComponent(type))
+		fixedTransform2D = this->getComponentVariant(type).getFixedTransform2D();
+
+	return *fixedTransform2D;
+}
+
+Lilliputian::NavigationMeshAgent2D& Lilliputian::SceneAPI::getNavigationMeshAgent2D()
+{
+	NavigationMeshAgent2D* navigationMeshAgent2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::NAVIGATION_MESH_AGENT_2D;
+
+	if (this->hasComponent(type))
+		navigationMeshAgent2D = this->getComponentVariant(type).getNavigationMeshAgent2D();
+
+	return *navigationMeshAgent2D;
+}
+
+Lilliputian::NavigationMeshBoxObstacle2D& Lilliputian::SceneAPI::getNavigationMeshBoxObstacle2D()
+{
+	NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::NAVIGATION_MESH_BOX_OBSTACLE_2D;
+
+	if (this->hasComponent(type))
+		navigationMeshBoxObstacle2D = this->getComponentVariant(type).getNavigationMeshBoxObstacle2D();
+
+	return *navigationMeshBoxObstacle2D;
+}
+
+Lilliputian::NavigationPath2D& Lilliputian::SceneAPI::getNavigationPath2D()
+{
+	NavigationPath2D* navigationPath2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::NAVIGATION_PATH_2D;
+
+	if (this->hasComponent(type))
+		navigationPath2D = this->getComponentVariant(type).getNavigationPath2D();
+
+	return *navigationPath2D;
+}
+
+Lilliputian::PhysicsConstraint2D& Lilliputian::SceneAPI::getPhysicsConstraint2D()
+{
+	PhysicsConstraint2D* physicsConstraint2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::PHYSICS_CONSTRAINT_2D;
+
+	if (this->hasComponent(type))
+		physicsConstraint2D = this->getComponentVariant(type).getPhysicsConstraint2D();
+
+	return *physicsConstraint2D;
+}
+
+Lilliputian::PhysicsThruster2D& Lilliputian::SceneAPI::getPhysicsThruster2D()
+{
+	PhysicsThruster2D* physicsThruster2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::PHYSICS_THRUSTER_2D;
+
+	if (this->hasComponent(type))
+		physicsThruster2D = this->getComponentVariant(type).getPhysicsThruster2D();
+
+	return *physicsThruster2D;
+}
+
+Lilliputian::PropertyAnimation& Lilliputian::SceneAPI::getPropertyAnimation()
+{
+	PropertyAnimation* propertyAnimation = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::PROPERTY_ANIMATION;
+
+	if (this->hasComponent(type))
+		propertyAnimation = this->getComponentVariant(type).getPropertyAnimation();
+
+	return *propertyAnimation;
+}
+
+Lilliputian::RectangularCollider2D& Lilliputian::SceneAPI::getRectangularCollider2D()
+{
+	RectangularCollider2D* rectangularCollider2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::RECTANGULAR_COLIIDER_2D;
+
+	if (this->hasComponent(type))
+		rectangularCollider2D = this->getComponentVariant(type).getRectangularCollider2D();
+
+	return *rectangularCollider2D;
+}
+
+Lilliputian::RectangularMesh2D& Lilliputian::SceneAPI::getRectangularMesh2D()
+{
+	RectangularMesh2D* rectangularMesh2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::RECTANGULAR_MESH_2D;
+
+	if (this->hasComponent(type))
+		rectangularMesh2D = this->getComponentVariant(type).getRectangularMesh2D();
+
+	return *rectangularMesh2D;
+}
+
+Lilliputian::RectangularTriggerArea2D& Lilliputian::SceneAPI::getRectangularTriggerArea2D()
+{
+	RectangularTriggerArea2D* rectangularTriggerArea2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::RECTANGULAR_TRIGGER_AREA_2D;
+
+	if (this->hasComponent(type))
+		rectangularTriggerArea2D = this->getComponentVariant(type).getRectangularTriggerArea2D();
+
+	return *rectangularTriggerArea2D;
+}
+
+Lilliputian::RegularPolygonalMesh2D& Lilliputian::SceneAPI::getRegularPolygonalMesh2D()
+{
+	RegularPolygonalMesh2D* regularPolygonalMesh2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::REGULAR_POLYGONAL_MESH_2D;
+
+	if (this->hasComponent(type))
+		regularPolygonalMesh2D = this->getComponentVariant(type).getRegularPolygonalMesh2D();
+
+	return *regularPolygonalMesh2D;
+}
+
+Lilliputian::RigidBody2D& Lilliputian::SceneAPI::getRigidBody2D()
+{
+	RigidBody2D* rigidBody2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::RIGID_BODY_2D;
+
+	if (this->hasComponent(type))
+		rigidBody2D = this->getComponentVariant(type).getRigidBody2D();
+
+	return *rigidBody2D;
+}
+
+Lilliputian::Sprite& Lilliputian::SceneAPI::getSprite()
+{
+	Sprite* sprite = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::SPRITE;
+
+	if (this->hasComponent(type))
+		sprite = this->getComponentVariant(type).getSprite();
+
+	return *sprite;
+}
+
+Lilliputian::StaticFluid2D& Lilliputian::SceneAPI::getStaticFluid2D()
+{
+	StaticFluid2D* staticFluid2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::STATIC_FLUID_2D;
+
+	if (this->hasComponent(type))
+		staticFluid2D = this->getComponentVariant(type).getStaticFluid2D();
+
+	return *staticFluid2D;
+}
+
+Lilliputian::Transform2D& Lilliputian::SceneAPI::getTransform2D()
+{
+	Transform2D* transform2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::TRANSFORM_2D;
+
+	if (this->hasComponent(type))
+		transform2D = this->getComponentVariant(type).getTransform2D();
+
+	return *transform2D;
+}
+
+Lilliputian::UIButton& Lilliputian::SceneAPI::getUIButton()
+{
+	UIButton* uiButton = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_BUTTON;
+
+	if (this->hasComponent(type))
+		uiButton = this->getComponentVariant(type).getUIButton();
+
+	return *uiButton;
+}
+
+Lilliputian::UIGraphEdit& Lilliputian::SceneAPI::getUIGraphEdit()
+{
+	UIGraphEdit* uiGraphEdit = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_GRAPH_EDIT;
+
+	if (this->hasComponent(type))
+		uiGraphEdit = this->getComponentVariant(type).getUIGraphEdit();
+
+	return *uiGraphEdit;
+}
+
+Lilliputian::UIGraphNode& Lilliputian::SceneAPI::getUIGraphNode()
+{
+	UIGraphNode* uiGraphNode = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_GRAPH_NODE;
+
+	if (this->hasComponent(type))
+		uiGraphNode = this->getComponentVariant(type).getUIGraphNode();
+
+	return *uiGraphNode;
+}
+
+Lilliputian::UIHoverCard& Lilliputian::SceneAPI::getUIHoverCard()
+{
+	UIHoverCard* uiHoverCard = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_HOVER_CARD;
+
+	if (this->hasComponent(type))
+		uiHoverCard = this->getComponentVariant(type).getUIHoverCard();
+
+	return *uiHoverCard;
+}
+
+Lilliputian::UIItemList& Lilliputian::SceneAPI::getUIItemList()
+{
+	UIItemList* uiitemList = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_ITEM_LIST;
+
+	if (this->hasComponent(type))
+		uiitemList = this->getComponentVariant(type).getUIItemList();
+
+	return *uiitemList;
+}
+
+Lilliputian::UIPanel& Lilliputian::SceneAPI::getUIPanel()
+{
+	UIPanel* uiPanel = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_PANEL;
+
+	if (this->hasComponent(type))
+		uiPanel = this->getComponentVariant(type).getUIPanel();
+
+	return *uiPanel;
+}
+
+Lilliputian::UIProgressBar& Lilliputian::SceneAPI::getUIProgressBar()
+{
+	UIProgressBar* uiProgressBar = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_PROGRESS_BAR;
+
+	if (this->hasComponent(type))
+		uiProgressBar = this->getComponentVariant(type).getUIProgressBar();
+
+	return *uiProgressBar;
+}
+
+Lilliputian::UIRectangle& Lilliputian::SceneAPI::getUIRectangle()
+{
+	UIRectangle* uiRectangle = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_RECTANGLE;
+
+	if (this->hasComponent(type))
+		uiRectangle = this->getComponentVariant(type).getUIRectangle();
+
+	return *uiRectangle;
+}
+
+Lilliputian::UIScrollbar& Lilliputian::SceneAPI::getUIScrollbar()
+{
+	UIScrollbar* uiScrollbar = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_SCROLLBAR;
+
+	if (this->hasComponent(type))
+		uiScrollbar = this->getComponentVariant(type).getUIScrollbar();
+
+	return *uiScrollbar;
+}
+
+Lilliputian::UISeparator& Lilliputian::SceneAPI::getUISeparator()
+{
+	UISeparator* uiSeparator = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_SEPARATOR;
+
+	if (this->hasComponent(type))
+		uiSeparator = this->getComponentVariant(type).getUISeparator();
+
+	return *uiSeparator;
+}
+
+
+Lilliputian::UISlider& Lilliputian::SceneAPI::getUISlider()
+{
+	UISlider* uiSlider = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_SLIDER;
+
+	if (this->hasComponent(type))
+		uiSlider = this->getComponentVariant(type).getUISlider();
+
+	return *uiSlider;
+}
+
+Lilliputian::UISpinBox& Lilliputian::SceneAPI::getUISpinBox()
+{
+	UISpinBox* uiSpinBox = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_SPIN_BOX;
+
+	if (this->hasComponent(type))
+		uiSpinBox = this->getComponentVariant(type).getUISpinBox();
+
+	return *uiSpinBox;
+}
+
+Lilliputian::UITab& Lilliputian::SceneAPI::getUITab()
+{
+	UITab* uiTab = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_TAB;
+
+	if (this->hasComponent(type))
+		uiTab = this->getComponentVariant(type).getUITab();
+
+	return *uiTab;
+}
+
+Lilliputian::UITextEdit& Lilliputian::SceneAPI::getUITextEdit()
+{
+	UITextEdit* uiTextEdit = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_TEXT_EDIT;
+
+	if (this->hasComponent(type))
+		uiTextEdit = this->getComponentVariant(type).getUITextEdit();
+
+	return *uiTextEdit;
+}
+
 Lilliputian::UITextLabel& Lilliputian::SceneAPI::getUITextLabel()
 {
 	UITextLabel* uiTextLabel = nullptr;
-	String typeString = "ui_text_label";
-	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
+	ComponentVariant::Type type = ComponentVariant::Type::UI_TEXT_LABEL;
 
-	if (this->hasComponent(typeString))
-		for (int i = 0; i < sceneTree2Ds.size(); i++)
-			if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
-				uiTextLabel = this->getComponentVariant(this->convertStringToType(typeString)).getUITextLabel();
+	if (this->hasComponent(type))
+		uiTextLabel = this->getComponentVariant(type).getUITextLabel();
 
 	return *uiTextLabel;
 }
 
-Lilliputian::ComponentVariant::Type Lilliputian::SceneAPI::convertStringToType(String typeString)
+Lilliputian::UITree& Lilliputian::SceneAPI::getUITree()
 {
-	ComponentVariant::Type type = ComponentVariant::Type::NONE;
+	UITree* uiTree = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::UI_TREE;
 
-	if (typeString == "ui_text_label")
-		type = ComponentVariant::Type::UI_TEXT_LABEL;
+	if (this->hasComponent(type))
+		uiTree = this->getComponentVariant(type).getUITree();
 
-	return type;
+	return *uiTree;
 }
