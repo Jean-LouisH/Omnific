@@ -28,9 +28,9 @@ namespace Lilliputian
 {
 	using ID = uint64_t;
 	using EntityID = ID;
-	using SceneIndex = ID;
 	using SceneTreeID = ID;
 	using ComponentID = ID;
 	using AssetID = ID;
 	using ScriptID = ID;
+	using SceneIndex = uint64_t;
 }
