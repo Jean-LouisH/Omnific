@@ -31,12 +31,12 @@
 #include "scene_serializer.hpp"
 #include "boot_configuration.hpp"
 #include "command_line.hpp"
+#include "scene_storage.hpp"
 #include "scripting/virtual_machine/virtual_machine.hpp"
 #include "scripting/scripting.hpp"
 #include "utilities/collections/vector.hpp"
 #include "utilities/collections/stack.hpp"
 #include "utilities/string.hpp"
-#include "utilities/aliases.hpp"
 
 namespace Lilliputian
 {
@@ -52,7 +52,6 @@ namespace Lilliputian
 		void executeOnLateMethods();
 		void executeOnFinalMethods();
 		void deinitialize();
-		void addLoadedScene(Scene scene);
 		Scene& getActiveScene();
 		BootConfiguration& getConfiguration();
 	private:
@@ -60,7 +59,6 @@ namespace Lilliputian
 		SceneSerializer* sceneSerializer = nullptr;
 		CommandLine* commandLine = nullptr;
 		Scripting* scripting = nullptr;
-		Vector<Scene> loadedScenes;
-		SceneIndex activeSceneIndex = 0;
+		SceneStorage* sceneStorage = nullptr;
 	};
 }

@@ -28,11 +28,11 @@
 Lilliputian::Game::Game()
 {
 	this->scripting = new Scripting();
+	this->sceneStorage = new SceneStorage();
 	this->commandLine = new CommandLine(
 		this->scripting->getScripts(),
-		&this->loadedScenes,
 		this->sceneSerializer,
-		&this->activeSceneIndex);
+		this->sceneStorage);
 
 	ScriptingAPIs::initialize();
 }
@@ -64,7 +64,9 @@ void Lilliputian::Game::initialize()
 		{
 			entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
 			this->scripting->loadCurrentSceneScriptModules();
-			this->addLoadedScene(entryScene);
+			this->sceneStorage->scenes.push_back(entryScene);
+			this->sceneStorage->activeSceneIndex = this->sceneStorage->scenes.size() - 1;
+			this->scripting->setSceneStorage(this->sceneStorage);
 		}
 		else
 		{
@@ -89,7 +91,7 @@ void Lilliputian::Game::initialize()
 
 void Lilliputian::Game::executeOnStartMethods()
 {
-	if (this->loadedScenes.size() > 0)
+	if (this->sceneStorage->scenes.size() > 0)
 		this->scripting->executeOnStartMethods(this->getActiveScene());
 }
 
@@ -108,13 +110,13 @@ void Lilliputian::Game::executeOnInputMethods()
 	}
 #endif
 
-	if (this->loadedScenes.size() > 0 && OS::getHid().getHasDetectedInputChanges())
+	if (this->sceneStorage->scenes.size() > 0 && OS::getHid().getHasDetectedInputChanges())
 		this->scripting->executeOnInputMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnFrameMethods()
 {
-	if (this->loadedScenes.size() > 0)
+	if (this->sceneStorage->scenes.size() > 0)
 		this->scripting->executeOnFrameMethods(this->getActiveScene());
 }
 
@@ -122,19 +124,19 @@ void Lilliputian::Game::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
 
-	if (this->loadedScenes.size() > 0)
+	if (this->sceneStorage->scenes.size() > 0)
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnLateMethods()
 {
-	if (this->loadedScenes.size() > 0)
+	if (this->sceneStorage->scenes.size() > 0)
 		this->scripting->executeOnLateMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnFinalMethods()
 {
-	if (this->loadedScenes.size() > 0)
+	if (this->sceneStorage->scenes.size() > 0)
 		this->scripting->executeOnFinalMethods(this->getActiveScene());
 }
 
@@ -145,16 +147,9 @@ void Lilliputian::Game::deinitialize()
 	delete this->scripting;
 }
 
-void Lilliputian::Game::addLoadedScene(Scene scene)
-{
-	this->loadedScenes.push_back(scene);
-	this->activeSceneIndex = this->loadedScenes.size() - 1;
-	this->scripting->bindScene(&this->loadedScenes.at(this->activeSceneIndex));
-}
-
 Lilliputian::Scene& Lilliputian::Game::getActiveScene()
 {
-	return this->loadedScenes.at(this->activeSceneIndex);
+	return this->sceneStorage->getActiveScene();
 }
 
 Lilliputian::BootConfiguration& Lilliputian::Game::getConfiguration()

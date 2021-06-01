@@ -20,22 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "command_line.hpp"
+#include "scene_storage.hpp"
 
-Lilliputian::CommandLine::CommandLine(
-	Vector<String>* scripts,
-	SceneSerializer* sceneSerializer,
-	SceneStorage* sceneStorage
-)
+Lilliputian::Scene& Lilliputian::SceneStorage::getActiveScene()
 {
-	this->scripts = scripts;
-	this->loadedScenes = loadedScenes;
-	this->sceneSerializer = sceneSerializer;
-	this->activeSceneIndex = activeSceneIndex;
-}
-
-void Lilliputian::CommandLine::execute(String command)
-{
-	if (command == "shutdown" || command == "exit")
-		OS::getHid().forceShutdownRequest();
+	return this->scenes.at(this->activeSceneIndex);
 }

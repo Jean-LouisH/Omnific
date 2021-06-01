@@ -29,6 +29,7 @@
 #include "scene_serializer.hpp"
 #include "os/os.hpp"
 #include "os/profiler.hpp"
+#include "scene_storage.hpp"
 
 namespace Lilliputian
 {
@@ -37,9 +38,8 @@ namespace Lilliputian
 	public:
 		CommandLine(
 			Vector<String>* scripts,
-			Vector<Scene>* loadedScenes,
 			SceneSerializer* sceneSerializer,
-			SceneIndex* activeSceneIndex
+			SceneStorage* sceneStorage
 			);
 
 		void execute(String command);
