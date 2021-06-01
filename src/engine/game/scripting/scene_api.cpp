@@ -23,9 +23,9 @@
 #include "scene_api.hpp"
 
 
-void Lilliputian::SceneAPI::bindScene(Scene* scene)
+void Lilliputian::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
 {
-	this->scene = scene;
+	this->sceneStorage = sceneStorage;
 }
 
 void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
@@ -37,7 +37,7 @@ void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityI
 bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
 {
 	bool result = false;
-	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
+	Vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
 
 	for (int i = 0; i < sceneTree2Ds.size(); i++)
 		if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
@@ -51,8 +51,9 @@ void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		this->scene->unload();
-		*this->scene = this->sceneSerializer->loadFromFile(sceneFilename);
+		Scene& scene = sceneStorage->getActiveScene();
+		scene.unload();
+		scene = this->sceneSerializer->loadFromFile(sceneFilename);
 	}
 }
 
@@ -68,18 +69,18 @@ Lilliputian::Entity2D& Lilliputian::SceneAPI::getThisEntity2D()
 
 Lilliputian::SceneTree2D& Lilliputian::SceneAPI::getThisSceneTree2D()
 {
-	return this->scene->getSceneTree2Ds().at(this->boundSceneTreeID);
+	return this->sceneStorage->getActiveScene().getSceneTree2Ds().at(this->boundSceneTreeID);
 }
 
 Lilliputian::Scene& Lilliputian::SceneAPI::getScene()
 {
-	return *this->scene;
+	return sceneStorage->getActiveScene();
 }
 
 Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(ComponentVariant::Type type)
 {
 	ComponentVariant* componentVariant = nullptr;
-	Vector<SceneTree2D>& sceneTree2Ds = this->scene->getSceneTree2Ds();
+	Vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
 	SceneTree2D* sceneTree2D = nullptr;
 
 	for (int i = 0; i < sceneTree2Ds.size(); i++)

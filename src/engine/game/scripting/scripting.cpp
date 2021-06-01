@@ -63,9 +63,9 @@ void Lilliputian::Scripting::executeOnFinalMethods(Scene& scene)
 	this->vm->executeOnFinalMethods(scene.getAllOnFinalBatches());
 }
 
-void Lilliputian::Scripting::bindScene(Scene* scene)
+void Lilliputian::Scripting::setSceneStorage(SceneStorage* sceneStorage)
 {
-	ScriptingAPIs::bindScene(scene);
+	ScriptingAPIs::setSceneStorage(sceneStorage);
 }
 
 Lilliputian::Vector<Lilliputian::String>* Lilliputian::Scripting::getScripts()

@@ -26,6 +26,7 @@
 #include <game/scene/components/component_variant.hpp>
 #include <game/scene/scene.hpp>
 #include <game/scene_serializer.hpp>
+#include <game/scene_storage.hpp>
 #include <utilities/aliases.hpp>
 
 namespace Lilliputian
@@ -33,7 +34,7 @@ namespace Lilliputian
 	class SceneAPI
 	{
 	public:
-		void bindScene(Scene* scene);
+		void setSceneStorage(SceneStorage* sceneStorage);
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 		bool hasComponent(ComponentVariant::Type type);
 		void changeToScene(String sceneFilename);
@@ -90,7 +91,7 @@ namespace Lilliputian
 	private:
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
-		Scene* scene = nullptr;
+		SceneStorage* sceneStorage = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
 	};
 }

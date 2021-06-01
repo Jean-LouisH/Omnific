@@ -41,9 +41,9 @@ void Lilliputian::ScriptingAPIs::initialize()
 	newInstance->windowAPI->initialize(&OS::getWindow());
 }
 
-void Lilliputian::ScriptingAPIs::bindScene(Scene* scene)
+void Lilliputian::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
 {
-	getInstance()->sceneAPI->bindScene(scene);
+	getInstance()->sceneAPI->setSceneStorage(sceneStorage);
 }
 
 void Lilliputian::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)

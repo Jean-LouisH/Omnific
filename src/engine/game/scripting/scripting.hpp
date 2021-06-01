@@ -24,6 +24,7 @@
 
 #include "virtual_machine/virtual_machine.hpp"
 #include "game/scene/scene.hpp"
+#include <game/scene_storage.hpp>
 #include "utilities/aliases.hpp"
 
 namespace Lilliputian
@@ -39,7 +40,7 @@ namespace Lilliputian
 		void executeOnComputeMethods(Scene& scene);
 		void executeOnLateMethods(Scene& scene);
 		void executeOnFinalMethods(Scene& scene);
-		void bindScene(Scene* scene);
+		void setSceneStorage(SceneStorage* sceneStorage);
 		Vector<String>* getScripts();
 	private:
 		VirtualMachine* vm = nullptr;
