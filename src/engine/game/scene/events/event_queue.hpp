@@ -20,3 +20,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
+#include "event.hpp"
+#include <utilities/collections/queue.hpp>
+
+namespace Lilliputian
+{
+	class EventQueue
+	{
+	public:
+
+		void enqueue(
+			std::string name, 
+			Event::Priority priority, 
+			std::vector<float> floats, 
+			std::vector<std::string> strings);
+
+		void enqueue(
+			std::string name,
+			Event::Priority priority,
+			std::vector<float> floats);
+
+		void enqueue(
+			std::string name,
+			Event::Priority priority,
+			std::vector<std::string> strings);
+
+		void enqueue(
+			std::string name,
+			Event::Priority priority);
+
+		void enqueue(
+			std::string name,
+			std::vector<float> floats,
+			std::vector<std::string> strings);
+
+		void enqueue(
+			std::string name,
+			std::vector<float> floats);
+
+		void enqueue(
+			std::string name,
+			std::vector<std::string> strings);
+
+		void enqueue(
+			std::string name);
+
+		Event dequeue();
+
+		bool isEmpty();
+		Event& peek();
+	private:
+		Queue<Event> events;
+	};
+}

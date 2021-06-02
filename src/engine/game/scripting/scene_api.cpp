@@ -22,7 +22,6 @@
 
 #include "scene_api.hpp"
 
-
 void Lilliputian::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
 {
 	this->sceneStorage = sceneStorage;
@@ -32,6 +31,11 @@ void Lilliputian::SceneAPI::bindEntity(SceneTreeID sceneTreeID, EntityID entityI
 {
 	this->boundSceneTreeID = sceneTreeID;
 	this->boundEntityID = entityID;
+}
+
+void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
+{
+	this->sceneSerializer = sceneSerializer;
 }
 
 bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
@@ -57,9 +61,79 @@ void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
 	}
 }
 
-void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	Event::Priority priority,
+	std::vector<float> floats,
+	std::vector<std::string> strings)
 {
-	this->sceneSerializer = sceneSerializer;
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, priority, floats, strings);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	Event::Priority priority,
+	std::vector<float> floats)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, priority, floats);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	Event::Priority priority,
+	std::vector<std::string> strings)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, priority, strings);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	Event::Priority priority)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, priority);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	std::vector<float> floats,
+	std::vector<std::string> strings)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, floats, strings);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	std::vector<float> floats)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, floats);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name,
+	std::vector<std::string> strings)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name, strings);
+}
+
+void Lilliputian::SceneAPI::publishEvent(
+	std::string name)
+{
+	this->getThisSceneTree2D().getEventQueue().enqueue(name);
+}
+
+Lilliputian::Event& Lilliputian::SceneAPI::peekEventQueue()
+{
+	Event* peakedEvent = nullptr;
+
+	if (!this->isEventQueueEmpty())
+		peakedEvent = &this->getThisSceneTree2D().getEventQueue().peek();
+
+	return *peakedEvent;
+}
+
+bool Lilliputian::SceneAPI::isEventQueueEmpty()
+{
+	return this->getThisSceneTree2D().getEventQueue().isEmpty();
 }
 
 Lilliputian::Entity2D& Lilliputian::SceneAPI::getThisEntity2D()

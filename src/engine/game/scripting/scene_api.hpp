@@ -28,6 +28,7 @@
 #include <game/scene_serializer.hpp>
 #include <game/scene_storage.hpp>
 #include <utilities/aliases.hpp>
+#include <game/scene/events/event_queue.hpp>
 
 namespace Lilliputian
 {
@@ -36,10 +37,49 @@ namespace Lilliputian
 	public:
 		void setSceneStorage(SceneStorage* sceneStorage);
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
-		bool hasComponent(ComponentVariant::Type type);
-		void changeToScene(String sceneFilename);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
+		bool hasComponent(ComponentVariant::Type type);
+		void changeToScene(String sceneFilename);
+
+		void publishEvent(
+			std::string name,
+			Event::Priority priority,
+			std::vector<float> floats,
+			std::vector<std::string> strings);
+
+		void publishEvent(
+			std::string name,
+			Event::Priority priority,
+			std::vector<float> floats);
+
+		void publishEvent(
+			std::string name,
+			Event::Priority priority,
+			std::vector<std::string> strings);
+
+		void publishEvent(
+			std::string name,
+			Event::Priority priority);
+
+		void publishEvent(
+			std::string name,
+			std::vector<float> floats,
+			std::vector<std::string> strings);
+
+		void publishEvent(
+			std::string name,
+			std::vector<float> floats);
+
+		void publishEvent(
+			std::string name,
+			std::vector<std::string> strings);
+
+		void publishEvent(
+			std::string name);
+
+		Event& peekEventQueue();
+		bool isEventQueueEmpty();
 		Entity2D& getThisEntity2D();
 		SceneTree2D& getThisSceneTree2D();
 		Scene& getScene();
