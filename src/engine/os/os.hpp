@@ -45,10 +45,12 @@ namespace Lilliputian
 		static HumanInterfaceDevices& getHid();
 		static FileAccess& getFileAccess();
 		static Profiler& getProfiler();
+		static HiResTimer& getRunTimer();
 		static void addGameControllerMappings();
 	private:
 		static OS* instance;
 
+		HiResTimer* runTimer = nullptr;
 		Window* window = nullptr;
 		HumanInterfaceDevices* hid = nullptr;
 		FileAccess* fileAccess = nullptr;

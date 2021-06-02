@@ -35,7 +35,6 @@ namespace Lilliputian
 		HiResTimer& getInputTimer();
 		HiResTimer& getUpdateTimer();
 		HiResTimer& getOutputTimer();
-		HiResTimer& getRunTimer();
 		HiResTimer& getBenchmarkTimer();
 		HiResTimer& getDebugTimer();
 		void incrementFrameCount();
@@ -49,7 +48,6 @@ namespace Lilliputian
 		HiResTimer input;
 		HiResTimer update;
 		HiResTimer output;
-		HiResTimer run;
 		HiResTimer FPS;
 		HiResTimer debug;
 		uint64_t lag_ms = 0;

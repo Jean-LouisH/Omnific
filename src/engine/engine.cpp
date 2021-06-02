@@ -72,7 +72,6 @@ void Lilliputian::Engine::run()
 			profiler.getProcessTimer().setEnd();
 			this->sleep();
 			profiler.getFrameTimer().setEnd();
-			profiler.getRunTimer().setEnd();
 			profiler.incrementFrameCount();
 		}
 
@@ -99,7 +98,6 @@ bool Lilliputian::Engine::initialize()
 		OS::initialize("", 640, 480, false, this->argv[0]);
 
 		Profiler& profiler = OS::getProfiler();
-		profiler.getRunTimer().setStart();
 		profiler.getBenchmarkTimer().setStart();
 
 		this->game = new Game();

@@ -48,11 +48,6 @@ Lilliputian::HiResTimer& Lilliputian::Profiler::getOutputTimer()
 	return this->output;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getRunTimer()
-{
-	return this->run;
-}
-
 Lilliputian::HiResTimer& Lilliputian::Profiler::getBenchmarkTimer()
 {
 	return this->FPS;

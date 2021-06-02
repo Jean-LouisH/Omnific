@@ -40,6 +40,8 @@ void Lilliputian::OS::initialize(
 	newInstance->hid = new HumanInterfaceDevices();
 	newInstance->fileAccess = new FileAccess(executableFilepath);
 	newInstance->profiler = new Profiler();
+	newInstance->runTimer = new HiResTimer();
+	newInstance->runTimer->setStart();
 }
 
 Lilliputian::OS::~OS()
@@ -67,6 +69,11 @@ Lilliputian::FileAccess& Lilliputian::OS::getFileAccess()
 Lilliputian::Profiler& Lilliputian::OS::getProfiler()
 {
 	return *getInstance()->profiler;
+}
+
+Lilliputian::HiResTimer& Lilliputian::OS::getRunTimer()
+{
+	return *getInstance()->runTimer;
 }
 
 void Lilliputian::OS::addGameControllerMappings()
