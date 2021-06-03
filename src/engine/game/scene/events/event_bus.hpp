@@ -23,55 +23,37 @@
 #pragma once
 
 #include "event.hpp"
-#include <utilities/collections/queue.hpp>
+#include <utilities/collections/map.hpp>
+#include <utilities/collections/vector.hpp>
+#include <utilities/string.hpp>
 
 namespace Lilliputian
 {
-	class EventQueue
+	class EventBus
 	{
 	public:
-
-		void enqueue(
-			std::string name, 
-			Event::Priority priority, 
-			std::vector<float> floats, 
-			std::vector<std::string> strings);
-
-		void enqueue(
-			std::string name,
-			Event::Priority priority,
-			std::vector<float> floats);
-
-		void enqueue(
-			std::string name,
-			Event::Priority priority,
-			std::vector<std::string> strings);
-
-		void enqueue(
-			std::string name,
-			Event::Priority priority);
-
-		void enqueue(
+		void publish(
 			std::string name,
 			std::vector<float> floats,
 			std::vector<std::string> strings);
 
-		void enqueue(
+		void publish(
 			std::string name,
 			std::vector<float> floats);
 
-		void enqueue(
+		void publish(
 			std::string name,
 			std::vector<std::string> strings);
 
-		void enqueue(
+		void publish(
 			std::string name);
 
-		Event dequeue();
+		void clear();
 
-		bool isEmpty();
-		Event& peek();
+		Vector<Event> query(String name);
 	private:
-		Queue<Event> events;
+		Map<String, Vector<Event>> events;
+
+		void publishWithParameters(String name, Event::Parameters parameters);
 	};
 }

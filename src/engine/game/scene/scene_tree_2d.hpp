@@ -31,7 +31,7 @@
 #include "utilities/aliases.hpp"
 #include "game/scripting/virtual_machine/script_call_batch.hpp"
 #include "utilities/string.hpp"
-#include "events/event_queue.hpp"
+#include "events/event_bus.hpp"
 
 namespace Lilliputian
 {
@@ -62,7 +62,7 @@ namespace Lilliputian
 		Entity2D& getEntity2DByName(String name);
 		Entity2D& getLastEntity2D();
 		Map<EntityID, Entity2D>& getEntity2Ds();
-		EventQueue& getEventQueue();
+		EventBus& getEventBus();
 		SceneTreeID getID();
 
 		void unload();
@@ -86,7 +86,7 @@ namespace Lilliputian
 		EntityID dummyEntityID = DUMMY_ENTITY;
 		EntityID lastEntityID = DUMMY_ENTITY;
 
-		EventQueue eventQueue;
+		EventBus eventBus;
 
 		Entity2D& getDummyEntity2D();
 	};

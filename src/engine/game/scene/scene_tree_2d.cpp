@@ -279,9 +279,9 @@ Lilliputian::Map<Lilliputian::EntityID, Lilliputian::Entity2D>& Lilliputian::Sce
 	return this->entities2D;
 }
 
-Lilliputian::EventQueue& Lilliputian::SceneTree2D::getEventQueue()
+Lilliputian::EventBus& Lilliputian::SceneTree2D::getEventBus()
 {
-	return this->eventQueue;
+	return this->eventBus;
 }
 
 Lilliputian::SceneTreeID Lilliputian::SceneTree2D::getID()

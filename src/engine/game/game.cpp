@@ -142,8 +142,7 @@ void Lilliputian::Game::executeOnFinalMethods()
 	Vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
 
 	for (int i = 0; i < sceneTree2Ds.size(); i++)
-		if (!sceneTree2Ds.at(i).getEventQueue().isEmpty())
-			sceneTree2Ds.at(i).getEventQueue().dequeue();
+		sceneTree2Ds.at(i).getEventBus().clear();
 }
 
 void Lilliputian::Game::deinitialize()
