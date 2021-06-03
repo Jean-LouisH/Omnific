@@ -22,21 +22,6 @@
 
 #include "event.hpp"
 
-Lilliputian::Event::Event(std::string name, uint64_t timestamp, Priority priority, Parameters parameters)
-{
-	this->name = name;
-	this->timestamp = timestamp;
-	this->priority = priority;
-	this->parameters = parameters;
-}
-
-Lilliputian::Event::Event(std::string name, uint64_t timestamp, Priority priority)
-{
-	this->name = name;
-	this->timestamp = timestamp;
-	this->priority = priority;
-}
-
 Lilliputian::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
 {
 	this->name = name;
@@ -48,7 +33,6 @@ Lilliputian::Event::Event(std::string name, uint64_t timestamp)
 {
 	this->name = name;
 	this->timestamp = timestamp;
-	this->priority = Priority::MEDIUM;
 }
 
 std::string Lilliputian::Event::getName()
@@ -59,11 +43,6 @@ std::string Lilliputian::Event::getName()
 uint64_t Lilliputian::Event::getTimestamp()
 {
 	return this->timestamp;
-}
-
-Lilliputian::Event::Priority Lilliputian::Event::getPriority()
-{
-	return this->priority;
 }
 
 Lilliputian::Event::Parameters Lilliputian::Event::getParameters()

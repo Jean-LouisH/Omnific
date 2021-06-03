@@ -30,21 +30,12 @@ namespace Lilliputian
 	class Event
 	{
 	public:
-		enum Priority
-		{
-			HIGH,
-			MEDIUM,
-			LOW
-		};
-
 		typedef struct Parameters
 		{
 			std::vector<float>floats;
 			std::vector<std::string> strings;
 		};
 
-		Event(std::string name, uint64_t timestamp, Priority priority, Parameters parameters);
-		Event(std::string name, uint64_t timestamp, Priority priority);
 		Event(std::string name, uint64_t timestamp, Parameters parameters);
 		Event(std::string name, uint64_t timestamp);
 
@@ -53,13 +44,11 @@ namespace Lilliputian
 
 		std::string getName();
 		uint64_t getTimestamp();
-		Priority getPriority();
 		Parameters getParameters();
 
 	private:
 		std::string name;
 		uint64_t timestamp;
-		Priority priority;
 		Parameters parameters;
 	};
 }
