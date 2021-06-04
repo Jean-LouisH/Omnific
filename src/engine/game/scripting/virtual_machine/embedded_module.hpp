@@ -25,7 +25,11 @@
 #include <game/scripting/scripting_apis.hpp>
 #include <game/scene/components/component_variant.hpp>
 #include <pybind11/embed.h>
-
+#include <utilities/vector2.hpp>
+#include <utilities/rectangle.hpp>
+#include <utilities/hi_res_timer.hpp>
+#include <utilities/colour.hpp>
+#include <utilities/aabb_2d.hpp>
 
 PYBIND11_EMBEDDED_MODULE(lilliputian, m) 
 {
@@ -105,6 +109,25 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::SceneTree2D>(m, "SceneTree2D");
 
 	pybind11::class_<Lilliputian::Scene>(m, "Scene");
+
+	pybind11::class_<Lilliputian::Event::Parameters>(m, "EventParameters")
+		.def_readwrite("floats", &Lilliputian::Event::Parameters::floats)
+		.def_readwrite("strings", &Lilliputian::Event::Parameters::strings);
+
+	pybind11::class_<Lilliputian::Event>(m, "Event")
+		.def(pybind11::init<std::string, uint64_t, Lilliputian::Event::Parameters>())
+		.def(pybind11::init<std::string, uint64_t>())
+		.def("get_name", &Lilliputian::Event::getName)
+		.def("get_parameters", &Lilliputian::Event::getParameters)
+		.def("get_timestamp", &Lilliputian::Event::getTimestamp);
+
+	pybind11::class_<Lilliputian::EventBus>(m, "EventBus")
+		.def("clear", &Lilliputian::EventBus::clear)
+		.def("query", &Lilliputian::EventBus::query)
+		.def("publish", pybind11::overload_cast<std::string>(&Lilliputian::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::vector<float>>(&Lilliputian::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::vector<std::string>>(&Lilliputian::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::vector<float>, std::vector<std::string>>(&Lilliputian::EventBus::publish));
 
 	/*Component classes*/
 	pybind11::class_<Lilliputian::AIBehaviourTree>(m, "AIBehaviourTree");
@@ -199,6 +222,28 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.value("UI_TEXT_LABEL", Lilliputian::ComponentVariant::Type::UI_TEXT_LABEL)
 		.value("UI_TREE", Lilliputian::ComponentVariant::Type::UI_TREE)
 		.export_values();
+
+	/*Utility classes*/
+	pybind11::class_<Lilliputian::Vector2>(m, "Vector2")
+		.def_readwrite("x", &Lilliputian::Vector2::x)
+		.def_readwrite("y", &Lilliputian::Vector2::y);
+	pybind11::class_<Lilliputian::Rectangle>(m, "Rectangle")
+		.def_readwrite("height", &Lilliputian::Rectangle::height)
+		.def_readwrite("width", &Lilliputian::Rectangle::width);
+	pybind11::class_<Lilliputian::HiResTimer>(m, "HiResTimer")
+		.def("set_start", &Lilliputian::HiResTimer::setStart)
+		.def("set_end", &Lilliputian::HiResTimer::setEnd)
+		.def("get_delta_ns", &Lilliputian::HiResTimer::getDelta_ns);
+	pybind11::class_<Lilliputian::Colour>(m, "Colour")
+		.def(pybind11::init<std::string>())
+		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
+		.def("get_red", &Lilliputian::Colour::getRed)
+		.def("get_green", &Lilliputian::Colour::getGreen)
+		.def("get_blue", &Lilliputian::Colour::getBlue)
+		.def("get_alpha", &Lilliputian::Colour::getAlpha);
+	pybind11::class_<Lilliputian::AABB2D>(m, "AABB2D")
+		.def_readwrite("max_px", &Lilliputian::AABB2D::max_px)
+		.def_readwrite("min_px", &Lilliputian::AABB2D::min_px);
 
 	/*API getters*/
 	m.def("get_command_line_api", &Lilliputian::ScriptingAPIs::getCommandLineAPI);
