@@ -140,7 +140,7 @@ void Lilliputian::ComponentVariant::setEntityID(EntityID entityID)
 	this->entityID = entityID;
 }
 
-void Lilliputian::ComponentVariant::setToAIBehaviourTree(AIBehaviourTree* aiBehaviourTree)
+void Lilliputian::ComponentVariant::setToComponent(AIBehaviourTree* aiBehaviourTree)
 {
 	if (this->type == Type::NONE)
 	{
@@ -149,7 +149,7 @@ void Lilliputian::ComponentVariant::setToAIBehaviourTree(AIBehaviourTree* aiBeha
 	}
 }
 
-void Lilliputian::ComponentVariant::setToAISightPerception2D(AISightPerception2D* aiSightPerception2D)
+void Lilliputian::ComponentVariant::setToComponent(AISightPerception2D* aiSightPerception2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -158,7 +158,7 @@ void Lilliputian::ComponentVariant::setToAISightPerception2D(AISightPerception2D
 	}
 }
 
-void Lilliputian::ComponentVariant::setToAISoundPerception2D(AISoundPerception2D* aiSoundPerception2D)
+void Lilliputian::ComponentVariant::setToComponent(AISoundPerception2D* aiSoundPerception2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -167,7 +167,7 @@ void Lilliputian::ComponentVariant::setToAISoundPerception2D(AISoundPerception2D
 	}
 }
 
-void Lilliputian::ComponentVariant::setToAnimatedSprite(AnimatedSprite* animatedSprite)
+void Lilliputian::ComponentVariant::setToComponent(AnimatedSprite* animatedSprite)
 {
 	if (this->type == Type::NONE)
 	{
@@ -176,7 +176,7 @@ void Lilliputian::ComponentVariant::setToAnimatedSprite(AnimatedSprite* animated
 	}
 }
 
-void Lilliputian::ComponentVariant::setToAudioListener2D(AudioListener2D* audioListener2D)
+void Lilliputian::ComponentVariant::setToComponent(AudioListener2D* audioListener2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -185,7 +185,7 @@ void Lilliputian::ComponentVariant::setToAudioListener2D(AudioListener2D* audioL
 	}
 }
 
-void Lilliputian::ComponentVariant::setToCamera2D(Camera2D* camera2D)
+void Lilliputian::ComponentVariant::setToComponent(Camera2D* camera2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -194,7 +194,7 @@ void Lilliputian::ComponentVariant::setToCamera2D(Camera2D* camera2D)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToCircleCollider2D(CircleCollider2D* circleCollider2D)
+void Lilliputian::ComponentVariant::setToComponent(CircleCollider2D* circleCollider2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -203,7 +203,7 @@ void Lilliputian::ComponentVariant::setToCircleCollider2D(CircleCollider2D* circ
 	}
 }
 
-void Lilliputian::ComponentVariant::setToConstantDirectionalForce2D(ConstantDirectionalForce2D* constantDirectionalForce2D)
+void Lilliputian::ComponentVariant::setToComponent(ConstantDirectionalForce2D* constantDirectionalForce2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -212,7 +212,7 @@ void Lilliputian::ComponentVariant::setToConstantDirectionalForce2D(ConstantDire
 	}
 }
 
-void Lilliputian::ComponentVariant::setToConstantPointForce2D(ConstantPointForce2D* constantPointForce2D)
+void Lilliputian::ComponentVariant::setToComponent(ConstantPointForce2D* constantPointForce2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -221,7 +221,7 @@ void Lilliputian::ComponentVariant::setToConstantPointForce2D(ConstantPointForce
 	}
 }
 
-void Lilliputian::ComponentVariant::setToCountdownTimer(CountdownTimer* countdownTimer)
+void Lilliputian::ComponentVariant::setToComponent(CountdownTimer* countdownTimer)
 {
 	if (this->type == Type::NONE)
 	{
@@ -230,7 +230,7 @@ void Lilliputian::ComponentVariant::setToCountdownTimer(CountdownTimer* countdow
 	}
 }
 
-void Lilliputian::ComponentVariant::setToFixedTransform2D(FixedTransform2D* fixedTransform2D)
+void Lilliputian::ComponentVariant::setToComponent(FixedTransform2D* fixedTransform2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -239,7 +239,7 @@ void Lilliputian::ComponentVariant::setToFixedTransform2D(FixedTransform2D* fixe
 	}
 }
 
-void Lilliputian::ComponentVariant::setToKinematicBody2D(KinematicBody2D* kinematicBody2D)
+void Lilliputian::ComponentVariant::setToComponent(KinematicBody2D* kinematicBody2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -248,7 +248,7 @@ void Lilliputian::ComponentVariant::setToKinematicBody2D(KinematicBody2D* kinema
 	}
 }
 
-void Lilliputian::ComponentVariant::setToNavigationMeshAgent2D(NavigationMeshAgent2D* navigationMeshAgent2D)
+void Lilliputian::ComponentVariant::setToComponent(NavigationMeshAgent2D* navigationMeshAgent2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -257,7 +257,7 @@ void Lilliputian::ComponentVariant::setToNavigationMeshAgent2D(NavigationMeshAge
 	}
 }
 
-void Lilliputian::ComponentVariant::setToNavigationMeshBoxObstacle2D(NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D)
+void Lilliputian::ComponentVariant::setToComponent(NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -266,7 +266,7 @@ void Lilliputian::ComponentVariant::setToNavigationMeshBoxObstacle2D(NavigationM
 	}
 }
 
-void Lilliputian::ComponentVariant::setToNavigationPath2D(NavigationPath2D* navigationPath2D)
+void Lilliputian::ComponentVariant::setToComponent(NavigationPath2D* navigationPath2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -275,7 +275,7 @@ void Lilliputian::ComponentVariant::setToNavigationPath2D(NavigationPath2D* navi
 	}
 }
 
-void Lilliputian::ComponentVariant::setToPhysicsConstraint2D(PhysicsConstraint2D* physicsConstraint2D)
+void Lilliputian::ComponentVariant::setToComponent(PhysicsConstraint2D* physicsConstraint2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -284,7 +284,7 @@ void Lilliputian::ComponentVariant::setToPhysicsConstraint2D(PhysicsConstraint2D
 	}
 }
 
-void Lilliputian::ComponentVariant::setToPhysicsThruster2D(PhysicsThruster2D* physicsThruster2D)
+void Lilliputian::ComponentVariant::setToComponent(PhysicsThruster2D* physicsThruster2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -293,7 +293,7 @@ void Lilliputian::ComponentVariant::setToPhysicsThruster2D(PhysicsThruster2D* ph
 	}
 }
 
-void Lilliputian::ComponentVariant::setToPropertyAnimation(PropertyAnimation* propertyAnimation)
+void Lilliputian::ComponentVariant::setToComponent(PropertyAnimation* propertyAnimation)
 {
 	if (this->type == Type::NONE)
 	{
@@ -302,7 +302,7 @@ void Lilliputian::ComponentVariant::setToPropertyAnimation(PropertyAnimation* pr
 	}
 }
 
-void Lilliputian::ComponentVariant::setToRectangularCollider2D(RectangularCollider2D* rectangularCollider2D)
+void Lilliputian::ComponentVariant::setToComponent(RectangularCollider2D* rectangularCollider2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -311,7 +311,7 @@ void Lilliputian::ComponentVariant::setToRectangularCollider2D(RectangularCollid
 	}
 }
 
-void Lilliputian::ComponentVariant::setToRectangularMesh2D(RectangularMesh2D* rectangularMesh2D)
+void Lilliputian::ComponentVariant::setToComponent(RectangularMesh2D* rectangularMesh2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -320,7 +320,7 @@ void Lilliputian::ComponentVariant::setToRectangularMesh2D(RectangularMesh2D* re
 	}
 }
 
-void Lilliputian::ComponentVariant::setToRectangularTriggerArea2D(RectangularTriggerArea2D* rectangularTriggerArea2D)
+void Lilliputian::ComponentVariant::setToComponent(RectangularTriggerArea2D* rectangularTriggerArea2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -329,7 +329,7 @@ void Lilliputian::ComponentVariant::setToRectangularTriggerArea2D(RectangularTri
 	}
 }
 
-void Lilliputian::ComponentVariant::setToRectangularPolgyonalMesh2D(RegularPolygonalMesh2D* regularPolygonalMesh2D)
+void Lilliputian::ComponentVariant::setToComponent(RegularPolygonalMesh2D* regularPolygonalMesh2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -338,7 +338,7 @@ void Lilliputian::ComponentVariant::setToRectangularPolgyonalMesh2D(RegularPolyg
 	}
 }
 
-void Lilliputian::ComponentVariant::setToRigidBody2D(RigidBody2D* rigidBody2D)
+void Lilliputian::ComponentVariant::setToComponent(RigidBody2D* rigidBody2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -347,7 +347,7 @@ void Lilliputian::ComponentVariant::setToRigidBody2D(RigidBody2D* rigidBody2D)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToSprite(Sprite* sprite)
+void Lilliputian::ComponentVariant::setToComponent(Sprite* sprite)
 {
 	if (this->type == Type::NONE)
 	{
@@ -356,7 +356,7 @@ void Lilliputian::ComponentVariant::setToSprite(Sprite* sprite)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToStaticFluid2D(StaticFluid2D* staticFluid2D)
+void Lilliputian::ComponentVariant::setToComponent(StaticFluid2D* staticFluid2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -365,7 +365,7 @@ void Lilliputian::ComponentVariant::setToStaticFluid2D(StaticFluid2D* staticFlui
 	}
 }
 
-void Lilliputian::ComponentVariant::setToTransform2D(Transform2D* transform2D)
+void Lilliputian::ComponentVariant::setToComponent(Transform2D* transform2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -374,7 +374,7 @@ void Lilliputian::ComponentVariant::setToTransform2D(Transform2D* transform2D)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToAudioStreamSource2D(AudioStreamSource2D* audioStreamSource2D)
+void Lilliputian::ComponentVariant::setToComponent(AudioStreamSource2D* audioStreamSource2D)
 {
 	if (this->type == Type::NONE)
 	{
@@ -383,7 +383,7 @@ void Lilliputian::ComponentVariant::setToAudioStreamSource2D(AudioStreamSource2D
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIButton(UIButton* uiButton)
+void Lilliputian::ComponentVariant::setToComponent(UIButton* uiButton)
 {
 	if (this->type == Type::NONE)
 	{
@@ -392,7 +392,7 @@ void Lilliputian::ComponentVariant::setToUIButton(UIButton* uiButton)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIRectangle(UIRectangle* uiRectangle)
+void Lilliputian::ComponentVariant::setToComponent(UIRectangle* uiRectangle)
 {
 	if (this->type == Type::NONE)
 	{
@@ -401,7 +401,7 @@ void Lilliputian::ComponentVariant::setToUIRectangle(UIRectangle* uiRectangle)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIGraphEdit(UIGraphEdit* uiGraphEdit)
+void Lilliputian::ComponentVariant::setToComponent(UIGraphEdit* uiGraphEdit)
 {
 	if (this->type == Type::NONE)
 	{
@@ -410,7 +410,7 @@ void Lilliputian::ComponentVariant::setToUIGraphEdit(UIGraphEdit* uiGraphEdit)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIGraphNode(UIGraphNode* uiGraphNode)
+void Lilliputian::ComponentVariant::setToComponent(UIGraphNode* uiGraphNode)
 {
 	if (this->type == Type::NONE)
 	{
@@ -419,7 +419,7 @@ void Lilliputian::ComponentVariant::setToUIGraphNode(UIGraphNode* uiGraphNode)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIScrollbar(UIScrollbar* uiScrollbar)
+void Lilliputian::ComponentVariant::setToComponent(UIScrollbar* uiScrollbar)
 {
 	if (this->type == Type::NONE)
 	{
@@ -428,7 +428,7 @@ void Lilliputian::ComponentVariant::setToUIScrollbar(UIScrollbar* uiScrollbar)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUISeparator(UISeparator* uiSeparator)
+void Lilliputian::ComponentVariant::setToComponent(UISeparator* uiSeparator)
 {
 	if (this->type == Type::NONE)
 	{
@@ -437,7 +437,7 @@ void Lilliputian::ComponentVariant::setToUISeparator(UISeparator* uiSeparator)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUISlider(UISlider* uiSlider)
+void Lilliputian::ComponentVariant::setToComponent(UISlider* uiSlider)
 {
 	if (this->type == Type::NONE)
 	{
@@ -446,7 +446,7 @@ void Lilliputian::ComponentVariant::setToUISlider(UISlider* uiSlider)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIHoverCard(UIHoverCard* uiHoverCard)
+void Lilliputian::ComponentVariant::setToComponent(UIHoverCard* uiHoverCard)
 {
 	if (this->type == Type::NONE)
 	{
@@ -455,7 +455,7 @@ void Lilliputian::ComponentVariant::setToUIHoverCard(UIHoverCard* uiHoverCard)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIItemList(UIItemList* uiItemList)
+void Lilliputian::ComponentVariant::setToComponent(UIItemList* uiItemList)
 {
 	if (this->type == Type::NONE)
 	{
@@ -464,7 +464,7 @@ void Lilliputian::ComponentVariant::setToUIItemList(UIItemList* uiItemList)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIPanel(UIPanel* uiPanel)
+void Lilliputian::ComponentVariant::setToComponent(UIPanel* uiPanel)
 {
 	if (this->type == Type::NONE)
 	{
@@ -473,7 +473,7 @@ void Lilliputian::ComponentVariant::setToUIPanel(UIPanel* uiPanel)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUIProgressBar(UIProgressBar* uiProgressBar)
+void Lilliputian::ComponentVariant::setToComponent(UIProgressBar* uiProgressBar)
 {
 	if (this->type == Type::NONE)
 	{
@@ -482,7 +482,7 @@ void Lilliputian::ComponentVariant::setToUIProgressBar(UIProgressBar* uiProgress
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUISpinBox(UISpinBox* uiSpinBox)
+void Lilliputian::ComponentVariant::setToComponent(UISpinBox* uiSpinBox)
 {
 	if (this->type == Type::NONE)
 	{
@@ -491,7 +491,7 @@ void Lilliputian::ComponentVariant::setToUISpinBox(UISpinBox* uiSpinBox)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUITab(UITab* uiTab)
+void Lilliputian::ComponentVariant::setToComponent(UITab* uiTab)
 {
 	if (this->type == Type::NONE)
 	{
@@ -500,7 +500,7 @@ void Lilliputian::ComponentVariant::setToUITab(UITab* uiTab)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUITextEdit(UITextEdit* uiTextEdit)
+void Lilliputian::ComponentVariant::setToComponent(UITextEdit* uiTextEdit)
 {
 	if (this->type == Type::NONE)
 	{
@@ -509,7 +509,7 @@ void Lilliputian::ComponentVariant::setToUITextEdit(UITextEdit* uiTextEdit)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUITextLabel(UITextLabel* uiTextLabel)
+void Lilliputian::ComponentVariant::setToComponent(UITextLabel* uiTextLabel)
 {
 	if (this->type == Type::NONE)
 	{
@@ -518,7 +518,7 @@ void Lilliputian::ComponentVariant::setToUITextLabel(UITextLabel* uiTextLabel)
 	}
 }
 
-void Lilliputian::ComponentVariant::setToUITree(UITree* uiTree)
+void Lilliputian::ComponentVariant::setToComponent(UITree* uiTree)
 {
 	if (this->type == Type::NONE)
 	{

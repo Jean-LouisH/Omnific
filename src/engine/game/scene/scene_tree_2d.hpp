@@ -48,6 +48,8 @@ namespace Lilliputian
 		void removeEntity2D(EntityID entityID);
 		void removeComponent(EntityID entityID, ComponentVariant::Type type);
 
+		void changeCurrentCamera(ComponentID newCurrentCameraID);
+
 		Vector<ScriptCallBatch> generateOnStartCallBatches();
 		Vector<ScriptCallBatch> generateOnInputCallBatches();
 		Vector<ScriptCallBatch> generateOnFrameCallBatches();

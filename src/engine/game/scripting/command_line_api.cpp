@@ -40,11 +40,11 @@ void Lilliputian::CommandLineAPI::openWindow()
 
 	ComponentVariant uiPanelComponent;
 	sceneTree2D.addEntity2D(panelEntity);
-	uiPanelComponent.setToUIPanel(uiPanel);
+	uiPanelComponent.setToComponent(uiPanel);
 	sceneTree2D.addComponentToLastEntity(uiPanelComponent);
 
 	ComponentVariant textEditComponent;
 	sceneTree2D.addEntity2D(textEditEntity);
-	textEditComponent.setToUITextEdit(uiTextEdit);
+	textEditComponent.setToComponent(uiTextEdit);
 	sceneTree2D.addComponentToLastEntity(textEditComponent);
 }

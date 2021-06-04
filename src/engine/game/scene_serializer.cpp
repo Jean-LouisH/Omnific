@@ -104,7 +104,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 									}
 								}
 
-								componentVariant.setToAIBehaviourTree(aiBehaviourTree);
+								componentVariant.setToComponent(aiBehaviourTree);
 								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "AISightPerception")
@@ -196,7 +196,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 									}
 								}
 
-								componentVariant.setToCamera2D(camera2D);
+								componentVariant.setToComponent(camera2D);
 								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "CircleCollider2D")
@@ -254,7 +254,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 									}
 								}
 
-								componentVariant.setToCountdownTimer(countdownTimer);
+								componentVariant.setToComponent(countdownTimer);
 								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "FixedTransform2D")
@@ -452,7 +452,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 									}
 								}
 
-								componentVariant.setToSprite(sprite);
+								componentVariant.setToComponent(sprite);
 								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "StaticFluid2D")
@@ -491,7 +491,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 									}
 								}
 
-								componentVariant.setToTransform2D(transform2D);
+								componentVariant.setToComponent(transform2D);
 								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
@@ -733,7 +733,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 									}
 								}
 
-								componentVariant.setToUITextLabel(uiTextLabel);
+								componentVariant.setToComponent(uiTextLabel);
 								sceneTree2D.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UITexturedButton")

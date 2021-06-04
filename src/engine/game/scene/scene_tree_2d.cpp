@@ -30,7 +30,7 @@ Lilliputian::SceneTree2D::SceneTree2D()
 	ComponentVariant componentVariant;
 
 	this->ID = IDCounter::getNewID();
-	componentVariant.setToTransform2D(transform2D);
+	componentVariant.setToComponent(transform2D);
 	this->addEmptyEntity2D();
 	this->addComponentToLastEntity(componentVariant);
 	this->dummyEntityID = this->getLastEntity2D().ID;
@@ -100,6 +100,20 @@ void Lilliputian::SceneTree2D::removeComponent(EntityID entityID, ComponentVaria
 			it = this->componentVariants.erase(it);
 		else
 			++it;
+}
+
+void Lilliputian::SceneTree2D::changeCurrentCamera(Lilliputian::ComponentID newCurrentCameraID)
+{
+	for (int i = 0; i < this->componentVariants.size(); i++)
+	{
+		if (this->componentVariants.at(i).getID() == newCurrentCameraID)
+		{
+			if (this->componentVariants.at(i).getType() == ComponentVariant::Type::CAMERA_2D)
+				this->currentCameraID = newCurrentCameraID;
+
+			break;
+		}
+	}
 }
 
 Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnStartCallBatches()
