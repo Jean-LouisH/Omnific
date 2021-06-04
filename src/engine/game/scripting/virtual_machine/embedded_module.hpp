@@ -62,6 +62,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("get_constant_point_force_2d", &Lilliputian::SceneAPI::getConstantPointForce2D, pybind11::return_value_policy::reference)
 		.def("get_countdown_timer", &Lilliputian::SceneAPI::getCountdownTimer, pybind11::return_value_policy::reference)
 		.def("get_fixed_transform_2d", &Lilliputian::SceneAPI::getFixedTransform2D, pybind11::return_value_policy::reference)
+		.def("get_kinematic_body_2d", &Lilliputian::SceneAPI::getKinematicBody2D, pybind11::return_value_policy::reference)
 		.def("get_navigation_mesh_agent_2d", &Lilliputian::SceneAPI::getNavigationMeshAgent2D, pybind11::return_value_policy::reference)
 		.def("get_navigation_mesh_box_obstacle_2d", &Lilliputian::SceneAPI::getNavigationMeshBoxObstacle2D, pybind11::return_value_policy::reference)
 		.def("get_naviation_path_2d", &Lilliputian::SceneAPI::getNavigationPath2D, pybind11::return_value_policy::reference)
@@ -142,6 +143,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::ConstantPointForce2D>(m, "ConstantPointForce2D");
 	pybind11::class_<Lilliputian::CountdownTimer>(m, "CountdownTimer");
 	pybind11::class_<Lilliputian::FixedTransform2D>(m, "FixedTransform2D");
+	pybind11::class_<Lilliputian::KinematicBody2D>(m, "KinematicBody2D");
 	pybind11::class_<Lilliputian::NavigationMeshAgent2D>(m, "NavigationMeshAgent2D");
 	pybind11::class_<Lilliputian::NavigationMeshBoxObstacle2D>(m, "NavigationMeshBoxObstacle2D");
 	pybind11::class_<Lilliputian::NavigationPath2D>(m, "NavigationPath2D");

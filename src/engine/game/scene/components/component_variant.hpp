@@ -37,6 +37,7 @@
 #include "constant_point_force_2d.hpp"
 #include "countdown_timer.hpp"
 #include "fixed_transform_2d.hpp"
+#include "kinematic_body_2d.hpp"
 #include "navigation_mesh_agent_2d.hpp"
 #include "navigation_mesh_box_obstacle_2d.hpp"
 #include "navigation_path_2d.hpp"
@@ -89,6 +90,7 @@ namespace Lilliputian
 			CONSTANT_POINT_FORCE_2D,
 			COUNTDOWN_TIMER,
 			FIXED_TRANSFORM_2D,
+			KINEMATIC_BODY_2D,
 			NAVIGATION_MESH_2D,
 			NAVIGATION_MESH_AGENT_2D,
 			NAVIGATION_MESH_BOX_OBSTACLE_2D,
@@ -139,6 +141,7 @@ namespace Lilliputian
 		void setToConstantPointForce2D(ConstantPointForce2D* constantPointForce2D);
 		void setToCountdownTimer(CountdownTimer* countdownTimer);
 		void setToFixedTransform2D(FixedTransform2D* fixedTransform2D);
+		void setToKinematicBody2D(KinematicBody2D* kinematicBody2D);
 		void setToNavigationMeshAgent2D(NavigationMeshAgent2D* navigationMeshAgent2D);
 		void setToNavigationMeshBoxObstacle2D(NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D);
 		void setToNavigationPath2D(NavigationPath2D* navigationPath2D);
@@ -184,6 +187,7 @@ namespace Lilliputian
 		ConstantPointForce2D* getConstantPointForce2D();
 		CountdownTimer* getCountdownTimer();
 		FixedTransform2D* getFixedTransform2D();
+		KinematicBody2D* getKinematicBody2D();
 		NavigationMeshAgent2D* getNavigationMeshAgent2D();
 		NavigationMeshBoxObstacle2D* getNavigationMeshBoxObstacle2D();
 		NavigationPath2D* getNavigationPath2D();
@@ -242,6 +246,7 @@ namespace Lilliputian
 			ConstantPointForce2D* constantPointForce2D;
 			CountdownTimer* countdownTimer;
 			FixedTransform2D* fixedTransform2D;
+			KinematicBody2D* kinematicBody2D;
 			NavigationMeshAgent2D* navigationMeshAgent2D;
 			NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D;
 			NavigationPath2D* navigationPath2D;

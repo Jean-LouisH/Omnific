@@ -51,6 +51,7 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 		case Type::CONSTANT_POINT_FORCE_2D:this->constantPointForce2D = new ConstantPointForce2D(*other.constantPointForce2D); break;
 		case Type::COUNTDOWN_TIMER:this->countdownTimer = new CountdownTimer(*other.countdownTimer); break;
 		case Type::FIXED_TRANSFORM_2D:this->fixedTransform2D = new FixedTransform2D(*other.fixedTransform2D); break;
+		case Type::KINEMATIC_BODY_2D:this->kinematicBody2D = new KinematicBody2D(*other.kinematicBody2D); break;
 		case Type::NAVIGATION_MESH_AGENT_2D:this->navigationMeshAgent2D = new NavigationMeshAgent2D(*other.navigationMeshAgent2D); break;
 		case Type::NAVIGATION_MESH_BOX_OBSTACLE_2D:this->navigationMeshBoxObstacle2D = new NavigationMeshBoxObstacle2D(*other.navigationMeshBoxObstacle2D); break;
 		case Type::NAVIGATION_PATH_2D:this->navigationPath2D = new NavigationPath2D(*other.navigationPath2D); break;
@@ -100,6 +101,7 @@ Lilliputian::ComponentVariant::~ComponentVariant()
 		case Type::CONSTANT_POINT_FORCE_2D:delete this->constantPointForce2D; break;
 		case Type::COUNTDOWN_TIMER:delete this->countdownTimer; break;
 		case Type::FIXED_TRANSFORM_2D:delete this->fixedTransform2D; break;
+		case Type::KINEMATIC_BODY_2D: delete this->kinematicBody2D; break;
 		case Type::NAVIGATION_MESH_AGENT_2D:delete this->navigationMeshAgent2D; break;
 		case Type::NAVIGATION_MESH_BOX_OBSTACLE_2D:delete this->navigationMeshBoxObstacle2D; break;
 		case Type::NAVIGATION_PATH_2D:delete this->navigationPath2D; break;
@@ -234,6 +236,15 @@ void Lilliputian::ComponentVariant::setToFixedTransform2D(FixedTransform2D* fixe
 	{
 		this->fixedTransform2D = fixedTransform2D;
 		this->type = Type::FIXED_TRANSFORM_2D;
+	}
+}
+
+void Lilliputian::ComponentVariant::setToKinematicBody2D(KinematicBody2D* kinematicBody2D)
+{
+	if (this->type == Type::NONE)
+	{
+		this->kinematicBody2D = kinematicBody2D;
+		this->type = Type::KINEMATIC_BODY_2D;
 	}
 }
 
@@ -583,6 +594,10 @@ Lilliputian::CountdownTimer* Lilliputian::ComponentVariant::getCountdownTimer()
 Lilliputian::FixedTransform2D* Lilliputian::ComponentVariant::getFixedTransform2D()
 {
 	return this->fixedTransform2D;
+}
+Lilliputian::KinematicBody2D* Lilliputian::ComponentVariant::getKinematicBody2D()
+{
+	return this->kinematicBody2D;
 }
 Lilliputian::NavigationMeshAgent2D* Lilliputian::ComponentVariant::getNavigationMeshAgent2D()
 {

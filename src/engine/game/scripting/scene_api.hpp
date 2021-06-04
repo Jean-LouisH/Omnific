@@ -60,6 +60,7 @@ namespace Lilliputian
 		ConstantPointForce2D& getConstantPointForce2D();
 		CountdownTimer& getCountdownTimer();
 		FixedTransform2D& getFixedTransform2D();
+		KinematicBody2D& getKinematicBody2D();
 		NavigationMeshAgent2D& getNavigationMeshAgent2D();
 		NavigationMeshBoxObstacle2D& getNavigationMeshBoxObstacle2D();
 		NavigationPath2D& getNavigationPath2D();

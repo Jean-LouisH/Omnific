@@ -228,6 +228,17 @@ Lilliputian::FixedTransform2D& Lilliputian::SceneAPI::getFixedTransform2D()
 	return *fixedTransform2D;
 }
 
+Lilliputian::KinematicBody2D& Lilliputian::SceneAPI::getKinematicBody2D()
+{
+	KinematicBody2D* kinematicBody2D = nullptr;
+	ComponentVariant::Type type = ComponentVariant::Type::KINEMATIC_BODY_2D;
+
+	if (this->hasComponent(type))
+		kinematicBody2D = this->getComponentVariant(type).getKinematicBody2D();
+
+	return *kinematicBody2D;
+}
+
 Lilliputian::NavigationMeshAgent2D& Lilliputian::SceneAPI::getNavigationMeshAgent2D()
 {
 	NavigationMeshAgent2D* navigationMeshAgent2D = nullptr;
