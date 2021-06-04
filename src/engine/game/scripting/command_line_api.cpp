@@ -42,9 +42,21 @@ void Lilliputian::CommandLineAPI::openWindow()
 	sceneTree2D.addEntity2D(panelEntity);
 	uiPanelComponent.setToComponent(uiPanel);
 	sceneTree2D.addComponentToLastEntity(uiPanelComponent);
+	this->entityIDs.push_back(panelEntity.ID);
 
 	ComponentVariant textEditComponent;
 	sceneTree2D.addEntity2D(textEditEntity);
 	textEditComponent.setToComponent(uiTextEdit);
 	sceneTree2D.addComponentToLastEntity(textEditComponent);
+	this->entityIDs.push_back(textEditEntity.ID);
+}
+
+void Lilliputian::CommandLineAPI::closeWindow()
+{
+	SceneTree2D& sceneTree2D = ScriptingAPIs::getSceneAPI().getThisSceneTree2D();
+
+	for (int i = 0; i < this->entityIDs.size(); i++)
+		sceneTree2D.removeEntity2D(this->entityIDs.at(i));
+
+	this->entityIDs.clear();
 }

@@ -20,6 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <utilities/aliases.hpp>
+#include <utilities/collections/vector.hpp>
+
 #pragma once
 
 namespace Lilliputian
@@ -28,6 +31,8 @@ namespace Lilliputian
 	{
 	public:
 		void openWindow();
+		void closeWindow();
 	private:
+		Vector<EntityID> entityIDs;
 	};
 }
