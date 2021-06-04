@@ -26,6 +26,7 @@
 #include <utilities/collections/map.hpp>
 #include <utilities/collections/vector.hpp>
 #include <utilities/string.hpp>
+#include <vector>
 
 namespace Lilliputian
 {
@@ -50,7 +51,7 @@ namespace Lilliputian
 
 		void clear();
 
-		Vector<Event> query(String name);
+		std::vector<Event> query(String name);
 	private:
 		Map<String, Vector<Event>> events;
 
