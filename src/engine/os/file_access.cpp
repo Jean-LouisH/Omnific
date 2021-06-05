@@ -25,9 +25,14 @@
 #include <fstream>
 #include <algorithm>
 
-Lilliputian::FileAccess::FileAccess(const char* executableFilepath)
+Lilliputian::FileAccess::FileAccess(String executableFilepath)
 {
 	this->executableFilepath = executableFilepath;
+}
+
+void Lilliputian::FileAccess::setDataDirectory(String assetDirectory)
+{
+	this->dataDirectory = assetDirectory;
 }
 
 Lilliputian::String Lilliputian::FileAccess::getExecutableFilePath()
@@ -40,9 +45,14 @@ Lilliputian::String Lilliputian::FileAccess::getExecutableName()
 	return this->getFileNameWithoutExtension(this->executableFilepath);
 }
 
-Lilliputian::String Lilliputian::FileAccess::getPathBeforeExecutable()
+Lilliputian::String Lilliputian::FileAccess::getExecutableDirectory()
 {
 	return this->getPathBeforeFile(this->executableFilepath);
+}
+
+Lilliputian::String Lilliputian::FileAccess::getDataDirectory()
+{
+	return this->dataDirectory;
 }
 
 Lilliputian::String Lilliputian::FileAccess::getFileNameWithoutExtension(String filepath)

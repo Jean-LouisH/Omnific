@@ -29,14 +29,17 @@ namespace Lilliputian
 	class FileAccess
 	{
 	public:
-		FileAccess(const char* executableFilepath);
+		FileAccess(String executableFilepath);
+		void setDataDirectory(String assetDirectory);
 		String getExecutableFilePath();
 		String getExecutableName();
-		String getPathBeforeExecutable();
+		String getExecutableDirectory();
+		String getDataDirectory();
 		String getFileNameWithoutExtension(String filepath);
 		String getPathBeforeFile(String filepath);
 		bool exists(String filepath);
 	private:
 		String executableFilepath;
+		String dataDirectory;
 	};
 }
