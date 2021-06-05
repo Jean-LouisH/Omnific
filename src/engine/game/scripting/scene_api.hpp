@@ -40,6 +40,9 @@ namespace Lilliputian
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
 		bool hasComponent(ComponentVariant::Type type);
+		void preloadScene(String sceneFilename);
+		void loadScene(String sceneFilename);
+		void unloadScene(String sceneFilename);
 		void changeToScene(String sceneFilename);
 
 		Entity2D& getThisEntity2D();

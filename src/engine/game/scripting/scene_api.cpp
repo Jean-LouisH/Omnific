@@ -51,13 +51,34 @@ bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
 	return result;
 }
 
+void Lilliputian::SceneAPI::preloadScene(String sceneFilename)
+{
+	if (this->sceneSerializer->doesSceneExist(sceneFilename))
+	{
+		Scene newScene = this->sceneSerializer->loadFromFile(sceneFilename);
+		this->sceneStorage->addScene(sceneFilename, newScene);
+	}
+}
+
+void Lilliputian::SceneAPI::loadScene(String sceneFilename)
+{
+	if (this->sceneSerializer->doesSceneExist(sceneFilename))
+	{
+		Scene newScene = this->sceneSerializer->loadFromFile(sceneFilename);
+		this->sceneStorage->replaceActiveScene(sceneFilename, newScene);
+	}
+}
+
+void Lilliputian::SceneAPI::unloadScene(String sceneFilename)
+{
+	this->sceneStorage->removeScene(sceneFilename);
+}
+
 void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		Scene& scene = sceneStorage->getActiveScene();
-		scene.unload();
-		scene = this->sceneSerializer->loadFromFile(sceneFilename);
+		this->sceneStorage->changeToScene(sceneFilename);
 	}
 }
 

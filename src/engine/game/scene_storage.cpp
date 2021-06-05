@@ -22,7 +22,64 @@
 
 #include "scene_storage.hpp"
 
+void Lilliputian::SceneStorage::addScene(String sceneName, Scene scene)
+{
+	if (this->activeSceneName == "")
+	{
+		this->activeSceneName = sceneName;
+		this->activeSceneChanged = true;
+	}
+
+	this->scenes.emplace(sceneName, scene);
+}
+void Lilliputian::SceneStorage::removeScene(String sceneName)
+{
+	if (sceneName != this->activeSceneName)
+	{
+		if (this->scenes.count(sceneName))
+		{
+			this->scenes.at(sceneName).unload();
+			this->scenes.erase(sceneName);
+		}
+	}
+}
+void Lilliputian::SceneStorage::replaceActiveScene(String sceneName, Scene scene)
+{
+	if (sceneName != this->activeSceneName)
+	{
+		String oldSceneName = this->activeSceneName;
+		this->addScene(sceneName, scene);
+		this->changeToScene(sceneName);
+		this->removeScene(oldSceneName);
+		this->activeSceneChanged = true;
+	}
+}
+void Lilliputian::SceneStorage::changeToScene(String sceneName)
+{
+	if (this->scenes.count(sceneName))
+		this->activeSceneName = sceneName;
+
+	this->activeSceneChanged = true;
+}
+
 Lilliputian::Scene& Lilliputian::SceneStorage::getActiveScene()
 {
-	return this->scenes.at(this->activeSceneIndex);
+	return this->scenes.at(this->activeSceneName);
+}
+
+Lilliputian::String Lilliputian::SceneStorage::getActiveSceneName()
+{
+	return this->activeSceneName;
+}
+
+bool Lilliputian::SceneStorage::isEmpty()
+{
+	return this->scenes.empty();
+}
+
+bool Lilliputian::SceneStorage::hasActiveSceneChanged()
+{
+	bool result = this->activeSceneChanged;
+	this->activeSceneChanged = false;
+	return result;
 }

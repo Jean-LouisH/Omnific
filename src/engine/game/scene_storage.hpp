@@ -23,6 +23,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
+#include <utilities/string.hpp>
 #include "utilities/aliases.hpp"
 
 namespace Lilliputian
@@ -30,9 +31,17 @@ namespace Lilliputian
 	class SceneStorage
 	{
 	public:
-		Vector<Scene> scenes;
-		SceneIndex activeSceneIndex = 0;
-
+		void addScene(String sceneName, Scene scene);
+		void removeScene(String sceneName);
+		void replaceActiveScene(String sceneName, Scene scene);
+		void changeToScene(String sceneName);
 		Scene& getActiveScene();
+		String getActiveSceneName();
+		bool isEmpty();
+		bool hasActiveSceneChanged();
+	private:
+		Map<String, Scene> scenes;
+		String activeSceneName;
+		bool activeSceneChanged = false;
 	};
 }

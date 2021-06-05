@@ -36,8 +36,6 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	/*API classes*/
 	pybind11::class_<Lilliputian::CommandLineAPI>(m, "CommandLineAPI");
 
-	pybind11::class_<Lilliputian::FileAPI>(m, "FileAPI");
-
 	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI")
 		.def("is_on_press", &Lilliputian::InputAPI::isOnPress)
 		.def("is_on_release", &Lilliputian::InputAPI::isOnRelease);
@@ -46,6 +44,9 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 
 	pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
 		.def("has_component", &Lilliputian::SceneAPI::hasComponent)
+		.def("preload_scene", &Lilliputian::SceneAPI::preloadScene)
+		.def("load_scene", &Lilliputian::SceneAPI::loadScene)
+		.def("unload_scene", &Lilliputian::SceneAPI::unloadScene)
 		.def("change_to_scene", &Lilliputian::SceneAPI::changeToScene)
 		.def("add_component", pybind11::overload_cast<Lilliputian::AIBehaviourTree*>(&Lilliputian::SceneAPI::addComponent))
 		.def("add_component", pybind11::overload_cast<Lilliputian::AISightPerception2D*>(&Lilliputian::SceneAPI::addComponent))
@@ -183,7 +184,10 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::CircleCollider2D>(m, "CircleCollider2D");
 	pybind11::class_<Lilliputian::ConstantDirectionalForce2D>(m, "ConstantDirectionalForce2D");
 	pybind11::class_<Lilliputian::ConstantPointForce2D>(m, "ConstantPointForce2D");
-	pybind11::class_<Lilliputian::CountdownTimer>(m, "CountdownTimer");
+	pybind11::class_<Lilliputian::CountdownTimer>(m, "CountdownTimer")
+		.def("start", &Lilliputian::CountdownTimer::start)
+		.def("stop", &Lilliputian::CountdownTimer::stop)
+		.def("is_finished", &Lilliputian::CountdownTimer::isFinished);
 	pybind11::class_<Lilliputian::FixedTransform2D>(m, "FixedTransform2D");
 	pybind11::class_<Lilliputian::KinematicBody2D>(m, "KinematicBody2D");
 	pybind11::class_<Lilliputian::NavigationMeshAgent2D>(m, "NavigationMeshAgent2D");
@@ -234,6 +238,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.value("CONSTANT_POINT_FORCE_2D", Lilliputian::ComponentVariant::Type::CONSTANT_POINT_FORCE_2D)
 		.value("COUNTDOWN_TIMER", Lilliputian::ComponentVariant::Type::COUNTDOWN_TIMER)
 		.value("FIXED_TRANSFORM_2D", Lilliputian::ComponentVariant::Type::FIXED_TRANSFORM_2D)
+		.value("KINEMATIC_BODY_2D", Lilliputian::ComponentVariant::Type::KINEMATIC_BODY_2D)
 		.value("NAVIGATION_MESH_2D", Lilliputian::ComponentVariant::Type::NAVIGATION_MESH_2D)
 		.value("NAVIGATION_MESH_AGENT_2D", Lilliputian::ComponentVariant::Type::NAVIGATION_MESH_AGENT_2D)
 		.value("NAVIGATION_MESH_BOX_OBSTACLE_2D", Lilliputian::ComponentVariant::Type::NAVIGATION_MESH_BOX_OBSTACLE_2D)
@@ -291,7 +296,6 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 
 	/*API getters*/
 	m.def("get_command_line_api", &Lilliputian::ScriptingAPIs::getCommandLineAPI);
-	m.def("get_file_api", &Lilliputian::ScriptingAPIs::getFileAPI);
 	m.def("get_input_api", &Lilliputian::ScriptingAPIs::getInputAPI);
 	m.def("get_log_api", &Lilliputian::ScriptingAPIs::getLogAPI);
     m.def("get_scene_api", &Lilliputian::ScriptingAPIs::getSceneAPI);

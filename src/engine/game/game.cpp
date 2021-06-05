@@ -30,7 +30,6 @@ Lilliputian::Game::Game()
 	this->scripting = new Scripting();
 	this->sceneStorage = new SceneStorage();
 	this->commandLine = new CommandLine(
-		this->scripting->getScripts(),
 		this->sceneSerializer,
 		this->sceneStorage);
 
@@ -57,20 +56,15 @@ void Lilliputian::Game::initialize()
 		if (debugDataFilepath == debugEditorDataFilepath)
 			this->configuration->entrySceneFilepath = "assets/scenes/debug.yml";
 #endif
-		this->sceneSerializer = new SceneSerializer(dataDirectory, this->scripting->getScripts());
+		OS::getFileAccess().setDataDirectory(dataDirectory);
+		this->sceneSerializer = new SceneSerializer(dataDirectory);
 		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer);
 
 		if (this->sceneSerializer->doesSceneExist(this->configuration->entrySceneFilepath))
 		{
 			entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
-			this->scripting->loadCurrentSceneScriptModules();
-			this->sceneStorage->scenes.push_back(entryScene);
-			this->sceneStorage->activeSceneIndex = this->sceneStorage->scenes.size() - 1;
+			this->sceneStorage->addScene(this->configuration->entrySceneFilepath, entryScene);
 			this->scripting->setSceneStorage(this->sceneStorage);
-		}
-		else
-		{
-			;
 		}
 	}
 	else
@@ -91,7 +85,10 @@ void Lilliputian::Game::initialize()
 
 void Lilliputian::Game::executeOnStartMethods()
 {
-	if (this->sceneStorage->scenes.size() > 0)
+	if (this->sceneStorage->hasActiveSceneChanged())
+		this->scripting->loadCurrentSceneScriptModules(this->sceneStorage->getActiveScene());
+
+	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnStartMethods(this->getActiveScene());
 }
 
@@ -110,13 +107,13 @@ void Lilliputian::Game::executeOnInputMethods()
 	}
 #endif
 
-	if (this->sceneStorage->scenes.size() > 0 && OS::getHid().getHasDetectedInputChanges())
+	if (!this->sceneStorage->isEmpty() && OS::getHid().getHasDetectedInputChanges())
 		this->scripting->executeOnInputMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnFrameMethods()
 {
-	if (this->sceneStorage->scenes.size() > 0)
+	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFrameMethods(this->getActiveScene());
 }
 
@@ -124,19 +121,19 @@ void Lilliputian::Game::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
 
-	if (this->sceneStorage->scenes.size() > 0)
+	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnLateMethods()
 {
-	if (this->sceneStorage->scenes.size() > 0)
+	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnLateMethods(this->getActiveScene());
 }
 
 void Lilliputian::Game::executeOnFinalMethods()
 {
-	if (this->sceneStorage->scenes.size() > 0)
+	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFinalMethods(this->getActiveScene());
 
 	Vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
