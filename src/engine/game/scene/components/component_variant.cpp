@@ -26,12 +26,11 @@
 
 Lilliputian::ComponentVariant::ComponentVariant()
 {
-	this->initialize();
+	this->ID = IDCounter::getNewID();
 }
 
 Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 {
-	this->initialize();
 	this->ID = other.ID;
 	this->type = other.type;
 	this->entityID = other.entityID;
@@ -776,9 +775,4 @@ void Lilliputian::ComponentVariant::unloadImage()
 
 	if (image != nullptr)
 		image->unload();
-}
-
-void Lilliputian::ComponentVariant::initialize()
-{
-	this->ID = IDCounter::getNewID();
 }

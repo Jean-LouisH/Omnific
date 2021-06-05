@@ -279,7 +279,5 @@ namespace Lilliputian
 			UITextLabel* uiTextLabel;
 			UITree* uiTree;
         };
-
-		void initialize();
     };
 }
