@@ -23,7 +23,6 @@
 #pragma once
 
 #include "command_line_api.hpp"
-#include "file_api.hpp"
 #include "input_api.hpp"
 #include "log_api.hpp"
 #include "scene_api.hpp"
@@ -45,7 +44,6 @@ namespace Lilliputian
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		static CommandLineAPI& getCommandLineAPI();
-		static FileAPI& getFileAPI();
 		static InputAPI& getInputAPI();
 		static LogAPI& getLogAPI();
 		static SceneAPI& getSceneAPI();
@@ -55,7 +53,6 @@ namespace Lilliputian
 		static ScriptingAPIs* instance;
 
 		CommandLineAPI* commandLineAPI = nullptr;
-		FileAPI* fileAPI = nullptr;
 		InputAPI* inputAPI = nullptr;
 		LogAPI* logAPI = nullptr;
 		SceneAPI* sceneAPI = nullptr;

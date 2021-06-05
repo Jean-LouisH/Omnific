@@ -29,14 +29,12 @@ void Lilliputian::ScriptingAPIs::initialize()
 	ScriptingAPIs* newInstance = getInstance();
 
 	newInstance->commandLineAPI = new CommandLineAPI();
-	newInstance->fileAPI = new FileAPI();
 	newInstance->inputAPI = new InputAPI();
 	newInstance->logAPI = new LogAPI();
 	newInstance->sceneAPI = new SceneAPI();
 	newInstance->timeAPI = new TimeAPI();
 	newInstance->windowAPI = new WindowAPI();
 
-	newInstance->fileAPI->initialize(&OS::getFileAccess());
 	newInstance->inputAPI->initialize(&OS::getHid());
 	newInstance->windowAPI->initialize(&OS::getWindow());
 }
@@ -54,11 +52,6 @@ void Lilliputian::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID en
 Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::getCommandLineAPI()
 {
 	return *getInstance()->commandLineAPI;
-}
-
-Lilliputian::FileAPI& Lilliputian::ScriptingAPIs::getFileAPI()
-{
-	return *getInstance()->fileAPI;
 }
 
 Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::getInputAPI()
