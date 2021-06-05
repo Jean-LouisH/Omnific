@@ -23,15 +23,12 @@
 #include "command_line.hpp"
 
 Lilliputian::CommandLine::CommandLine(
-	Vector<String>* scripts,
 	SceneSerializer* sceneSerializer,
 	SceneStorage* sceneStorage
 )
 {
-	this->scripts = scripts;
-	this->loadedScenes = loadedScenes;
 	this->sceneSerializer = sceneSerializer;
-	this->activeSceneIndex = activeSceneIndex;
+	this->sceneStorage = sceneStorage;
 }
 
 void Lilliputian::CommandLine::execute(String command)

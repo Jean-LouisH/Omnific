@@ -28,10 +28,9 @@
 #include "scene/components/component_variant.hpp"
 #include <os/os.hpp>
 
-Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory, Vector<String>* scripts)
+Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory)
 {
 	this->dataDirectory = dataDirectory;
-	this->scripts = scripts;
 }
 
 Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(String filepath)
@@ -839,7 +838,6 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 								for (int i = 0; i < it2->second.size(); i++)
 								{
 									String script = it2->second[i].as<std::string>();
-									scripts->push_back(script);
 									sceneTree2D.getLastEntity2D().scripts.push_back(script);
 								}
 							}

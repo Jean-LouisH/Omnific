@@ -25,12 +25,12 @@
 
 Lilliputian::Scripting::Scripting()
 {
-	this->vm = new VirtualMachine(&this->scripts);
+	this->vm = new VirtualMachine();
 }
 
-void Lilliputian::Scripting::loadCurrentSceneScriptModules()
+void Lilliputian::Scripting::loadCurrentSceneScriptModules(Scene scene)
 {
-	this->vm->loadCurrentSceneScriptModules();
+	this->vm->loadCurrentSceneScriptModules(scene);
 }
 
 void Lilliputian::Scripting::executeOnStartMethods(Scene& scene)
@@ -66,9 +66,4 @@ void Lilliputian::Scripting::executeOnFinalMethods(Scene& scene)
 void Lilliputian::Scripting::setSceneStorage(SceneStorage* sceneStorage)
 {
 	ScriptingAPIs::setSceneStorage(sceneStorage);
-}
-
-Lilliputian::Vector<Lilliputian::String>* Lilliputian::Scripting::getScripts()
-{
-	return &this->scripts;
 }

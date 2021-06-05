@@ -34,10 +34,9 @@ namespace Lilliputian
 	class VirtualMachine
 	{
 	public:
-		VirtualMachine(
-			Vector<String>* scripts);
+		VirtualMachine();
 		~VirtualMachine();
-		void loadCurrentSceneScriptModules();
+		void loadCurrentSceneScriptModules(Scene scene);
 		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches);
@@ -45,7 +44,6 @@ namespace Lilliputian
 		void executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches);
 	private:
-		Vector<String>* scripts;
 		pybind11::scoped_interpreter guard{};
 		Map<String, Module> modules;
 

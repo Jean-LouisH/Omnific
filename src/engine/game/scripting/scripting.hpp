@@ -33,7 +33,7 @@ namespace Lilliputian
 	{
 	public:
 		Scripting();
-		void loadCurrentSceneScriptModules();
+		void loadCurrentSceneScriptModules(Scene scene);
 		void executeOnStartMethods(Scene& scene);
 		void executeOnInputMethods(Scene& scene);
 		void executeOnFrameMethods(Scene& scene);
@@ -41,10 +41,8 @@ namespace Lilliputian
 		void executeOnLateMethods(Scene& scene);
 		void executeOnFinalMethods(Scene& scene);
 		void setSceneStorage(SceneStorage* sceneStorage);
-		Vector<String>* getScripts();
 	private:
 		VirtualMachine* vm = nullptr;
-		Vector<String> scripts;
 	};
 }
 

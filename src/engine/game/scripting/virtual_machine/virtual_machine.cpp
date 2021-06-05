@@ -25,10 +25,9 @@
 #include <iostream>
 #include <utilities/collections/set.hpp>
 
-Lilliputian::VirtualMachine::VirtualMachine(
-	Vector<String>* scripts)
+Lilliputian::VirtualMachine::VirtualMachine()
 {
-	this->scripts = scripts;
+
 }
 
 Lilliputian::VirtualMachine::~VirtualMachine()
@@ -36,24 +35,40 @@ Lilliputian::VirtualMachine::~VirtualMachine()
 
 }
 
-void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules()
+void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules(Scene scene)
 {
 	pybind11::module_ sys = pybind11::module_::import("sys");
 	pybind11::object path = sys.attr("path");
 	Set<String> addedPaths;
 
-	for (int i = 0; i < this->scripts->size(); i++)
+	Vector<SceneTree2D> sceneTrees = scene.getSceneTree2Ds();
+	Set<String> scripts;
+
+	for (int i = 0; i < sceneTrees.size(); i++)
+	{
+		Map<EntityID, Entity2D> entities = sceneTrees.at(i).getEntity2Ds();
+		
+		for (auto it = entities.begin(); it != entities.end(); ++it)
+		{
+			Vector<String> entityScripts = entities.at(it->first).scripts;
+
+			for (int j = 0; j < entityScripts.size(); j++)
+				scripts.emplace(entityScripts.at(j));
+		}
+	}
+
+	for (auto it = scripts.begin(); it != scripts.end(); it++)
 	{
 		try
 		{
-			String scriptFilepath = this->scripts->at(i);
+			String scriptFilepath = *it;
 
 			if (addedPaths.count(scriptFilepath) == 0)
 			{
-				String newPath = OS::getFileAccess().getPathBeforeExecutable() + 
+				String newPath = OS::getFileAccess().getExecutableDirectory() + 
 					"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #ifdef _DEBUG
-				newPath = OS::getFileAccess().getPathBeforeExecutable();
+				newPath = OS::getFileAccess().getExecutableDirectory();
 				newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
 				String dataFolder = "data//editor//";
 #if (DEBUG_DEMO_MODE)
