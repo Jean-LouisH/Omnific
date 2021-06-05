@@ -1,14 +1,19 @@
-from lilliputian import scene
+import lilliputian as lp
 
-def __init__(self):
-    self.countdown_value = 5.0
-    self.next_scene = "project_list"
+countdown_value = None
+next_scene = None
+countdown_timer = None
 
 def on_start():
-    entity = scene.get_calling_entity()
-    countdown_timer = entity.get_component("CountdownTimer")
-    countdown_timer.start(self.countdown_value)
+    global countdown_value, next_scene, countdown_timer
+    
+    countdown_value = 5.0
+    next_scene = "assets/scenes/project_list.yml"
+    countdown_timer = lp.get_scene_api().get_countdown_timer()
+    countdown_timer.start(countdown_value)
 
 def on_frame():
+    global countdown_timer, next_scene
+    
     if countdown_timer.is_finished():
-        scene.change_to(self.next_scene)
+        lp.get_scene_api().load_scene(next_scene)
