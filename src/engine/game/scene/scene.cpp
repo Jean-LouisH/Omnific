@@ -185,9 +185,5 @@ Lilliputian::Vector<Lilliputian::SceneTree2D>& Lilliputian::Scene::getSceneTree2
 void Lilliputian::Scene::unload()
 {
 	this->assetCache.deleteAll();
-
-	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
-		this->sceneTree2Ds.at(i).unload();
-
 	this->sceneTree2Ds.clear();
 }
