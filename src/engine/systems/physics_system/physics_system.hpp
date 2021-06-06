@@ -31,8 +31,9 @@ namespace Lilliputian
 	public:
 		PhysicsSystem();
 		~PhysicsSystem();
-		void process(Scene& scene);
+		void process(Scene& scene, uint32_t msPerComputeUpdate);
 	private:
+		void updateTimers(Scene& scene, uint32_t msPerComputeUpdate);
 	};
 }
 

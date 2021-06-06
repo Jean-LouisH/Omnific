@@ -22,6 +22,8 @@
 
 #include "physics_system.hpp"
 #include "game/scene/scene.hpp"
+#include <utilities/constants.hpp>
+#include <os/os.hpp>
 
 Lilliputian::PhysicsSystem::PhysicsSystem()
 {
@@ -33,7 +35,25 @@ Lilliputian::PhysicsSystem::~PhysicsSystem()
 
 }
 
-void Lilliputian::PhysicsSystem::process(Scene& scene)
+void Lilliputian::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpdate)
 {
+	this->updateTimers(scene, msPerComputeUpdate);
+}
 
+void Lilliputian::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
+{
+	Vector<SceneTree2D>& sceneTree2Ds = scene.getSceneTree2Ds();
+
+	int sceneTree2DCount = sceneTree2Ds.size();
+
+	for (int i = 0; i < sceneTree2DCount; i++)
+	{
+		SceneTree2D& sceneTree2D = sceneTree2Ds.at(i);
+		Vector<ComponentVariant>& componentVariants = sceneTree2D.getComponentVariants();
+
+		for (int j = 0; j < componentVariants.size(); j++)
+			if (componentVariants.at(j).getType() == ComponentVariant::Type::COUNTDOWN_TIMER)
+				componentVariants.at(j).getCountdownTimer()->update(msPerComputeUpdate * (1.0 / MS_IN_S));
+
+	}
 }

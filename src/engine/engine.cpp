@@ -133,7 +133,7 @@ void Lilliputian::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
-	Scene activeScene = this->game->getActiveScene();
+	Scene& activeScene = this->game->getActiveScene();
 	const uint32_t msPerComputeUpdate = this->game->getConfiguration().msPerComputeUpdate;
 
 	this->game->executeOnInputMethods();
@@ -146,7 +146,7 @@ void Lilliputian::Engine::update()
 	{
 		this->game->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
-		this->physicsSystem->process(activeScene);
+		this->physicsSystem->process(activeScene, msPerComputeUpdate);
 		profiler.decrementLagCount(msPerComputeUpdate);
 	}
 
