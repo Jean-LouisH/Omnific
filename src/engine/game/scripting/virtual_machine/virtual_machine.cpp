@@ -35,8 +35,10 @@ Lilliputian::VirtualMachine::~VirtualMachine()
 
 }
 
-void Lilliputian::VirtualMachine::loadCurrentSceneScriptModules(Scene scene)
+void Lilliputian::VirtualMachine::loadModules(Scene scene)
 {
+	this->modules.clear();
+
 	pybind11::module_ sys = pybind11::module_::import("sys");
 	pybind11::object path = sys.attr("path");
 	Set<String> addedPaths;

@@ -28,9 +28,9 @@ Lilliputian::Scripting::Scripting()
 	this->vm = new VirtualMachine();
 }
 
-void Lilliputian::Scripting::loadCurrentSceneScriptModules(Scene scene)
+void Lilliputian::Scripting::loadModules(Scene scene)
 {
-	this->vm->loadCurrentSceneScriptModules(scene);
+	this->vm->loadModules(scene);
 }
 
 void Lilliputian::Scripting::executeOnStartMethods(Scene& scene)

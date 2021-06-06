@@ -36,7 +36,7 @@ namespace Lilliputian
 	public:
 		VirtualMachine();
 		~VirtualMachine();
-		void loadCurrentSceneScriptModules(Scene scene);
+		void loadModules(Scene scene);
 		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches);

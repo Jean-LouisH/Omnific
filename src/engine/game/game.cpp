@@ -86,7 +86,7 @@ void Lilliputian::Game::initialize()
 void Lilliputian::Game::executeOnStartMethods()
 {
 	if (this->sceneStorage->hasActiveSceneChanged())
-		this->scripting->loadCurrentSceneScriptModules(this->sceneStorage->getActiveScene());
+		this->scripting->loadModules(this->sceneStorage->getActiveScene());
 
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnStartMethods(this->getActiveScene());

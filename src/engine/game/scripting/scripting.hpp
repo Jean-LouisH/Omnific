@@ -33,7 +33,7 @@ namespace Lilliputian
 	{
 	public:
 		Scripting();
-		void loadCurrentSceneScriptModules(Scene scene);
+		void loadModules(Scene scene);
 		void executeOnStartMethods(Scene& scene);
 		void executeOnInputMethods(Scene& scene);
 		void executeOnFrameMethods(Scene& scene);
