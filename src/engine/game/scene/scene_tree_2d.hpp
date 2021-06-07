@@ -31,7 +31,7 @@
 #include "utilities/aliases.hpp"
 #include "game/scripting/virtual_machine/script_call_batch.hpp"
 #include "utilities/string.hpp"
-#include "events/event_bus.hpp"
+#include "event_bus.hpp"
 
 namespace Lilliputian
 {

@@ -28,7 +28,7 @@
 #include <game/scene_serializer.hpp>
 #include <game/scene_storage.hpp>
 #include <utilities/aliases.hpp>
-#include <game/scene/events/event_bus.hpp>
+#include <game/scene/event_bus.hpp>
 
 namespace Lilliputian
 {

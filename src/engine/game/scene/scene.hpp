@@ -28,7 +28,7 @@
 #include "utilities/collections/map.hpp"
 #include "components/component_variant.hpp"
 #include "game/scripting/virtual_machine/script_call_batch.hpp"
-#include "assets/asset_cache.hpp"
+#include "asset_cache.hpp"
 #include "scene_tree_2d.hpp"
 
 namespace Lilliputian

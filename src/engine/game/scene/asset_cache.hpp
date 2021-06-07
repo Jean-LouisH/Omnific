@@ -24,10 +24,10 @@
 
 #include "utilities/collections/map.hpp"
 #include "utilities/string.hpp"
-#include "audio_stream.hpp"
-#include "font.hpp"
-#include "text.hpp"
-#include "image.hpp"
+#include "assets/audio_stream.hpp"
+#include "assets/font.hpp"
+#include "assets/text.hpp"
+#include "assets/image.hpp"
 
 namespace Lilliputian
 {
