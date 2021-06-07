@@ -152,7 +152,11 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 
 	pybind11::class_<Lilliputian::SceneTree2D>(m, "SceneTree2D");
 
-	pybind11::class_<Lilliputian::Scene>(m, "Scene");
+	pybind11::class_<Lilliputian::Scene>(m, "Scene")
+		.def("get_asset_cache", &Lilliputian::Scene::getAssetCache, pybind11::return_value_policy::reference)
+		.def("get_scene_tree", &Lilliputian::Scene::getSceneTree, pybind11::return_value_policy::reference)
+		.def("get_last_scene_tree_2d", &Lilliputian::Scene::getLastSceneTree2D, pybind11::return_value_policy::reference)
+		.def("get_scene_trees_2d", &Lilliputian::Scene::getSceneTree2Ds, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Lilliputian::Event::Parameters>(m, "EventParameters")
 		.def_readwrite("floats", &Lilliputian::Event::Parameters::floats)
@@ -271,6 +275,23 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.value("UI_TEXT_LABEL", Lilliputian::ComponentVariant::Type::UI_TEXT_LABEL)
 		.value("UI_TREE", Lilliputian::ComponentVariant::Type::UI_TREE)
 		.export_values();
+
+	/*Asset classes*/
+
+	pybind11::class_<Lilliputian::AudioStream>(m, "AudioStream");
+	pybind11::class_<Lilliputian::Font>(m, "Font");
+	pybind11::class_<Lilliputian::Image>(m, "Image");
+	pybind11::class_<Lilliputian::Text>(m, "Text");
+
+	pybind11::class_<Lilliputian::AssetCache>(m, "AssetCache")
+		.def("load_audio_stream", &Lilliputian::AssetCache::loadAudioStream)
+		.def("load_font", &Lilliputian::AssetCache::loadFont)
+		.def("load_text", &Lilliputian::AssetCache::loadText)
+		.def("load_image", &Lilliputian::AssetCache::loadImage)
+		.def("delete_audio_stream", &Lilliputian::AssetCache::deleteAudioStream)
+		.def("delete_font", &Lilliputian::AssetCache::deleteFont)
+		.def("delete_text", &Lilliputian::AssetCache::deleteText)
+		.def("delete_image", &Lilliputian::AssetCache::deleteImage);
 
 	/*Utility classes*/
 	pybind11::class_<Lilliputian::Vector2>(m, "Vector2")
