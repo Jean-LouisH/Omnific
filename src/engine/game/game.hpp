@@ -27,7 +27,7 @@
 #include "os/os.hpp"
 #include "os/file_access.hpp"
 #include "os/profiler.hpp"
-#include "game/scripting/scripting_apis.hpp"
+#include "game/scripting/scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
 #include "boot_configuration.hpp"
 #include "command_line.hpp"

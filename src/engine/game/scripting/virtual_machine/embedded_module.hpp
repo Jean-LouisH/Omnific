@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <game/scripting/scripting_apis.hpp>
+#include <game/scripting/scripting_apis/scripting_apis.hpp>
 #include <game/scene/components/component_variant.hpp>
 #include <pybind11/embed.h>
 #include <utilities/vector2.hpp>

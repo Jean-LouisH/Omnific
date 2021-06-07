@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "scripting.hpp"
-#include "scripting_apis.hpp"
+#include "scripting_apis/scripting_apis.hpp"
 
 Lilliputian::Scripting::Scripting()
 {

@@ -24,7 +24,7 @@
 
 #include "script_call_batch.hpp"
 #include "utilities/collections/map.hpp"
-#include "game/scripting/scripting_apis.hpp"
+#include "game/scripting/scripting_apis/scripting_apis.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
 #include "module.hpp"
