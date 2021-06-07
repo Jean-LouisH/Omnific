@@ -33,6 +33,7 @@
 #include <game/scene_storage.hpp>
 #include "utilities/aliases.hpp"
 #include "os/os.hpp"
+#include <string>
 
 namespace Lilliputian
 {
@@ -49,6 +50,9 @@ namespace Lilliputian
 		static SceneAPI& getSceneAPI();
 		static TimeAPI& getTimeAPI();
 		static WindowAPI& getWindowAPI();
+
+		std::string getDataDirectory();
+		std::string getExecutableDirectory();
 	private:
 		static ScriptingAPIs* instance;
 

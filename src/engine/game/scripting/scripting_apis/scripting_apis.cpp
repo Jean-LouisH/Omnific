@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "scripting_apis.hpp"
+#include <os/os.hpp>
 
 Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::instance = nullptr;
 
@@ -77,6 +78,16 @@ Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::getTimeAPI()
 Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::getWindowAPI()
 {
 	return *getInstance()->windowAPI;
+}
+
+std::string Lilliputian::ScriptingAPIs::getDataDirectory()
+{
+	return OS::getFileAccess().getDataDirectory();
+}
+
+std::string Lilliputian::ScriptingAPIs::getExecutableDirectory()
+{
+	return OS::getFileAccess().getExecutableDirectory();
 }
 
 Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::getInstance()
