@@ -150,58 +150,55 @@ Lilliputian::InputAPI::InputAPI()
 	this->keyboardEventsByString.emplace("right", SDLK_RIGHT);
 	this->keyboardEventsByString.emplace("down", SDLK_DOWN);
 
-/*
-	*/
-
 	/*Default action input map*/
-	//this->insertActionInput("dpad left", InputCode::GAME_CONTROLLER_BUTTON_DPAD_LEFT);
-	//this->insertActionInput("dpad left", InputCode::KEY_F);
-	//this->insertActionInput("dpad right", InputCode::GAME_CONTROLLER_BUTTON_DPAD_RIGHT);
-	//this->insertActionInput("dpad right", InputCode::KEY_H);
-	//this->insertActionInput("dpad up", InputCode::GAME_CONTROLLER_BUTTON_DPAD_UP);
-	//this->insertActionInput("dpad up", InputCode::KEY_T);
-	//this->insertActionInput("dpad down", InputCode::GAME_CONTROLLER_BUTTON_DPAD_DOWN);
-	//this->insertActionInput("dpad down", InputCode::KEY_G);
-	//this->insertActionInput("extra", InputCode::GAME_CONTROLLER_BUTTON_EXTRA);
-	//this->insertActionInput("extra", InputCode::KEY_E);
-	//this->insertActionInput("menu", InputCode::GAME_CONTROLLER_BUTTON_MENU);
-	//this->insertActionInput("menu", InputCode::KEY_U);
-	//this->insertActionInput("x", InputCode::GAME_CONTROLLER_BUTTON_X);
-	//this->insertActionInput("x", InputCode::KEY_J);
-	//this->insertActionInput("y", InputCode::GAME_CONTROLLER_BUTTON_Y);
-	//this->insertActionInput("y", InputCode::KEY_I);
-	//this->insertActionInput("a", InputCode::GAME_CONTROLLER_BUTTON_A);
-	//this->insertActionInput("a", InputCode::KEY_K);
-	//this->insertActionInput("b", InputCode::GAME_CONTROLLER_BUTTON_B);
-	//this->insertActionInput("b", InputCode::KEY_L);
-	//this->insertActionInput("left shoulder", InputCode::GAME_CONTROLLER_BUTTON_LEFT_SHOULDER);
-	//this->insertActionInput("left shoulder", InputCode::KEY_Q);
-	//this->insertActionInput("left stick", InputCode::GAME_CONTROLLER_BUTTON_LEFT_STICK_BUTTON);
-	//this->insertActionInput("left stick", InputCode::KEY_C);
-	//this->insertActionInput("right shoulder", InputCode::GAME_CONTROLLER_BUTTON_RIGHT_SHOULDER);
-	//this->insertActionInput("right shoulder", InputCode::KEY_O);
-	//this->insertActionInput("right stick", InputCode::GAME_CONTROLLER_BUTTON_RIGHT_STICK_BUTTON);
-	//this->insertActionInput("right stick", InputCode::KEY_N);
-	//this->insertActionInput("left axis left", InputCode::GAME_CONTROLLER_LEFT_AXIS_LEFT);
-	//this->insertActionInput("left axis left", InputCode::KEY_A);
-	//this->insertActionInput("left axis right", InputCode::GAME_CONTROLLER_LEFT_AXIS_RIGHT);
-	//this->insertActionInput("left axis right", InputCode::KEY_D);
-	//this->insertActionInput("left axis up", InputCode::GAME_CONTROLLER_LEFT_AXIS_UP);
-	//this->insertActionInput("left axis up", InputCode::KEY_W);
-	//this->insertActionInput("left axis down", InputCode::GAME_CONTROLLER_LEFT_AXIS_DOWN);
-	//this->insertActionInput("left axis down", InputCode::KEY_S);
-	//this->insertActionInput("right axis left", InputCode::GAME_CONTROLLER_RIGHT_AXIS_LEFT);
-	//this->insertActionInput("right axis left", InputCode::KEY_SEMICOLON);
-	//this->insertActionInput("right axis right", InputCode::GAME_CONTROLLER_RIGHT_AXIS_RIGHT);
-	//this->insertActionInput("right axis right", InputCode::KEY_BACKSLASH);
-	//this->insertActionInput("right axis up", InputCode::GAME_CONTROLLER_RIGHT_AXIS_UP);
-	//this->insertActionInput("right axis up", InputCode::KEY_QUOTE);
-	//this->insertActionInput("right axis down", InputCode::GAME_CONTROLLER_RIGHT_AXIS_DOWN);
-	//this->insertActionInput("right axis down", InputCode::KEY_OPEN_SQUARE_BRACKET);
-	//this->insertActionInput("left trigger", InputCode::GAME_CONTROLLER_TRIGGER_LEFT_AXIS);
-	//this->insertActionInput("left trigger", InputCode::KEY_LEFT_SHIFT);
-	//this->insertActionInput("right trigger", InputCode::GAME_CONTROLLER_TRIGGER_RIGHT_AXIS);
-	//this->insertActionInput("right trigger", InputCode::KEY_RIGHT_SHIFT);
+	this->insertActionMap("dpad_left", "dpad_left");
+	this->insertActionMap("dpad_left", "f");
+	this->insertActionMap("dpad_right", "dpad_right");
+	this->insertActionMap("dpad_right", "h");
+	this->insertActionMap("dpad_up", "dpad_up");
+	this->insertActionMap("dpad_up", "t");
+	this->insertActionMap("dpad_down", "dpad_down");
+	this->insertActionMap("dpad_down", "g");
+	this->insertActionMap("extra", "button_extra");
+	this->insertActionMap("extra", "e");
+	this->insertActionMap("menu", "button_menu");
+	this->insertActionMap("menu", "u");
+	this->insertActionMap("x", "button_x");
+	this->insertActionMap("x", "j");
+	this->insertActionMap("y", "button_y");
+	this->insertActionMap("y", "i");
+	this->insertActionMap("a", "button_a");
+	this->insertActionMap("a", "k");
+	this->insertActionMap("b", "button_b");
+	this->insertActionMap("b", "l");
+	this->insertActionMap("left_shoulder", "left_shoulder_button");
+	this->insertActionMap("left_shoulder", "q");
+	this->insertActionMap("left_stick", "left_stick_button");
+	this->insertActionMap("left_stick", "c");
+	this->insertActionMap("right_shoulder", "right_shoulder_button");
+	this->insertActionMap("right_shoulder", "o");
+	this->insertActionMap("right_stick", "right_stick_button");
+	this->insertActionMap("right_stick", "n");
+	this->insertActionMap("left_axis_left", "left_axis_x");
+	this->insertActionMap("left_axis_left", "a");
+	this->insertActionMap("left_axis_right","left_axis_x");
+	this->insertActionMap("left_axis_right", "d");
+	this->insertActionMap("left_axis_up", "left_axis_y");
+	this->insertActionMap("left_axis_up", "w");
+	this->insertActionMap("left_axis_down", "left_axis_y");
+	this->insertActionMap("left_axis_down", "s");
+	this->insertActionMap("right_axis_left", "right_axis_x");
+	this->insertActionMap("right_axis_left", "semicolon");
+	this->insertActionMap("right_axis_right", "right_axis_x");
+	this->insertActionMap("right_axis_right", "backslash");
+	this->insertActionMap("right_axis_up", "right_axis_y");
+	this->insertActionMap("right_axis_up", "quote");
+	this->insertActionMap("right_axis_down", "right_axis_y");
+	this->insertActionMap("right_axis_down", "left_square_brackcet");
+	this->insertActionMap("left_trigger", "left_trigger");
+	this->insertActionMap("left_trigger", "left_shift");
+	this->insertActionMap("right_trigger", "right_trigger");
+	this->insertActionMap("right_trigger", "right_shift");
 }
 
 void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
@@ -209,56 +206,56 @@ void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
 	this->hid = hid;
 }
 
-//void Lilliputian::InputAPI::insertActionInput(String actionName, InputCode inputCode)
-//{
-//	String actionString = actionName;
-//
-//	if (this->actionMappedInputs.count(actionName))
-//	{
-//		this->actionMappedInputs.at(actionName).push_back(inputCode);
-//	}
-//	else
-//	{
-//		Vector<InputCode> inputCodes;
-//		inputCodes.push_back(inputCode);
-//		this->actionMappedInputs.emplace(actionString, inputCodes);
-//	}
-//}
-//
-//void Lilliputian::InputAPI::replaceActionInput(String actionName, InputCode inputCode)
-//{
-//	String actionString = actionName;
-//
-//	if (this->actionMappedInputs.count(actionString))
-//	{
-//		this->actionMappedInputs.at(actionString).clear();
-//		this->actionMappedInputs.at(actionString).push_back(inputCode);
-//	}
-//	else
-//	{
-//		Vector<InputCode> inputCodes;
-//		inputCodes.push_back(inputCode);
-//		this->actionMappedInputs.emplace(actionString, inputCodes);
-//	}
-//
-//}
-//
-//void Lilliputian::InputAPI::removeActionInput(String actionName, InputCode inputCode)
-//{
-//
-//}
-//
-//void Lilliputian::InputAPI::removeAllActionInputs(String actionName)
-//{
-//	String actionString = actionName;
-//	if (this->actionMappedInputs.count(actionString))
-//		this->actionMappedInputs.at(actionString).clear();
-//}
-//
-//Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::InputCode>> Lilliputian::InputAPI::getActionInputs()
-//{
-//	return this->actionMappedInputs;
-//}
+void Lilliputian::InputAPI::insertActionMap(String actionName, String inputString)
+{
+	String actionString = actionName;
+
+	if (this->actionMappedButtons.count(actionName))
+	{
+		this->actionMappedButtons.at(actionName).push_back(inputString);
+	}
+	else
+	{
+		Vector<String> inputStrings;
+		inputStrings.push_back(inputString);
+		this->actionMappedButtons.emplace(actionString, inputStrings);
+	}
+}
+
+void Lilliputian::InputAPI::replaceActionMap(String actionName, String inputString)
+{
+	String actionString = actionName;
+
+	if (this->actionMappedButtons.count(actionString))
+	{
+		this->actionMappedButtons.at(actionString).clear();
+		this->actionMappedButtons.at(actionString).push_back(inputString);
+	}
+	else
+	{
+		Vector<String> inputStrings;
+		inputStrings.push_back(inputString);
+		this->actionMappedButtons.emplace(actionString, inputStrings);
+	}
+
+}
+
+void Lilliputian::InputAPI::removeActionMap(String actionName, String inputString)
+{
+
+}
+
+void Lilliputian::InputAPI::removeAllActionMaps(String actionName)
+{
+	String actionString = actionName;
+	if (this->actionMappedButtons.count(actionString))
+		this->actionMappedButtons.at(actionString).clear();
+}
+
+Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::String>> Lilliputian::InputAPI::getActionMaps()
+{
+	return this->actionMappedButtons;
+}
 
 bool Lilliputian::InputAPI::isOnPress(String keyCode)
 {
@@ -320,27 +317,32 @@ bool Lilliputian::InputAPI::isOnHold(String keyCode)
 	return false;
 }
 
-//bool Lilliputian::InputAPI::isActionOnPress(String actionName)
-//{
-//	return false;
-//}
-//
-//bool Lilliputian::InputAPI::isActionOnDoublePress(String actionName, unsigned int timeInterval_ms)
-//{
-//	return false;
-//}
-//
-//bool Lilliputian::InputAPI::isActionOnRelease(String actionName)
-//{
-//	return false;
-//}
-//
-//bool Lilliputian::InputAPI::isActionOnHold(String actionName, unsigned int timeInterval_ms)
-//{
-//	return false;
-//}
+bool Lilliputian::InputAPI::isActionOnPress(String actionName)
+{
+	return false;
+}
 
-float Lilliputian::InputAPI::getAxisStrength(String axisActionName)
+bool Lilliputian::InputAPI::isActionOnDoublePress(String actionName, unsigned int timeInterval_ms)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isActionOnRelease(String actionName)
+{
+	return false;
+}
+
+bool Lilliputian::InputAPI::isActionOnHold(String actionName, unsigned int timeInterval_ms)
+{
+	return false;
+}
+
+float Lilliputian::InputAPI::getActionStrength(String inputString)
+{
+	return 0.0;
+}
+
+float Lilliputian::InputAPI::getAxisActionStrength(String axisActionName)
 {
 	return 0.0;
 }

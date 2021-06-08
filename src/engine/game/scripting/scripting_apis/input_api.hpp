@@ -33,34 +33,29 @@ namespace Lilliputian
 	class InputAPI
 	{
 	public:
-		typedef struct MappedInputs
-		{
-			Vector<SDL_Keycode> keyboardEvents;
-			Vector<HumanInterfaceDevices::ControllerButtonCode> controllerButtons;
-			Vector<HumanInterfaceDevices::ControllerAxisCode> controllerAxisEvents;
-		};
-
 		uint16_t analogueStickSensitivity;
 
 		InputAPI();
 		void initialize(HumanInterfaceDevices* hid);
-		//void insertActionInput(String actionName, InputCode inputCode);
-		//void replaceActionInput(String actionName, InputCode inputCode);
-		//void removeActionInput(String actionName, InputCode inputCode);
-		//void removeAllActionInputs(String actionName);
-		//Map<String, Vector<InputCode>> getActionInputs();
+		void insertActionMap(String actionName, String inputString);
+		void replaceActionMap(String actionName, String inputString);
+		void removeActionMap(String actionName, String inputString);
+		void removeAllActionMaps(String actionName);
+		Map<String, Vector<String>> getActionMaps();
 		bool isOnPress(String inputCode);
 		bool isOnDoublePress(String keyCode, unsigned int timeInterval_ms);
 		bool isOnRelease(String keyCode);
 		bool isOnHold(String keyCode);
-		//bool isActionOnPress(String actionName);
-		//bool isActionOnDoublePress(String actionName, unsigned int timeInterval_ms);
-		//bool isActionOnRelease(String actionName);
-		//bool isActionOnHold(String actionName, unsigned int timeInterval_ms);
-		float getAxisStrength(String axisActionName);
+		bool isActionOnPress(String actionName);
+		bool isActionOnDoublePress(String actionName, unsigned int timeInterval_ms);
+		bool isActionOnRelease(String actionName);
+		bool isActionOnHold(String actionName, unsigned int timeInterval_ms);
+		float getActionStrength(String inputString);
+		float getAxisActionStrength(String axisActionName);
 	private:
 		HumanInterfaceDevices* hid = nullptr;
-		//Map<String, Vector<InputCode>> actionMappedInputs;
+		Map<String, Vector<String>> actionMappedButtons;
+		Map<String, Vector<Pair<String, String>>> actionMappedAxes;
 
 		Map<String, SDL_Keycode> keyboardEventsByString;
 		Map<String, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
