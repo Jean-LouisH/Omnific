@@ -69,7 +69,7 @@ void Lilliputian::Game::initialize()
 	}
 	else
 	{
-		this->configuration = new BootConfiguration();
+		this->configuration = new Configuration();
 		this->configuration->isLoaded = false;
 	}
 
@@ -154,7 +154,7 @@ Lilliputian::Scene& Lilliputian::Game::getActiveScene()
 	return this->sceneStorage->getActiveScene();
 }
 
-Lilliputian::BootConfiguration& Lilliputian::Game::getConfiguration()
+Lilliputian::Configuration& Lilliputian::Game::getConfiguration()
 {
 	return *this->configuration;
 }

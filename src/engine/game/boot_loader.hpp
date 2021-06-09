@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "boot_configuration.hpp"
+#include "configuration.hpp"
 #include "utilities/string.hpp"
 
 namespace Lilliputian
@@ -30,6 +30,6 @@ namespace Lilliputian
 	class BootLoader
 	{
 	public:
-		BootConfiguration* loadFromFile(String bootFilepath);
+		Configuration* loadFromFile(String bootFilepath);
 	};
 }

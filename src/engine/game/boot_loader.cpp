@@ -23,9 +23,9 @@
 #include "boot_loader.hpp"
 #include <yaml-cpp/yaml.h>
 
-Lilliputian::BootConfiguration* Lilliputian::BootLoader::loadFromFile(String bootFilepath)
+Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFilepath)
 {
-	BootConfiguration* configuration = new BootConfiguration();
+	Configuration* configuration = new Configuration();
 
 	try
 	{

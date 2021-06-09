@@ -29,7 +29,7 @@
 #include "os/profiler.hpp"
 #include "game/scripting/scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
-#include "boot_configuration.hpp"
+#include "configuration.hpp"
 #include "command_line.hpp"
 #include "scene_storage.hpp"
 #include "scripting/virtual_machine/virtual_machine.hpp"
@@ -53,9 +53,9 @@ namespace Lilliputian
 		void executeOnFinalMethods();
 		void deinitialize();
 		Scene& getActiveScene();
-		BootConfiguration& getConfiguration();
+		Configuration& getConfiguration();
 	private:
-		BootConfiguration* configuration = nullptr;
+		Configuration* configuration = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;
 		CommandLine* commandLine = nullptr;
 		Scripting* scripting = nullptr;

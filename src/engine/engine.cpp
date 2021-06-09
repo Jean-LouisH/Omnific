@@ -37,7 +37,7 @@ void Lilliputian::Engine::run()
 		if (this->initialize())
 		{
 			this->game->initialize();
-			BootConfiguration configuration = this->game->getConfiguration();
+			Configuration configuration = this->game->getConfiguration();
 
 			if (configuration.isLoaded)
 			{
