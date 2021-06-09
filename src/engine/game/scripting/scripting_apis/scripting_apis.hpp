@@ -31,6 +31,7 @@
 
 #include "game/scene/scene.hpp"
 #include <game/scene_storage.hpp>
+#include <game/configuration.hpp>
 #include "utilities/aliases.hpp"
 #include "os/os.hpp"
 #include <string>
@@ -42,6 +43,7 @@ namespace Lilliputian
 	public:
 		static void initialize();
 		static void setSceneStorage(SceneStorage* sceneStorage);
+		static void setConfiguration(Configuration* configuration);
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		static CommandLineAPI& getCommandLineAPI();

@@ -43,8 +43,8 @@ void Lilliputian::Engine::run()
 			{
 				OS::addGameControllerMappings();
 				Window window = OS::getWindow();
-				window.resizeWindow(configuration.windowWidth, configuration.windowHeight);
-				window.changeTitle(configuration.gameTitle.c_str());
+				window.resizeWindow(configuration.windowSettings.windowWidth, configuration.windowSettings.windowHeight);
+				window.changeTitle(configuration.metadata.gameTitle.c_str());
 				this->state.setRunningApplicationWindowed();
 			}
 			else
@@ -134,7 +134,7 @@ void Lilliputian::Engine::update()
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
 	Scene& activeScene = this->game->getActiveScene();
-	const uint32_t msPerComputeUpdate = this->game->getConfiguration().msPerComputeUpdate;
+	const uint32_t msPerComputeUpdate = this->game->getConfiguration().timeSettings.msPerComputeUpdate;
 
 	this->game->executeOnInputMethods();
 	this->game->executeOnStartMethods();
@@ -180,7 +180,7 @@ void Lilliputian::Engine::benchmark()
 		String FPSString = std::to_string(profiler.getFPS());
 		String frameUtilizationString =
 			std::to_string((int)(((double)profiler.getProcessTimer().getDelta_ns() / (double)profiler.getFrameTimer().getDelta_ns()) * 100));
-		OS::getWindow().changeTitle((this->game->getConfiguration().gameTitle + " (DEBUG) ->" +
+		OS::getWindow().changeTitle((this->game->getConfiguration().metadata.gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
 	}
@@ -191,7 +191,7 @@ void Lilliputian::Engine::benchmark()
 void Lilliputian::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
-	float targetFrameTime_ms = 1000.0 / this->game->getConfiguration().targetFPS;
+	float targetFrameTime_ms = 1000.0 / this->game->getConfiguration().timeSettings.targetFPS;
 	float processTime_ms = profiler.getProcessTimer().getDelta_ns() / NS_IN_MS;
 	OS::getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }

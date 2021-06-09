@@ -29,21 +29,30 @@ namespace Lilliputian
 	class Configuration
 	{
 	public:
-		//Game
-		String gameTitle;
-		String version;
-		String developer;
-		String iconFilepath;
-		String entrySceneFilepath;
-		//Game Window
-		uint16_t windowHeight;
-		uint16_t windowWidth;
-		bool isStartingFullscreen;
-		bool isStartingMaximized;
-		bool isResizable;
-		//Time
-		uint32_t msPerComputeUpdate;
-		uint32_t targetFPS;
+		struct Metadata
+		{
+			String gameTitle;
+			String version;
+			String developer;
+			String iconFilepath;
+			String entrySceneFilepath;
+		} metadata;
+
+		struct WindowSettings
+		{
+			uint16_t windowHeight;
+			uint16_t windowWidth;
+			bool isStartingFullscreen;
+			bool isStartingMaximized;
+			bool isResizable;
+		} windowSettings;
+
+		struct TimeSettings
+		{
+			uint32_t msPerComputeUpdate;
+			uint32_t targetFPS;
+		} timeSettings;
+
 		//Status
 		bool isLoaded;
 	private:

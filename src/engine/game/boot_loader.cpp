@@ -39,23 +39,23 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFil
 				{
 					if (it1->first.as<std::string>() == "title")
 					{
-						configuration->gameTitle = it1->second.as<std::string>();
+						configuration->metadata.gameTitle = it1->second.as<std::string>();
 					}
 					else if (it1->first.as<std::string>() == "version")
 					{
-						configuration->version = it1->second.as<std::string>();
+						configuration->metadata.version = it1->second.as<std::string>();
 					}
 					else if (it1->first.as<std::string>() == "developer")
 					{
-						configuration->developer = it1->second.as<std::string>();
+						configuration->metadata.developer = it1->second.as<std::string>();
 					}
 					else if (it1->first.as<std::string>() == "icon_filepath")
 					{
-						configuration->iconFilepath = it1->second.as<std::string>();
+						configuration->metadata.iconFilepath = it1->second.as<std::string>();
 					}
 					else if (it1->first.as<std::string>() == "entry_scene_filepath")
 					{
-						configuration->entrySceneFilepath = it1->second.as<std::string>();
+						configuration->metadata.entrySceneFilepath = it1->second.as<std::string>();
 					}
 				}
 			}
@@ -65,23 +65,23 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFil
 				{
 					if (it1->first.as<std::string>() == "width")
 					{
-						configuration->windowWidth = it1->second.as<int>();
+						configuration->windowSettings.windowWidth = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "height")
 					{
-						configuration->windowHeight = it1->second.as<int>();
+						configuration->windowSettings.windowHeight = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "fullscreen")
 					{
-						configuration->isStartingFullscreen = it1->second.as<bool>();
+						configuration->windowSettings.isStartingFullscreen = it1->second.as<bool>();
 					}
 					else if (it1->first.as<std::string>() == "maximized")
 					{
-						configuration->isStartingMaximized = it1->second.as<bool>();
+						configuration->windowSettings.isStartingMaximized = it1->second.as<bool>();
 					}
 					else if (it1->first.as<std::string>() == "resizable")
 					{
-						configuration->isResizable = it1->second.as<bool>();
+						configuration->windowSettings.isResizable = it1->second.as<bool>();
 					}
 				}
 			}
@@ -91,11 +91,11 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFil
 				{
 					if (it1->first.as<std::string>() == "target_fps")
 					{
-						configuration->targetFPS = it1->second.as<int>();
+						configuration->timeSettings.targetFPS = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "ms_per_compute_update")
 					{
-						configuration->msPerComputeUpdate = it1->second.as<int>();
+						configuration->timeSettings.msPerComputeUpdate = it1->second.as<int>();
 					}
 				}
 			}

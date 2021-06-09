@@ -54,16 +54,16 @@ void Lilliputian::Game::initialize()
 		String debugDataFilepath = DEBUG_DATA_FILEPATH;
 		String debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
 		if (debugDataFilepath == debugEditorDataFilepath)
-			this->configuration->entrySceneFilepath = "assets/scenes/debug.yml";
+			this->configuration->metadata.entrySceneFilepath = "assets/scenes/debug.yml";
 #endif
 		OS::getFileAccess().setDataDirectory(dataDirectory);
 		this->sceneSerializer = new SceneSerializer(dataDirectory);
 		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer);
 
-		if (this->sceneSerializer->doesSceneExist(this->configuration->entrySceneFilepath))
+		if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
 		{
-			entryScene = this->sceneSerializer->loadFromFile(this->configuration->entrySceneFilepath);
-			this->sceneStorage->addScene(this->configuration->entrySceneFilepath, entryScene);
+			entryScene = this->sceneSerializer->loadFromFile(this->configuration->metadata.entrySceneFilepath);
+			this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
 			this->scripting->setSceneStorage(this->sceneStorage);
 		}
 	}
@@ -119,7 +119,7 @@ void Lilliputian::Game::executeOnFrameMethods()
 
 void Lilliputian::Game::executeOnComputeMethods()
 {
-	uint32_t msPerComputeUpdate = this->configuration->msPerComputeUpdate;
+	uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
 
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
