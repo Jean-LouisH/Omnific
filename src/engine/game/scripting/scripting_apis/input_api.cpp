@@ -151,54 +151,47 @@ Lilliputian::InputAPI::InputAPI()
 	this->keyboardEventsByString.emplace("down", SDLK_DOWN);
 
 	/*Default action input map*/
-	this->insertActionMap("dpad_left", "dpad_left");
-	this->insertActionMap("dpad_left", "f");
-	this->insertActionMap("dpad_right", "dpad_right");
-	this->insertActionMap("dpad_right", "h");
-	this->insertActionMap("dpad_up", "dpad_up");
-	this->insertActionMap("dpad_up", "t");
-	this->insertActionMap("dpad_down", "dpad_down");
-	this->insertActionMap("dpad_down", "g");
-	this->insertActionMap("extra", "button_extra");
-	this->insertActionMap("extra", "e");
-	this->insertActionMap("menu", "button_menu");
-	this->insertActionMap("menu", "u");
-	this->insertActionMap("x", "button_x");
-	this->insertActionMap("x", "j");
-	this->insertActionMap("y", "button_y");
-	this->insertActionMap("y", "i");
-	this->insertActionMap("a", "button_a");
-	this->insertActionMap("a", "k");
-	this->insertActionMap("b", "button_b");
-	this->insertActionMap("b", "l");
-	this->insertActionMap("left_shoulder", "left_shoulder_button");
-	this->insertActionMap("left_shoulder", "q");
-	this->insertActionMap("left_stick", "left_stick_button");
-	this->insertActionMap("left_stick", "c");
-	this->insertActionMap("right_shoulder", "right_shoulder_button");
-	this->insertActionMap("right_shoulder", "o");
-	this->insertActionMap("right_stick", "right_stick_button");
-	this->insertActionMap("right_stick", "n");
-	this->insertActionMap("left_axis_left", "left_axis_x");
-	this->insertActionMap("left_axis_left", "a");
-	this->insertActionMap("left_axis_right","left_axis_x");
-	this->insertActionMap("left_axis_right", "d");
-	this->insertActionMap("left_axis_up", "left_axis_y");
-	this->insertActionMap("left_axis_up", "w");
-	this->insertActionMap("left_axis_down", "left_axis_y");
-	this->insertActionMap("left_axis_down", "s");
-	this->insertActionMap("right_axis_left", "right_axis_x");
-	this->insertActionMap("right_axis_left", "semicolon");
-	this->insertActionMap("right_axis_right", "right_axis_x");
-	this->insertActionMap("right_axis_right", "backslash");
-	this->insertActionMap("right_axis_up", "right_axis_y");
-	this->insertActionMap("right_axis_up", "quote");
-	this->insertActionMap("right_axis_down", "right_axis_y");
-	this->insertActionMap("right_axis_down", "left_square_brackcet");
-	this->insertActionMap("left_trigger", "left_trigger");
-	this->insertActionMap("left_trigger", "left_shift");
-	this->insertActionMap("right_trigger", "right_trigger");
-	this->insertActionMap("right_trigger", "right_shift");
+	this->insertActionButtonMap("dpad_left", "dpad_left");
+	this->insertActionButtonMap("dpad_left", "f");
+	this->insertActionButtonMap("dpad_right", "dpad_right");
+	this->insertActionButtonMap("dpad_right", "h");
+	this->insertActionButtonMap("dpad_up", "dpad_up");
+	this->insertActionButtonMap("dpad_up", "t");
+	this->insertActionButtonMap("dpad_down", "dpad_down");
+	this->insertActionButtonMap("dpad_down", "g");
+	this->insertActionButtonMap("extra", "button_extra");
+	this->insertActionButtonMap("extra", "e");
+	this->insertActionButtonMap("menu", "button_menu");
+	this->insertActionButtonMap("menu", "u");
+	this->insertActionButtonMap("x", "button_x");
+	this->insertActionButtonMap("x", "j");
+	this->insertActionButtonMap("y", "button_y");
+	this->insertActionButtonMap("y", "i");
+	this->insertActionButtonMap("a", "button_a");
+	this->insertActionButtonMap("a", "k");
+	this->insertActionButtonMap("b", "button_b");
+	this->insertActionButtonMap("b", "l");
+	this->insertActionButtonMap("left_shoulder", "left_shoulder_button");
+	this->insertActionButtonMap("left_shoulder", "q");
+	this->insertActionButtonMap("left_stick", "left_stick_button");
+	this->insertActionButtonMap("left_stick", "c");
+	this->insertActionButtonMap("right_shoulder", "right_shoulder_button");
+	this->insertActionButtonMap("right_shoulder", "o");
+	this->insertActionButtonMap("right_stick", "right_stick_button");
+	this->insertActionButtonMap("right_stick", "n");
+
+	this->insertActionAxisMap("left_axis_x", "left_axis_x");
+	this->insertActionAxisMap("left_axis_x", "a", "d");
+	this->insertActionAxisMap("left_axis_y", "left_axis_y");
+	this->insertActionAxisMap("left_axis_y", "s", "w");
+	this->insertActionAxisMap("right_axis_x", "right_axis_x");
+	this->insertActionAxisMap("right_axis_x", "semicolon", "backslash");
+	this->insertActionAxisMap("right_axis_y", "right_axis_y");
+	this->insertActionAxisMap("right_axis_y", "quote", "left_square_bracket");
+	this->insertActionAxisMap("left_trigger", "left_trigger");
+	this->insertActionAxisMap("left_trigger", "left_shift");
+	this->insertActionAxisMap("right_trigger", "right_trigger");
+	this->insertActionAxisMap("right_trigger", "right_shift");
 }
 
 void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
@@ -206,7 +199,7 @@ void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
 	this->hid = hid;
 }
 
-void Lilliputian::InputAPI::insertActionMap(String actionName, String inputString)
+void Lilliputian::InputAPI::insertActionButtonMap(String actionName, String inputString)
 {
 	String actionString = actionName;
 
@@ -222,7 +215,7 @@ void Lilliputian::InputAPI::insertActionMap(String actionName, String inputStrin
 	}
 }
 
-void Lilliputian::InputAPI::replaceActionMap(String actionName, String inputString)
+void Lilliputian::InputAPI::replaceActionButtonMap(String actionName, String inputString)
 {
 	String actionString = actionName;
 
@@ -240,21 +233,52 @@ void Lilliputian::InputAPI::replaceActionMap(String actionName, String inputStri
 
 }
 
-void Lilliputian::InputAPI::removeActionMap(String actionName, String inputString)
+void Lilliputian::InputAPI::removeActionButtonMap(String actionName, String inputString)
 {
 
 }
 
-void Lilliputian::InputAPI::removeAllActionMaps(String actionName)
+void Lilliputian::InputAPI::removeAllActionButtonMaps(String actionName)
 {
 	String actionString = actionName;
 	if (this->actionMappedButtons.count(actionString))
 		this->actionMappedButtons.at(actionString).clear();
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::String>> Lilliputian::InputAPI::getActionMaps()
+void Lilliputian::InputAPI::insertActionAxisMap(String actionName, String negativeInputString, String positiveInputString)
+{
+
+}
+
+void Lilliputian::InputAPI::insertActionAxisMap(String actionName, String inputString)
+{
+
+}
+
+void Lilliputian::InputAPI::replaceActionAxisMap(String actionName, String negativeInputString, String positiveInputString)
+{
+
+}
+
+void Lilliputian::InputAPI::removeActionAxisMap(String actionName, String negativeInputString, String positiveInputString)
+{
+
+}
+
+void Lilliputian::InputAPI::removeAllActionAxisMaps(String actionName)
+{
+
+}
+
+Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::String>> Lilliputian::InputAPI::getActionButtonMaps()
 {
 	return this->actionMappedButtons;
+}
+
+Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::Pair<Lilliputian::String, Lilliputian::String>>> 
+Lilliputian::InputAPI::getActionAxisMaps()
+{
+	return this->actionMappedAxes;
 }
 
 bool Lilliputian::InputAPI::isOnPress(String keyCode)

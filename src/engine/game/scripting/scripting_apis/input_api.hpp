@@ -37,11 +37,17 @@ namespace Lilliputian
 
 		InputAPI();
 		void initialize(HumanInterfaceDevices* hid);
-		void insertActionMap(String actionName, String inputString);
-		void replaceActionMap(String actionName, String inputString);
-		void removeActionMap(String actionName, String inputString);
-		void removeAllActionMaps(String actionName);
-		Map<String, Vector<String>> getActionMaps();
+		void insertActionButtonMap(String actionName, String inputString);
+		void replaceActionButtonMap(String actionName, String inputString);
+		void removeActionButtonMap(String actionName, String inputString);
+		void removeAllActionButtonMaps(String actionName);
+		void insertActionAxisMap(String actionName, String negativeInputString, String positiveInputString);
+		void insertActionAxisMap(String actionName, String inputString);
+		void replaceActionAxisMap(String actionName, String negativeInputString, String positiveInputString);
+		void removeActionAxisMap(String actionName, String negativeInputString, String positiveInputString);
+		void removeAllActionAxisMaps(String actionName);
+		Map<String, Vector<String>> getActionButtonMaps();
+		Map<String, Vector<Pair<String, String>>> getActionAxisMaps();
 		bool isOnPress(String inputCode);
 		bool isOnDoublePress(String keyCode, unsigned int timeInterval_ms);
 		bool isOnRelease(String keyCode);
