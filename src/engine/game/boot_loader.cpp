@@ -33,7 +33,7 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFil
 
 		for (YAML::const_iterator it0 = yamlNode.begin(); it0 != yamlNode.end(); ++it0)
 		{
-			if (it0->first.as<std::string>() == "game")
+			if (it0->first.as<std::string>() == "metadata")
 			{
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
@@ -59,7 +59,7 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFil
 					}
 				}
 			}
-			else if (it0->first.as<std::string>() == "game_window")
+			else if (it0->first.as<std::string>() == "window_settings")
 			{
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
@@ -85,7 +85,7 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(String bootFil
 					}
 				}
 			}
-			else if (it0->first.as<std::string>() == "time")
+			else if (it0->first.as<std::string>() == "time_settings")
 			{
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
