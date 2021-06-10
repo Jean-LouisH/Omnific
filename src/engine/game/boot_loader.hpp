@@ -23,13 +23,13 @@
 #pragma once
 
 #include "configuration.hpp"
-#include "utilities/string.hpp"
+#include <string>
 
 namespace Lilliputian
 {
 	class BootLoader
 	{
 	public:
-		Configuration* loadFromFile(String bootFilepath);
+		Configuration* loadFromFile(std::string bootFilepath);
 	};
 }

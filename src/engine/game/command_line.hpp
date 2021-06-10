@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "utilities/string.hpp"
+#include <string>
 #include <map>
 #include <vector>
 #include <stack>
@@ -41,7 +41,7 @@ namespace Lilliputian
 			SceneStorage* sceneStorage
 			);
 
-		void execute(String command);
+		void execute(std::string command);
 	private:
 		SceneSerializer* sceneSerializer = nullptr;
 		SceneStorage* sceneStorage = nullptr;

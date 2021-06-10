@@ -22,18 +22,18 @@
 
 #include "scene_serializer.hpp"
 #include <yaml-cpp/yaml.h>
-#include "utilities/string.hpp"
+#include <string>
 #include <set>
 #include "scene/scene.hpp"
 #include "scene/components/component_variant.hpp"
 #include <os/os.hpp>
 
-Lilliputian::SceneSerializer::SceneSerializer(String dataDirectory)
+Lilliputian::SceneSerializer::SceneSerializer(std::string dataDirectory)
 {
 	this->dataDirectory = dataDirectory;
 }
 
-Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(String filepath)
+Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(std::string filepath)
 {
 	Scene scene;
 
@@ -46,15 +46,15 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(String filepath)
 
 }
 
-bool Lilliputian::SceneSerializer::doesSceneExist(String filepath)
+bool Lilliputian::SceneSerializer::doesSceneExist(std::string filepath)
 {
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepath)
+Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string filepath)
 {
 	Scene scene;
-	const String fullFilepath = this->dataDirectory + filepath;
+	const std::string fullFilepath = this->dataDirectory + filepath;
 
 	try
 	{
@@ -837,7 +837,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(String filepat
 							{
 								for (int i = 0; i < it2->second.size(); i++)
 								{
-									String script = it2->second[i].as<std::string>();
+									std::string script = it2->second[i].as<std::string>();
 									sceneTree2D.getLastEntity2D().scripts.push_back(script);
 								}
 							}

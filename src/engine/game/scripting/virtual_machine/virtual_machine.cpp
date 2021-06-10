@@ -41,10 +41,10 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 
 	pybind11::module_ sys = pybind11::module_::import("sys");
 	pybind11::object path = sys.attr("path");
-	std::set<String> addedPaths;
+	std::set<std::string> addedPaths;
 
 	std::vector<SceneTree2D> sceneTrees = scene.getSceneTree2Ds();
-	std::set<String> scripts;
+	std::set<std::string> scripts;
 
 	for (int i = 0; i < sceneTrees.size(); i++)
 	{
@@ -52,7 +52,7 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 		
 		for (auto it = entities.begin(); it != entities.end(); ++it)
 		{
-			std::vector<String> entityScripts = entities.at(it->first).scripts;
+			std::vector<std::string> entityScripts = entities.at(it->first).scripts;
 
 			for (int j = 0; j < entityScripts.size(); j++)
 				scripts.emplace(entityScripts.at(j));
@@ -63,16 +63,16 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 	{
 		try
 		{
-			String scriptFilepath = *it;
+			std::string scriptFilepath = *it;
 
 			if (addedPaths.count(scriptFilepath) == 0)
 			{
-				String newPath = OS::getFileAccess().getExecutableDirectory() + 
+				std::string newPath = OS::getFileAccess().getExecutableDirectory() + 
 					"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #ifdef _DEBUG
 				newPath = OS::getFileAccess().getExecutableDirectory();
 				newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
-				String dataFolder = "data//editor//";
+				std::string dataFolder = "data//editor//";
 #if (DEBUG_DEMO_MODE)
 				dataFolder = "data//demos//";
 #endif
@@ -89,8 +89,8 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 			}
 
 			Module newModule;
-			std::vector<String> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_late", "on_final" };
-			String moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
+			std::vector<std::string> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_late", "on_final" };
+			std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
 			pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
 			newModule.setData(newPybind11Module);
@@ -99,7 +99,7 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 			{
 				try
 				{
-					String methodName = methodNames.at(i);
+					std::string methodName = methodNames.at(i);
 					pybind11::object test = newPybind11Module.attr(methodName.c_str());
 					newModule.setCallable(methodName);
 				}
@@ -156,8 +156,8 @@ void Lilliputian::VirtualMachine::executeMethods(std::vector<ScriptCallBatch> sc
 
 		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
 		{
-			String scriptPath = scriptCallBatch.scripts.at(j);
-			String scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
+			std::string scriptPath = scriptCallBatch.scripts.at(j);
+			std::string scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
 
 			if (this->modules.count(scriptName))
 			{

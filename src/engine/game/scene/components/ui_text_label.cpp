@@ -28,7 +28,7 @@ Lilliputian::UITextLabel::UITextLabel()
 	this->image = Image();
 }
 
-void Lilliputian::UITextLabel::setText(String text)
+void Lilliputian::UITextLabel::setText(std::string text)
 {
 	if (text != this->text)
 	{

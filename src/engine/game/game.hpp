@@ -36,7 +36,7 @@
 #include "scripting/scripting.hpp"
 #include <vector>
 #include <stack>
-#include "utilities/string.hpp"
+#include <string>
 
 namespace Lilliputian
 {

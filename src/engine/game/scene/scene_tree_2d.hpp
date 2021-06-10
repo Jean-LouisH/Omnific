@@ -30,7 +30,7 @@
 #include <queue>
 #include "utilities/aliases.hpp"
 #include "game/scripting/virtual_machine/script_call_batch.hpp"
-#include "utilities/string.hpp"
+#include <string>
 #include "event_bus.hpp"
 
 namespace Lilliputian
@@ -61,7 +61,7 @@ namespace Lilliputian
 		std::vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
 		Entity2D& getEntity2D(EntityID entityID);
-		Entity2D& getEntity2DByName(String name);
+		Entity2D& getEntity2DByName(std::string name);
 		Entity2D& getLastEntity2D();
 		std::map<EntityID, Entity2D>& getEntity2Ds();
 		EventBus& getEventBus();

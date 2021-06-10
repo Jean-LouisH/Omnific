@@ -23,7 +23,7 @@
 #pragma once
 
 #include <map>
-#include "utilities/string.hpp"
+#include <string>
 #include "assets/audio_stream.hpp"
 #include "assets/font.hpp"
 #include "assets/text.hpp"
@@ -51,14 +51,14 @@ namespace Lilliputian
 
 		void deleteAll();
 
-		std::map<String, AudioStream> getAudioStreams();
-		std::map<String, Font> getFonts();
-		std::map<String, Text> getTexts();
-		std::map<String, Image> getImages();
+		std::map<std::string, AudioStream> getAudioStreams();
+		std::map<std::string, Font> getFonts();
+		std::map<std::string, Text> getTexts();
+		std::map<std::string, Image> getImages();
 	private:
-		std::map<String, AudioStream> audioStreams;
-		std::map<String, Font> fonts;
-		std::map<String, Text> texts;
-		std::map<String, Image> images;
+		std::map<std::string, AudioStream> audioStreams;
+		std::map<std::string, Font> fonts;
+		std::map<std::string, Text> texts;
+		std::map<std::string, Image> images;
 	};
 }

@@ -24,7 +24,7 @@
 
 
 #include "game/scene/assets/image.hpp"
-#include "utilities/string.hpp"
+#include <string>
 #include "game/scene/assets/font.hpp"
 #include "utilities/rectangle.hpp"
 #include "utilities/colour.hpp"
@@ -36,7 +36,7 @@ namespace Lilliputian
 	public:
 
 		UITextLabel();
-		void setText(String text);
+		void setText(std::string text);
 		void setFont(Font font, uint16_t size_px);
 		void setFontStyleNormal();
 		void setFontStyleBold();
@@ -54,7 +54,7 @@ namespace Lilliputian
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 	private:
-		String text;
+		std::string text;
 		Font font;
 		Font::Style style = Font::Style::NORMAL;
 		Font::RenderMode mode = Font::RenderMode::SOLID;

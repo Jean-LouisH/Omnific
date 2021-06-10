@@ -22,24 +22,24 @@
 
 #pragma once
 
-#include "utilities/string.hpp"
+#include <string>
 
 namespace Lilliputian
 {
 	class FileAccess
 	{
 	public:
-		FileAccess(String executableFilepath);
-		void setDataDirectory(String assetDirectory);
-		String getExecutableFilePath();
-		String getExecutableName();
-		String getExecutableDirectory();
-		String getDataDirectory();
-		String getFileNameWithoutExtension(String filepath);
-		String getPathBeforeFile(String filepath);
-		bool exists(String filepath);
+		FileAccess(std::string executableFilepath);
+		void setDataDirectory(std::string assetDirectory);
+		std::string getExecutableFilePath();
+		std::string getExecutableName();
+		std::string getExecutableDirectory();
+		std::string getDataDirectory();
+		std::string getFileNameWithoutExtension(std::string filepath);
+		std::string getPathBeforeFile(std::string filepath);
+		bool exists(std::string filepath);
 	private:
-		String executableFilepath;
-		String dataDirectory;
+		std::string executableFilepath;
+		std::string dataDirectory;
 	};
 }

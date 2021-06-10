@@ -22,18 +22,18 @@
 
 #include "animated_sprite.hpp"
 
-void Lilliputian::AnimatedSprite::addEmptyFrameSequence(String frameSequenceName)
+void Lilliputian::AnimatedSprite::addEmptyFrameSequence(std::string frameSequenceName)
 {
 	FrameSequence frameSequence;
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite::addFrameSequence(String frameSequenceName, FrameSequence frameSequence)
+void Lilliputian::AnimatedSprite::addFrameSequence(std::string frameSequenceName, FrameSequence frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite::addFrameToFrameSequence(String frameSequenceName, Image frame)
+void Lilliputian::AnimatedSprite::addFrameToFrameSequence(std::string frameSequenceName, Image frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
@@ -100,7 +100,7 @@ void Lilliputian::AnimatedSprite::update(float delta_s)
 	}
 }
 
-void Lilliputian::AnimatedSprite::play(String frameSequenceName)
+void Lilliputian::AnimatedSprite::play(std::string frameSequenceName)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -149,11 +149,11 @@ Lilliputian::Image Lilliputian::AnimatedSprite::getCurrentFrame()
 	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
 }
 
-std::vector<Lilliputian::String> Lilliputian::AnimatedSprite::getFrameSequenceNames()
+std::vector<std::string> Lilliputian::AnimatedSprite::getFrameSequenceNames()
 {
-	std::vector<String> frameSequenceNames;
+	std::vector<std::string> frameSequenceNames;
 
-	for (std::map<String, FrameSequence>::iterator it = this->frameSequences.begin();
+	for (std::map<std::string, FrameSequence>::iterator it = this->frameSequences.begin();
 		it != this->frameSequences.end();
 		++it)
 	{
@@ -163,7 +163,7 @@ std::vector<Lilliputian::String> Lilliputian::AnimatedSprite::getFrameSequenceNa
 	return frameSequenceNames;
 }
 
-Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getFrameSequenceByName(String frameSequenceName)
+Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getFrameSequenceByName(std::string frameSequenceName)
 {
 	FrameSequence frameSequence;
 

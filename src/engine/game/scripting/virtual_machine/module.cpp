@@ -27,17 +27,17 @@ void Lilliputian::Module::setData(pybind11::module_ newModule)
 	this->data = newModule;
 }
 
-void Lilliputian::Module::setCallable(String methodName)
+void Lilliputian::Module::setCallable(std::string methodName)
 {
 	this->callableMethods.emplace(methodName);
 }
 
-void Lilliputian::Module::call(String methodName)
+void Lilliputian::Module::call(std::string methodName)
 {
 	this->data.attr(methodName.c_str())();
 }
 
-bool Lilliputian::Module::hasCallable(String methodName)
+bool Lilliputian::Module::hasCallable(std::string methodName)
 {
 	return this->callableMethods.count(methodName) > 0;
 }

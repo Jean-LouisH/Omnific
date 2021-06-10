@@ -31,7 +31,7 @@ Lilliputian::CommandLine::CommandLine(
 	this->sceneStorage = sceneStorage;
 }
 
-void Lilliputian::CommandLine::execute(String command)
+void Lilliputian::CommandLine::execute(std::string command)
 {
 	if (command == "shutdown" || command == "exit")
 		OS::getHid().forceShutdownRequest();

@@ -272,7 +272,7 @@ Lilliputian::Entity2D& Lilliputian::SceneTree2D::getEntity2D(EntityID entityID)
 	return this->entities2D.at(entityID);
 }
 
-Lilliputian::Entity2D& Lilliputian::SceneTree2D::getEntity2DByName(String name)
+Lilliputian::Entity2D& Lilliputian::SceneTree2D::getEntity2DByName(std::string name)
 {
 	Entity2D* entity2D = nullptr;
 

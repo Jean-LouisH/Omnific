@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "utilities/string.hpp"
+#include <string>
 
 namespace Lilliputian 
 {
@@ -31,11 +31,11 @@ namespace Lilliputian
 	public:
 		struct Metadata
 		{
-			String gameTitle;
-			String version;
-			String developer;
-			String iconFilepath;
-			String entrySceneFilepath;
+			std::string gameTitle;
+			std::string version;
+			std::string developer;
+			std::string iconFilepath;
+			std::string entrySceneFilepath;
 		} metadata;
 
 		struct WindowSettings

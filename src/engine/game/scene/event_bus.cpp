@@ -72,7 +72,7 @@ void Lilliputian::EventBus::clear()
 	this->events.clear();
 }
 
-std::vector<Lilliputian::Event> Lilliputian::EventBus::query(String name)
+std::vector<Lilliputian::Event> Lilliputian::EventBus::query(std::string name)
 {
 	std::vector<Event> queryResults;
 
@@ -82,7 +82,7 @@ std::vector<Lilliputian::Event> Lilliputian::EventBus::query(String name)
 	return queryResults;
 }
 
-void Lilliputian::EventBus::publishWithParameters(String name, Event::Parameters parameters)
+void Lilliputian::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	std::vector<Event> eventsList;
 

@@ -199,9 +199,9 @@ void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
 	this->hid = hid;
 }
 
-void Lilliputian::InputAPI::insertActionButtonMap(String actionName, String inputString)
+void Lilliputian::InputAPI::insertActionButtonMap(std::string actionName, std::string inputString)
 {
-	String actionString = actionName;
+	std::string actionString = actionName;
 
 	if (this->actionMappedButtons.count(actionName))
 	{
@@ -209,15 +209,15 @@ void Lilliputian::InputAPI::insertActionButtonMap(String actionName, String inpu
 	}
 	else
 	{
-		std::vector<String> inputStrings;
+		std::vector<std::string> inputStrings;
 		inputStrings.push_back(inputString);
 		this->actionMappedButtons.emplace(actionString, inputStrings);
 	}
 }
 
-void Lilliputian::InputAPI::replaceActionButtonMap(String actionName, String inputString)
+void Lilliputian::InputAPI::replaceActionButtonMap(std::string actionName, std::string inputString)
 {
-	String actionString = actionName;
+	std::string actionString = actionName;
 
 	if (this->actionMappedButtons.count(actionString))
 	{
@@ -226,62 +226,62 @@ void Lilliputian::InputAPI::replaceActionButtonMap(String actionName, String inp
 	}
 	else
 	{
-		std::vector<String> inputStrings;
+		std::vector<std::string> inputStrings;
 		inputStrings.push_back(inputString);
 		this->actionMappedButtons.emplace(actionString, inputStrings);
 	}
 
 }
 
-void Lilliputian::InputAPI::removeActionButtonMap(String actionName, String inputString)
+void Lilliputian::InputAPI::removeActionButtonMap(std::string actionName, std::string inputString)
 {
 
 }
 
-void Lilliputian::InputAPI::removeAllActionButtonMaps(String actionName)
+void Lilliputian::InputAPI::removeAllActionButtonMaps(std::string actionName)
 {
-	String actionString = actionName;
+	std::string actionString = actionName;
 	if (this->actionMappedButtons.count(actionString))
 		this->actionMappedButtons.at(actionString).clear();
 }
 
-void Lilliputian::InputAPI::insertActionAxisMap(String actionName, String negativeInputString, String positiveInputString)
+void Lilliputian::InputAPI::insertActionAxisMap(std::string actionName, std::string negativeInputString, std::string positiveInputString)
 {
 
 }
 
-void Lilliputian::InputAPI::insertActionAxisMap(String actionName, String inputString)
+void Lilliputian::InputAPI::insertActionAxisMap(std::string actionName, std::string inputString)
 {
 
 }
 
-void Lilliputian::InputAPI::replaceActionAxisMap(String actionName, String negativeInputString, String positiveInputString)
+void Lilliputian::InputAPI::replaceActionAxisMap(std::string actionName, std::string negativeInputString, std::string positiveInputString)
 {
 
 }
 
-void Lilliputian::InputAPI::removeActionAxisMap(String actionName, String negativeInputString, String positiveInputString)
+void Lilliputian::InputAPI::removeActionAxisMap(std::string actionName, std::string negativeInputString, std::string positiveInputString)
 {
 
 }
 
-void Lilliputian::InputAPI::removeAllActionAxisMaps(String actionName)
+void Lilliputian::InputAPI::removeAllActionAxisMaps(std::string actionName)
 {
 
 }
 
-std::map<Lilliputian::String, std::vector<Lilliputian::String>> Lilliputian::InputAPI::getActionButtonMaps()
+std::map<std::string, std::vector<std::string>> Lilliputian::InputAPI::getActionButtonMaps()
 {
 	return this->actionMappedButtons;
 }
 
-std::map<Lilliputian::String, std::vector<std::pair<Lilliputian::String, Lilliputian::String>>> 
+std::map<std::string, std::vector<std::pair<std::string, std::string>>> 
 Lilliputian::InputAPI::getActionAxisMaps()
 {
 	return this->actionMappedAxes;
 }
 
-bool Lilliputian::InputAPI::isOnPress(String keyCode)
+bool Lilliputian::InputAPI::isOnPress(std::string keyCode)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -306,12 +306,12 @@ bool Lilliputian::InputAPI::isOnPress(String keyCode)
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnDoublePress(String keyCode, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isOnDoublePress(std::string keyCode, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnRelease(String keyCode)
+bool Lilliputian::InputAPI::isOnRelease(std::string keyCode)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -336,37 +336,37 @@ bool Lilliputian::InputAPI::isOnRelease(String keyCode)
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnHold(String keyCode)
+bool Lilliputian::InputAPI::isOnHold(std::string keyCode)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnPress(String actionName)
+bool Lilliputian::InputAPI::isActionOnPress(std::string actionName)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnDoublePress(String actionName, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isActionOnDoublePress(std::string actionName, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnRelease(String actionName)
+bool Lilliputian::InputAPI::isActionOnRelease(std::string actionName)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isActionOnHold(String actionName, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isActionOnHold(std::string actionName, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-float Lilliputian::InputAPI::getActionStrength(String inputString)
+float Lilliputian::InputAPI::getActionStrength(std::string inputString)
 {
 	return 0.0;
 }
 
-float Lilliputian::InputAPI::getAxisActionStrength(String axisActionName)
+float Lilliputian::InputAPI::getAxisActionStrength(std::string axisActionName)
 {
 	return 0.0;
 }

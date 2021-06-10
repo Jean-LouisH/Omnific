@@ -27,7 +27,7 @@ bool Lilliputian::RectangularTriggerArea2D::hasEntityEntered(EntityID entityID)
 	return this->enteringEntityIDs.count(entityID);
 }
 
-bool Lilliputian::RectangularTriggerArea2D::hasEntityWithTagEntered(String entityTag)
+bool Lilliputian::RectangularTriggerArea2D::hasEntityWithTagEntered(std::string entityTag)
 {
 	return this->enteringEntityTags.count(entityTag);
 }

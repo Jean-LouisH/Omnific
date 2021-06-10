@@ -25,7 +25,7 @@
 #include "event.hpp"
 #include <map>
 #include <vector>
-#include <utilities/string.hpp>
+#include <string>
 #include <vector>
 
 namespace Lilliputian
@@ -51,10 +51,10 @@ namespace Lilliputian
 
 		void clear();
 
-		std::vector<Event> query(String name);
+		std::vector<Event> query(std::string name);
 	private:
-		std::map<String, std::vector<Event>> events;
+		std::map<std::string, std::vector<Event>> events;
 
-		void publishWithParameters(String name, Event::Parameters parameters);
+		void publishWithParameters(std::string name, Event::Parameters parameters);
 	};
 }

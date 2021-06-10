@@ -23,7 +23,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "utilities/string.hpp"
+#include <string>
 #include <map>
 
 namespace Lilliputian
@@ -31,11 +31,11 @@ namespace Lilliputian
 	class SceneSerializer
 	{
 	public:
-		SceneSerializer(String assetsDirectory);
-		Scene loadFromFile(String filepath);
-		bool doesSceneExist(String filepath);
+		SceneSerializer(std::string assetsDirectory);
+		Scene loadFromFile(std::string filepath);
+		bool doesSceneExist(std::string filepath);
 	private:
-		String dataDirectory;
-		Scene loadFromTextFile(String filepath);
+		std::string dataDirectory;
+		Scene loadFromTextFile(std::string filepath);
 	};
 }

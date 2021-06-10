@@ -23,7 +23,7 @@
 #pragma once
 
 #include "pybind11/pybind11.h"
-#include <utilities/string.hpp>
+#include <string>
 #include <set>
 
 namespace Lilliputian
@@ -32,11 +32,11 @@ namespace Lilliputian
 	{
 	public:
 		void setData(pybind11::module_ newModule);
-		void setCallable(String methodName);
-		void call(String methodName);
-		bool hasCallable(String methodName);
+		void setCallable(std::string methodName);
+		void call(std::string methodName);
+		bool hasCallable(std::string methodName);
 	private:
 		pybind11::module_ data;
-		std::set<String> callableMethods;
+		std::set<std::string> callableMethods;
 	};
 }

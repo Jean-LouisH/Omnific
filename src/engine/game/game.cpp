@@ -40,19 +40,19 @@ void Lilliputian::Game::initialize()
 {
 	BootLoader bootLoader;
 	Scene entryScene;
-	String dataDirectory = "data/";
+	std::string dataDirectory = "data/";
 #ifdef _DEBUG
 	dataDirectory = DEBUG_DATA_FILEPATH;
 #endif
-	String bootFilename = "boot.yml";
-	String bootFilepath = dataDirectory + bootFilename;
+	std::string bootFilename = "boot.yml";
+	std::string bootFilepath = dataDirectory + bootFilename;
 
 	if (OS::getFileAccess().exists(bootFilepath))
 	{
 		this->configuration = bootLoader.loadFromFile(bootFilepath);
 #ifdef _DEBUG
-		String debugDataFilepath = DEBUG_DATA_FILEPATH;
-		String debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
+		std::string debugDataFilepath = DEBUG_DATA_FILEPATH;
+		std::string debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
 		if (debugDataFilepath == debugEditorDataFilepath)
 			this->configuration->metadata.entrySceneFilepath = "assets/scenes/debug.yml";
 #endif
@@ -97,7 +97,7 @@ void Lilliputian::Game::executeOnInputMethods()
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (OS::getHid().hasRequestedCommandLine())
 	{
-		String command;
+		std::string command;
 
 		OS::getWindow().hide();
 		std::cout << ">";

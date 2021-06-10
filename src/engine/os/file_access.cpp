@@ -25,39 +25,39 @@
 #include <fstream>
 #include <algorithm>
 
-Lilliputian::FileAccess::FileAccess(String executableFilepath)
+Lilliputian::FileAccess::FileAccess(std::string executableFilepath)
 {
 	this->executableFilepath = executableFilepath;
 }
 
-void Lilliputian::FileAccess::setDataDirectory(String assetDirectory)
+void Lilliputian::FileAccess::setDataDirectory(std::string assetDirectory)
 {
 	this->dataDirectory = assetDirectory;
 }
 
-Lilliputian::String Lilliputian::FileAccess::getExecutableFilePath()
+std::string Lilliputian::FileAccess::getExecutableFilePath()
 {
 	return this->executableFilepath;
 }
 
-Lilliputian::String Lilliputian::FileAccess::getExecutableName()
+std::string Lilliputian::FileAccess::getExecutableName()
 {
 	return this->getFileNameWithoutExtension(this->executableFilepath);
 }
 
-Lilliputian::String Lilliputian::FileAccess::getExecutableDirectory()
+std::string Lilliputian::FileAccess::getExecutableDirectory()
 {
 	return this->getPathBeforeFile(this->executableFilepath);
 }
 
-Lilliputian::String Lilliputian::FileAccess::getDataDirectory()
+std::string Lilliputian::FileAccess::getDataDirectory()
 {
 	return this->dataDirectory;
 }
 
-Lilliputian::String Lilliputian::FileAccess::getFileNameWithoutExtension(String filepath)
+std::string Lilliputian::FileAccess::getFileNameWithoutExtension(std::string filepath)
 {
-	String fileName;
+	std::string fileName;
 	int nameIndexStart = 0;
 
 	//Find the first slash from the end
@@ -73,9 +73,9 @@ Lilliputian::String Lilliputian::FileAccess::getFileNameWithoutExtension(String 
 	return fileName;
 }
 
-Lilliputian::String Lilliputian::FileAccess::getPathBeforeFile(String filepath)
+std::string Lilliputian::FileAccess::getPathBeforeFile(std::string filepath)
 {
-	String path;
+	std::string path;
 	int nameEndIndex = 0;
 
 	//Find the first slash from the end
@@ -91,7 +91,7 @@ Lilliputian::String Lilliputian::FileAccess::getPathBeforeFile(String filepath)
 	return path;
 }
 
-bool Lilliputian::FileAccess::exists(String filepath)
+bool Lilliputian::FileAccess::exists(std::string filepath)
 {
 	std::ifstream inputFile(filepath);
 	return inputFile.good();

@@ -29,7 +29,7 @@ Lilliputian::Image::Image()
 	this->surface = nullptr;
 }
 
-Lilliputian::Image::Image(String text, Font font, Colour colour, Font::RenderMode mode)
+Lilliputian::Image::Image(std::string text, Font font, Colour colour, Font::RenderMode mode)
 {
 	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
 	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };

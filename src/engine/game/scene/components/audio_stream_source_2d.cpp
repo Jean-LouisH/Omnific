@@ -27,7 +27,7 @@ void Lilliputian::AudioStreamSource2D::addAudioStream(AudioStream audioStream)
 //	this->audioStreams.emplace(audioStream);
 }
 
-void Lilliputian::AudioStreamSource2D::queueAudioToPlay(String audioStreamName, uint8_t count)
+void Lilliputian::AudioStreamSource2D::queueAudioToPlay(std::string audioStreamName, uint8_t count)
 {
 	//if (this->audioStreams.count(audioStreamName) > 0 && count > 0)
 	//{
@@ -55,7 +55,7 @@ void Lilliputian::AudioStreamSource2D::clearAudioPlayQueue()
 }
 
 
-void Lilliputian::AudioStreamSource2D::play(String audioStreamName)
+void Lilliputian::AudioStreamSource2D::play(std::string audioStreamName)
 {
 
 }
@@ -75,9 +75,9 @@ void Lilliputian::AudioStreamSource2D::stop()
 
 }
 
-std::vector<Lilliputian::String> Lilliputian::AudioStreamSource2D::getAudioStreamNames()
+std::vector<std::string> Lilliputian::AudioStreamSource2D::getAudioStreamNames()
 {
-	std::vector<String> audioStreamNames;
+	std::vector<std::string> audioStreamNames;
 
 	//for (Map<String, AudioStream>::iterator it = this->audioStreams.begin();
 	//	it != this->audioStreams.end();
@@ -89,7 +89,7 @@ std::vector<Lilliputian::String> Lilliputian::AudioStreamSource2D::getAudioStrea
 	return audioStreamNames;
 }
 
-Lilliputian::AudioStream Lilliputian::AudioStreamSource2D::getAudioStreamByName(String audioStreamName)
+Lilliputian::AudioStream Lilliputian::AudioStreamSource2D::getAudioStreamByName(std::string audioStreamName)
 {
 	AudioStream audioStream;
 

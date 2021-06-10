@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "utilities/string.hpp"
+#include <string>
 #include "utilities/aliases.hpp"
 #include <vector>
 
@@ -30,7 +30,7 @@ namespace Lilliputian
 {
 	typedef struct ScriptCallBatch
 	{
-		std::vector<String> scripts;
+		std::vector<std::string> scripts;
 		SceneTreeID sceneTreeID = 0;
 		EntityID entityID = 0;
 	};

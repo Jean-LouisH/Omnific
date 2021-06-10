@@ -45,7 +45,7 @@ namespace Lilliputian
 		void executeOnFinalMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 	private:
 		pybind11::scoped_interpreter guard{};
-		std::map<String, Module> modules;
+		std::map<std::string, Module> modules;
 
 		void executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
 	};

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "utilities/string.hpp"
+#include <string>
 #include <game/scene/components/component_variant.hpp>
 #include <game/scene/scene.hpp>
 #include <game/scene_serializer.hpp>
@@ -40,10 +40,10 @@ namespace Lilliputian
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
 		bool hasComponent(ComponentVariant::Type type);
-		void preloadScene(String sceneFilename);
-		void loadScene(String sceneFilename);
-		void unloadScene(String sceneFilename);
-		void changeToScene(String sceneFilename);
+		void preloadScene(std::string sceneFilename);
+		void loadScene(std::string sceneFilename);
+		void unloadScene(std::string sceneFilename);
+		void changeToScene(std::string sceneFilename);
 
 		Entity2D& getThisEntity2D();
 		SceneTree2D& getThisSceneTree2D();

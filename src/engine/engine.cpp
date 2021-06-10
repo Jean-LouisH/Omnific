@@ -177,8 +177,8 @@ void Lilliputian::Engine::benchmark()
 	if (profiler.getBenchmarkTimer().getDelta_ns() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
 	{
 		profiler.getBenchmarkTimer().setStart();
-		String FPSString = std::to_string(profiler.getFPS());
-		String frameUtilizationString =
+		std::string FPSString = std::to_string(profiler.getFPS());
+		std::string frameUtilizationString =
 			std::to_string((int)(((double)profiler.getProcessTimer().getDelta_ns() / (double)profiler.getFrameTimer().getDelta_ns()) * 100));
 		OS::getWindow().changeTitle((this->game->getConfiguration().metadata.gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()

@@ -23,7 +23,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include <utilities/string.hpp>
+#include <string>
 #include "utilities/aliases.hpp"
 
 namespace Lilliputian
@@ -31,17 +31,17 @@ namespace Lilliputian
 	class SceneStorage
 	{
 	public:
-		void addScene(String sceneName, Scene scene);
-		void removeScene(String sceneName);
-		void replaceActiveScene(String sceneName, Scene scene);
-		void changeToScene(String sceneName);
+		void addScene(std::string sceneName, Scene scene);
+		void removeScene(std::string sceneName);
+		void replaceActiveScene(std::string sceneName, Scene scene);
+		void changeToScene(std::string sceneName);
 		Scene& getActiveScene();
-		String getActiveSceneName();
+		std::string getActiveSceneName();
 		bool isEmpty();
 		bool hasActiveSceneChanged();
 	private:
-		std::map<String, Scene> scenes;
-		String activeSceneName;
+		std::map<std::string, Scene> scenes;
+		std::string activeSceneName;
 		bool activeSceneChanged = false;
 	};
 }

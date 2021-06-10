@@ -26,7 +26,7 @@
 #include <vector>
 #include <map>
 #include "utilities/constants.hpp"
-#include "utilities/string.hpp"
+#include <string>
 #include "game/scene/assets/image.hpp"
 
 
@@ -37,11 +37,11 @@ namespace Lilliputian
 		using FrameIndex = uint16_t;
 		using FrameSequence = std::vector<Image>;
 	public:
-		String currentFrameSequenceName = "";
+		std::string currentFrameSequenceName = "";
 
-		void addEmptyFrameSequence(String frameSequenceName);
-		void addFrameSequence(String frameSequenceName, FrameSequence frameSequence);
-		void addFrameToFrameSequence(String frameSequenceName, Image frame);
+		void addEmptyFrameSequence(std::string frameSequenceName);
+		void addFrameSequence(std::string frameSequenceName, FrameSequence frameSequence);
+		void addFrameToFrameSequence(std::string frameSequenceName, Image frame);
 		void clearFrameSequences();
 
 		void setAlpha(uint8_t value);
@@ -54,7 +54,7 @@ namespace Lilliputian
 
 		void update(float delta_s);
 
-		void play(String frameSequenceName);
+		void play(std::string frameSequenceName);
 		void play();
 		void pause();
 		void stop();
@@ -66,11 +66,11 @@ namespace Lilliputian
 		void flipHorizontally();
 
 		Image getCurrentFrame();
-		std::vector<String> getFrameSequenceNames();
-		FrameSequence getFrameSequenceByName(String frameSequenceName);
+		std::vector<std::string> getFrameSequenceNames();
+		FrameSequence getFrameSequenceByName(std::string frameSequenceName);
 		FrameSequence getCurrentFrameSequence();
 	private:
-		std::map<String, FrameSequence> frameSequences;
+		std::map<std::string, FrameSequence> frameSequences;
 		uint8_t alpha = 255;
 		float animationSpeed_fps = 12.0;
 		float frameTime_s = 0.0;

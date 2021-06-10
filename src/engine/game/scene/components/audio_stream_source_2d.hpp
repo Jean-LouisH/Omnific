@@ -26,7 +26,7 @@
 #include <set>
 #include <queue>
 #include "utilities/constants.hpp"
-#include "utilities/string.hpp"
+#include <string>
 #include <vector>
 #include <map>
 #include "game/scene/assets/audio_stream.hpp"
@@ -38,16 +38,16 @@ namespace Lilliputian
 	{
 	public:
 		void addAudioStream(AudioStream audioStream);
-		void queueAudioToPlay(String audioStreamName, uint8_t count);
+		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
 		void clearAudioStreams();
 		std::queue<AudioStream> popEntireAudioPlayQueue();
 		void clearAudioPlayQueue();
-		void play(String audioStreamName);
+		void play(std::string audioStreamName);
 		void play();
 		void pause();
 		void stop();
-		std::vector<String> getAudioStreamNames();
-		AudioStream getAudioStreamByName(String audioStreamName);
+		std::vector<std::string> getAudioStreamNames();
+		AudioStream getAudioStreamByName(std::string audioStreamName);
 	private:
 //		Map<String, AudioStream> audioStreams;
 		std::queue<AudioStream> audioPlayQueue;

@@ -51,7 +51,7 @@ bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
 	return result;
 }
 
-void Lilliputian::SceneAPI::preloadScene(String sceneFilename)
+void Lilliputian::SceneAPI::preloadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -60,7 +60,7 @@ void Lilliputian::SceneAPI::preloadScene(String sceneFilename)
 	}
 }
 
-void Lilliputian::SceneAPI::loadScene(String sceneFilename)
+void Lilliputian::SceneAPI::loadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -69,12 +69,12 @@ void Lilliputian::SceneAPI::loadScene(String sceneFilename)
 	}
 }
 
-void Lilliputian::SceneAPI::unloadScene(String sceneFilename)
+void Lilliputian::SceneAPI::unloadScene(std::string sceneFilename)
 {
 	this->sceneStorage->removeScene(sceneFilename);
 }
 
-void Lilliputian::SceneAPI::changeToScene(String sceneFilename)
+void Lilliputian::SceneAPI::changeToScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
