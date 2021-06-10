@@ -24,7 +24,7 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/aabb_2d.hpp"
-#include "utilities/collections/set.hpp"
+#include <set>
 #include "utilities/string.hpp"
 #include "utilities/constants.hpp"
 
@@ -36,8 +36,8 @@ namespace Lilliputian
 	public:
 		AABB2D aabb;
 
-		Set<EntityID> enteringEntityIDs;
-		Set<String> enteringEntityTags;
+		std::set<EntityID> enteringEntityIDs;
+		std::set<String> enteringEntityTags;
 
 		bool hasEntityEntered(EntityID entityID);
 		bool hasEntityWithTagEntered(String entityTag);

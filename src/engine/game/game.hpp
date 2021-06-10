@@ -34,8 +34,8 @@
 #include "scene_storage.hpp"
 #include "scripting/virtual_machine/virtual_machine.hpp"
 #include "scripting/scripting.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/stack.hpp"
+#include <vector>
+#include <stack>
 #include "utilities/string.hpp"
 
 namespace Lilliputian

@@ -23,8 +23,8 @@
 #pragma once
 
 #include "event.hpp"
-#include <utilities/collections/map.hpp>
-#include <utilities/collections/vector.hpp>
+#include <map>
+#include <vector>
 #include <utilities/string.hpp>
 #include <vector>
 
@@ -53,7 +53,7 @@ namespace Lilliputian
 
 		std::vector<Event> query(String name);
 	private:
-		Map<String, Vector<Event>> events;
+		std::map<String, std::vector<Event>> events;
 
 		void publishWithParameters(String name, Event::Parameters parameters);
 	};

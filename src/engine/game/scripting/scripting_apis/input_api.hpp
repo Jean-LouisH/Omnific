@@ -23,8 +23,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "utilities/collections/map.hpp"
-#include "utilities/collections/vector.hpp"
+#include <map>
+#include <vector>
 #include "utilities/string.hpp"
 #include "os/human_interface_devices.hpp"
 
@@ -46,8 +46,8 @@ namespace Lilliputian
 		void replaceActionAxisMap(String actionName, String negativeInputString, String positiveInputString);
 		void removeActionAxisMap(String actionName, String negativeInputString, String positiveInputString);
 		void removeAllActionAxisMaps(String actionName);
-		Map<String, Vector<String>> getActionButtonMaps();
-		Map<String, Vector<Pair<String, String>>> getActionAxisMaps();
+		std::map<String, std::vector<String>> getActionButtonMaps();
+		std::map<String, std::vector<std::pair<String, String>>> getActionAxisMaps();
 		bool isOnPress(String inputCode);
 		bool isOnDoublePress(String keyCode, unsigned int timeInterval_ms);
 		bool isOnRelease(String keyCode);
@@ -60,11 +60,11 @@ namespace Lilliputian
 		float getAxisActionStrength(String axisActionName);
 	private:
 		HumanInterfaceDevices* hid = nullptr;
-		Map<String, Vector<String>> actionMappedButtons;
-		Map<String, Vector<Pair<String, String>>> actionMappedAxes;
+		std::map<String, std::vector<String>> actionMappedButtons;
+		std::map<String, std::vector<std::pair<String, String>>> actionMappedAxes;
 
-		Map<String, SDL_Keycode> keyboardEventsByString;
-		Map<String, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
-		Map<String, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
+		std::map<String, SDL_Keycode> keyboardEventsByString;
+		std::map<String, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
+		std::map<String, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
 	};
 }

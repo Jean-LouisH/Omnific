@@ -25,9 +25,9 @@
 #include "entity_2d.hpp"
 #include "components/component_variant.hpp"
 #include "utilities/rectangle.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/map.hpp"
-#include "utilities/collections/queue.hpp"
+#include <vector>
+#include <map>
+#include <queue>
 #include "utilities/aliases.hpp"
 #include "game/scripting/virtual_machine/script_call_batch.hpp"
 #include "utilities/string.hpp"
@@ -50,20 +50,20 @@ namespace Lilliputian
 
 		void changeCurrentCamera(ComponentID newCurrentCameraID);
 
-		Vector<ScriptCallBatch> generateOnStartCallBatches();
-		Vector<ScriptCallBatch> generateOnInputCallBatches();
-		Vector<ScriptCallBatch> generateOnFrameCallBatches();
-		Vector<ScriptCallBatch> generateOnComputeCallBatches();
-		Vector<ScriptCallBatch> generateOnLateCallBatches();
-		Vector<ScriptCallBatch> generateOnFinalCallBatches();
+		std::vector<ScriptCallBatch> generateOnStartCallBatches();
+		std::vector<ScriptCallBatch> generateOnInputCallBatches();
+		std::vector<ScriptCallBatch> generateOnFrameCallBatches();
+		std::vector<ScriptCallBatch> generateOnComputeCallBatches();
+		std::vector<ScriptCallBatch> generateOnLateCallBatches();
+		std::vector<ScriptCallBatch> generateOnFinalCallBatches();
 
 		ComponentID getCurrentCameraID();
-		Vector<ComponentVariant>& getComponentVariants();
+		std::vector<ComponentVariant>& getComponentVariants();
 		Transform2D& getEntityTransform(EntityID entityID);
 		Entity2D& getEntity2D(EntityID entityID);
 		Entity2D& getEntity2DByName(String name);
 		Entity2D& getLastEntity2D();
-		Map<EntityID, Entity2D>& getEntity2Ds();
+		std::map<EntityID, Entity2D>& getEntity2Ds();
 		EventBus& getEventBus();
 		SceneTreeID getID();
 
@@ -74,15 +74,15 @@ namespace Lilliputian
 		/*Entities are stored in maps for fast random access
 		when Components invoke changes in other Components
 		attached to the Entity.*/
-		Map<EntityID, Entity2D> entities2D;
+		std::map<EntityID, Entity2D> entities2D;
 
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
-		Vector<ComponentVariant> componentVariants;
-		Vector<size_t> transform2DIndexCache;
+		std::vector<ComponentVariant> componentVariants;
+		std::vector<size_t> transform2DIndexCache;
 
-		Queue<EntityID> startEntitiesQueue;
-		Queue<EntityID> finishEntitiesQueue;
+		std::queue<EntityID> startEntitiesQueue;
+		std::queue<EntityID> finishEntitiesQueue;
 
 		ComponentID currentCameraID = -1;
 		EntityID dummyEntityID = DUMMY_ENTITY;

@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL_mixer.h>
-#include "utilities/collections/queue.hpp"
+#include <queue>
 #include "game/scene/scene.hpp"
 
 namespace Lilliputian
@@ -35,8 +35,8 @@ namespace Lilliputian
 		~AudioSystem();
 		void process(Scene& scene);
 	private:
-		Queue<Mix_Chunk*> immediateSounds;
-		Queue<Mix_Chunk*> scheduledSounds;
+		std::queue<Mix_Chunk*> immediateSounds;
+		std::queue<Mix_Chunk*> scheduledSounds;
 
 		void play();
 	};

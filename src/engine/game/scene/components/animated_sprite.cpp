@@ -149,11 +149,11 @@ Lilliputian::Image Lilliputian::AnimatedSprite::getCurrentFrame()
 	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
 }
 
-Lilliputian::Vector<Lilliputian::String> Lilliputian::AnimatedSprite::getFrameSequenceNames()
+std::vector<Lilliputian::String> Lilliputian::AnimatedSprite::getFrameSequenceNames()
 {
-	Vector<String> frameSequenceNames;
+	std::vector<String> frameSequenceNames;
 
-	for (Map<String, FrameSequence>::iterator it = this->frameSequences.begin();
+	for (std::map<String, FrameSequence>::iterator it = this->frameSequences.begin();
 		it != this->frameSequences.end();
 		++it)
 	{

@@ -24,7 +24,7 @@
 
 #include "scene/scene.hpp"
 #include "utilities/string.hpp"
-#include "utilities/collections/map.hpp"
+#include <map>
 
 namespace Lilliputian
 {

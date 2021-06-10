@@ -41,9 +41,9 @@ void Lilliputian::AudioStreamSource2D::clearAudioStreams()
 //	this->audioStreams.clear();
 }
 
-Lilliputian::Queue<Lilliputian::AudioStream> Lilliputian::AudioStreamSource2D::popEntireAudioPlayQueue()
+std::queue<Lilliputian::AudioStream> Lilliputian::AudioStreamSource2D::popEntireAudioPlayQueue()
 {
-	Queue<AudioStream> outputQueue = this->audioPlayQueue;
+	std::queue<AudioStream> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
@@ -75,9 +75,9 @@ void Lilliputian::AudioStreamSource2D::stop()
 
 }
 
-Lilliputian::Vector<Lilliputian::String> Lilliputian::AudioStreamSource2D::getAudioStreamNames()
+std::vector<Lilliputian::String> Lilliputian::AudioStreamSource2D::getAudioStreamNames()
 {
-	Vector<String> audioStreamNames;
+	std::vector<String> audioStreamNames;
 
 	//for (Map<String, AudioStream>::iterator it = this->audioStreams.begin();
 	//	it != this->audioStreams.end();

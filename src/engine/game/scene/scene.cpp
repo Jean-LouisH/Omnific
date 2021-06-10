@@ -42,13 +42,13 @@ void Lilliputian::Scene::removeSceneTree2D(SceneTreeID sceneTreeID)
 			++it;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnStartCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnStartCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
-		Vector<ScriptCallBatch> newScriptCallBatches = 
+		std::vector<ScriptCallBatch> newScriptCallBatches = 
 			this->sceneTree2Ds.at(i).generateOnStartCallBatches();
 
 		scriptCallBatches.insert(
@@ -61,13 +61,13 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnSt
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnInputCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnInputCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
-		Vector<ScriptCallBatch> newScriptCallBatches =
+		std::vector<ScriptCallBatch> newScriptCallBatches =
 			this->sceneTree2Ds.at(i).generateOnInputCallBatches();
 
 		scriptCallBatches.insert(
@@ -80,13 +80,13 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnIn
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFrameCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFrameCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
-		Vector<ScriptCallBatch> newScriptCallBatches =
+		std::vector<ScriptCallBatch> newScriptCallBatches =
 			this->sceneTree2Ds.at(i).generateOnFrameCallBatches();
 
 		scriptCallBatches.insert(
@@ -99,13 +99,13 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFr
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnComputeCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnComputeCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
-		Vector<ScriptCallBatch> newScriptCallBatches =
+		std::vector<ScriptCallBatch> newScriptCallBatches =
 			this->sceneTree2Ds.at(i).generateOnComputeCallBatches();
 
 		scriptCallBatches.insert(
@@ -118,13 +118,13 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnCo
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLateCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLateCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
-		Vector<ScriptCallBatch> newScriptCallBatches =
+		std::vector<ScriptCallBatch> newScriptCallBatches =
 			this->sceneTree2Ds.at(i).generateOnLateCallBatches();
 
 		scriptCallBatches.insert(
@@ -137,13 +137,13 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLa
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFinalBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFinalBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (int i = 0; i < this->sceneTree2Ds.size(); i++)
 	{
-		Vector<ScriptCallBatch> newScriptCallBatches =
+		std::vector<ScriptCallBatch> newScriptCallBatches =
 			this->sceneTree2Ds.at(i).generateOnFinalCallBatches();
 
 		scriptCallBatches.insert(
@@ -177,7 +177,7 @@ Lilliputian::SceneTree2D& Lilliputian::Scene::getSceneTree(SceneTreeID sceneTree
 	return *sceneTree2D;
 }
 
-Lilliputian::Vector<Lilliputian::SceneTree2D>& Lilliputian::Scene::getSceneTree2Ds()
+std::vector<Lilliputian::SceneTree2D>& Lilliputian::Scene::getSceneTree2Ds()
 {
 	return this->sceneTree2Ds;
 }

@@ -209,7 +209,7 @@ void Lilliputian::InputAPI::insertActionButtonMap(String actionName, String inpu
 	}
 	else
 	{
-		Vector<String> inputStrings;
+		std::vector<String> inputStrings;
 		inputStrings.push_back(inputString);
 		this->actionMappedButtons.emplace(actionString, inputStrings);
 	}
@@ -226,7 +226,7 @@ void Lilliputian::InputAPI::replaceActionButtonMap(String actionName, String inp
 	}
 	else
 	{
-		Vector<String> inputStrings;
+		std::vector<String> inputStrings;
 		inputStrings.push_back(inputString);
 		this->actionMappedButtons.emplace(actionString, inputStrings);
 	}
@@ -270,12 +270,12 @@ void Lilliputian::InputAPI::removeAllActionAxisMaps(String actionName)
 
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::String>> Lilliputian::InputAPI::getActionButtonMaps()
+std::map<Lilliputian::String, std::vector<Lilliputian::String>> Lilliputian::InputAPI::getActionButtonMaps()
 {
 	return this->actionMappedButtons;
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Vector<Lilliputian::Pair<Lilliputian::String, Lilliputian::String>>> 
+std::map<Lilliputian::String, std::vector<std::pair<Lilliputian::String, Lilliputian::String>>> 
 Lilliputian::InputAPI::getActionAxisMaps()
 {
 	return this->actionMappedAxes;
@@ -283,8 +283,8 @@ Lilliputian::InputAPI::getActionAxisMaps()
 
 bool Lilliputian::InputAPI::isOnPress(String keyCode)
 {
-	Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
-	Map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
+	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
 	if (this->keyboardEventsByString.count(keyCode))
@@ -313,8 +313,8 @@ bool Lilliputian::InputAPI::isOnDoublePress(String keyCode, unsigned int timeInt
 
 bool Lilliputian::InputAPI::isOnRelease(String keyCode)
 {
-	Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
-	Map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
+	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
 	if (this->keyboardEventsByString.count(keyCode))

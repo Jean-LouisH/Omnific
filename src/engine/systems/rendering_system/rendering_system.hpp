@@ -24,7 +24,7 @@
 
 #include <SDL.h>
 #include "game/scene/scene.hpp"
-#include "utilities/collections/vector.hpp"
+#include <vector>
 #include "rendering_sdl/sdl_renderable.hpp"
 #include "os/window.hpp"
 #include "utilities/aliases.hpp"
@@ -41,7 +41,7 @@ namespace Lilliputian
 	private:
 		SDL_Renderer* sdlRenderer;
 		SDL_Window* sdlWindow;
-		Vector<SDL::Rendering2D::SDLRenderable> sdlRenderables;
+		std::vector<SDL::Rendering2D::SDLRenderable> sdlRenderables;
 		TextureCache textureCache;
 
 		void clearBuffers();

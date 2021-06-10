@@ -23,7 +23,7 @@
 #include "virtual_machine.hpp"
 #include "embedded_module.hpp"
 #include <iostream>
-#include <utilities/collections/set.hpp>
+#include <set>
 
 Lilliputian::VirtualMachine::VirtualMachine()
 {
@@ -41,18 +41,18 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 
 	pybind11::module_ sys = pybind11::module_::import("sys");
 	pybind11::object path = sys.attr("path");
-	Set<String> addedPaths;
+	std::set<String> addedPaths;
 
-	Vector<SceneTree2D> sceneTrees = scene.getSceneTree2Ds();
-	Set<String> scripts;
+	std::vector<SceneTree2D> sceneTrees = scene.getSceneTree2Ds();
+	std::set<String> scripts;
 
 	for (int i = 0; i < sceneTrees.size(); i++)
 	{
-		Map<EntityID, Entity2D> entities = sceneTrees.at(i).getEntity2Ds();
+		std::map<EntityID, Entity2D> entities = sceneTrees.at(i).getEntity2Ds();
 		
 		for (auto it = entities.begin(); it != entities.end(); ++it)
 		{
-			Vector<String> entityScripts = entities.at(it->first).scripts;
+			std::vector<String> entityScripts = entities.at(it->first).scripts;
 
 			for (int j = 0; j < entityScripts.size(); j++)
 				scripts.emplace(entityScripts.at(j));
@@ -89,7 +89,7 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 			}
 
 			Module newModule;
-			Vector<String> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_late", "on_final" };
+			std::vector<String> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_late", "on_final" };
 			String moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
 			pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
@@ -118,37 +118,37 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 	}
 }
 
-void Lilliputian::VirtualMachine::executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_start");
 }
 
-void Lilliputian::VirtualMachine::executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_input");
 }
 
-void Lilliputian::VirtualMachine::executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_frame");
 }
 
-void Lilliputian::VirtualMachine::executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_compute");
 }
 
-void Lilliputian::VirtualMachine::executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnLateMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_late");
 }
 
-void Lilliputian::VirtualMachine::executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnFinalMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_final");
 }
 
-void Lilliputian::VirtualMachine::executeMethods(Vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
+void Lilliputian::VirtualMachine::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
 {
 	for (int i = 0; i < scriptCallBatches.size(); i++)
 	{

@@ -41,7 +41,7 @@ void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
 {
 	bool result = false;
-	Vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
+	std::vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
 
 	for (int i = 0; i < sceneTree2Ds.size(); i++)
 		if (sceneTree2Ds.at(i).getID() == this->boundSceneTreeID)
@@ -100,7 +100,7 @@ Lilliputian::Scene& Lilliputian::SceneAPI::getScene()
 Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(ComponentVariant::Type type)
 {
 	ComponentVariant* componentVariant = nullptr;
-	Vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
+	std::vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
 	SceneTree2D* sceneTree2D = nullptr;
 
 	for (int i = 0; i < sceneTree2Ds.size(); i++)
@@ -108,7 +108,7 @@ Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(Compon
 			sceneTree2D = &sceneTree2Ds.at(i);
 	
 	Entity2D& entity2D = sceneTree2D->getEntity2D(this->boundEntityID);
-	Vector<ComponentVariant>& componentVariants = sceneTree2D->getComponentVariants();
+	std::vector<ComponentVariant>& componentVariants = sceneTree2D->getComponentVariants();
 
 	for (int i = 0; i < componentVariants.size(); i++)
 		if (componentVariants.at(i).getID() == entity2D.components.at(type))

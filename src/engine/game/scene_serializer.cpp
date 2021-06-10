@@ -23,7 +23,7 @@
 #include "scene_serializer.hpp"
 #include <yaml-cpp/yaml.h>
 #include "utilities/string.hpp"
-#include "utilities/collections/set.hpp"
+#include <set>
 #include "scene/scene.hpp"
 #include "scene/components/component_variant.hpp"
 #include <os/os.hpp>

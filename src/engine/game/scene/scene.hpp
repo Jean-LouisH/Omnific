@@ -22,10 +22,10 @@
 
 #pragma once
 
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/stack.hpp"
-#include "utilities/collections/queue.hpp"
-#include "utilities/collections/map.hpp"
+#include <vector>
+#include <stack>
+#include <queue>
+#include <map>
 #include "components/component_variant.hpp"
 #include "game/scripting/virtual_machine/script_call_batch.hpp"
 #include "asset_cache.hpp"
@@ -41,23 +41,23 @@ namespace Lilliputian
 		void addSceneTree2D(SceneTree2D sceneTree2D);
 		void removeSceneTree2D(SceneTreeID sceneTreeID);
 
-		Vector<ScriptCallBatch> getAllOnStartCallBatches();
-		Vector<ScriptCallBatch> getAllOnInputCallBatches();
-		Vector<ScriptCallBatch> getAllOnFrameCallBatches();
-		Vector<ScriptCallBatch> getAllOnComputeCallBatches();
-		Vector<ScriptCallBatch> getAllOnLateCallBatches();
-		Vector<ScriptCallBatch> getAllOnFinalBatches();
+		std::vector<ScriptCallBatch> getAllOnStartCallBatches();
+		std::vector<ScriptCallBatch> getAllOnInputCallBatches();
+		std::vector<ScriptCallBatch> getAllOnFrameCallBatches();
+		std::vector<ScriptCallBatch> getAllOnComputeCallBatches();
+		std::vector<ScriptCallBatch> getAllOnLateCallBatches();
+		std::vector<ScriptCallBatch> getAllOnFinalBatches();
 
 		AssetCache& getAssetCache();
 		SceneTree2D& getSceneTree(SceneTreeID sceneTreeID);
 		SceneTree2D& getLastSceneTree2D();
-		Vector<SceneTree2D>& getSceneTree2Ds();
+		std::vector<SceneTree2D>& getSceneTree2Ds();
 
 		void unload();
 	private:
 		/*SceneTrees are stored in vectors for sequential access
 		in engine systems.*/
-		Vector<SceneTree2D> sceneTree2Ds;
+		std::vector<SceneTree2D> sceneTree2Ds;
 		AssetCache assetCache;
 	};
 }

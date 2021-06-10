@@ -24,7 +24,7 @@
 
 #include "pybind11/pybind11.h"
 #include <utilities/string.hpp>
-#include <utilities/collections/set.hpp>
+#include <set>
 
 namespace Lilliputian
 {
@@ -37,6 +37,6 @@ namespace Lilliputian
 		bool hasCallable(String methodName);
 	private:
 		pybind11::module_ data;
-		Set<String> callableMethods;
+		std::set<String> callableMethods;
 	};
 }

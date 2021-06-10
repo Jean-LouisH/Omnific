@@ -24,13 +24,13 @@
 
 #include "utilities/string.hpp"
 #include "utilities/aliases.hpp"
-#include "utilities/collections/vector.hpp"
+#include <vector>
 
 namespace Lilliputian
 {
 	typedef struct ScriptCallBatch
 	{
-		Vector<String> scripts;
+		std::vector<String> scripts;
 		SceneTreeID sceneTreeID = 0;
 		EntityID entityID = 0;
 	};

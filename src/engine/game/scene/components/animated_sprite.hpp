@@ -23,8 +23,8 @@
 #pragma once
 
 #include "utilities/aliases.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/map.hpp"
+#include <vector>
+#include <map>
 #include "utilities/constants.hpp"
 #include "utilities/string.hpp"
 #include "game/scene/assets/image.hpp"
@@ -35,7 +35,7 @@ namespace Lilliputian
 	class AnimatedSprite
 	{
 		using FrameIndex = uint16_t;
-		using FrameSequence = Vector<Image>;
+		using FrameSequence = std::vector<Image>;
 	public:
 		String currentFrameSequenceName = "";
 
@@ -66,11 +66,11 @@ namespace Lilliputian
 		void flipHorizontally();
 
 		Image getCurrentFrame();
-		Vector<String> getFrameSequenceNames();
+		std::vector<String> getFrameSequenceNames();
 		FrameSequence getFrameSequenceByName(String frameSequenceName);
 		FrameSequence getCurrentFrameSequence();
 	private:
-		Map<String, FrameSequence> frameSequences;
+		std::map<String, FrameSequence> frameSequences;
 		uint8_t alpha = 255;
 		float animationSpeed_fps = 12.0;
 		float frameTime_s = 0.0;

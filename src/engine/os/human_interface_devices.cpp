@@ -142,22 +142,22 @@ bool Lilliputian::HumanInterfaceDevices::hasRequestedCommandLine()
 	return backquoteReleased;	 
 }
 
-Lilliputian::Vector<SDL_Haptic*> Lilliputian::HumanInterfaceDevices::getHaptics()
+std::vector<SDL_Haptic*> Lilliputian::HumanInterfaceDevices::getHaptics()
 {
 	return this->haptics;
 }
 
-Lilliputian::Map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Lilliputian::HumanInterfaceDevices::getControllerButtonEvents()
+std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Lilliputian::HumanInterfaceDevices::getControllerButtonEvents()
 {
 	return this->controllerButtonEvents;
 }
 
-Lilliputian::Map<SDL_Keycode, SDL_KeyboardEvent> Lilliputian::HumanInterfaceDevices::getKeyboardEvents()
+std::map<SDL_Keycode, SDL_KeyboardEvent> Lilliputian::HumanInterfaceDevices::getKeyboardEvents()
 {
 	return this->keyboardEvents;
 }
 
-Lilliputian::Map<Lilliputian::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Lilliputian::HumanInterfaceDevices::getControllerAxisEvents()
+std::map<Lilliputian::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Lilliputian::HumanInterfaceDevices::getControllerAxisEvents()
 {
 	return this->controllerAxisEvents;
 }

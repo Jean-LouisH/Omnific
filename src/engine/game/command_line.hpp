@@ -23,9 +23,9 @@
 #pragma once
 
 #include "utilities/string.hpp"
-#include "utilities/collections/map.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/stack.hpp"
+#include <map>
+#include <vector>
+#include <stack>
 #include "scene_serializer.hpp"
 #include "os/os.hpp"
 #include "os/profiler.hpp"

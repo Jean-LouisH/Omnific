@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include <utilities/aliases.hpp>
-#include <utilities/collections/vector.hpp>
+#include <vector>
 
 #pragma once
 
@@ -33,6 +33,6 @@ namespace Lilliputian
 		void openWindow();
 		void closeWindow();
 	private:
-		Vector<EntityID> entityIDs;
+		std::vector<EntityID> entityIDs;
 	};
 }

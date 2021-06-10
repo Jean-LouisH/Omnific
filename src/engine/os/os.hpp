@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "utilities/collections/vector.hpp"
+#include <vector>
 #include "human_interface_devices.hpp"
 #include "window.hpp"
 #include "profiler.hpp"

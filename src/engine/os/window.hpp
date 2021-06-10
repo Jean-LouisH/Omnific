@@ -23,8 +23,8 @@
 #pragma once
 
 #include <SDL.h>
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/map.hpp"
+#include <vector>
+#include <map>
 
 namespace Lilliputian
 {

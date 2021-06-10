@@ -23,8 +23,8 @@
 #pragma once
 
 #include <SDL.h>
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/map.hpp"
+#include <vector>
+#include <map>
 
 namespace Lilliputian
 {
@@ -41,26 +41,26 @@ namespace Lilliputian
 		void forceShutdownRequest();
 		bool getHasDetectedInputChanges();
 
-		Vector<SDL_Haptic*> getHaptics();
-		Map<ControllerButtonCode, SDL_ControllerButtonEvent> getControllerButtonEvents();
-		Map<SDL_Keycode, SDL_KeyboardEvent> getKeyboardEvents();
-		Map<ControllerAxisCode, SDL_ControllerAxisEvent> getControllerAxisEvents();
+		std::vector<SDL_Haptic*> getHaptics();
+		std::map<ControllerButtonCode, SDL_ControllerButtonEvent> getControllerButtonEvents();
+		std::map<SDL_Keycode, SDL_KeyboardEvent> getKeyboardEvents();
+		std::map<ControllerAxisCode, SDL_ControllerAxisEvent> getControllerAxisEvents();
 		SDL_MouseButtonEvent getMouseButtonEvent();
 		SDL_MouseMotionEvent getMouseMotionEvent();
 		SDL_MouseWheelEvent  getMouseWheelEvent();
 	private:
 
-		Map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
-		Map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
-		Map<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
+		std::map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
+		std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
+		std::map<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
 		SDL_MouseButtonEvent mouseButtonEvent = { 0 };
 		SDL_MouseMotionEvent mouseMotionEvent = { 0 };
 		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };
 		SDL_WindowEvent windowEvent = { 0 };
 		SDL_DropEvent dropEvent = { 0 };
 
-		Vector<SDL_GameController*> gameControllers;
-		Vector<SDL_Haptic*> haptics;
+		std::vector<SDL_GameController*> gameControllers;
+		std::vector<SDL_Haptic*> haptics;
 
 		bool hasDetectedInputChanges = false;
 		bool shutdownRequest = false;

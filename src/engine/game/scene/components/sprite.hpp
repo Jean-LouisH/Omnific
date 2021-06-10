@@ -23,8 +23,8 @@
 #pragma once
 
 #include "utilities/aliases.hpp"
-#include "utilities/collections/vector.hpp"
-#include "utilities/collections/map.hpp"
+#include <vector>
+#include <map>
 #include "utilities/constants.hpp"
 #include "utilities/string.hpp"
 #include "game/scene/assets/image.hpp"

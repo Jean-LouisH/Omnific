@@ -76,13 +76,13 @@ void Lilliputian::SceneTree2D::removeEntity2D(EntityID entityID)
 		this->removeComponent(entityID, (ComponentVariant::Type)i);
 	}
 
-	Vector<EntityID> childIDs = this->getEntity2D(entityID).childIDs;
+	std::vector<EntityID> childIDs = this->getEntity2D(entityID).childIDs;
 
 	for (int i = 0; i < childIDs.size(); i++)
 		this->getEntity2D(childIDs.at(i)).parentID = DUMMY_ENTITY;
 
 	EntityID parentID = this->getEntity2D(entityID).parentID;
-	Vector<EntityID> parentChildIDs = this->getEntity2D(parentID).childIDs;
+	std::vector<EntityID> parentChildIDs = this->getEntity2D(parentID).childIDs;
 }
 
 void Lilliputian::SceneTree2D::removeComponent(EntityID entityID, ComponentVariant::Type type)
@@ -116,9 +116,9 @@ void Lilliputian::SceneTree2D::changeCurrentCamera(Lilliputian::ComponentID newC
 	}
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnStartCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnStartCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (auto it = this->entities2D.begin(); it !=  this->entities2D.end(); it++)
 	{
@@ -143,9 +143,9 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnInputCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnInputCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
 	{
@@ -162,9 +162,9 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnFrameCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnFrameCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
 	{
@@ -181,9 +181,9 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnComputeCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnComputeCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
 	{
@@ -200,9 +200,9 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnLateCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnLateCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
 	{
@@ -219,9 +219,9 @@ Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::gene
 	return scriptCallBatches;
 }
 
-Lilliputian::Vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnFinalCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::SceneTree2D::generateOnFinalCallBatches()
 {
-	Vector<ScriptCallBatch> scriptCallBatches;
+	std::vector<ScriptCallBatch> scriptCallBatches;
 
 	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
 	{
@@ -251,7 +251,7 @@ Lilliputian::ComponentID Lilliputian::SceneTree2D::getCurrentCameraID()
 	return this->currentCameraID;
 }
 
-Lilliputian::Vector<Lilliputian::ComponentVariant>& Lilliputian::SceneTree2D::getComponentVariants()
+std::vector<Lilliputian::ComponentVariant>& Lilliputian::SceneTree2D::getComponentVariants()
 {
 	return this->componentVariants;
 }
@@ -288,7 +288,7 @@ Lilliputian::Entity2D& Lilliputian::SceneTree2D::getLastEntity2D()
 	return this->entities2D.at(this->lastEntityID);
 }
 
-Lilliputian::Map<Lilliputian::EntityID, Lilliputian::Entity2D>& Lilliputian::SceneTree2D::getEntity2Ds()
+std::map<Lilliputian::EntityID, Lilliputian::Entity2D>& Lilliputian::SceneTree2D::getEntity2Ds()
 {
 	return this->entities2D;
 }

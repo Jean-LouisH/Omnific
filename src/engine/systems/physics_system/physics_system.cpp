@@ -42,14 +42,14 @@ void Lilliputian::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpda
 
 void Lilliputian::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 {
-	Vector<SceneTree2D>& sceneTree2Ds = scene.getSceneTree2Ds();
+	std::vector<SceneTree2D>& sceneTree2Ds = scene.getSceneTree2Ds();
 
 	int sceneTree2DCount = sceneTree2Ds.size();
 
 	for (int i = 0; i < sceneTree2DCount; i++)
 	{
 		SceneTree2D& sceneTree2D = sceneTree2Ds.at(i);
-		Vector<ComponentVariant>& componentVariants = sceneTree2D.getComponentVariants();
+		std::vector<ComponentVariant>& componentVariants = sceneTree2D.getComponentVariants();
 
 		for (int j = 0; j < componentVariants.size(); j++)
 			if (componentVariants.at(j).getType() == ComponentVariant::Type::COUNTDOWN_TIMER)

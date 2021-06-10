@@ -137,22 +137,22 @@ void Lilliputian::AssetCache::deleteAll()
 	deleteAllImages();
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::AudioStream> Lilliputian::AssetCache::getAudioStreams()
+std::map<Lilliputian::String, Lilliputian::AudioStream> Lilliputian::AssetCache::getAudioStreams()
 {
 	return this->audioStreams;
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Font> Lilliputian::AssetCache::getFonts()
+std::map<Lilliputian::String, Lilliputian::Font> Lilliputian::AssetCache::getFonts()
 {
 	return this->fonts;
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Text> Lilliputian::AssetCache::getTexts()
+std::map<Lilliputian::String, Lilliputian::Text> Lilliputian::AssetCache::getTexts()
 {
 	return this->texts;
 }
 
-Lilliputian::Map<Lilliputian::String, Lilliputian::Image> Lilliputian::AssetCache::getImages()
+std::map<Lilliputian::String, Lilliputian::Image> Lilliputian::AssetCache::getImages()
 {
 	return this->images;
 }

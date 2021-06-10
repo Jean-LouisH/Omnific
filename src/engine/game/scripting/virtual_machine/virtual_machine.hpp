@@ -23,7 +23,7 @@
 #pragma once
 
 #include "script_call_batch.hpp"
-#include "utilities/collections/map.hpp"
+#include <map>
 #include "game/scripting/scripting_apis/scripting_apis.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
@@ -37,16 +37,16 @@ namespace Lilliputian
 		VirtualMachine();
 		~VirtualMachine();
 		void loadModules(Scene scene);
-		void executeOnStartMethods(Vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnInputMethods(Vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnFrameMethods(Vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnComputeMethods(Vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnLateMethods(Vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnFinalMethods(Vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnLateMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnFinalMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 	private:
 		pybind11::scoped_interpreter guard{};
-		Map<String, Module> modules;
+		std::map<String, Module> modules;
 
-		void executeMethods(Vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
+		void executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
 	};
 }

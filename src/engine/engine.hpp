@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "utilities/collections/vector.hpp"
+#include <vector>
 #include "utilities/string.hpp"
 #include "game/game.hpp"
 #include "systems/ai_system/ai_system.hpp"

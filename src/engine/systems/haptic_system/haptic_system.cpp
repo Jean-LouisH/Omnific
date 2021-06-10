@@ -28,7 +28,7 @@ Lilliputian::HapticSystem::HapticSystem()
 	hapticRequests.reserve(8);
 }
 
-void Lilliputian::HapticSystem::rumble(Vector<SDL_Haptic*> haptics)
+void Lilliputian::HapticSystem::rumble(std::vector<SDL_Haptic*> haptics)
 {
 	for (int i = 0; i < this->hapticRequests.size(); i++)
 	{

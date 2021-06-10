@@ -23,7 +23,7 @@
 #pragma once
 
 #include "utilities/aliases.hpp"
-#include "utilities/collections/vector.hpp"
+#include <vector>
 #include "utilities/constants.hpp"
 #include <stdint.h>
 
@@ -34,7 +34,7 @@ namespace Lilliputian
 	{
 	public:
 		float* targetDoubleProperty = NULL;
-		Vector<float> keyFrames;
+		std::vector<float> keyFrames;
 		float duration_s = 0.0;
 		float playbackSpeed_pct = 1.0;
 		float delay_s = 0.0;

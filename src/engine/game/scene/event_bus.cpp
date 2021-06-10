@@ -53,7 +53,7 @@ void Lilliputian::EventBus::publish(
 void Lilliputian::EventBus::publish(
 	std::string name)
 {
-	Vector<Event> eventsList;
+	std::vector<Event> eventsList;
 
 	OS::getRunTimer().setEnd();
 
@@ -84,7 +84,7 @@ std::vector<Lilliputian::Event> Lilliputian::EventBus::query(String name)
 
 void Lilliputian::EventBus::publishWithParameters(String name, Event::Parameters parameters)
 {
-	Vector<Event> eventsList;
+	std::vector<Event> eventsList;
 
 	OS::getRunTimer().setEnd();
 

@@ -24,7 +24,7 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "utilities/collections/vector.hpp"
+#include <vector>
 #include "utilities/vector2.hpp"
 
 
@@ -33,7 +33,7 @@ namespace Lilliputian
 	class NavigationPath2D
 	{
 	public:
-		Vector<Vector2> waypoints;
+		std::vector<Vector2> waypoints;
 	private:
 	};
 }

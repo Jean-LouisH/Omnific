@@ -24,7 +24,7 @@
 
 #include "game/scene/scene.hpp"
 #include <SDL.h>
-#include "utilities/collections/vector.hpp"
+#include <vector>
 #include "os/human_interface_devices.hpp"
 
 namespace Lilliputian
@@ -42,9 +42,9 @@ namespace Lilliputian
 			uint16_t duration_ms;
 		}HapticRequest;
 
-		Vector<HapticRequest> hapticRequests;
+		std::vector<HapticRequest> hapticRequests;
 
-		void rumble(Vector<SDL_Haptic*> haptics);
+		void rumble(std::vector<SDL_Haptic*> haptics);
 	};
 }
 
