@@ -43,17 +43,23 @@ void Lilliputian::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpda
 void Lilliputian::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 {
 	std::vector<SceneTree2D>& sceneTree2Ds = scene.getSceneTree2Ds();
-
+	SceneTree2D* sceneTree2DsData = sceneTree2Ds.data();
 	int sceneTree2DCount = sceneTree2Ds.size();
 
 	for (int i = 0; i < sceneTree2DCount; i++)
 	{
-		SceneTree2D& sceneTree2D = sceneTree2Ds.at(i);
-		std::vector<ComponentVariant>& componentVariants = sceneTree2D.getComponentVariants();
+		std::vector<ComponentVariant>& componentVariants = sceneTree2DsData[i].getComponentVariants();
+		ComponentVariant* componentVariantsData = componentVariants.data();
+		int componentVariantCount = componentVariants.size();
 
-		for (int j = 0; j < componentVariants.size(); j++)
-			if (componentVariants.at(j).getType() == ComponentVariant::Type::COUNTDOWN_TIMER)
-				componentVariants.at(j).getCountdownTimer()->update(msPerComputeUpdate * (1.0 / MS_IN_S));
+		for (int j = 0; j < componentVariantCount; j++)
+		{
+			ComponentVariant* componentVariant = &componentVariantsData[j];
+			if (componentVariant->getType() == ComponentVariant::Type::COUNTDOWN_TIMER)
+			{
+				componentVariant->getCountdownTimer()->update(msPerComputeUpdate * (1.0 / MS_IN_S));
+			}
+		}
 
 	}
 }
