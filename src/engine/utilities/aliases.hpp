@@ -31,6 +31,4 @@ namespace Lilliputian
 	using SceneTreeID = ID;
 	using ComponentID = ID;
 	using AssetID = ID;
-	using ScriptID = ID;
-	using SceneIndex = uint64_t;
 }
