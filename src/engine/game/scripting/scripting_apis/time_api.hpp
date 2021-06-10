@@ -22,11 +22,26 @@
 
 #pragma once
 
+#include <os/profiler.hpp>
+#include <game/configuration.hpp>
+
 namespace Lilliputian
 {
 	class TimeAPI
 	{
-	public:
+	public: 
+		void initialize(Profiler* profiler);
+		void setTimeSettings(Configuration::TimeSettings* timeSettings);
+
+		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
+		void setTargetFPS(uint32_t targetFPS);
+
+		uint32_t getMsPerComputeUpdate();
+		uint32_t getTargetFPS();
+		uint64_t getFrameTimeDelta();
+
 	private:
+		Profiler* profiler;
+		Configuration::TimeSettings* timeSettings;
 	};
 }

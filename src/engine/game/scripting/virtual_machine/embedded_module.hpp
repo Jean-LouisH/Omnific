@@ -136,7 +136,12 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference)
         .def("get_ui_tree", &Lilliputian::SceneAPI::getUITree, pybind11::return_value_policy::reference);
 
-	pybind11::class_<Lilliputian::TimeAPI>(m, "TimeAPI");
+	pybind11::class_<Lilliputian::TimeAPI>(m, "TimeAPI")
+		.def("set_ms_per_compute_update", &Lilliputian::TimeAPI::setMsPerComputeUpdate)
+		.def("set_target_fps", &Lilliputian::TimeAPI::setTargetFPS)
+		.def("get_ms_per_compute_update", &Lilliputian::TimeAPI::setMsPerComputeUpdate)
+		.def("get_target_fps", &Lilliputian::TimeAPI::setTargetFPS)
+		.def("get_frame_time_delta", &Lilliputian::TimeAPI::getFrameTimeDelta);
 
     pybind11::class_<Lilliputian::WindowAPI>(m, "WindowAPI")
         .def("toggle_windowed_fullscreen", &Lilliputian::WindowAPI::toggleWindowedFullscreen);

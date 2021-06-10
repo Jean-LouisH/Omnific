@@ -38,6 +38,7 @@ void Lilliputian::ScriptingAPIs::initialize()
 
 	newInstance->inputAPI->initialize(&OS::getHid());
 	newInstance->windowAPI->initialize(&OS::getWindow());
+	newInstance->timeAPI->initialize(&OS::getProfiler());
 }
 
 void Lilliputian::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
@@ -47,7 +48,7 @@ void Lilliputian::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
 
 void Lilliputian::ScriptingAPIs::setConfiguration(Configuration* configuration)
 {
-
+	getInstance()->timeAPI->setTimeSettings(&configuration->timeSettings);
 }
 
 void Lilliputian::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
