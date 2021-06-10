@@ -24,8 +24,6 @@
 
 namespace Lilliputian
 {
-#define MS_PER_COMPUTE_UPDATE 8
-
 #define TERA 1000000000000.0
 #define GIGA 1000000000.0
 #define MEGA 1000000.0
@@ -38,8 +36,6 @@ namespace Lilliputian
 #define NS_IN_S (1.0 / NANO)
 #define NS_IN_MS (MILLI / NANO)
 #define MS_IN_S (1.0 / MILLI)
-#define S_PER_COMPUTE_UPDATE ((double)MS_PER_COMPUTE_UPDATE / (double)MS_IN_S)
-#define COMPUTE_UPDATES_PER_S (1.0 / (double)S_PER_COMPUTE_UPDATE)
 
 #define EARTH_GRAVITY 9.80665
 #define GRAVITATIONAL_CONSTANT 6.67408e-11
@@ -50,6 +46,7 @@ namespace Lilliputian
 #define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
 #define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
 #define DEBUG_DATA_FILEPATH DEBUG_EDITOR_DATA_FILEPATH
+
 #define DEBUG_DEMO_MODE false
 
 #if (DEBUG_DEMO_MODE)
