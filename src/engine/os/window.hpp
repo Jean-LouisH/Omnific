@@ -25,6 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include <map>
+#include <game/scene/assets/image.hpp>
 
 namespace Lilliputian
 {
@@ -33,17 +34,23 @@ namespace Lilliputian
 	public:
 		Window(const char* title, uint16_t width, uint16_t height, bool isFullscreen);
 		void setToWindowed(uint16_t width_px, uint16_t height_px);
-		void setToFullscreen(SDL_DisplayMode* mode);
+		void setToFullscreen();
 		void toggleWindowedFullscreen();
-		void resizeWindow(uint16_t width_px, uint16_t height_px);
+		void resize(uint16_t width_px, uint16_t height_px);
 		void changeTitle(const char* title);
+		void changeIcon(Image image);
+		void maximize();
+		void minimize();
+		void raise();
+		void restore();
 		void hide();
 		void show();
 		void sleep(int time_ms);
 
 		SDL_Window* getSDLWindow();
 	private:
-		SDL_Window* sdlWindow;
+		SDL_Window* sdlWindow = nullptr;
+		SDL_DisplayMode* sdlDisplayMode = nullptr;
 		bool isFullscreen;
 	};
 }

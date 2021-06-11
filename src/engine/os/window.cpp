@@ -32,6 +32,9 @@ Lilliputian::Window::Window(const char* title, uint16_t width, uint16_t height, 
 		width,
 		height,
 		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen);
+
+	SDL_DisableScreenSaver();
+	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode);
 }
 
 
@@ -42,9 +45,9 @@ void Lilliputian::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
 
 }
 
-void Lilliputian::Window::setToFullscreen(SDL_DisplayMode* mode)
+void Lilliputian::Window::setToFullscreen()
 {
-	SDL_SetWindowDisplayMode(this->sdlWindow, mode);
+	SDL_SetWindowDisplayMode(this->sdlWindow, this->sdlDisplayMode);
 	SDL_SetWindowFullscreen(this->sdlWindow, SDL_WINDOW_FULLSCREEN);
 }
 
@@ -68,7 +71,7 @@ void Lilliputian::Window::toggleWindowedFullscreen()
 	SDL_ShowCursor(!this->isFullscreen);
 }
 
-void Lilliputian::Window::resizeWindow(uint16_t width_px, uint16_t height_px)
+void Lilliputian::Window::resize(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowSize(this->sdlWindow, width_px, height_px);
 	SDL_SetWindowPosition(this->sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
@@ -77,6 +80,31 @@ void Lilliputian::Window::resizeWindow(uint16_t width_px, uint16_t height_px)
 void Lilliputian::Window::changeTitle(const char* title)
 {
 	SDL_SetWindowTitle(this->sdlWindow, title);
+}
+
+void Lilliputian::Window::changeIcon(Image image)
+{
+	SDL_SetWindowIcon(this->sdlWindow, image.getSDLSurface());
+}
+
+void Lilliputian::Window::maximize()
+{
+	SDL_MaximizeWindow(this->sdlWindow);
+}
+
+void Lilliputian::Window::minimize()
+{
+	SDL_MinimizeWindow(this->sdlWindow);
+}
+
+void Lilliputian::Window::raise()
+{
+	SDL_RaiseWindow(this->sdlWindow);
+}
+
+void Lilliputian::Window::restore()
+{
+	SDL_RestoreWindow(this->sdlWindow);
 }
 
 void Lilliputian::Window::hide()

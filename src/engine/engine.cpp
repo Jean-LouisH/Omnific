@@ -43,7 +43,7 @@ void Lilliputian::Engine::run()
 			{
 				OS::addGameControllerMappings();
 				Window window = OS::getWindow();
-				window.resizeWindow(configuration.windowSettings.windowWidth, configuration.windowSettings.windowHeight);
+				window.resize(configuration.windowSettings.windowWidth, configuration.windowSettings.windowHeight);
 				window.changeTitle(configuration.metadata.gameTitle.c_str());
 				this->state.setRunningApplicationWindowed();
 			}

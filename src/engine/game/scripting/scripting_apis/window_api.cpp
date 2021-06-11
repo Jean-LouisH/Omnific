@@ -27,7 +27,62 @@ void Lilliputian::WindowAPI::initialize(Window* window)
 	this->window = window;
 }
 
+void Lilliputian::WindowAPI::setToWindowed(uint16_t width_px, uint16_t height_px)
+{
+	this->window->setToWindowed(width_px, height_px);
+}
+
+void Lilliputian::WindowAPI::setToFullscreen()
+{
+	this->window->setToFullscreen();
+}
+
 void Lilliputian::WindowAPI::toggleWindowedFullscreen()
 {
 	this->window->toggleWindowedFullscreen();
+}
+
+void Lilliputian::WindowAPI::resize(uint16_t width_px, uint16_t height_px)
+{
+	this->window->resize(width_px, height_px);
+}
+
+void Lilliputian::WindowAPI::changeTitle(std::string title)
+{
+	this->window->changeTitle(title.c_str());
+}
+
+void Lilliputian::WindowAPI::changeIcon(Image image)
+{
+	this->window->changeIcon(image);
+}
+
+void Lilliputian::WindowAPI::maximize()
+{
+	this->window->maximize();
+}
+
+void Lilliputian::WindowAPI::minimize()
+{
+	this->window->minimize();
+}
+
+void Lilliputian::WindowAPI::raise()
+{
+	this->window->raise();
+}
+
+void Lilliputian::WindowAPI::restore()
+{
+	this->window->restore();
+}
+
+void Lilliputian::WindowAPI::hide()
+{
+	this->window->hide();
+}
+
+void Lilliputian::WindowAPI::show()
+{
+	this->window->show();
 }

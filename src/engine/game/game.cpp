@@ -60,6 +60,10 @@ void Lilliputian::Game::initialize()
 		this->sceneSerializer = new SceneSerializer(dataDirectory);
 		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer);
 
+		Image image = Image((dataDirectory + this->configuration->metadata.iconFilepath).c_str());
+		OS::getWindow().changeIcon(image);
+		image.unload();
+
 		if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
 		{
 			entryScene = this->sceneSerializer->loadFromFile(this->configuration->metadata.entrySceneFilepath);

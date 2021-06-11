@@ -23,6 +23,8 @@
 #pragma once
 
 #include "os/window.hpp"
+#include <game/scene/assets/image.hpp>
+#include <string>
 
 namespace Lilliputian
 {
@@ -30,7 +32,18 @@ namespace Lilliputian
 	{
 	public:
 		void initialize(Window* window);
+		void setToWindowed(uint16_t width_px, uint16_t height_px);
+		void setToFullscreen();
 		void toggleWindowedFullscreen();
+		void resize(uint16_t width_px, uint16_t height_px);
+		void changeTitle(std::string title);
+		void changeIcon(Image image);
+		void maximize();
+		void minimize();
+		void raise();
+		void restore();
+		void hide();
+		void show();
 	private:
 		Window* window = nullptr;
 	};

@@ -144,7 +144,18 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("get_frame_time_delta", &Lilliputian::TimeAPI::getFrameTimeDelta);
 
     pybind11::class_<Lilliputian::WindowAPI>(m, "WindowAPI")
-        .def("toggle_windowed_fullscreen", &Lilliputian::WindowAPI::toggleWindowedFullscreen);
+		.def("set_to_windowed", &Lilliputian::WindowAPI::setToWindowed)
+		.def("set_to_fullscreen", &Lilliputian::WindowAPI::setToFullscreen)
+        .def("toggle_windowed_fullscreen", &Lilliputian::WindowAPI::toggleWindowedFullscreen)
+		.def("resize", &Lilliputian::WindowAPI::resize)
+		.def("change_title", &Lilliputian::WindowAPI::changeTitle)
+		.def("change_icon", &Lilliputian::WindowAPI::changeIcon)
+		.def("maximize", &Lilliputian::WindowAPI::maximize)
+		.def("minimize", &Lilliputian::WindowAPI::minimize)
+		.def("raise", &Lilliputian::WindowAPI::raise)
+		.def("restore", &Lilliputian::WindowAPI::restore)
+		.def("hide", &Lilliputian::WindowAPI::hide)
+		.def("show", &Lilliputian::WindowAPI::show);
 
 	/*Scene classes*/
 
