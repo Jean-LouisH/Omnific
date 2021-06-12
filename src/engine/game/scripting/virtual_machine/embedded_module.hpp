@@ -40,7 +40,11 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("is_on_press", &Lilliputian::InputAPI::isOnPress)
 		.def("is_on_release", &Lilliputian::InputAPI::isOnRelease);
 
-	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI");
+	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI")
+		.def("write", &Lilliputian::LogAPI::write)
+		.def("write_to_file", &Lilliputian::LogAPI::writeToFile)
+		.def("get_last_message", &Lilliputian::LogAPI::getLastMessage)
+		.def("get_logs", &Lilliputian::LogAPI::getLogs);
 
 	pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
 		.def("has_component", &Lilliputian::SceneAPI::hasComponent)

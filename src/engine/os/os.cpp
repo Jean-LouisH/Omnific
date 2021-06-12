@@ -38,6 +38,7 @@ void Lilliputian::OS::initialize(
 
 	newInstance->window = new Window(title, width, height, isFullscreen);
 	newInstance->hid = new HumanInterfaceDevices();
+	newInstance->logger = new Logger();
 	newInstance->fileAccess = new FileAccess(executableFilepath);
 	newInstance->profiler = new Profiler();
 	newInstance->runTimer = new HiResTimer();
@@ -59,6 +60,11 @@ Lilliputian::Window& Lilliputian::OS::getWindow()
 Lilliputian::HumanInterfaceDevices& Lilliputian::OS::getHid()
 {
 	return *getInstance()->hid;
+}
+
+Lilliputian::Logger& Lilliputian::OS::getLogger()
+{
+	return *getInstance()->logger;
 }
 
 Lilliputian::FileAccess& Lilliputian::OS::getFileAccess()

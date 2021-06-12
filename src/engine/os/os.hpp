@@ -25,6 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include "human_interface_devices.hpp"
+#include "logger.hpp"
 #include "window.hpp"
 #include "profiler.hpp"
 #include "file_access.hpp"
@@ -43,6 +44,7 @@ namespace Lilliputian
 			const char* executableFilepath);
 		static Window& getWindow();
 		static HumanInterfaceDevices& getHid();
+		static Logger& getLogger();
 		static FileAccess& getFileAccess();
 		static Profiler& getProfiler();
 		static HiResTimer& getRunTimer();
@@ -53,6 +55,7 @@ namespace Lilliputian
 		HiResTimer* runTimer = nullptr;
 		Window* window = nullptr;
 		HumanInterfaceDevices* hid = nullptr;
+		Logger* logger = nullptr;
 		FileAccess* fileAccess = nullptr;
 		Profiler* profiler = nullptr;
 

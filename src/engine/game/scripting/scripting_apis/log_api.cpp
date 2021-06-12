@@ -21,3 +21,28 @@
 // SOFTWARE.
 
 #include "log_api.hpp"
+
+void Lilliputian::LogAPI::initialize(Logger* logger)
+{
+	this->logger = logger;
+}
+
+void Lilliputian::LogAPI::write(std::string message)
+{
+	this->logger->write(message);
+}
+
+void Lilliputian::LogAPI::writeToFile(std::string message)
+{
+	this->logger->writeToFile(message);
+}
+
+std::string Lilliputian::LogAPI::getLastMessage()
+{
+	return this->logger->getLastMessage();
+}
+
+std::vector<std::string> Lilliputian::LogAPI::getLogs()
+{
+	return this->logger->getLogs();
+}

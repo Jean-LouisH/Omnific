@@ -39,6 +39,7 @@ void Lilliputian::ScriptingAPIs::initialize()
 	newInstance->inputAPI->initialize(&OS::getHid());
 	newInstance->windowAPI->initialize(&OS::getWindow());
 	newInstance->timeAPI->initialize(&OS::getProfiler());
+	newInstance->logAPI->initialize(&OS::getLogger());
 }
 
 void Lilliputian::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)

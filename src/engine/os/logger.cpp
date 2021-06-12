@@ -20,22 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "logger.hpp"
+#include <iostream>
+#include <chrono>
+#include <ctime>
+#include <fstream>
 
-#include <vector>
-#include <string>
-
-namespace Lilliputian
+void Lilliputian::Logger::write(std::string message)
 {
-	class Logger
-	{
-	public:
-		void write(std::string message);
-		void writeToFile(std::string message);
-		std::string getLastMessage();
-		std::vector<std::string> getLogs();
-	private:
-		std::string timeStamp(std::string message);
-		std::vector<std::string> logs;
-	};
+	std::string timeStampedMessage = this->timeStamp(message);
+	std::cout << std::endl << timeStampedMessage;
+	this->logs.push_back(timeStampedMessage);
+}
+
+void Lilliputian::Logger::writeToFile(std::string message)
+{
+	std::string timeStampedMessage = this->timeStamp(message);
+
+
+
+	this->logs.push_back(timeStampedMessage);
+}
+
+std::string Lilliputian::Logger::getLastMessage()
+{
+	return this->logs.at(this->logs.size() - 1);
+}
+
+std::vector<std::string> Lilliputian::Logger::getLogs()
+{
+	return this->logs;
+}
+
+std::string Lilliputian::Logger::timeStamp(std::string message)
+{
+	auto now = std::chrono::system_clock::now();
+	std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
+	std::string result = std::ctime(&currentTime);
+	return 	"[" + result.substr(0, result.find("\n")) + "]: " + message;
 }
