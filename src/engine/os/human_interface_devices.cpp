@@ -71,7 +71,7 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 	SDL_Event SDLEvents;
 
 	this->clear();
-	this->hasDetectedInputChanges = true;
+	this->hasDetectedInputChanges = false;
 
 	while (SDL_PollEvent(&SDLEvents))
 	{
@@ -84,11 +84,13 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
 			this->keyboardEvents.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
+			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
 			this->mouseButtonEvent = SDLEvents.button;
+			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_MOUSEMOTION:
@@ -97,22 +99,23 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 
 		case SDL_MOUSEWHEEL:
 			this->mouseWheelEvent = SDLEvents.wheel;
+			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_CONTROLLERBUTTONDOWN:
 		case SDL_CONTROLLERBUTTONUP:
 			this->controllerButtonEvents.emplace(SDLEvents.cbutton.button, SDLEvents.cbutton);
+			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
 			this->controllerAxisEvents.emplace(SDLEvents.caxis.axis, SDLEvents.caxis);
+			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_DROPFILE:
 			this->dropEvent = SDLEvents.drop;
-
-		default: 
-			this->hasDetectedInputChanges = false;
+			break;
 		}
 	}
 }
