@@ -120,259 +120,259 @@ Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getComponentVariant(Compon
 void Lilliputian::SceneAPI::addComponent(AIBehaviourTree* aiBehaviourTree)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(aiBehaviourTree);
+	componentVariant.setTo(aiBehaviourTree);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(AISightPerception2D* aiSightPerception2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(aiSightPerception2D);
+	componentVariant.setTo(aiSightPerception2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(AISoundPerception2D* aiSoundPerception2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(aiSoundPerception2D);
+	componentVariant.setTo(aiSoundPerception2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(AnimatedSprite* animatedSprite)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(animatedSprite);
+	componentVariant.setTo(animatedSprite);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(AudioListener2D* audioListener2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(audioListener2D);
+	componentVariant.setTo(audioListener2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(AudioStreamSource2D* audioStreamSource2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(audioStreamSource2D);
+	componentVariant.setTo(audioStreamSource2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(Camera2D* camera2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(camera2D);
+	componentVariant.setTo(camera2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(CircleCollider2D* circleCollider2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(circleCollider2D);
+	componentVariant.setTo(circleCollider2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(ConstantDirectionalForce2D* constantDirectionalForce2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(constantDirectionalForce2D);
+	componentVariant.setTo(constantDirectionalForce2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(ConstantPointForce2D* constantPointForce2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(constantPointForce2D);
+	componentVariant.setTo(constantPointForce2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(CountdownTimer* countdownTimer)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(countdownTimer);
+	componentVariant.setTo(countdownTimer);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(FixedTransform2D* fixedTransform2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(fixedTransform2D);
+	componentVariant.setTo(fixedTransform2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(KinematicBody2D* kinematicBody2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(kinematicBody2D);
+	componentVariant.setTo(kinematicBody2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(NavigationMeshAgent2D* navigationMeshAgent2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(navigationMeshAgent2D);
+	componentVariant.setTo(navigationMeshAgent2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(navigationMeshBoxObstacle2D);
+	componentVariant.setTo(navigationMeshBoxObstacle2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(NavigationPath2D* navigationPath2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(navigationPath2D);
+	componentVariant.setTo(navigationPath2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(PhysicsConstraint2D* physicsConstraint2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(physicsConstraint2D);
+	componentVariant.setTo(physicsConstraint2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(PhysicsThruster2D* physicsThruster2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(physicsThruster2D);
+	componentVariant.setTo(physicsThruster2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(PropertyAnimation* propertyAnimation)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(propertyAnimation);
+	componentVariant.setTo(propertyAnimation);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(RectangularCollider2D* rectangularCollider2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(rectangularCollider2D);
+	componentVariant.setTo(rectangularCollider2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(RectangularMesh2D* rectangularMesh2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(rectangularMesh2D);
+	componentVariant.setTo(rectangularMesh2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(RectangularTriggerArea2D* rectangularTriggerArea2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(rectangularTriggerArea2D);
+	componentVariant.setTo(rectangularTriggerArea2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(RegularPolygonalMesh2D* regularPolygonalMesh2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(regularPolygonalMesh2D);
+	componentVariant.setTo(regularPolygonalMesh2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(RigidBody2D* rigidBody2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(rigidBody2D);
+	componentVariant.setTo(rigidBody2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(Sprite* sprite)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(sprite);
+	componentVariant.setTo(sprite);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(StaticFluid2D* staticFluid2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(staticFluid2D);
+	componentVariant.setTo(staticFluid2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(Transform2D* transform2D)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(transform2D);
+	componentVariant.setTo(transform2D);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIButton* uiButton)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiButton);
+	componentVariant.setTo(uiButton);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIGraphEdit* uiGraphEdit)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiGraphEdit);
+	componentVariant.setTo(uiGraphEdit);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIGraphNode* uiGraphNode)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiGraphNode);
+	componentVariant.setTo(uiGraphNode);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIHoverCard* uiHoverCard)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiHoverCard);
+	componentVariant.setTo(uiHoverCard);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIItemList* uiItemList)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiItemList);
+	componentVariant.setTo(uiItemList);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIPanel* uiPanel)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiPanel);
+	componentVariant.setTo(uiPanel);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIProgressBar* uiProgressBar)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiProgressBar);
+	componentVariant.setTo(uiProgressBar);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIRectangle* uiRectangle)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiRectangle);
+	componentVariant.setTo(uiRectangle);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UIScrollbar* uiScrollbar)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiScrollbar);
+	componentVariant.setTo(uiScrollbar);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UISeparator* uiSeparator)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiSeparator);
+	componentVariant.setTo(uiSeparator);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UISlider* uiSlider)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiSlider);
+	componentVariant.setTo(uiSlider);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UISpinBox* uiSpinBox)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiSpinBox);
+	componentVariant.setTo(uiSpinBox);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UITab* uiTab)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiTab);
+	componentVariant.setTo(uiTab);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UITextEdit* uiTextEdit)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiTextEdit);
+	componentVariant.setTo(uiTextEdit);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UITextLabel* uiTextLabel)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiTextLabel);
+	componentVariant.setTo(uiTextLabel);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 void Lilliputian::SceneAPI::addComponent(UITree* uiTree)
 {
 	ComponentVariant componentVariant;
-	componentVariant.setToComponent(uiTree);
+	componentVariant.setTo(uiTree);
 	this->getThisSceneTree2D().addComponent(this->getThisEntity2D().ID, componentVariant);
 }
 

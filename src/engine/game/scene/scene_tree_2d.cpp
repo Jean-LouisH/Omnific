@@ -30,7 +30,7 @@ Lilliputian::SceneTree2D::SceneTree2D()
 	ComponentVariant componentVariant;
 
 	this->ID = IDCounter::getNewID();
-	componentVariant.setToComponent(transform2D);
+	componentVariant.setTo(transform2D);
 	this->addEmptyEntity2D();
 	this->addComponentToLastEntity(componentVariant);
 	this->dummyEntityID = this->getLastEntity2D().ID;
