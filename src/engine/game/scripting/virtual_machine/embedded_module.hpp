@@ -34,7 +34,9 @@
 PYBIND11_EMBEDDED_MODULE(lilliputian, m) 
 {
 	/*API classes*/
-	pybind11::class_<Lilliputian::CommandLineAPI>(m, "CommandLineAPI");
+	pybind11::class_<Lilliputian::CommandLineAPI>(m, "CommandLineAPI")
+		.def("open_window", &Lilliputian::CommandLineAPI::openWindow)
+		.def("close_window", &Lilliputian::CommandLineAPI::closeWindow);
 
 	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI")
 		.def("is_on_press", &Lilliputian::InputAPI::isOnPress)
@@ -87,9 +89,27 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def_readwrite("childIDs", &Lilliputian::Entity2D::childIDs)
 		.def_readwrite("tags", &Lilliputian::Entity2D::tags);
 
-	pybind11::class_<Lilliputian::SceneTree2D>(m, "SceneTree2D");
+	pybind11::class_<Lilliputian::SceneTree2D>(m, "SceneTree2D")
+		.def("add_entity_2d", &Lilliputian::SceneTree2D::addEntity2D)
+		.def("add_empty_entity_2d", &Lilliputian::SceneTree2D::addEmptyEntity2D)
+		.def("add_component", &Lilliputian::SceneTree2D::addComponent)
+		.def("add_component_to_last_entity", &Lilliputian::SceneTree2D::addComponentToLastEntity)
+		.def("remove_entity_2d", &Lilliputian::SceneTree2D::removeEntity2D)
+		.def("remove_component", &Lilliputian::SceneTree2D::removeComponent)
+		.def("change_current_camera", &Lilliputian::SceneTree2D::changeCurrentCamera)
+		.def("get_current_camera_id", &Lilliputian::SceneTree2D::getCurrentCameraID)
+		.def("get_component_variants", &Lilliputian::SceneTree2D::getComponentVariants)
+		.def("get_entity_transform", &Lilliputian::SceneTree2D::getEntityTransform)
+		.def("get_entity_2d", &Lilliputian::SceneTree2D::getEntity2D)
+		.def("get_entity_2d_by_name", &Lilliputian::SceneTree2D::getEntity2DByName)
+		.def("get_last_entity_2d", &Lilliputian::SceneTree2D::getLastEntity2D)
+		.def("get_entity_2ds", &Lilliputian::SceneTree2D::getEntity2Ds)
+		.def("get_event_bus", &Lilliputian::SceneTree2D::getEventBus)
+		.def("get_id", &Lilliputian::SceneTree2D::getID);
 
 	pybind11::class_<Lilliputian::Scene>(m, "Scene")
+		.def("add_scene_Tree_2d", &Lilliputian::Scene::addSceneTree2D)
+		.def("remove_scene_tree_2d", &Lilliputian::Scene::removeSceneTree2D)
 		.def("get_asset_cache", &Lilliputian::Scene::getAssetCache, pybind11::return_value_policy::reference)
 		.def("get_scene_tree", &Lilliputian::Scene::getSceneTree, pybind11::return_value_policy::reference)
 		.def("get_last_scene_tree_2d", &Lilliputian::Scene::getLastSceneTree2D, pybind11::return_value_policy::reference)
