@@ -52,93 +52,10 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("load_scene", &Lilliputian::SceneAPI::loadScene)
 		.def("unload_scene", &Lilliputian::SceneAPI::unloadScene)
 		.def("change_to_scene", &Lilliputian::SceneAPI::changeToScene)
-		.def("add_component", pybind11::overload_cast<Lilliputian::AIBehaviourTree*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::AISightPerception2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::AISoundPerception2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::AnimatedSprite*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::AudioListener2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::AudioStreamSource2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::Camera2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::CircleCollider2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::ConstantDirectionalForce2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::ConstantPointForce2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::CountdownTimer*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::FixedTransform2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::KinematicBody2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::NavigationMeshAgent2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::NavigationMeshBoxObstacle2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::NavigationPath2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::PhysicsConstraint2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::PhysicsThruster2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::PropertyAnimation*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::RectangularCollider2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::RectangularTriggerArea2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::RegularPolygonalMesh2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::RigidBody2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::Sprite*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::StaticFluid2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::Transform2D*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIButton*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIGraphEdit*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIGraphNode*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIHoverCard*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIItemList*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIPanel*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIProgressBar*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIRectangle*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UIScrollbar*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UISeparator*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UISlider*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UISpinBox*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UITab*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UITextEdit*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UITextLabel*>(&Lilliputian::SceneAPI::addComponent))
-		.def("add_component", pybind11::overload_cast<Lilliputian::UITree*>(&Lilliputian::SceneAPI::addComponent))
 		.def("get_this_entity_2d", &Lilliputian::SceneAPI::getThisEntity2D, pybind11::return_value_policy::reference)
+		.def("get_this_component_variant", &Lilliputian::SceneAPI::getThisComponentVariant, pybind11::return_value_policy::reference)
 		.def("get_this_scene_tree_2d", &Lilliputian::SceneAPI::getThisSceneTree2D, pybind11::return_value_policy::reference)
-		.def("get_scene", &Lilliputian::SceneAPI::getScene, pybind11::return_value_policy::reference)
-		.def("get_ai_behaviour_tree", &Lilliputian::SceneAPI::getAIBehaviourTree, pybind11::return_value_policy::reference)
-		.def("get_ai_sight_perception_2d", &Lilliputian::SceneAPI::getAISightPerception2D, pybind11::return_value_policy::reference)
-		.def("get_ai_sound_perception_2d", &Lilliputian::SceneAPI::getAISoundPerception2D, pybind11::return_value_policy::reference)
-		.def("get_animated_sprite", &Lilliputian::SceneAPI::getAnimatedSprite, pybind11::return_value_policy::reference)
-		.def("get_audio_listener_2d", &Lilliputian::SceneAPI::getAudioListener2D, pybind11::return_value_policy::reference)
-		.def("get_audio_stream_source_2d", &Lilliputian::SceneAPI::getAudioStreamSource2D, pybind11::return_value_policy::reference)
-		.def("get_camera_2d", &Lilliputian::SceneAPI::getCamera2D, pybind11::return_value_policy::reference)
-		.def("get_circle_collider_2d", &Lilliputian::SceneAPI::getCircleCollider2D, pybind11::return_value_policy::reference)
-		.def("get_constant_directional_force_2d", &Lilliputian::SceneAPI::getConstantDirectionalForce2D, pybind11::return_value_policy::reference)
-		.def("get_constant_point_force_2d", &Lilliputian::SceneAPI::getConstantPointForce2D, pybind11::return_value_policy::reference)
-		.def("get_countdown_timer", &Lilliputian::SceneAPI::getCountdownTimer, pybind11::return_value_policy::reference)
-		.def("get_fixed_transform_2d", &Lilliputian::SceneAPI::getFixedTransform2D, pybind11::return_value_policy::reference)
-		.def("get_kinematic_body_2d", &Lilliputian::SceneAPI::getKinematicBody2D, pybind11::return_value_policy::reference)
-		.def("get_navigation_mesh_agent_2d", &Lilliputian::SceneAPI::getNavigationMeshAgent2D, pybind11::return_value_policy::reference)
-		.def("get_navigation_mesh_box_obstacle_2d", &Lilliputian::SceneAPI::getNavigationMeshBoxObstacle2D, pybind11::return_value_policy::reference)
-		.def("get_naviation_path_2d", &Lilliputian::SceneAPI::getNavigationPath2D, pybind11::return_value_policy::reference)
-		.def("get_physics_constraint_2d", &Lilliputian::SceneAPI::getPhysicsConstraint2D, pybind11::return_value_policy::reference)
-		.def("get_physics_thruster_2d", &Lilliputian::SceneAPI::getPhysicsThruster2D, pybind11::return_value_policy::reference)
-		.def("get_property_animation", &Lilliputian::SceneAPI::getPropertyAnimation, pybind11::return_value_policy::reference)
-		.def("get_rectangular_collider_2d", &Lilliputian::SceneAPI::getRectangularCollider2D, pybind11::return_value_policy::reference)
-		.def("get_rectangular_trigger_area_2d", &Lilliputian::SceneAPI::getRectangularTriggerArea2D, pybind11::return_value_policy::reference)
-		.def("get_regular_polygonal_mesh_2d", &Lilliputian::SceneAPI::getRegularPolygonalMesh2D, pybind11::return_value_policy::reference)
-		.def("get_rigid_body_2d", &Lilliputian::SceneAPI::getRigidBody2D, pybind11::return_value_policy::reference)
-		.def("get_sprite", &Lilliputian::SceneAPI::getSprite, pybind11::return_value_policy::reference)
-		.def("get_static_fluid_2d", &Lilliputian::SceneAPI::getStaticFluid2D, pybind11::return_value_policy::reference)
-		.def("get_transform_2d", &Lilliputian::SceneAPI::getTransform2D, pybind11::return_value_policy::reference)
-		.def("get_ui_button", &Lilliputian::SceneAPI::getUIButton, pybind11::return_value_policy::reference)
-		.def("get_ui_graph_edit", &Lilliputian::SceneAPI::getUIGraphEdit, pybind11::return_value_policy::reference)
-		.def("get_ui_graph_node", &Lilliputian::SceneAPI::getUIGraphNode, pybind11::return_value_policy::reference)
-		.def("get_ui_hover_card", &Lilliputian::SceneAPI::getUIHoverCard, pybind11::return_value_policy::reference)
-		.def("get_ui_item_list", &Lilliputian::SceneAPI::getUIItemList, pybind11::return_value_policy::reference)
-		.def("get_ui_panel", &Lilliputian::SceneAPI::getUIPanel, pybind11::return_value_policy::reference)
-		.def("get_ui_progress_bar", &Lilliputian::SceneAPI::getUIProgressBar, pybind11::return_value_policy::reference)
-		.def("get_ui_rectangle", &Lilliputian::SceneAPI::getUIRectangle, pybind11::return_value_policy::reference)
-		.def("get_ui_scrollbar", &Lilliputian::SceneAPI::getUIScrollbar, pybind11::return_value_policy::reference)
-		.def("get_ui_separator", &Lilliputian::SceneAPI::getUISeparator, pybind11::return_value_policy::reference)
-		.def("get_ui_slider", &Lilliputian::SceneAPI::getUISlider, pybind11::return_value_policy::reference)
-		.def("get_ui_spin_box", &Lilliputian::SceneAPI::getUISpinBox, pybind11::return_value_policy::reference)
-		.def("get_ui_tab", &Lilliputian::SceneAPI::getUITab, pybind11::return_value_policy::reference)
-		.def("get_ui_text_edit", &Lilliputian::SceneAPI::getUITextEdit, pybind11::return_value_policy::reference)
-		.def("get_ui_text_label", &Lilliputian::SceneAPI::getUITextLabel, pybind11::return_value_policy::reference)
-        .def("get_ui_tree", &Lilliputian::SceneAPI::getUITree, pybind11::return_value_policy::reference);
+		.def("get_this_scene", &Lilliputian::SceneAPI::getThisScene, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Lilliputian::TimeAPI>(m, "TimeAPI")
 		.def("set_ms_per_compute_update", &Lilliputian::TimeAPI::setMsPerComputeUpdate)
@@ -247,7 +164,93 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::UITree>(m, "UITree");
 
 	/*ComponentVariant types*/
-	pybind11::class_<Lilliputian::ComponentVariant> componentVariant(m, "ComponentVariant");
+	pybind11::class_<Lilliputian::ComponentVariant> componentVariant(m, "CV");
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::AIBehaviourTree*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::AISightPerception2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::AISoundPerception2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::AnimatedSprite*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::AudioListener2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::AudioStreamSource2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::Camera2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::CircleCollider2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::ConstantDirectionalForce2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::ConstantPointForce2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::CountdownTimer*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::FixedTransform2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::KinematicBody2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::NavigationMeshAgent2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::NavigationMeshBoxObstacle2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::NavigationPath2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::PhysicsConstraint2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::PhysicsThruster2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::PropertyAnimation*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::RectangularCollider2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::RectangularTriggerArea2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::RegularPolygonalMesh2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::RigidBody2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::Sprite*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::StaticFluid2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::Transform2D*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIButton*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIGraphEdit*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIGraphNode*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIHoverCard*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIItemList*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIPanel*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIProgressBar*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIRectangle*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UIScrollbar*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UISeparator*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UISlider*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UISpinBox*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UITab*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UITextEdit*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UITextLabel*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::UITree*>(&Lilliputian::ComponentVariant::setTo));
+
+	componentVariant.def("get_ai_behaviour_tree", &Lilliputian::ComponentVariant::getAIBehaviourTree, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ai_sight_perception_2d", &Lilliputian::ComponentVariant::getAISightPerception2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ai_sound_perception_2d", &Lilliputian::ComponentVariant::getAISoundPerception2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_animated_sprite", &Lilliputian::ComponentVariant::getAnimatedSprite, pybind11::return_value_policy::reference);
+	componentVariant.def("get_audio_listener_2d", &Lilliputian::ComponentVariant::getAudioListener2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_audio_stream_source_2d", &Lilliputian::ComponentVariant::getAudioStreamSource2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_camera_2d", &Lilliputian::ComponentVariant::getCamera2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_circle_collider_2d", &Lilliputian::ComponentVariant::getCircleCollider2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_constant_directional_force_2d", &Lilliputian::ComponentVariant::getConstantDirectionalForce2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_constant_point_force_2d", &Lilliputian::ComponentVariant::getConstantPointForce2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_countdown_timer", &Lilliputian::ComponentVariant::getCountdownTimer, pybind11::return_value_policy::reference);
+	componentVariant.def("get_fixed_transform_2d", &Lilliputian::ComponentVariant::getFixedTransform2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_kinematic_body_2d", &Lilliputian::ComponentVariant::getKinematicBody2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_navigation_mesh_agent_2d", &Lilliputian::ComponentVariant::getNavigationMeshAgent2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_navigation_mesh_box_obstacle_2d", &Lilliputian::ComponentVariant::getNavigationMeshBoxObstacle2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_naviation_path_2d", &Lilliputian::ComponentVariant::getNavigationPath2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_physics_constraint_2d", &Lilliputian::ComponentVariant::getPhysicsConstraint2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_physics_thruster_2d", &Lilliputian::ComponentVariant::getPhysicsThruster2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_property_animation", &Lilliputian::ComponentVariant::getPropertyAnimation, pybind11::return_value_policy::reference);
+	componentVariant.def("get_rectangular_collider_2d", &Lilliputian::ComponentVariant::getRectangularCollider2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_rectangular_trigger_area_2d", &Lilliputian::ComponentVariant::getRectangularTriggerArea2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_regular_polygonal_mesh_2d", &Lilliputian::ComponentVariant::getRegularPolygonalMesh2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_rigid_body_2d", &Lilliputian::ComponentVariant::getRigidBody2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_sprite", &Lilliputian::ComponentVariant::getSprite, pybind11::return_value_policy::reference);
+	componentVariant.def("get_static_fluid_2d", &Lilliputian::ComponentVariant::getStaticFluid2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_transform_2d", &Lilliputian::ComponentVariant::getTransform2D, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_button", &Lilliputian::ComponentVariant::getUIButton, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_graph_edit", &Lilliputian::ComponentVariant::getUIGraphEdit, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_graph_node", &Lilliputian::ComponentVariant::getUIGraphNode, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_hover_card", &Lilliputian::ComponentVariant::getUIHoverCard, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_item_list", &Lilliputian::ComponentVariant::getUIItemList, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_panel", &Lilliputian::ComponentVariant::getUIPanel, pybind11::return_value_policy::reference);;
+	componentVariant.def("get_ui_progress_bar", &Lilliputian::ComponentVariant::getUIProgressBar, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_rectangle", &Lilliputian::ComponentVariant::getUIRectangle, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_scrollbar", &Lilliputian::ComponentVariant::getUIScrollbar, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_separator", &Lilliputian::ComponentVariant::getUISeparator, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_slider", &Lilliputian::ComponentVariant::getUISlider, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_spin_box", &Lilliputian::ComponentVariant::getUISpinBox, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_tab", &Lilliputian::ComponentVariant::getUITab, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_text_edit", &Lilliputian::ComponentVariant::getUITextEdit, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_text_label", &Lilliputian::ComponentVariant::getUITextLabel, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_tree", &Lilliputian::ComponentVariant::getUITree, pybind11::return_value_policy::reference);
+
 	pybind11::enum_<Lilliputian::ComponentVariant::Type>(componentVariant, "Type")
 		.value("NONE", Lilliputian::ComponentVariant::Type::NONE)
 		.value("AI_BEHAVIOUR_TREE", Lilliputian::ComponentVariant::Type::AI_BEHAVIOUR_TREE)
