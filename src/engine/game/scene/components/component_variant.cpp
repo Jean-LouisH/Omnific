@@ -26,7 +26,7 @@
 
 Lilliputian::ComponentVariant::ComponentVariant()
 {
-	this->ID = IDCounter::getNewID();
+	this->ID = IDCounter::getNewComponentID();
 }
 
 Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)

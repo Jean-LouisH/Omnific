@@ -29,9 +29,16 @@ namespace Lilliputian
 	class IDCounter
 	{
 	public:
-		static uint64_t getNewID();
+		static EntityID getNewEntityID();
+		static SceneTreeID getNewSceneTreeID();
+		static ComponentID getNewComponentID();
+		static AssetID getNewAssetID();
 	private:
-		uint64_t idCount = 0;
+		EntityID entityIDCount = 0;
+		SceneTreeID sceneTreeIDCount = 0;
+		ComponentID componentIDCount = 0;
+		AssetID assetIDCount = 0;
+
 		static IDCounter* instance;
 		static IDCounter* getInstance();
 	};

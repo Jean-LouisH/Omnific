@@ -44,7 +44,7 @@ namespace Lilliputian
 
 		Entity2D()
 		{
-			this->ID = IDCounter::getNewID();
+			this->ID = IDCounter::getNewEntityID();
 			this->name = "Entity (ID:" + std::to_string(this->ID) + ")";
 		}
 	};

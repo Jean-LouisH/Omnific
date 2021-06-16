@@ -47,19 +47,19 @@ Lilliputian::Image::Image(std::string text, Font font, Colour colour, Font::Rend
 		break;
 	}
 
-	this->id = IDCounter::getNewID();
+	this->id = IDCounter::getNewAssetID();
 }
 
 Lilliputian::Image::Image(const char* filepath)
 {
 	this->surface = IMG_Load(filepath);
-	this->id = IDCounter::getNewID();
+	this->id = IDCounter::getNewAssetID();
 }
 
 Lilliputian::Image::Image(SDL_Surface* surface)
 {
 	this->surface = surface;
-	this->id = IDCounter::getNewID();
+	this->id = IDCounter::getNewAssetID();
 }
 
 void Lilliputian::Image::unload()

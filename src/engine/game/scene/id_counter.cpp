@@ -24,9 +24,24 @@
 
 Lilliputian::IDCounter* Lilliputian::IDCounter::instance = nullptr;
 
-uint64_t Lilliputian::IDCounter::getNewID()
+Lilliputian::EntityID Lilliputian::IDCounter::getNewEntityID()
 {
-	return ++getInstance()->idCount;
+	return ++getInstance()->entityIDCount;
+}
+
+Lilliputian::SceneTreeID Lilliputian::IDCounter::getNewSceneTreeID()
+{
+	return ++getInstance()->sceneTreeIDCount;
+}
+
+Lilliputian::ComponentID Lilliputian::IDCounter::getNewComponentID()
+{
+	return ++getInstance()->componentIDCount;
+}
+
+Lilliputian::AssetID Lilliputian::IDCounter::getNewAssetID()
+{
+	return ++getInstance()->assetIDCount;
 }
 
 Lilliputian::IDCounter* Lilliputian::IDCounter::getInstance()
