@@ -33,35 +33,14 @@ namespace Lilliputian
 	class InputAPI
 	{
 	public:
-		uint16_t analogueStickSensitivity;
-
 		InputAPI();
 		void initialize(HumanInterfaceDevices* hid);
-		void insertActionButtonMap(std::string actionName, std::string inputString);
-		void replaceActionButtonMap(std::string actionName, std::string inputString);
-		void removeActionButtonMap(std::string actionName, std::string inputString);
-		void removeAllActionButtonMaps(std::string actionName);
-		void insertActionAxisMap(std::string actionName, std::string negativeInputString, std::string positiveInputString);
-		void insertActionAxisMap(std::string actionName, std::string inputString);
-		void replaceActionAxisMap(std::string actionName, std::string negativeInputString, std::string positiveInputString);
-		void removeActionAxisMap(std::string actionName, std::string negativeInputString, std::string positiveInputString);
-		void removeAllActionAxisMaps(std::string actionName);
-		std::map<std::string, std::vector<std::string>> getActionButtonMaps();
-		std::map<std::string, std::vector<std::pair<std::string, std::string>>> getActionAxisMaps();
 		bool isOnPress(std::string inputCode);
 		bool isOnDoublePress(std::string keyCode, unsigned int timeInterval_ms);
 		bool isOnRelease(std::string keyCode);
 		bool isOnHold(std::string keyCode);
-		bool isActionOnPress(std::string actionName);
-		bool isActionOnDoublePress(std::string actionName, unsigned int timeInterval_ms);
-		bool isActionOnRelease(std::string actionName);
-		bool isActionOnHold(std::string actionName, unsigned int timeInterval_ms);
-		float getActionStrength(std::string inputString);
-		float getAxisActionStrength(std::string axisActionName);
 	private:
 		HumanInterfaceDevices* hid = nullptr;
-		std::map<std::string, std::vector<std::string>> actionMappedButtons;
-		std::map<std::string, std::vector<std::pair<std::string, std::string>>> actionMappedAxes;
 
 		std::map<std::string, SDL_Keycode> keyboardEventsByString;
 		std::map<std::string, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;

@@ -16,7 +16,6 @@ It is named after the tiny inhabitants of the fictional Lilliput island that app
 - [ ] Game Executable Exporting
 - [x] Mouse, Keyboard and Game Controller Support
 - [x] Haptic Feedback Support
-- [x] Default or User Defined Input Action Mapping (To Link Game Controller and Keyboard Inputs to the Same Logic)
 - [x] JPG and PNG Support for Sprites and Animation
 - [ ] OGG and WAV Support for Audio Sources
 - [ ] Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
