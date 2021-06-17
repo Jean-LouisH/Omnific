@@ -39,7 +39,7 @@ namespace Lilliputian
 		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
-		bool hasComponent(ComponentVariant::Type type);
+		bool thisHasComponent(ComponentVariant::Type type);
 		void preloadScene(std::string sceneFilename);
 		void loadScene(std::string sceneFilename);
 		void unloadScene(std::string sceneFilename);

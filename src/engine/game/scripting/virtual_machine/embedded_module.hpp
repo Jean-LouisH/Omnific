@@ -49,7 +49,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("get_logs", &Lilliputian::LogAPI::getLogs);
 
 	pybind11::class_<Lilliputian::SceneAPI>(m, "SceneAPI")
-		.def("has_component", &Lilliputian::SceneAPI::hasComponent)
+		.def("this_has_component", &Lilliputian::SceneAPI::thisHasComponent)
 		.def("preload_scene", &Lilliputian::SceneAPI::preloadScene)
 		.def("load_scene", &Lilliputian::SceneAPI::loadScene)
 		.def("unload_scene", &Lilliputian::SceneAPI::unloadScene)

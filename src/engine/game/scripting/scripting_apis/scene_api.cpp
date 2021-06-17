@@ -38,7 +38,7 @@ void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 	this->sceneSerializer = sceneSerializer;
 }
 
-bool Lilliputian::SceneAPI::hasComponent(ComponentVariant::Type type)
+bool Lilliputian::SceneAPI::thisHasComponent(ComponentVariant::Type type)
 {
 	bool result = false;
 	std::vector<SceneTree2D>& sceneTree2Ds = this->sceneStorage->getActiveScene().getSceneTree2Ds();
