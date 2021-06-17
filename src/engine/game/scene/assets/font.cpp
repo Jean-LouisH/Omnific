@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "font.hpp"
+#include <game/scene/id_counter.hpp>
 
 
 Lilliputian::Font::Font()
@@ -31,11 +32,13 @@ Lilliputian::Font::Font()
 Lilliputian::Font::Font(const char* filepath, uint16_t size_px)
 {
 	this->font = TTF_OpenFont(filepath, size_px);
+	this->id = IDCounter::getNewAssetID();
 }
 
 Lilliputian::Font::Font(TTF_Font* font)
 {
 	this->font = font;
+	this->id = IDCounter::getNewAssetID();
 }
 
 TTF_Font* Lilliputian::Font::getSDLTTFFont()

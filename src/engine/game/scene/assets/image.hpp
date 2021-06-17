@@ -52,7 +52,7 @@ namespace Lilliputian
 		uint8_t getAlpha();
 		AssetID getID();
 	private:
-		AssetID id;
+		AssetID id = 0;
 		SDL_Surface* surface;
 		uint8_t alpha = 255;
 	};

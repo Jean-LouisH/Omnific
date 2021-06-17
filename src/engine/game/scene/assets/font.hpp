@@ -25,6 +25,7 @@
 #include "asset.hpp"
 #include "stdint.h"
 #include "SDL_ttf.h"
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
@@ -54,5 +55,6 @@ namespace Lilliputian
 		virtual void unload();
 	private:
 		TTF_Font* font;
+		AssetID id = 0;
 	};
 }

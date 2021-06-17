@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "audio_stream.hpp"
+#include <game/scene/id_counter.hpp>
 
 
 Lilliputian::AudioStream::AudioStream()
@@ -31,6 +32,7 @@ Lilliputian::AudioStream::AudioStream()
 Lilliputian::AudioStream::AudioStream(const char* filepath)
 {
 	this->sound = Mix_LoadWAV(filepath);
+	this->id = IDCounter::getNewAssetID();
 }
 
 Mix_Chunk* Lilliputian::AudioStream::getSDLMixChunk()

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
+#include <utilities/aliases.hpp>
 #include <SDL_mixer.h>
 #include "asset.hpp"
 
@@ -37,5 +37,6 @@ namespace Lilliputian
 		virtual void unload();
 	private:
 		Mix_Chunk* sound;
+		AssetID id = 0;
 	};
 }

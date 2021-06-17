@@ -21,10 +21,11 @@
 // SOFTWARE.
 
 #include "text.hpp"
+#include <game/scene/id_counter.hpp>
 
 Lilliputian::Text::Text(const char* filepath)
 {
-
+	this->id = IDCounter::getNewAssetID();
 }
 
 void Lilliputian::Text::unload()

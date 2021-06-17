@@ -23,6 +23,7 @@
 #pragma once
 
 #include "asset.hpp"
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
@@ -33,5 +34,6 @@ namespace Lilliputian
 		virtual void unload();
 	private:
 		char* data = nullptr;
+		AssetID id = 0;
 	};
 }
