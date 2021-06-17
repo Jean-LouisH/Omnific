@@ -25,6 +25,7 @@
 #include <game/scripting/scripting_apis/scripting_apis.hpp>
 #include <game/scene/components/component_variant.hpp>
 #include <pybind11/embed.h>
+#include <pybind11/stl.h>
 #include <utilities/vector2.hpp>
 #include <utilities/rectangle.hpp>
 #include <utilities/hi_res_timer.hpp>
@@ -39,8 +40,14 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("close_window", &Lilliputian::CommandLineAPI::closeWindow);
 
 	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI")
-		.def("is_on_press", &Lilliputian::InputAPI::isOnPress)
-		.def("is_on_release", &Lilliputian::InputAPI::isOnRelease);
+		.def("is_on_press", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isOnPress))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Lilliputian::InputAPI::isOnPress))
+		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Lilliputian::InputAPI::isOnDoublePress))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Lilliputian::InputAPI::isOnDoublePress))
+		.def("is_on_release", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isOnRelease))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Lilliputian::InputAPI::isOnRelease))
+		.def("is_on_hold", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isOnHold))
+		.def("is_on_hold", pybind11::overload_cast<std::vector<std::string>>(&Lilliputian::InputAPI::isOnHold));
 
 	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI")
 		.def("write", &Lilliputian::LogAPI::write)

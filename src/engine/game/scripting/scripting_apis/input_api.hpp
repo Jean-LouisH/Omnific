@@ -36,9 +36,13 @@ namespace Lilliputian
 		InputAPI();
 		void initialize(HumanInterfaceDevices* hid);
 		bool isOnPress(std::string inputCode);
-		bool isOnDoublePress(std::string keyCode, unsigned int timeInterval_ms);
-		bool isOnRelease(std::string keyCode);
-		bool isOnHold(std::string keyCode);
+		bool isOnPress(std::vector<std::string> inputCodes);
+		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms);
+		bool isOnRelease(std::string inputCode);
+		bool isOnRelease(std::vector<std::string> inputCodes);
+		bool isOnHold(std::string inputCode);
+		bool isOnHold(std::vector<std::string> inputCodes);
 	private:
 		HumanInterfaceDevices* hid = nullptr;
 

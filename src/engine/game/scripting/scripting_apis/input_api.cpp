@@ -154,62 +154,109 @@ void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
 	this->hid = hid;
 }
 
-bool Lilliputian::InputAPI::isOnPress(std::string keyCode)
+bool Lilliputian::InputAPI::isOnPress(std::string inputCode)
+{
+	std::vector<std::string> inputCodes;
+	inputCodes.push_back(inputCode);
+	return this->isOnPress(inputCodes);
+}
+
+bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
-	if (this->keyboardEventsByString.count(keyCode))
+	for (int i = 0; i < inputCodes.size(); i++)
 	{
-		SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(keyCode);
-		if (keyboardEvents.count(sdlKeyCode))
-			if (keyboardEvents.at(sdlKeyCode).type == SDL_KEYDOWN)
-				return true;
-	}
+		std::string inputCode = inputCodes.at(i);
 
-	if (this->controllerButtonsByString.count(keyCode))
-	{
-		Lilliputian::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(keyCode);
-		if (controllerButtonEvents.count(controllerButtonCode))
-			if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN)
-				return true;
+		if (this->keyboardEventsByString.count(inputCode))
+		{
+			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
+			if (keyboardEvents.count(sdlKeyCode))
+				if (keyboardEvents.at(sdlKeyCode).type == SDL_KEYDOWN)
+					return true;
+		}
+
+		if (this->controllerButtonsByString.count(inputCode))
+		{
+			Lilliputian::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			if (controllerButtonEvents.count(controllerButtonCode))
+				if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN)
+					return true;
+		}
 	}
 
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnDoublePress(std::string keyCode, unsigned int timeInterval_ms)
+bool Lilliputian::InputAPI::isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms)
 {
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnRelease(std::string keyCode)
+bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms)
+{
+	for (int i = 0; i < inputCodes.size(); i++)
+	{
+
+	}
+
+	return false;
+}
+
+bool Lilliputian::InputAPI::isOnRelease(std::string inputCode)
+{
+	std::vector<std::string> inputCodes;
+	inputCodes.push_back(inputCode);
+	return this->isOnRelease(inputCodes);
+}
+
+bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
-	if (this->keyboardEventsByString.count(keyCode))
+	for (int i = 0; i < inputCodes.size(); i++)
 	{
-		SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(keyCode);
-		if (keyboardEvents.count(sdlKeyCode))
-			if (keyboardEvents.at(sdlKeyCode).type == SDL_KEYUP)
-				return true;
-	}
+		std::string inputCode = inputCodes.at(i);
 
-	if (this->controllerButtonsByString.count(keyCode))
-	{
-		Lilliputian::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(keyCode);
-		if (controllerButtonEvents.count(controllerButtonCode))
-			if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP)
-				return true;
+		if (this->keyboardEventsByString.count(inputCode))
+		{
+			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
+			if (keyboardEvents.count(sdlKeyCode))
+				if (keyboardEvents.at(sdlKeyCode).type == SDL_KEYUP)
+					return true;
+		}
+
+		if (this->controllerButtonsByString.count(inputCode))
+		{
+			Lilliputian::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			if (controllerButtonEvents.count(controllerButtonCode))
+				if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP)
+					return true;
+		}
 	}
 
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnHold(std::string keyCode)
+bool Lilliputian::InputAPI::isOnHold(std::string inputCode)
 {
+	std::vector<std::string> inputCodes;
+	inputCodes.push_back(inputCode);
+	return this->isOnHold(inputCodes);
+}
+
+bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes)
+{
+	for (int i = 0; i < inputCodes.size(); i++)
+	{
+		std::string inputCode = inputCodes.at(i);
+
+	}
+
 	return false;
 }
