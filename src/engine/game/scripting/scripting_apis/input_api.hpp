@@ -27,6 +27,7 @@
 #include <vector>
 #include <string>
 #include "os/human_interface_devices.hpp"
+#include <utilities/vector2.hpp>
 
 namespace Lilliputian
 {
@@ -43,6 +44,20 @@ namespace Lilliputian
 		bool isOnRelease(std::vector<std::string> inputCodes);
 		bool isOnHold(std::string inputCode);
 		bool isOnHold(std::vector<std::string> inputCodes);
+
+		bool isLeftMouseButtonOnPress();
+		bool isLeftMouseButtonOnRelease();
+		bool isLeftMouseButtonDoubleClicked();
+		bool isMiddleMouseButtonOnPress();
+		bool isMiddleMouseButtonOnRelease();
+		bool isMiddleMouseButtonDoubleClicked();
+		bool isRightMouseButtonOnPress();
+		bool isRightMouseButtonOnRelease();
+		bool isRightMouseButtonDoubleClicked();
+		Vector2 getMousePosition();
+		Vector2 getMouseWheelVelocity();
+		Vector2 getMouseMotionVelocity();
+
 	private:
 		HumanInterfaceDevices* hid = nullptr;
 

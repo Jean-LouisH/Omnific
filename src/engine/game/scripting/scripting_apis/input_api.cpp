@@ -260,3 +260,105 @@ bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes)
 
 	return false;
 }
+
+bool Lilliputian::InputAPI::isLeftMouseButtonOnPress()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_LEFT &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
+}
+
+bool Lilliputian::InputAPI::isLeftMouseButtonOnRelease()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_LEFT &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
+}
+
+bool Lilliputian::InputAPI::isLeftMouseButtonDoubleClicked()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_LEFT && 
+		mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
+		mouseButtonEvent.clicks == 2;
+}
+
+bool Lilliputian::InputAPI::isMiddleMouseButtonOnPress()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
+}
+
+bool Lilliputian::InputAPI::isMiddleMouseButtonOnRelease()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
+}
+
+bool Lilliputian::InputAPI::isMiddleMouseButtonDoubleClicked()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_MIDDLE && 
+		mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
+		mouseButtonEvent.clicks == 2;
+}
+
+bool Lilliputian::InputAPI::isRightMouseButtonOnPress()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
+}
+
+bool Lilliputian::InputAPI::isRightMouseButtonOnRelease()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
+}
+
+bool Lilliputian::InputAPI::isRightMouseButtonDoubleClicked()
+{
+	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
+
+	return mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
+		mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
+		mouseButtonEvent.clicks == 2;
+}
+
+Lilliputian::Vector2 Lilliputian::InputAPI::getMousePosition()
+{
+	Vector2 vector2;
+	SDL_MouseMotionEvent mouseMotionEvent = this->hid->getMouseMotionEvent();
+	vector2.x = mouseMotionEvent.x;
+	vector2.y = mouseMotionEvent.y;
+	return vector2;
+}
+
+Lilliputian::Vector2 Lilliputian::InputAPI::getMouseWheelVelocity()
+{
+	Vector2 vector2;
+	SDL_MouseWheelEvent mouseWheelEvent = this->hid->getMouseWheelEvent();
+	vector2.x = mouseWheelEvent.x;
+	vector2.y = mouseWheelEvent.y;
+	return vector2;
+}
+
+Lilliputian::Vector2 Lilliputian::InputAPI::getMouseMotionVelocity()
+{
+	Vector2 vector2;
+	SDL_MouseMotionEvent mouseMotionEvent = this->hid->getMouseMotionEvent();
+	vector2.x = mouseMotionEvent.xrel;
+	vector2.y = mouseMotionEvent.yrel;
+	return vector2;
+}
