@@ -163,7 +163,7 @@ bool Lilliputian::InputAPI::isOnPress(std::string inputCode)
 
 bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 {
-	return this->isOnPress(inputCodes, 0);
+	return this->isOnPress(inputCodes, 1);
 }
 
 bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, unsigned int controllerID)
@@ -188,7 +188,8 @@ bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, unsig
 		{
 			Lilliputian::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (controllerButtonEvents.count(controllerButtonCode))
-				if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN)
+				if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
+					controllerButtonEvents.at(controllerButtonCode).which == controllerID)
 					return true;
 		}
 	}
@@ -205,7 +206,7 @@ bool Lilliputian::InputAPI::isOnDoublePress(std::string inputCode, unsigned int 
 
 bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval_ms)
 {
-	return this->isOnDoublePress(inputCodes, timeInterval_ms, 0);
+	return this->isOnDoublePress(inputCodes, timeInterval_ms, 1);
 }
 
 bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, unsigned int controllerID)
@@ -227,7 +228,7 @@ bool Lilliputian::InputAPI::isOnRelease(std::string inputCode)
 
 bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
 {
-	return this->isOnRelease(inputCodes, 0);
+	return this->isOnRelease(inputCodes, 1);
 }
 
 bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, unsigned int controllerID)
@@ -252,7 +253,8 @@ bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, uns
 		{
 			Lilliputian::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (controllerButtonEvents.count(controllerButtonCode))
-				if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP)
+				if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
+					controllerButtonEvents.at(controllerButtonCode).which == controllerID)
 					return true;
 		}
 	}
@@ -269,7 +271,7 @@ bool Lilliputian::InputAPI::isOnHold(std::string inputCode)
 
 bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes)
 {
-	return this->isOnHold(inputCodes, 0);
+	return this->isOnHold(inputCodes, 1);
 }
 
 bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes, unsigned int controllerID)
