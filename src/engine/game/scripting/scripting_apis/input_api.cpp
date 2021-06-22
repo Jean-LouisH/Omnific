@@ -163,6 +163,11 @@ bool Lilliputian::InputAPI::isOnPress(std::string inputCode)
 
 bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 {
+	return this->isOnPress(inputCodes, 0);
+}
+
+bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, unsigned int controllerID)
+{
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
@@ -193,10 +198,17 @@ bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 
 bool Lilliputian::InputAPI::isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms)
 {
-	return false;
+	std::vector<std::string> inputCodes;
+	inputCodes.push_back(inputCode);
+	return this->isOnDoublePress(inputCodes, timeInterval_ms);
 }
 
-bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms)
+bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval_ms)
+{
+	return this->isOnDoublePress(inputCodes, timeInterval_ms, 0);
+}
+
+bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, unsigned int controllerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -214,6 +226,11 @@ bool Lilliputian::InputAPI::isOnRelease(std::string inputCode)
 }
 
 bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
+{
+	return this->isOnRelease(inputCodes, 0);
+}
+
+bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, unsigned int controllerID)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -251,6 +268,11 @@ bool Lilliputian::InputAPI::isOnHold(std::string inputCode)
 }
 
 bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes)
+{
+	return this->isOnHold(inputCodes, 0);
+}
+
+bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes, unsigned int controllerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
