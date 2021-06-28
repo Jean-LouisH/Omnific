@@ -26,6 +26,7 @@
 #include <SDL.h>
 #include <vector>
 #include "os/human_interface_devices.hpp"
+#include <game/scene/haptic_signal_buffer.hpp>
 
 namespace Lilliputian
 {
@@ -35,16 +36,8 @@ namespace Lilliputian
 		HapticSystem();
 		void process(Scene& scene, HumanInterfaceDevices& hid);
 	private:
-		typedef struct HapticRequest
-		{
-			uint8_t controllerID;
-			float strength_pct;
-			uint16_t duration_ms;
-		}HapticRequest;
 
-		std::vector<HapticRequest> hapticRequests;
-
-		void rumble(std::vector<SDL_Haptic*> haptics);
+		void rumble(HapticSignalBuffer& hapticSignalBuffer, std::vector<SDL_Haptic*> haptics);
 	};
 }
 
