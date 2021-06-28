@@ -38,9 +38,9 @@ namespace Lilliputian
 		void publish(ControllerID controllerID, float strength_pct, uint16_t duration_ms);
 		void clear();
 
-		std::map<ControllerID, std::queue<HapticSignalBuffer>> getHapticSignals();
+		std::map<ControllerID, std::queue<HapticSignal>> getHapticSignals();
 		std::queue<HapticSignal> query(ControllerID controllerID);
 	private:
-		std::map<ControllerID, std::queue<HapticSignalBuffer>> hapticSignals;
+		std::map<ControllerID, std::queue<HapticSignal>> hapticSignals;
 	};
 }

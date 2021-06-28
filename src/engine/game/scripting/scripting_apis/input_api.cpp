@@ -166,7 +166,7 @@ bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 	return this->isOnPress(inputCodes, 1);
 }
 
-bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, unsigned int controllerID)
+bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, ControllerID controllerID)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -209,7 +209,7 @@ bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes,
 	return this->isOnDoublePress(inputCodes, timeInterval_ms, 1);
 }
 
-bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, unsigned int controllerID)
+bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, ControllerID controllerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -231,7 +231,7 @@ bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes)
 	return this->isPressed(inputCodes, 1);
 }
 
-bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes, unsigned int controllerID)
+bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes, ControllerID controllerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -254,7 +254,7 @@ bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
 	return this->isOnRelease(inputCodes, 1);
 }
 
-bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, unsigned int controllerID)
+bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, ControllerID controllerID)
 {
 	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -290,7 +290,7 @@ bool Lilliputian::InputAPI::isReleased(std::string inputCode)
 	return false;
 }
 
-bool Lilliputian::InputAPI::isReleased(std::string inputCode, unsigned int controllerID)
+bool Lilliputian::InputAPI::isReleased(std::string inputCode, ControllerID controllerID)
 {
 	return false;
 }

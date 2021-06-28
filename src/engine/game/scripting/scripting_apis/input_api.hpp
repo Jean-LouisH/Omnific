@@ -28,6 +28,7 @@
 #include <string>
 #include "os/human_interface_devices.hpp"
 #include <utilities/vector2.hpp>
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
@@ -38,18 +39,18 @@ namespace Lilliputian
 		void initialize(HumanInterfaceDevices* hid);
 		bool isOnPress(std::string inputCode);
 		bool isOnPress(std::vector<std::string> inputCodes);
-		bool isOnPress(std::vector<std::string> inputCodes, unsigned int controllerID);
+		bool isOnPress(std::vector<std::string> inputCodes, ControllerID controllerID);
 		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms);
 		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms);
-		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, unsigned int controllerID);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, ControllerID controllerID);
 		bool isPressed(std::string inputCode);
 		bool isPressed(std::vector<std::string> inputCodes);
-		bool isPressed(std::vector<std::string> inputCodes, unsigned int controllerID);
+		bool isPressed(std::vector<std::string> inputCodes, ControllerID controllerID);
 		bool isOnRelease(std::string inputCode);
 		bool isOnRelease(std::vector<std::string> inputCodes);
-		bool isOnRelease(std::vector<std::string> inputCodes, unsigned int controllerID);
+		bool isOnRelease(std::vector<std::string> inputCodes, ControllerID controllerID);
 		bool isReleased(std::string inputCode);
-		bool isReleased(std::string inputCode, unsigned int controllerID);
+		bool isReleased(std::string inputCode, ControllerID controllerID);
 
 		bool isLeftMouseButtonOnPress();
 		bool isLeftMouseButtonOnRelease();
