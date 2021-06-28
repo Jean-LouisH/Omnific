@@ -166,6 +166,11 @@ Lilliputian::AssetCache& Lilliputian::Scene::getAssetCache()
 	return this->assetCache;
 }
 
+Lilliputian::HapticSignalBuffer& Lilliputian::Scene::getHapticSignalBuffer()
+{
+	return this->hapticSignalBuffer;
+}
+
 Lilliputian::SceneTree2D& Lilliputian::Scene::getSceneTree(SceneTreeID sceneTreeID)
 {
 	SceneTree2D* sceneTree2D = nullptr;

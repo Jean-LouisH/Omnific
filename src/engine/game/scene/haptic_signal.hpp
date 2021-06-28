@@ -23,44 +23,21 @@
 #pragma once
 
 #include <vector>
-#include <stack>
-#include <queue>
-#include <map>
-#include "components/component_variant.hpp"
-#include "game/scripting/virtual_machine/script_call_batch.hpp"
-#include "asset_cache.hpp"
-#include "scene_tree_2d.hpp"
-#include "haptic_signal_buffer.hpp"
+#include <string>
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
-	class Scene
+	class HapticSignal
 	{
 	public:
-		Scene();
-
-		void addSceneTree2D(SceneTree2D sceneTree2D);
-		void removeSceneTree2D(SceneTreeID sceneTreeID);
-
-		std::vector<ScriptCallBatch> getAllOnStartCallBatches();
-		std::vector<ScriptCallBatch> getAllOnInputCallBatches();
-		std::vector<ScriptCallBatch> getAllOnFrameCallBatches();
-		std::vector<ScriptCallBatch> getAllOnComputeCallBatches();
-		std::vector<ScriptCallBatch> getAllOnLateCallBatches();
-		std::vector<ScriptCallBatch> getAllOnFinalBatches();
-
-		AssetCache& getAssetCache();
-		HapticSignalBuffer& getHapticSignalBuffer();
-		SceneTree2D& getSceneTree(SceneTreeID sceneTreeID);
-		SceneTree2D& getLastSceneTree2D();
-		std::vector<SceneTree2D>& getSceneTree2Ds();
-
-		void unload();
+		HapticSignal(ControllerID controllerID, float strength_pct, uint16_t duration_ms);
+		ControllerID getControllerID();
+		float getStrength_pct();
+		uint16_t getDuration_ms();
 	private:
-		/*SceneTrees are stored in vectors for sequential access
-		in engine systems.*/
-		std::vector<SceneTree2D> sceneTree2Ds;
-		AssetCache assetCache;
-		HapticSignalBuffer hapticSignalBuffer;
+		ControllerID controllerID = 0;
+		float strength_pct = 0.0;
+		uint16_t duration_ms = 0;
 	};
 }

@@ -22,45 +22,25 @@
 
 #pragma once
 
-#include <vector>
-#include <stack>
-#include <queue>
+#include "haptic_signal.hpp"
 #include <map>
-#include "components/component_variant.hpp"
-#include "game/scripting/virtual_machine/script_call_batch.hpp"
-#include "asset_cache.hpp"
-#include "scene_tree_2d.hpp"
-#include "haptic_signal_buffer.hpp"
+#include <vector>
+#include <string>
+#include <vector>
+#include <queue>
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
-	class Scene
+	class HapticSignalBuffer
 	{
 	public:
-		Scene();
+		void publish(ControllerID controllerID, float strength_pct, uint16_t duration_ms);
+		void clear();
 
-		void addSceneTree2D(SceneTree2D sceneTree2D);
-		void removeSceneTree2D(SceneTreeID sceneTreeID);
-
-		std::vector<ScriptCallBatch> getAllOnStartCallBatches();
-		std::vector<ScriptCallBatch> getAllOnInputCallBatches();
-		std::vector<ScriptCallBatch> getAllOnFrameCallBatches();
-		std::vector<ScriptCallBatch> getAllOnComputeCallBatches();
-		std::vector<ScriptCallBatch> getAllOnLateCallBatches();
-		std::vector<ScriptCallBatch> getAllOnFinalBatches();
-
-		AssetCache& getAssetCache();
-		HapticSignalBuffer& getHapticSignalBuffer();
-		SceneTree2D& getSceneTree(SceneTreeID sceneTreeID);
-		SceneTree2D& getLastSceneTree2D();
-		std::vector<SceneTree2D>& getSceneTree2Ds();
-
-		void unload();
+		std::map<ControllerID, std::queue<HapticSignalBuffer>> getHapticSignals();
+		std::queue<HapticSignal> query(ControllerID controllerID);
 	private:
-		/*SceneTrees are stored in vectors for sequential access
-		in engine systems.*/
-		std::vector<SceneTree2D> sceneTree2Ds;
-		AssetCache assetCache;
-		HapticSignalBuffer hapticSignalBuffer;
+		std::map<ControllerID, std::queue<HapticSignalBuffer>> hapticSignals;
 	};
 }
