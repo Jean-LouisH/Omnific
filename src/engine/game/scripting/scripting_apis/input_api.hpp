@@ -42,12 +42,14 @@ namespace Lilliputian
 		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms);
 		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms);
 		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, unsigned int controllerID);
+		bool isPressed(std::string inputCode);
+		bool isPressed(std::vector<std::string> inputCodes);
+		bool isPressed(std::vector<std::string> inputCodes, unsigned int controllerID);
 		bool isOnRelease(std::string inputCode);
 		bool isOnRelease(std::vector<std::string> inputCodes);
 		bool isOnRelease(std::vector<std::string> inputCodes, unsigned int controllerID);
-		bool isOnHold(std::string inputCode);
-		bool isOnHold(std::vector<std::string> inputCodes);
-		bool isOnHold(std::vector<std::string> inputCodes, unsigned int controllerID);
+		bool isReleased(std::string inputCode);
+		bool isReleased(std::string inputCode, unsigned int controllerID);
 
 		bool isLeftMouseButtonOnPress();
 		bool isLeftMouseButtonOnRelease();

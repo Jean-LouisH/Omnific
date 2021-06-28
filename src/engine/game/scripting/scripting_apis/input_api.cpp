@@ -219,6 +219,29 @@ bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes,
 	return false;
 }
 
+bool Lilliputian::InputAPI::isPressed(std::string inputCode)
+{
+	std::vector<std::string> inputCodes;
+	inputCodes.push_back(inputCode);
+	return this->isPressed(inputCodes);
+}
+
+bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes)
+{
+	return this->isPressed(inputCodes, 1);
+}
+
+bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes, unsigned int controllerID)
+{
+	for (int i = 0; i < inputCodes.size(); i++)
+	{
+		std::string inputCode = inputCodes.at(i);
+
+	}
+
+	return false;
+}
+
 bool Lilliputian::InputAPI::isOnRelease(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
@@ -262,26 +285,13 @@ bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, uns
 	return false;
 }
 
-bool Lilliputian::InputAPI::isOnHold(std::string inputCode)
+bool Lilliputian::InputAPI::isReleased(std::string inputCode)
 {
-	std::vector<std::string> inputCodes;
-	inputCodes.push_back(inputCode);
-	return this->isOnHold(inputCodes);
+	return false;
 }
 
-bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes)
+bool Lilliputian::InputAPI::isReleased(std::string inputCode, unsigned int controllerID)
 {
-	return this->isOnHold(inputCodes, 1);
-}
-
-bool Lilliputian::InputAPI::isOnHold(std::vector<std::string> inputCodes, unsigned int controllerID)
-{
-	for (int i = 0; i < inputCodes.size(); i++)
-	{
-		std::string inputCode = inputCodes.at(i);
-
-	}
-
 	return false;
 }
 
