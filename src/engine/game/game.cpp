@@ -113,6 +113,40 @@ void Lilliputian::Game::executeOnInputMethods()
 
 	if (!this->sceneStorage->isEmpty() && OS::getHid().getHasDetectedInputChanges())
 		this->scripting->executeOnInputMethods(this->getActiveScene());
+
+	std::queue<ControllerPlayerID>& newlyLoadedPlayerIDs = OS::getHid().getNewlyLoadedPlayerIDs();
+
+	if (!this->sceneStorage->isEmpty() && !newlyLoadedPlayerIDs.empty())
+	{
+		Scene& activeScene = this->sceneStorage->getActiveScene();
+		HapticSignalBuffer& hapticSignalBuffer = activeScene.getHapticSignalBuffer();
+
+		while (!newlyLoadedPlayerIDs.empty())
+		{
+			/*
+				For every newly detected controller, a pulse and silence signal is 
+				fed to its haptics the amount of times that correspond to the player ID number.
+			*/
+
+			for (int i = 0; i < newlyLoadedPlayerIDs.front() + 1; i++)
+			{
+				/*Silence*/
+				hapticSignalBuffer.publish(
+					newlyLoadedPlayerIDs.front(),
+					0.0,
+					500);
+
+				/*Pulse*/
+				hapticSignalBuffer.publish(
+					newlyLoadedPlayerIDs.front(),
+					1.0,
+					1000);
+			}
+
+			newlyLoadedPlayerIDs.pop();
+		}
+	}
+	
 }
 
 void Lilliputian::Game::executeOnFrameMethods()

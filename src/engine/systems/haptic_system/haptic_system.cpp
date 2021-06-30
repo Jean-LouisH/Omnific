@@ -30,15 +30,22 @@ Lilliputian::HapticSystem::HapticSystem()
 
 void Lilliputian::HapticSystem::rumble(HapticSignalBuffer& hapticSignalBuffer, std::vector<SDL_Haptic*> haptics)
 {
-	//for (int i = 0; i < this->hapticRequests.size(); i++)
-	//{
-	//	HapticRequest currentHapticRequest = this->hapticRequests.at(i);
+	std::map<ControllerPlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
 
-	//	SDL_HapticRumblePlay(
-	//		haptics.at(currentHapticRequest.controllerID),
-	//		currentHapticRequest.strength_pct,
-	//		currentHapticRequest.duration_ms);
-	//}
+	for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
+	{
+		while (!it->second.empty())
+		{
+			SDL_HapticRumblePlay(
+				haptics.at(it->first),
+				it->second.front().getStrength_pct(),
+				it->second.front().getDuration_ms());
+
+			it->second.pop();
+		}
+	}
+
+	hapticSignalBuffer.clear();
 }
 
 void Lilliputian::HapticSystem::process(
