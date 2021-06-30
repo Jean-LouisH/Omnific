@@ -23,7 +23,7 @@
 #include "haptic_signal_buffer.hpp"
 
 
-void Lilliputian::HapticSignalBuffer::publish(ControllerID controllerID, float strength_pct, uint16_t duration_ms)
+void Lilliputian::HapticSignalBuffer::publish(ControllerPlayerID controllerID, float strength_pct, uint16_t duration_ms)
 {
 	//this->hapticSignals.emplace(controllerID, HapticSignal(controllerID, strength_pct, duration_ms));
 }
@@ -33,12 +33,12 @@ void Lilliputian::HapticSignalBuffer::clear()
 	this->hapticSignals.clear();
 }
 
-std::map<Lilliputian::ControllerID, std::queue<Lilliputian::HapticSignal>> Lilliputian::HapticSignalBuffer::getHapticSignals()
+std::map<Lilliputian::ControllerPlayerID, std::queue<Lilliputian::HapticSignal>> Lilliputian::HapticSignalBuffer::getHapticSignals()
 {
 	return this->hapticSignals;
 }
 
-std::queue<Lilliputian::HapticSignal> Lilliputian::HapticSignalBuffer::query(ControllerID controllerID)
+std::queue<Lilliputian::HapticSignal> Lilliputian::HapticSignalBuffer::query(ControllerPlayerID controllerID)
 {
 	return this->hapticSignals.at(controllerID);
 }
