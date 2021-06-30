@@ -25,6 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include <map>
+#include <utilities/aliases.hpp>
 
 namespace Lilliputian
 {
@@ -48,6 +49,7 @@ namespace Lilliputian
 		SDL_MouseButtonEvent getMouseButtonEvent();
 		SDL_MouseMotionEvent getMouseMotionEvent();
 		SDL_MouseWheelEvent  getMouseWheelEvent();
+		std::map<ControllerPlayerID, SDL_JoystickID> getControllerPlayerMap();
 	private:
 
 		std::map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
@@ -61,6 +63,8 @@ namespace Lilliputian
 
 		std::vector<SDL_GameController*> gameControllers;
 		std::vector<SDL_Haptic*> haptics;
+
+		std::map<ControllerPlayerID, SDL_JoystickID> controllerPlayerMap;
 
 		bool hasDetectedInputChanges = false;
 		bool shutdownRequest = false;

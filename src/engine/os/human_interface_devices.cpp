@@ -49,6 +49,7 @@ void Lilliputian::HumanInterfaceDevices::detectGameControllers()
 
 		this->gameControllers.clear();
 		this->haptics.clear();
+		this->controllerPlayerMap.clear();
 
 		for (int i = 0; i < SDL_NumJoysticks(); ++i)
 		{
@@ -56,6 +57,7 @@ void Lilliputian::HumanInterfaceDevices::detectGameControllers()
 			{
 				SDL_GameController* newController = SDL_GameControllerOpen(i);
 				SDL_Joystick* joystick = SDL_GameControllerGetJoystick(newController);
+				this->controllerPlayerMap.emplace(i, SDL_JoystickInstanceID(joystick));
 				this->gameControllers.push_back(newController);
 				this->haptics.push_back(SDL_HapticOpenFromJoystick(joystick));
 				SDL_HapticRumbleInit(this->haptics.back());
@@ -178,4 +180,9 @@ SDL_MouseMotionEvent Lilliputian::HumanInterfaceDevices::getMouseMotionEvent()
 SDL_MouseWheelEvent  Lilliputian::HumanInterfaceDevices::getMouseWheelEvent()
 {
 	return this->mouseWheelEvent;
+}
+
+std::map<Lilliputian::ControllerPlayerID, SDL_JoystickID> Lilliputian::HumanInterfaceDevices::getControllerPlayerMap()
+{
+	return this->controllerPlayerMap;
 }
