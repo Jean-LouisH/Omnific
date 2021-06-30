@@ -25,7 +25,21 @@
 
 void Lilliputian::HapticSignalBuffer::publish(ControllerPlayerID controllerID, float strength_pct, uint16_t duration_ms)
 {
-	//this->hapticSignals.emplace(controllerID, HapticSignal(controllerID, strength_pct, duration_ms));
+	std::queue<HapticSignal> hapticSignalQueue;
+	HapticSignal newHapticSignal = HapticSignal(controllerID, strength_pct, duration_ms);
+
+	if (this->hapticSignals.count(controllerID) == 0)
+	{
+		hapticSignalQueue.push(newHapticSignal);
+		this->hapticSignals.emplace(controllerID, hapticSignalQueue);
+	}
+	else
+	{
+		hapticSignalQueue = this->hapticSignals.at(controllerID);
+		hapticSignalQueue.push(newHapticSignal);
+		this->hapticSignals.at(controllerID) = hapticSignalQueue;
+	}
+
 }
 
 void Lilliputian::HapticSignalBuffer::clear()
