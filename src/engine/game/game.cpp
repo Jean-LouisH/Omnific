@@ -118,7 +118,7 @@ void Lilliputian::Game::executeOnInputMethods()
 
 	if (!this->sceneStorage->isEmpty() && !newlyLoadedPlayerIDs.empty())
 	{
-		Scene& activeScene = this->sceneStorage->getActiveScene();
+		Scene& activeScene = this->getActiveScene();
 		HapticSignalBuffer& hapticSignalBuffer = activeScene.getHapticSignalBuffer();
 
 		while (!newlyLoadedPlayerIDs.empty())
@@ -128,19 +128,25 @@ void Lilliputian::Game::executeOnInputMethods()
 				fed to its haptics the amount of times that correspond to the player ID number.
 			*/
 
+			/*Warm up*/
+			hapticSignalBuffer.publish(
+				newlyLoadedPlayerIDs.front(),
+				0.0,
+				1000);
+
 			for (int i = 0; i < newlyLoadedPlayerIDs.front() + 1; i++)
 			{
 				/*Silence*/
 				hapticSignalBuffer.publish(
 					newlyLoadedPlayerIDs.front(),
 					0.0,
-					500);
+					250);
 
 				/*Pulse*/
 				hapticSignalBuffer.publish(
 					newlyLoadedPlayerIDs.front(),
 					1.0,
-					1000);
+					250);
 			}
 
 			newlyLoadedPlayerIDs.pop();
