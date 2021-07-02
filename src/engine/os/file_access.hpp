@@ -33,8 +33,8 @@ namespace Lilliputian
 		void setDataDirectory(std::string assetDirectory);
 		std::string getExecutableFilePath();
 		std::string getExecutableName();
-		std::string getExecutableDirectory();
-		std::string getDataDirectory();
+		std::string getExecutableDirectoryPath();
+		std::string getDataDirectoryPath();
 		std::string getFileNameWithoutExtension(std::string filepath);
 		std::string getPathBeforeFile(std::string filepath);
 		bool exists(std::string filepath);

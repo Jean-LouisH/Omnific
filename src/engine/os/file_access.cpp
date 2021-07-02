@@ -45,12 +45,12 @@ std::string Lilliputian::FileAccess::getExecutableName()
 	return this->getFileNameWithoutExtension(this->executableFilepath);
 }
 
-std::string Lilliputian::FileAccess::getExecutableDirectory()
+std::string Lilliputian::FileAccess::getExecutableDirectoryPath()
 {
 	return this->getPathBeforeFile(this->executableFilepath);
 }
 
-std::string Lilliputian::FileAccess::getDataDirectory()
+std::string Lilliputian::FileAccess::getDataDirectoryPath()
 {
 	return this->dataDirectory;
 }

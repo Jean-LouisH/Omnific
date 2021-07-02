@@ -391,6 +391,6 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
     m.def("get_scene_api", &Lilliputian::ScriptingAPIs::getSceneAPI);
 	m.def("get_time_api", &Lilliputian::ScriptingAPIs::getTimeAPI);
 	m.def("get_window_api", &Lilliputian::ScriptingAPIs::getWindowAPI);
-	m.def("get_data_directory", &Lilliputian::ScriptingAPIs::getDataDirectory);
-	m.def("get_executable_directory", &Lilliputian::ScriptingAPIs::getExecutableDirectory);
+	m.def("get_data_directory_path", &Lilliputian::ScriptingAPIs::getDataDirectoryPath);
+	m.def("get_executable_directory_path", &Lilliputian::ScriptingAPIs::getExecutableDirectoryPath);
 }

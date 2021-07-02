@@ -82,14 +82,14 @@ Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::getWindowAPI()
 	return *getInstance()->windowAPI;
 }
 
-std::string Lilliputian::ScriptingAPIs::getDataDirectory()
+std::string Lilliputian::ScriptingAPIs::getDataDirectoryPath()
 {
-	return OS::getFileAccess().getDataDirectory();
+	return OS::getFileAccess().getDataDirectoryPath();
 }
 
-std::string Lilliputian::ScriptingAPIs::getExecutableDirectory()
+std::string Lilliputian::ScriptingAPIs::getExecutableDirectoryPath()
 {
-	return OS::getFileAccess().getExecutableDirectory();
+	return OS::getFileAccess().getExecutableDirectoryPath();
 }
 
 Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::getInstance()

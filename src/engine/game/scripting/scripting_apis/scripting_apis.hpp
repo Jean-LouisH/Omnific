@@ -53,8 +53,8 @@ namespace Lilliputian
 		static TimeAPI& getTimeAPI();
 		static WindowAPI& getWindowAPI();
 
-		std::string getDataDirectory();
-		std::string getExecutableDirectory();
+		std::string getDataDirectoryPath();
+		std::string getExecutableDirectoryPath();
 	private:
 		static ScriptingAPIs* instance;
 

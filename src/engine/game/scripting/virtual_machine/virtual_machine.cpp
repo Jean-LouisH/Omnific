@@ -67,10 +67,10 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 
 			if (addedPaths.count(scriptFilepath) == 0)
 			{
-				std::string newPath = OS::getFileAccess().getExecutableDirectory() + 
+				std::string newPath = OS::getFileAccess().getExecutableDirectoryPath() + 
 					"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #ifdef _DEBUG
-				newPath = OS::getFileAccess().getExecutableDirectory();
+				newPath = OS::getFileAccess().getExecutableDirectoryPath();
 				newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
 				std::string dataFolder = "data//editor//";
 #if (DEBUG_DEMO_MODE)
