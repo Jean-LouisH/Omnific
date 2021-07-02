@@ -31,6 +31,7 @@ namespace Lilliputian
 	{
 	public:
 		uint64_t getDelta_ns();
+		uint64_t getDelta_ms();
 		void setStart();
 		void setEnd();
 	private:

@@ -21,10 +21,16 @@
 // SOFTWARE.
 
 #include "hi_res_timer.hpp"
+#include "constants.hpp"
 
 uint64_t Lilliputian::HiResTimer::getDelta_ns()
 {
 	return this->delta_ns;
+}
+
+uint64_t Lilliputian::HiResTimer::getDelta_ms()
+{
+	return this->delta_ns / NS_IN_MS;
 }
 
 void Lilliputian::HiResTimer::setStart()
