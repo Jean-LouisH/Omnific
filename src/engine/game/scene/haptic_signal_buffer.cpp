@@ -47,12 +47,12 @@ void Lilliputian::HapticSignalBuffer::clear()
 	this->hapticSignals.clear();
 }
 
-std::map<Lilliputian::ControllerPlayerID, std::queue<Lilliputian::HapticSignal>> Lilliputian::HapticSignalBuffer::getHapticSignals()
+std::map<Lilliputian::ControllerPlayerID, std::queue<Lilliputian::HapticSignal>>& Lilliputian::HapticSignalBuffer::getHapticSignals()
 {
 	return this->hapticSignals;
 }
 
-std::queue<Lilliputian::HapticSignal> Lilliputian::HapticSignalBuffer::query(ControllerPlayerID playerID)
+std::queue<Lilliputian::HapticSignal>& Lilliputian::HapticSignalBuffer::query(ControllerPlayerID playerID)
 {
 	return this->hapticSignals.at(playerID);
 }
