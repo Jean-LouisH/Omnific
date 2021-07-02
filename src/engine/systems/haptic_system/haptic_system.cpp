@@ -28,29 +28,95 @@ Lilliputian::HapticSystem::HapticSystem()
 
 }
 
-void Lilliputian::HapticSystem::rumble(HapticSignalBuffer& hapticSignalBuffer, std::vector<SDL_Haptic*> haptics)
+void Lilliputian::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
 {
-	std::map<ControllerPlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
-
-	for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
+	if (hapticSignal.getPlayerID() < haptics.size())
 	{
-		while (!it->second.empty())
-		{
-			SDL_HapticRumblePlay(
-				haptics.at(it->first),
-				it->second.front().getStrength_pct(),
-				it->second.front().getDuration_ms());
-
-			it->second.pop();
-		}
+		SDL_HapticRumblePlay(haptics.at(hapticSignal.getPlayerID()),
+			hapticSignal.getStrength_pct(),
+			hapticSignal.getDuration_ms());
 	}
+}
 
-	hapticSignalBuffer.clear();
+void Lilliputian::HapticSystem::stopRumble(ControllerPlayerID playerID, std::vector<SDL_Haptic*> haptics)
+{
+	if (playerID < haptics.size())
+	{
+		SDL_HapticRumbleStop(haptics.at(playerID));
+	}
 }
 
 void Lilliputian::HapticSystem::process(
 	Scene& scene,
 	HumanInterfaceDevices& hid)
 {
-	this->rumble(scene.getHapticSignalBuffer(), hid.getHaptics());
+	HapticSignalBuffer& hapticSignalBuffer = scene.getHapticSignalBuffer();
+	std::map<ControllerPlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
+
+	for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
+	{
+		ControllerPlayerID playerID = it->first;
+
+		if (this->hapticPlaybacks.count(playerID))
+		{
+			HapticPlayback& hapticPlayback = this->hapticPlaybacks.at(playerID);
+			std::queue<HapticSignal>& hapticSignalQueue = it->second;
+
+			if (hapticPlayback.isPlaying)
+			{
+				hapticPlayback.timer.setEnd();
+
+				if (hapticPlayback.timer.getDelta_ms() > hapticPlayback.duration_ms)
+				{
+					hapticPlayback.isPlaying = false;
+					this->stopRumble(playerID, hid.getHaptics());
+					hapticSignalQueue.pop();
+				}
+			}
+			else
+			{
+				if (!hapticSignalQueue.empty())
+				{
+					HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
+					hapticPlayback.duration_ms = hapticSignal.getDuration_ms();
+					hapticPlayback.timer.setStart();
+					hapticPlayback.isPlaying = true;
+					this->rumble(hapticSignal, hid.getHaptics());
+				}
+			}
+		}
+		else
+		{
+			HapticPlayback hapticPlayback;
+			hapticPlayback.isPlaying = false;
+
+			if (!it->second.empty())
+			{
+				HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
+				hapticPlayback.duration_ms = hapticSignal.getDuration_ms();
+				hapticPlayback.timer.setStart();
+				hapticPlayback.isPlaying = true;
+				this->rumble(hapticSignal, hid.getHaptics());
+			}
+
+			this->hapticPlaybacks.emplace(playerID, hapticPlayback);
+		}
+	}
+
+	//for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
+	//{
+	//	while (!it->second.empty())
+	//	{
+	//		SDL_HapticRumblePlay(
+	//			haptics.at(it->first),
+	//			it->second.front().getStrength_pct(),
+	//			it->second.front().getDuration_ms());
+
+	//		it->second.pop();
+	//	}
+	//}
+	//hapticSignalBuffer.clear();
+
+
+	//this->rumble(scene.getHapticSignalBuffer(), hid.getHaptics());
 }

@@ -25,8 +25,10 @@
 #include "game/scene/scene.hpp"
 #include <SDL.h>
 #include <vector>
+#include <map>
 #include "os/human_interface_devices.hpp"
 #include <game/scene/haptic_signal_buffer.hpp>
+#include <utilities/hi_res_timer.hpp>
 
 namespace Lilliputian
 {
@@ -36,8 +38,17 @@ namespace Lilliputian
 		HapticSystem();
 		void process(Scene& scene, HumanInterfaceDevices& hid);
 	private:
+		typedef struct HapticPlayback
+		{
+			HiResTimer timer;
+			uint16_t duration_ms;
+			bool isPlaying;
+		};
 
-		void rumble(HapticSignalBuffer& hapticSignalBuffer, std::vector<SDL_Haptic*> haptics);
+		std::map<ControllerPlayerID, HapticPlayback> hapticPlaybacks;
+
+		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);
+		void stopRumble(ControllerPlayerID playerID, std::vector<SDL_Haptic*> haptics);
 	};
 }
 
