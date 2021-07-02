@@ -41,7 +41,7 @@ Lilliputian::HapticSignal::HapticSignal(ControllerPlayerID playerID, float stren
 		this->duration_ms = duration_ms;
 }
 
-Lilliputian::ControllerPlayerID Lilliputian::HapticSignal::getplayerID()
+Lilliputian::ControllerPlayerID Lilliputian::HapticSignal::getPlayerID()
 {
 	return this->playerID;
 }
