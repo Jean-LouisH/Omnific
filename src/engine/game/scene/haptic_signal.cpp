@@ -22,11 +22,11 @@
 
 #include "haptic_signal.hpp"
 
-Lilliputian::HapticSignal::HapticSignal(ControllerPlayerID controllerID, float strength_pct, uint16_t duration_ms)
+Lilliputian::HapticSignal::HapticSignal(ControllerPlayerID playerID, float strength_pct, uint16_t duration_ms)
 {
 	uint16_t durationLimit = 2000;
 
-	this->controllerID = controllerID;
+	this->playerID = playerID;
 	
 	if (strength_pct < 0.0)
 		this->strength_pct = 0.0;
@@ -41,9 +41,9 @@ Lilliputian::HapticSignal::HapticSignal(ControllerPlayerID controllerID, float s
 		this->duration_ms = duration_ms;
 }
 
-Lilliputian::ControllerPlayerID Lilliputian::HapticSignal::getControllerID()
+Lilliputian::ControllerPlayerID Lilliputian::HapticSignal::getplayerID()
 {
-	return this->controllerID;
+	return this->playerID;
 }
 
 float Lilliputian::HapticSignal::getStrength_pct()

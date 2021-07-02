@@ -23,21 +23,21 @@
 #include "haptic_signal_buffer.hpp"
 
 
-void Lilliputian::HapticSignalBuffer::publish(ControllerPlayerID controllerID, float strength_pct, uint16_t duration_ms)
+void Lilliputian::HapticSignalBuffer::publish(ControllerPlayerID playerID, float strength_pct, uint16_t duration_ms)
 {
 	std::queue<HapticSignal> hapticSignalQueue;
-	HapticSignal newHapticSignal = HapticSignal(controllerID, strength_pct, duration_ms);
+	HapticSignal newHapticSignal = HapticSignal(playerID, strength_pct, duration_ms);
 
-	if (this->hapticSignals.count(controllerID) == 0)
+	if (this->hapticSignals.count(playerID) == 0)
 	{
 		hapticSignalQueue.push(newHapticSignal);
-		this->hapticSignals.emplace(controllerID, hapticSignalQueue);
+		this->hapticSignals.emplace(playerID, hapticSignalQueue);
 	}
 	else
 	{
-		hapticSignalQueue = this->hapticSignals.at(controllerID);
+		hapticSignalQueue = this->hapticSignals.at(playerID);
 		hapticSignalQueue.push(newHapticSignal);
-		this->hapticSignals.at(controllerID) = hapticSignalQueue;
+		this->hapticSignals.at(playerID) = hapticSignalQueue;
 	}
 
 }
@@ -52,7 +52,7 @@ std::map<Lilliputian::ControllerPlayerID, std::queue<Lilliputian::HapticSignal>>
 	return this->hapticSignals;
 }
 
-std::queue<Lilliputian::HapticSignal> Lilliputian::HapticSignalBuffer::query(ControllerPlayerID controllerID)
+std::queue<Lilliputian::HapticSignal> Lilliputian::HapticSignalBuffer::query(ControllerPlayerID playerID)
 {
-	return this->hapticSignals.at(controllerID);
+	return this->hapticSignals.at(playerID);
 }
