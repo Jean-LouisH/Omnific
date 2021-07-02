@@ -22,7 +22,7 @@
 
 #include "log_api.hpp"
 
-void Lilliputian::LogAPI::initialize(Logger* logger)
+Lilliputian::LogAPI::LogAPI(Logger* logger)
 {
 	this->logger = logger;
 }

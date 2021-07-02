@@ -24,7 +24,7 @@
 #include <utilities/constants.hpp>
 
 
-void Lilliputian::TimeAPI::initialize(Profiler* profiler)
+Lilliputian::TimeAPI::TimeAPI(Profiler* profiler)
 {
 	this->profiler = profiler;
 }

@@ -30,7 +30,7 @@ namespace Lilliputian
 	class TimeAPI
 	{
 	public: 
-		void initialize(Profiler* profiler);
+		TimeAPI(Profiler* profiler);
 		void setTimeSettings(Configuration::TimeSettings* timeSettings);
 
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);

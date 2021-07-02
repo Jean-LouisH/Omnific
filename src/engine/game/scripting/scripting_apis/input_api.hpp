@@ -35,8 +35,7 @@ namespace Lilliputian
 	class InputAPI
 	{
 	public:
-		InputAPI();
-		void initialize(HumanInterfaceDevices* hid);
+		InputAPI(HumanInterfaceDevices* hid);
 		bool isOnPress(std::string inputCode);
 		bool isOnPress(std::vector<std::string> inputCodes);
 		bool isOnPress(std::vector<std::string> inputCodes, ControllerPlayerID playerID);

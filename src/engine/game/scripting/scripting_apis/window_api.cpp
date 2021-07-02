@@ -22,7 +22,7 @@
 
 #include "window_api.hpp"
 
-void Lilliputian::WindowAPI::initialize(Window* window)
+Lilliputian::WindowAPI::WindowAPI(Window* window)
 {
 	this->window = window;
 }

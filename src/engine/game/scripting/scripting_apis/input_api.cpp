@@ -23,8 +23,10 @@
 #include "input_api.hpp"
 #include <os/os.hpp>
 
-Lilliputian::InputAPI::InputAPI()
+Lilliputian::InputAPI::InputAPI(HumanInterfaceDevices* hid)
 {
+	this->hid = hid;
+
 	this->controllerButtonsByString.emplace("dpad_left", SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 	this->controllerButtonsByString.emplace("dpad_right", SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
 	this->controllerButtonsByString.emplace("dpad_up", SDL_CONTROLLER_BUTTON_DPAD_UP);
@@ -147,11 +149,6 @@ Lilliputian::InputAPI::InputAPI()
 	this->keyboardEventsByString.emplace("up", SDLK_UP);
 	this->keyboardEventsByString.emplace("right", SDLK_RIGHT);
 	this->keyboardEventsByString.emplace("down", SDLK_DOWN);
-}
-
-void Lilliputian::InputAPI::initialize(HumanInterfaceDevices* hid)
-{
-	this->hid = hid;
 }
 
 bool Lilliputian::InputAPI::isOnPress(std::string inputCode)

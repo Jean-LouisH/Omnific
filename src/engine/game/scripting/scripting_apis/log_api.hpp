@@ -29,7 +29,7 @@ namespace Lilliputian
 	class LogAPI
 	{
 	public:
-		void initialize(Logger* logger);
+		LogAPI(Logger* logger);
 		void write(std::string message);
 		void writeToFile(std::string message);
 		std::string getLastMessage();

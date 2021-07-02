@@ -31,7 +31,7 @@ namespace Lilliputian
 	class WindowAPI
 	{
 	public:
-		void initialize(Window* window);
+		WindowAPI(Window* window);
 		void setToWindowed(uint16_t width_px, uint16_t height_px);
 		void setToFullscreen();
 		void toggleWindowedFullscreen();

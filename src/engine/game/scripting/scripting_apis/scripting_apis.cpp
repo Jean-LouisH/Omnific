@@ -30,16 +30,11 @@ void Lilliputian::ScriptingAPIs::initialize()
 	ScriptingAPIs* newInstance = getInstance();
 
 	newInstance->commandLineAPI = new CommandLineAPI();
-	newInstance->inputAPI = new InputAPI();
-	newInstance->logAPI = new LogAPI();
+	newInstance->inputAPI = new InputAPI(&OS::getHid());
+	newInstance->logAPI = new LogAPI(&OS::getLogger());
 	newInstance->sceneAPI = new SceneAPI();
-	newInstance->timeAPI = new TimeAPI();
-	newInstance->windowAPI = new WindowAPI();
-
-	newInstance->inputAPI->initialize(&OS::getHid());
-	newInstance->windowAPI->initialize(&OS::getWindow());
-	newInstance->timeAPI->initialize(&OS::getProfiler());
-	newInstance->logAPI->initialize(&OS::getLogger());
+	newInstance->timeAPI = new TimeAPI(&OS::getProfiler());
+	newInstance->windowAPI = new WindowAPI(&OS::getWindow());
 }
 
 void Lilliputian::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
