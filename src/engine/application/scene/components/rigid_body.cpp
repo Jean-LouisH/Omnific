@@ -20,18 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "utilities/aliases.hpp"
-#include "utilities/vector2.hpp"
-#include "utilities/constants.hpp"
-
-
-namespace Lilliputian
-{
-	class KinematicBody2D
-	{
-	public:
-	private:
-	};
-}
+#include "rigid_body.hpp"

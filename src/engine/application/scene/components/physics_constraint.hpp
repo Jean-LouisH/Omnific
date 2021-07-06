@@ -20,9 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "rectangular_mesh_2d.hpp"
+#pragma once
 
-Lilliputian::Image& Lilliputian::RectangularMesh2D::getImage()
+
+
+namespace Lilliputian
 {
-	return this->image;
+	class PhysicsConstraint
+	{
+	public:
+	private:
+	};
 }

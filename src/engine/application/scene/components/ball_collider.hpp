@@ -28,7 +28,7 @@
 
 namespace Lilliputian
 {
-	class CircleCollider2D
+	class BallCollider
 	{
 	public:
 		float radius = 0.0;

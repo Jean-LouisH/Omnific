@@ -94,7 +94,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 							//Components
 							else if (it2->first.as<std::string>() == "AIBehaviourTree")
 							{
-								AIBehaviourTree* aiBehaviourTree = new AIBehaviourTree();
+								BehaviourTree* aiBehaviourTree = new BehaviourTree();
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -169,7 +169,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 							}
 							else if (it2->first.as<std::string>() == "Camera2D")
 							{
-								Camera2D* camera2D = new Camera2D();
+								Camera* camera2D = new Camera();
 
 								camera2D->setViewportHeight(480);
 								camera2D->setIsStreaming(true);
@@ -475,7 +475,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 							}
 							else if (it2->first.as<std::string>() == "Transform2D")
 							{
-								Transform2D* transform2D = new Transform2D();
+								Transform* transform2D = new Transform();
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{

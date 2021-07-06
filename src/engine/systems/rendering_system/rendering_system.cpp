@@ -77,7 +77,7 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 	{
 		SDL::Rendering2D::Sprite2D outputSprite2D;
 		ComponentVariant componentVariant = componentVariants.at(j);
-		Camera2D* camera2D;
+		Camera* camera2D;
 		Sprite* sprite;
 		AnimatedSprite* animatedSprite;
 		UITextLabel* uiTextLabel;
@@ -86,7 +86,7 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 
 		if (componentVariant.isRenderable())
 		{
-			Transform2D transform2D = scene.getEntityTransform(componentVariant.getEntityID());
+			Transform transform2D = scene.getEntityTransform(componentVariant.getEntityID());
 			Vector2 position_px = transform2D.position_px;
 			Vector2 scale = transform2D.scale;
 			SDL_Texture* sdlTexture;
@@ -117,10 +117,10 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 			outputsprite2Ds.push_back(outputSprite2D);
 
 		}
-		else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D &&
+		else if (componentVariant.getType() == ComponentVariant::Type::CAMERA &&
 				componentVariant.getID() == scene.getCurrentCameraID())
 		{
-			Transform2D transform2D = scene.getEntityTransform(componentVariant.getEntityID());
+			Transform transform2D = scene.getEntityTransform(componentVariant.getEntityID());
 			Vector2 position_px = transform2D.position_px;
 			Vector2 scale = transform2D.scale;
 			camera2D = componentVariant.getCamera2D();

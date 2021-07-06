@@ -22,11 +22,14 @@
 
 #pragma once
 
+#include "utilities/aliases.hpp"
+#include "utilities/vector2.hpp"
+#include "utilities/constants.hpp"
 
 
 namespace Lilliputian
 {
-	class AISightPerception2D
+	class KinematicBody
 	{
 	public:
 	private:

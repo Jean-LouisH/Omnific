@@ -20,9 +20,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "regular_polygonal_mesh_2d.hpp"
+#include "camera.hpp"
 
-Lilliputian::Image& Lilliputian::RegularPolygonalMesh2D::getImage()
+Lilliputian::Camera::Camera()
 {
-	return this->image;
+	this->setViewportWidth(300);
+}
+
+void Lilliputian::Camera::resetAspect()
+{
+	this->aspect = defaultAspect;
+}
+
+Lilliputian::Rectangle Lilliputian::Camera::getViewportDimensions()
+{
+	return this->viewport_px;
+}
+
+bool Lilliputian::Camera::getIsStreaming()
+{
+	return this->isStreaming;
+}
+
+void Lilliputian::Camera::setViewportWidth(uint32_t width_px)
+{
+	this->viewport_px.width = width_px;
+	if (keepAspect)
+		this->viewport_px.height = (uint32_t)((double)width_px / aspect);
+}
+
+void Lilliputian::Camera::setViewportHeight(uint32_t height_px)
+{
+	this->viewport_px.height = height_px;
+	if (keepAspect)
+		this->viewport_px.width = (uint32_t)((double)height_px * aspect);
+}
+
+void Lilliputian::Camera::setLimits(float left, float bottom, float top, float right)
+{
+	this->limits_px.min_px.x = left;
+	this->limits_px.min_px.y = bottom;
+	this->limits_px.max_px.x = right;
+	this->limits_px.max_px.y = top;
+}
+
+void Lilliputian::Camera::setKeepAspect(bool value)
+{
+	this->keepAspect = value;
+}
+
+void Lilliputian::Camera::setIsStreaming(bool value)
+{
+	this->isStreaming = value;
 }

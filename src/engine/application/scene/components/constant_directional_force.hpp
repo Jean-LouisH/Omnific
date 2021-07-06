@@ -24,15 +24,15 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include <vector>
 #include "utilities/vector2.hpp"
 
 
 namespace Lilliputian
 {
-	class NavigationMeshAgent2D
+	class ConstantDirectionalForce
 	{
 	public:
+		Vector2 force_N;
 	private:
 	};
 }

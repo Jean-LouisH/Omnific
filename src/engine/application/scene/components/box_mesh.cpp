@@ -20,37 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "box_mesh.hpp"
 
-#include "utilities/aliases.hpp"
-#include <set>
-#include <queue>
-#include "utilities/constants.hpp"
-#include <string>
-#include <vector>
-#include <map>
-#include "application/scene/assets/audio_stream.hpp"
-
-
-namespace Lilliputian
+Lilliputian::Image& Lilliputian::BoxMesh::getImage()
 {
-	class AudioStreamSource2D
-	{
-	public:
-		void addAudioStream(AudioStream audioStream);
-		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
-		void clearAudioStreams();
-		std::queue<AudioStream> popEntireAudioPlayQueue();
-		void clearAudioPlayQueue();
-		void play(std::string audioStreamName);
-		void play();
-		void pause();
-		void stop();
-		std::vector<std::string> getAudioStreamNames();
-		AudioStream getAudioStreamByName(std::string audioStreamName);
-	private:
-//		Map<String, AudioStream> audioStreams;
-		std::queue<AudioStream> audioPlayQueue;
-		bool isPlaying = false;
-	};
+	return this->image;
 }

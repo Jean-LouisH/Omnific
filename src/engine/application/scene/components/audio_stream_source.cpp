@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "audio_stream_source_2d.hpp"
+#include "audio_stream_source.hpp"
 
-void Lilliputian::AudioStreamSource2D::addAudioStream(AudioStream audioStream)
+void Lilliputian::AudioStreamSource::addAudioStream(AudioStream audioStream)
 {
 //	this->audioStreams.emplace(audioStream);
 }
 
-void Lilliputian::AudioStreamSource2D::queueAudioToPlay(std::string audioStreamName, uint8_t count)
+void Lilliputian::AudioStreamSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
 {
 	//if (this->audioStreams.count(audioStreamName) > 0 && count > 0)
 	//{
@@ -36,46 +36,46 @@ void Lilliputian::AudioStreamSource2D::queueAudioToPlay(std::string audioStreamN
 	//}
 }
 
-void Lilliputian::AudioStreamSource2D::clearAudioStreams()
+void Lilliputian::AudioStreamSource::clearAudioStreams()
 {
 //	this->audioStreams.clear();
 }
 
-std::queue<Lilliputian::AudioStream> Lilliputian::AudioStreamSource2D::popEntireAudioPlayQueue()
+std::queue<Lilliputian::AudioStream> Lilliputian::AudioStreamSource::popEntireAudioPlayQueue()
 {
 	std::queue<AudioStream> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
 
-void Lilliputian::AudioStreamSource2D::clearAudioPlayQueue()
+void Lilliputian::AudioStreamSource::clearAudioPlayQueue()
 {
 	for (int i = 0; i < this->audioPlayQueue.size(); i++)
 		this->audioPlayQueue.pop();
 }
 
 
-void Lilliputian::AudioStreamSource2D::play(std::string audioStreamName)
+void Lilliputian::AudioStreamSource::play(std::string audioStreamName)
 {
 
 }
 
-void Lilliputian::AudioStreamSource2D::play()
+void Lilliputian::AudioStreamSource::play()
 {
 
 }
 
-void Lilliputian::AudioStreamSource2D::pause()
+void Lilliputian::AudioStreamSource::pause()
 {
 
 }
 
-void Lilliputian::AudioStreamSource2D::stop()
+void Lilliputian::AudioStreamSource::stop()
 {
 
 }
 
-std::vector<std::string> Lilliputian::AudioStreamSource2D::getAudioStreamNames()
+std::vector<std::string> Lilliputian::AudioStreamSource::getAudioStreamNames()
 {
 	std::vector<std::string> audioStreamNames;
 
@@ -89,7 +89,7 @@ std::vector<std::string> Lilliputian::AudioStreamSource2D::getAudioStreamNames()
 	return audioStreamNames;
 }
 
-Lilliputian::AudioStream Lilliputian::AudioStreamSource2D::getAudioStreamByName(std::string audioStreamName)
+Lilliputian::AudioStream Lilliputian::AudioStreamSource::getAudioStreamByName(std::string audioStreamName)
 {
 	AudioStream audioStream;
 

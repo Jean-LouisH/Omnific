@@ -20,14 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "rectangular_trigger_area_2d.hpp"
+#include "application/scene/assets/image.hpp"
 
-bool Lilliputian::RectangularTriggerArea2D::hasEntityEntered(EntityID entityID)
+namespace Lilliputian
 {
-	return this->enteringEntityIDs.count(entityID);
-}
-
-bool Lilliputian::RectangularTriggerArea2D::hasEntityWithTagEntered(std::string entityTag)
-{
-	return this->enteringEntityTags.count(entityTag);
+	class RegularPolytopalMesh
+	{
+	public:
+		Image& getImage();
+	private:
+		Image image;
+	};
 }

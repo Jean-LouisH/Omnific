@@ -20,15 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "regular_polytopal_mesh.hpp"
 
-
-
-namespace Lilliputian
+Lilliputian::Image& Lilliputian::RegularPolytopalMesh::getImage()
 {
-	class AISoundPerception2D
-	{
-	public:
-	private:
-	};
+	return this->image;
 }

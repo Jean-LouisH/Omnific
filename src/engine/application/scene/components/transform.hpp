@@ -22,18 +22,24 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include <vector>
-#include "utilities/vector2.hpp"
 
+#include "utilities/vector2.hpp"
 
 namespace Lilliputian
 {
-	class NavigationPath2D
+	class Transform
 	{
 	public:
-		std::vector<Vector2> waypoints;
+		Vector2 position_px;
+		float rotation_rad;
+		Vector2 scale;
+
+		Transform() :
+			rotation_rad(0.0)
+		{
+			this->scale.x = 1;
+			this->scale.y = 1;
+		}
 	private:
 	};
 }

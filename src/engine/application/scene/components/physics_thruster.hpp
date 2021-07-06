@@ -22,25 +22,13 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
-#include "utilities/aabb_2d.hpp"
-#include <set>
-#include <string>
-#include "utilities/constants.hpp"
 
 
 namespace Lilliputian
 {
-	class RectangularTriggerArea2D
+	class PhysicsThruster
 	{
 	public:
-		AABB2D aabb;
-
-		std::set<EntityID> enteringEntityIDs;
-		std::set<std::string> enteringEntityTags;
-
-		bool hasEntityEntered(EntityID entityID);
-		bool hasEntityWithTagEntered(std::string entityTag);
 	private:
 	};
 }

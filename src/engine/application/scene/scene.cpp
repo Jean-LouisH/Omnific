@@ -25,7 +25,7 @@
 
 Lilliputian::Scene::Scene()
 {
-	Transform2D* transform2D = new Transform2D();
+	Transform* transform2D = new Transform();
 	ComponentVariant componentVariant;
 
 	this->ID = IDCounter::getNewSceneID();
@@ -54,9 +54,9 @@ void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant compon
 	this->componentVariants.push_back(componentVariant);
 	this->entities2D.at(entityID).components.emplace(componentVariant.getType(), componentVariant.getID());
 
-	if (componentVariant.getType() == ComponentVariant::Type::TRANSFORM_2D)
+	if (componentVariant.getType() == ComponentVariant::Type::TRANSFORM)
 		this->transform2DIndexCache.push_back(this->componentVariants.size() - 1);
-	else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D)
+	else if (componentVariant.getType() == ComponentVariant::Type::CAMERA)
 		if (componentVariant.getCamera2D()->getIsStreaming())
 			this->currentCameraID = componentVariant.getID();
 }
@@ -68,7 +68,7 @@ void Lilliputian::Scene::addComponentToLastEntity(ComponentVariant componentVari
 
 void Lilliputian::Scene::removeEntity(EntityID entityID)
 {
-	for (int i = ComponentVariant::Type::AI_BEHAVIOUR_TREE;
+	for (int i = ComponentVariant::Type::BEHAVIOUR_TREE;
 		i < ComponentVariant::Type::UI_TREE;
 		i++)
 	{
@@ -107,7 +107,7 @@ void Lilliputian::Scene::changeCurrentCamera(Lilliputian::ComponentID newCurrent
 	{
 		if (this->componentVariants.at(i).getID() == newCurrentCameraID)
 		{
-			if (this->componentVariants.at(i).getType() == ComponentVariant::Type::CAMERA_2D)
+			if (this->componentVariants.at(i).getType() == ComponentVariant::Type::CAMERA)
 				this->currentCameraID = newCurrentCameraID;
 
 			break;
@@ -255,9 +255,9 @@ std::vector<Lilliputian::ComponentVariant>& Lilliputian::Scene::getComponentVari
 	return this->componentVariants;
 }
 
-Lilliputian::Transform2D& Lilliputian::Scene::getEntityTransform(EntityID entityID)
+Lilliputian::Transform& Lilliputian::Scene::getEntityTransform(EntityID entityID)
 {
-	Transform2D* transform2D = this->componentVariants.at(this->transform2DIndexCache.at(0)).getTransform2D();
+	Transform* transform2D = this->componentVariants.at(this->transform2DIndexCache.at(0)).getTransform2D();
 
 	for (int i = 0; i < this->transform2DIndexCache.size(); i++)
 		if (this->componentVariants.at(this->transform2DIndexCache.at(i)).getEntityID() == entityID)

@@ -20,19 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "box_trigger_space.hpp"
 
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include "utilities/vector2.hpp"
-
-
-namespace Lilliputian
+bool Lilliputian::BoxTriggerSpace::hasEntityEntered(EntityID entityID)
 {
-	class ConstantPointForce2D
-	{
-	public:
-		float force_N;
-	private:
-	};
+	return this->enteringEntityIDs.count(entityID);
+}
+
+bool Lilliputian::BoxTriggerSpace::hasEntityWithTagEntered(std::string entityTag)
+{
+	return this->enteringEntityTags.count(entityTag);
 }

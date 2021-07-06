@@ -20,15 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "application/scene/assets/image.hpp"
+#pragma once
+
+#include "utilities/aliases.hpp"
+#include "utilities/constants.hpp"
+#include <vector>
+#include "utilities/vector2.hpp"
+
 
 namespace Lilliputian
 {
-	class RegularPolygonalMesh2D
+	class NavigationPath
 	{
 	public:
-		Image& getImage();
+		std::vector<Vector2> waypoints;
 	private:
-		Image image;
 	};
 }

@@ -22,11 +22,15 @@
 
 #pragma once
 
+#include "utilities/aliases.hpp"
+#include "utilities/constants.hpp"
+#include <vector>
+#include "utilities/vector2.hpp"
 
 
 namespace Lilliputian
 {
-	class AIBehaviourTree
+	class NavigationMeshAgent
 	{
 	public:
 	private:

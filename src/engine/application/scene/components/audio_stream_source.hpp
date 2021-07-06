@@ -23,29 +23,34 @@
 #pragma once
 
 #include "utilities/aliases.hpp"
-#include "utilities/vector2.hpp"
+#include <set>
+#include <queue>
 #include "utilities/constants.hpp"
+#include <string>
+#include <vector>
+#include <map>
+#include "application/scene/assets/audio_stream.hpp"
 
 
 namespace Lilliputian
 {
-	class RigidBody2D
+	class AudioStreamSource
 	{
 	public:
-		float mass_kg = 1.0;
-		float friction_ratio = 1.0;
-		float angularDrag_ratio = 1.0;
-		float angularVelocity_rad_per_s = 0.0;
-		float gravity_scale = 1.0;
-		float elasticity_ratio = 0.01;
-		Vector2 drag_ratio;
-		Vector2 velocity_px_per_s;
-
-		RigidBody2D()
-		{
-			this->drag_ratio.x = 0.0001;
-			this->drag_ratio.y = 1.0;
-		}
+		void addAudioStream(AudioStream audioStream);
+		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
+		void clearAudioStreams();
+		std::queue<AudioStream> popEntireAudioPlayQueue();
+		void clearAudioPlayQueue();
+		void play(std::string audioStreamName);
+		void play();
+		void pause();
+		void stop();
+		std::vector<std::string> getAudioStreamNames();
+		AudioStream getAudioStreamByName(std::string audioStreamName);
 	private:
+//		Map<String, AudioStream> audioStreams;
+		std::queue<AudioStream> audioPlayQueue;
+		bool isPlaying = false;
 	};
 }

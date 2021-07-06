@@ -25,33 +25,32 @@
 
 #include "utilities/aliases.hpp"
 
-#include "ai_behaviour_tree.hpp"
-#include "ai_sight_perception.hpp"
-#include "ai_sound_perception.hpp"
+#include "behaviour_tree.hpp"
+#include "sight_perception.hpp"
+#include "sound_perception.hpp"
 #include "animated_sprite.hpp"
-#include "audio_listener_2d.hpp"
-#include "audio_stream_source_2d.hpp"
-#include "camera_2d.hpp"
-#include "circle_collider_2d.hpp"
-#include "constant_directional_force_2d.hpp"
-#include "constant_point_force_2d.hpp"
+#include "audio_listener.hpp"
+#include "audio_stream_source.hpp"
+#include "camera.hpp"
+#include "ball_collider.hpp"
+#include "constant_directional_force.hpp"
+#include "constant_point_force.hpp"
 #include "countdown_timer.hpp"
-#include "fixed_transform_2d.hpp"
-#include "kinematic_body_2d.hpp"
-#include "navigation_mesh_agent_2d.hpp"
-#include "navigation_mesh_box_obstacle_2d.hpp"
-#include "navigation_path_2d.hpp"
-#include "physics_constraint_2d.hpp"
-#include "physics_thruster_2d.hpp"
+#include "kinematic_body.hpp"
+#include "navigation_mesh_agent.hpp"
+#include "navigation_mesh_box_obstacle.hpp"
+#include "navigation_path.hpp"
+#include "physics_constraint.hpp"
+#include "physics_thruster.hpp"
 #include "property_animation.hpp"
-#include "rectangular_collider_2d.hpp"
-#include "rectangular_mesh_2d.hpp"
-#include "rectangular_trigger_area_2d.hpp"
-#include "regular_polygonal_mesh_2d.hpp"
-#include "rigid_body_2d.hpp"
+#include "box_collider.hpp"
+#include "box_mesh.hpp"
+#include "box_trigger_space.hpp"
+#include "regular_polytopal_mesh.hpp"
+#include "rigid_body.hpp"
 #include "sprite.hpp"
-#include "static_fluid_2d.hpp"
-#include "transform_2d.hpp"
+#include "static_fluid.hpp"
+#include "transform.hpp"
 #include "ui_button.hpp"
 #include "ui_rectangle.hpp"
 #include "ui_graph_edit.hpp"
@@ -78,34 +77,33 @@ namespace Lilliputian
 		enum Type
 		{
 			NONE,
-			AI_BEHAVIOUR_TREE,
-			AI_SIGHT_PERCEPTION,
-			AI_SOUND_PERCEPTION,
+			BEHAVIOUR_TREE,
+			SIGHT_PERCEPTION,
+			SOUND_PERCEPTION,
 			ANIMATED_SPRITE,
-			AUDIO_LISTENER_2D,
-			AUDIO_STREAM_SOURCE_2D,
-			CAMERA_2D,
-			CIRCLE_COLLIDER_2D,
-			CONSTANT_DIRECTIONAL_FORCE_2D,
-			CONSTANT_POINT_FORCE_2D,
+			AUDIO_LISTENER,
+			AUDIO_STREAM_SOURCE,
+			CAMERA,
+			BALL_COLLIDER,
+			CONSTANT_DIRECTIONAL_FORCE,
+			CONSTANT_POINT_FORCE,
 			COUNTDOWN_TIMER,
-			FIXED_TRANSFORM_2D,
-			KINEMATIC_BODY_2D,
-			NAVIGATION_MESH_2D,
-			NAVIGATION_MESH_AGENT_2D,
-			NAVIGATION_MESH_BOX_OBSTACLE_2D,
-			NAVIGATION_PATH_2D,
-			PHYSICS_CONSTRAINT_2D,
-			PHYSICS_THRUSTER_2D,
+			KINEMATIC_BODY,
+			NAVIGATION_MESH,
+			NAVIGATION_MESH_AGENT,
+			NAVIGATION_MESH_BOX_OBSTACLE,
+			NAVIGATION_PATH,
+			PHYSICS_CONSTRAINT,
+			PHYSICS_THRUSTER,
 			PROPERTY_ANIMATION,
-			RECTANGULAR_COLIIDER_2D,
-			RECTANGULAR_MESH_2D,
-			RECTANGULAR_TRIGGER_AREA_2D,
-			REGULAR_POLYGONAL_MESH_2D,
-			RIGID_BODY_2D,
+			BOX_COLLIDER,
+			BOX_MESH,
+			BOX_TRIGGER_SPACE,
+			REGULAR_POLYTOPAL_MESH,
+			RIGID_BODY,
 			SPRITE,
-			STATIC_FLUID_2D,
-			TRANSFORM_2D,
+			STATIC_FLUID,
+			TRANSFORM,
 			UI_BUTTON,
 			UI_RECTANGLE,
 			UI_GRAPH_EDIT,
@@ -130,33 +128,32 @@ namespace Lilliputian
 
 		void setEntityID(EntityID entityID);
 
-		void setTo(AIBehaviourTree* aiBehaviourTree);
-		void setTo(AISightPerception2D* aiSightPerception2D);
-		void setTo(AISoundPerception2D* aiSoundPerception2D);
+		void setTo(BehaviourTree* aiBehaviourTree);
+		void setTo(SightPerception* aiSightPerception2D);
+		void setTo(SoundPerception* aiSoundPerception2D);
 		void setTo(AnimatedSprite* animatedSprite);
-		void setTo(AudioListener2D* audioListener2D);
-		void setTo(Camera2D* camera2D);
-		void setTo(CircleCollider2D* circleCollider2D);
-		void setTo(ConstantDirectionalForce2D* constantDirectionalForce2D);
-		void setTo(ConstantPointForce2D* constantPointForce2D);
+		void setTo(AudioListener* audioListener2D);
+		void setTo(Camera* camera2D);
+		void setTo(BallCollider* circleCollider2D);
+		void setTo(ConstantDirectionalForce* constantDirectionalForce2D);
+		void setTo(ConstantPointForce* constantPointForce2D);
 		void setTo(CountdownTimer* countdownTimer);
-		void setTo(FixedTransform2D* fixedTransform2D);
-		void setTo(KinematicBody2D* kinematicBody2D);
-		void setTo(NavigationMeshAgent2D* navigationMeshAgent2D);
-		void setTo(NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D);
-		void setTo(NavigationPath2D* navigationPath2D);
-		void setTo(PhysicsConstraint2D* physicsConstraint2D);
-		void setTo(PhysicsThruster2D* physicsThruster2D);
+		void setTo(KinematicBody* kinematicBody2D);
+		void setTo(NavigationMeshAgent* navigationMeshAgent2D);
+		void setTo(NavigationMeshBoxObstacle* navigationMeshBoxObstacle2D);
+		void setTo(NavigationPath* navigationPath2D);
+		void setTo(PhysicsConstraint* physicsConstraint2D);
+		void setTo(PhysicsThruster* physicsThruster2D);
 		void setTo(PropertyAnimation* propertyAnimation);
-		void setTo(RectangularCollider2D* rectangularCollider2D);
-		void setTo(RectangularMesh2D* rectangularMesh2D);
-		void setTo(RectangularTriggerArea2D* rectangularTriggerArea2D);
-		void setTo(RegularPolygonalMesh2D* regularPolygonalMesh2D);
-		void setTo(RigidBody2D* rigidBody2D);
+		void setTo(BoxCollider* rectangularCollider2D);
+		void setTo(BoxMesh* rectangularMesh2D);
+		void setTo(BoxTriggerSpace* rectangularTriggerArea2D);
+		void setTo(RegularPolytopalMesh* regularPolygonalMesh2D);
+		void setTo(RigidBody* rigidBody2D);
 		void setTo(Sprite* sprite);
-		void setTo(StaticFluid2D* staticFluid2D);
-		void setTo(Transform2D* transform2D);
-		void setTo(AudioStreamSource2D* audioStreamSource2D);
+		void setTo(StaticFluid* staticFluid2D);
+		void setTo(Transform* transform2D);
+		void setTo(AudioStreamSource* audioStreamSource2D);
 		void setTo(UIButton* uiButton);
 		void setTo(UIRectangle* uiRectangle);
 		void setTo(UIGraphEdit* uiGraphEdit);
@@ -176,33 +173,32 @@ namespace Lilliputian
 
 		bool isRenderable();
 
-		AIBehaviourTree* getAIBehaviourTree();
-		AISightPerception2D* getAISightPerception2D();
-		AISoundPerception2D* getAISoundPerception2D();
+		BehaviourTree* getAIBehaviourTree();
+		SightPerception* getAISightPerception2D();
+		SoundPerception* getAISoundPerception2D();
 		AnimatedSprite* getAnimatedSprite();
-		AudioListener2D* getAudioListener2D();
-		Camera2D* getCamera2D();
-		CircleCollider2D* getCircleCollider2D();
-		ConstantDirectionalForce2D* getConstantDirectionalForce2D();
-		ConstantPointForce2D* getConstantPointForce2D();
+		AudioListener* getAudioListener2D();
+		Camera* getCamera2D();
+		BallCollider* getCircleCollider2D();
+		ConstantDirectionalForce* getConstantDirectionalForce2D();
+		ConstantPointForce* getConstantPointForce2D();
 		CountdownTimer* getCountdownTimer();
-		FixedTransform2D* getFixedTransform2D();
-		KinematicBody2D* getKinematicBody2D();
-		NavigationMeshAgent2D* getNavigationMeshAgent2D();
-		NavigationMeshBoxObstacle2D* getNavigationMeshBoxObstacle2D();
-		NavigationPath2D* getNavigationPath2D();
-		PhysicsConstraint2D* getPhysicsConstraint2D();
-		PhysicsThruster2D* getPhysicsThruster2D();
+		KinematicBody* getKinematicBody2D();
+		NavigationMeshAgent* getNavigationMeshAgent2D();
+		NavigationMeshBoxObstacle* getNavigationMeshBoxObstacle2D();
+		NavigationPath* getNavigationPath2D();
+		PhysicsConstraint* getPhysicsConstraint2D();
+		PhysicsThruster* getPhysicsThruster2D();
 		PropertyAnimation* getPropertyAnimation();
-		RectangularCollider2D* getRectangularCollider2D();
-		RectangularMesh2D* getRectangularMesh2D();
-		RectangularTriggerArea2D* getRectangularTriggerArea2D();
-		RegularPolygonalMesh2D* getRegularPolygonalMesh2D();
-		RigidBody2D* getRigidBody2D();
+		BoxCollider* getRectangularCollider2D();
+		BoxMesh* getRectangularMesh2D();
+		BoxTriggerSpace* getRectangularTriggerArea2D();
+		RegularPolytopalMesh* getRegularPolygonalMesh2D();
+		RigidBody* getRigidBody2D();
 		Sprite* getSprite();
-		StaticFluid2D* getStaticFluid2D();
-		Transform2D* getTransform2D();
-		AudioStreamSource2D* getAudioStreamSource2D();
+		StaticFluid* getStaticFluid2D();
+		Transform* getTransform2D();
+		AudioStreamSource* getAudioStreamSource2D();
 		UIButton* getUIButton();
 		UIRectangle* getUIRectangle();
 		UIGraphEdit* getUIGraphEdit();
@@ -235,33 +231,32 @@ namespace Lilliputian
 		
 		union
         {
-			AIBehaviourTree* aiBehaviourTree;
-			AISightPerception2D* aiSightPerception2D;
-			AISoundPerception2D* aiSoundPerception2D;
+			BehaviourTree* aiBehaviourTree;
+			SightPerception* aiSightPerception2D;
+			SoundPerception* aiSoundPerception2D;
 			AnimatedSprite* animatedSprite;
-			AudioListener2D* audioListener2D;
-			Camera2D* camera2D;
-			CircleCollider2D* circleCollider2D;
-			ConstantDirectionalForce2D* constantDirectionalForce2D;
-			ConstantPointForce2D* constantPointForce2D;
+			AudioListener* audioListener2D;
+			Camera* camera2D;
+			BallCollider* circleCollider2D;
+			ConstantDirectionalForce* constantDirectionalForce2D;
+			ConstantPointForce* constantPointForce2D;
 			CountdownTimer* countdownTimer;
-			FixedTransform2D* fixedTransform2D;
-			KinematicBody2D* kinematicBody2D;
-			NavigationMeshAgent2D* navigationMeshAgent2D;
-			NavigationMeshBoxObstacle2D* navigationMeshBoxObstacle2D;
-			NavigationPath2D* navigationPath2D;
-			PhysicsConstraint2D* physicsConstraint2D;
-			PhysicsThruster2D* physicsThruster2D;
+			KinematicBody* kinematicBody2D;
+			NavigationMeshAgent* navigationMeshAgent2D;
+			NavigationMeshBoxObstacle* navigationMeshBoxObstacle2D;
+			NavigationPath* navigationPath2D;
+			PhysicsConstraint* physicsConstraint2D;
+			PhysicsThruster* physicsThruster2D;
 			PropertyAnimation* propertyAnimation;
-			RectangularCollider2D* rectangularCollider2D;
-			RectangularMesh2D* rectangularMesh2D;
-			RectangularTriggerArea2D* rectangularTriggerArea2D;
-			RegularPolygonalMesh2D* regularPolygonalMesh2D;
-			RigidBody2D* rigidBody2D;
+			BoxCollider* rectangularCollider2D;
+			BoxMesh* rectangularMesh2D;
+			BoxTriggerSpace* rectangularTriggerArea2D;
+			RegularPolytopalMesh* regularPolygonalMesh2D;
+			RigidBody* rigidBody2D;
 			Sprite* sprite;
-			StaticFluid2D* staticFluid2D;
-			Transform2D* transform2D;
-			AudioStreamSource2D* audioStreamSource2D;
+			StaticFluid* staticFluid2D;
+			Transform* transform2D;
+			AudioStreamSource* audioStreamSource2D;
 			UIButton* uiButton;
 			UIRectangle* uiRectangle;
 			UIGraphEdit* uiGraphEdit;

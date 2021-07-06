@@ -20,4 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "kinematic_body_2d.hpp"
+#pragma once
+
+
+
+namespace Lilliputian
+{
+	class StaticFluid
+	{
+	public:
+	private:
+	};
+}

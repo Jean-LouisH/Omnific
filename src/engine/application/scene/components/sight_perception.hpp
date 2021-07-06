@@ -26,7 +26,7 @@
 
 namespace Lilliputian
 {
-	class StaticFluid2D
+	class SightPerception
 	{
 	public:
 	private:

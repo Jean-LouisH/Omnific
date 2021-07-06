@@ -20,15 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "application/scene/assets/image.hpp"
+#pragma once
+
+#include "utilities/aliases.hpp"
+#include "utilities/constants.hpp"
+#include "utilities/vector2.hpp"
+
 
 namespace Lilliputian
 {
-	class RectangularMesh2D
+	class ConstantPointForce
 	{
 	public:
-		Image& getImage();
+		float force_N;
 	private:
-		Image image;
 	};
 }

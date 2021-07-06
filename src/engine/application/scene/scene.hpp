@@ -63,7 +63,7 @@ namespace Lilliputian
 
 		ComponentID getCurrentCameraID();
 		std::vector<ComponentVariant>& getComponentVariants();
-		Transform2D& getEntityTransform(EntityID entityID);
+		Transform& getEntityTransform(EntityID entityID);
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();

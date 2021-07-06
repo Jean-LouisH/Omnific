@@ -20,56 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "camera_2d.hpp"
+#pragma once
 
-Lilliputian::Camera2D::Camera2D()
-{
-	this->setViewportWidth(300);
-}
+#include "utilities/aliases.hpp"
+#include "utilities/vector2.hpp"
+#include "utilities/constants.hpp"
 
-void Lilliputian::Camera2D::resetAspect()
-{
-	this->aspect = defaultAspect;
-}
 
-Lilliputian::Rectangle Lilliputian::Camera2D::getViewportDimensions()
+namespace Lilliputian
 {
-	return this->viewport_px;
-}
+	class RigidBody
+	{
+	public:
+		float mass_kg = 1.0;
+		float friction_ratio = 1.0;
+		float angularDrag_ratio = 1.0;
+		float angularVelocity_rad_per_s = 0.0;
+		float gravity_scale = 1.0;
+		float elasticity_ratio = 0.01;
+		Vector2 drag_ratio;
+		Vector2 velocity_px_per_s;
 
-bool Lilliputian::Camera2D::getIsStreaming()
-{
-	return this->isStreaming;
-}
-
-void Lilliputian::Camera2D::setViewportWidth(uint32_t width_px)
-{
-	this->viewport_px.width = width_px;
-	if (keepAspect)
-		this->viewport_px.height = (uint32_t)((double)width_px / aspect);
-}
-
-void Lilliputian::Camera2D::setViewportHeight(uint32_t height_px)
-{
-	this->viewport_px.height = height_px;
-	if (keepAspect)
-		this->viewport_px.width = (uint32_t)((double)height_px * aspect);
-}
-
-void Lilliputian::Camera2D::setLimits(float left, float bottom, float top, float right)
-{
-	this->limits_px.min_px.x = left;
-	this->limits_px.min_px.y = bottom;
-	this->limits_px.max_px.x = right;
-	this->limits_px.max_px.y = top;
-}
-
-void Lilliputian::Camera2D::setKeepAspect(bool value)
-{
-	this->keepAspect = value;
-}
-
-void Lilliputian::Camera2D::setIsStreaming(bool value)
-{
-	this->isStreaming = value;
+		RigidBody()
+		{
+			this->drag_ratio.x = 0.0001;
+			this->drag_ratio.y = 1.0;
+		}
+	private:
+	};
 }

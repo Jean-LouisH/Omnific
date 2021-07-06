@@ -20,19 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include "utilities/vector2.hpp"
-
-
-namespace Lilliputian
-{
-	class ConstantDirectionalForce2D
-	{
-	public:
-		Vector2 force_N;
-	private:
-	};
-}
+#include "kinematic_body.hpp"
