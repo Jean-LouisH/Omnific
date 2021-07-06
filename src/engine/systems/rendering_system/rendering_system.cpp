@@ -71,76 +71,69 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 	SDL::Rendering2D::Camera2D outputCamera2D;
 	outputCamera2D.isStreaming = false;
 
-	std::vector<SceneTree2D> sceneTree2Ds = scene.getSceneTree2Ds();
-	int sceneTree2DCount = sceneTree2Ds.size();
+	std::vector<ComponentVariant> componentVariants = scene.getComponentVariants();
 
-	for (int i = 0; i < sceneTree2DCount; i++)
+	for (int j = 0; j < componentVariants.size(); j++)
 	{
-		SceneTree2D sceneTree2D = sceneTree2Ds.at(i);
-		std::vector<ComponentVariant> componentVariants = sceneTree2D.getComponentVariants();
+		SDL::Rendering2D::Sprite2D outputSprite2D;
+		ComponentVariant componentVariant = componentVariants.at(j);
+		Camera2D* camera2D;
+		Sprite* sprite;
+		AnimatedSprite* animatedSprite;
+		UITextLabel* uiTextLabel;
+		SDL::Rendering2D::Texture outputTexture;
+		Image image;
 
-		for (int j = 0; j < componentVariants.size(); j++)
+		if (componentVariant.isRenderable())
 		{
-			SDL::Rendering2D::Sprite2D outputSprite2D;
-			ComponentVariant componentVariant = componentVariants.at(j);
-			Camera2D* camera2D;
-			Sprite* sprite;
-			AnimatedSprite* animatedSprite;
-			UITextLabel* uiTextLabel;
-			SDL::Rendering2D::Texture outputTexture;
-			Image image;
+			Transform2D transform2D = scene.getEntityTransform(componentVariant.getEntityID());
+			Vector2 position_px = transform2D.position_px;
+			Vector2 scale = transform2D.scale;
+			SDL_Texture* sdlTexture;
 
-			if (componentVariant.isRenderable())
+			outputSprite2D.transform.position_px.x = position_px.x;
+			outputSprite2D.transform.position_px.y = position_px.y;
+			outputSprite2D.transform.scale.x = scale.x;
+			outputSprite2D.transform.scale.y = scale.y;
+			outputSprite2D.transform.rotation_rad = transform2D.rotation_rad;
+
+			image = componentVariant.getImage();
+
+			outputTexture.pixels.width = image.getWidth();
+			outputTexture.pixels.height = image.getHeight();
+
+			if (!this->textureCache.containsKey(image.getID()))
 			{
-				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.getEntityID());
-				Vector2 position_px = transform2D.position_px;
-				Vector2 scale = transform2D.scale;
-				SDL_Texture* sdlTexture;
-
-				outputSprite2D.transform.position_px.x = position_px.x;
-				outputSprite2D.transform.position_px.y = position_px.y;
-				outputSprite2D.transform.scale.x = scale.x;
-				outputSprite2D.transform.scale.y = scale.y;
-				outputSprite2D.transform.rotation_rad = transform2D.rotation_rad;
-
-				image = componentVariant.getImage();
-
-				outputTexture.pixels.width = image.getWidth();
-				outputTexture.pixels.height = image.getHeight();
-
-				if (!this->textureCache.containsKey(image.getID()))
-				{
-					outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
-					this->textureCache.emplace(image.getID(), outputTexture.data);
-				}
-				else
-				{
-					outputTexture.data = this->textureCache.at(image.getID());
-				}
-
-				outputSprite2D.textureFrames.push_back(outputTexture);
-				outputSprite2D.alpha = image.getAlpha();
-				outputsprite2Ds.push_back(outputSprite2D);
-
+				outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
+				this->textureCache.emplace(image.getID(), outputTexture.data);
 			}
-			else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D &&
-				 componentVariant.getID() == sceneTree2D.getCurrentCameraID())
+			else
 			{
-				Transform2D transform2D = sceneTree2D.getEntityTransform(componentVariant.getEntityID());
-				Vector2 position_px = transform2D.position_px;
-				Vector2 scale = transform2D.scale;
-				camera2D = componentVariant.getCamera2D();
-				Rectangle viewport_px = camera2D->getViewportDimensions();
-
-				outputCamera2D.isStreaming = true;
-				outputCamera2D.transform.position_px.x = position_px.x;
-				outputCamera2D.transform.position_px.y = position_px.y;
-				outputCamera2D.transform.scale.x = scale.x;
-				outputCamera2D.transform.scale.y = scale.y;
-				outputCamera2D.transform.rotation_rad = transform2D.rotation_rad;
-				outputCamera2D.viewport_px.width = viewport_px.width;
-				outputCamera2D.viewport_px.height = viewport_px.height;
+				outputTexture.data = this->textureCache.at(image.getID());
 			}
+
+			outputSprite2D.textureFrames.push_back(outputTexture);
+			outputSprite2D.alpha = image.getAlpha();
+			outputsprite2Ds.push_back(outputSprite2D);
+
+		}
+		else if (componentVariant.getType() == ComponentVariant::Type::CAMERA_2D &&
+				componentVariant.getID() == scene.getCurrentCameraID())
+		{
+			Transform2D transform2D = scene.getEntityTransform(componentVariant.getEntityID());
+			Vector2 position_px = transform2D.position_px;
+			Vector2 scale = transform2D.scale;
+			camera2D = componentVariant.getCamera2D();
+			Rectangle viewport_px = camera2D->getViewportDimensions();
+
+			outputCamera2D.isStreaming = true;
+			outputCamera2D.transform.position_px.x = position_px.x;
+			outputCamera2D.transform.position_px.y = position_px.y;
+			outputCamera2D.transform.scale.x = scale.x;
+			outputCamera2D.transform.scale.y = scale.y;
+			outputCamera2D.transform.rotation_rad = transform2D.rotation_rad;
+			outputCamera2D.viewport_px.width = viewport_px.width;
+			outputCamera2D.viewport_px.height = viewport_px.height;
 		}
 	}
 

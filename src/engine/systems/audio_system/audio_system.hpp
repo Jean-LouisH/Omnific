@@ -24,7 +24,7 @@
 
 #include <SDL_mixer.h>
 #include <queue>
-#include "game/scene/scene.hpp"
+#include "application/scene/scene.hpp"
 
 namespace Lilliputian
 {

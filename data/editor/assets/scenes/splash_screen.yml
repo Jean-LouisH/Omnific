@@ -1,17 +1,21 @@
-SceneTree2D:
-  Entity2D:
+Scene:
+  Entity:
     name: "Camera"
+    spatial_dimension: 2
     Camera2D: "default"
-  Entity2D:
+  Entity:
     name: "SplashScreenSprite"
+    spatial_dimension: 2
     Sprite:
       image: "assets/images/lilliputian_wordmark.png"
-  Entity2D:
+  Entity:
     name: "SceneTransition"
+    spatial_dimension: 2
     CountdownTimer: "default"
     Scripts: ["assets/scripts/splash_screen_transition.py"]
-  Entity2D:
+  Entity:
     name: "Text"
+    spatial_dimension: 2
     Transform2D:
       position_px: [0, -200]
     UITextLabel: 

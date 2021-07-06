@@ -25,7 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include <map>
-#include <game/scene/assets/image.hpp>
+#include <application/scene/assets/image.hpp>
 
 namespace Lilliputian
 {

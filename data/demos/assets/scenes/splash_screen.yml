@@ -1,12 +1,12 @@
-Subscene2D:
-  Entity2D:
+Scene:
+  Entity:
     name: "Camera"
     Camera2D:
       viewport_px: [0, 0]
-  Entity2D:
+  Entity:
     name: "SplashScreenSprite"
     Sprite2D:
       image: "images/lilliputian_wordmark.png"
-  Entity2D:
+  Entity:
     name: "SceneTransition"
     Scripts: ["return_to_main_menu"]

@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "animation_system.hpp"
-#include "game/scene/scene.hpp"
+#include "application/scene/scene.hpp"
 
 Lilliputian::AnimationSystem::AnimationSystem()
 {

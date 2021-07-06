@@ -1,39 +1,39 @@
-Subscene2D:
-  Entity2D:
+Scene:
+  Entity:
     name: "Camera"
     Scripts: ["PongShakeCamera"]
     Camera2D:
       viewport_px: [0, 0]
-  Entity2D:
+  Entity:
     name: "System"
     Scripts: ["ReturnToMainMenu"]
-  Entity2D:
+  Entity:
     name: "GameMechanics"
     Scripts: ["PongGenerateBall", "PongManageScore"]
-  Entity2D:
+  Entity:
     name: "Paddle1"
     position_px: [0, 0]
     Scripts: ["PongControlPlayer"]
-    Entity2D:
+    Entity:
       name: "ScoreCount1"
       position_px: [0, 0]
       RichTextLabel:
         text: ""
-  Entity2D:
+  Entity:
     name: "Paddle2"
     position_px: [0, 0]
     Scripts: ["PongControlAI"]
-    Entity2D:
+    Entity:
       name: "ScoreCount2"
       position_px: [0, 0]
       RichTextLabel:
         text: ""
-  Entity2D:
+  Entity:
     name: "UpperBoundary"
     position_px: [0, 0]
     BoxCollider2D:
       aabb: [[0.0, 0.0],[0.0, 0.0]]
-  Entity2D:
+  Entity:
     name: "LowerBoundary"
     position_px: [0, 0]
     scale: [1.0, 1.0]

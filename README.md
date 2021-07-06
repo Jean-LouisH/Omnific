@@ -4,23 +4,21 @@
 
 **This project is still a work in progress**
 
-[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny 2D game engine and IDE** for introductory game development, prototyping and programming learning. Its sole purpose is to provide the user with the entire development process in a single application and make it as simple as possible.
+[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny general-purpose, interactive application framework** for desktop applications and games using Python scripting.
 
 It is named after the tiny inhabitants of the fictional Lilliput island that appears in Jonathan Swift's 1726 novel "Guilliver's Travels." This reflects the objective of keeping the engine as small as necessary.
 
 ## Notable Target Features
 
-- [ ] Scene Editor and IDE
-- [x] Python Scripting
-- [ ] Scripting APIs
-- [ ] Game Executable Exporting
-- [x] Mouse, Keyboard and Game Controller Support
-- [x] Haptic Feedback Support
-- [x] JPG and PNG Support for Sprites and Animation
-- [ ] OGG and WAV Support for Audio Sources
-- [ ] Procedural Geometric Primitive Objects (Rectangles, Triangles, Regular Polygons)
-- [ ] Physics, Collision Detection and Response
-- [x] Multiple and Independent 2D Scene Trees in one Scene Forest (For Backgrounds, Game Environment, HUD, etc)
+- [x] Scene graph representation
+- [ ] Scene editor and IDE
+- [x] Python scripting
+- [x] Scripting APIs
+- [ ] Executable exporting
+- [x] Mouse, keyboard and game controller support
+- [x] Haptic feedback support
+- [ ] Audio-visual asset importing
+- [ ] Physics simulation, collision detection and response
 
 ## Compilation Instructions
 

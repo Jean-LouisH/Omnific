@@ -1,15 +1,15 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE game_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE game_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE application_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE application_headers "[a-zA-Z]*.hpp")
 
-add_executable(game 
-	  ${game_sources}
-	  ${game_headers}
+add_executable(application 
+	  ${application_sources}
+	  ${application_headers}
  )
 
-add_dependencies(game
+add_dependencies(application
 	lilliputian_engine
 )
 
@@ -27,7 +27,7 @@ include_directories(
 		.
 )
 
-target_link_libraries (game
+target_link_libraries (application
 		lilliputian_engine
 		${SDL2}
 )

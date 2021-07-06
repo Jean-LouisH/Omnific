@@ -28,7 +28,7 @@ namespace Lilliputian
 {
 	using ID = uint64_t;
 	using EntityID = ID;
-	using SceneTreeID = ID;
+	using SceneID = ID;
 	using ComponentID = ID;
 	using AssetID = ID;
 	using ControllerPlayerID = uint8_t;

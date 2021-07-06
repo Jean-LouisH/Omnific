@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <string>
-#include "game/game.hpp"
+#include "application/application.hpp"
 #include "systems/ai_system/ai_system.hpp"
 #include "systems/animation_system/animation_system.hpp"
 #include "systems/audio_system/audio_system.hpp"
@@ -57,7 +57,7 @@ namespace Lilliputian
 
 		void run();
 	private:
-		Game* game = nullptr;
+		Application* application = nullptr;
 		AISystem* aiSystem = nullptr;
 		AnimationSystem* animationSystem = nullptr;
 		AudioSystem* audioSystem = nullptr;

@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "physics_system.hpp"
-#include "game/scene/scene.hpp"
+#include "application/scene/scene.hpp"
 #include <utilities/constants.hpp>
 #include <os/os.hpp>
 
@@ -42,24 +42,16 @@ void Lilliputian::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpda
 
 void Lilliputian::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 {
-	std::vector<SceneTree2D>& sceneTree2Ds = scene.getSceneTree2Ds();
-	SceneTree2D* sceneTree2DsData = sceneTree2Ds.data();
-	int sceneTree2DCount = sceneTree2Ds.size();
+	std::vector<ComponentVariant>& componentVariants = scene.getComponentVariants();
+	ComponentVariant* componentVariantsData = componentVariants.data();
+	int componentVariantCount = componentVariants.size();
 
-	for (int i = 0; i < sceneTree2DCount; i++)
+	for (int j = 0; j < componentVariantCount; j++)
 	{
-		std::vector<ComponentVariant>& componentVariants = sceneTree2DsData[i].getComponentVariants();
-		ComponentVariant* componentVariantsData = componentVariants.data();
-		int componentVariantCount = componentVariants.size();
-
-		for (int j = 0; j < componentVariantCount; j++)
+		ComponentVariant* componentVariant = &componentVariantsData[j];
+		if (componentVariant->getType() == ComponentVariant::Type::COUNTDOWN_TIMER)
 		{
-			ComponentVariant* componentVariant = &componentVariantsData[j];
-			if (componentVariant->getType() == ComponentVariant::Type::COUNTDOWN_TIMER)
-			{
-				componentVariant->getCountdownTimer()->update(msPerComputeUpdate * (1.0 / MS_IN_S));
-			}
+			componentVariant->getCountdownTimer()->update(msPerComputeUpdate * (1.0 / MS_IN_S));
 		}
-
 	}
 }

@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "game/scene/scene.hpp"
+#include "application/scene/scene.hpp"
 #include <vector>
 #include "rendering_sdl/sdl_renderable.hpp"
 #include "os/window.hpp"

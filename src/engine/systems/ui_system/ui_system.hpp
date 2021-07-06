@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "game/scene/scene.hpp"
+#include "application/scene/scene.hpp"
 #include "os/human_interface_devices.hpp"
 
 namespace Lilliputian

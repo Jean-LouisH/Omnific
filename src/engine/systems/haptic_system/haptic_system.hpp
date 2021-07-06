@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "game/scene/scene.hpp"
+#include "application/scene/scene.hpp"
 #include <SDL.h>
 #include <vector>
 #include <map>
 #include "os/human_interface_devices.hpp"
-#include <game/scene/haptic_signal_buffer.hpp>
+#include <application/scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
 
 namespace Lilliputian

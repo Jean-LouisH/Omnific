@@ -36,8 +36,8 @@ void Lilliputian::Engine::run()
 	{
 		if (this->initialize())
 		{
-			this->game->initialize();
-			Configuration configuration = this->game->getConfiguration();
+			this->application->initialize();
+			Configuration configuration = this->application->getConfiguration();
 
 			if (configuration.isLoaded)
 			{
@@ -75,7 +75,7 @@ void Lilliputian::Engine::run()
 			profiler.incrementFrameCount();
 		}
 
-		this->game->deinitialize();
+		this->application->deinitialize();
 		this->shutdown();
 	} while (this->state.isRestarting());
 }
@@ -100,7 +100,7 @@ bool Lilliputian::Engine::initialize()
 		Profiler& profiler = OS::getProfiler();
 		profiler.getBenchmarkTimer().setStart();
 
-		this->game = new Game();
+		this->application = new Application();
 		this->aiSystem = new AISystem();
 		this->animationSystem = new AnimationSystem();
 		this->audioSystem = new AudioSystem();
@@ -133,25 +133,25 @@ void Lilliputian::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
-	Scene& activeScene = this->game->getActiveScene();
-	const uint32_t msPerComputeUpdate = this->game->getConfiguration().timeSettings.msPerComputeUpdate;
+	Scene& activeScene = this->application->getActiveScene();
+	const uint32_t msPerComputeUpdate = this->application->getConfiguration().timeSettings.msPerComputeUpdate;
 
-	this->game->executeOnInputMethods();
-	this->game->executeOnStartMethods();
-	this->game->executeOnFrameMethods();
+	this->application->executeOnInputMethods();
+	this->application->executeOnStartMethods();
+	this->application->executeOnFrameMethods();
 	this->uiSystem->process(activeScene, OS::getHid());
 	this->aiSystem->process(activeScene);
 
 	while (profiler.getLag_ms() >= msPerComputeUpdate)
 	{
-		this->game->executeOnComputeMethods();
+		this->application->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
 		this->physicsSystem->process(activeScene, msPerComputeUpdate);
 		profiler.decrementLagCount(msPerComputeUpdate);
 	}
 
-	this->game->executeOnLateMethods();
-	this->game->executeOnFinalMethods();
+	this->application->executeOnLateMethods();
+	this->application->executeOnFinalMethods();
 	profiler.incrementLagCount(profiler.getFrameTimer().getDelta_ns() / NS_IN_MS);
 	profiler.getUpdateTimer().setEnd();
 }
@@ -161,9 +161,9 @@ void Lilliputian::Engine::output()
 	Profiler& profiler = OS::getProfiler();
 	profiler.getOutputTimer().setStart();
 
-	this->renderingSystem->process(this->game->getActiveScene());
-	this->audioSystem->process(this->game->getActiveScene());
-	this->hapticSystem->process(this->game->getActiveScene(), OS::getHid());
+	this->renderingSystem->process(this->application->getActiveScene());
+	this->audioSystem->process(this->application->getActiveScene());
+	this->hapticSystem->process(this->application->getActiveScene(), OS::getHid());
 
 	profiler.getOutputTimer().setEnd();
 }
@@ -180,7 +180,7 @@ void Lilliputian::Engine::benchmark()
 		std::string FPSString = std::to_string(profiler.getFPS());
 		std::string frameUtilizationString =
 			std::to_string((int)(((double)profiler.getProcessTimer().getDelta_ns() / (double)profiler.getFrameTimer().getDelta_ns()) * 100));
-		OS::getWindow().changeTitle((this->game->getConfiguration().metadata.gameTitle + " (DEBUG) ->" +
+		OS::getWindow().changeTitle((this->application->getConfiguration().metadata.gameTitle + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
 	}
@@ -191,14 +191,14 @@ void Lilliputian::Engine::benchmark()
 void Lilliputian::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
-	float targetFrameTime_ms = 1000.0 / this->game->getConfiguration().timeSettings.targetFPS;
+	float targetFrameTime_ms = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
 	float processTime_ms = profiler.getProcessTimer().getDelta_ns() / NS_IN_MS;
 	OS::getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }
 
 void Lilliputian::Engine::shutdown()
 {
-	delete this->game;
+	delete this->application;
 	delete this->aiSystem;
 	delete this->animationSystem;
 	delete this->audioSystem;

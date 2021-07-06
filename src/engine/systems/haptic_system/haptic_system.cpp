@@ -89,34 +89,7 @@ void Lilliputian::HapticSystem::process(
 		{
 			HapticPlayback hapticPlayback;
 			hapticPlayback.isPlaying = false;
-
-			if (!it->second.empty())
-			{
-				HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
-				hapticPlayback.duration_ms = hapticSignal.getDuration_ms();
-				hapticPlayback.timer.setStart();
-				hapticPlayback.isPlaying = true;
-				this->rumble(hapticSignal, hid.getHaptics());
-			}
-
 			this->hapticPlaybacks.emplace(playerID, hapticPlayback);
 		}
 	}
-
-	//for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
-	//{
-	//	while (!it->second.empty())
-	//	{
-	//		SDL_HapticRumblePlay(
-	//			haptics.at(it->first),
-	//			it->second.front().getStrength_pct(),
-	//			it->second.front().getDuration_ms());
-
-	//		it->second.pop();
-	//	}
-	//}
-	//hapticSignalBuffer.clear();
-
-
-	//this->rumble(scene.getHapticSignalBuffer(), hid.getHaptics());
 }

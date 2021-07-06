@@ -1,8 +1,8 @@
-Subscene2D:
-  Entity2D:
+Scene:
+  Entity:
     name: "Camera"
     Camera2D:
       viewport_px: [0, 0]
-  Entity2D:
+  Entity:
     name: "Quit"
     Scripts: ["QuitOnEscapeKey"]
