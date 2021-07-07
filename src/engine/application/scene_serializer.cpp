@@ -25,7 +25,7 @@
 #include <string>
 #include <set>
 #include "scene/scene.hpp"
-#include "scene/components/component_variant.hpp"
+#include "scene/component_variant.hpp"
 #include <os/os.hpp>
 
 Lilliputian::SceneSerializer::SceneSerializer(std::string dataDirectory)

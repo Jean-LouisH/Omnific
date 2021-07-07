@@ -23,7 +23,7 @@
 #pragma once
 
 #include <application/scripting/scripting_apis/scripting_apis.hpp>
-#include <application/scene/components/component_variant.hpp>
+#include <application/scene/component_variant.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <utilities/vector2.hpp>

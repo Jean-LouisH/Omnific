@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "components/component_variant.hpp"
+#include "component_variant.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>

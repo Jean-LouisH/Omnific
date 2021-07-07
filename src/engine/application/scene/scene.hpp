@@ -26,7 +26,7 @@
 #include <stack>
 #include <queue>
 #include <map>
-#include "components/component_variant.hpp"
+#include "component_variant.hpp"
 #include "application/scripting/virtual_machine/script_call_batch.hpp"
 #include "asset_cache.hpp"
 #include "haptic_signal_buffer.hpp"

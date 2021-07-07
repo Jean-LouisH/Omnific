@@ -22,7 +22,7 @@
 
 #include "command_line_api.hpp"
 #include "scripting_apis.hpp"
-#include <application/scene/components/component_variant.hpp>
+#include <application/scene/component_variant.hpp>
 
 void Lilliputian::CommandLineAPI::openWindow()
 {

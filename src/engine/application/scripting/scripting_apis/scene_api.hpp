@@ -23,7 +23,7 @@
 #pragma once
 
 #include <string>
-#include <application/scene/components/component_variant.hpp>
+#include <application/scene/component_variant.hpp>
 #include <application/scene/scene.hpp>
 #include <application/scene_serializer.hpp>
 #include <application/scene_storage.hpp>
