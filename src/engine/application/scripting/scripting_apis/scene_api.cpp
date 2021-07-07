@@ -88,11 +88,11 @@ Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getThisComponentVariant(Co
 {
 	ComponentVariant* componentVariant = nullptr;
 	
-	Entity& Entity = this->getThisScene().getEntity(this->boundEntityID);
+	Entity& entity = this->getThisScene().getEntity(this->boundEntityID);
 	std::vector<ComponentVariant>& componentVariants = this->getThisScene().getComponentVariants();
 
 	for (int i = 0; i < componentVariants.size(); i++)
-		if (componentVariants.at(i).getID() == Entity.components.at(type))
+		if (componentVariants.at(i).getID() == entity.components.at(type))
 			componentVariant = &componentVariants.at(i);
 
 	return *componentVariant;

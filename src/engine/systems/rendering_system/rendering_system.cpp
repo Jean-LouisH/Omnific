@@ -123,7 +123,7 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 			Transform transform2D = scene.getEntityTransform(componentVariant.getEntityID());
 			Vector2 position_px = transform2D.position_px;
 			Vector2 scale = transform2D.scale;
-			camera2D = componentVariant.getCamera2D();
+			camera2D = componentVariant.getCamera();
 			Rectangle viewport_px = camera2D->getViewportDimensions();
 
 			outputCamera2D.isStreaming = true;

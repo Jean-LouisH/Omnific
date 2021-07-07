@@ -25,21 +25,21 @@
 
 Lilliputian::Scene::Scene()
 {
-	Transform* transform2D = new Transform();
+	Transform* transform = new Transform();
 	ComponentVariant componentVariant;
 
 	this->ID = IDCounter::getNewSceneID();
-	componentVariant.setTo(transform2D);
+	componentVariant.setTo(transform);
 	this->addEmptyEntity();
 	this->addComponentToLastEntity(componentVariant);
 	this->dummyEntityID = this->getLastEntity().ID;
 }
 
-void Lilliputian::Scene::addEntity(Entity Entity)
+void Lilliputian::Scene::addEntity(Entity entity)
 {
-	this->startEntitiesQueue.emplace(Entity.ID);
-	this->entities2D.emplace(Entity.ID, Entity);
-	this->lastEntityID = Entity.ID;
+	this->startEntitiesQueue.emplace(entity.ID);
+	this->entities.emplace(entity.ID, entity);
+	this->lastEntityID = entity.ID;
 }
 
 void Lilliputian::Scene::addEmptyEntity()
@@ -52,12 +52,12 @@ void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant compon
 {
 	componentVariant.setEntityID(entityID);
 	this->componentVariants.push_back(componentVariant);
-	this->entities2D.at(entityID).components.emplace(componentVariant.getType(), componentVariant.getID());
+	this->entities.at(entityID).components.emplace(componentVariant.getType(), componentVariant.getID());
 
 	if (componentVariant.getType() == ComponentVariant::Type::TRANSFORM)
-		this->transform2DIndexCache.push_back(this->componentVariants.size() - 1);
+		this->transformIndexCache.push_back(this->componentVariants.size() - 1);
 	else if (componentVariant.getType() == ComponentVariant::Type::CAMERA)
-		if (componentVariant.getCamera2D()->getIsStreaming())
+		if (componentVariant.getCamera()->getIsStreaming())
 			this->currentCameraID = componentVariant.getID();
 }
 
@@ -119,18 +119,18 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnStartCallB
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 	{
-		Entity Entity = it->second;
+		Entity entity = it->second;
 
 		if (!this->startEntitiesQueue.empty())
 		{
-			if (Entity.ID == this->startEntitiesQueue.front())
+			if (entity.ID == this->startEntitiesQueue.front())
 			{
 				ScriptCallBatch scriptCallBatch;
 
-				scriptCallBatch.scripts = Entity.scripts;
-				scriptCallBatch.entityID = Entity.ID;
+				scriptCallBatch.scripts = entity.scripts;
+				scriptCallBatch.entityID = entity.ID;
 				scriptCallBatch.sceneTreeID = this->ID;
 
 				scriptCallBatches.push_back(scriptCallBatch);
@@ -146,13 +146,13 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnInputCallB
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 	{
-		Entity Entity = it->second;
+		Entity entity = it->second;
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scripts = Entity.scripts;
-		scriptCallBatch.entityID = Entity.ID;
+		scriptCallBatch.scripts = entity.scripts;
+		scriptCallBatch.entityID = entity.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
 		scriptCallBatches.push_back(scriptCallBatch);
@@ -165,13 +165,13 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFrameCallB
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 	{
-		Entity Entity = it->second;
+		Entity entity = it->second;
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scripts = Entity.scripts;
-		scriptCallBatch.entityID = Entity.ID;
+		scriptCallBatch.scripts = entity.scripts;
+		scriptCallBatch.entityID = entity.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
 		scriptCallBatches.push_back(scriptCallBatch);
@@ -184,13 +184,13 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnComputeCal
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 	{
-		Entity Entity = it->second;
+		Entity entity = it->second;
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scripts = Entity.scripts;
-		scriptCallBatch.entityID = Entity.ID;
+		scriptCallBatch.scripts = entity.scripts;
+		scriptCallBatch.entityID = entity.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
 		scriptCallBatches.push_back(scriptCallBatch);
@@ -203,13 +203,13 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLateCallBa
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 	{
-		Entity Entity = it->second;
+		Entity entity = it->second;
 		ScriptCallBatch scriptCallBatch;
 
-		scriptCallBatch.scripts = Entity.scripts;
-		scriptCallBatch.entityID = Entity.ID;
+		scriptCallBatch.scripts = entity.scripts;
+		scriptCallBatch.entityID = entity.ID;
 		scriptCallBatch.sceneTreeID = this->ID;
 
 		scriptCallBatches.push_back(scriptCallBatch);
@@ -222,18 +222,18 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFinalBatch
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 	{
-		Entity Entity = it->second;
+		Entity entity = it->second;
 
 		if (!this->finishEntitiesQueue.empty())
 		{
-			if (Entity.ID == this->finishEntitiesQueue.front())
+			if (entity.ID == this->finishEntitiesQueue.front())
 			{
 				ScriptCallBatch scriptCallBatch;
 
-				scriptCallBatch.scripts = Entity.scripts;
-				scriptCallBatch.entityID = Entity.ID;
+				scriptCallBatch.scripts = entity.scripts;
+				scriptCallBatch.entityID = entity.ID;
 				scriptCallBatch.sceneTreeID = this->ID;
 
 				scriptCallBatches.push_back(scriptCallBatch);
@@ -257,25 +257,25 @@ std::vector<Lilliputian::ComponentVariant>& Lilliputian::Scene::getComponentVari
 
 Lilliputian::Transform& Lilliputian::Scene::getEntityTransform(EntityID entityID)
 {
-	Transform* transform2D = this->componentVariants.at(this->transform2DIndexCache.at(0)).getTransform2D();
+	Transform* transform = this->componentVariants.at(this->transformIndexCache.at(0)).getTransform();
 
-	for (int i = 0; i < this->transform2DIndexCache.size(); i++)
-		if (this->componentVariants.at(this->transform2DIndexCache.at(i)).getEntityID() == entityID)
-			transform2D = this->componentVariants.at(this->transform2DIndexCache.at(i)).getTransform2D();
+	for (int i = 0; i < this->transformIndexCache.size(); i++)
+		if (this->componentVariants.at(this->transformIndexCache.at(i)).getEntityID() == entityID)
+			transform = this->componentVariants.at(this->transformIndexCache.at(i)).getTransform();
 
-	return *transform2D;
+	return *transform;
 }
 
 Lilliputian::Entity& Lilliputian::Scene::getEntity(EntityID entityID)
 {
-	return this->entities2D.at(entityID);
+	return this->entities.at(entityID);
 }
 
 Lilliputian::Entity& Lilliputian::Scene::getEntityByName(std::string name)
 {
 	Entity* Entity = nullptr;
 
-	for (auto it = this->entities2D.begin(); it != this->entities2D.end(); it++)
+	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 		if (it->second.name == name)
 			return it->second;
 
@@ -284,12 +284,12 @@ Lilliputian::Entity& Lilliputian::Scene::getEntityByName(std::string name)
 
 Lilliputian::Entity& Lilliputian::Scene::getLastEntity()
 {
-	return this->entities2D.at(this->lastEntityID);
+	return this->entities.at(this->lastEntityID);
 }
 
 std::map<Lilliputian::EntityID, Lilliputian::Entity>& Lilliputian::Scene::getEntities()
 {
-	return this->entities2D;
+	return this->entities;
 }
 
 Lilliputian::EventBus& Lilliputian::Scene::getEventBus()

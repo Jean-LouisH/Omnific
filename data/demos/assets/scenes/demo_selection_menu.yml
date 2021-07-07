@@ -1,7 +1,7 @@
 Scene:
   Entity:
     name: "Camera"
-    Camera2D:
+    Camera:
       viewport_px: [0, 0]
   Entity:
     name: "Quit"

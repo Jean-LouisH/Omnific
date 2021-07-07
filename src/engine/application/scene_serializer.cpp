@@ -92,7 +92,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								scene.getLastEntity().parentID = scene.getEntityByName(it2->second.as<std::string>()).ID;
 							}
 							//Components
-							else if (it2->first.as<std::string>() == "AIBehaviourTree")
+							else if (it2->first.as<std::string>() == "BehaviourTree")
 							{
 								BehaviourTree* aiBehaviourTree = new BehaviourTree();
 
@@ -111,7 +111,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								componentVariant.setTo(aiBehaviourTree);
 								scene.addComponentToLastEntity(componentVariant);
 							}
-							else if (it2->first.as<std::string>() == "AISightPerception")
+							else if (it2->first.as<std::string>() == "SightPerception")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -139,7 +139,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "AudioListener2D")
+							else if (it2->first.as<std::string>() == "AudioListener")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -153,7 +153,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "AudioStreamSource2D")
+							else if (it2->first.as<std::string>() == "AudioStreamSource")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -167,23 +167,23 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "Camera2D")
+							else if (it2->first.as<std::string>() == "Camera")
 							{
-								Camera* camera2D = new Camera();
+								Camera* camera = new Camera();
 
-								camera2D->setViewportHeight(480);
-								camera2D->setIsStreaming(true);
+								camera->setViewportHeight(480);
+								camera->setIsStreaming(true);
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
 									if (it3->first.as<std::string>() == "viewport_px")
 									{
-										camera2D->setViewportHeight(it3->second[1].as<double>());
-										camera2D->setViewportWidth(it3->second[0].as<double>());
+										camera->setViewportHeight(it3->second[1].as<double>());
+										camera->setViewportWidth(it3->second[0].as<double>());
 									}
 									else if (it3->first.as<std::string>() == "limits_px")
 									{
-										camera2D->setLimits(
+										camera->setLimits(
 											it3->second[0].as<double>(),
 											it3->second[1].as<double>(),
 											it3->second[2].as<double>(),
@@ -192,18 +192,18 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 									else if (it3->first.as<std::string>() == "keepAspect")
 									{
-										camera2D->setKeepAspect(it3->second.as<bool>());
+										camera->setKeepAspect(it3->second.as<bool>());
 									}
 									else if (it3->first.as<std::string>() == "isStreaming")
 									{
-										camera2D->setIsStreaming(it3->second.as<bool>());
+										camera->setIsStreaming(it3->second.as<bool>());
 									}
 								}
 
-								componentVariant.setTo(camera2D);
+								componentVariant.setTo(camera);
 								scene.addComponentToLastEntity(componentVariant);
 							}
-							else if (it2->first.as<std::string>() == "CircleCollider2D")
+							else if (it2->first.as<std::string>() == "BallCollider")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -217,7 +217,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "ConstantDirectionalForce2D")
+							else if (it2->first.as<std::string>() == "ConstantDirectionalForce")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -231,7 +231,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "ConstantPointForce2D")
+							else if (it2->first.as<std::string>() == "ConstantPointForce")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -261,7 +261,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								componentVariant.setTo(countdownTimer);
 								scene.addComponentToLastEntity(componentVariant);
 							}
-							else if (it2->first.as<std::string>() == "FixedTransform2D")
+							else if (it2->first.as<std::string>() == "NavigationMeshAgent")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -275,7 +275,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "NavigationMeshAgent2D")
+							else if (it2->first.as<std::string>() == "NavigationMeshBoxObstacle")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -289,7 +289,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "NavigationMeshBoxObstacle2D")
+							else if (it2->first.as<std::string>() == "NavigationPath")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -303,7 +303,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "NavigationPath2D")
+							else if (it2->first.as<std::string>() == "PhysicsConstraint")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -317,35 +317,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "NeuralNetwork")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "PhysicsConstraint2D")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "PhysicsThruster2D")
+							else if (it2->first.as<std::string>() == "PhysicsThruster")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -373,7 +345,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "RectangularCollider2D")
+							else if (it2->first.as<std::string>() == "BoxCollider")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -387,7 +359,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "RectangularMesh2D")
+							else if (it2->first.as<std::string>() == "BoxMesh")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -401,7 +373,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "RectangularTriggerArea2D")
+							else if (it2->first.as<std::string>() == "BoxTriggerSpace")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -415,7 +387,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "RegularPolygonalMesh2D")
+							else if (it2->first.as<std::string>() == "RegularPolytopalMesh")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -429,7 +401,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "RigidBody2D")
+							else if (it2->first.as<std::string>() == "RigidBody")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -459,7 +431,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								componentVariant.setTo(sprite);
 								scene.addComponentToLastEntity(componentVariant);
 							}
-							else if (it2->first.as<std::string>() == "StaticFluid2D")
+							else if (it2->first.as<std::string>() == "StaticFluid")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -473,7 +445,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "Transform2D")
+							else if (it2->first.as<std::string>() == "Transform")
 							{
 								Transform* transform2D = new Transform();
 
@@ -499,20 +471,6 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "UIColouredRectangle")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -554,7 +512,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIHorizontalScrollbar")
+							else if (it2->first.as<std::string>() == "UIScrollbar")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -568,7 +526,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIHorizontalSeparator")
+							else if (it2->first.as<std::string>() == "UISeparator")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -582,7 +540,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIHorizontalSlider")
+							else if (it2->first.as<std::string>() == "UISlider")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -624,20 +582,6 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UILinkButton")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
 							else if (it2->first.as<std::string>() == "UIPanel")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
@@ -665,6 +609,20 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 
 									}
 								}
+							}
+							else if (it2->first.as<std::string>() == "UIRectangle")
+							{
+							for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+							{
+								if (it3->first.as<std::string>() == "default")
+								{
+
+								}
+								else if (it3->first.as<std::string>() == "")
+								{
+
+								}
+							}
 							}
 							else if (it2->first.as<std::string>() == "UISpinBox")
 							{
@@ -740,48 +698,6 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								componentVariant.setTo(uiTextLabel);
 								scene.addComponentToLastEntity(componentVariant);
 							}
-							else if (it2->first.as<std::string>() == "UITexturedButton")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "UITexturedProgressBar")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "UITexturedRectangle")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
 							else if (it2->first.as<std::string>() == "UITree")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
@@ -796,48 +712,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIVerticalScrollbar")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "UIVerticalSeparator")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "UIVerticalSlider")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
+							/*Non-components*/
 							else if (it2->first.as<std::string>() == "Scripts")
 							{
 								for (int i = 0; i < it2->second.size(); i++)

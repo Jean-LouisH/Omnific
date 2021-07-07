@@ -38,32 +38,32 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 	switch (other.type)
 	{
 		case Type::NONE: break;
-		case Type::BEHAVIOUR_TREE: this->aiBehaviourTree = new BehaviourTree(*other.aiBehaviourTree); break;
-		case Type::SIGHT_PERCEPTION: this->aiSightPerception2D = new SightPerception(*other.aiSightPerception2D); break;
-		case Type::SOUND_PERCEPTION: this->aiSoundPerception2D = new SoundPerception(*other.aiSoundPerception2D); break;
+		case Type::BEHAVIOUR_TREE: this->behaviourTree = new BehaviourTree(*other.behaviourTree); break;
+		case Type::SIGHT_PERCEPTION: this->sightPerception = new SightPerception(*other.sightPerception); break;
+		case Type::SOUND_PERCEPTION: this->soundPerception = new SoundPerception(*other.soundPerception); break;
 		case Type::ANIMATED_SPRITE:this->animatedSprite = new AnimatedSprite(*other.animatedSprite); break;
-		case Type::AUDIO_LISTENER:this->audioListener2D = new AudioListener(*other.audioListener2D); break;
-		case Type::AUDIO_STREAM_SOURCE:this->audioStreamSource2D = new AudioStreamSource(*other.audioStreamSource2D); break;
-		case Type::CAMERA: this->camera2D = new Camera(*other.camera2D); break;
-		case Type::BALL_COLLIDER:this->circleCollider2D = new BallCollider(*other.circleCollider2D); break;
-		case Type::CONSTANT_DIRECTIONAL_FORCE:this->constantDirectionalForce2D = new ConstantDirectionalForce(*other.constantDirectionalForce2D); break;
-		case Type::CONSTANT_POINT_FORCE:this->constantPointForce2D = new ConstantPointForce(*other.constantPointForce2D); break;
+		case Type::AUDIO_LISTENER:this->audioListener = new AudioListener(*other.audioListener); break;
+		case Type::AUDIO_STREAM_SOURCE:this->audioStreamSource = new AudioStreamSource(*other.audioStreamSource); break;
+		case Type::CAMERA: this->camera = new Camera(*other.camera); break;
+		case Type::BALL_COLLIDER:this->ballCollider = new BallCollider(*other.ballCollider); break;
+		case Type::CONSTANT_DIRECTIONAL_FORCE:this->constantDirectionalForce = new ConstantDirectionalForce(*other.constantDirectionalForce); break;
+		case Type::CONSTANT_POINT_FORCE:this->constantPointForce = new ConstantPointForce(*other.constantPointForce); break;
 		case Type::COUNTDOWN_TIMER:this->countdownTimer = new CountdownTimer(*other.countdownTimer); break;
-		case Type::KINEMATIC_BODY:this->kinematicBody2D = new KinematicBody(*other.kinematicBody2D); break;
-		case Type::NAVIGATION_MESH_AGENT:this->navigationMeshAgent2D = new NavigationMeshAgent(*other.navigationMeshAgent2D); break;
-		case Type::NAVIGATION_MESH_BOX_OBSTACLE:this->navigationMeshBoxObstacle2D = new NavigationMeshBoxObstacle(*other.navigationMeshBoxObstacle2D); break;
-		case Type::NAVIGATION_PATH:this->navigationPath2D = new NavigationPath(*other.navigationPath2D); break;
-		case Type::PHYSICS_CONSTRAINT:this->physicsConstraint2D = new PhysicsConstraint(*other.physicsConstraint2D); break;
-		case Type::PHYSICS_THRUSTER:this->physicsThruster2D = new PhysicsThruster(*other.physicsThruster2D); break;
+		case Type::KINEMATIC_BODY:this->kinematicBody = new KinematicBody(*other.kinematicBody); break;
+		case Type::NAVIGATION_MESH_AGENT:this->navigationMeshAgent = new NavigationMeshAgent(*other.navigationMeshAgent); break;
+		case Type::NAVIGATION_MESH_BOX_OBSTACLE:this->navigationMeshBoxObstacle = new NavigationMeshBoxObstacle(*other.navigationMeshBoxObstacle); break;
+		case Type::NAVIGATION_PATH:this->navigationPath = new NavigationPath(*other.navigationPath); break;
+		case Type::PHYSICS_CONSTRAINT:this->physicsConstraint = new PhysicsConstraint(*other.physicsConstraint); break;
+		case Type::PHYSICS_THRUSTER:this->physicsThruster = new PhysicsThruster(*other.physicsThruster); break;
 		case Type::PROPERTY_ANIMATION:this->propertyAnimation = new PropertyAnimation(*other.propertyAnimation); break;
-		case Type::BOX_COLLIDER:this->rectangularCollider2D = new BoxCollider(*other.rectangularCollider2D); break;
-		case Type::BOX_MESH:this->rectangularMesh2D = new BoxMesh(*other.rectangularMesh2D); break;
-		case Type::BOX_TRIGGER_SPACE:this->rectangularTriggerArea2D = new BoxTriggerSpace(*other.rectangularTriggerArea2D); break;
-		case Type::REGULAR_POLYTOPAL_MESH:this->regularPolygonalMesh2D = new RegularPolytopalMesh(*other.regularPolygonalMesh2D); break;
-		case Type::RIGID_BODY:this->rigidBody2D = new RigidBody(*other.rigidBody2D); break;
+		case Type::BOX_COLLIDER:this->boxCollider = new BoxCollider(*other.boxCollider); break;
+		case Type::BOX_MESH:this->boxMesh = new BoxMesh(*other.boxMesh); break;
+		case Type::BOX_TRIGGER_SPACE:this->boxTriggerSpace = new BoxTriggerSpace(*other.boxTriggerSpace); break;
+		case Type::REGULAR_POLYTOPAL_MESH:this->regularPolytopalMesh = new RegularPolytopalMesh(*other.regularPolytopalMesh); break;
+		case Type::RIGID_BODY:this->rigidBody = new RigidBody(*other.rigidBody); break;
 		case Type::SPRITE:this->sprite = new Sprite(*other.sprite); break;
-		case Type::STATIC_FLUID:this->staticFluid2D = new StaticFluid(*other.staticFluid2D); break;
-		case Type::TRANSFORM:this->transform2D = new Transform(*other.transform2D); break;
+		case Type::STATIC_FLUID:this->staticFluid = new StaticFluid(*other.staticFluid); break;
+		case Type::TRANSFORM:this->transform = new Transform(*other.transform); break;
 		case Type::UI_BUTTON:this->uiButton = new UIButton(*other.uiButton); break;
 		case Type::UI_RECTANGLE:this->uiRectangle = new UIRectangle(*other.uiRectangle); break;
 		case Type::UI_GRAPH_EDIT:this->uiGraphEdit = new UIGraphEdit(*other.uiGraphEdit); break;
@@ -87,32 +87,32 @@ Lilliputian::ComponentVariant::~ComponentVariant()
 {
 	switch (this->type)
 	{
-		case Type::BEHAVIOUR_TREE: delete this->aiBehaviourTree; break;
-		case Type::SIGHT_PERCEPTION: delete this->aiSightPerception2D; break;
-		case Type::SOUND_PERCEPTION: delete this->aiSoundPerception2D; break;
+		case Type::BEHAVIOUR_TREE: delete this->behaviourTree; break;
+		case Type::SIGHT_PERCEPTION: delete this->sightPerception; break;
+		case Type::SOUND_PERCEPTION: delete this->soundPerception; break;
 		case Type::ANIMATED_SPRITE:delete this->animatedSprite; break;
-		case Type::AUDIO_LISTENER:delete this->audioListener2D; break;
-		case Type::AUDIO_STREAM_SOURCE:delete this->audioStreamSource2D; break;
-		case Type::CAMERA: delete this->camera2D; break;
-		case Type::BALL_COLLIDER:delete this->circleCollider2D; break;
-		case Type::CONSTANT_DIRECTIONAL_FORCE:delete this->constantDirectionalForce2D; break;
-		case Type::CONSTANT_POINT_FORCE:delete this->constantPointForce2D; break;
+		case Type::AUDIO_LISTENER:delete this->audioListener; break;
+		case Type::AUDIO_STREAM_SOURCE:delete this->audioStreamSource; break;
+		case Type::CAMERA: delete this->camera; break;
+		case Type::BALL_COLLIDER:delete this->ballCollider; break;
+		case Type::CONSTANT_DIRECTIONAL_FORCE:delete this->constantDirectionalForce; break;
+		case Type::CONSTANT_POINT_FORCE:delete this->constantPointForce; break;
 		case Type::COUNTDOWN_TIMER:delete this->countdownTimer; break;
-		case Type::KINEMATIC_BODY: delete this->kinematicBody2D; break;
-		case Type::NAVIGATION_MESH_AGENT:delete this->navigationMeshAgent2D; break;
-		case Type::NAVIGATION_MESH_BOX_OBSTACLE:delete this->navigationMeshBoxObstacle2D; break;
-		case Type::NAVIGATION_PATH:delete this->navigationPath2D; break;
-		case Type::PHYSICS_CONSTRAINT:delete this->physicsConstraint2D; break;
-		case Type::PHYSICS_THRUSTER:delete this->physicsThruster2D; break;
+		case Type::KINEMATIC_BODY: delete this->kinematicBody; break;
+		case Type::NAVIGATION_MESH_AGENT:delete this->navigationMeshAgent; break;
+		case Type::NAVIGATION_MESH_BOX_OBSTACLE:delete this->navigationMeshBoxObstacle; break;
+		case Type::NAVIGATION_PATH:delete this->navigationPath; break;
+		case Type::PHYSICS_CONSTRAINT:delete this->physicsConstraint; break;
+		case Type::PHYSICS_THRUSTER:delete this->physicsThruster; break;
 		case Type::PROPERTY_ANIMATION:delete this->propertyAnimation; break;
-		case Type::BOX_COLLIDER:delete this->rectangularCollider2D; break;
-		case Type::BOX_MESH:delete this->rectangularMesh2D; break;
-		case Type::BOX_TRIGGER_SPACE:delete this->rectangularTriggerArea2D; break;
-		case Type::REGULAR_POLYTOPAL_MESH:delete this->regularPolygonalMesh2D; break;
-		case Type::RIGID_BODY:delete this->rigidBody2D; break;
+		case Type::BOX_COLLIDER:delete this->boxCollider; break;
+		case Type::BOX_MESH:delete this->boxMesh; break;
+		case Type::BOX_TRIGGER_SPACE:delete this->boxTriggerSpace; break;
+		case Type::REGULAR_POLYTOPAL_MESH:delete this->regularPolytopalMesh; break;
+		case Type::RIGID_BODY:delete this->rigidBody; break;
 		case Type::SPRITE:delete this->sprite; break;
-		case Type::STATIC_FLUID:delete this->staticFluid2D; break;
-		case Type::TRANSFORM: delete this->transform2D; break;
+		case Type::STATIC_FLUID:delete this->staticFluid; break;
+		case Type::TRANSFORM: delete this->transform; break;
 		case Type::UI_BUTTON:delete this->uiButton; break;
 		case Type::UI_RECTANGLE:delete this->uiRectangle; break;
 		case Type::UI_GRAPH_EDIT:delete this->uiGraphEdit; break;
@@ -141,7 +141,7 @@ void Lilliputian::ComponentVariant::setTo(BehaviourTree* aiBehaviourTree)
 {
 	if (this->type == Type::NONE)
 	{
-		this->aiBehaviourTree = aiBehaviourTree;
+		this->behaviourTree = aiBehaviourTree;
 		this->type = Type::BEHAVIOUR_TREE;
 	}
 }
@@ -150,7 +150,7 @@ void Lilliputian::ComponentVariant::setTo(SightPerception* aiSightPerception2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->aiSightPerception2D = aiSightPerception2D;
+		this->sightPerception = aiSightPerception2D;
 		this->type = Type::SIGHT_PERCEPTION;
 	}
 }
@@ -159,7 +159,7 @@ void Lilliputian::ComponentVariant::setTo(SoundPerception* aiSoundPerception2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->aiSoundPerception2D = aiSoundPerception2D;
+		this->soundPerception = aiSoundPerception2D;
 		this->type = Type::SOUND_PERCEPTION;
 	}
 }
@@ -177,7 +177,7 @@ void Lilliputian::ComponentVariant::setTo(AudioListener* audioListener2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->audioListener2D = audioListener2D;
+		this->audioListener = audioListener2D;
 		this->type = Type::AUDIO_LISTENER;
 	}
 }
@@ -186,7 +186,7 @@ void Lilliputian::ComponentVariant::setTo(Camera* camera2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->camera2D = camera2D;
+		this->camera = camera2D;
 		this->type = Type::CAMERA;
 	}
 }
@@ -195,7 +195,7 @@ void Lilliputian::ComponentVariant::setTo(BallCollider* circleCollider2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->circleCollider2D = circleCollider2D;
+		this->ballCollider = circleCollider2D;
 		this->type = Type::BALL_COLLIDER;
 	}
 }
@@ -204,7 +204,7 @@ void Lilliputian::ComponentVariant::setTo(ConstantDirectionalForce* constantDire
 {
 	if (this->type == Type::NONE)
 	{
-		this->constantDirectionalForce2D = constantDirectionalForce2D;
+		this->constantDirectionalForce = constantDirectionalForce2D;
 		this->type = Type::CONSTANT_DIRECTIONAL_FORCE;
 	}
 }
@@ -213,7 +213,7 @@ void Lilliputian::ComponentVariant::setTo(ConstantPointForce* constantPointForce
 {
 	if (this->type == Type::NONE)
 	{
-		this->constantPointForce2D = constantPointForce2D;
+		this->constantPointForce = constantPointForce2D;
 		this->type = Type::CONSTANT_POINT_FORCE;
 	}
 }
@@ -231,7 +231,7 @@ void Lilliputian::ComponentVariant::setTo(KinematicBody* kinematicBody2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->kinematicBody2D = kinematicBody2D;
+		this->kinematicBody = kinematicBody2D;
 		this->type = Type::KINEMATIC_BODY;
 	}
 }
@@ -240,7 +240,7 @@ void Lilliputian::ComponentVariant::setTo(NavigationMeshAgent* navigationMeshAge
 {
 	if (this->type == Type::NONE)
 	{
-		this->navigationMeshAgent2D = navigationMeshAgent2D;
+		this->navigationMeshAgent = navigationMeshAgent2D;
 		this->type = Type::NAVIGATION_MESH_AGENT;
 	}
 }
@@ -249,7 +249,7 @@ void Lilliputian::ComponentVariant::setTo(NavigationMeshBoxObstacle* navigationM
 {
 	if (this->type == Type::NONE)
 	{
-		this->navigationMeshBoxObstacle2D = navigationMeshBoxObstacle2D;
+		this->navigationMeshBoxObstacle = navigationMeshBoxObstacle2D;
 		this->type = Type::NAVIGATION_MESH_BOX_OBSTACLE;
 	}
 }
@@ -258,7 +258,7 @@ void Lilliputian::ComponentVariant::setTo(NavigationPath* navigationPath2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->navigationPath2D = navigationPath2D;
+		this->navigationPath = navigationPath2D;
 		this->type = Type::NAVIGATION_PATH;
 	}
 }
@@ -267,7 +267,7 @@ void Lilliputian::ComponentVariant::setTo(PhysicsConstraint* physicsConstraint2D
 {
 	if (this->type == Type::NONE)
 	{
-		this->physicsConstraint2D = physicsConstraint2D;
+		this->physicsConstraint = physicsConstraint2D;
 		this->type = Type::PHYSICS_CONSTRAINT;
 	}
 }
@@ -276,7 +276,7 @@ void Lilliputian::ComponentVariant::setTo(PhysicsThruster* physicsThruster2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->physicsThruster2D = physicsThruster2D;
+		this->physicsThruster = physicsThruster2D;
 		this->type = Type::PHYSICS_THRUSTER;
 	}
 }
@@ -294,7 +294,7 @@ void Lilliputian::ComponentVariant::setTo(BoxCollider* rectangularCollider2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->rectangularCollider2D = rectangularCollider2D;
+		this->boxCollider = rectangularCollider2D;
 		this->type = Type::BOX_COLLIDER;
 	}
 }
@@ -303,7 +303,7 @@ void Lilliputian::ComponentVariant::setTo(BoxMesh* rectangularMesh2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->rectangularMesh2D = rectangularMesh2D;
+		this->boxMesh = rectangularMesh2D;
 		this->type = Type::BOX_MESH;
 	}
 }
@@ -312,7 +312,7 @@ void Lilliputian::ComponentVariant::setTo(BoxTriggerSpace* rectangularTriggerAre
 {
 	if (this->type == Type::NONE)
 	{
-		this->rectangularTriggerArea2D = rectangularTriggerArea2D;
+		this->boxTriggerSpace = rectangularTriggerArea2D;
 		this->type = Type::BOX_TRIGGER_SPACE;
 	}
 }
@@ -321,7 +321,7 @@ void Lilliputian::ComponentVariant::setTo(RegularPolytopalMesh* regularPolygonal
 {
 	if (this->type == Type::NONE)
 	{
-		this->regularPolygonalMesh2D = regularPolygonalMesh2D;
+		this->regularPolytopalMesh = regularPolygonalMesh2D;
 		this->type = Type::REGULAR_POLYTOPAL_MESH;
 	}
 }
@@ -330,7 +330,7 @@ void Lilliputian::ComponentVariant::setTo(RigidBody* rigidBody2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->rigidBody2D = rigidBody2D;
+		this->rigidBody = rigidBody2D;
 		this->type = Type::RIGID_BODY;
 	}
 }
@@ -348,7 +348,7 @@ void Lilliputian::ComponentVariant::setTo(StaticFluid* staticFluid2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->staticFluid2D = staticFluid2D;
+		this->staticFluid = staticFluid2D;
 		this->type = Type::STATIC_FLUID;
 	}
 }
@@ -357,7 +357,7 @@ void Lilliputian::ComponentVariant::setTo(Transform* transform2D)
 {
 	if (this->type == Type::NONE)
 	{
-		this->transform2D = transform2D;
+		this->transform = transform2D;
 		this->type = Type::TRANSFORM;
 	}
 }
@@ -366,7 +366,7 @@ void Lilliputian::ComponentVariant::setTo(AudioStreamSource* audioStreamSource2D
 {
 	if (this->type == Type::NONE)
 	{
-		this->audioStreamSource2D = audioStreamSource2D;
+		this->audioStreamSource = audioStreamSource2D;
 		this->type = Type::AUDIO_STREAM_SOURCE;
 	}
 }
@@ -539,109 +539,109 @@ bool Lilliputian::ComponentVariant::isRenderable()
 		this->type == Type::UI_TREE;
 }
 
-Lilliputian::BehaviourTree* Lilliputian::ComponentVariant::getAIBehaviourTree()
+Lilliputian::BehaviourTree* Lilliputian::ComponentVariant::getBehaviourTree()
 {
-	return this->aiBehaviourTree;
+	return this->behaviourTree;
 }
-Lilliputian::SightPerception* Lilliputian::ComponentVariant::getAISightPerception2D()
+Lilliputian::SightPerception* Lilliputian::ComponentVariant::getSightPerception()
 {
-	return this->aiSightPerception2D;
+	return this->sightPerception;
 }
-Lilliputian::SoundPerception* Lilliputian::ComponentVariant::getAISoundPerception2D()
+Lilliputian::SoundPerception* Lilliputian::ComponentVariant::getSoundPerception()
 {
-	return this->aiSoundPerception2D;
+	return this->soundPerception;
 }
 Lilliputian::AnimatedSprite* Lilliputian::ComponentVariant::getAnimatedSprite()
 {
 	return this->animatedSprite;
 }
-Lilliputian::AudioListener* Lilliputian::ComponentVariant::getAudioListener2D()
+Lilliputian::AudioListener* Lilliputian::ComponentVariant::getAudioListener()
 {
-	return this->audioListener2D;
+	return this->audioListener;
 }
-Lilliputian::Camera* Lilliputian::ComponentVariant::getCamera2D()
+Lilliputian::Camera* Lilliputian::ComponentVariant::getCamera()
 {
-	return this->camera2D;
+	return this->camera;
 }
-Lilliputian::BallCollider* Lilliputian::ComponentVariant::getCircleCollider2D()
+Lilliputian::BallCollider* Lilliputian::ComponentVariant::getBallCollider()
 {
-	return this->circleCollider2D;
+	return this->ballCollider;
 }
-Lilliputian::ConstantDirectionalForce* Lilliputian::ComponentVariant::getConstantDirectionalForce2D()
+Lilliputian::ConstantDirectionalForce* Lilliputian::ComponentVariant::getConstantDirectionalForce()
 {
-	return this->constantDirectionalForce2D;
+	return this->constantDirectionalForce;
 }
-Lilliputian::ConstantPointForce* Lilliputian::ComponentVariant::getConstantPointForce2D()
+Lilliputian::ConstantPointForce* Lilliputian::ComponentVariant::getConstantPointForce()
 {
-	return this->constantPointForce2D;
+	return this->constantPointForce;
 }
 Lilliputian::CountdownTimer* Lilliputian::ComponentVariant::getCountdownTimer()
 {
 	return this->countdownTimer;
 }
-Lilliputian::KinematicBody* Lilliputian::ComponentVariant::getKinematicBody2D()
+Lilliputian::KinematicBody* Lilliputian::ComponentVariant::getKinematicBody()
 {
-	return this->kinematicBody2D;
+	return this->kinematicBody;
 }
-Lilliputian::NavigationMeshAgent* Lilliputian::ComponentVariant::getNavigationMeshAgent2D()
+Lilliputian::NavigationMeshAgent* Lilliputian::ComponentVariant::getNavigationMeshAgent()
 {
-	return this->navigationMeshAgent2D;
+	return this->navigationMeshAgent;
 }
-Lilliputian::NavigationMeshBoxObstacle* Lilliputian::ComponentVariant::getNavigationMeshBoxObstacle2D()
+Lilliputian::NavigationMeshBoxObstacle* Lilliputian::ComponentVariant::getNavigationMeshBoxObstacle()
 {
-	return this->navigationMeshBoxObstacle2D;
+	return this->navigationMeshBoxObstacle;
 }
-Lilliputian::NavigationPath* Lilliputian::ComponentVariant::getNavigationPath2D()
+Lilliputian::NavigationPath* Lilliputian::ComponentVariant::getNavigationPath()
 {
-	return this->navigationPath2D;
+	return this->navigationPath;
 }
-Lilliputian::PhysicsConstraint* Lilliputian::ComponentVariant::getPhysicsConstraint2D()
+Lilliputian::PhysicsConstraint* Lilliputian::ComponentVariant::getPhysicsConstraint()
 {
-	return this->physicsConstraint2D;
+	return this->physicsConstraint;
 }
-Lilliputian::PhysicsThruster* Lilliputian::ComponentVariant::getPhysicsThruster2D()
+Lilliputian::PhysicsThruster* Lilliputian::ComponentVariant::getPhysicsThruster()
 {
-	return this->physicsThruster2D;
+	return this->physicsThruster;
 }
 Lilliputian::PropertyAnimation* Lilliputian::ComponentVariant::getPropertyAnimation()
 {
 	return this->propertyAnimation;
 }
-Lilliputian::BoxCollider* Lilliputian::ComponentVariant::getRectangularCollider2D()
+Lilliputian::BoxCollider* Lilliputian::ComponentVariant::getBoxCollider()
 {
-	return this->rectangularCollider2D;
+	return this->boxCollider;
 }
-Lilliputian::BoxMesh* Lilliputian::ComponentVariant::getRectangularMesh2D()
+Lilliputian::BoxMesh* Lilliputian::ComponentVariant::getBoxMesh()
 {
-	return this->rectangularMesh2D;
+	return this->boxMesh;
 }
-Lilliputian::BoxTriggerSpace* Lilliputian::ComponentVariant::getRectangularTriggerArea2D()
+Lilliputian::BoxTriggerSpace* Lilliputian::ComponentVariant::getBoxTriggerSpace()
 {
-	return this->rectangularTriggerArea2D;
+	return this->boxTriggerSpace;
 }
-Lilliputian::RegularPolytopalMesh* Lilliputian::ComponentVariant::getRegularPolygonalMesh2D()
+Lilliputian::RegularPolytopalMesh* Lilliputian::ComponentVariant::getRegularPolytopalMesh()
 {
-	return this->regularPolygonalMesh2D;
+	return this->regularPolytopalMesh;
 }
-Lilliputian::RigidBody* Lilliputian::ComponentVariant::getRigidBody2D()
+Lilliputian::RigidBody* Lilliputian::ComponentVariant::getRigidBody()
 {
-	return this->rigidBody2D;
+	return this->rigidBody;
 }
 Lilliputian::Sprite* Lilliputian::ComponentVariant::getSprite()
 {
 	return this->sprite;
 }
-Lilliputian::StaticFluid* Lilliputian::ComponentVariant::getStaticFluid2D()
+Lilliputian::StaticFluid* Lilliputian::ComponentVariant::getStaticFluid()
 {
-	return this->staticFluid2D;
+	return this->staticFluid;
 }
-Lilliputian::Transform* Lilliputian::ComponentVariant::getTransform2D()
+Lilliputian::Transform* Lilliputian::ComponentVariant::getTransform()
 {
-	return this->transform2D;
+	return this->transform;
 }
-Lilliputian::AudioStreamSource* Lilliputian::ComponentVariant::getAudioStreamSource2D()
+Lilliputian::AudioStreamSource* Lilliputian::ComponentVariant::getAudioStreamSource()
 {
-	return this->audioStreamSource2D;
+	return this->audioStreamSource;
 }
 Lilliputian::UIButton* Lilliputian::ComponentVariant::getUIButton()
 {
@@ -731,8 +731,8 @@ Lilliputian::Image& Lilliputian::ComponentVariant::getImage()
 	{
 		case ComponentVariant::Type::SPRITE: return (this->sprite->getImage()); break;
 		case ComponentVariant::Type::ANIMATED_SPRITE: return (this->animatedSprite->getCurrentFrame()); break;
-		case ComponentVariant::Type::BOX_MESH: return (this->rectangularMesh2D->getImage()); break;
-		case ComponentVariant::Type::REGULAR_POLYTOPAL_MESH: return (this->regularPolygonalMesh2D->getImage()); break;
+		case ComponentVariant::Type::BOX_MESH: return (this->boxMesh->getImage()); break;
+		case ComponentVariant::Type::REGULAR_POLYTOPAL_MESH: return (this->regularPolytopalMesh->getImage()); break;
 		case ComponentVariant::Type::UI_BUTTON: return (this->uiButton->getImage()); break;
 		case ComponentVariant::Type::UI_RECTANGLE: return (this->uiRectangle->getImage()); break;
 		case ComponentVariant::Type::UI_GRAPH_EDIT: return (this->uiGraphEdit->getImage()); break;

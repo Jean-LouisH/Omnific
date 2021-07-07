@@ -2,7 +2,7 @@ Scene:
   Entity:
     name: "Camera"
     Scripts: ["PongShakeCamera"]
-    Camera2D:
+    Camera:
       viewport_px: [0, 0]
   Entity:
     name: "System"
@@ -17,7 +17,7 @@ Scene:
     Entity:
       name: "ScoreCount1"
       position_px: [0, 0]
-      RichTextLabel:
+      UITextLabel:
         text: ""
   Entity:
     name: "Paddle2"
@@ -26,16 +26,16 @@ Scene:
     Entity:
       name: "ScoreCount2"
       position_px: [0, 0]
-      RichTextLabel:
+      UITextLabel:
         text: ""
   Entity:
     name: "UpperBoundary"
     position_px: [0, 0]
-    BoxCollider2D:
+    BoxCollider:
       aabb: [[0.0, 0.0],[0.0, 0.0]]
   Entity:
     name: "LowerBoundary"
     position_px: [0, 0]
     scale: [1.0, 1.0]
-    BoxCollider2D:
+    BoxCollider:
       aabb: [[0.0, 0.0],[0.0, 0.0]]

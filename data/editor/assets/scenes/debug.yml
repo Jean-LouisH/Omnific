@@ -2,11 +2,11 @@ Scene:
   Entity:
     name: "Camera"
     spatial_dimension: 2
-    Camera2D: "default"
+    Camera: "default"
   Entity:
     name: "Text"
     spatial_dimension: 2
-    Transform2D:
+    Transform:
       position_px: [0, 0]
     UITextLabel: 
       text: "Time: "

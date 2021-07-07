@@ -44,7 +44,7 @@ namespace Lilliputian
 	public:
 		Scene();
 
-		void addEntity(Entity Entity);
+		void addEntity(Entity entity);
 		void addEmptyEntity();
 		void addComponent(EntityID entityID, ComponentVariant componentVariant);
 		void addComponentToLastEntity(ComponentVariant componentVariant);
@@ -80,12 +80,12 @@ namespace Lilliputian
 		/*Entities are stored in maps for fast random access
 		when Components invoke changes in other Components
 		attached to the Entity.*/
-		std::map<EntityID, Entity> entities2D;
+		std::map<EntityID, Entity> entities;
 
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
 		std::vector<ComponentVariant> componentVariants;
-		std::vector<size_t> transform2DIndexCache;
+		std::vector<size_t> transformIndexCache;
 
 		std::queue<EntityID> startEntitiesQueue;
 		std::queue<EntityID> finishEntitiesQueue;
