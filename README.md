@@ -4,7 +4,7 @@
 
 **This project is still a work in progress**
 
-[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny general-purpose, interactive application framework** for desktop applications and games using Python scripting.
+[Lilliputian](https://github.com/Jean-LouisH/Lilliputian) is **a tiny engine for real-time, interactive applications** for desktop using Python scripting.
 
 It is named after the tiny inhabitants of the fictional Lilliput island that appears in Jonathan Swift's 1726 novel "Guilliver's Travels." This reflects the objective of keeping the engine as small as necessary.
 
