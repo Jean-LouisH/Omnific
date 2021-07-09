@@ -22,51 +22,13 @@
 
 #pragma once
 
-#include <SDL.h>
-#include <vector>
-#include "human_interface_devices.hpp"
-#include "logger.hpp"
-#include "window.hpp"
-#include "profiler.hpp"
-#include "file_access.hpp"
-#include "platform.hpp"
-#include "thread_pool.hpp"
+#include <thread>
 
 namespace Lilliputian
 {
-	class OS
+	class ThreadPool
 	{
 	public:
-		~OS();
-		static void initialize(
-			const char* title, 
-			uint16_t width, 
-			uint16_t height, 
-			bool isFullscreen, 
-			const char* executableFilepath);
-
-		static Window& getWindow();
-		static HumanInterfaceDevices& getHid();
-		static Logger& getLogger();
-		static FileAccess& getFileAccess();
-		static Profiler& getProfiler();
-		static Platform& getPlatform();
-		static ThreadPool& getThreadPool();
-
-		static HiResTimer& getRunTimer();
-		static void addGameControllerMappings();
 	private:
-		static OS* instance;
-
-		HiResTimer* runTimer = nullptr;
-		Window* window = nullptr;
-		HumanInterfaceDevices* hid = nullptr;
-		Logger* logger = nullptr;
-		FileAccess* fileAccess = nullptr;
-		Profiler* profiler = nullptr;
-		Platform* platform = nullptr;
-		ThreadPool* threadPool = nullptr;
-
-		static OS* getInstance();
 	};
 }

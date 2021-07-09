@@ -20,53 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include <SDL.h>
-#include <vector>
-#include "human_interface_devices.hpp"
-#include "logger.hpp"
-#include "window.hpp"
-#include "profiler.hpp"
-#include "file_access.hpp"
 #include "platform.hpp"
-#include "thread_pool.hpp"
+#include <SDL.h>
 
-namespace Lilliputian
+uint8_t Lilliputian::Platform::getLogicalCoreCount()
 {
-	class OS
-	{
-	public:
-		~OS();
-		static void initialize(
-			const char* title, 
-			uint16_t width, 
-			uint16_t height, 
-			bool isFullscreen, 
-			const char* executableFilepath);
+	return SDL_GetCPUCount();
+}
 
-		static Window& getWindow();
-		static HumanInterfaceDevices& getHid();
-		static Logger& getLogger();
-		static FileAccess& getFileAccess();
-		static Profiler& getProfiler();
-		static Platform& getPlatform();
-		static ThreadPool& getThreadPool();
+uint32_t Lilliputian::Platform::getL1CacheLineSize_B()
+{
+	return SDL_GetCPUCacheLineSize();
+}
 
-		static HiResTimer& getRunTimer();
-		static void addGameControllerMappings();
-	private:
-		static OS* instance;
+uint32_t Lilliputian::Platform::getSystemRAM_MB()
+{
+	return SDL_GetSystemRAM();
+}
 
-		HiResTimer* runTimer = nullptr;
-		Window* window = nullptr;
-		HumanInterfaceDevices* hid = nullptr;
-		Logger* logger = nullptr;
-		FileAccess* fileAccess = nullptr;
-		Profiler* profiler = nullptr;
-		Platform* platform = nullptr;
-		ThreadPool* threadPool = nullptr;
-
-		static OS* getInstance();
-	};
+const char* Lilliputian::Platform::getOSName()
+{
+	return SDL_GetPlatform();
 }

@@ -77,6 +77,16 @@ Lilliputian::Profiler& Lilliputian::OS::getProfiler()
 	return *getInstance()->profiler;
 }
 
+Lilliputian::Platform& Lilliputian::OS::getPlatform()
+{
+	return *getInstance()->platform;
+}
+
+Lilliputian::ThreadPool& Lilliputian::OS::getThreadPool()
+{
+	return *getInstance()->threadPool;
+}
+
 Lilliputian::HiResTimer& Lilliputian::OS::getRunTimer()
 {
 	return *getInstance()->runTimer;
