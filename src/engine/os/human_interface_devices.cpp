@@ -153,17 +153,17 @@ std::vector<SDL_Haptic*> Lilliputian::HumanInterfaceDevices::getHaptics()
 	return this->haptics;
 }
 
-std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Lilliputian::HumanInterfaceDevices::getControllerButtonEvents()
+std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Lilliputian::HumanInterfaceDevices::getControllerButtonEvents()
 {
 	return this->controllerButtonEvents;
 }
 
-std::map<SDL_Keycode, SDL_KeyboardEvent> Lilliputian::HumanInterfaceDevices::getKeyboardEvents()
+std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Lilliputian::HumanInterfaceDevices::getKeyboardEvents()
 {
 	return this->keyboardEvents;
 }
 
-std::map<Lilliputian::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Lilliputian::HumanInterfaceDevices::getControllerAxisEvents()
+std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Lilliputian::HumanInterfaceDevices::getControllerAxisEvents()
 {
 	return this->controllerAxisEvents;
 }
@@ -183,7 +183,7 @@ SDL_MouseWheelEvent  Lilliputian::HumanInterfaceDevices::getMouseWheelEvent()
 	return this->mouseWheelEvent;
 }
 
-std::map<Lilliputian::ControllerPlayerID, SDL_JoystickID> Lilliputian::HumanInterfaceDevices::getControllerPlayerMap()
+std::unordered_map<Lilliputian::ControllerPlayerID, SDL_JoystickID> Lilliputian::HumanInterfaceDevices::getControllerPlayerMap()
 {
 	return this->controllerPlayerMap;
 }

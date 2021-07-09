@@ -23,7 +23,7 @@
 #pragma once
 
 #include "event.hpp"
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <vector>
@@ -53,7 +53,7 @@ namespace Lilliputian
 
 		std::vector<Event> query(std::string name);
 	private:
-		std::map<std::string, std::vector<Event>> events;
+		std::unordered_map<std::string, std::vector<Event>> events;
 
 		void publishWithParameters(std::string name, Event::Parameters parameters);
 	};

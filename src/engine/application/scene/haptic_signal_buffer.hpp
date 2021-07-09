@@ -23,7 +23,7 @@
 #pragma once
 
 #include "haptic_signal.hpp"
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include <vector>
@@ -38,9 +38,9 @@ namespace Lilliputian
 		void publish(ControllerPlayerID playerID, float strength_pct, uint16_t duration_ms);
 		void clear();
 
-		std::map<ControllerPlayerID, std::queue<HapticSignal>>& getHapticSignals();
+		std::unordered_map<ControllerPlayerID, std::queue<HapticSignal>>& getHapticSignals();
 		std::queue<HapticSignal>& query(ControllerPlayerID playerID);
 	private:
-		std::map<ControllerPlayerID, std::queue<HapticSignal>> hapticSignals;
+		std::unordered_map<ControllerPlayerID, std::queue<HapticSignal>> hapticSignals;
 	};
 }

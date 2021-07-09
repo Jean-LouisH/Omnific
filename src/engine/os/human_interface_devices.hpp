@@ -24,7 +24,7 @@
 
 #include <SDL.h>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <queue>
 #include <utilities/aliases.hpp>
 
@@ -44,19 +44,19 @@ namespace Lilliputian
 		bool getHasDetectedInputChanges();
 
 		std::vector<SDL_Haptic*> getHaptics();
-		std::map<ControllerButtonCode, SDL_ControllerButtonEvent> getControllerButtonEvents();
-		std::map<SDL_Keycode, SDL_KeyboardEvent> getKeyboardEvents();
-		std::map<ControllerAxisCode, SDL_ControllerAxisEvent> getControllerAxisEvents();
+		std::unordered_map<ControllerButtonCode, SDL_ControllerButtonEvent> getControllerButtonEvents();
+		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> getKeyboardEvents();
+		std::unordered_map<ControllerAxisCode, SDL_ControllerAxisEvent> getControllerAxisEvents();
 		SDL_MouseButtonEvent getMouseButtonEvent();
 		SDL_MouseMotionEvent getMouseMotionEvent();
 		SDL_MouseWheelEvent  getMouseWheelEvent();
-		std::map<ControllerPlayerID, SDL_JoystickID> getControllerPlayerMap();
+		std::unordered_map<ControllerPlayerID, SDL_JoystickID> getControllerPlayerMap();
 		std::queue<ControllerPlayerID>& getNewlyLoadedPlayerIDs();
 	private:
 
-		std::map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
-		std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
-		std::map<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
+		std::unordered_map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
+		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
+		std::unordered_map<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
 		SDL_MouseButtonEvent mouseButtonEvent = { 0 };
 		SDL_MouseMotionEvent mouseMotionEvent = { 0 };
 		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };
@@ -66,7 +66,7 @@ namespace Lilliputian
 		std::vector<SDL_GameController*> gameControllers;
 		std::vector<SDL_Haptic*> haptics;
 
-		std::map<ControllerPlayerID, SDL_JoystickID> controllerPlayerMap;
+		std::unordered_map<ControllerPlayerID, SDL_JoystickID> controllerPlayerMap;
 		std::queue<ControllerPlayerID> newlyLoadedPlayerIDs;
 
 		bool hasDetectedInputChanges = false;

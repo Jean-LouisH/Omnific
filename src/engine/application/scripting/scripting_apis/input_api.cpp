@@ -165,8 +165,8 @@ bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 
 bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, ControllerPlayerID playerID)
 {
-	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
-	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
+	std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
 	for (int i = 0; i < inputCodes.size(); i++)
@@ -254,8 +254,8 @@ bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
 
 bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, ControllerPlayerID playerID)
 {
-	std::map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
-	std::map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
+	std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
 	for (int i = 0; i < inputCodes.size(); i++)

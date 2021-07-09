@@ -25,7 +25,7 @@
 #include <utilities/aliases.hpp>
 #include <SDL.h>
 #include <stdint.h>
-#include <map>
+#include <unordered_map>
 
 namespace Lilliputian
 {
@@ -39,7 +39,7 @@ namespace Lilliputian
 		void setAllowableMissedFrames(unsigned int missedFrameCount);
 	private:
 		unsigned int allowableMissedFrames = 0;
-		std::map<AssetID, SDL_Texture*> sdlTextureCache;
-		std::map<AssetID, unsigned int> missedFrameCounts;
+		std::unordered_map<AssetID, SDL_Texture*> sdlTextureCache;
+		std::unordered_map<AssetID, unsigned int> missedFrameCounts;
 	};
 }

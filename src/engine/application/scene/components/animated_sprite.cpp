@@ -153,7 +153,7 @@ std::vector<std::string> Lilliputian::AnimatedSprite::getFrameSequenceNames()
 {
 	std::vector<std::string> frameSequenceNames;
 
-	for (std::map<std::string, FrameSequence>::iterator it = this->frameSequences.begin();
+	for (std::unordered_map<std::string, FrameSequence>::iterator it = this->frameSequences.begin();
 		it != this->frameSequences.end();
 		++it)
 	{

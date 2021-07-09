@@ -51,7 +51,7 @@ void Lilliputian::HapticSystem::process(
 	HumanInterfaceDevices& hid)
 {
 	HapticSignalBuffer& hapticSignalBuffer = scene.getHapticSignalBuffer();
-	std::map<ControllerPlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
+	std::unordered_map<ControllerPlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
 
 	for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
 	{

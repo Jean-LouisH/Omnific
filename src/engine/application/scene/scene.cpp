@@ -287,7 +287,7 @@ Lilliputian::Entity& Lilliputian::Scene::getLastEntity()
 	return this->entities.at(this->lastEntityID);
 }
 
-std::map<Lilliputian::EntityID, Lilliputian::Entity>& Lilliputian::Scene::getEntities()
+std::unordered_map<Lilliputian::EntityID, Lilliputian::Entity>& Lilliputian::Scene::getEntities()
 {
 	return this->entities;
 }

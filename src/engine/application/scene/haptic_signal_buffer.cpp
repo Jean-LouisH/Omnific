@@ -47,7 +47,7 @@ void Lilliputian::HapticSignalBuffer::clear()
 	this->hapticSignals.clear();
 }
 
-std::map<Lilliputian::ControllerPlayerID, std::queue<Lilliputian::HapticSignal>>& Lilliputian::HapticSignalBuffer::getHapticSignals()
+std::unordered_map<Lilliputian::ControllerPlayerID, std::queue<Lilliputian::HapticSignal>>& Lilliputian::HapticSignalBuffer::getHapticSignals()
 {
 	return this->hapticSignals;
 }

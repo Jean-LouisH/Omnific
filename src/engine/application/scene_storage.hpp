@@ -40,7 +40,7 @@ namespace Lilliputian
 		bool isEmpty();
 		bool hasActiveSceneChanged();
 	private:
-		std::map<std::string, Scene> scenes;
+		std::unordered_map<std::string, Scene> scenes;
 		std::string activeSceneName;
 		bool activeSceneChanged = false;
 	};

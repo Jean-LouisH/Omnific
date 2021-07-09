@@ -26,7 +26,7 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <application/scene/id_counter.hpp>
 
@@ -45,7 +45,7 @@ namespace Lilliputian
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;
-		std::map<ComponentVariant::Type, ComponentID> components;
+		std::unordered_map<ComponentVariant::Type, ComponentID> components;
 		std::vector<std::string> scripts;
 
 		Entity()

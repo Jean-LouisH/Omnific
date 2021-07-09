@@ -23,7 +23,7 @@
 #pragma once
 
 #include "script_call_batch.hpp"
-#include <map>
+#include <unordered_map>
 #include "application/scripting/scripting_apis/scripting_apis.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
@@ -45,7 +45,7 @@ namespace Lilliputian
 		void executeOnFinalMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 	private:
 		pybind11::scoped_interpreter guard{};
-		std::map<std::string, Module> modules;
+		std::unordered_map<std::string, Module> modules;
 
 		void executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
 	};

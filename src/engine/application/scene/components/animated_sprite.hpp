@@ -24,7 +24,7 @@
 
 #include "utilities/aliases.hpp"
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "utilities/constants.hpp"
 #include <string>
 #include "application/scene/assets/image.hpp"
@@ -70,7 +70,7 @@ namespace Lilliputian
 		FrameSequence getFrameSequenceByName(std::string frameSequenceName);
 		FrameSequence getCurrentFrameSequence();
 	private:
-		std::map<std::string, FrameSequence> frameSequences;
+		std::unordered_map<std::string, FrameSequence> frameSequences;
 		uint8_t alpha = 255;
 		float animationSpeed_fps = 12.0;
 		float frameTime_s = 0.0;

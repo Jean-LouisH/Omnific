@@ -43,7 +43,7 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 	pybind11::object path = sys.attr("path");
 	std::set<std::string> addedPaths;
 	std::set<std::string> scripts;
-	std::map<EntityID, Entity> entities = scene.getEntities();
+	std::unordered_map<EntityID, Entity> entities = scene.getEntities();
 
 	for (auto it = entities.begin(); it != entities.end(); ++it)
 	{

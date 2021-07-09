@@ -23,7 +23,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <map>
+#include <unordered_map>
 #include <vector>
 #include <string>
 #include "os/human_interface_devices.hpp"
@@ -67,8 +67,8 @@ namespace Lilliputian
 	private:
 		HumanInterfaceDevices* hid = nullptr;
 
-		std::map<std::string, SDL_Keycode> keyboardEventsByString;
-		std::map<std::string, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
-		std::map<std::string, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
+		std::unordered_map<std::string, SDL_Keycode> keyboardEventsByString;
+		std::unordered_map<std::string, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
+		std::unordered_map<std::string, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
 	};
 }

@@ -25,7 +25,7 @@
 #include "application/scene/scene.hpp"
 #include <SDL.h>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "os/human_interface_devices.hpp"
 #include <application/scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
@@ -45,7 +45,7 @@ namespace Lilliputian
 			bool isPlaying;
 		};
 
-		std::map<ControllerPlayerID, HapticPlayback> hapticPlaybacks;
+		std::unordered_map<ControllerPlayerID, HapticPlayback> hapticPlaybacks;
 
 		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);
 		void stopRumble(ControllerPlayerID playerID, std::vector<SDL_Haptic*> haptics);

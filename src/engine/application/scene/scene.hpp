@@ -25,14 +25,14 @@
 #include <vector>
 #include <stack>
 #include <queue>
-#include <map>
+#include <unordered_map>
 #include "component_variant.hpp"
 #include "application/scripting/virtual_machine/script_call_batch.hpp"
 #include "asset_cache.hpp"
 #include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
 #include "utilities/rectangle.hpp"
-#include <map>
+#include <unordered_map>
 #include "utilities/aliases.hpp"
 #include <string>
 #include "event_bus.hpp"
@@ -67,7 +67,7 @@ namespace Lilliputian
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();
-		std::map<EntityID, Entity>& getEntities();
+		std::unordered_map<EntityID, Entity>& getEntities();
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
@@ -80,7 +80,7 @@ namespace Lilliputian
 		/*Entities are stored in maps for fast random access
 		when Components invoke changes in other Components
 		attached to the Entity.*/
-		std::map<EntityID, Entity> entities;
+		std::unordered_map<EntityID, Entity> entities;
 
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
