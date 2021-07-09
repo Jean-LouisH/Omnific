@@ -115,7 +115,7 @@ void Lilliputian::Scene::changeCurrentCamera(Lilliputian::ComponentID newCurrent
 	}
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnStartCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnStartCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -142,7 +142,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnStartCallB
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnInputCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnInputCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -161,7 +161,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnInputCallB
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFrameCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFrameCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -180,7 +180,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFrameCallB
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnComputeCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnComputeCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -199,7 +199,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnComputeCal
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLateCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnLateCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -218,7 +218,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnLateCallBa
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::getAllOnFinalBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinalBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 

@@ -54,12 +54,12 @@ namespace Lilliputian
 
 		void changeCurrentCamera(ComponentID newCurrentCameraID);
 
-		std::vector<ScriptCallBatch> getAllOnStartCallBatches();
-		std::vector<ScriptCallBatch> getAllOnInputCallBatches();
-		std::vector<ScriptCallBatch> getAllOnFrameCallBatches();
-		std::vector<ScriptCallBatch> getAllOnComputeCallBatches();
-		std::vector<ScriptCallBatch> getAllOnLateCallBatches();
-		std::vector<ScriptCallBatch> getAllOnFinalBatches();
+		std::vector<ScriptCallBatch> generateOnStartCallBatches();
+		std::vector<ScriptCallBatch> generateOnInputCallBatches();
+		std::vector<ScriptCallBatch> generateOnFrameCallBatches();
+		std::vector<ScriptCallBatch> generateOnComputeCallBatches();
+		std::vector<ScriptCallBatch> generateOnLateCallBatches();
+		std::vector<ScriptCallBatch> generateOnFinalBatches();
 
 		ComponentID getCurrentCameraID();
 		std::vector<ComponentVariant>& getComponentVariants();

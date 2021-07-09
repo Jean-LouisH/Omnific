@@ -35,32 +35,32 @@ void Lilliputian::Scripting::loadModules(Scene scene)
 
 void Lilliputian::Scripting::executeOnStartMethods(Scene& scene)
 {
-	this->vm->executeOnStartMethods(scene.getAllOnStartCallBatches());
+	this->vm->executeOnStartMethods(scene.generateOnStartCallBatches());
 }
 
 void Lilliputian::Scripting::executeOnInputMethods(Scene& scene)
 {
-	this->vm->executeOnInputMethods(scene.getAllOnInputCallBatches());
+	this->vm->executeOnInputMethods(scene.generateOnInputCallBatches());
 }
 
 void Lilliputian::Scripting::executeOnFrameMethods(Scene& scene)
 {
-	this->vm->executeOnFrameMethods(scene.getAllOnFrameCallBatches());
+	this->vm->executeOnFrameMethods(scene.generateOnFrameCallBatches());
 }
 
 void Lilliputian::Scripting::executeOnComputeMethods(Scene& scene)
 {
-	this->vm->executeOnComputeMethods(scene.getAllOnComputeCallBatches());
+	this->vm->executeOnComputeMethods(scene.generateOnComputeCallBatches());
 }
 
 void Lilliputian::Scripting::executeOnLateMethods(Scene& scene)
 {
-	this->vm->executeOnLateMethods(scene.getAllOnLateCallBatches());
+	this->vm->executeOnLateMethods(scene.generateOnLateCallBatches());
 }
 
 void Lilliputian::Scripting::executeOnFinalMethods(Scene& scene)
 {
-	this->vm->executeOnFinalMethods(scene.getAllOnFinalBatches());
+	this->vm->executeOnFinalMethods(scene.generateOnFinalBatches());
 }
 
 void Lilliputian::Scripting::setSceneStorage(SceneStorage* sceneStorage)
