@@ -37,6 +37,7 @@
 #include "components/constant_point_force.hpp"
 #include "components/countdown_timer.hpp"
 #include "components/kinematic_body.hpp"
+#include "components/light.hpp"
 #include "components/navigation_mesh_agent.hpp"
 #include "components/navigation_mesh_box_obstacle.hpp"
 #include "components/navigation_path.hpp"
@@ -67,6 +68,7 @@
 #include "components/ui_text_edit.hpp"
 #include "components/ui_text_label.hpp"
 #include "components/ui_tree.hpp"
+#include "components/ui_viewport.hpp"
 
 namespace Lilliputian
 {
@@ -89,6 +91,7 @@ namespace Lilliputian
 			CONSTANT_POINT_FORCE,
 			COUNTDOWN_TIMER,
 			KINEMATIC_BODY,
+			LIGHT,
 			NAVIGATION_MESH,
 			NAVIGATION_MESH_AGENT,
 			NAVIGATION_MESH_BOX_OBSTACLE,
@@ -119,7 +122,8 @@ namespace Lilliputian
 			UI_TAB,
 			UI_TEXT_EDIT,
 			UI_TEXT_LABEL,
-			UI_TREE
+			UI_TREE,
+			UI_VIEWPORT
 		};
 
 		ComponentVariant();
@@ -139,6 +143,7 @@ namespace Lilliputian
 		void setTo(ConstantPointForce* constantPointForce2D);
 		void setTo(CountdownTimer* countdownTimer);
 		void setTo(KinematicBody* kinematicBody2D);
+		void setTo(Light* light);
 		void setTo(NavigationMeshAgent* navigationMeshAgent2D);
 		void setTo(NavigationMeshBoxObstacle* navigationMeshBoxObstacle2D);
 		void setTo(NavigationPath* navigationPath2D);
@@ -170,6 +175,7 @@ namespace Lilliputian
 		void setTo(UITextEdit* uiTextEdit);
 		void setTo(UITextLabel* uiTextLabel);
 		void setTo(UITree* uiTree);
+		void setTo(UIViewport* uiViewport);
 
 		bool isRenderable();
 
@@ -184,6 +190,7 @@ namespace Lilliputian
 		ConstantPointForce* getConstantPointForce();
 		CountdownTimer* getCountdownTimer();
 		KinematicBody* getKinematicBody();
+		Light* getLight();
 		NavigationMeshAgent* getNavigationMeshAgent();
 		NavigationMeshBoxObstacle* getNavigationMeshBoxObstacle();
 		NavigationPath* getNavigationPath();
@@ -215,6 +222,7 @@ namespace Lilliputian
 		UITextEdit* getUITextEdit();
 		UITextLabel* getUITextLabel();
 		UITree* getUITree();
+		UIViewport* getUIViewport();
 
 		ComponentID getID();
 		Type getType();
@@ -242,6 +250,7 @@ namespace Lilliputian
 			ConstantPointForce* constantPointForce;
 			CountdownTimer* countdownTimer;
 			KinematicBody* kinematicBody;
+			Light* light;
 			NavigationMeshAgent* navigationMeshAgent;
 			NavigationMeshBoxObstacle* navigationMeshBoxObstacle;
 			NavigationPath* navigationPath;
@@ -273,6 +282,7 @@ namespace Lilliputian
 			UITextEdit* uiTextEdit;
 			UITextLabel* uiTextLabel;
 			UITree* uiTree;
+			UIViewport* uiViewport;
         };
     };
 }

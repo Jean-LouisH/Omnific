@@ -168,6 +168,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("stop", &Lilliputian::CountdownTimer::stop)
 		.def("is_finished", &Lilliputian::CountdownTimer::isFinished);
 	pybind11::class_<Lilliputian::KinematicBody>(m, "KinematicBody");
+	pybind11::class_<Lilliputian::Light>(m, "Light");
 	pybind11::class_<Lilliputian::NavigationMeshAgent>(m, "NavigationMeshAgent");
 	pybind11::class_<Lilliputian::NavigationMeshBoxObstacle>(m, "NavigationMeshBoxObstacle");
 	pybind11::class_<Lilliputian::NavigationPath>(m, "NavigationPath");
@@ -199,6 +200,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::UITextLabel>(m, "UITextLabel")
 		.def("set_text", &Lilliputian::UITextLabel::setText);
 	pybind11::class_<Lilliputian::UITree>(m, "UITree");
+	pybind11::class_<Lilliputian::UIViewport>(m, "UIViewport");
 
 	/*ComponentVariant types*/
 	pybind11::class_<Lilliputian::ComponentVariant> componentVariant(m, "CV");
@@ -214,6 +216,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::ConstantPointForce*>(&Lilliputian::ComponentVariant::setTo));
 	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::CountdownTimer*>(&Lilliputian::ComponentVariant::setTo));
 	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::KinematicBody*>(&Lilliputian::ComponentVariant::setTo));
+	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::Light*>(&Lilliputian::ComponentVariant::setTo));
 	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::NavigationMeshAgent*>(&Lilliputian::ComponentVariant::setTo));
 	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::NavigationMeshBoxObstacle*>(&Lilliputian::ComponentVariant::setTo));
 	componentVariant.def("set_to", pybind11::overload_cast<Lilliputian::NavigationPath*>(&Lilliputian::ComponentVariant::setTo));
@@ -256,6 +259,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	componentVariant.def("get_constant_point_force", &Lilliputian::ComponentVariant::getConstantPointForce, pybind11::return_value_policy::reference);
 	componentVariant.def("get_countdown_timer", &Lilliputian::ComponentVariant::getCountdownTimer, pybind11::return_value_policy::reference);
 	componentVariant.def("get_kinematic_body", &Lilliputian::ComponentVariant::getKinematicBody, pybind11::return_value_policy::reference);
+	componentVariant.def("get_light", &Lilliputian::ComponentVariant::getLight, pybind11::return_value_policy::reference);
 	componentVariant.def("get_navigation_mesh_agent", &Lilliputian::ComponentVariant::getNavigationMeshAgent, pybind11::return_value_policy::reference);
 	componentVariant.def("get_navigation_mesh_box_obstacle", &Lilliputian::ComponentVariant::getNavigationMeshBoxObstacle, pybind11::return_value_policy::reference);
 	componentVariant.def("get_naviation_path", &Lilliputian::ComponentVariant::getNavigationPath, pybind11::return_value_policy::reference);
@@ -285,6 +289,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	componentVariant.def("get_ui_text_edit", &Lilliputian::ComponentVariant::getUITextEdit, pybind11::return_value_policy::reference);
 	componentVariant.def("get_ui_text_label", &Lilliputian::ComponentVariant::getUITextLabel, pybind11::return_value_policy::reference);
 	componentVariant.def("get_ui_tree", &Lilliputian::ComponentVariant::getUITree, pybind11::return_value_policy::reference);
+	componentVariant.def("get_ui_viewport", &Lilliputian::ComponentVariant::getUIViewport, pybind11::return_value_policy::reference);
 
 	pybind11::enum_<Lilliputian::ComponentVariant::Type>(componentVariant, "Type")
 		.value("NONE", Lilliputian::ComponentVariant::Type::NONE)
@@ -300,6 +305,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.value("CONSTANT_POINT_FORCE", Lilliputian::ComponentVariant::Type::CONSTANT_POINT_FORCE)
 		.value("COUNTDOWN_TIMER", Lilliputian::ComponentVariant::Type::COUNTDOWN_TIMER)
 		.value("KINEMATIC_BODY", Lilliputian::ComponentVariant::Type::KINEMATIC_BODY)
+		.value("LIGHT", Lilliputian::ComponentVariant::Type::LIGHT)
 		.value("NAVIGATION_MESH", Lilliputian::ComponentVariant::Type::NAVIGATION_MESH)
 		.value("NAVIGATION_MESH_AGENT", Lilliputian::ComponentVariant::Type::NAVIGATION_MESH_AGENT)
 		.value("NAVIGATION_MESH_BOX_OBSTACLE", Lilliputian::ComponentVariant::Type::NAVIGATION_MESH_BOX_OBSTACLE)
@@ -331,6 +337,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.value("UI_TEXT_EDIT", Lilliputian::ComponentVariant::Type::UI_TEXT_EDIT)
 		.value("UI_TEXT_LABEL", Lilliputian::ComponentVariant::Type::UI_TEXT_LABEL)
 		.value("UI_TREE", Lilliputian::ComponentVariant::Type::UI_TREE)
+		.value("UI_VIEWPORT", Lilliputian::ComponentVariant::Type::UI_VIEWPORT)
 		.export_values();
 
 	/*Asset classes*/

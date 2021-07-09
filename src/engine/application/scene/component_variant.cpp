@@ -50,6 +50,7 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 		case Type::CONSTANT_POINT_FORCE:this->constantPointForce = new ConstantPointForce(*other.constantPointForce); break;
 		case Type::COUNTDOWN_TIMER:this->countdownTimer = new CountdownTimer(*other.countdownTimer); break;
 		case Type::KINEMATIC_BODY:this->kinematicBody = new KinematicBody(*other.kinematicBody); break;
+		case Type::LIGHT: this->light = new Light(*other.light); break;
 		case Type::NAVIGATION_MESH_AGENT:this->navigationMeshAgent = new NavigationMeshAgent(*other.navigationMeshAgent); break;
 		case Type::NAVIGATION_MESH_BOX_OBSTACLE:this->navigationMeshBoxObstacle = new NavigationMeshBoxObstacle(*other.navigationMeshBoxObstacle); break;
 		case Type::NAVIGATION_PATH:this->navigationPath = new NavigationPath(*other.navigationPath); break;
@@ -80,6 +81,7 @@ Lilliputian::ComponentVariant::ComponentVariant(const ComponentVariant& other)
 		case Type::UI_TEXT_EDIT:this->uiTextEdit = new UITextEdit(*other.uiTextEdit); break;
 		case Type::UI_TEXT_LABEL:this->uiTextLabel = new UITextLabel(*other.uiTextLabel); break;
 		case Type::UI_TREE:this->uiTree = new UITree(*other.uiTree); break;
+		case Type::UI_VIEWPORT: this->uiViewport = new UIViewport(*other.uiViewport); break;
 	}
 }
 
@@ -99,6 +101,7 @@ Lilliputian::ComponentVariant::~ComponentVariant()
 		case Type::CONSTANT_POINT_FORCE:delete this->constantPointForce; break;
 		case Type::COUNTDOWN_TIMER:delete this->countdownTimer; break;
 		case Type::KINEMATIC_BODY: delete this->kinematicBody; break;
+		case Type::LIGHT: delete this->light; break;
 		case Type::NAVIGATION_MESH_AGENT:delete this->navigationMeshAgent; break;
 		case Type::NAVIGATION_MESH_BOX_OBSTACLE:delete this->navigationMeshBoxObstacle; break;
 		case Type::NAVIGATION_PATH:delete this->navigationPath; break;
@@ -129,6 +132,7 @@ Lilliputian::ComponentVariant::~ComponentVariant()
 		case Type::UI_TEXT_EDIT:delete this->uiTextEdit; break;
 		case Type::UI_TEXT_LABEL:delete this->uiTextLabel; break;
 		case Type::UI_TREE:delete this->uiTree; break;
+		case Type::UI_VIEWPORT: delete this->uiViewport; break;
 	}
 }
 
@@ -233,6 +237,15 @@ void Lilliputian::ComponentVariant::setTo(KinematicBody* kinematicBody2D)
 	{
 		this->kinematicBody = kinematicBody2D;
 		this->type = Type::KINEMATIC_BODY;
+	}
+}
+
+void Lilliputian::ComponentVariant::setTo(Light* light)
+{
+	if (this->type == Type::NONE)
+	{
+		this->light = light;
+		this->type = Type::LIGHT;
 	}
 }
 
@@ -515,6 +528,15 @@ void Lilliputian::ComponentVariant::setTo(UITree* uiTree)
 	}
 }
 
+void Lilliputian::ComponentVariant::setTo(UIViewport* uiViewport)
+{
+	if (this->type == Type::NONE)
+	{
+		this->uiViewport = uiViewport;
+		this->type = Type::UI_VIEWPORT;
+	}
+}
+
 bool Lilliputian::ComponentVariant::isRenderable()
 {
 	return this->type == Type::SPRITE ||
@@ -582,6 +604,10 @@ Lilliputian::CountdownTimer* Lilliputian::ComponentVariant::getCountdownTimer()
 Lilliputian::KinematicBody* Lilliputian::ComponentVariant::getKinematicBody()
 {
 	return this->kinematicBody;
+}
+Lilliputian::Light* Lilliputian::ComponentVariant::getLight()
+{
+	return this->light;
 }
 Lilliputian::NavigationMeshAgent* Lilliputian::ComponentVariant::getNavigationMeshAgent()
 {
@@ -706,6 +732,10 @@ Lilliputian::UITextLabel* Lilliputian::ComponentVariant::getUITextLabel()
 Lilliputian::UITree* Lilliputian::ComponentVariant::getUITree()
 {
 	return this->uiTree;
+}
+Lilliputian::UIViewport* Lilliputian::ComponentVariant::getUIViewport()
+{
+	return this->uiViewport;
 }
 
 Lilliputian::ComponentID Lilliputian::ComponentVariant::getID()
