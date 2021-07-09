@@ -124,14 +124,15 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("remove_component", &Lilliputian::Scene::removeComponent)
 		.def("change_current_camera", &Lilliputian::Scene::changeCurrentCamera)
 		.def("get_current_camera_id", &Lilliputian::Scene::getCurrentCameraID)
-		.def("get_component_variants", &Lilliputian::Scene::getComponentVariants)
-		.def("get_entity_transform", &Lilliputian::Scene::getEntityTransform)
-		.def("get_entity", &Lilliputian::Scene::getEntity)
-		.def("get_entity_by_name", &Lilliputian::Scene::getEntityByName)
-		.def("get_last_entity", &Lilliputian::Scene::getLastEntity)
-		.def("get_entities", &Lilliputian::Scene::getEntities)
-		.def("get_event_bus", &Lilliputian::Scene::getEventBus)
-		.def("get_id", &Lilliputian::Scene::getID);;
+		.def("get_component_variants", &Lilliputian::Scene::getComponentVariants, pybind11::return_value_policy::reference)
+		.def("get_entity_transform", &Lilliputian::Scene::getEntityTransform, pybind11::return_value_policy::reference)
+		.def("get_entity", &Lilliputian::Scene::getEntity, pybind11::return_value_policy::reference)
+		.def("get_entity_by_name", &Lilliputian::Scene::getEntityByName, pybind11::return_value_policy::reference)
+		.def("get_last_entity", &Lilliputian::Scene::getLastEntity, pybind11::return_value_policy::reference)
+		.def("get_entities", &Lilliputian::Scene::getEntities, pybind11::return_value_policy::reference)
+		.def("get_event_bus", &Lilliputian::Scene::getEventBus, pybind11::return_value_policy::reference)
+		.def("get_haptic_signal_buffer", &Lilliputian::Scene::getHapticSignalBuffer, pybind11::return_value_policy::reference)
+		.def("get_id", &Lilliputian::Scene::getID);
 
 	pybind11::class_<Lilliputian::Event::Parameters>(m, "EventParameters")
 		.def_readwrite("floats", &Lilliputian::Event::Parameters::floats)
@@ -151,6 +152,18 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("publish", pybind11::overload_cast<std::string, std::vector<float>>(&Lilliputian::EventBus::publish))
 		.def("publish", pybind11::overload_cast<std::string, std::vector<std::string>>(&Lilliputian::EventBus::publish))
 		.def("publish", pybind11::overload_cast<std::string, std::vector<float>, std::vector<std::string>>(&Lilliputian::EventBus::publish));
+
+	pybind11::class_<Lilliputian::HapticSignal>(m, "HapticSignal")
+		.def(pybind11::init<Lilliputian::ControllerPlayerID, float, uint16_t>())
+		.def("get_duration_ms", &Lilliputian::HapticSignal::getDuration_ms)
+		.def("get_player_id", &Lilliputian::HapticSignal::getPlayerID)
+		.def("get_strength_pct", &Lilliputian::HapticSignal::getStrength_pct);
+
+	pybind11::class_<Lilliputian::HapticSignalBuffer>(m, "HapticSignalBuffer")
+		.def("publish", &Lilliputian::HapticSignalBuffer::publish)
+		.def("query", &Lilliputian::HapticSignalBuffer::query)
+		.def("get_haptic_signals", &Lilliputian::HapticSignalBuffer::getHapticSignals)
+		.def("clear", &Lilliputian::HapticSignalBuffer::clear);
 
 	/*Component classes*/
 	pybind11::class_<Lilliputian::BehaviourTree>(m, "BehaviourTree");
