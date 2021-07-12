@@ -22,11 +22,31 @@
 
 #pragma once
 
+#include <utilities/aabb_2d.hpp>
+#include <utilities/rectangle.hpp>
+#include <utilities/aliases.hpp>
+#include <utilities/constants.hpp>
+
 namespace Lilliputian
 {
 	class UIViewport
 	{
 	public:
+		UIViewport();
+		EntityID getCameraEntityID();
+		Rectangle getDimensions();
+		bool getIsVisibleToOtherCameras();
+		bool getIsVisible();
+		void setCameraEntity(EntityID cameraEntityID);
+		void setDimensions(uint32_t width, uint32_t height);
+		void setVisibleToOtherCameras();
+		void setInvisibleToOtherCameras();
+		void setVisible();
+		void setInvisible();
 	private:
+		Rectangle dimensions;
+		EntityID cameraEntityID = DUMMY_ENTITY;
+		bool isVisibleToOtherCameras = false;
+		bool isVisible = true;
 	};
 }

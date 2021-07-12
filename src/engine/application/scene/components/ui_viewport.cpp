@@ -21,3 +21,60 @@
 // SOFTWARE.
 
 #include "ui_viewport.hpp"
+#include <os/os.hpp>
+
+Lilliputian::UIViewport::UIViewport()
+{
+	this->dimensions = OS::getWindow().getWindowSize();
+}
+
+Lilliputian::EntityID Lilliputian::UIViewport::getCameraEntityID()
+{
+	return this->cameraEntityID;
+}
+
+void Lilliputian::UIViewport::setCameraEntity(EntityID cameraEntityID)
+{
+	this->cameraEntityID = cameraEntityID;
+}
+
+Lilliputian::Rectangle Lilliputian::UIViewport::getDimensions()
+{
+	return  this->dimensions;
+}
+
+bool Lilliputian::UIViewport::getIsVisibleToOtherCameras()
+{
+	return this->isVisibleToOtherCameras;
+}
+
+bool Lilliputian::UIViewport::getIsVisible()
+{
+	return this->isVisible;
+}
+
+void Lilliputian::UIViewport::setDimensions(uint32_t width, uint32_t height)
+{
+	this->dimensions.width = width;
+	this->dimensions.height = height;
+}
+
+void Lilliputian::UIViewport::setVisibleToOtherCameras()
+{
+	this->isVisibleToOtherCameras = true;
+}
+
+void Lilliputian::UIViewport::setInvisibleToOtherCameras()
+{
+	this->isVisibleToOtherCameras = false;
+}
+
+void Lilliputian::UIViewport::setVisible()
+{
+	this->isVisible = true;
+}
+
+void Lilliputian::UIViewport::setInvisible()
+{
+	this->isVisible = false;
+}
