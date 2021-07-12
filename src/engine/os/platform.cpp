@@ -38,7 +38,7 @@ uint32_t Lilliputian::Platform::getSystemRAM_MB()
 	return SDL_GetSystemRAM();
 }
 
-const char* Lilliputian::Platform::getOSName()
+std::string Lilliputian::Platform::getOSName()
 {
 	return SDL_GetPlatform();
 }

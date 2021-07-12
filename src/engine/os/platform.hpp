@@ -23,6 +23,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <string>
 
 namespace Lilliputian
 {
@@ -32,7 +33,7 @@ namespace Lilliputian
 		uint8_t getLogicalCoreCount();
 		uint32_t getL1CacheLineSize_B();
 		uint32_t getSystemRAM_MB();
-		const char* getOSName();
+		std::string getOSName();
 	private:
 	};
 }
