@@ -113,6 +113,11 @@ uint8_t Lilliputian::Image::getAlpha()
 	return this->alpha;
 }
 
+uint8_t Lilliputian::Image::getBytesPerPixel()
+{
+	return this->surface->format->BytesPerPixel;
+}
+
 Lilliputian::AssetID Lilliputian::Image::getID()
 {
 	return this->id;

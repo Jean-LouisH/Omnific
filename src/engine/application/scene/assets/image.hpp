@@ -50,6 +50,7 @@ namespace Lilliputian
 		Rectangle getDimensions();
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
+		uint8_t getBytesPerPixel();
 		AssetID getID();
 	private:
 		AssetID id = 0;
