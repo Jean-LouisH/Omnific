@@ -42,9 +42,9 @@ void Lilliputian::Engine::run()
 			if (configuration.isLoaded)
 			{
 				OS::addGameControllerMappings();
-				Window window = OS::getWindow();
-				window.resize(configuration.windowSettings.windowWidth, configuration.windowSettings.windowHeight);
-				window.changeTitle(configuration.metadata.gameTitle.c_str());
+				Window& window = OS::getWindow();
+				window.resize(configuration.windowSettings.width, configuration.windowSettings.height);
+				window.changeTitle(configuration.metadata.title.c_str());
 				this->state.setRunningApplicationWindowed();
 			}
 			else
@@ -97,6 +97,14 @@ bool Lilliputian::Engine::initialize()
 	{
 		OS::initialize("", 640, 480, false, this->argv[0]);
 
+		Platform& platform = OS::getPlatform();
+		Logger& logger = OS::getLogger();
+
+		logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
+		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize_B()) + " B");
+		logger.write("Retrieved OS Name: " + platform.getOSName());
+		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM_MB()) + " MB");
+
 		Profiler& profiler = OS::getProfiler();
 		profiler.getBenchmarkTimer().setStart();
 
@@ -144,9 +152,9 @@ void Lilliputian::Engine::update()
 
 	while (profiler.getLag_ms() >= msPerComputeUpdate)
 	{
-		this->application->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
 		this->physicsSystem->process(activeScene, msPerComputeUpdate);
+		this->application->executeOnComputeMethods();
 		profiler.decrementLagCount(msPerComputeUpdate);
 	}
 
@@ -180,7 +188,7 @@ void Lilliputian::Engine::benchmark()
 		std::string FPSString = std::to_string(profiler.getFPS());
 		std::string frameUtilizationString =
 			std::to_string((int)(((double)profiler.getProcessTimer().getDelta_ns() / (double)profiler.getFrameTimer().getDelta_ns()) * 100));
-		OS::getWindow().changeTitle((this->application->getConfiguration().metadata.gameTitle + " (DEBUG) ->" +
+		OS::getWindow().changeTitle((this->application->getConfiguration().metadata.title + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
 	}
