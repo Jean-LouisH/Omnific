@@ -36,12 +36,12 @@ namespace Lilliputian
 	{
 		enum class SpatialDimension
 		{
-			SPATIAL_2D
+			_2D
 		};
 
 		EntityID ID = DUMMY_ENTITY;
 		EntityID parentID = DUMMY_ENTITY;
-		SpatialDimension spatialDimension = SpatialDimension::SPATIAL_2D;
+		SpatialDimension spatialDimension = SpatialDimension::_2D;
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;
