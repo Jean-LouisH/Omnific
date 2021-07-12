@@ -183,12 +183,12 @@ SDL_MouseWheelEvent  Lilliputian::HumanInterfaceDevices::getMouseWheelEvent()
 	return this->mouseWheelEvent;
 }
 
-std::unordered_map<Lilliputian::ControllerPlayerID, SDL_JoystickID> Lilliputian::HumanInterfaceDevices::getControllerPlayerMap()
+std::unordered_map<Lilliputian::PlayerID, SDL_JoystickID> Lilliputian::HumanInterfaceDevices::getControllerPlayerMap()
 {
 	return this->controllerPlayerMap;
 }
 
-std::queue<Lilliputian::ControllerPlayerID>& Lilliputian::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
+std::queue<Lilliputian::PlayerID>& Lilliputian::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
 {
 	return this->newlyLoadedPlayerIDs;
 }

@@ -50,8 +50,8 @@ namespace Lilliputian
 		SDL_MouseButtonEvent getMouseButtonEvent();
 		SDL_MouseMotionEvent getMouseMotionEvent();
 		SDL_MouseWheelEvent  getMouseWheelEvent();
-		std::unordered_map<ControllerPlayerID, SDL_JoystickID> getControllerPlayerMap();
-		std::queue<ControllerPlayerID>& getNewlyLoadedPlayerIDs();
+		std::unordered_map<PlayerID, SDL_JoystickID> getControllerPlayerMap();
+		std::queue<PlayerID>& getNewlyLoadedPlayerIDs();
 	private:
 
 		std::unordered_map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
@@ -66,8 +66,8 @@ namespace Lilliputian
 		std::vector<SDL_GameController*> gameControllers;
 		std::vector<SDL_Haptic*> haptics;
 
-		std::unordered_map<ControllerPlayerID, SDL_JoystickID> controllerPlayerMap;
-		std::queue<ControllerPlayerID> newlyLoadedPlayerIDs;
+		std::unordered_map<PlayerID, SDL_JoystickID> controllerPlayerMap;
+		std::queue<PlayerID> newlyLoadedPlayerIDs;
 
 		bool hasDetectedInputChanges = false;
 		bool shutdownRequest = false;

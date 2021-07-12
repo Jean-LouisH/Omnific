@@ -31,5 +31,5 @@ namespace Lilliputian
 	using SceneID = ID;
 	using ComponentID = ID;
 	using AssetID = ID;
-	using ControllerPlayerID = uint8_t;
+	using PlayerID = uint8_t;
 }

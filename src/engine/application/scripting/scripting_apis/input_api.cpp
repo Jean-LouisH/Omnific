@@ -163,7 +163,7 @@ bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 	return this->isOnPress(inputCodes, 0);
 }
 
-bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, ControllerPlayerID playerID)
+bool Lilliputian::InputAPI::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -207,7 +207,7 @@ bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes,
 	return this->isOnDoublePress(inputCodes, timeInterval_ms, 0);
 }
 
-bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, ControllerPlayerID playerID)
+bool Lilliputian::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -229,7 +229,7 @@ bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes)
 	return this->isPressed(inputCodes, 0);
 }
 
-bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes, ControllerPlayerID playerID)
+bool Lilliputian::InputAPI::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -252,7 +252,7 @@ bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
 	return this->isOnRelease(inputCodes, 0);
 }
 
-bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, ControllerPlayerID playerID)
+bool Lilliputian::InputAPI::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
 	std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
@@ -289,7 +289,7 @@ bool Lilliputian::InputAPI::isReleased(std::string inputCode)
 	return false;
 }
 
-bool Lilliputian::InputAPI::isReleased(std::string inputCode, ControllerPlayerID playerID)
+bool Lilliputian::InputAPI::isReleased(std::string inputCode, PlayerID playerID)
 {
 	return false;
 }
@@ -369,27 +369,27 @@ bool Lilliputian::InputAPI::isRightMouseButtonDoubleClicked()
 		mouseButtonEvent.clicks == 2;
 }
 
-Lilliputian::Vector2 Lilliputian::InputAPI::getMousePosition()
+glm::vec2 Lilliputian::InputAPI::getMousePosition()
 {
-	Vector2 vector2;
+	glm::vec2 vector2;
 	SDL_MouseMotionEvent mouseMotionEvent = this->hid->getMouseMotionEvent();
 	vector2.x = mouseMotionEvent.x;
 	vector2.y = mouseMotionEvent.y;
 	return vector2;
 }
 
-Lilliputian::Vector2 Lilliputian::InputAPI::getMouseWheelVelocity()
+glm::vec2 Lilliputian::InputAPI::getMouseWheelVelocity()
 {
-	Vector2 vector2;
+	glm::vec2 vector2;
 	SDL_MouseWheelEvent mouseWheelEvent = this->hid->getMouseWheelEvent();
 	vector2.x = mouseWheelEvent.x;
 	vector2.y = mouseWheelEvent.y;
 	return vector2;
 }
 
-Lilliputian::Vector2 Lilliputian::InputAPI::getMouseMotionVelocity()
+glm::vec2 Lilliputian::InputAPI::getMouseMotionVelocity()
 {
-	Vector2 vector2;
+	glm::vec2 vector2;
 	SDL_MouseMotionEvent mouseMotionEvent = this->hid->getMouseMotionEvent();
 	vector2.x = mouseMotionEvent.xrel;
 	vector2.y = mouseMotionEvent.yrel;

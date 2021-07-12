@@ -27,7 +27,7 @@
 #include <vector>
 #include <string>
 #include "os/human_interface_devices.hpp"
-#include <utilities/vector2.hpp>
+#include <glm/glm.hpp>
 #include <utilities/aliases.hpp>
 
 namespace Lilliputian
@@ -38,18 +38,18 @@ namespace Lilliputian
 		InputAPI(HumanInterfaceDevices* hid);
 		bool isOnPress(std::string inputCode);
 		bool isOnPress(std::vector<std::string> inputCodes);
-		bool isOnPress(std::vector<std::string> inputCodes, ControllerPlayerID playerID);
+		bool isOnPress(std::vector<std::string> inputCodes, PlayerID playerID);
 		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms);
 		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms);
-		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, ControllerPlayerID playerID);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, PlayerID playerID);
 		bool isPressed(std::string inputCode);
 		bool isPressed(std::vector<std::string> inputCodes);
-		bool isPressed(std::vector<std::string> inputCodes, ControllerPlayerID playerID);
+		bool isPressed(std::vector<std::string> inputCodes, PlayerID playerID);
 		bool isOnRelease(std::string inputCode);
 		bool isOnRelease(std::vector<std::string> inputCodes);
-		bool isOnRelease(std::vector<std::string> inputCodes, ControllerPlayerID playerID);
+		bool isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID);
 		bool isReleased(std::string inputCode);
-		bool isReleased(std::string inputCode, ControllerPlayerID playerID);
+		bool isReleased(std::string inputCode, PlayerID playerID);
 
 		bool isLeftMouseButtonOnPress();
 		bool isLeftMouseButtonOnRelease();
@@ -60,9 +60,9 @@ namespace Lilliputian
 		bool isRightMouseButtonOnPress();
 		bool isRightMouseButtonOnRelease();
 		bool isRightMouseButtonDoubleClicked();
-		Vector2 getMousePosition();
-		Vector2 getMouseWheelVelocity();
-		Vector2 getMouseMotionVelocity();
+		glm::vec2 getMousePosition();
+		glm::vec2 getMouseWheelVelocity();
+		glm::vec2 getMouseMotionVelocity();
 
 	private:
 		HumanInterfaceDevices* hid = nullptr;

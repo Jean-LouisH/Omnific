@@ -38,7 +38,7 @@ void Lilliputian::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<S
 	}
 }
 
-void Lilliputian::HapticSystem::stopRumble(ControllerPlayerID playerID, std::vector<SDL_Haptic*> haptics)
+void Lilliputian::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
 {
 	if (playerID < haptics.size())
 	{
@@ -51,11 +51,11 @@ void Lilliputian::HapticSystem::process(
 	HumanInterfaceDevices& hid)
 {
 	HapticSignalBuffer& hapticSignalBuffer = scene.getHapticSignalBuffer();
-	std::unordered_map<ControllerPlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
+	std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
 
 	for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
 	{
-		ControllerPlayerID playerID = it->first;
+		PlayerID playerID = it->first;
 
 		if (this->hapticPlaybacks.count(playerID))
 		{

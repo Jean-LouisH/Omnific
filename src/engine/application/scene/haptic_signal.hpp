@@ -31,12 +31,12 @@ namespace Lilliputian
 	class HapticSignal
 	{
 	public:
-		HapticSignal(ControllerPlayerID playerID, float strength_pct, uint16_t duration_ms);
-		ControllerPlayerID getPlayerID();
+		HapticSignal(PlayerID playerID, float strength_pct, uint16_t duration_ms);
+		PlayerID getPlayerID();
 		float getStrength_pct();
 		uint16_t getDuration_ms();
 	private:
-		ControllerPlayerID playerID = 0;
+		PlayerID playerID = 0;
 		float strength_pct = 0.0;
 		uint16_t duration_ms = 0;
 	};

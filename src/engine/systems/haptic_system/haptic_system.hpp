@@ -45,10 +45,10 @@ namespace Lilliputian
 			bool isPlaying;
 		};
 
-		std::unordered_map<ControllerPlayerID, HapticPlayback> hapticPlaybacks;
+		std::unordered_map<PlayerID, HapticPlayback> hapticPlaybacks;
 
 		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);
-		void stopRumble(ControllerPlayerID playerID, std::vector<SDL_Haptic*> haptics);
+		void stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics);
 	};
 }
 

@@ -78,10 +78,8 @@ void Lilliputian::Application::initialize()
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-	std::cout << "\tLilliputian Engine Debug Console Enabled";
-	std::cout << "\n\nPress '`' in-game to write to command line via console.";
-	std::cout << "\n\nIf user priviledges are enabled through the command line API, the ";
-	std::cout << "\ncommand line will be accessed in the game window instead.";
+	std::cout << "\n\n\tLilliputian Engine Debug Console Enabled";
+	std::cout << "\n\nPress '`' in-application to write to command line via console.";
 	std::cout << "\n\nTo see the list of commands, enter 'commands'.";
 	std::cout << "\n\n";
 #endif
@@ -104,7 +102,7 @@ void Lilliputian::Application::executeOnInputMethods()
 		std::string command;
 
 		OS::getWindow().hide();
-		std::cout << ">";
+		std::cout << std::endl << ">";
 		std::getline(std::cin, command);
 		this->commandLine->execute(command);
 		OS::getWindow().show();
@@ -114,7 +112,7 @@ void Lilliputian::Application::executeOnInputMethods()
 	if (!this->sceneStorage->isEmpty() && OS::getHid().getHasDetectedInputChanges())
 		this->scripting->executeOnInputMethods(this->getActiveScene());
 
-	std::queue<ControllerPlayerID>& newlyLoadedPlayerIDs = OS::getHid().getNewlyLoadedPlayerIDs();
+	std::queue<PlayerID>& newlyLoadedPlayerIDs = OS::getHid().getNewlyLoadedPlayerIDs();
 
 	if (!this->sceneStorage->isEmpty() && !newlyLoadedPlayerIDs.empty())
 	{
