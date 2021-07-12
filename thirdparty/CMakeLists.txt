@@ -4,6 +4,8 @@
 cmake_minimum_required (VERSION 3.8)
 
 project("yaml_cpp")
+project("glad")
 
 # Include sub-projects.
 add_subdirectory("yaml-cpp-0.6.3")
+add_subdirectory("glad")

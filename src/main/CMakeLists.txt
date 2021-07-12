@@ -21,8 +21,13 @@ include_directories(
 		../../thirdparty/SDL2_mixer-2.0.4/include
 		../../thirdparty/SDL2_ttf-2.0.15/include
 		../../thirdparty/yaml-cpp-0.6.3/include
+		../../thirdparty/glad/include
 		../../thirdparty/python37/include
 		../../thirdparty/pybind11-2.6.2/include
+		../../thirdparty/glew-2.1.0/include
+		../../thirdparty/glm-0.9.9.8/glm
+		../../thirdparty/tinygltf-2.5.0/include
+		../../thirdparty/zlib-1.2.11/include
 		../engine
 		.
 )
