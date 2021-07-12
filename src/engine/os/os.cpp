@@ -36,11 +36,13 @@ void Lilliputian::OS::initialize(
 {
 	OS* newInstance = getInstance();
 
+	newInstance->logger = new Logger();
 	newInstance->window = new Window(title, width, height, isFullscreen);
 	newInstance->hid = new HumanInterfaceDevices();
-	newInstance->logger = new Logger();
 	newInstance->fileAccess = new FileAccess(executableFilepath);
 	newInstance->profiler = new Profiler();
+	newInstance->platform = new Platform();
+	newInstance->threadPool = new ThreadPool();
 	newInstance->runTimer = new HiResTimer();
 	newInstance->runTimer->setStart();
 }
