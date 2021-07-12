@@ -31,7 +31,7 @@ namespace Lilliputian
 	public:
 		struct Metadata
 		{
-			std::string gameTitle;
+			std::string title;
 			std::string version;
 			std::string developer;
 			std::string iconFilepath;
@@ -40,8 +40,8 @@ namespace Lilliputian
 
 		struct WindowSettings
 		{
-			uint16_t windowHeight;
-			uint16_t windowWidth;
+			uint16_t height;
+			uint16_t width;
 			bool isStartingFullscreen;
 			bool isStartingMaximized;
 			bool isResizable;

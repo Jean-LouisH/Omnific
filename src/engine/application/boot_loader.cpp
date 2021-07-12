@@ -39,7 +39,7 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(std::string bo
 				{
 					if (it1->first.as<std::string>() == "title")
 					{
-						configuration->metadata.gameTitle = it1->second.as<std::string>();
+						configuration->metadata.title = it1->second.as<std::string>();
 					}
 					else if (it1->first.as<std::string>() == "version")
 					{
@@ -65,11 +65,11 @@ Lilliputian::Configuration* Lilliputian::BootLoader::loadFromFile(std::string bo
 				{
 					if (it1->first.as<std::string>() == "width")
 					{
-						configuration->windowSettings.windowWidth = it1->second.as<int>();
+						configuration->windowSettings.width = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "height")
 					{
-						configuration->windowSettings.windowHeight = it1->second.as<int>();
+						configuration->windowSettings.height = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "fullscreen")
 					{
