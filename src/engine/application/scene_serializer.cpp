@@ -85,7 +85,7 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 								int value = it2->second.as<int>();
 
 								if (value == 2)
-									scene.getLastEntity().spatialDimension = Entity::SpatialDimension::SPATIAL_2D;
+									scene.getLastEntity().spatialDimension = Entity::SpatialDimension::_2D;
 							}
 							else if (it2->first.as<std::string>() == "parent")
 							{
@@ -447,27 +447,31 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 							}
 							else if (it2->first.as<std::string>() == "Transform")
 							{
-								Transform* transform2D = new Transform();
+								Transform* transform = new Transform();
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
-									if (it3->first.as<std::string>() == "position_px")
+									if (it3->first.as<std::string>() == "translation")
 									{
-										transform2D->position_px.x = it3->second[0].as<double>();
-										transform2D->position_px.y = it3->second[1].as<double>();
+										transform->translation.x = it3->second[0].as<double>();
+										transform->translation.y = it3->second[1].as<double>();
+										transform->translation.z = it3->second[2].as<double>();
 									}
-									else if (it3->first.as<std::string>() == "rotation_rad")
+									else if (it3->first.as<std::string>() == "rotation")
 									{
-										transform2D->rotation_rad = it3->second.as<double>();
+										transform->rotation.x = it3->second[0].as<double>();
+										transform->rotation.y = it3->second[1].as<double>();
+										transform->rotation.z = it3->second[2].as<double>();
 									}
 									else if (it3->first.as<std::string>() == "scale")
 									{
-										transform2D->scale.x = it3->second[0].as<double>();
-										transform2D->scale.y = it3->second[1].as<double>();
+										transform->scale.x = it3->second[0].as<double>();
+										transform->scale.y = it3->second[1].as<double>();
+										transform->scale.z = it3->second[2].as<double>();
 									}
 								}
 
-								componentVariant.setTo(transform2D);
+								componentVariant.setTo(transform);
 								scene.addComponentToLastEntity(componentVariant);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
@@ -711,6 +715,21 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string fi
 
 									}
 								}
+							}
+							else if (it2->first.as<std::string>() == "UIViewport")
+							{
+								UIViewport* uiViewport = new UIViewport();
+
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "camera_entity")
+									{
+										uiViewport->setCameraEntity(scene.getEntityByName(it3->second.as<std::string>()).ID);
+									}
+								}
+
+								componentVariant.setTo(uiViewport);
+								scene.addComponentToLastEntity(componentVariant);
 							}
 							/*Non-components*/
 							else if (it2->first.as<std::string>() == "Scripts")
