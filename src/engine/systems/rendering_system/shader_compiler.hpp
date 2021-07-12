@@ -22,20 +22,35 @@
 
 #pragma once
 
-namespace SDL
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <string>
+
+namespace Lilliputian
 {
-	namespace Rendering2D
+	class ShaderCompiler
 	{
-		typedef struct Vector2
-		{
-			float x;
-			float y;
+	public:
+		void compileShaders(std::vector<std::string>* vertexShaderSources, std::vector<std::string>* fragmentShaderSources);
+		void deleteProgram();
+		void use();
+		void setInt(std::string name, int value);
+		void setBool(std::string name, bool value);
+		void setFloat(std::string name, float value);
+		void logUniforms();
+	private:
+		std::vector<GLuint> vertexShaderIDs;
+		std::vector<GLuint> fragmentShaderIDs;
+		GLuint programID;
 
-			Vector2() :
-				x(0.0),
-				y(0.0)
-			{}
-		}Vector2;
+		bool isCompiled = false;
 
-	}
+		bool compileVertexShader(std::string vertexShaderSource);
+		bool compileFragmentShader(std::string fragmentShaderSource);
+		void linkShaderProgram();
+		bool checkCompileTimeErrors(GLuint ID, GLuint status);
+		void deleteShaders();
+	};
 }
+

@@ -22,24 +22,28 @@
 
 #pragma once
 
-#include "vector2.hpp"
+#include <os/window.hpp>
+#include <glad/glad.h>
+#include "shader_compiler.hpp"
+#include <application/scene/assets/image.hpp>
 
-namespace SDL
+namespace Lilliputian
 {
-	namespace Rendering2D
+	class RenderingContext
 	{
-		typedef struct Transform2D
-		{
-			Vector2 position_px;
-			float rotation_rad;
-			Vector2 scale;
-
-			Transform2D() :
-				rotation_rad(0.0)
-			{
-				this->scale.x = 1;
-				this->scale.y = 1;
-			}
-		}Transform2D;
-	}
+	public:
+		RenderingContext(Window& window);
+		void clearBuffers();
+		void generate2DTextures(std::vector<Image> images);
+		void delete2DTextures();
+		void drawArrays();
+		ShaderCompiler& getShaderCompiler();
+	private:
+		SDL_GLContext glContext;
+		ShaderCompiler shaderCompiler;
+		std::vector<GLuint> glTextureIDs;
+		std::vector<std::string> glslVertexShaderSources;
+		std::vector<std::string> glslFragmentShaderSources;
+	};
 }
+

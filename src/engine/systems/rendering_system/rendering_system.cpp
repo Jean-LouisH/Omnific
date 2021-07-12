@@ -21,132 +21,89 @@
 // SOFTWARE.
 
 #include "rendering_system.hpp"
-#include "rendering_sdl/rendering_sdl.hpp"
+#include "built_in_shaders.hpp"
 #include <SDL_image.h>
+#include <os/os.hpp>
 
 Lilliputian::RenderingSystem::RenderingSystem(Window& window)
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-
-	this->sdlWindow = window.getSDLWindow();
-	this->sdlRenderer = SDL_CreateRenderer(
-		sdlWindow,
-		-1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	this->renderingContext = new RenderingContext(window);
 }
 
 Lilliputian::RenderingSystem::~RenderingSystem()
 {
-	SDL_DestroyRenderer(this->sdlRenderer);
 	IMG_Quit();
-}
-
-void Lilliputian::RenderingSystem::clearBuffers()
-{
-	SDL_SetRenderDrawColor(this->sdlRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(this->sdlRenderer);
-}
-
-void Lilliputian::RenderingSystem::render()
-{
-	for (int i = 0; i < this->sdlRenderables.size(); i++)
-	{	
-		SDL::Rendering2D::SDLRenderable sdlRenderable = this->sdlRenderables.at(i);
-		SDL_RenderCopyEx(
-			this->sdlRenderer,
-			sdlRenderable.texture,
-			&sdlRenderable.textureRect,
-			&sdlRenderable.renderingRect,
-			sdlRenderable.rotation,
-			NULL,
-			sdlRenderable.flip
-		);
-	}
-	SDL_RenderPresent(this->sdlRenderer);
+	delete renderingContext;
 }
 
 void Lilliputian::RenderingSystem::process(Scene& scene)
 {
-	std::vector<SDL::Rendering2D::Sprite2D> outputsprite2Ds;
-	SDL::Rendering2D::Camera2D outputCamera2D;
-	outputCamera2D.isStreaming = false;
-
 	std::vector<ComponentVariant> componentVariants = scene.getComponentVariants();
+	std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
+	std::vector<size_t> uiViewportIndexCache = scene.getUIViewportIndexCache();
+	std::vector<Image> outputImages;
 
-	for (int j = 0; j < componentVariants.size(); j++)
+	std::vector<std::string> vertexShaderSources;
+	std::vector<std::string> fragmentShaderSources;
+
+	Camera* camera;
+	Image image;
+
+	this->renderingContext->clearBuffers();
+
+	for (int i = 0; i < uiViewportIndexCache.size(); i++)
 	{
-		SDL::Rendering2D::Sprite2D outputSprite2D;
-		ComponentVariant componentVariant = componentVariants.at(j);
-		Camera* camera2D;
-		Sprite* sprite;
-		AnimatedSprite* animatedSprite;
-		UITextLabel* uiTextLabel;
-		SDL::Rendering2D::Texture outputTexture;
-		Image image;
+		ComponentVariant& uiViewportComponent = componentVariants.at(uiViewportIndexCache.at(i));
+		UIViewport* uiViewport = uiViewportComponent.getUIViewport();
 
-		if (componentVariant.isRenderable())
+		if (uiViewport->getIsVisible())
 		{
-			Transform transform2D = scene.getEntityTransform(componentVariant.getEntityID());
-			Vector2 position_px = transform2D.position_px;
-			Vector2 scale = transform2D.scale;
-			SDL_Texture* sdlTexture;
+			Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
+			ComponentVariant cameraComponent = scene.getComponent(cameraEntity.components.at(ComponentVariant::Type::CAMERA));
+			camera = cameraComponent.getCamera();
 
-			outputSprite2D.transform.position_px.x = position_px.x;
-			outputSprite2D.transform.position_px.y = position_px.y;
-			outputSprite2D.transform.scale.x = scale.x;
-			outputSprite2D.transform.scale.y = scale.y;
-			outputSprite2D.transform.rotation_rad = transform2D.rotation_rad;
-
-			image = componentVariant.getImage();
-
-			outputTexture.pixels.width = image.getWidth();
-			outputTexture.pixels.height = image.getHeight();
-
-			if (!this->textureCache.containsKey(image.getID()))
+			if (camera->getIsStreaming())
 			{
-				outputTexture.data = SDL_CreateTextureFromSurface(this->sdlRenderer, image.getSDLSurface());
-				this->textureCache.emplace(image.getID(), outputTexture.data);
-			}
-			else
-			{
-				outputTexture.data = this->textureCache.at(image.getID());
+				Transform cameraTransform = scene.getEntityTransform(cameraComponent.getEntityID());
+				Rectangle cameraViewport_px = camera->getViewportDimensions();
+
+				for (int i = 0; i < renderOrderIndexCache.size(); i++)
+				{
+					ComponentVariant renderableComponent = componentVariants.at(renderOrderIndexCache.at(i));
+					Transform transform = scene.getEntityTransform(renderableComponent.getEntityID());
+
+					if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
+					{
+						if (scene.getEntity(renderableComponent.getEntityID()).spatialDimension ==
+							Entity::SpatialDimension::_2D)
+						{
+							image = renderableComponent.getImage();
+							outputImages.push_back(image);
+						}
+					}
+				}
 			}
 
-			outputSprite2D.textureFrames.push_back(outputTexture);
-			outputSprite2D.alpha = image.getAlpha();
-			outputsprite2Ds.push_back(outputSprite2D);
+			static bool flag = false;
 
-		}
-		else if (componentVariant.getType() == ComponentVariant::Type::CAMERA &&
-				componentVariant.getID() == scene.getCurrentCameraID())
-		{
-			Transform transform2D = scene.getEntityTransform(componentVariant.getEntityID());
-			Vector2 position_px = transform2D.position_px;
-			Vector2 scale = transform2D.scale;
-			camera2D = componentVariant.getCamera();
-			Rectangle viewport_px = camera2D->getViewportDimensions();
+			if (!flag)
+			{
+				vertexShaderSources.clear();
+				fragmentShaderSources.clear();
+				vertexShaderSources.push_back(BuiltInShaders::Vertex::texture);
+				fragmentShaderSources.push_back(BuiltInShaders::Fragment::texture);
+				this->renderingContext->getShaderCompiler().deleteProgram();
+				this->renderingContext->getShaderCompiler().compileShaders(&vertexShaderSources, &fragmentShaderSources);
+				this->renderingContext->delete2DTextures();
+				this->renderingContext->generate2DTextures(outputImages);
+				flag = true;
+			}
 
-			outputCamera2D.isStreaming = true;
-			outputCamera2D.transform.position_px.x = position_px.x;
-			outputCamera2D.transform.position_px.y = position_px.y;
-			outputCamera2D.transform.scale.x = scale.x;
-			outputCamera2D.transform.scale.y = scale.y;
-			outputCamera2D.transform.rotation_rad = transform2D.rotation_rad;
-			outputCamera2D.viewport_px.width = viewport_px.width;
-			outputCamera2D.viewport_px.height = viewport_px.height;
-		}
+			this->renderingContext->drawArrays();
+			outputImages.clear();
+		}		
 	}
 
-	if (outputCamera2D.isStreaming)
-	{
-		SDL::Rendering2D::buildRenderablesFromSprites(
-			&this->sdlRenderables,
-			outputsprite2Ds,
-			outputCamera2D,
-			this->sdlWindow);
-	}
-
-	this->clearBuffers();
-	this->render();
-	this->textureCache.collectGarbage();
+	OS::getWindow().swap();
 }

@@ -25,10 +25,9 @@
 #include <SDL.h>
 #include "application/scene/scene.hpp"
 #include <vector>
-#include "rendering_sdl/sdl_renderable.hpp"
 #include "os/window.hpp"
 #include "utilities/aliases.hpp"
-#include "texture_cache.hpp"
+#include "rendering_context.hpp"
 
 namespace Lilliputian
 {
@@ -39,13 +38,7 @@ namespace Lilliputian
 		~RenderingSystem();
 		void process(Scene& scene);
 	private:
-		SDL_Renderer* sdlRenderer;
-		SDL_Window* sdlWindow;
-		std::vector<SDL::Rendering2D::SDLRenderable> sdlRenderables;
-		TextureCache textureCache;
-
-		void clearBuffers();
-		void render();
+		RenderingContext* renderingContext = nullptr;
 	};
 }
 
