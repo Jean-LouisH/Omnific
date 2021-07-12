@@ -55,10 +55,17 @@ void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant compon
 	this->entities.at(entityID).components.emplace(componentVariant.getType(), componentVariant.getID());
 
 	if (componentVariant.getType() == ComponentVariant::Type::TRANSFORM)
+	{
 		this->transformIndexCache.push_back(this->componentVariants.size() - 1);
-	else if (componentVariant.getType() == ComponentVariant::Type::CAMERA)
-		if (componentVariant.getCamera()->getIsStreaming())
-			this->currentCameraID = componentVariant.getID();
+	}
+	else if (componentVariant.isRenderable())
+	{
+		this->renderOrderIndexCache.push_back(this->componentVariants.size() - 1);
+	}
+	else if (componentVariant.getType() == ComponentVariant::Type::UI_VIEWPORT)
+	{
+		this->uiViewportIndexCache.push_back(this->componentVariants.size() - 1);
+	}
 }
 
 void Lilliputian::Scene::addComponentToLastEntity(ComponentVariant componentVariant)
@@ -91,28 +98,11 @@ void Lilliputian::Scene::removeComponent(EntityID entityID, ComponentVariant::Ty
 
 	Entity.components.erase(type);
 
-	if (componentID == this->currentCameraID)
-		this->currentCameraID = -1;
-
 	for (auto it = this->componentVariants.begin(); it != this->componentVariants.end();)
 		if (it->getID() == componentID)
 			it = this->componentVariants.erase(it);
 		else
 			++it;
-}
-
-void Lilliputian::Scene::changeCurrentCamera(Lilliputian::ComponentID newCurrentCameraID)
-{
-	for (int i = 0; i < this->componentVariants.size(); i++)
-	{
-		if (this->componentVariants.at(i).getID() == newCurrentCameraID)
-		{
-			if (this->componentVariants.at(i).getType() == ComponentVariant::Type::CAMERA)
-				this->currentCameraID = newCurrentCameraID;
-
-			break;
-		}
-	}
 }
 
 std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnStartCallBatches()
@@ -245,9 +235,14 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinalBat
 	return scriptCallBatches;
 }
 
-Lilliputian::ComponentID Lilliputian::Scene::getCurrentCameraID()
+std::vector<size_t> Lilliputian::Scene::getRenderOrderIndexCache()
 {
-	return this->currentCameraID;
+	return this->renderOrderIndexCache;
+}
+
+std::vector<size_t> Lilliputian::Scene::getUIViewportIndexCache()
+{
+	return this->uiViewportIndexCache;
 }
 
 std::vector<Lilliputian::ComponentVariant>& Lilliputian::Scene::getComponentVariants()
@@ -290,6 +285,25 @@ Lilliputian::Entity& Lilliputian::Scene::getLastEntity()
 std::unordered_map<Lilliputian::EntityID, Lilliputian::Entity>& Lilliputian::Scene::getEntities()
 {
 	return this->entities;
+}
+
+Lilliputian::ComponentVariant& Lilliputian::Scene::getComponent(ComponentID componentID)
+{
+	ComponentVariant* componentVariant = nullptr;
+
+	for (int i = 0; i < this->componentVariants.size(); i++)
+	{
+		ComponentVariant& currentComponentVariant = this->componentVariants.at(i);
+		if (currentComponentVariant.getID() == componentID)
+			componentVariant = &currentComponentVariant;
+	}
+
+	return *componentVariant;
+}
+
+Lilliputian::Entity::SpatialDimension Lilliputian::Scene::getComponentSpatialDimension(ComponentID componentID)
+{
+	return this->getEntity(this->getComponent(componentID).getEntityID()).spatialDimension;
 }
 
 Lilliputian::EventBus& Lilliputian::Scene::getEventBus()

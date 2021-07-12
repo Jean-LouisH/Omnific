@@ -52,8 +52,6 @@ namespace Lilliputian
 		void removeEntity(EntityID entityID);
 		void removeComponent(EntityID entityID, ComponentVariant::Type type);
 
-		void changeCurrentCamera(ComponentID newCurrentCameraID);
-
 		std::vector<ScriptCallBatch> generateOnStartCallBatches();
 		std::vector<ScriptCallBatch> generateOnInputCallBatches();
 		std::vector<ScriptCallBatch> generateOnFrameCallBatches();
@@ -61,13 +59,16 @@ namespace Lilliputian
 		std::vector<ScriptCallBatch> generateOnLateCallBatches();
 		std::vector<ScriptCallBatch> generateOnFinalBatches();
 
-		ComponentID getCurrentCameraID();
 		std::vector<ComponentVariant>& getComponentVariants();
+		std::vector<size_t> getRenderOrderIndexCache();
+		std::vector<size_t> getUIViewportIndexCache();
 		Transform& getEntityTransform(EntityID entityID);
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();
 		std::unordered_map<EntityID, Entity>& getEntities();
+		ComponentVariant& getComponent(ComponentID componentID);
+		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
@@ -85,18 +86,20 @@ namespace Lilliputian
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
 		std::vector<ComponentVariant> componentVariants;
-		std::vector<size_t> transformIndexCache;
 
 		std::queue<EntityID> startEntitiesQueue;
 		std::queue<EntityID> finishEntitiesQueue;
 
-		ComponentID currentCameraID = -1;
 		EntityID dummyEntityID = DUMMY_ENTITY;
 		EntityID lastEntityID = DUMMY_ENTITY;
 
 		AssetCache assetCache;
 		EventBus eventBus;
 		HapticSignalBuffer hapticSignalBuffer;
+
+		std::vector<size_t> transformIndexCache;
+		std::vector<size_t> renderOrderIndexCache;
+		std::vector<size_t> uiViewportIndexCache;
 
 		Entity& getDummyEntity();
 	};
