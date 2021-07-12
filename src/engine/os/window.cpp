@@ -25,13 +25,24 @@
 Lilliputian::Window::Window(const char* title, uint16_t width, uint16_t height, bool isFullscreen)
 {
 	this->isFullscreen = isFullscreen;
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
 	this->sdlWindow = SDL_CreateWindow(
 		title,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width,
 		height,
-		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen);
+		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | SDL_WINDOW_OPENGL);
 
 	SDL_DisableScreenSaver();
 	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode);
@@ -121,6 +132,24 @@ void Lilliputian::Window::sleep(int time_ms)
 {
 	if (time_ms > 0)
 		SDL_Delay(time_ms);
+}
+
+void Lilliputian::Window::swap()
+{
+	SDL_GL_SwapWindow(this->sdlWindow);
+}
+
+Lilliputian::Rectangle Lilliputian::Window::getWindowSize()
+{
+	Rectangle rectangle;
+	int width = 0;
+	int height = 0;
+	
+	SDL_GetWindowSize(this->sdlWindow, &width, &height);
+	rectangle.width = width;
+	rectangle.height = height;
+
+	return rectangle;
 }
 
 SDL_Window* Lilliputian::Window::getSDLWindow()

@@ -26,6 +26,7 @@
 #include <vector>
 #include <unordered_map>
 #include <application/scene/assets/image.hpp>
+#include <utilities/rectangle.hpp>
 
 namespace Lilliputian
 {
@@ -46,6 +47,8 @@ namespace Lilliputian
 		void hide();
 		void show();
 		void sleep(int time_ms);
+		void swap();
+		Rectangle getWindowSize();
 
 		SDL_Window* getSDLWindow();
 	private:
