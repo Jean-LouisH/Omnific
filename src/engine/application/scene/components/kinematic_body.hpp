@@ -23,7 +23,7 @@
 #pragma once
 
 #include "utilities/aliases.hpp"
-#include "utilities/vector2.hpp"
+#include <glm/glm.hpp>
 #include "utilities/constants.hpp"
 
 

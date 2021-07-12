@@ -26,7 +26,7 @@
 #include <application/scene/component_variant.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
-#include <utilities/vector2.hpp>
+#include <glm/glm.hpp>
 #include <utilities/rectangle.hpp>
 #include <utilities/hi_res_timer.hpp>
 #include <utilities/colour.hpp>
@@ -43,18 +43,18 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 	pybind11::class_<Lilliputian::InputAPI>(m, "InputAPI")
 		.def("is_on_press", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isOnPress))
 		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Lilliputian::InputAPI::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Lilliputian::ControllerPlayerID>(&Lilliputian::InputAPI::isOnPress))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Lilliputian::PlayerID>(&Lilliputian::InputAPI::isOnPress))
 		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Lilliputian::InputAPI::isOnDoublePress))
 		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Lilliputian::InputAPI::isOnDoublePress))
 		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Lilliputian::InputAPI::isOnDoublePress))
 		.def("is_pressed", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isPressed))
 		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Lilliputian::InputAPI::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Lilliputian::ControllerPlayerID>(&Lilliputian::InputAPI::isPressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Lilliputian::PlayerID>(&Lilliputian::InputAPI::isPressed))
 		.def("is_on_release", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isOnRelease))
 		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Lilliputian::InputAPI::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Lilliputian::ControllerPlayerID>(&Lilliputian::InputAPI::isOnRelease))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Lilliputian::PlayerID>(&Lilliputian::InputAPI::isOnRelease))
 		.def("is_released", pybind11::overload_cast<std::string>(&Lilliputian::InputAPI::isReleased))
-		.def("is_released", pybind11::overload_cast<std::string, Lilliputian::ControllerPlayerID>(&Lilliputian::InputAPI::isReleased))
+		.def("is_released", pybind11::overload_cast<std::string, Lilliputian::PlayerID>(&Lilliputian::InputAPI::isReleased))
 		.def("is_left_mouse_button_on_press", &Lilliputian::InputAPI::isLeftMouseButtonOnPress)
 		.def("is_left_mouse_button_on_release", &Lilliputian::InputAPI::isLeftMouseButtonOnRelease)
 		.def("is_left_mouse_button_double_clicked", &Lilliputian::InputAPI::isLeftMouseButtonDoubleClicked)
@@ -122,8 +122,6 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("add_component_to_last_entity", &Lilliputian::Scene::addComponentToLastEntity)
 		.def("remove_entity", &Lilliputian::Scene::removeEntity)
 		.def("remove_component", &Lilliputian::Scene::removeComponent)
-		.def("change_current_camera", &Lilliputian::Scene::changeCurrentCamera)
-		.def("get_current_camera_id", &Lilliputian::Scene::getCurrentCameraID)
 		.def("get_component_variants", &Lilliputian::Scene::getComponentVariants, pybind11::return_value_policy::reference)
 		.def("get_entity_transform", &Lilliputian::Scene::getEntityTransform, pybind11::return_value_policy::reference)
 		.def("get_entity", &Lilliputian::Scene::getEntity, pybind11::return_value_policy::reference)
@@ -154,7 +152,7 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("publish", pybind11::overload_cast<std::string, std::vector<float>, std::vector<std::string>>(&Lilliputian::EventBus::publish));
 
 	pybind11::class_<Lilliputian::HapticSignal>(m, "HapticSignal")
-		.def(pybind11::init<Lilliputian::ControllerPlayerID, float, uint16_t>())
+		.def(pybind11::init<Lilliputian::PlayerID, float, uint16_t>())
 		.def("get_duration_ms", &Lilliputian::HapticSignal::getDuration_ms)
 		.def("get_player_id", &Lilliputian::HapticSignal::getPlayerID)
 		.def("get_strength_pct", &Lilliputian::HapticSignal::getStrength_pct);
@@ -371,9 +369,10 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("delete_image", &Lilliputian::AssetCache::deleteImage);
 
 	/*Utility classes*/
-	pybind11::class_<Lilliputian::Vector2>(m, "Vector2")
-		.def_readwrite("x", &Lilliputian::Vector2::x)
-		.def_readwrite("y", &Lilliputian::Vector2::y);
+	pybind11::class_<glm::vec2>(m, "Vector2")
+		.def_readwrite("x", &glm::vec2::x)
+		.def_readwrite("y", &glm::vec2::y);
+
 	pybind11::class_<Lilliputian::Rectangle>(m, "Rectangle")
 		.def_readwrite("height", &Lilliputian::Rectangle::height)
 		.def_readwrite("width", &Lilliputian::Rectangle::width);

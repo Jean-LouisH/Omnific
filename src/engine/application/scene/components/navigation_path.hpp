@@ -25,7 +25,7 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>
-#include "utilities/vector2.hpp"
+#include <glm/glm.hpp>
 
 
 namespace Lilliputian
@@ -33,7 +33,7 @@ namespace Lilliputian
 	class NavigationPath
 	{
 	public:
-		std::vector<Vector2> waypoints;
+		std::vector<glm::vec3> waypoints;
 	private:
 	};
 }

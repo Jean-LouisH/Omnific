@@ -22,15 +22,15 @@
 
 #pragma once
 
-#include "vector2.hpp"
+#include <glm/glm.hpp>
 
 namespace Lilliputian
 {
 	class AABB2D
 	{
 	public:
-		Vector2 min_px;
-		Vector2 max_px;
+		glm::vec2 min_px;
+		glm::vec2 max_px;
 	private:
 	};
 }

@@ -23,22 +23,23 @@
 #pragma once
 
 
-#include "utilities/vector2.hpp"
+#include <glm/glm.hpp>
 
 namespace Lilliputian
 {
 	class Transform
 	{
 	public:
-		Vector2 position_px;
-		float rotation_rad;
-		Vector2 scale;
+		glm::vec3 translation;
+		glm::vec3 rotation;
+		glm::vec3 scale;
 
 		Transform() :
-			rotation_rad(0.0)
+			rotation(0.0)
 		{
 			this->scale.x = 1;
 			this->scale.y = 1;
+			this->scale.z = 1;
 		}
 	private:
 	};

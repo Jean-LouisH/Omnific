@@ -24,7 +24,6 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "utilities/vector2.hpp"
 
 
 namespace Lilliputian

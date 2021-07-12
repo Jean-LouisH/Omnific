@@ -25,7 +25,7 @@
 #include "utilities/aliases.hpp"
 #include "utilities/rectangle.hpp"
 #include "utilities/aabb_2d.hpp"
-#include "utilities/vector2.hpp"
+#include <glm/glm.hpp>
 #include "utilities/constants.hpp"
 
 

@@ -24,7 +24,7 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "utilities/vector2.hpp"
+#include <glm/glm.hpp>
 
 
 namespace Lilliputian
@@ -32,7 +32,7 @@ namespace Lilliputian
 	class ConstantDirectionalForce
 	{
 	public:
-		Vector2 force_N;
+		glm::vec3 force_N;
 	private:
 	};
 }
