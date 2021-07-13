@@ -54,7 +54,7 @@ namespace Lilliputian
 		static ThreadPool& getThreadPool();
 
 		static HiResTimer& getRunTimer();
-		static void addGameControllerMappings();
+		static void addGameControllerMappings(std::string mappingFilepath);
 	private:
 		static OS* instance;
 

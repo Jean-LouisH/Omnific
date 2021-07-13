@@ -41,7 +41,11 @@ void Lilliputian::Engine::run()
 
 			if (configuration.isLoaded)
 			{
-				OS::addGameControllerMappings();
+				std::string dataDirectory = "data/";
+#ifdef _DEBUG
+				dataDirectory = DEBUG_DATA_FILEPATH;
+#endif
+				OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
 				Window& window = OS::getWindow();
 				window.resize(configuration.windowSettings.width, configuration.windowSettings.height);
 				window.changeTitle(configuration.metadata.title.c_str());

@@ -94,15 +94,8 @@ Lilliputian::HiResTimer& Lilliputian::OS::getRunTimer()
 	return *getInstance()->runTimer;
 }
 
-void Lilliputian::OS::addGameControllerMappings()
+void Lilliputian::OS::addGameControllerMappings(std::string mappingFilepath)
 {
-	std::string dataDirectory = "data/";
-#ifdef _DEBUG
-	dataDirectory = DEBUG_DATA_FILEPATH;
-#endif
-	std::string mappingFilename = "gamecontrollerdb.txt";
-	std::string mappingFilepath = dataDirectory + mappingFilename;
-
 	SDL_GameControllerAddMappingsFromFile(mappingFilepath.c_str());
 }
 
