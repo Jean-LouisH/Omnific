@@ -37,10 +37,8 @@ namespace Lilliputian
 		void generate2DTextures(std::vector<Image> images);
 		void delete2DTextures();
 		void drawArrays();
-		ShaderCompiler& getShaderCompiler();
 	private:
 		SDL_GLContext glContext;
-		ShaderCompiler shaderCompiler;
 		std::vector<GLuint> glTextureIDs;
 		std::vector<std::string> glslVertexShaderSources;
 		std::vector<std::string> glslFragmentShaderSources;
