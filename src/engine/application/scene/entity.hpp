@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <application/scene/assets/shader.hpp>
 #include "component_variant.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
@@ -47,6 +48,7 @@ namespace Lilliputian
 		std::vector<std::string> tags;
 		std::unordered_map<ComponentVariant::Type, ComponentID> components;
 		std::vector<std::string> scripts;
+		std::vector<Shader> shaders;
 
 		Entity()
 		{
