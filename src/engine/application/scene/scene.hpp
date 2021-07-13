@@ -61,7 +61,7 @@ namespace Lilliputian
 
 		std::vector<ComponentVariant>& getComponentVariants();
 		std::vector<size_t> getRenderOrderIndexCache();
-		std::vector<size_t> getUIViewportIndexCache();
+		std::unordered_map<ComponentVariant::Type, std::vector<size_t>> getComponentIndexCaches();
 		Transform& getEntityTransform(EntityID entityID);
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
@@ -97,9 +97,8 @@ namespace Lilliputian
 		EventBus eventBus;
 		HapticSignalBuffer hapticSignalBuffer;
 
-		std::vector<size_t> transformIndexCache;
+		std::unordered_map<ComponentVariant::Type, std::vector<size_t>> componentIndexCaches;
 		std::vector<size_t> renderOrderIndexCache;
-		std::vector<size_t> uiViewportIndexCache;
 
 		Entity& getDummyEntity();
 	};

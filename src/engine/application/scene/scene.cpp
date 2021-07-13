@@ -52,20 +52,23 @@ void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant compon
 {
 	componentVariant.setEntityID(entityID);
 	this->componentVariants.push_back(componentVariant);
-	this->entities.at(entityID).components.emplace(componentVariant.getType(), componentVariant.getID());
+	ComponentVariant::Type type = componentVariant.getType();
+	this->entities.at(entityID).components.emplace(type, componentVariant.getID());
+	size_t lastIndex = this->componentVariants.size() - 1;
 
-	if (componentVariant.getType() == ComponentVariant::Type::TRANSFORM)
+	if (this->componentIndexCaches.count(type) > 0)
 	{
-		this->transformIndexCache.push_back(this->componentVariants.size() - 1);
+		this->componentIndexCaches.at(type).push_back(lastIndex);
 	}
-	else if (componentVariant.isRenderable())
+	else
 	{
+		std::vector<size_t> componentIndices;
+		componentIndices.push_back(lastIndex);
+		this->componentIndexCaches.emplace(type, componentIndices);
+	}
+
+	if (componentVariant.isRenderable())
 		this->renderOrderIndexCache.push_back(this->componentVariants.size() - 1);
-	}
-	else if (componentVariant.getType() == ComponentVariant::Type::UI_VIEWPORT)
-	{
-		this->uiViewportIndexCache.push_back(this->componentVariants.size() - 1);
-	}
 }
 
 void Lilliputian::Scene::addComponentToLastEntity(ComponentVariant componentVariant)
@@ -240,9 +243,9 @@ std::vector<size_t> Lilliputian::Scene::getRenderOrderIndexCache()
 	return this->renderOrderIndexCache;
 }
 
-std::vector<size_t> Lilliputian::Scene::getUIViewportIndexCache()
+std::unordered_map<Lilliputian::ComponentVariant::Type, std::vector<size_t>> Lilliputian::Scene::getComponentIndexCaches()
 {
-	return this->uiViewportIndexCache;
+	return this->componentIndexCaches;
 }
 
 std::vector<Lilliputian::ComponentVariant>& Lilliputian::Scene::getComponentVariants()
@@ -252,11 +255,13 @@ std::vector<Lilliputian::ComponentVariant>& Lilliputian::Scene::getComponentVari
 
 Lilliputian::Transform& Lilliputian::Scene::getEntityTransform(EntityID entityID)
 {
-	Transform* transform = this->componentVariants.at(this->transformIndexCache.at(0)).getTransform();
+	std::vector<size_t> transformIndices = this->componentIndexCaches.at(ComponentVariant::Type::TRANSFORM);
+	Transform* transform = this->componentVariants.at(
+		transformIndices.at(0)).getTransform();
 
-	for (int i = 0; i < this->transformIndexCache.size(); i++)
-		if (this->componentVariants.at(this->transformIndexCache.at(i)).getEntityID() == entityID)
-			transform = this->componentVariants.at(this->transformIndexCache.at(i)).getTransform();
+	for (int i = 0; i < transformIndices.size(); i++)
+		if (this->componentVariants.at(transformIndices.at(i)).getEntityID() == entityID)
+			transform = this->componentVariants.at(transformIndices.at(i)).getTransform();
 
 	return *transform;
 }
