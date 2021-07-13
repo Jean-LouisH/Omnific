@@ -23,34 +23,47 @@
 #include "rendering_system.hpp"
 #include "built_in_shaders.hpp"
 #include <SDL_image.h>
+#include <application/scene/assets/shader.hpp>
+#include <application/scene/assets/image.hpp>
 #include <os/os.hpp>
 
 Lilliputian::RenderingSystem::RenderingSystem(Window& window)
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-	this->renderingContext = new RenderingContext(window);
+	this->context = new RenderingContext(window);
+	this->shaderCompiler = new ShaderCompiler();
+
+	std::vector<std::string> vertexShaderSources;
+	std::vector<std::string> fragmentShaderSources;
+
+	vertexShaderSources.push_back(BuiltInShaders::Vertex::texture);
+	fragmentShaderSources.push_back(BuiltInShaders::Fragment::texture);
+	this->shaderCompiler->compile(vertexShaderSources, fragmentShaderSources);
+	this->shaderCompiler->use();
 }
 
 Lilliputian::RenderingSystem::~RenderingSystem()
 {
 	IMG_Quit();
-	delete renderingContext;
+	delete this->shaderCompiler;
+	delete this->context;
 }
 
 void Lilliputian::RenderingSystem::process(Scene& scene)
 {
 	std::vector<ComponentVariant> componentVariants = scene.getComponentVariants();
 	std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
-	std::vector<size_t> uiViewportIndexCache = scene.getUIViewportIndexCache();
+	std::vector<size_t> uiViewportIndexCache;
 	std::vector<Image> outputImages;
+	std::vector<Shader> outputShaders;
 
-	std::vector<std::string> vertexShaderSources;
-	std::vector<std::string> fragmentShaderSources;
+	bool shouldReloadTextures = false;
+	bool shouldReloadShaders = false;
 
-	Camera* camera;
-	Image image;
+	if (scene.getComponentIndexCaches().count(ComponentVariant::Type::UI_VIEWPORT))
+		uiViewportIndexCache = scene.getComponentIndexCaches().at(ComponentVariant::Type::UI_VIEWPORT);
 
-	this->renderingContext->clearBuffers();
+	this->context->clearBuffers();
 
 	for (int i = 0; i < uiViewportIndexCache.size(); i++)
 	{
@@ -60,47 +73,55 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 		if (uiViewport->getIsVisible())
 		{
 			Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
-			ComponentVariant cameraComponent = scene.getComponent(cameraEntity.components.at(ComponentVariant::Type::CAMERA));
-			camera = cameraComponent.getCamera();
+			ComponentVariant& cameraComponent = scene.getComponent(cameraEntity.components.at(ComponentVariant::Type::CAMERA));
+			Camera* camera = cameraComponent.getCamera();
 
 			if (camera->getIsStreaming())
 			{
-				Transform cameraTransform = scene.getEntityTransform(cameraComponent.getEntityID());
+				Transform& cameraTransform = scene.getEntityTransform(cameraComponent.getEntityID());
 				Rectangle cameraViewport_px = camera->getViewportDimensions();
 
 				for (int i = 0; i < renderOrderIndexCache.size(); i++)
 				{
-					ComponentVariant renderableComponent = componentVariants.at(renderOrderIndexCache.at(i));
-					Transform transform = scene.getEntityTransform(renderableComponent.getEntityID());
+					ComponentVariant& renderableComponent = componentVariants.at(renderOrderIndexCache.at(i));
+					Transform& transform = scene.getEntityTransform(renderableComponent.getEntityID());
+					std::vector<Shader> shaders = scene.getEntity(renderableComponent.getEntityID()).shaders;
+
+					for (int i = 0; i < shaders.size(); i++)
+					{
+						Shader& shader = shaders.at(i);
+						shouldReloadShaders = !this->renderingAssetIDCache.count(shader.getID());
+						outputShaders.push_back(shader);
+					}
 
 					if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
 					{
 						if (scene.getEntity(renderableComponent.getEntityID()).spatialDimension ==
 							Entity::SpatialDimension::_2D)
 						{
-							image = renderableComponent.getImage();
+							Image& image = renderableComponent.getImage();
+							shouldReloadTextures = !this->renderingAssetIDCache.count(image.getID());
 							outputImages.push_back(image);
 						}
 					}
 				}
 			}
 
-			static bool flag = false;
-
-			if (!flag)
+			if (shouldReloadShaders)
 			{
-				vertexShaderSources.clear();
-				fragmentShaderSources.clear();
-				vertexShaderSources.push_back(BuiltInShaders::Vertex::texture);
-				fragmentShaderSources.push_back(BuiltInShaders::Fragment::texture);
-				this->renderingContext->getShaderCompiler().deleteProgram();
-				this->renderingContext->getShaderCompiler().compileShaders(&vertexShaderSources, &fragmentShaderSources);
-				this->renderingContext->delete2DTextures();
-				this->renderingContext->generate2DTextures(outputImages);
-				flag = true;
+				this->shaderCompiler->deleteProgram();
+				this->shaderCompiler->compile(outputShaders);
+				shouldReloadShaders = false;
 			}
 
-			this->renderingContext->drawArrays();
+			if (shouldReloadTextures)
+			{
+				this->context->delete2DTextures();
+				this->context->generate2DTextures(outputImages);
+				shouldReloadTextures = false;
+			}
+
+			this->context->drawArrays();
 			outputImages.clear();
 		}		
 	}

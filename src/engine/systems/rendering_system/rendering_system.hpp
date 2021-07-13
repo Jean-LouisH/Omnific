@@ -24,6 +24,7 @@
 
 #include <SDL.h>
 #include "application/scene/scene.hpp"
+#include <set>
 #include <vector>
 #include "os/window.hpp"
 #include "utilities/aliases.hpp"
@@ -38,7 +39,9 @@ namespace Lilliputian
 		~RenderingSystem();
 		void process(Scene& scene);
 	private:
-		RenderingContext* renderingContext = nullptr;
+		RenderingContext* context = nullptr;
+		ShaderCompiler* shaderCompiler = nullptr;
+		std::set<AssetID> renderingAssetIDCache;
 	};
 }
 
