@@ -25,23 +25,48 @@
 #include <glm/glm.hpp>
 #include <os/os.hpp>
 
-void Lilliputian::ShaderCompiler::compileShaders(std::vector<std::string>* vertexShaderSources, std::vector<std::string>* fragmentShaderSources)
+Lilliputian::ShaderCompiler::~ShaderCompiler()
+{
+	this->deleteProgram();
+}
+
+void Lilliputian::ShaderCompiler::compile(std::vector<std::string> vertexShaderSources, std::vector<std::string> fragmentShaderSources)
 {
 	bool compilationSuccess = true;
 
-	int vertexShaderSourceCount = vertexShaderSources->size();
+	int vertexShaderSourceCount = vertexShaderSources.size();
 	for (int i = 0; i < vertexShaderSourceCount && compilationSuccess; i++)
-		compilationSuccess = this->compileVertexShader(vertexShaderSources->at(i));
+		compilationSuccess = this->compileVertexShader(vertexShaderSources.at(i));
 
-	int fragmentShaderSourceCount = fragmentShaderSources->size();
+	int fragmentShaderSourceCount = fragmentShaderSources.size();
 	for (int i = 0; i < fragmentShaderSourceCount && compilationSuccess; i++)
-		compilationSuccess = this->compileFragmentShader(fragmentShaderSources->at(i));
+		compilationSuccess = this->compileFragmentShader(fragmentShaderSources.at(i));
 
 	if (compilationSuccess)
 		this->linkShaderProgram();
 
 	this->deleteShaders();
 	this->isCompiled = true;
+}
+
+void Lilliputian::ShaderCompiler::compile(std::vector<Shader> shaders)
+{
+	std::vector<std::string> vertexShaderSources;
+	std::vector<std::string> fragmentShaderSources;
+
+	for (int i = 0; i < shaders.size(); i++)
+	{
+		Shader& shader = shaders.at(i);
+		Shader::Type type = shader.getType();
+
+		switch (type)
+		{
+			case Shader::Type::VERTEX: vertexShaderSources.push_back(shader.getSource());
+			case Shader::Type::FRAGMENT: fragmentShaderSources.push_back(shader.getSource());
+		}
+	}
+
+	this->compile(vertexShaderSources, fragmentShaderSources);
 }
 
 void Lilliputian::ShaderCompiler::deleteProgram()
@@ -163,8 +188,5 @@ void Lilliputian::ShaderCompiler::logUniforms()
 		OS::getLogger().write("Loaded active uniform: \"" + (std::string)name.get() + 
 			"\", location: " + std::to_string(glGetUniformLocation(this->programID, name.get())) + 
 			", type: " + std::to_string(type));
-		//std::cout << "" << name << "\"\n"
-		//	<< "Location: " << glGetUniformLocation(this->programID, name.get()) << "\n"
-		//	<< "Type: " << type;
 	}
 }

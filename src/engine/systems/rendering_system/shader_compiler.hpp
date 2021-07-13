@@ -26,13 +26,16 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <application/scene/assets/shader.hpp>
 
 namespace Lilliputian
 {
 	class ShaderCompiler
 	{
 	public:
-		void compileShaders(std::vector<std::string>* vertexShaderSources, std::vector<std::string>* fragmentShaderSources);
+		~ShaderCompiler();
+		void compile(std::vector<std::string> vertexShaderSources, std::vector<std::string> fragmentShaderSources);
+		void compile(std::vector<Shader> shaders);
 		void deleteProgram();
 		void use();
 		void setInt(std::string name, int value);
