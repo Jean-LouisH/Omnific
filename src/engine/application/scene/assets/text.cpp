@@ -28,6 +28,11 @@ Lilliputian::Text::Text(const char* filepath)
 	this->id = IDCounter::getNewAssetID();
 }
 
+Lilliputian::AssetID Lilliputian::Text::getID()
+{
+	return this->id;
+}
+
 void Lilliputian::Text::unload()
 {
 

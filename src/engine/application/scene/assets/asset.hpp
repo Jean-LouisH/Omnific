@@ -22,11 +22,14 @@
 
 #pragma once
 
+#include <utilities/aliases.hpp>
+
 namespace Lilliputian
 {
 	class Asset
 	{
 	public:
+		virtual AssetID getID() = 0;
 		virtual void unload() = 0;
 	private:
 	};

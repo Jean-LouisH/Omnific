@@ -22,22 +22,30 @@
 
 #pragma once
 
-#include <utilities/aliases.hpp>
-#include <SDL_mixer.h>
+#include <string>
 #include "asset.hpp"
 
 namespace Lilliputian
 {
-	class AudioStream : public Asset
+	class Shader : public Asset
 	{
 	public:
-		AudioStream();
-		AudioStream(const char* filepath);
-		Mix_Chunk* getSDLMixChunk();
+		enum class Type
+		{
+			VERTEX,
+			FRAGMENT
+		};
+
+		Shader(std::string sourceFilepath);
+		Shader(std::string sourceFilepath, Type type);
+		Shader();
+		std::string getSource();
+		Type getType();
 		virtual AssetID getID();
 		virtual void unload();
 	private:
-		Mix_Chunk* sound;
+		std::string source;
+		Type type;
 		AssetID id = 0;
 	};
 }

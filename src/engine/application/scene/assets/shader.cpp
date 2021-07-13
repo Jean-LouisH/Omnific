@@ -20,24 +20,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "shader.hpp"
+#include <application/scene/id_counter.hpp>
 
-#include <utilities/aliases.hpp>
-#include <SDL_mixer.h>
-#include "asset.hpp"
-
-namespace Lilliputian
+Lilliputian::Shader::Shader(std::string sourceFilepath)
 {
-	class AudioStream : public Asset
-	{
-	public:
-		AudioStream();
-		AudioStream(const char* filepath);
-		Mix_Chunk* getSDLMixChunk();
-		virtual AssetID getID();
-		virtual void unload();
-	private:
-		Mix_Chunk* sound;
-		AssetID id = 0;
-	};
+	Shader(sourceFilepath, Type::VERTEX);
+	this->id = IDCounter::getNewAssetID();
+}
+
+Lilliputian::Shader::Shader(std::string sourceFilepath, Type type)
+{
+
+}
+
+Lilliputian::Shader::Shader()
+{
+
+}
+
+std::string Lilliputian::Shader::getSource()
+{
+	return this->source;
+}
+
+Lilliputian::Shader::Type Lilliputian::Shader::getType()
+{
+	return this->type;
+}
+
+Lilliputian::AssetID Lilliputian::Shader::getID()
+{
+	return this->id;
+}
+
+void Lilliputian::Shader::unload()
+{
+
 }

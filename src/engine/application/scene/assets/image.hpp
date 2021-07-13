@@ -51,7 +51,7 @@ namespace Lilliputian
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		uint8_t getBytesPerPixel();
-		AssetID getID();
+		virtual AssetID getID();
 	private:
 		AssetID id = 0;
 		SDL_Surface* surface;

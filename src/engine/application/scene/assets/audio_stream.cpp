@@ -40,6 +40,11 @@ Mix_Chunk* Lilliputian::AudioStream::getSDLMixChunk()
 	return this->sound;
 }
 
+Lilliputian::AssetID Lilliputian::AudioStream::getID()
+{
+	return this->id;
+}
+
 void Lilliputian::AudioStream::unload()
 {
 	Mix_FreeChunk(this->sound);

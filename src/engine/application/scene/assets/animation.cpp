@@ -20,24 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "animation.hpp"
 
-#include <utilities/aliases.hpp>
-#include <SDL_mixer.h>
-#include "asset.hpp"
-
-namespace Lilliputian
+void Lilliputian::Animation::unload()
 {
-	class AudioStream : public Asset
-	{
-	public:
-		AudioStream();
-		AudioStream(const char* filepath);
-		Mix_Chunk* getSDLMixChunk();
-		virtual AssetID getID();
-		virtual void unload();
-	private:
-		Mix_Chunk* sound;
-		AssetID id = 0;
-	};
+
+}
+
+Lilliputian::AssetID Lilliputian::Animation::getID()
+{
+	return this->id;
 }

@@ -46,6 +46,11 @@ TTF_Font* Lilliputian::Font::getSDLTTFFont()
 	return this->font;
 }
 
+Lilliputian::AssetID Lilliputian::Font::getID()
+{
+	return this->id;
+}
+
 void Lilliputian::Font::unload()
 {
 	TTF_CloseFont(this->font);
