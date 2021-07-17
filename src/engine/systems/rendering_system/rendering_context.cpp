@@ -90,6 +90,11 @@ void Lilliputian::RenderingContext::generate2DTextures(std::vector<Image> images
 	}
 }
 
+void Lilliputian::RenderingContext::submit(Renderables& renderables)
+{
+
+}
+
 void Lilliputian::RenderingContext::delete2DTextures()
 {
 	int size = this->glTextureIDs.size();

@@ -25,6 +25,8 @@
 #include <os/window.hpp>
 #include <glad/glad.h>
 #include "shader_compiler.hpp"
+#include <vector>
+#include "renderables.hpp"
 #include <application/scene/assets/image.hpp>
 
 namespace Lilliputian
@@ -36,6 +38,7 @@ namespace Lilliputian
 		void clearBuffers();
 		void generate2DTextures(std::vector<Image> images);
 		void delete2DTextures();
+		void submit(Renderables& renderables);
 		void drawArrays();
 	private:
 		SDL_GLContext glContext;
