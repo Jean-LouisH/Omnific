@@ -38,8 +38,8 @@ namespace Lilliputian
 		void executeOnInputMethods(Scene& scene);
 		void executeOnFrameMethods(Scene& scene);
 		void executeOnComputeMethods(Scene& scene);
-		void executeOnLateMethods(Scene& scene);
-		void executeOnFinalMethods(Scene& scene);
+		void executeOnOutputMethods(Scene& scene);
+		void executeOnFinishMethods(Scene& scene);
 		void setSceneStorage(SceneStorage* sceneStorage);
 	private:
 		VirtualMachine* vm = nullptr;

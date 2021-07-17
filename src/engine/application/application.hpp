@@ -49,8 +49,8 @@ namespace Lilliputian
 		void executeOnInputMethods();
 		void executeOnFrameMethods();
 		void executeOnComputeMethods();
-		void executeOnLateMethods();
-		void executeOnFinalMethods();
+		void executeOnOutputMethods();
+		void executeOnFinishMethods();
 		void deinitialize();
 		Scene& getActiveScene();
 		Configuration& getConfiguration();

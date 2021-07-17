@@ -41,8 +41,8 @@ namespace Lilliputian
 		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnLateMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnFinalMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 	private:
 		pybind11::scoped_interpreter guard{};
 		std::unordered_map<std::string, Module> modules;

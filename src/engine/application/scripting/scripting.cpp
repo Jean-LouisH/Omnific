@@ -53,14 +53,14 @@ void Lilliputian::Scripting::executeOnComputeMethods(Scene& scene)
 	this->vm->executeOnComputeMethods(scene.generateOnComputeCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnLateMethods(Scene& scene)
+void Lilliputian::Scripting::executeOnOutputMethods(Scene& scene)
 {
-	this->vm->executeOnLateMethods(scene.generateOnLateCallBatches());
+	this->vm->executeOnOutputMethods(scene.generateOnOutputCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnFinalMethods(Scene& scene)
+void Lilliputian::Scripting::executeOnFinishMethods(Scene& scene)
 {
-	this->vm->executeOnFinalMethods(scene.generateOnFinalBatches());
+	this->vm->executeOnFinishMethods(scene.generateOnFinishBatches());
 }
 
 void Lilliputian::Scripting::setSceneStorage(SceneStorage* sceneStorage)

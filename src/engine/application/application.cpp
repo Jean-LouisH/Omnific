@@ -167,16 +167,16 @@ void Lilliputian::Application::executeOnComputeMethods()
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
-void Lilliputian::Application::executeOnLateMethods()
+void Lilliputian::Application::executeOnOutputMethods()
 {
 	if (!this->sceneStorage->isEmpty())
-		this->scripting->executeOnLateMethods(this->getActiveScene());
+		this->scripting->executeOnOutputMethods(this->getActiveScene());
 }
 
-void Lilliputian::Application::executeOnFinalMethods()
+void Lilliputian::Application::executeOnFinishMethods()
 {
 	if (!this->sceneStorage->isEmpty())
-		this->scripting->executeOnFinalMethods(this->getActiveScene());
+		this->scripting->executeOnFinishMethods(this->getActiveScene());
 
 	this->getActiveScene().getEventBus().clear();
 }

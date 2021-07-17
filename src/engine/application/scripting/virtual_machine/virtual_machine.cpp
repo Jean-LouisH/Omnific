@@ -83,7 +83,7 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 			}
 
 			Module newModule;
-			std::vector<std::string> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_late", "on_final" };
+			std::vector<std::string> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_output", "on_finish" };
 			std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
 			pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
@@ -132,14 +132,14 @@ void Lilliputian::VirtualMachine::executeOnComputeMethods(std::vector<ScriptCall
 	this->executeMethods(scriptCallBatches, "on_compute");
 }
 
-void Lilliputian::VirtualMachine::executeOnLateMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
-	this->executeMethods(scriptCallBatches, "on_late");
+	this->executeMethods(scriptCallBatches, "on_output");
 }
 
-void Lilliputian::VirtualMachine::executeOnFinalMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Lilliputian::VirtualMachine::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
-	this->executeMethods(scriptCallBatches, "on_final");
+	this->executeMethods(scriptCallBatches, "on_finish");
 }
 
 void Lilliputian::VirtualMachine::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)

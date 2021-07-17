@@ -156,14 +156,14 @@ void Lilliputian::Engine::update()
 
 	while (profiler.getLag_ms() >= msPerComputeUpdate)
 	{
+		this->application->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
 		this->physicsSystem->process(activeScene, msPerComputeUpdate);
-		this->application->executeOnComputeMethods();
 		profiler.decrementLagCount(msPerComputeUpdate);
 	}
 
-	this->application->executeOnLateMethods();
-	this->application->executeOnFinalMethods();
+	this->application->executeOnOutputMethods();
+	this->application->executeOnFinishMethods();
 	profiler.incrementLagCount(profiler.getFrameTimer().getDelta_ns() / NS_IN_MS);
 	profiler.getUpdateTimer().setEnd();
 }

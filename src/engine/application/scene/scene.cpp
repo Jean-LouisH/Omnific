@@ -192,7 +192,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnComputeC
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnLateCallBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnOutputCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -211,7 +211,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnLateCall
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinalBatches()
+std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinishBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 

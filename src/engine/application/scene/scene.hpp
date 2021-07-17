@@ -56,8 +56,8 @@ namespace Lilliputian
 		std::vector<ScriptCallBatch> generateOnInputCallBatches();
 		std::vector<ScriptCallBatch> generateOnFrameCallBatches();
 		std::vector<ScriptCallBatch> generateOnComputeCallBatches();
-		std::vector<ScriptCallBatch> generateOnLateCallBatches();
-		std::vector<ScriptCallBatch> generateOnFinalBatches();
+		std::vector<ScriptCallBatch> generateOnOutputCallBatches();
+		std::vector<ScriptCallBatch> generateOnFinishBatches();
 
 		std::vector<ComponentVariant>& getComponentVariants();
 		std::vector<size_t> getRenderOrderIndexCache();
