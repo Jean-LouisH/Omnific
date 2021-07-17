@@ -51,19 +51,21 @@ Lilliputian::RenderingSystem::~RenderingSystem()
 
 void Lilliputian::RenderingSystem::process(Scene& scene)
 {
+	this->context->clearBuffers();
+	this->buildRenderables(scene);
+	this->context->submit(this->getRenderables());
+	this->context->drawArrays();
+	OS::getWindow().swapBuffers();
+}
+
+void Lilliputian::RenderingSystem::buildRenderables(Scene& scene)
+{
 	std::vector<ComponentVariant> componentVariants = scene.getComponentVariants();
 	std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
 	std::vector<size_t> uiViewportIndexCache;
-	std::vector<Image> outputImages;
-	std::vector<Shader> outputShaders;
-
-	bool shouldReloadTextures = false;
-	bool shouldReloadShaders = false;
 
 	if (scene.getComponentIndexCaches().count(ComponentVariant::Type::UI_VIEWPORT))
 		uiViewportIndexCache = scene.getComponentIndexCaches().at(ComponentVariant::Type::UI_VIEWPORT);
-
-	this->context->clearBuffers();
 
 	for (int i = 0; i < uiViewportIndexCache.size(); i++)
 	{
@@ -87,44 +89,21 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 					Transform& transform = scene.getEntityTransform(renderableComponent.getEntityID());
 					std::vector<Shader> shaders = scene.getEntity(renderableComponent.getEntityID()).shaders;
 
-					for (int i = 0; i < shaders.size(); i++)
-					{
-						Shader& shader = shaders.at(i);
-						shouldReloadShaders = !this->renderingAssetIDCache.count(shader.getID());
-						outputShaders.push_back(shader);
-					}
-
 					if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
 					{
 						if (scene.getEntity(renderableComponent.getEntityID()).spatialDimension ==
 							Entity::SpatialDimension::_2D)
 						{
 							Image& image = renderableComponent.getImage();
-							shouldReloadTextures = !this->renderingAssetIDCache.count(image.getID());
-							outputImages.push_back(image);
 						}
 					}
 				}
 			}
-
-			if (shouldReloadShaders)
-			{
-				this->shaderCompiler->deleteProgram();
-				this->shaderCompiler->compile(outputShaders);
-				shouldReloadShaders = false;
-			}
-
-			if (shouldReloadTextures)
-			{
-				this->context->delete2DTextures();
-				this->context->generate2DTextures(outputImages);
-				shouldReloadTextures = false;
-			}
-
-			this->context->drawArrays();
-			outputImages.clear();
-		}		
+		}
 	}
+}
 
-	OS::getWindow().swap();
+Lilliputian::Renderables& Lilliputian::RenderingSystem::getRenderables()
+{
+	return *this->renderables;
 }

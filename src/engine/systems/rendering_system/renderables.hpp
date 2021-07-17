@@ -22,30 +22,24 @@
 
 #pragma once
 
-#include <SDL.h>
-#include "application/scene/scene.hpp"
-#include <set>
 #include <vector>
-#include "os/window.hpp"
-#include "utilities/aliases.hpp"
-#include "rendering_context.hpp"
-#include "renderables.hpp"
+#include <application/scene/components/transform.hpp>
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/material.hpp>
+#include <application/scene/assets/mesh.hpp>
+#include <application/scene/assets/shader.hpp>
 
 namespace Lilliputian
 {
-	class RenderingSystem
+	class Renderables
 	{
 	public:
-		RenderingSystem(Window& window);
-		~RenderingSystem();
-		void process(Scene& scene);
-		Renderables& getRenderables();
+		Transform* transform = nullptr;
+		Image* image = nullptr;
+		Material* material = nullptr;
+		Mesh* mesh = nullptr;
+		std::vector<Shader*> shader;
 	private:
-		RenderingContext* context = nullptr;
-		ShaderCompiler* shaderCompiler = nullptr;
-		Renderables* renderables = nullptr;
-		void buildRenderables(Scene& scene);
-		std::set<AssetID> renderingAssetIDCache;
 	};
 }
 
