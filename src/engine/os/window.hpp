@@ -47,7 +47,7 @@ namespace Lilliputian
 		void hide();
 		void show();
 		void sleep(int time_ms);
-		void swap();
+		void swapBuffers();
 		Rectangle getWindowSize();
 
 		SDL_Window* getSDLWindow();

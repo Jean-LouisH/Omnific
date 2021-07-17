@@ -134,7 +134,7 @@ void Lilliputian::Window::sleep(int time_ms)
 		SDL_Delay(time_ms);
 }
 
-void Lilliputian::Window::swap()
+void Lilliputian::Window::swapBuffers()
 {
 	SDL_GL_SwapWindow(this->sdlWindow);
 }
