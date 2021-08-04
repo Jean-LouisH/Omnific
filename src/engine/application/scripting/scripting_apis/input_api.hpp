@@ -64,6 +64,9 @@ namespace Lilliputian
 		glm::vec2 getMouseWheelVelocity();
 		glm::vec2 getMouseMotionVelocity();
 
+		void forceShutdown();
+		void forceRestart();
+
 	private:
 		HumanInterfaceDevices* hid = nullptr;
 

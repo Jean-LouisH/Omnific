@@ -39,8 +39,10 @@ namespace Lilliputian
 		void detectGameControllers();
 		void pollInputEvents();
 		bool hasRequestedShutdown();
+		bool hasRequestedRestart();
 		bool hasRequestedCommandLine();
 		void forceShutdownRequest();
+		void forceRestartRequest();
 		bool getHasDetectedInputChanges();
 
 		std::vector<SDL_Haptic*> getHaptics();
@@ -71,6 +73,7 @@ namespace Lilliputian
 
 		bool hasDetectedInputChanges = false;
 		bool shutdownRequest = false;
+		bool restartRequest = false;
 		void clear();
 	};
 }

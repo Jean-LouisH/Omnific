@@ -395,3 +395,13 @@ glm::vec2 Lilliputian::InputAPI::getMouseMotionVelocity()
 	vector2.y = mouseMotionEvent.yrel;
 	return vector2;
 }
+
+void Lilliputian::InputAPI::forceShutdown()
+{
+	this->hid->forceShutdownRequest();
+}
+
+void Lilliputian::InputAPI::forceRestart()
+{
+	this->hid->forceRestartRequest();
+}

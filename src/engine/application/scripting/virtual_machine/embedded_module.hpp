@@ -66,7 +66,9 @@ PYBIND11_EMBEDDED_MODULE(lilliputian, m)
 		.def("is_right_mouse_button_double_clicked", &Lilliputian::InputAPI::isRightMouseButtonDoubleClicked)
 		.def("get_mouse_position", &Lilliputian::InputAPI::getMousePosition)
 		.def("get_mouse_wheel_velocity", &Lilliputian::InputAPI::getMouseWheelVelocity)
-		.def("get_mouse_motion_velocity", &Lilliputian::InputAPI::getMouseMotionVelocity);
+		.def("get_mouse_motion_velocity", &Lilliputian::InputAPI::getMouseMotionVelocity)
+		.def("force_shutdown", &Lilliputian::InputAPI::forceShutdown)
+		.def("force_restart", &Lilliputian::InputAPI::forceRestart);
 
 	pybind11::class_<Lilliputian::LogAPI>(m, "LogAPI")
 		.def("write", &Lilliputian::LogAPI::write)

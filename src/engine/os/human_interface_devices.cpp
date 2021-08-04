@@ -128,9 +128,19 @@ bool Lilliputian::HumanInterfaceDevices::hasRequestedShutdown()
 	return this->shutdownRequest;
 }
 
+bool Lilliputian::HumanInterfaceDevices::hasRequestedRestart()
+{
+	return this->restartRequest;
+}
+
 void Lilliputian::HumanInterfaceDevices::forceShutdownRequest()
 {
 	this->shutdownRequest = true;
+}
+
+void Lilliputian::HumanInterfaceDevices::forceRestartRequest()
+{
+	this->restartRequest = true;
 }
 
 bool Lilliputian::HumanInterfaceDevices::getHasDetectedInputChanges()
