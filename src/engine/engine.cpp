@@ -104,6 +104,7 @@ bool Lilliputian::Engine::initialize()
 		Platform& platform = OS::getPlatform();
 		Logger& logger = OS::getLogger();
 
+		logger.write("Lilliputian initializing...");
 		logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
 		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize_B()) + " B");
 		logger.write("Retrieved OS Name: " + platform.getOSName());
