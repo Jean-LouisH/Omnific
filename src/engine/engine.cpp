@@ -26,6 +26,7 @@ Lilliputian::Engine::Engine(
 	int argc, 
 	char* argv[])
 {
+	this->state = std::unique_ptr<EngineState>(new EngineState());
 	this->argc = argc;
 	this->argv = argv;
 }
@@ -49,7 +50,7 @@ void Lilliputian::Engine::run()
 				Window& window = OS::getWindow();
 				window.resize(configuration.windowSettings.width, configuration.windowSettings.height);
 				window.changeTitle(configuration.metadata.title.c_str());
-				this->state.setRunningApplicationWindowed();
+				this->state->setRunningApplicationWindowed();
 			}
 			else
 			{
@@ -58,14 +59,14 @@ void Lilliputian::Engine::run()
 					"The game data is either missing or corrupted. Reinstall and try again",
 					NULL
 				);
-				this->state.setShuttingDown();
+				this->state->setShuttingDown();
 			}
 
 		}
 
 		Profiler& profiler = OS::getProfiler();
 
-		while (this->state.isRunning())
+		while (this->state->isRunning())
 		{
 			profiler.getFrameTimer().setStart();
 			profiler.getProcessTimer().setStart();
@@ -81,21 +82,21 @@ void Lilliputian::Engine::run()
 
 		this->application->deinitialize();
 		this->shutdown();
-	} while (this->state.isRestarting());
+	} while (this->state->isRestarting());
 }
 
 bool Lilliputian::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
-	this->state.setInitializing();
+	this->state->setInitializing();
 
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 	{
 		SDL_Log(
 			"SDL could not initialize because: %s",
 			SDL_GetError);
-		this->state.setShuttingDown();
+		this->state->setShuttingDown();
 	}
 	else
 	{
@@ -113,14 +114,14 @@ bool Lilliputian::Engine::initialize()
 		Profiler& profiler = OS::getProfiler();
 		profiler.getBenchmarkTimer().setStart();
 
-		this->application = new Application();
-		this->aiSystem = new AISystem();
-		this->animationSystem = new AnimationSystem();
-		this->audioSystem = new AudioSystem();
-		this->hapticSystem = new HapticSystem();
-		this->physicsSystem = new PhysicsSystem();
-		this->renderingSystem = new RenderingSystem(OS::getWindow());
-		this->uiSystem = new UISystem();
+		this->application = std::unique_ptr<Application>(new Application());
+		this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
+		this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
+		this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
+		this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
+		this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
+		this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem(OS::getWindow()));
+		this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
 
 		isInitializedOK = true;
 	}
@@ -137,7 +138,7 @@ void Lilliputian::Engine::input()
 	hid.detectGameControllers();
 	hid.pollInputEvents();
 	if (hid.hasRequestedShutdown())
-		this->state.setShuttingDown();
+		this->state->setShuttingDown();
 
 	profiler.getInputTimer().setEnd();
 }
@@ -211,12 +212,5 @@ void Lilliputian::Engine::sleep()
 
 void Lilliputian::Engine::shutdown()
 {
-	delete this->application;
-	delete this->aiSystem;
-	delete this->animationSystem;
-	delete this->audioSystem;
-	delete this->hapticSystem;
-	delete this->physicsSystem;
-	delete this->renderingSystem;
-	delete this->uiSystem;
+
 }

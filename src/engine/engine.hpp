@@ -35,6 +35,7 @@
 #include "os/os.hpp"
 #include "engine_state.hpp"
 #include "os/profiler.hpp"
+#include <memory>
 
 #if defined (_WIN32)
 #if defined(_LILLIPUTIAN_ENGINE_EXPORTS)
@@ -57,15 +58,15 @@ namespace Lilliputian
 
 		void run();
 	private:
-		Application* application = nullptr;
-		AISystem* aiSystem = nullptr;
-		AnimationSystem* animationSystem = nullptr;
-		AudioSystem* audioSystem = nullptr;
-		HapticSystem* hapticSystem = nullptr;
-		PhysicsSystem* physicsSystem = nullptr;
-		RenderingSystem* renderingSystem = nullptr;
-		UISystem* uiSystem = nullptr;
-		EngineState state;
+		std::unique_ptr<Application> application;
+		std::unique_ptr<AISystem> aiSystem;
+		std::unique_ptr<AnimationSystem> animationSystem;
+		std::unique_ptr<AudioSystem> audioSystem;
+		std::unique_ptr<HapticSystem> hapticSystem;
+		std::unique_ptr<PhysicsSystem> physicsSystem;
+		std::unique_ptr<RenderingSystem> renderingSystem;
+		std::unique_ptr<UISystem> uiSystem;
+		std::unique_ptr<EngineState> state;
 
 		int argc = 0;
 		char** argv = nullptr;
