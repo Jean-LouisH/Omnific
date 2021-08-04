@@ -89,7 +89,8 @@ bool Lilliputian::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
-	this->state->setInitializing();
+	if (!this->state->isRestarting())
+		this->state->setInitializing();
 
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 	{
@@ -115,13 +116,17 @@ bool Lilliputian::Engine::initialize()
 		profiler.getBenchmarkTimer().setStart();
 
 		this->application = std::unique_ptr<Application>(new Application());
-		this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
-		this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
-		this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
-		this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
-		this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
-		this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem(OS::getWindow()));
-		this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
+
+		if (this->state->isInitializing())
+		{
+			this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
+			this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
+			this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
+			this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
+			this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
+			this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem(OS::getWindow()));
+			this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
+		}
 
 		isInitializedOK = true;
 	}
@@ -139,6 +144,8 @@ void Lilliputian::Engine::input()
 	hid.pollInputEvents();
 	if (hid.hasRequestedShutdown())
 		this->state->setShuttingDown();
+	if (hid.hasRequestedRestart())
+		this->state->setRestarting();
 
 	profiler.getInputTimer().setEnd();
 }
@@ -212,5 +219,5 @@ void Lilliputian::Engine::sleep()
 
 void Lilliputian::Engine::shutdown()
 {
-
+	this->application.reset();
 }
