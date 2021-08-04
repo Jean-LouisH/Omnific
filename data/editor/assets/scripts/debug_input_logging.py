@@ -2,11 +2,20 @@ import lilliputian as lp
 
 def on_input():
     log_inputs = ["q", "p", "button_a"]
+    shutdown_inputs = ["z"]
+    restart_inputs = ["x"]
     playerID = 0
     input_api = lp.get_input_api()
+    log_api = lp.get_log_api()
     
     if input_api.is_on_release(log_inputs, playerID):
-        lp.get_log_api().write("one of " + str(log_inputs) + " was pressed.")
+        log_api.write("one of " + str(log_inputs) + " was pressed.")
+    if input_api.is_on_release("z"):
+        log_api.write("shutting down on input request...\n")
+        input_api.force_shutdown()
+    if input_api.is_on_release("x"):
+        log_api.write("restarting on input request...")
+        input_api.force_restart()
     if input_api.is_on_release("button_b"):
         haptic_playerID = 0
         haptic_strength = 1.0
@@ -17,7 +26,7 @@ def on_input():
             haptic_playerID,
             haptic_strength,
             haptic_duration_ms)
-        lp.get_log_api().write("Sent haptic signal; playerID: " +
+        log_api.write("Sent haptic signal; playerID: " +
                                str(haptic_playerID) + ", strength: " +
                                str(haptic_strength) + ", duration: " +
                                str(haptic_duration_ms) + "ms")
