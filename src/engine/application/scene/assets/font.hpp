@@ -27,7 +27,7 @@
 #include "SDL_ttf.h"
 #include <utilities/aliases.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Font : public Asset
 	{

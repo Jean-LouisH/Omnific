@@ -29,7 +29,7 @@
 #include "assets/text.hpp"
 #include "assets/image.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class AssetCache
 	{

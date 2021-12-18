@@ -31,7 +31,7 @@
 #include <string>
 #include <application/scene/id_counter.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	typedef struct Entity
 	{

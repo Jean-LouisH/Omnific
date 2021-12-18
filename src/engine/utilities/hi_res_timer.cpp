@@ -23,22 +23,22 @@
 #include "hi_res_timer.hpp"
 #include "constants.hpp"
 
-uint64_t Lilliputian::HiResTimer::getDelta_ns()
+uint64_t Esi::HiResTimer::getDelta_ns()
 {
 	return this->delta_ns;
 }
 
-uint64_t Lilliputian::HiResTimer::getDelta_ms()
+uint64_t Esi::HiResTimer::getDelta_ms()
 {
 	return this->delta_ns / NS_IN_MS;
 }
 
-void Lilliputian::HiResTimer::setStart()
+void Esi::HiResTimer::setStart()
 {
 	this->start = std::chrono::high_resolution_clock::now();
 }
 
-void Lilliputian::HiResTimer::setEnd()
+void Esi::HiResTimer::setEnd()
 {
 	this->end = std::chrono::high_resolution_clock::now();
 	this->delta_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();

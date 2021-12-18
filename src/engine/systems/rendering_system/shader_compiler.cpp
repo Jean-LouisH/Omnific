@@ -25,12 +25,12 @@
 #include <glm/glm.hpp>
 #include <os/os.hpp>
 
-Lilliputian::ShaderCompiler::~ShaderCompiler()
+Esi::ShaderCompiler::~ShaderCompiler()
 {
 	this->deleteProgram();
 }
 
-void Lilliputian::ShaderCompiler::compile(std::vector<std::string> vertexShaderSources, std::vector<std::string> fragmentShaderSources)
+void Esi::ShaderCompiler::compile(std::vector<std::string> vertexShaderSources, std::vector<std::string> fragmentShaderSources)
 {
 	bool compilationSuccess = true;
 
@@ -49,7 +49,7 @@ void Lilliputian::ShaderCompiler::compile(std::vector<std::string> vertexShaderS
 	this->isCompiled = true;
 }
 
-void Lilliputian::ShaderCompiler::compile(std::vector<Shader> shaders)
+void Esi::ShaderCompiler::compile(std::vector<Shader> shaders)
 {
 	std::vector<std::string> vertexShaderSources;
 	std::vector<std::string> fragmentShaderSources;
@@ -69,7 +69,7 @@ void Lilliputian::ShaderCompiler::compile(std::vector<Shader> shaders)
 	this->compile(vertexShaderSources, fragmentShaderSources);
 }
 
-void Lilliputian::ShaderCompiler::deleteProgram()
+void Esi::ShaderCompiler::deleteProgram()
 {
 	if (this->isCompiled)
 		glDeleteProgram(this->programID);
@@ -77,13 +77,13 @@ void Lilliputian::ShaderCompiler::deleteProgram()
 	this->isCompiled = false;
 }
 
-void Lilliputian::ShaderCompiler::use()
+void Esi::ShaderCompiler::use()
 {
 	if (this->isCompiled)
 		glUseProgram(this->programID);
 }
 
-bool Lilliputian::ShaderCompiler::compileVertexShader(std::string vertexShaderSource)
+bool Esi::ShaderCompiler::compileVertexShader(std::string vertexShaderSource)
 {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	GLchar* source = (GLchar*)vertexShaderSource.c_str();
@@ -93,7 +93,7 @@ bool Lilliputian::ShaderCompiler::compileVertexShader(std::string vertexShaderSo
 	return this->checkCompileTimeErrors(vertexShader, GL_COMPILE_STATUS);
 }
 
-bool Lilliputian::ShaderCompiler::compileFragmentShader(std::string fragmentShaderSource)
+bool Esi::ShaderCompiler::compileFragmentShader(std::string fragmentShaderSource)
 {
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	GLchar* source = (GLchar*)fragmentShaderSource.c_str();
@@ -103,7 +103,7 @@ bool Lilliputian::ShaderCompiler::compileFragmentShader(std::string fragmentShad
 	return this->checkCompileTimeErrors(fragmentShader, GL_COMPILE_STATUS);
 }
 
-void Lilliputian::ShaderCompiler::linkShaderProgram()
+void Esi::ShaderCompiler::linkShaderProgram()
 {
 	GLuint programID = glCreateProgram();
 	int vertexShaderCount = this->vertexShaderIDs.size();
@@ -122,7 +122,7 @@ void Lilliputian::ShaderCompiler::linkShaderProgram()
 	this->logUniforms();
 }
 
-bool Lilliputian::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint status)
+bool Esi::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint status)
 {
 	GLint compilationSuccess = GL_FALSE;
 	char infoLog[512];
@@ -141,7 +141,7 @@ bool Lilliputian::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint statu
 	return compilationSuccess;
 }
 
-void Lilliputian::ShaderCompiler::deleteShaders()
+void Esi::ShaderCompiler::deleteShaders()
 {
 	int vertexShaderCount = this->vertexShaderIDs.size();
 	for (int i = 0; i < vertexShaderCount; i++)
@@ -154,24 +154,24 @@ void Lilliputian::ShaderCompiler::deleteShaders()
 	this->fragmentShaderIDs.clear();
 }
 
-void Lilliputian::ShaderCompiler::setInt(std::string name, int value)
+void Esi::ShaderCompiler::setInt(std::string name, int value)
 {
 	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), value);
 }
 
-void Lilliputian::ShaderCompiler::setBool(std::string name, bool value)
+void Esi::ShaderCompiler::setBool(std::string name, bool value)
 {
 	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), (int)value);
 }
 
-void Lilliputian::ShaderCompiler::setFloat(std::string name, float value)
+void Esi::ShaderCompiler::setFloat(std::string name, float value)
 {
 	glUniform1f(glGetUniformLocation(this->programID, name.c_str()), value);
 }
 
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL 
 Shader tutorial comment section. Reference: https://learnopengl.com/Getting-started/Shaders#comment-4468935635*/
-void Lilliputian::ShaderCompiler::logUniforms()
+void Esi::ShaderCompiler::logUniforms()
 {
 	int how_many{};
 	int bufsize{}; // max name size

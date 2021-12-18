@@ -10,7 +10,7 @@ add_executable(application
  )
 
 add_dependencies(application
-	lilliputian_engine
+	esi_engine
 )
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
@@ -23,7 +23,7 @@ include_directories(
 		../../thirdparty/yaml-cpp-0.6.3/include
 		../../thirdparty/glad/include
 		../../thirdparty/python37/include
-		../../thirdparty/pybind11-2.6.2/include
+		../../thirdparty/pybind11-2.8.1/include
 		../../thirdparty/glew-2.1.0/include
 		../../thirdparty/glm-0.9.9.8/glm
 		../../thirdparty/tinygltf-2.5.0/include
@@ -33,6 +33,6 @@ include_directories(
 )
 
 target_link_libraries (application
-		lilliputian_engine
+		esi_engine
 		${SDL2}
 )

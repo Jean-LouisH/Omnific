@@ -22,7 +22,7 @@
 
 #include "regular_polytopal_mesh.hpp"
 
-Lilliputian::Image& Lilliputian::RegularPolytopalMesh::getImage()
+Esi::Image& Esi::RegularPolytopalMesh::getImage()
 {
 	return this->image;
 }

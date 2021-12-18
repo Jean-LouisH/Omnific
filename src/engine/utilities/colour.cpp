@@ -22,7 +22,7 @@
 
 #include "colour.hpp"
 
-Lilliputian::Colour::Colour()
+Esi::Colour::Colour()
 {
 	this->red = 1.0;
 	this->green = 1.0;
@@ -30,12 +30,12 @@ Lilliputian::Colour::Colour()
 	this->alpha = 1.0;
 }
 
-Lilliputian::Colour::Colour(std::string hex)
+Esi::Colour::Colour(std::string hex)
 {
 
 }
 
-Lilliputian::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+Esi::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->red = float(red) / 255.0;
 	this->green = float(green) / 255.0;
@@ -43,23 +43,23 @@ Lilliputian::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t al
 	this->alpha = float(alpha) / 255.0;
 }
 
-uint8_t Lilliputian::Colour::getRed()
+uint8_t Esi::Colour::getRed()
 {
 	return (uint8_t)(this->red * 255.0);
 }
 
-uint8_t Lilliputian::Colour::getGreen()
+uint8_t Esi::Colour::getGreen()
 {
 	return (uint8_t)(this->green * 255.0);
 }
 
 
-uint8_t Lilliputian::Colour::getBlue()
+uint8_t Esi::Colour::getBlue()
 {
 	return (uint8_t)(this->blue * 255.0);
 }
 
-uint8_t Lilliputian::Colour::getAlpha()
+uint8_t Esi::Colour::getAlpha()
 {
 	return (uint8_t)(this->alpha * 255.0);
 }

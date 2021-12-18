@@ -28,7 +28,7 @@
 #include <stdint.h>
 
 
-namespace Lilliputian
+namespace Esi
 {
 	class PropertyAnimation
 	{

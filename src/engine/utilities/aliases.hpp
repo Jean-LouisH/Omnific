@@ -24,7 +24,7 @@
 
 #include <stdint.h>
 
-namespace Lilliputian
+namespace Esi
 {
 	using ID = uint64_t;
 	using EntityID = ID;

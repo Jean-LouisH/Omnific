@@ -22,7 +22,7 @@
 
 #include "ui_graph_node.hpp"
 
-Lilliputian::Image& Lilliputian::UIGraphNode::getImage()
+Esi::Image& Esi::UIGraphNode::getImage()
 {
 	return this->image;
 }

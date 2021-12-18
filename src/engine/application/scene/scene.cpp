@@ -23,7 +23,7 @@
 #include "scene.hpp"
 #include "application/scripting/virtual_machine/script_call_batch.hpp"
 
-Lilliputian::Scene::Scene()
+Esi::Scene::Scene()
 {
 	Transform* transform = new Transform();
 	ComponentVariant componentVariant;
@@ -35,20 +35,20 @@ Lilliputian::Scene::Scene()
 	this->dummyEntityID = this->getLastEntity().ID;
 }
 
-void Lilliputian::Scene::addEntity(Entity entity)
+void Esi::Scene::addEntity(Entity entity)
 {
 	this->startEntitiesQueue.emplace(entity.ID);
 	this->entities.emplace(entity.ID, entity);
 	this->lastEntityID = entity.ID;
 }
 
-void Lilliputian::Scene::addEmptyEntity()
+void Esi::Scene::addEmptyEntity()
 {
 	Entity emptyEntity;
 	this->addEntity(emptyEntity);
 }
 
-void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant componentVariant)
+void Esi::Scene::addComponent(EntityID entityID, ComponentVariant componentVariant)
 {
 	componentVariant.setEntityID(entityID);
 	this->componentVariants.push_back(componentVariant);
@@ -71,12 +71,12 @@ void Lilliputian::Scene::addComponent(EntityID entityID, ComponentVariant compon
 		this->renderOrderIndexCache.push_back(this->componentVariants.size() - 1);
 }
 
-void Lilliputian::Scene::addComponentToLastEntity(ComponentVariant componentVariant)
+void Esi::Scene::addComponentToLastEntity(ComponentVariant componentVariant)
 {
 	this->addComponent(this->lastEntityID, componentVariant);
 }
 
-void Lilliputian::Scene::removeEntity(EntityID entityID)
+void Esi::Scene::removeEntity(EntityID entityID)
 {
 	for (int i = ComponentVariant::Type::BEHAVIOUR_TREE;
 		i < ComponentVariant::Type::UI_TREE;
@@ -94,7 +94,7 @@ void Lilliputian::Scene::removeEntity(EntityID entityID)
 	std::vector<EntityID> parentChildIDs = this->getEntity(parentID).childIDs;
 }
 
-void Lilliputian::Scene::removeComponent(EntityID entityID, ComponentVariant::Type type)
+void Esi::Scene::removeComponent(EntityID entityID, ComponentVariant::Type type)
 {
 	Entity& Entity = this->getEntity(entityID);
 	ComponentID componentID = Entity.components.at(type);
@@ -108,7 +108,7 @@ void Lilliputian::Scene::removeComponent(EntityID entityID, ComponentVariant::Ty
 			++it;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnStartCallBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnStartCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -135,7 +135,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnStartCal
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnInputCallBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnInputCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -154,7 +154,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnInputCal
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFrameCallBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnFrameCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -173,7 +173,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFrameCal
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnComputeCallBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnComputeCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -192,7 +192,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnComputeC
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnOutputCallBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnOutputCallBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -211,7 +211,7 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnOutputCa
 	return scriptCallBatches;
 }
 
-std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinishBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnFinishBatches()
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 
@@ -238,22 +238,22 @@ std::vector<Lilliputian::ScriptCallBatch> Lilliputian::Scene::generateOnFinishBa
 	return scriptCallBatches;
 }
 
-std::vector<size_t> Lilliputian::Scene::getRenderOrderIndexCache()
+std::vector<size_t> Esi::Scene::getRenderOrderIndexCache()
 {
 	return this->renderOrderIndexCache;
 }
 
-std::unordered_map<Lilliputian::ComponentVariant::Type, std::vector<size_t>> Lilliputian::Scene::getComponentIndexCaches()
+std::unordered_map<Esi::ComponentVariant::Type, std::vector<size_t>> Esi::Scene::getComponentIndexCaches()
 {
 	return this->componentIndexCaches;
 }
 
-std::vector<Lilliputian::ComponentVariant>& Lilliputian::Scene::getComponentVariants()
+std::vector<Esi::ComponentVariant>& Esi::Scene::getComponentVariants()
 {
 	return this->componentVariants;
 }
 
-Lilliputian::Transform& Lilliputian::Scene::getEntityTransform(EntityID entityID)
+Esi::Transform& Esi::Scene::getEntityTransform(EntityID entityID)
 {
 	std::vector<size_t> transformIndices = this->componentIndexCaches.at(ComponentVariant::Type::TRANSFORM);
 	Transform* transform = this->componentVariants.at(
@@ -266,12 +266,12 @@ Lilliputian::Transform& Lilliputian::Scene::getEntityTransform(EntityID entityID
 	return *transform;
 }
 
-Lilliputian::Entity& Lilliputian::Scene::getEntity(EntityID entityID)
+Esi::Entity& Esi::Scene::getEntity(EntityID entityID)
 {
 	return this->entities.at(entityID);
 }
 
-Lilliputian::Entity& Lilliputian::Scene::getEntityByName(std::string name)
+Esi::Entity& Esi::Scene::getEntityByName(std::string name)
 {
 	Entity* Entity = nullptr;
 
@@ -282,17 +282,17 @@ Lilliputian::Entity& Lilliputian::Scene::getEntityByName(std::string name)
 	return *Entity;
 }
 
-Lilliputian::Entity& Lilliputian::Scene::getLastEntity()
+Esi::Entity& Esi::Scene::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
 }
 
-std::unordered_map<Lilliputian::EntityID, Lilliputian::Entity>& Lilliputian::Scene::getEntities()
+std::unordered_map<Esi::EntityID, Esi::Entity>& Esi::Scene::getEntities()
 {
 	return this->entities;
 }
 
-Lilliputian::ComponentVariant& Lilliputian::Scene::getComponent(ComponentID componentID)
+Esi::ComponentVariant& Esi::Scene::getComponent(ComponentID componentID)
 {
 	ComponentVariant* componentVariant = nullptr;
 
@@ -306,37 +306,37 @@ Lilliputian::ComponentVariant& Lilliputian::Scene::getComponent(ComponentID comp
 	return *componentVariant;
 }
 
-Lilliputian::Entity::SpatialDimension Lilliputian::Scene::getComponentSpatialDimension(ComponentID componentID)
+Esi::Entity::SpatialDimension Esi::Scene::getComponentSpatialDimension(ComponentID componentID)
 {
 	return this->getEntity(this->getComponent(componentID).getEntityID()).spatialDimension;
 }
 
-Lilliputian::EventBus& Lilliputian::Scene::getEventBus()
+Esi::EventBus& Esi::Scene::getEventBus()
 {
 	return this->eventBus;
 }
 
-Lilliputian::SceneID Lilliputian::Scene::getID()
+Esi::SceneID Esi::Scene::getID()
 {
 	return this->ID;
 }
 
-Lilliputian::AssetCache& Lilliputian::Scene::getAssetCache()
+Esi::AssetCache& Esi::Scene::getAssetCache()
 {
 	return this->assetCache;
 }
 
-Lilliputian::HapticSignalBuffer& Lilliputian::Scene::getHapticSignalBuffer()
+Esi::HapticSignalBuffer& Esi::Scene::getHapticSignalBuffer()
 {
 	return this->hapticSignalBuffer;
 }
 
-void Lilliputian::Scene::unload()
+void Esi::Scene::unload()
 {
 	this->assetCache.deleteAll();
 }
 
-Lilliputian::Entity& Lilliputian::Scene::getDummyEntity()
+Esi::Entity& Esi::Scene::getDummyEntity()
 {
 	return this->getEntity(this->dummyEntityID);
 }

@@ -22,41 +22,41 @@
 
 #include "camera.hpp"
 
-Lilliputian::Camera::Camera()
+Esi::Camera::Camera()
 {
 	this->setViewportWidth(300);
 }
 
-void Lilliputian::Camera::resetAspect()
+void Esi::Camera::resetAspect()
 {
 	this->aspect = defaultAspect;
 }
 
-Lilliputian::Rectangle Lilliputian::Camera::getViewportDimensions()
+Esi::Rectangle Esi::Camera::getViewportDimensions()
 {
 	return this->viewport_px;
 }
 
-bool Lilliputian::Camera::getIsStreaming()
+bool Esi::Camera::getIsStreaming()
 {
 	return this->isStreaming;
 }
 
-void Lilliputian::Camera::setViewportWidth(uint32_t width_px)
+void Esi::Camera::setViewportWidth(uint32_t width_px)
 {
 	this->viewport_px.width = width_px;
 	if (keepAspect)
 		this->viewport_px.height = (uint32_t)((double)width_px / aspect);
 }
 
-void Lilliputian::Camera::setViewportHeight(uint32_t height_px)
+void Esi::Camera::setViewportHeight(uint32_t height_px)
 {
 	this->viewport_px.height = height_px;
 	if (keepAspect)
 		this->viewport_px.width = (uint32_t)((double)height_px * aspect);
 }
 
-void Lilliputian::Camera::setLimits(float left, float bottom, float top, float right)
+void Esi::Camera::setLimits(float left, float bottom, float top, float right)
 {
 	this->limits_px.min_px.x = left;
 	this->limits_px.min_px.y = bottom;
@@ -64,12 +64,12 @@ void Lilliputian::Camera::setLimits(float left, float bottom, float top, float r
 	this->limits_px.max_px.y = top;
 }
 
-void Lilliputian::Camera::setKeepAspect(bool value)
+void Esi::Camera::setKeepAspect(bool value)
 {
 	this->keepAspect = value;
 }
 
-void Lilliputian::Camera::setIsStreaming(bool value)
+void Esi::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
 }

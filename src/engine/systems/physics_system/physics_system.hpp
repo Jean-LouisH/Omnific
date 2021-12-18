@@ -24,7 +24,7 @@
 
 #include "application/scene/scene.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class PhysicsSystem
 	{

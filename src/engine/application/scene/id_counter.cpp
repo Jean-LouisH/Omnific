@@ -22,29 +22,29 @@
 
 #include "id_counter.hpp"
 
-Lilliputian::IDCounter* Lilliputian::IDCounter::instance = nullptr;
+Esi::IDCounter* Esi::IDCounter::instance = nullptr;
 
-Lilliputian::EntityID Lilliputian::IDCounter::getNewEntityID()
+Esi::EntityID Esi::IDCounter::getNewEntityID()
 {
 	return ++getInstance()->entityIDCount;
 }
 
-Lilliputian::SceneID Lilliputian::IDCounter::getNewSceneID()
+Esi::SceneID Esi::IDCounter::getNewSceneID()
 {
 	return ++getInstance()->sceneIDCount;
 }
 
-Lilliputian::ComponentID Lilliputian::IDCounter::getNewComponentID()
+Esi::ComponentID Esi::IDCounter::getNewComponentID()
 {
 	return ++getInstance()->componentIDCount;
 }
 
-Lilliputian::AssetID Lilliputian::IDCounter::getNewAssetID()
+Esi::AssetID Esi::IDCounter::getNewAssetID()
 {
 	return ++getInstance()->assetIDCount;
 }
 
-Lilliputian::IDCounter* Lilliputian::IDCounter::getInstance()
+Esi::IDCounter* Esi::IDCounter::getInstance()
 {
 	if (instance == nullptr)
 		instance = new IDCounter();

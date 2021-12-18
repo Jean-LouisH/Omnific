@@ -30,7 +30,7 @@
 #include <application/scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class HapticSystem
 	{

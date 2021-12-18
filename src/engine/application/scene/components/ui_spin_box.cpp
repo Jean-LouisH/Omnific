@@ -22,7 +22,7 @@
 
 #include "ui_spin_box.hpp"
 
-Lilliputian::Image& Lilliputian::UISpinBox::getImage()
+Esi::Image& Esi::UISpinBox::getImage()
 {
 	return this->image;
 }

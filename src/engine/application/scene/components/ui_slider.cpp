@@ -22,7 +22,7 @@
 
 #include "ui_slider.hpp"
 
-Lilliputian::Image& Lilliputian::UISlider::getImage()
+Esi::Image& Esi::UISlider::getImage()
 {
 	return this->image;
 }

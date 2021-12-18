@@ -22,7 +22,7 @@
 
 #include "ui_scrollbar.hpp"
 
-Lilliputian::Image& Lilliputian::UIScrollbar::getImage()
+Esi::Image& Esi::UIScrollbar::getImage()
 {
 	return this->image;
 }

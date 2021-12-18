@@ -26,14 +26,14 @@
 #include <ctime>
 #include <fstream>
 
-void Lilliputian::Logger::write(std::string message)
+void Esi::Logger::write(std::string message)
 {
 	std::string timeStampedMessage = this->timeStamp(message);
 	std::cout << std::endl << timeStampedMessage;
 	this->logs.push_back(timeStampedMessage);
 }
 
-void Lilliputian::Logger::writeToFile(std::string message)
+void Esi::Logger::writeToFile(std::string message)
 {
 	std::string timeStampedMessage = this->timeStamp(message);
 
@@ -42,17 +42,17 @@ void Lilliputian::Logger::writeToFile(std::string message)
 	this->logs.push_back(timeStampedMessage);
 }
 
-std::string Lilliputian::Logger::getLastMessage()
+std::string Esi::Logger::getLastMessage()
 {
 	return this->logs.at(this->logs.size() - 1);
 }
 
-std::vector<std::string> Lilliputian::Logger::getLogs()
+std::vector<std::string> Esi::Logger::getLogs()
 {
 	return this->logs;
 }
 
-std::string Lilliputian::Logger::timeStamp(std::string message)
+std::string Esi::Logger::timeStamp(std::string message)
 {
 	auto now = std::chrono::system_clock::now();
 	std::time_t currentTime = std::chrono::system_clock::to_time_t(now);

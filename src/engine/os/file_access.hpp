@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace Lilliputian
+namespace Esi
 {
 	class FileAccess
 	{

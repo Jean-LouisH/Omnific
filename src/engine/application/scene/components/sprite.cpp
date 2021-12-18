@@ -23,42 +23,42 @@
 #include "sprite.hpp"
 
 
-void Lilliputian::Sprite::setImage(Image image)
+void Esi::Sprite::setImage(Image image)
 {
 	this->image = image;
 }
 
-void Lilliputian::Sprite::setAlpha(uint8_t value)
+void Esi::Sprite::setAlpha(uint8_t value)
 {
 	this->image.setAlpha(value);
 }
 
-uint8_t Lilliputian::Sprite::getAlpha()
+uint8_t Esi::Sprite::getAlpha()
 {
 	return this->image.getAlpha();
 }
 
-void Lilliputian::Sprite::hide()
+void Esi::Sprite::hide()
 {
 	this->image.setAlpha(0);
 }
 
-void Lilliputian::Sprite::show()
+void Esi::Sprite::show()
 {
 	this->image.setAlpha(255);
 }
 
-void Lilliputian::Sprite::flipVertically()
+void Esi::Sprite::flipVertically()
 {
 
 }
 
-void Lilliputian::Sprite::flipHorizontally()
+void Esi::Sprite::flipHorizontally()
 {
 
 }
 
-Lilliputian::Image& Lilliputian::Sprite::getImage()
+Esi::Image& Esi::Sprite::getImage()
 {
 	return this->image;
 }

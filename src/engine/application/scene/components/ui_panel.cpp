@@ -22,7 +22,7 @@
 
 #include "ui_panel.hpp"
 
-Lilliputian::Image& Lilliputian::UIPanel::getImage()
+Esi::Image& Esi::UIPanel::getImage()
 {
 	return this->image;
 }

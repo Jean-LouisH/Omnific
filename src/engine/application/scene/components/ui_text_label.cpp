@@ -23,12 +23,12 @@
 #include "ui_text_label.hpp"
 
 
-Lilliputian::UITextLabel::UITextLabel()
+Esi::UITextLabel::UITextLabel()
 {
 	this->image = Image();
 }
 
-void Lilliputian::UITextLabel::setText(std::string text)
+void Esi::UITextLabel::setText(std::string text)
 {
 	if (text != this->text)
 	{
@@ -37,94 +37,94 @@ void Lilliputian::UITextLabel::setText(std::string text)
 	}
 }
 
-void Lilliputian::UITextLabel::setFont(Font font, uint16_t size_px)
+void Esi::UITextLabel::setFont(Font font, uint16_t size_px)
 {
 	this->font = font;
 	this->size_px = size_px;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontStyleNormal()
+void Esi::UITextLabel::setFontStyleNormal()
 {
 	this->style = Font::Style::NORMAL;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontStyleBold()
+void Esi::UITextLabel::setFontStyleBold()
 {
 	this->style = Font::Style::BOLD;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontStyleItalic()
+void Esi::UITextLabel::setFontStyleItalic()
 {
 	this->style = Font::Style::ITALIC;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontStyleUnderline()
+void Esi::UITextLabel::setFontStyleUnderline()
 {
 	this->style = Font::Style::UNDERLINE;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontStyleStrikethrough()
+void Esi::UITextLabel::setFontStyleStrikethrough()
 {
 	this->style = Font::Style::STRIKETHROUGH;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontRenderModeSolid()
+void Esi::UITextLabel::setFontRenderModeSolid()
 {
 	this->mode = Font::RenderMode::SOLID;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontRenderModeShaded()
+void Esi::UITextLabel::setFontRenderModeShaded()
 {
 	this->mode = Font::RenderMode::SHADED;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontRenderModeBlended()
+void Esi::UITextLabel::setFontRenderModeBlended()
 {
 	this->mode = Font::RenderMode::BLENDED;
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setFontSize(uint16_t size_px)
+void Esi::UITextLabel::setFontSize(uint16_t size_px)
 {
 
 	this->generateImage();
 }
 
-void Lilliputian::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Esi::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->colour = Colour(red, green, blue, alpha);
 	this->generateImage();
 }
 
-Lilliputian::Font::Style Lilliputian::UITextLabel::getFontStyle()
+Esi::Font::Style Esi::UITextLabel::getFontStyle()
 {
 	return this->style;
 }
 
-Lilliputian::Image& Lilliputian::UITextLabel::getImage()
+Esi::Image& Esi::UITextLabel::getImage()
 {
 	return this->image;
 }
 
-void Lilliputian::UITextLabel::setAlpha(uint8_t value)
+void Esi::UITextLabel::setAlpha(uint8_t value)
 {
 	this->image.setAlpha(value);
 }
 
-uint8_t Lilliputian::UITextLabel::getAlpha()
+uint8_t Esi::UITextLabel::getAlpha()
 {
 	return this->image.getAlpha();
 }
 
-void Lilliputian::UITextLabel::generateImage()
+void Esi::UITextLabel::generateImage()
 {
 	if (this->font.getSDLTTFFont() != nullptr)
 	{

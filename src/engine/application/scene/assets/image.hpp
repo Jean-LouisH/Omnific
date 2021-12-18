@@ -34,7 +34,7 @@
 #include "utilities/colour.hpp"
 #include "font.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class Image : public Asset
 	{

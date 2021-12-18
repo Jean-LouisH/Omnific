@@ -24,7 +24,7 @@
 
 #include <glm/glm.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class AABB2D
 	{

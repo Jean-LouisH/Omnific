@@ -22,28 +22,28 @@
 
 #include "scene_api.hpp"
 
-void Lilliputian::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
+void Esi::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
 {
 	this->sceneStorage = sceneStorage;
 }
 
-void Lilliputian::SceneAPI::bindEntity(SceneID sceneTreeID, EntityID entityID)
+void Esi::SceneAPI::bindEntity(SceneID sceneTreeID, EntityID entityID)
 {
 	this->boundSceneTreeID = sceneTreeID;
 	this->boundEntityID = entityID;
 }
 
-void Lilliputian::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
+void Esi::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 {
 	this->sceneSerializer = sceneSerializer;
 }
 
-bool Lilliputian::SceneAPI::thisHasComponent(ComponentVariant::Type type)
+bool Esi::SceneAPI::thisHasComponent(ComponentVariant::Type type)
 {
 	return this->getThisScene().getEntity(this->boundEntityID).components.count(type) > 0;
 }
 
-void Lilliputian::SceneAPI::preloadScene(std::string sceneFilename)
+void Esi::SceneAPI::preloadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -52,7 +52,7 @@ void Lilliputian::SceneAPI::preloadScene(std::string sceneFilename)
 	}
 }
 
-void Lilliputian::SceneAPI::loadScene(std::string sceneFilename)
+void Esi::SceneAPI::loadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -61,12 +61,12 @@ void Lilliputian::SceneAPI::loadScene(std::string sceneFilename)
 	}
 }
 
-void Lilliputian::SceneAPI::unloadScene(std::string sceneFilename)
+void Esi::SceneAPI::unloadScene(std::string sceneFilename)
 {
 	this->sceneStorage->removeScene(sceneFilename);
 }
 
-void Lilliputian::SceneAPI::changeToScene(std::string sceneFilename)
+void Esi::SceneAPI::changeToScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -74,17 +74,17 @@ void Lilliputian::SceneAPI::changeToScene(std::string sceneFilename)
 	}
 }
 
-Lilliputian::Entity& Lilliputian::SceneAPI::getThisEntity()
+Esi::Entity& Esi::SceneAPI::getThisEntity()
 {
 	return this->getThisScene().getEntity(this->boundEntityID);
 }
 
-Lilliputian::Scene& Lilliputian::SceneAPI::getThisScene()
+Esi::Scene& Esi::SceneAPI::getThisScene()
 {
 	return sceneStorage->getActiveScene();
 }
 
-Lilliputian::ComponentVariant& Lilliputian::SceneAPI::getThisComponentVariant(ComponentVariant::Type type)
+Esi::ComponentVariant& Esi::SceneAPI::getThisComponentVariant(ComponentVariant::Type type)
 {
 	ComponentVariant* componentVariant = nullptr;
 	

@@ -26,7 +26,7 @@
 #include "utilities/aliases.hpp"
 #include <vector>
 
-namespace Lilliputian
+namespace Esi
 {
 	typedef struct ScriptCallBatch
 	{

@@ -22,7 +22,7 @@
 
 #include "asset_cache.hpp"
 
-Lilliputian::AudioStream Lilliputian::AssetCache::loadAudioStream(const char* filepath)
+Esi::AudioStream Esi::AssetCache::loadAudioStream(const char* filepath)
 {
 	if (!this->audioStreams.count(filepath))
 	{
@@ -32,7 +32,7 @@ Lilliputian::AudioStream Lilliputian::AssetCache::loadAudioStream(const char* fi
 	return this->audioStreams.at(filepath);
 }
 
-Lilliputian::Font Lilliputian::AssetCache::loadFont(const char* filepath, uint16_t size_px)
+Esi::Font Esi::AssetCache::loadFont(const char* filepath, uint16_t size_px)
 {
 	if (!this->fonts.count(filepath))
 	{
@@ -42,7 +42,7 @@ Lilliputian::Font Lilliputian::AssetCache::loadFont(const char* filepath, uint16
 	return this->fonts.at(filepath);
 }
 
-Lilliputian::Text Lilliputian::AssetCache::loadText(const char* filepath)
+Esi::Text Esi::AssetCache::loadText(const char* filepath)
 {
 	if (!this->texts.count(filepath))
 	{
@@ -52,7 +52,7 @@ Lilliputian::Text Lilliputian::AssetCache::loadText(const char* filepath)
 	return this->texts.at(filepath);
 }
 
-Lilliputian::Image Lilliputian::AssetCache::loadImage(const char* filepath)
+Esi::Image Esi::AssetCache::loadImage(const char* filepath)
 {
 	if (!this->images.count(filepath))
 	{
@@ -62,27 +62,27 @@ Lilliputian::Image Lilliputian::AssetCache::loadImage(const char* filepath)
 	return this->images.at(filepath);
 }
 
-void Lilliputian::AssetCache::deleteAudioStream(const char* filepath)
+void Esi::AssetCache::deleteAudioStream(const char* filepath)
 {
 	this->audioStreams.at(filepath).unload();
 }
 
-void Lilliputian::AssetCache::deleteFont(const char* filepath)
+void Esi::AssetCache::deleteFont(const char* filepath)
 {
 	this->fonts.at(filepath).unload();
 }
 
-void Lilliputian::AssetCache::deleteText(const char* filepath)
+void Esi::AssetCache::deleteText(const char* filepath)
 {
 	this->texts.at(filepath).unload();
 }
 
-void Lilliputian::AssetCache::deleteImage(const char* filepath)
+void Esi::AssetCache::deleteImage(const char* filepath)
 {
 	this->images.at(filepath).unload();
 }
 
-void Lilliputian::AssetCache::deleteAllAudioStreams()
+void Esi::AssetCache::deleteAllAudioStreams()
 {
 	if (!this->audioStreams.empty())
 	{
@@ -94,7 +94,7 @@ void Lilliputian::AssetCache::deleteAllAudioStreams()
 	}
 }
 
-void Lilliputian::AssetCache::deleteAllFonts()
+void Esi::AssetCache::deleteAllFonts()
 {
 	if (!this->fonts.empty())
 	{
@@ -106,7 +106,7 @@ void Lilliputian::AssetCache::deleteAllFonts()
 	}
 }
 
-void Lilliputian::AssetCache::deleteAllTexts()
+void Esi::AssetCache::deleteAllTexts()
 {
 	if (!this->texts.empty())
 	{
@@ -118,7 +118,7 @@ void Lilliputian::AssetCache::deleteAllTexts()
 	}
 }
 
-void Lilliputian::AssetCache::deleteAllImages()
+void Esi::AssetCache::deleteAllImages()
 {
 	if (!this->images.empty())
 	{
@@ -130,29 +130,29 @@ void Lilliputian::AssetCache::deleteAllImages()
 	}
 }
 
-void Lilliputian::AssetCache::deleteAll()
+void Esi::AssetCache::deleteAll()
 {
 	deleteAllFonts();
 	deleteAllAudioStreams();
 	deleteAllImages();
 }
 
-std::unordered_map<std::string, Lilliputian::AudioStream> Lilliputian::AssetCache::getAudioStreams()
+std::unordered_map<std::string, Esi::AudioStream> Esi::AssetCache::getAudioStreams()
 {
 	return this->audioStreams;
 }
 
-std::unordered_map<std::string, Lilliputian::Font> Lilliputian::AssetCache::getFonts()
+std::unordered_map<std::string, Esi::Font> Esi::AssetCache::getFonts()
 {
 	return this->fonts;
 }
 
-std::unordered_map<std::string, Lilliputian::Text> Lilliputian::AssetCache::getTexts()
+std::unordered_map<std::string, Esi::Text> Esi::AssetCache::getTexts()
 {
 	return this->texts;
 }
 
-std::unordered_map<std::string, Lilliputian::Image> Lilliputian::AssetCache::getImages()
+std::unordered_map<std::string, Esi::Image> Esi::AssetCache::getImages()
 {
 	return this->images;
 }

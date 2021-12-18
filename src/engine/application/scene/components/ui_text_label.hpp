@@ -29,7 +29,7 @@
 #include "utilities/rectangle.hpp"
 #include "utilities/colour.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class UITextLabel
 	{

@@ -25,7 +25,7 @@
 #include "configuration.hpp"
 #include <string>
 
-namespace Lilliputian
+namespace Esi
 {
 	class BootLoader
 	{

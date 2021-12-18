@@ -23,22 +23,22 @@
 #include "platform.hpp"
 #include <SDL.h>
 
-uint8_t Lilliputian::Platform::getLogicalCoreCount()
+uint8_t Esi::Platform::getLogicalCoreCount()
 {
 	return SDL_GetCPUCount();
 }
 
-uint32_t Lilliputian::Platform::getL1CacheLineSize_B()
+uint32_t Esi::Platform::getL1CacheLineSize_B()
 {
 	return SDL_GetCPUCacheLineSize();
 }
 
-uint32_t Lilliputian::Platform::getSystemRAM_MB()
+uint32_t Esi::Platform::getSystemRAM_MB()
 {
 	return SDL_GetSystemRAM();
 }
 
-std::string Lilliputian::Platform::getOSName()
+std::string Esi::Platform::getOSName()
 {
 	return SDL_GetPlatform();
 }

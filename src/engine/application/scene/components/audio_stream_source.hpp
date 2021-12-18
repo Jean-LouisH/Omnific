@@ -32,7 +32,7 @@
 #include "application/scene/assets/audio_stream.hpp"
 
 
-namespace Lilliputian
+namespace Esi
 {
 	class AudioStreamSource
 	{

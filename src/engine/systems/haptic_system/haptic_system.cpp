@@ -23,12 +23,12 @@
 #include "haptic_system.hpp"
 #include <SDL.h>
 
-Lilliputian::HapticSystem::HapticSystem()
+Esi::HapticSystem::HapticSystem()
 {
 
 }
 
-void Lilliputian::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
+void Esi::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
 {
 	if (hapticSignal.getPlayerID() < haptics.size())
 	{
@@ -38,7 +38,7 @@ void Lilliputian::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<S
 	}
 }
 
-void Lilliputian::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
+void Esi::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
 {
 	if (playerID < haptics.size())
 	{
@@ -46,7 +46,7 @@ void Lilliputian::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Ha
 	}
 }
 
-void Lilliputian::HapticSystem::process(
+void Esi::HapticSystem::process(
 	Scene& scene,
 	HumanInterfaceDevices& hid)
 {

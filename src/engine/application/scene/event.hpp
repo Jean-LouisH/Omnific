@@ -25,7 +25,7 @@
 #include <vector>
 #include <string>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Event
 	{

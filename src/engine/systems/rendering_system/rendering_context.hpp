@@ -29,7 +29,7 @@
 #include "renderables.hpp"
 #include <application/scene/assets/image.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class RenderingContext
 	{

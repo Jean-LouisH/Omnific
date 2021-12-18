@@ -22,7 +22,7 @@
 
 #include "command_line.hpp"
 
-Lilliputian::CommandLine::CommandLine(
+Esi::CommandLine::CommandLine(
 	SceneSerializer* sceneSerializer,
 	SceneStorage* sceneStorage
 )
@@ -31,7 +31,7 @@ Lilliputian::CommandLine::CommandLine(
 	this->sceneStorage = sceneStorage;
 }
 
-void Lilliputian::CommandLine::execute(std::string command)
+void Esi::CommandLine::execute(std::string command)
 {
 	if (command == "shutdown" || command == "exit")
 		OS::getHid().forceShutdownRequest();

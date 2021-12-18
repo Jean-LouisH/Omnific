@@ -22,7 +22,7 @@
 
 #include "ui_graph_edit.hpp"
 
-Lilliputian::Image& Lilliputian::UIGraphEdit::getImage()
+Esi::Image& Esi::UIGraphEdit::getImage()
 {
 	return this->image;
 }

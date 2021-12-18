@@ -24,38 +24,38 @@
 #include <utilities/constants.hpp>
 
 
-Lilliputian::TimeAPI::TimeAPI(Profiler* profiler)
+Esi::TimeAPI::TimeAPI(Profiler* profiler)
 {
 	this->profiler = profiler;
 }
 
-void Lilliputian::TimeAPI::setTimeSettings(Configuration::TimeSettings* timeSettings)
+void Esi::TimeAPI::setTimeSettings(Configuration::TimeSettings* timeSettings)
 {
 	this->timeSettings = timeSettings;
 }
 
-void Lilliputian::TimeAPI::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+void Esi::TimeAPI::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
 	if (msPerComputeUpdate <= (uint32_t)(1.0 / (double) this->timeSettings->targetFPS))
 		this->timeSettings->msPerComputeUpdate = msPerComputeUpdate;
 }
 
-void Lilliputian::TimeAPI::setTargetFPS(uint32_t targetFPS)
+void Esi::TimeAPI::setTargetFPS(uint32_t targetFPS)
 {
 	this->timeSettings->targetFPS = targetFPS;
 }
 
-uint32_t Lilliputian::TimeAPI::getMsPerComputeUpdate()
+uint32_t Esi::TimeAPI::getMsPerComputeUpdate()
 {
 	return this->timeSettings->msPerComputeUpdate;
 }
 
-uint32_t Lilliputian::TimeAPI::getTargetFPS()
+uint32_t Esi::TimeAPI::getTargetFPS()
 {
 	return this->timeSettings->targetFPS;
 }
 
-uint64_t Lilliputian::TimeAPI::getFrameTimeDelta()
+uint64_t Esi::TimeAPI::getFrameTimeDelta()
 {
 	return NS_IN_MS * this->profiler->getFrameTimer().getDelta_ns();
 }

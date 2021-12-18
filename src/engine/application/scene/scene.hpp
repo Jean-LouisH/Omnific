@@ -37,7 +37,7 @@
 #include <string>
 #include "event_bus.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class Scene
 	{

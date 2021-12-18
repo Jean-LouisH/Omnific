@@ -28,7 +28,7 @@
 #include <string>
 #include <application/scene/assets/shader.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class ShaderCompiler
 	{

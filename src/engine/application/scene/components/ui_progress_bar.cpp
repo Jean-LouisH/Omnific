@@ -22,7 +22,7 @@
 
 #include "ui_progress_bar.hpp"
 
-Lilliputian::Image& Lilliputian::UIProgressBar::getImage()
+Esi::Image& Esi::UIProgressBar::getImage()
 {
 	return this->image;
 }

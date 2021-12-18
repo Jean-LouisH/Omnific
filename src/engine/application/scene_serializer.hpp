@@ -26,7 +26,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace Lilliputian
+namespace Esi
 {
 	class SceneSerializer
 	{

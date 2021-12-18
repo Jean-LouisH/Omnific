@@ -25,17 +25,17 @@
 #include <iostream>
 #include <set>
 
-Lilliputian::VirtualMachine::VirtualMachine()
+Esi::VirtualMachine::VirtualMachine()
 {
 
 }
 
-Lilliputian::VirtualMachine::~VirtualMachine()
+Esi::VirtualMachine::~VirtualMachine()
 {
 
 }
 
-void Lilliputian::VirtualMachine::loadModules(Scene scene)
+void Esi::VirtualMachine::loadModules(Scene scene)
 {
 	this->modules.clear();
 
@@ -112,37 +112,37 @@ void Lilliputian::VirtualMachine::loadModules(Scene scene)
 	}
 }
 
-void Lilliputian::VirtualMachine::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::VirtualMachine::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_start");
 }
 
-void Lilliputian::VirtualMachine::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::VirtualMachine::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_input");
 }
 
-void Lilliputian::VirtualMachine::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::VirtualMachine::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_frame");
 }
 
-void Lilliputian::VirtualMachine::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::VirtualMachine::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_compute");
 }
 
-void Lilliputian::VirtualMachine::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::VirtualMachine::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_output");
 }
 
-void Lilliputian::VirtualMachine::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::VirtualMachine::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_finish");
 }
 
-void Lilliputian::VirtualMachine::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
+void Esi::VirtualMachine::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
 {
 	for (int i = 0; i < scriptCallBatches.size(); i++)
 	{

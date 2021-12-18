@@ -24,7 +24,7 @@
 #include <os/os.hpp>
 #include <string>
 
-Lilliputian::RenderingContext::RenderingContext(Window& window)
+Esi::RenderingContext::RenderingContext(Window& window)
 {
 	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
 
@@ -42,13 +42,13 @@ Lilliputian::RenderingContext::RenderingContext(Window& window)
 	}
 }
 
-void Lilliputian::RenderingContext::clearBuffers()
+void Esi::RenderingContext::clearBuffers()
 {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Lilliputian::RenderingContext::generate2DTextures(std::vector<Image> images)
+void Esi::RenderingContext::generate2DTextures(std::vector<Image> images)
 {
 	size_t imageCount = images.size();
 	Image* imageData = images.data();
@@ -90,12 +90,12 @@ void Lilliputian::RenderingContext::generate2DTextures(std::vector<Image> images
 	}
 }
 
-void Lilliputian::RenderingContext::submit(Renderables& renderables)
+void Esi::RenderingContext::submit(Renderables& renderables)
 {
 
 }
 
-void Lilliputian::RenderingContext::delete2DTextures()
+void Esi::RenderingContext::delete2DTextures()
 {
 	int size = this->glTextureIDs.size();
 
@@ -105,7 +105,7 @@ void Lilliputian::RenderingContext::delete2DTextures()
 	this->glTextureIDs.clear();
 }
 
-void Lilliputian::RenderingContext::drawArrays()
+void Esi::RenderingContext::drawArrays()
 {
 	glBindVertexArray(0);
 	glDrawArrays(GL_TRIANGLES, 0, 6);

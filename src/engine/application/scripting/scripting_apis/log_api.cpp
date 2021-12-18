@@ -22,27 +22,27 @@
 
 #include "log_api.hpp"
 
-Lilliputian::LogAPI::LogAPI(Logger* logger)
+Esi::LogAPI::LogAPI(Logger* logger)
 {
 	this->logger = logger;
 }
 
-void Lilliputian::LogAPI::write(std::string message)
+void Esi::LogAPI::write(std::string message)
 {
 	this->logger->write(message);
 }
 
-void Lilliputian::LogAPI::writeToFile(std::string message)
+void Esi::LogAPI::writeToFile(std::string message)
 {
 	this->logger->writeToFile(message);
 }
 
-std::string Lilliputian::LogAPI::getLastMessage()
+std::string Esi::LogAPI::getLastMessage()
 {
 	return this->logger->getLastMessage();
 }
 
-std::vector<std::string> Lilliputian::LogAPI::getLogs()
+std::vector<std::string> Esi::LogAPI::getLogs()
 {
 	return this->logger->getLogs();
 }

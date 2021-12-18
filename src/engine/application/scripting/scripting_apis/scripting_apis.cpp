@@ -23,9 +23,9 @@
 #include "scripting_apis.hpp"
 #include <os/os.hpp>
 
-Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::instance = nullptr;
+Esi::ScriptingAPIs* Esi::ScriptingAPIs::instance = nullptr;
 
-void Lilliputian::ScriptingAPIs::initialize()
+void Esi::ScriptingAPIs::initialize()
 {
 	ScriptingAPIs* newInstance = getInstance();
 
@@ -37,62 +37,62 @@ void Lilliputian::ScriptingAPIs::initialize()
 	newInstance->windowAPI = new WindowAPI(&OS::getWindow());
 }
 
-void Lilliputian::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
+void Esi::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
 {
 	getInstance()->sceneAPI->setSceneStorage(sceneStorage);
 }
 
-void Lilliputian::ScriptingAPIs::setConfiguration(Configuration* configuration)
+void Esi::ScriptingAPIs::setConfiguration(Configuration* configuration)
 {
 	getInstance()->timeAPI->setTimeSettings(&configuration->timeSettings);
 }
 
-void Lilliputian::ScriptingAPIs::bindEntity(SceneID sceneTreeID, EntityID entityID)
+void Esi::ScriptingAPIs::bindEntity(SceneID sceneTreeID, EntityID entityID)
 {
 	getInstance()->sceneAPI->bindEntity(sceneTreeID, entityID);
 }
 
-Lilliputian::CommandLineAPI& Lilliputian::ScriptingAPIs::getCommandLineAPI()
+Esi::CommandLineAPI& Esi::ScriptingAPIs::getCommandLineAPI()
 {
 	return *getInstance()->commandLineAPI;
 }
 
-Lilliputian::InputAPI& Lilliputian::ScriptingAPIs::getInputAPI()
+Esi::InputAPI& Esi::ScriptingAPIs::getInputAPI()
 {
 	return *getInstance()->inputAPI;
 }
 
-Lilliputian::LogAPI& Lilliputian::ScriptingAPIs::getLogAPI()
+Esi::LogAPI& Esi::ScriptingAPIs::getLogAPI()
 {
 	return *getInstance()->logAPI;
 }
 
-Lilliputian::SceneAPI& Lilliputian::ScriptingAPIs::getSceneAPI()
+Esi::SceneAPI& Esi::ScriptingAPIs::getSceneAPI()
 {
 	return *getInstance()->sceneAPI;
 }
 
-Lilliputian::TimeAPI& Lilliputian::ScriptingAPIs::getTimeAPI()
+Esi::TimeAPI& Esi::ScriptingAPIs::getTimeAPI()
 {
 	return *getInstance()->timeAPI;
 }
 
-Lilliputian::WindowAPI& Lilliputian::ScriptingAPIs::getWindowAPI()
+Esi::WindowAPI& Esi::ScriptingAPIs::getWindowAPI()
 {
 	return *getInstance()->windowAPI;
 }
 
-std::string Lilliputian::ScriptingAPIs::getDataDirectoryPath()
+std::string Esi::ScriptingAPIs::getDataDirectoryPath()
 {
 	return OS::getFileAccess().getDataDirectoryPath();
 }
 
-std::string Lilliputian::ScriptingAPIs::getExecutableDirectoryPath()
+std::string Esi::ScriptingAPIs::getExecutableDirectoryPath()
 {
 	return OS::getFileAccess().getExecutableDirectoryPath();
 }
 
-Lilliputian::ScriptingAPIs* Lilliputian::ScriptingAPIs::getInstance()
+Esi::ScriptingAPIs* Esi::ScriptingAPIs::getInstance()
 {
 	if (instance == nullptr)
 		instance = new ScriptingAPIs();

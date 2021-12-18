@@ -22,7 +22,7 @@
 
 #include "window.hpp"
 
-Lilliputian::Window::Window(const char* title, uint16_t width, uint16_t height, bool isFullscreen)
+Esi::Window::Window(const char* title, uint16_t width, uint16_t height, bool isFullscreen)
 {
 	this->isFullscreen = isFullscreen;
 
@@ -49,20 +49,20 @@ Lilliputian::Window::Window(const char* title, uint16_t width, uint16_t height, 
 }
 
 
-void Lilliputian::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
+void Esi::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowFullscreen(this->sdlWindow, 0);
 	SDL_SetWindowSize(this->sdlWindow, width_px, height_px);
 
 }
 
-void Lilliputian::Window::setToFullscreen()
+void Esi::Window::setToFullscreen()
 {
 	SDL_SetWindowDisplayMode(this->sdlWindow, this->sdlDisplayMode);
 	SDL_SetWindowFullscreen(this->sdlWindow, SDL_WINDOW_FULLSCREEN);
 }
 
-void Lilliputian::Window::toggleWindowedFullscreen()
+void Esi::Window::toggleWindowedFullscreen()
 {
 	this->isFullscreen = !isFullscreen;
 
@@ -82,64 +82,64 @@ void Lilliputian::Window::toggleWindowedFullscreen()
 	SDL_ShowCursor(!this->isFullscreen);
 }
 
-void Lilliputian::Window::resize(uint16_t width_px, uint16_t height_px)
+void Esi::Window::resize(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowSize(this->sdlWindow, width_px, height_px);
 	SDL_SetWindowPosition(this->sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }
 
-void Lilliputian::Window::changeTitle(const char* title)
+void Esi::Window::changeTitle(const char* title)
 {
 	SDL_SetWindowTitle(this->sdlWindow, title);
 }
 
-void Lilliputian::Window::changeIcon(Image image)
+void Esi::Window::changeIcon(Image image)
 {
 	SDL_SetWindowIcon(this->sdlWindow, image.getSDLSurface());
 }
 
-void Lilliputian::Window::maximize()
+void Esi::Window::maximize()
 {
 	SDL_MaximizeWindow(this->sdlWindow);
 }
 
-void Lilliputian::Window::minimize()
+void Esi::Window::minimize()
 {
 	SDL_MinimizeWindow(this->sdlWindow);
 }
 
-void Lilliputian::Window::raise()
+void Esi::Window::raise()
 {
 	SDL_RaiseWindow(this->sdlWindow);
 }
 
-void Lilliputian::Window::restore()
+void Esi::Window::restore()
 {
 	SDL_RestoreWindow(this->sdlWindow);
 }
 
-void Lilliputian::Window::hide()
+void Esi::Window::hide()
 {
 	SDL_HideWindow(this->sdlWindow);
 }
 
-void Lilliputian::Window::show()
+void Esi::Window::show()
 {
 	SDL_ShowWindow(this->sdlWindow);
 }
 
-void Lilliputian::Window::sleep(int time_ms)
+void Esi::Window::sleep(int time_ms)
 {
 	if (time_ms > 0)
 		SDL_Delay(time_ms);
 }
 
-void Lilliputian::Window::swapBuffers()
+void Esi::Window::swapBuffers()
 {
 	SDL_GL_SwapWindow(this->sdlWindow);
 }
 
-Lilliputian::Rectangle Lilliputian::Window::getWindowSize()
+Esi::Rectangle Esi::Window::getWindowSize()
 {
 	Rectangle rectangle;
 	int width = 0;
@@ -152,7 +152,7 @@ Lilliputian::Rectangle Lilliputian::Window::getWindowSize()
 	return rectangle;
 }
 
-SDL_Window* Lilliputian::Window::getSDLWindow()
+SDL_Window* Esi::Window::getSDLWindow()
 {
 	return this->sdlWindow;
 }

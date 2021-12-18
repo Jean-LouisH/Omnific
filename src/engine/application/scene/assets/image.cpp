@@ -24,12 +24,12 @@
 #include <application/scene/id_counter.hpp>
 #include <SDL_image.h>
 
-Lilliputian::Image::Image()
+Esi::Image::Image()
 {
 	this->surface = nullptr;
 }
 
-Lilliputian::Image::Image(std::string text, Font font, Colour colour, Font::RenderMode mode)
+Esi::Image::Image(std::string text, Font font, Colour colour, Font::RenderMode mode)
 {
 	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
 	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
@@ -50,19 +50,19 @@ Lilliputian::Image::Image(std::string text, Font font, Colour colour, Font::Rend
 	this->id = IDCounter::getNewAssetID();
 }
 
-Lilliputian::Image::Image(const char* filepath)
+Esi::Image::Image(const char* filepath)
 {
 	this->surface = IMG_Load(filepath);
 	this->id = IDCounter::getNewAssetID();
 }
 
-Lilliputian::Image::Image(SDL_Surface* surface)
+Esi::Image::Image(SDL_Surface* surface)
 {
 	this->surface = surface;
 	this->id = IDCounter::getNewAssetID();
 }
 
-void Lilliputian::Image::unload()
+void Esi::Image::unload()
 {
 	if (this->surface != nullptr)
 	{
@@ -71,7 +71,7 @@ void Lilliputian::Image::unload()
 	}
 }
 
-SDL_Surface* Lilliputian::Image::getSDLSurface()
+SDL_Surface* Esi::Image::getSDLSurface()
 {
 	if (this->surface != nullptr)
 		return this->surface;
@@ -79,7 +79,7 @@ SDL_Surface* Lilliputian::Image::getSDLSurface()
 		return nullptr;
 }
 
-uint32_t Lilliputian::Image::getWidth()
+uint32_t Esi::Image::getWidth()
 {
 	if (this->surface != nullptr)
 		return this->surface->w;
@@ -87,7 +87,7 @@ uint32_t Lilliputian::Image::getWidth()
 		return 0;
 }
 
-uint32_t Lilliputian::Image::getHeight()
+uint32_t Esi::Image::getHeight()
 {
 	if (this->surface != nullptr)
 		return this->surface->h;
@@ -95,7 +95,7 @@ uint32_t Lilliputian::Image::getHeight()
 		return 0;
 }
 
-Lilliputian::Rectangle Lilliputian::Image::getDimensions()
+Esi::Rectangle Esi::Image::getDimensions()
 {
 	Rectangle dimensions;
 	dimensions.width = this->getWidth();
@@ -103,22 +103,22 @@ Lilliputian::Rectangle Lilliputian::Image::getDimensions()
 	return dimensions;
 }
 
-void Lilliputian::Image::setAlpha(uint8_t value)
+void Esi::Image::setAlpha(uint8_t value)
 {
 	this->alpha = value;
 }
 
-uint8_t Lilliputian::Image::getAlpha()
+uint8_t Esi::Image::getAlpha()
 {
 	return this->alpha;
 }
 
-uint8_t Lilliputian::Image::getBytesPerPixel()
+uint8_t Esi::Image::getBytesPerPixel()
 {
 	return this->surface->format->BytesPerPixel;
 }
 
-Lilliputian::AssetID Lilliputian::Image::getID()
+Esi::AssetID Esi::Image::getID()
 {
 	return this->id;
 }

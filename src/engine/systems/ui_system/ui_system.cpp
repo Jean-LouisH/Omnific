@@ -23,38 +23,38 @@
 #include "ui_system.hpp"
 #include "SDL_ttf.h"
 
-Lilliputian::UISystem::UISystem()
+Esi::UISystem::UISystem()
 {
 	if (TTF_Init() == -1) 
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-Lilliputian::UISystem::~UISystem()
+Esi::UISystem::~UISystem()
 {
 	TTF_Quit();
 }
 
-void Lilliputian::UISystem::process(Scene& scene, HumanInterfaceDevices& hid)
+void Esi::UISystem::process(Scene& scene, HumanInterfaceDevices& hid)
 {
 
 }
 
-void Lilliputian::UISystem::orderUIComponentsByHierarchy()
+void Esi::UISystem::orderUIComponentsByHierarchy()
 {
 
 }
 
-void Lilliputian::UISystem::positionUIComponentsByHierarchy()
+void Esi::UISystem::positionUIComponentsByHierarchy()
 {
 
 }
 
-bool Lilliputian::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
+bool Esi::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
 {
 	return false;
 }
 
-//bool Lilliputian::UISystem::isCursorInInputStateOnUIComponent(
+//bool Esi::UISystem::isCursorInInputStateOnUIComponent(
 //	ComponentID componentID,
 //	InputCode inputCode,
 //	InputButtonMode inputButtonMode)

@@ -22,7 +22,7 @@
 
 #include "human_interface_devices.hpp"
 
-void Lilliputian::HumanInterfaceDevices::clear()
+void Esi::HumanInterfaceDevices::clear()
 {
 	this->controllerAxisEvents.clear();
 	this->controllerButtonEvents.clear();
@@ -37,7 +37,7 @@ void Lilliputian::HumanInterfaceDevices::clear()
 	this->hasDetectedInputChanges = false;
 }
 
-void Lilliputian::HumanInterfaceDevices::detectGameControllers()
+void Esi::HumanInterfaceDevices::detectGameControllers()
 {
 	if (SDL_NumJoysticks() != this->gameControllers.size())
 	{
@@ -69,7 +69,7 @@ void Lilliputian::HumanInterfaceDevices::detectGameControllers()
 	}
 }
 
-void Lilliputian::HumanInterfaceDevices::pollInputEvents()
+void Esi::HumanInterfaceDevices::pollInputEvents()
 {
 	SDL_Event SDLEvents;
 
@@ -123,32 +123,32 @@ void Lilliputian::HumanInterfaceDevices::pollInputEvents()
 	}
 }
 
-bool Lilliputian::HumanInterfaceDevices::hasRequestedShutdown()
+bool Esi::HumanInterfaceDevices::hasRequestedShutdown()
 {
 	return this->shutdownRequest;
 }
 
-bool Lilliputian::HumanInterfaceDevices::hasRequestedRestart()
+bool Esi::HumanInterfaceDevices::hasRequestedRestart()
 {
 	return this->restartRequest;
 }
 
-void Lilliputian::HumanInterfaceDevices::forceShutdownRequest()
+void Esi::HumanInterfaceDevices::forceShutdownRequest()
 {
 	this->shutdownRequest = true;
 }
 
-void Lilliputian::HumanInterfaceDevices::forceRestartRequest()
+void Esi::HumanInterfaceDevices::forceRestartRequest()
 {
 	this->restartRequest = true;
 }
 
-bool Lilliputian::HumanInterfaceDevices::getHasDetectedInputChanges()
+bool Esi::HumanInterfaceDevices::getHasDetectedInputChanges()
 {
 	return this->hasDetectedInputChanges;
 }
 
-bool Lilliputian::HumanInterfaceDevices::hasRequestedCommandLine()
+bool Esi::HumanInterfaceDevices::hasRequestedCommandLine()
 {
 	bool backquoteReleased = false;
 
@@ -158,47 +158,47 @@ bool Lilliputian::HumanInterfaceDevices::hasRequestedCommandLine()
 	return backquoteReleased;	 
 }
 
-std::vector<SDL_Haptic*> Lilliputian::HumanInterfaceDevices::getHaptics()
+std::vector<SDL_Haptic*> Esi::HumanInterfaceDevices::getHaptics()
 {
 	return this->haptics;
 }
 
-std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Lilliputian::HumanInterfaceDevices::getControllerButtonEvents()
+std::unordered_map<Esi::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Esi::HumanInterfaceDevices::getControllerButtonEvents()
 {
 	return this->controllerButtonEvents;
 }
 
-std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Lilliputian::HumanInterfaceDevices::getKeyboardEvents()
+std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Esi::HumanInterfaceDevices::getKeyboardEvents()
 {
 	return this->keyboardEvents;
 }
 
-std::unordered_map<Lilliputian::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Lilliputian::HumanInterfaceDevices::getControllerAxisEvents()
+std::unordered_map<Esi::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Esi::HumanInterfaceDevices::getControllerAxisEvents()
 {
 	return this->controllerAxisEvents;
 }
 
-SDL_MouseButtonEvent Lilliputian::HumanInterfaceDevices::getMouseButtonEvent()
+SDL_MouseButtonEvent Esi::HumanInterfaceDevices::getMouseButtonEvent()
 {
 	return this->mouseButtonEvent;
 }
 
-SDL_MouseMotionEvent Lilliputian::HumanInterfaceDevices::getMouseMotionEvent()
+SDL_MouseMotionEvent Esi::HumanInterfaceDevices::getMouseMotionEvent()
 {
 	return this->mouseMotionEvent;
 }
 
-SDL_MouseWheelEvent  Lilliputian::HumanInterfaceDevices::getMouseWheelEvent()
+SDL_MouseWheelEvent  Esi::HumanInterfaceDevices::getMouseWheelEvent()
 {
 	return this->mouseWheelEvent;
 }
 
-std::unordered_map<Lilliputian::PlayerID, SDL_JoystickID> Lilliputian::HumanInterfaceDevices::getControllerPlayerMap()
+std::unordered_map<Esi::PlayerID, SDL_JoystickID> Esi::HumanInterfaceDevices::getControllerPlayerMap()
 {
 	return this->controllerPlayerMap;
 }
 
-std::queue<Lilliputian::PlayerID>& Lilliputian::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
+std::queue<Esi::PlayerID>& Esi::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
 {
 	return this->newlyLoadedPlayerIDs;
 }

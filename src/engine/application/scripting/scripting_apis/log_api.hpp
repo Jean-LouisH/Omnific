@@ -24,7 +24,7 @@
 
 #include <os/logger.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class LogAPI
 	{

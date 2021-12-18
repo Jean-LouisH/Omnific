@@ -29,7 +29,7 @@
 #include "pybind11/embed.h"
 #include "module.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class VirtualMachine
 	{

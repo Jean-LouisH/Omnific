@@ -22,12 +22,12 @@
 
 #include "box_trigger_space.hpp"
 
-bool Lilliputian::BoxTriggerSpace::hasEntityEntered(EntityID entityID)
+bool Esi::BoxTriggerSpace::hasEntityEntered(EntityID entityID)
 {
 	return this->enteringEntityIDs.count(entityID);
 }
 
-bool Lilliputian::BoxTriggerSpace::hasEntityWithTagEntered(std::string entityTag)
+bool Esi::BoxTriggerSpace::hasEntityWithTagEntered(std::string entityTag)
 {
 	return this->enteringEntityTags.count(entityTag);
 }

@@ -22,7 +22,7 @@
 
 #include "ui_tab.hpp"
 
-Lilliputian::Image& Lilliputian::UITab::getImage()
+Esi::Image& Esi::UITab::getImage()
 {
 	return this->image;
 }

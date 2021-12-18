@@ -26,7 +26,7 @@
 #include <string>
 #include "utilities/aliases.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class SceneStorage
 	{

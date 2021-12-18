@@ -27,7 +27,7 @@
 #include "utilities/aabb_2d.hpp"
 
 
-namespace Lilliputian
+namespace Esi
 {
 	class NavigationMeshBoxObstacle
 	{

@@ -22,7 +22,7 @@
 
 #pragma once
 
-namespace Lilliputian
+namespace Esi
 {
 #define TERA 1000000000000.0
 #define GIGA 1000000000.0

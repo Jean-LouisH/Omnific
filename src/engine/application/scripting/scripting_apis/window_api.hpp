@@ -26,7 +26,7 @@
 #include <application/scene/assets/image.hpp>
 #include <string>
 
-namespace Lilliputian
+namespace Esi
 {
 	class WindowAPI
 	{

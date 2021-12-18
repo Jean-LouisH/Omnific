@@ -31,7 +31,7 @@
 #include "rendering_context.hpp"
 #include "renderables.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class RenderingSystem
 	{

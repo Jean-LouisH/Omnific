@@ -26,7 +26,7 @@
 #include <SDL_mixer.h>
 #include "asset.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class AudioStream : public Asset
 	{

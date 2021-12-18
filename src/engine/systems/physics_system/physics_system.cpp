@@ -25,22 +25,22 @@
 #include <utilities/constants.hpp>
 #include <os/os.hpp>
 
-Lilliputian::PhysicsSystem::PhysicsSystem()
+Esi::PhysicsSystem::PhysicsSystem()
 {
 
 }
 
-Lilliputian::PhysicsSystem::~PhysicsSystem()
+Esi::PhysicsSystem::~PhysicsSystem()
 {
 
 }
 
-void Lilliputian::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpdate)
+void Esi::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpdate)
 {
 	this->updateTimers(scene, msPerComputeUpdate);
 }
 
-void Lilliputian::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
+void Esi::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 {
 	std::vector<ComponentVariant>& componentVariants = scene.getComponentVariants();
 	ComponentVariant* componentVariantsData = componentVariants.data();

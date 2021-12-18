@@ -24,34 +24,34 @@
 #include <application/scene/id_counter.hpp>
 
 
-Lilliputian::Font::Font()
+Esi::Font::Font()
 {
 	this->font = nullptr;
 }
 
-Lilliputian::Font::Font(const char* filepath, uint16_t size_px)
+Esi::Font::Font(const char* filepath, uint16_t size_px)
 {
 	this->font = TTF_OpenFont(filepath, size_px);
 	this->id = IDCounter::getNewAssetID();
 }
 
-Lilliputian::Font::Font(TTF_Font* font)
+Esi::Font::Font(TTF_Font* font)
 {
 	this->font = font;
 	this->id = IDCounter::getNewAssetID();
 }
 
-TTF_Font* Lilliputian::Font::getSDLTTFFont()
+TTF_Font* Esi::Font::getSDLTTFFont()
 {
 	return this->font;
 }
 
-Lilliputian::AssetID Lilliputian::Font::getID()
+Esi::AssetID Esi::Font::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::Font::unload()
+void Esi::Font::unload()
 {
 	TTF_CloseFont(this->font);
 	this->font = nullptr;

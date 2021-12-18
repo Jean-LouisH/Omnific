@@ -22,7 +22,7 @@
 
 #include "ui_rectangle.hpp"
 
-Lilliputian::Image& Lilliputian::UIRectangle::getImage()
+Esi::Image& Esi::UIRectangle::getImage()
 {
 	return this->image;
 }

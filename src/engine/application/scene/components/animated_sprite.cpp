@@ -22,63 +22,63 @@
 
 #include "animated_sprite.hpp"
 
-void Lilliputian::AnimatedSprite::addEmptyFrameSequence(std::string frameSequenceName)
+void Esi::AnimatedSprite::addEmptyFrameSequence(std::string frameSequenceName)
 {
 	FrameSequence frameSequence;
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite::addFrameSequence(std::string frameSequenceName, FrameSequence frameSequence)
+void Esi::AnimatedSprite::addFrameSequence(std::string frameSequenceName, FrameSequence frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Lilliputian::AnimatedSprite::addFrameToFrameSequence(std::string frameSequenceName, Image frame)
+void Esi::AnimatedSprite::addFrameToFrameSequence(std::string frameSequenceName, Image frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
 }
 
-void Lilliputian::AnimatedSprite::clearFrameSequences()
+void Esi::AnimatedSprite::clearFrameSequences()
 {
 	this->frameSequences.clear();
 }
 
-void Lilliputian::AnimatedSprite::setAlpha(uint8_t value)
+void Esi::AnimatedSprite::setAlpha(uint8_t value)
 {
 	this->alpha = value;
 	//apply to all frames...
 }
 
-uint8_t Lilliputian::AnimatedSprite::getAlpha()
+uint8_t Esi::AnimatedSprite::getAlpha()
 {
 	return this->alpha;
 }
 
-void Lilliputian::AnimatedSprite::hide()
+void Esi::AnimatedSprite::hide()
 {
 	this->alpha = 0;
 	//apply to all frames...
 }
 
-void Lilliputian::AnimatedSprite::show()
+void Esi::AnimatedSprite::show()
 {
 	this->alpha = 255;
 	//apply to all frames...
 }
 
-void Lilliputian::AnimatedSprite::setAnimationSpeed(float value_fps)
+void Esi::AnimatedSprite::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)
 		this->animationSpeed_fps = value_fps;
 }
 
-float Lilliputian::AnimatedSprite::getAnimationSpeed()
+float Esi::AnimatedSprite::getAnimationSpeed()
 {
 	return this->animationSpeed_fps;
 }
 
-void Lilliputian::AnimatedSprite::update(float delta_s)
+void Esi::AnimatedSprite::update(float delta_s)
 {
 	if (this->isPlaying)
 	{
@@ -100,7 +100,7 @@ void Lilliputian::AnimatedSprite::update(float delta_s)
 	}
 }
 
-void Lilliputian::AnimatedSprite::play(std::string frameSequenceName)
+void Esi::AnimatedSprite::play(std::string frameSequenceName)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -109,47 +109,47 @@ void Lilliputian::AnimatedSprite::play(std::string frameSequenceName)
 	}
 }
 
-void Lilliputian::AnimatedSprite::play()
+void Esi::AnimatedSprite::play()
 {
 	this->isPlaying = true;
 }
 
-void Lilliputian::AnimatedSprite::pause()
+void Esi::AnimatedSprite::pause()
 {
 	this->isPlaying = false;
 }
 
-void Lilliputian::AnimatedSprite::stop()
+void Esi::AnimatedSprite::stop()
 {
 	this->pause();
 	this->currentFrameIndex = 0;
 }
 
-void Lilliputian::AnimatedSprite::setBackwards()
+void Esi::AnimatedSprite::setBackwards()
 {
 	this->isBackwards = true;
 }
-void Lilliputian::AnimatedSprite::setForwards()
+void Esi::AnimatedSprite::setForwards()
 {
 	this->isBackwards = false;
 }
 
-void Lilliputian::AnimatedSprite::flipVertically()
+void Esi::AnimatedSprite::flipVertically()
 {
 	this->isFlippedVertically != this->isFlippedVertically;
 }
 
-void Lilliputian::AnimatedSprite::flipHorizontally()
+void Esi::AnimatedSprite::flipHorizontally()
 {
 	this->isFlippedHorizontally != this->isFlippedHorizontally;
 }
 
-Lilliputian::Image Lilliputian::AnimatedSprite::getCurrentFrame()
+Esi::Image Esi::AnimatedSprite::getCurrentFrame()
 {
 	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
 }
 
-std::vector<std::string> Lilliputian::AnimatedSprite::getFrameSequenceNames()
+std::vector<std::string> Esi::AnimatedSprite::getFrameSequenceNames()
 {
 	std::vector<std::string> frameSequenceNames;
 
@@ -163,7 +163,7 @@ std::vector<std::string> Lilliputian::AnimatedSprite::getFrameSequenceNames()
 	return frameSequenceNames;
 }
 
-Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getFrameSequenceByName(std::string frameSequenceName)
+Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getFrameSequenceByName(std::string frameSequenceName)
 {
 	FrameSequence frameSequence;
 
@@ -173,7 +173,7 @@ Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getFrame
 	return frameSequence;
 }
 
-Lilliputian::AnimatedSprite::FrameSequence Lilliputian::AnimatedSprite::getCurrentFrameSequence()
+Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getCurrentFrameSequence()
 {
 	return this->frameSequences.at(this->currentFrameSequenceName);
 }

@@ -26,7 +26,7 @@
 
 int main(int argc, char* argv[])
 {
-	Lilliputian::Engine lilliputian(argc, argv);
-	lilliputian.run();
+	Esi::Engine esi(argc, argv);
+	esi.run();
 	return 0;
 }

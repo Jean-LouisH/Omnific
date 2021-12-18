@@ -27,7 +27,7 @@
 #include <application/scene/assets/image.hpp>
 #include <os/os.hpp>
 
-Lilliputian::RenderingSystem::RenderingSystem(Window& window)
+Esi::RenderingSystem::RenderingSystem(Window& window)
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 	this->context = new RenderingContext(window);
@@ -42,14 +42,14 @@ Lilliputian::RenderingSystem::RenderingSystem(Window& window)
 	this->shaderCompiler->use();
 }
 
-Lilliputian::RenderingSystem::~RenderingSystem()
+Esi::RenderingSystem::~RenderingSystem()
 {
 	IMG_Quit();
 	delete this->shaderCompiler;
 	delete this->context;
 }
 
-void Lilliputian::RenderingSystem::process(Scene& scene)
+void Esi::RenderingSystem::process(Scene& scene)
 {
 	this->context->clearBuffers();
 	this->buildRenderables(scene);
@@ -58,7 +58,7 @@ void Lilliputian::RenderingSystem::process(Scene& scene)
 	OS::getWindow().swapBuffers();
 }
 
-void Lilliputian::RenderingSystem::buildRenderables(Scene& scene)
+void Esi::RenderingSystem::buildRenderables(Scene& scene)
 {
 	std::vector<ComponentVariant> componentVariants = scene.getComponentVariants();
 	std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
@@ -103,7 +103,7 @@ void Lilliputian::RenderingSystem::buildRenderables(Scene& scene)
 	}
 }
 
-Lilliputian::Renderables& Lilliputian::RenderingSystem::getRenderables()
+Esi::Renderables& Esi::RenderingSystem::getRenderables()
 {
 	return *this->renderables;
 }

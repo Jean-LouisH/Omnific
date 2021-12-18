@@ -27,7 +27,7 @@
 #include <application/scene_storage.hpp>
 #include "utilities/aliases.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class Scripting
 	{

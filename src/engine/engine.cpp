@@ -22,7 +22,7 @@
 
 #include "engine.hpp"
 
-Lilliputian::Engine::Engine(
+Esi::Engine::Engine(
 	int argc, 
 	char* argv[])
 {
@@ -31,7 +31,7 @@ Lilliputian::Engine::Engine(
 	this->argv = argv;
 }
 
-void Lilliputian::Engine::run()
+void Esi::Engine::run()
 {
 	do
 	{
@@ -85,7 +85,7 @@ void Lilliputian::Engine::run()
 	} while (this->state->isRestarting());
 }
 
-bool Lilliputian::Engine::initialize()
+bool Esi::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
@@ -106,7 +106,7 @@ bool Lilliputian::Engine::initialize()
 		Platform& platform = OS::getPlatform();
 		Logger& logger = OS::getLogger();
 
-		logger.write("Lilliputian initializing...");
+		logger.write("Esi initializing...");
 		logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
 		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize_B()) + " B");
 		logger.write("Retrieved OS Name: " + platform.getOSName());
@@ -134,7 +134,7 @@ bool Lilliputian::Engine::initialize()
 	return isInitializedOK;
 }
 
-void Lilliputian::Engine::input()
+void Esi::Engine::input()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getInputTimer().setStart();
@@ -150,7 +150,7 @@ void Lilliputian::Engine::input()
 	profiler.getInputTimer().setEnd();
 }
 
-void Lilliputian::Engine::update()
+void Esi::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
@@ -177,7 +177,7 @@ void Lilliputian::Engine::update()
 	profiler.getUpdateTimer().setEnd();
 }
 
-void Lilliputian::Engine::output()
+void Esi::Engine::output()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getOutputTimer().setStart();
@@ -189,7 +189,7 @@ void Lilliputian::Engine::output()
 	profiler.getOutputTimer().setEnd();
 }
 
-void Lilliputian::Engine::benchmark()
+void Esi::Engine::benchmark()
 {
 	Profiler& profiler = OS::getProfiler();
 #ifdef _DEBUG
@@ -209,7 +209,7 @@ void Lilliputian::Engine::benchmark()
 	profiler.getBenchmarkTimer().setEnd();
 }
 
-void Lilliputian::Engine::sleep()
+void Esi::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime_ms = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
@@ -217,7 +217,7 @@ void Lilliputian::Engine::sleep()
 	OS::getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }
 
-void Lilliputian::Engine::shutdown()
+void Esi::Engine::shutdown()
 {
 	this->application.reset();
 }

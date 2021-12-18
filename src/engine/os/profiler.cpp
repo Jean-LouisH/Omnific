@@ -23,62 +23,62 @@
 #include "profiler.hpp"
 #include "utilities/constants.hpp"
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getProcessTimer()
+Esi::HiResTimer& Esi::Profiler::getProcessTimer()
 {
 	return this->process;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getFrameTimer()
+Esi::HiResTimer& Esi::Profiler::getFrameTimer()
 {
 	return this->frame;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getInputTimer()
+Esi::HiResTimer& Esi::Profiler::getInputTimer()
 {
 	return this->input;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getUpdateTimer()
+Esi::HiResTimer& Esi::Profiler::getUpdateTimer()
 {
 	return this->update;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getOutputTimer()
+Esi::HiResTimer& Esi::Profiler::getOutputTimer()
 {
 	return this->output;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getBenchmarkTimer()
+Esi::HiResTimer& Esi::Profiler::getBenchmarkTimer()
 {
 	return this->FPS;
 }
 
-Lilliputian::HiResTimer& Lilliputian::Profiler::getDebugTimer()
+Esi::HiResTimer& Esi::Profiler::getDebugTimer()
 {
 	return this->debug;
 }
 
-void Lilliputian::Profiler::incrementFrameCount()
+void Esi::Profiler::incrementFrameCount()
 {
 	this->frameCount++;
 }
 
-void Lilliputian::Profiler::incrementLagCount(uint64_t deltaTime_ms)
+void Esi::Profiler::incrementLagCount(uint64_t deltaTime_ms)
 {
 	this->lag_ms += deltaTime_ms;
 }
 
-void Lilliputian::Profiler::decrementLagCount(uint64_t deltaTime_ms)
+void Esi::Profiler::decrementLagCount(uint64_t deltaTime_ms)
 {
 	this->lag_ms -= deltaTime_ms;
 }
 
-uint64_t Lilliputian::Profiler::getLag_ms()
+uint64_t Esi::Profiler::getLag_ms()
 {
 	return this->lag_ms;
 }
 
-uint16_t Lilliputian::Profiler::getFPS()
+uint16_t Esi::Profiler::getFPS()
 {
 	return (1.0 / (this->getFrameTimer().getDelta_ns() / NS_IN_S));
 }

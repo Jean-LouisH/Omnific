@@ -32,7 +32,7 @@
 #include "platform.hpp"
 #include "thread_pool.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class OS
 	{

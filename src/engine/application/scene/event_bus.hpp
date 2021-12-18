@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 
-namespace Lilliputian
+namespace Esi
 {
 	class EventBus
 	{

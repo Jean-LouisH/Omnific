@@ -25,7 +25,7 @@
 #include "utilities/constants.hpp"
 #include <iostream>
 
-Lilliputian::Application::Application()
+Esi::Application::Application()
 {
 	this->scripting = new Scripting();
 	this->sceneStorage = new SceneStorage();
@@ -36,7 +36,7 @@ Lilliputian::Application::Application()
 	ScriptingAPIs::initialize();
 }
 
-void Lilliputian::Application::initialize()
+void Esi::Application::initialize()
 {
 	BootLoader bootLoader;
 	Scene entryScene;
@@ -78,14 +78,14 @@ void Lilliputian::Application::initialize()
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-	std::cout << "\n\n\tLilliputian Engine Debug Console Enabled";
+	std::cout << "\n\n\tEsi Engine Debug Console Enabled";
 	std::cout << "\n\nPress '`' in-application to write to command line via console.";
 	std::cout << "\n\nTo see the list of commands, enter 'commands'.";
 	std::cout << "\n\n";
 #endif
 }
 
-void Lilliputian::Application::executeOnStartMethods()
+void Esi::Application::executeOnStartMethods()
 {
 	if (this->sceneStorage->hasActiveSceneChanged())
 		this->scripting->loadModules(this->sceneStorage->getActiveScene());
@@ -94,7 +94,7 @@ void Lilliputian::Application::executeOnStartMethods()
 		this->scripting->executeOnStartMethods(this->getActiveScene());
 }
 
-void Lilliputian::Application::executeOnInputMethods()
+void Esi::Application::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (OS::getHid().hasRequestedCommandLine())
@@ -153,13 +153,13 @@ void Lilliputian::Application::executeOnInputMethods()
 	
 }
 
-void Lilliputian::Application::executeOnFrameMethods()
+void Esi::Application::executeOnFrameMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFrameMethods(this->getActiveScene());
 }
 
-void Lilliputian::Application::executeOnComputeMethods()
+void Esi::Application::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
 
@@ -167,13 +167,13 @@ void Lilliputian::Application::executeOnComputeMethods()
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
-void Lilliputian::Application::executeOnOutputMethods()
+void Esi::Application::executeOnOutputMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnOutputMethods(this->getActiveScene());
 }
 
-void Lilliputian::Application::executeOnFinishMethods()
+void Esi::Application::executeOnFinishMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFinishMethods(this->getActiveScene());
@@ -181,19 +181,19 @@ void Lilliputian::Application::executeOnFinishMethods()
 	this->getActiveScene().getEventBus().clear();
 }
 
-void Lilliputian::Application::deinitialize()
+void Esi::Application::deinitialize()
 {
 	delete this->configuration;
 	delete this->sceneSerializer;
 	delete this->scripting;
 }
 
-Lilliputian::Scene& Lilliputian::Application::getActiveScene()
+Esi::Scene& Esi::Application::getActiveScene()
 {
 	return this->sceneStorage->getActiveScene();
 }
 
-Lilliputian::Configuration& Lilliputian::Application::getConfiguration()
+Esi::Configuration& Esi::Application::getConfiguration()
 {
 	return *this->configuration;
 }

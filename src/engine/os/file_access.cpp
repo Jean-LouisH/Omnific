@@ -25,37 +25,37 @@
 #include <fstream>
 #include <algorithm>
 
-Lilliputian::FileAccess::FileAccess(std::string executableFilepath)
+Esi::FileAccess::FileAccess(std::string executableFilepath)
 {
 	this->executableFilepath = executableFilepath;
 }
 
-void Lilliputian::FileAccess::setDataDirectory(std::string assetDirectory)
+void Esi::FileAccess::setDataDirectory(std::string assetDirectory)
 {
 	this->dataDirectory = assetDirectory;
 }
 
-std::string Lilliputian::FileAccess::getExecutableFilePath()
+std::string Esi::FileAccess::getExecutableFilePath()
 {
 	return this->executableFilepath;
 }
 
-std::string Lilliputian::FileAccess::getExecutableName()
+std::string Esi::FileAccess::getExecutableName()
 {
 	return this->getFileNameWithoutExtension(this->executableFilepath);
 }
 
-std::string Lilliputian::FileAccess::getExecutableDirectoryPath()
+std::string Esi::FileAccess::getExecutableDirectoryPath()
 {
 	return this->getPathBeforeFile(this->executableFilepath);
 }
 
-std::string Lilliputian::FileAccess::getDataDirectoryPath()
+std::string Esi::FileAccess::getDataDirectoryPath()
 {
 	return this->dataDirectory;
 }
 
-std::string Lilliputian::FileAccess::getFileNameWithoutExtension(std::string filepath)
+std::string Esi::FileAccess::getFileNameWithoutExtension(std::string filepath)
 {
 	std::string fileName;
 	int nameIndexStart = 0;
@@ -73,7 +73,7 @@ std::string Lilliputian::FileAccess::getFileNameWithoutExtension(std::string fil
 	return fileName;
 }
 
-std::string Lilliputian::FileAccess::getPathBeforeFile(std::string filepath)
+std::string Esi::FileAccess::getPathBeforeFile(std::string filepath)
 {
 	std::string path;
 	int nameEndIndex = 0;
@@ -91,7 +91,7 @@ std::string Lilliputian::FileAccess::getPathBeforeFile(std::string filepath)
 	return path;
 }
 
-bool Lilliputian::FileAccess::exists(std::string filepath)
+bool Esi::FileAccess::exists(std::string filepath)
 {
 	std::ifstream inputFile(filepath);
 	return inputFile.good();

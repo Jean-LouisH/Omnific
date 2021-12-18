@@ -38,7 +38,7 @@
 #include <stack>
 #include <string>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Application
 	{

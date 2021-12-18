@@ -23,17 +23,17 @@
 #include "animation_system.hpp"
 #include "application/scene/scene.hpp"
 
-Lilliputian::AnimationSystem::AnimationSystem()
+Esi::AnimationSystem::AnimationSystem()
 {
 
 }
 
-Lilliputian::AnimationSystem::~AnimationSystem()
+Esi::AnimationSystem::~AnimationSystem()
 {
 
 }
 
-void Lilliputian::AnimationSystem::process(Scene& scene)
+void Esi::AnimationSystem::process(Scene& scene)
 {
 
 }

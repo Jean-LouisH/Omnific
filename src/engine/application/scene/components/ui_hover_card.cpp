@@ -22,7 +22,7 @@
 
 #include "ui_hover_card.hpp"
 
-Lilliputian::Image& Lilliputian::UIHoverCard::getImage()
+Esi::Image& Esi::UIHoverCard::getImage()
 {
 	return this->image;
 }

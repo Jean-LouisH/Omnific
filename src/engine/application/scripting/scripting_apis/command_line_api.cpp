@@ -24,7 +24,7 @@
 #include "scripting_apis.hpp"
 #include <application/scene/component_variant.hpp>
 
-void Lilliputian::CommandLineAPI::openWindow()
+void Esi::CommandLineAPI::openWindow()
 {
 	Entity panelEntity;
 	Entity textEditEntity;
@@ -51,7 +51,7 @@ void Lilliputian::CommandLineAPI::openWindow()
 	this->entityIDs.push_back(textEditEntity.ID);
 }
 
-void Lilliputian::CommandLineAPI::closeWindow()
+void Esi::CommandLineAPI::closeWindow()
 {
 	Scene& scene = ScriptingAPIs::getSceneAPI().getThisScene();
 

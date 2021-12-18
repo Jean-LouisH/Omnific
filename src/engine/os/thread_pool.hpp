@@ -24,7 +24,7 @@
 
 #include <thread>
 
-namespace Lilliputian
+namespace Esi
 {
 	class ThreadPool
 	{

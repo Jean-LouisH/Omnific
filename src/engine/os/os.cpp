@@ -25,9 +25,9 @@
 #include "SDL.h"
 #include "utilities/constants.hpp"
 
-Lilliputian::OS* Lilliputian::OS::instance = nullptr;
+Esi::OS* Esi::OS::instance = nullptr;
 
-void Lilliputian::OS::initialize(
+void Esi::OS::initialize(
 	const char* title, 
 	uint16_t width, 
 	uint16_t height, 
@@ -47,59 +47,59 @@ void Lilliputian::OS::initialize(
 	newInstance->runTimer->setStart();
 }
 
-Lilliputian::OS::~OS()
+Esi::OS::~OS()
 {
 	delete this->window;
 	delete this->hid;
 	delete this->fileAccess;
 }
 
-Lilliputian::Window& Lilliputian::OS::getWindow()
+Esi::Window& Esi::OS::getWindow()
 {
 	return *getInstance()->window;
 }
 
-Lilliputian::HumanInterfaceDevices& Lilliputian::OS::getHid()
+Esi::HumanInterfaceDevices& Esi::OS::getHid()
 {
 	return *getInstance()->hid;
 }
 
-Lilliputian::Logger& Lilliputian::OS::getLogger()
+Esi::Logger& Esi::OS::getLogger()
 {
 	return *getInstance()->logger;
 }
 
-Lilliputian::FileAccess& Lilliputian::OS::getFileAccess()
+Esi::FileAccess& Esi::OS::getFileAccess()
 {
 	return *getInstance()->fileAccess;
 }
 
-Lilliputian::Profiler& Lilliputian::OS::getProfiler()
+Esi::Profiler& Esi::OS::getProfiler()
 {
 	return *getInstance()->profiler;
 }
 
-Lilliputian::Platform& Lilliputian::OS::getPlatform()
+Esi::Platform& Esi::OS::getPlatform()
 {
 	return *getInstance()->platform;
 }
 
-Lilliputian::ThreadPool& Lilliputian::OS::getThreadPool()
+Esi::ThreadPool& Esi::OS::getThreadPool()
 {
 	return *getInstance()->threadPool;
 }
 
-Lilliputian::HiResTimer& Lilliputian::OS::getRunTimer()
+Esi::HiResTimer& Esi::OS::getRunTimer()
 {
 	return *getInstance()->runTimer;
 }
 
-void Lilliputian::OS::addGameControllerMappings(std::string mappingFilepath)
+void Esi::OS::addGameControllerMappings(std::string mappingFilepath)
 {
 	SDL_GameControllerAddMappingsFromFile(mappingFilepath.c_str());
 }
 
-Lilliputian::OS* Lilliputian::OS::getInstance()
+Esi::OS* Esi::OS::getInstance()
 {
 	if (instance == nullptr)
 		instance = new OS();

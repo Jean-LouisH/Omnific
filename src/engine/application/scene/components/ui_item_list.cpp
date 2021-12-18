@@ -22,7 +22,7 @@
 
 #include "ui_item_list.hpp"
 
-void Lilliputian::UIItemList::setLowerBound(uint32_t lowerBound)
+void Esi::UIItemList::setLowerBound(uint32_t lowerBound)
 {
 	this->lowerBound = lowerBound;
 
@@ -30,7 +30,7 @@ void Lilliputian::UIItemList::setLowerBound(uint32_t lowerBound)
 		this->index = lowerBound;
 }
 
-void Lilliputian::UIItemList::setUpperBound(uint32_t upperBound)
+void Esi::UIItemList::setUpperBound(uint32_t upperBound)
 {
 	this->upperBound = upperBound;
 
@@ -38,7 +38,7 @@ void Lilliputian::UIItemList::setUpperBound(uint32_t upperBound)
 		this->index = upperBound;
 }
 
-void Lilliputian::UIItemList::increment()
+void Esi::UIItemList::increment()
 {
 	this->index++;
 
@@ -46,7 +46,7 @@ void Lilliputian::UIItemList::increment()
 		this->index = lowerBound;
 }
 
-void Lilliputian::UIItemList::decrement()
+void Esi::UIItemList::decrement()
 {
 	this->index--;
 
@@ -54,7 +54,7 @@ void Lilliputian::UIItemList::decrement()
 		this->index = upperBound;
 }
 
-void Lilliputian::UIItemList::setIndex(uint32_t index)
+void Esi::UIItemList::setIndex(uint32_t index)
 {
 	this->index = index;
 
@@ -64,12 +64,12 @@ void Lilliputian::UIItemList::setIndex(uint32_t index)
 		this->index = upperBound;
 }
 
-uint32_t Lilliputian::UIItemList::getIndex()
+uint32_t Esi::UIItemList::getIndex()
 {
 	return this->index;
 }
 
-Lilliputian::Image& Lilliputian::UIItemList::getImage()
+Esi::Image& Esi::UIItemList::getImage()
 {
 	return this->image;
 }

@@ -22,12 +22,12 @@
 
 #include "audio_stream_source.hpp"
 
-void Lilliputian::AudioStreamSource::addAudioStream(AudioStream audioStream)
+void Esi::AudioStreamSource::addAudioStream(AudioStream audioStream)
 {
 //	this->audioStreams.emplace(audioStream);
 }
 
-void Lilliputian::AudioStreamSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
+void Esi::AudioStreamSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
 {
 	//if (this->audioStreams.count(audioStreamName) > 0 && count > 0)
 	//{
@@ -36,46 +36,46 @@ void Lilliputian::AudioStreamSource::queueAudioToPlay(std::string audioStreamNam
 	//}
 }
 
-void Lilliputian::AudioStreamSource::clearAudioStreams()
+void Esi::AudioStreamSource::clearAudioStreams()
 {
 //	this->audioStreams.clear();
 }
 
-std::queue<Lilliputian::AudioStream> Lilliputian::AudioStreamSource::popEntireAudioPlayQueue()
+std::queue<Esi::AudioStream> Esi::AudioStreamSource::popEntireAudioPlayQueue()
 {
 	std::queue<AudioStream> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
 
-void Lilliputian::AudioStreamSource::clearAudioPlayQueue()
+void Esi::AudioStreamSource::clearAudioPlayQueue()
 {
 	for (int i = 0; i < this->audioPlayQueue.size(); i++)
 		this->audioPlayQueue.pop();
 }
 
 
-void Lilliputian::AudioStreamSource::play(std::string audioStreamName)
+void Esi::AudioStreamSource::play(std::string audioStreamName)
 {
 
 }
 
-void Lilliputian::AudioStreamSource::play()
+void Esi::AudioStreamSource::play()
 {
 
 }
 
-void Lilliputian::AudioStreamSource::pause()
+void Esi::AudioStreamSource::pause()
 {
 
 }
 
-void Lilliputian::AudioStreamSource::stop()
+void Esi::AudioStreamSource::stop()
 {
 
 }
 
-std::vector<std::string> Lilliputian::AudioStreamSource::getAudioStreamNames()
+std::vector<std::string> Esi::AudioStreamSource::getAudioStreamNames()
 {
 	std::vector<std::string> audioStreamNames;
 
@@ -89,7 +89,7 @@ std::vector<std::string> Lilliputian::AudioStreamSource::getAudioStreamNames()
 	return audioStreamNames;
 }
 
-Lilliputian::AudioStream Lilliputian::AudioStreamSource::getAudioStreamByName(std::string audioStreamName)
+Esi::AudioStream Esi::AudioStreamSource::getAudioStreamByName(std::string audioStreamName)
 {
 	AudioStream audioStream;
 

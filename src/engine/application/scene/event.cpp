@@ -22,30 +22,30 @@
 
 #include "event.hpp"
 
-Lilliputian::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
+Esi::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 	this->parameters = parameters;
 }
 
-Lilliputian::Event::Event(std::string name, uint64_t timestamp)
+Esi::Event::Event(std::string name, uint64_t timestamp)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 }
 
-std::string Lilliputian::Event::getName()
+std::string Esi::Event::getName()
 {
 	return this->name;
 }
 
-uint64_t Lilliputian::Event::getTimestamp()
+uint64_t Esi::Event::getTimestamp()
 {
 	return this->timestamp;
 }
 
-Lilliputian::Event::Parameters Lilliputian::Event::getParameters()
+Esi::Event::Parameters Esi::Event::getParameters()
 {
 	return this->parameters;
 }

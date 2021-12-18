@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Platform
 	{

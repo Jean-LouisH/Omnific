@@ -26,7 +26,7 @@
 #include <string>
 #include <set>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Module
 	{

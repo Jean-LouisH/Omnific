@@ -22,17 +22,17 @@
 
 #include "ai_system.hpp"
 
-Lilliputian::AISystem::AISystem()
+Esi::AISystem::AISystem()
 {
 
 }
 
-Lilliputian::AISystem::~AISystem()
+Esi::AISystem::~AISystem()
 {
 
 }
 
-void Lilliputian::AISystem::process(Scene& scene)
+void Esi::AISystem::process(Scene& scene)
 {
 
 }

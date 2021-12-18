@@ -22,12 +22,12 @@
 
 #include "mesh.hpp"
 
-Lilliputian::AssetID Lilliputian::Mesh::getID()
+Esi::AssetID Esi::Mesh::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::Mesh::unload()
+void Esi::Mesh::unload()
 {
 
 }

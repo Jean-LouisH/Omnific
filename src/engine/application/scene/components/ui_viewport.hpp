@@ -27,7 +27,7 @@
 #include <utilities/aliases.hpp>
 #include <utilities/constants.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class UIViewport
 	{

@@ -25,7 +25,7 @@
 
 #pragma once
 
-namespace Lilliputian
+namespace Esi
 {
 	class CommandLineAPI
 	{

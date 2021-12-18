@@ -22,72 +22,72 @@
 
 #include "engine_state.hpp"
 
-Lilliputian::EngineState::EngineState()
+Esi::EngineState::EngineState()
 {
 	this->setInitializing();
 }
 
-void Lilliputian::EngineState::setInitializing()
+void Esi::EngineState::setInitializing()
 {
 	this->value = ENGINE_STATE_INITIALIZING;
 }
 
-void Lilliputian::EngineState::setRunningApplicationWindowed()
+void Esi::EngineState::setRunningApplicationWindowed()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_WINDOWED;
 }
 
-void Lilliputian::EngineState::setRunningApplicationFullscreen()
+void Esi::EngineState::setRunningApplicationFullscreen()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN;
 }
 
-void Lilliputian::EngineState::setRunningApplicationFullscreenDesktop()
+void Esi::EngineState::setRunningApplicationFullscreenDesktop()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP;
 }
 
-void Lilliputian::EngineState::setRestarting()
+void Esi::EngineState::setRestarting()
 {
 	this->value = ENGINE_STATE_RESTARTING;
 }
 
-void Lilliputian::EngineState::setShuttingDown()
+void Esi::EngineState::setShuttingDown()
 {
 	this->value = ENGINE_STATE_SHUTTING_DOWN;
 }
 
-bool Lilliputian::EngineState::isInitializing()
+bool Esi::EngineState::isInitializing()
 {
 	return this->value == ENGINE_STATE_INITIALIZING;
 }
 
-bool Lilliputian::EngineState::isRunningApplicationWindowed()
+bool Esi::EngineState::isRunningApplicationWindowed()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_WINDOWED;
 }
 
-bool Lilliputian::EngineState::isRunningApplicationFullscreen()
+bool Esi::EngineState::isRunningApplicationFullscreen()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN;
 }
 
-bool Lilliputian::EngineState::isRunningApplicationFullscreenDesktop()
+bool Esi::EngineState::isRunningApplicationFullscreenDesktop()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP;
 }
 
-bool Lilliputian::EngineState::isRestarting()
+bool Esi::EngineState::isRestarting()
 {
 	return this->value == ENGINE_STATE_RESTARTING;
 }
 
-bool Lilliputian::EngineState::isShuttingDown()
+bool Esi::EngineState::isShuttingDown()
 {
 	return this->value == ENGINE_STATE_SHUTTING_DOWN;
 }
 
-bool Lilliputian::EngineState::isRunning()
+bool Esi::EngineState::isRunning()
 {
 	return (this->isRunningApplicationFullscreen() ||
 		this->isRunningApplicationFullscreenDesktop() ||

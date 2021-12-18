@@ -28,12 +28,12 @@
 #include "scene/component_variant.hpp"
 #include <os/os.hpp>
 
-Lilliputian::SceneSerializer::SceneSerializer(std::string dataDirectory)
+Esi::SceneSerializer::SceneSerializer(std::string dataDirectory)
 {
 	this->dataDirectory = dataDirectory;
 }
 
-Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(std::string filepath)
+Esi::Scene Esi::SceneSerializer::loadFromFile(std::string filepath)
 {
 	Scene scene;
 
@@ -46,12 +46,12 @@ Lilliputian::Scene Lilliputian::SceneSerializer::loadFromFile(std::string filepa
 
 }
 
-bool Lilliputian::SceneSerializer::doesSceneExist(std::string filepath)
+bool Esi::SceneSerializer::doesSceneExist(std::string filepath)
 {
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-Lilliputian::Scene Lilliputian::SceneSerializer::loadFromTextFile(std::string filepath)
+Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 {
 	Scene scene;
 	const std::string fullFilepath = this->dataDirectory + filepath;

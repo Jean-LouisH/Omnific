@@ -25,7 +25,7 @@
 #include <string>
 #include "asset.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class Shader : public Asset
 	{

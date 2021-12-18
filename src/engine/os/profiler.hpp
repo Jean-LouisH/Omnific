@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "utilities/hi_res_timer.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class Profiler
 	{

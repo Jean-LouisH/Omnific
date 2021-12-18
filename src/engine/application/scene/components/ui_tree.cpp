@@ -22,7 +22,7 @@
 
 #include "ui_tree.hpp"
 
-Lilliputian::Image& Lilliputian::UITree::getImage()
+Esi::Image& Esi::UITree::getImage()
 {
 	return this->image;
 }

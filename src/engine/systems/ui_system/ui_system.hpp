@@ -25,7 +25,7 @@
 #include "application/scene/scene.hpp"
 #include "os/human_interface_devices.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class UISystem
 	{

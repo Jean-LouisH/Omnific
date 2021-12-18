@@ -24,7 +24,7 @@
 
 #include "asset.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class Material : public Asset
 	{

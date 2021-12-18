@@ -22,7 +22,7 @@
 
 #include "box_mesh.hpp"
 
-Lilliputian::Image& Lilliputian::BoxMesh::getImage()
+Esi::Image& Esi::BoxMesh::getImage()
 {
 	return this->image;
 }

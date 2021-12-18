@@ -22,12 +22,12 @@
 
 #include "animation.hpp"
 
-void Lilliputian::Animation::unload()
+void Esi::Animation::unload()
 {
 
 }
 
-Lilliputian::AssetID Lilliputian::Animation::getID()
+Esi::AssetID Esi::Animation::getID()
 {
 	return this->id;
 }

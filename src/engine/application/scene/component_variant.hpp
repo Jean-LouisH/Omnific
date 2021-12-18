@@ -70,7 +70,7 @@
 #include "components/ui_tree.hpp"
 #include "components/ui_viewport.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
     class ComponentVariant
     {

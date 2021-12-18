@@ -25,7 +25,7 @@
 #include <os/profiler.hpp>
 #include <application/configuration.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class TimeAPI
 	{

@@ -22,7 +22,7 @@
 
 #include "ui_button.hpp"
 
-Lilliputian::Image& Lilliputian::UIButton::getImage()
+Esi::Image& Esi::UIButton::getImage()
 {
 	return this->image;
 }

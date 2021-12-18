@@ -23,7 +23,7 @@
 #include "event_bus.hpp"
 #include <os/os.hpp>
 
-void Lilliputian::EventBus::publish(
+void Esi::EventBus::publish(
 	std::string name,
 	std::vector<float> floats,
 	std::vector<std::string> strings)
@@ -32,7 +32,7 @@ void Lilliputian::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Lilliputian::EventBus::publish(
+void Esi::EventBus::publish(
 	std::string name,
 	std::vector<float> floats)
 {
@@ -41,7 +41,7 @@ void Lilliputian::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Lilliputian::EventBus::publish(
+void Esi::EventBus::publish(
 	std::string name,
 	std::vector<std::string> strings)
 {
@@ -50,7 +50,7 @@ void Lilliputian::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Lilliputian::EventBus::publish(
+void Esi::EventBus::publish(
 	std::string name)
 {
 	std::vector<Event> eventsList;
@@ -67,12 +67,12 @@ void Lilliputian::EventBus::publish(
 	this->events.emplace(name, eventsList);
 }
 
-void Lilliputian::EventBus::clear()
+void Esi::EventBus::clear()
 {
 	this->events.clear();
 }
 
-std::vector<Lilliputian::Event> Lilliputian::EventBus::query(std::string name)
+std::vector<Esi::Event> Esi::EventBus::query(std::string name)
 {
 	std::vector<Event> queryResults;
 
@@ -82,7 +82,7 @@ std::vector<Lilliputian::Event> Lilliputian::EventBus::query(std::string name)
 	return queryResults;
 }
 
-void Lilliputian::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
+void Esi::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	std::vector<Event> eventsList;
 

@@ -22,12 +22,12 @@
 
 #include "material.hpp"
 
-Lilliputian::AssetID Lilliputian::Material::getID()
+Esi::AssetID Esi::Material::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::Material::unload()
+void Esi::Material::unload()
 {
 
 }

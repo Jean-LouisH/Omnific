@@ -23,17 +23,17 @@
 #include "text.hpp"
 #include <application/scene/id_counter.hpp>
 
-Lilliputian::Text::Text(const char* filepath)
+Esi::Text::Text(const char* filepath)
 {
 	this->id = IDCounter::getNewAssetID();
 }
 
-Lilliputian::AssetID Lilliputian::Text::getID()
+Esi::AssetID Esi::Text::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::Text::unload()
+void Esi::Text::unload()
 {
 
 }

@@ -29,7 +29,7 @@
 #include <application/scene/assets/mesh.hpp>
 #include <application/scene/assets/shader.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Renderables
 	{

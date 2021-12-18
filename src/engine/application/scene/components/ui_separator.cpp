@@ -22,7 +22,7 @@
 
 #include "ui_separator.hpp"
 
-Lilliputian::Image& Lilliputian::UISeparator::getImage()
+Esi::Image& Esi::UISeparator::getImage()
 {
 	return this->image;
 }

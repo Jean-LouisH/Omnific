@@ -22,12 +22,12 @@
 
 #include "rig.hpp"
 
-Lilliputian::AssetID Lilliputian::Rig::getID()
+Esi::AssetID Esi::Rig::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::Rig::unload()
+void Esi::Rig::unload()
 {
 
 }

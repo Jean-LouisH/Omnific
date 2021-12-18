@@ -38,18 +38,18 @@
 #include <memory>
 
 #if defined (_WIN32)
-#if defined(_LILLIPUTIAN_ENGINE_EXPORTS)
-#define  LILLIPUTIAN_ENGINE_API __declspec(dllexport)
+#if defined(_ESI_ENGINE_EXPORTS)
+#define  ESI_ENGINE_API __declspec(dllexport)
 #else
-#define  LILLIPUTIAN_ENGINE_API __declspec(dllimport)
+#define  ESI_ENGINE_API __declspec(dllimport)
 #endif
 #else
-#define LILLIPUTIAN_ENGINE_API
+#define ESI_ENGINE_API
 #endif
 
-namespace Lilliputian
+namespace Esi
 {
-	class LILLIPUTIAN_ENGINE_API Engine
+	class ESI_ENGINE_API Engine
 	{
 	public:
 		Engine(

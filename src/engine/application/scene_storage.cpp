@@ -22,7 +22,7 @@
 
 #include "scene_storage.hpp"
 
-void Lilliputian::SceneStorage::addScene(std::string sceneName, Scene scene)
+void Esi::SceneStorage::addScene(std::string sceneName, Scene scene)
 {
 	if (this->activeSceneName == "")
 	{
@@ -32,7 +32,7 @@ void Lilliputian::SceneStorage::addScene(std::string sceneName, Scene scene)
 
 	this->scenes.emplace(sceneName, scene);
 }
-void Lilliputian::SceneStorage::removeScene(std::string sceneName)
+void Esi::SceneStorage::removeScene(std::string sceneName)
 {
 	if (sceneName != this->activeSceneName)
 	{
@@ -43,7 +43,7 @@ void Lilliputian::SceneStorage::removeScene(std::string sceneName)
 		}
 	}
 }
-void Lilliputian::SceneStorage::replaceActiveScene(std::string sceneName, Scene scene)
+void Esi::SceneStorage::replaceActiveScene(std::string sceneName, Scene scene)
 {
 	if (sceneName != this->activeSceneName)
 	{
@@ -54,7 +54,7 @@ void Lilliputian::SceneStorage::replaceActiveScene(std::string sceneName, Scene 
 		this->activeSceneChanged = true;
 	}
 }
-void Lilliputian::SceneStorage::changeToScene(std::string sceneName)
+void Esi::SceneStorage::changeToScene(std::string sceneName)
 {
 	if (this->scenes.count(sceneName))
 		this->activeSceneName = sceneName;
@@ -62,22 +62,22 @@ void Lilliputian::SceneStorage::changeToScene(std::string sceneName)
 	this->activeSceneChanged = true;
 }
 
-Lilliputian::Scene& Lilliputian::SceneStorage::getActiveScene()
+Esi::Scene& Esi::SceneStorage::getActiveScene()
 {
 	return this->scenes.at(this->activeSceneName);
 }
 
-std::string Lilliputian::SceneStorage::getActiveSceneName()
+std::string Esi::SceneStorage::getActiveSceneName()
 {
 	return this->activeSceneName;
 }
 
-bool Lilliputian::SceneStorage::isEmpty()
+bool Esi::SceneStorage::isEmpty()
 {
 	return this->scenes.empty();
 }
 
-bool Lilliputian::SceneStorage::hasActiveSceneChanged()
+bool Esi::SceneStorage::hasActiveSceneChanged()
 {
 	bool result = this->activeSceneChanged;
 	this->activeSceneChanged = false;

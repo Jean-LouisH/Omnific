@@ -23,47 +23,47 @@
 #include "scripting.hpp"
 #include "scripting_apis/scripting_apis.hpp"
 
-Lilliputian::Scripting::Scripting()
+Esi::Scripting::Scripting()
 {
 	this->vm = new VirtualMachine();
 }
 
-void Lilliputian::Scripting::loadModules(Scene scene)
+void Esi::Scripting::loadModules(Scene scene)
 {
 	this->vm->loadModules(scene);
 }
 
-void Lilliputian::Scripting::executeOnStartMethods(Scene& scene)
+void Esi::Scripting::executeOnStartMethods(Scene& scene)
 {
 	this->vm->executeOnStartMethods(scene.generateOnStartCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnInputMethods(Scene& scene)
+void Esi::Scripting::executeOnInputMethods(Scene& scene)
 {
 	this->vm->executeOnInputMethods(scene.generateOnInputCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnFrameMethods(Scene& scene)
+void Esi::Scripting::executeOnFrameMethods(Scene& scene)
 {
 	this->vm->executeOnFrameMethods(scene.generateOnFrameCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnComputeMethods(Scene& scene)
+void Esi::Scripting::executeOnComputeMethods(Scene& scene)
 {
 	this->vm->executeOnComputeMethods(scene.generateOnComputeCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnOutputMethods(Scene& scene)
+void Esi::Scripting::executeOnOutputMethods(Scene& scene)
 {
 	this->vm->executeOnOutputMethods(scene.generateOnOutputCallBatches());
 }
 
-void Lilliputian::Scripting::executeOnFinishMethods(Scene& scene)
+void Esi::Scripting::executeOnFinishMethods(Scene& scene)
 {
 	this->vm->executeOnFinishMethods(scene.generateOnFinishBatches());
 }
 
-void Lilliputian::Scripting::setSceneStorage(SceneStorage* sceneStorage)
+void Esi::Scripting::setSceneStorage(SceneStorage* sceneStorage)
 {
 	ScriptingAPIs::setSceneStorage(sceneStorage);
 }

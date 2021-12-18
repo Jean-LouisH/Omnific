@@ -23,38 +23,38 @@
 #include "shader.hpp"
 #include <application/scene/id_counter.hpp>
 
-Lilliputian::Shader::Shader(std::string sourceFilepath)
+Esi::Shader::Shader(std::string sourceFilepath)
 {
 	Shader(sourceFilepath, Type::VERTEX);
 	this->id = IDCounter::getNewAssetID();
 }
 
-Lilliputian::Shader::Shader(std::string sourceFilepath, Type type)
+Esi::Shader::Shader(std::string sourceFilepath, Type type)
 {
 
 }
 
-Lilliputian::Shader::Shader()
+Esi::Shader::Shader()
 {
 
 }
 
-std::string Lilliputian::Shader::getSource()
+std::string Esi::Shader::getSource()
 {
 	return this->source;
 }
 
-Lilliputian::Shader::Type Lilliputian::Shader::getType()
+Esi::Shader::Type Esi::Shader::getType()
 {
 	return this->type;
 }
 
-Lilliputian::AssetID Lilliputian::Shader::getID()
+Esi::AssetID Esi::Shader::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::Shader::unload()
+void Esi::Shader::unload()
 {
 
 }

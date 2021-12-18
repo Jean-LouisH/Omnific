@@ -24,28 +24,28 @@
 #include <application/scene/id_counter.hpp>
 
 
-Lilliputian::AudioStream::AudioStream()
+Esi::AudioStream::AudioStream()
 {
 
 }
 
-Lilliputian::AudioStream::AudioStream(const char* filepath)
+Esi::AudioStream::AudioStream(const char* filepath)
 {
 	this->sound = Mix_LoadWAV(filepath);
 	this->id = IDCounter::getNewAssetID();
 }
 
-Mix_Chunk* Lilliputian::AudioStream::getSDLMixChunk()
+Mix_Chunk* Esi::AudioStream::getSDLMixChunk()
 {
 	return this->sound;
 }
 
-Lilliputian::AssetID Lilliputian::AudioStream::getID()
+Esi::AssetID Esi::AudioStream::getID()
 {
 	return this->id;
 }
 
-void Lilliputian::AudioStream::unload()
+void Esi::AudioStream::unload()
 {
 	Mix_FreeChunk(this->sound);
 }

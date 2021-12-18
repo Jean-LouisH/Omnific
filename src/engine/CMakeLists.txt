@@ -1,15 +1,15 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE lilliputian_engine_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE lilliputian_engine_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE esi_engine_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE esi_engine_headers "[a-zA-Z]*.hpp")
 
-add_library(lilliputian_engine SHARED
-	  ${lilliputian_engine_sources}
-	  ${lilliputian_engine_headers}
+add_library(esi_engine SHARED
+	  ${esi_engine_sources}
+	  ${esi_engine_headers}
 )
 
-add_dependencies (lilliputian_engine
+add_dependencies (esi_engine
 	yaml_cpp
 	glad
 )
@@ -31,7 +31,7 @@ include_directories(
 		../../thirdparty/SDL2_ttf-2.0.15/include
 		../../thirdparty/yaml-cpp-0.6.3/include
 		../../thirdparty/python37/include
-		../../thirdparty/pybind11-2.6.2/include
+		../../thirdparty/pybind11-2.8.1/include
 		../../thirdparty/glad/include
 		../../thirdparty/glm-0.9.9.8/glm
 		../../thirdparty/tinygltf-2.5.0/include
@@ -39,7 +39,7 @@ include_directories(
 		.
 )
 
-target_link_libraries (lilliputian_engine
+target_link_libraries (esi_engine
 		yaml_cpp
 		glad
 		${SDL2}
@@ -51,8 +51,8 @@ target_link_libraries (lilliputian_engine
 
 )
 
-add_definitions(-D_LILLIPUTIAN_ENGINE_EXPORTS)
+add_definitions(-D_ESI_ENGINE_EXPORTS)
 
-add_custom_command(TARGET lilliputian_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:lilliputian_engine> ${PROJECT_BINARY_DIR}/main/lilliputian_engine.dll
+add_custom_command(TARGET esi_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_engine> ${PROJECT_BINARY_DIR}/main/esi_engine.dll
 )

@@ -26,7 +26,7 @@
 #include <queue>
 #include "application/scene/scene.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class AudioSystem
 	{

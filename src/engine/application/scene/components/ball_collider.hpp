@@ -26,7 +26,7 @@
 #include "utilities/constants.hpp"
 
 
-namespace Lilliputian
+namespace Esi
 {
 	class BallCollider
 	{

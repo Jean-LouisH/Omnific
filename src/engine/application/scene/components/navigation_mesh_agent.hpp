@@ -27,7 +27,7 @@
 #include <vector>
 
 
-namespace Lilliputian
+namespace Esi
 {
 	class NavigationMeshAgent
 	{

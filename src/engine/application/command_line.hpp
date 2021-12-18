@@ -31,7 +31,7 @@
 #include "os/profiler.hpp"
 #include "scene_storage.hpp"
 
-namespace Lilliputian
+namespace Esi
 {
 	class CommandLine
 	{

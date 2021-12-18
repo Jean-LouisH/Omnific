@@ -22,7 +22,7 @@
 
 #include "ui_text_edit.hpp"
 
-Lilliputian::Image& Lilliputian::UITextEdit::getImage()
+Esi::Image& Esi::UITextEdit::getImage()
 {
 	return this->image;
 }

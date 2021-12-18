@@ -22,67 +22,67 @@
 
 #include "window_api.hpp"
 
-Lilliputian::WindowAPI::WindowAPI(Window* window)
+Esi::WindowAPI::WindowAPI(Window* window)
 {
 	this->window = window;
 }
 
-void Lilliputian::WindowAPI::setToWindowed(uint16_t width_px, uint16_t height_px)
+void Esi::WindowAPI::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
 	this->window->setToWindowed(width_px, height_px);
 }
 
-void Lilliputian::WindowAPI::setToFullscreen()
+void Esi::WindowAPI::setToFullscreen()
 {
 	this->window->setToFullscreen();
 }
 
-void Lilliputian::WindowAPI::toggleWindowedFullscreen()
+void Esi::WindowAPI::toggleWindowedFullscreen()
 {
 	this->window->toggleWindowedFullscreen();
 }
 
-void Lilliputian::WindowAPI::resize(uint16_t width_px, uint16_t height_px)
+void Esi::WindowAPI::resize(uint16_t width_px, uint16_t height_px)
 {
 	this->window->resize(width_px, height_px);
 }
 
-void Lilliputian::WindowAPI::changeTitle(std::string title)
+void Esi::WindowAPI::changeTitle(std::string title)
 {
 	this->window->changeTitle(title.c_str());
 }
 
-void Lilliputian::WindowAPI::changeIcon(Image image)
+void Esi::WindowAPI::changeIcon(Image image)
 {
 	this->window->changeIcon(image);
 }
 
-void Lilliputian::WindowAPI::maximize()
+void Esi::WindowAPI::maximize()
 {
 	this->window->maximize();
 }
 
-void Lilliputian::WindowAPI::minimize()
+void Esi::WindowAPI::minimize()
 {
 	this->window->minimize();
 }
 
-void Lilliputian::WindowAPI::raise()
+void Esi::WindowAPI::raise()
 {
 	this->window->raise();
 }
 
-void Lilliputian::WindowAPI::restore()
+void Esi::WindowAPI::restore()
 {
 	this->window->restore();
 }
 
-void Lilliputian::WindowAPI::hide()
+void Esi::WindowAPI::hide()
 {
 	this->window->hide();
 }
 
-void Lilliputian::WindowAPI::show()
+void Esi::WindowAPI::show()
 {
 	this->window->show();
 }

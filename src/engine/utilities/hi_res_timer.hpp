@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include <chrono>
 
-namespace Lilliputian
+namespace Esi
 {
 	class HiResTimer
 	{

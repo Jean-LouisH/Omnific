@@ -28,7 +28,7 @@
 #include <application/scene/assets/image.hpp>
 #include <utilities/rectangle.hpp>
 
-namespace Lilliputian
+namespace Esi
 {
 	class Window
 	{

@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("lilliputian_engine")
+project ("esi_engine")
 project ("application")
 
 # Include sub-projects.
