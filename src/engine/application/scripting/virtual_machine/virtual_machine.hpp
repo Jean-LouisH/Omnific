@@ -22,6 +22,8 @@
 
 #pragma once
 
+#define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
+
 #include "script_call_batch.hpp"
 #include <unordered_map>
 #include "application/scripting/scripting_apis/scripting_apis.hpp"

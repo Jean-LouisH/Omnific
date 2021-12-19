@@ -22,6 +22,8 @@
 
 #pragma once
 
+#define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
+
 #include "pybind11/pybind11.h"
 #include <string>
 #include <set>
