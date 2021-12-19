@@ -10,7 +10,7 @@ add_executable(application
  )
 
 add_dependencies(application
-	esi_engine
+	esi
 )
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
@@ -33,6 +33,6 @@ include_directories(
 )
 
 target_link_libraries (application
-		esi_engine
+		esi
 		${SDL2}
 )

@@ -78,7 +78,7 @@ void Esi::Application::initialize()
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-	std::cout << "\n\n\tEsi Engine Debug Console Enabled";
+	std::cout << "\n\n\tEsi Debug Console Enabled";
 	std::cout << "\n\nPress '`' in-application to write to command line via console.";
 	std::cout << "\n\nTo see the list of commands, enter 'commands'.";
 	std::cout << "\n\n";
