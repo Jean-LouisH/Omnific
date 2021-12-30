@@ -31,10 +31,8 @@ namespace Esi
 	{
 	public:
 		Text(const char* filepath);
-		virtual AssetID getID();
 		virtual void unload();
 	private:
 		char* data = nullptr;
-		AssetID id = 0;
 	};
 }

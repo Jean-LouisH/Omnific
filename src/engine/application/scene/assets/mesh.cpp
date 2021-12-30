@@ -22,11 +22,6 @@
 
 #include "mesh.hpp"
 
-Esi::AssetID Esi::Mesh::getID()
-{
-	return this->id;
-}
-
 void Esi::Mesh::unload()
 {
 

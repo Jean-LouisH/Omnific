@@ -21,8 +21,6 @@
 // SOFTWARE.
 
 #include "audio_stream.hpp"
-#include <application/scene/id_counter.hpp>
-
 
 Esi::AudioStream::AudioStream()
 {
@@ -32,17 +30,11 @@ Esi::AudioStream::AudioStream()
 Esi::AudioStream::AudioStream(const char* filepath)
 {
 	this->sound = Mix_LoadWAV(filepath);
-	this->id = IDCounter::getNewAssetID();
 }
 
 Mix_Chunk* Esi::AudioStream::getSDLMixChunk()
 {
 	return this->sound;
-}
-
-Esi::AssetID Esi::AudioStream::getID()
-{
-	return this->id;
 }
 
 void Esi::AudioStream::unload()

@@ -25,12 +25,7 @@
 
 Esi::Text::Text(const char* filepath)
 {
-	this->id = IDCounter::getNewAssetID();
-}
 
-Esi::AssetID Esi::Text::getID()
-{
-	return this->id;
 }
 
 void Esi::Text::unload()

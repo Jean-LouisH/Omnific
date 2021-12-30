@@ -26,7 +26,6 @@
 Esi::Shader::Shader(std::string sourceFilepath)
 {
 	Shader(sourceFilepath, Type::VERTEX);
-	this->id = IDCounter::getNewAssetID();
 }
 
 Esi::Shader::Shader(std::string sourceFilepath, Type type)
@@ -47,11 +46,6 @@ std::string Esi::Shader::getSource()
 Esi::Shader::Type Esi::Shader::getType()
 {
 	return this->type;
-}
-
-Esi::AssetID Esi::Shader::getID()
-{
-	return this->id;
 }
 
 void Esi::Shader::unload()

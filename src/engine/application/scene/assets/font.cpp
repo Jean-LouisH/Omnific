@@ -21,8 +21,6 @@
 // SOFTWARE.
 
 #include "font.hpp"
-#include <application/scene/id_counter.hpp>
-
 
 Esi::Font::Font()
 {
@@ -32,23 +30,16 @@ Esi::Font::Font()
 Esi::Font::Font(const char* filepath, uint16_t size_px)
 {
 	this->font = TTF_OpenFont(filepath, size_px);
-	this->id = IDCounter::getNewAssetID();
 }
 
 Esi::Font::Font(TTF_Font* font)
 {
 	this->font = font;
-	this->id = IDCounter::getNewAssetID();
 }
 
 TTF_Font* Esi::Font::getSDLTTFFont()
 {
 	return this->font;
-}
-
-Esi::AssetID Esi::Font::getID()
-{
-	return this->id;
 }
 
 void Esi::Font::unload()

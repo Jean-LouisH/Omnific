@@ -22,11 +22,6 @@
 
 #include "rig.hpp"
 
-Esi::AssetID Esi::Rig::getID()
-{
-	return this->id;
-}
-
 void Esi::Rig::unload()
 {
 

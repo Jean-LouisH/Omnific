@@ -41,11 +41,9 @@ namespace Esi
 		Shader();
 		std::string getSource();
 		Type getType();
-		virtual AssetID getID();
 		virtual void unload();
 	private:
 		std::string source;
 		Type type;
-		AssetID id = 0;
 	};
 }

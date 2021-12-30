@@ -22,11 +22,6 @@
 
 #include "material.hpp"
 
-Esi::AssetID Esi::Material::getID()
-{
-	return this->id;
-}
-
 void Esi::Material::unload()
 {
 

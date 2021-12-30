@@ -51,9 +51,7 @@ namespace Esi
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		uint8_t getBytesPerPixel();
-		virtual AssetID getID();
 	private:
-		AssetID id = 0;
 		SDL_Surface* surface;
 		uint8_t alpha = 255;
 	};

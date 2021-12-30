@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "image.hpp"
-#include <application/scene/id_counter.hpp>
 #include <SDL_image.h>
 
 Esi::Image::Image()
@@ -46,20 +45,16 @@ Esi::Image::Image(std::string text, Font font, Colour colour, Font::RenderMode m
 		this->surface = TTF_RenderUTF8_Blended(font.getSDLTTFFont(), text.c_str(), sdlColor);
 		break;
 	}
-
-	this->id = IDCounter::getNewAssetID();
 }
 
 Esi::Image::Image(const char* filepath)
 {
 	this->surface = IMG_Load(filepath);
-	this->id = IDCounter::getNewAssetID();
 }
 
 Esi::Image::Image(SDL_Surface* surface)
 {
 	this->surface = surface;
-	this->id = IDCounter::getNewAssetID();
 }
 
 void Esi::Image::unload()
@@ -116,9 +111,4 @@ uint8_t Esi::Image::getAlpha()
 uint8_t Esi::Image::getBytesPerPixel()
 {
 	return this->surface->format->BytesPerPixel;
-}
-
-Esi::AssetID Esi::Image::getID()
-{
-	return this->id;
 }

@@ -52,10 +52,8 @@ namespace Esi
 		Font(const char* filepath, uint16_t size_px);
 		Font(TTF_Font* font);
 		TTF_Font* getSDLTTFFont();
-		virtual AssetID getID();
 		virtual void unload();
 	private:
 		TTF_Font* font;
-		AssetID id = 0;
 	};
 }

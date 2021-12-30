@@ -29,9 +29,7 @@ namespace Esi
 	class Rig : public Asset
 	{
 	public:
-		virtual AssetID getID();
 		virtual void unload();
 	private:
-		AssetID id = 0;
 	};
 }

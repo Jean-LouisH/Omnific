@@ -26,8 +26,3 @@ void Esi::Animation::unload()
 {
 
 }
-
-Esi::AssetID Esi::Animation::getID()
-{
-	return this->id;
-}

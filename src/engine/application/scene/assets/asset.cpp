@@ -20,22 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include <utilities/aliases.hpp>
-#include <SDL_mixer.h>
 #include "asset.hpp"
+#include <application/scene/id_counter.hpp>
 
-namespace Esi
+Esi::Asset::Asset()
 {
-	class AudioStream : public Asset
-	{
-	public:
-		AudioStream();
-		AudioStream(const char* filepath);
-		Mix_Chunk* getSDLMixChunk();
-		virtual void unload();
-	private:
-		Mix_Chunk* sound;
-	};
+	this->id = IDCounter::getNewAssetID();
+}
+
+Esi::AssetID Esi::Asset::getID()
+{
+	return this->id;
 }

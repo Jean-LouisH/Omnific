@@ -29,8 +29,10 @@ namespace Esi
 	class Asset
 	{
 	public:
-		virtual AssetID getID() = 0;
+		Asset();
+		AssetID getID();
 		virtual void unload() = 0;
 	private:
+		AssetID id = 0;
 	};
 }
