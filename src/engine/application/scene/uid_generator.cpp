@@ -20,26 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "uid_generator.hpp"
 
-#include <utilities/aliases.hpp>
+Esi::UIDGenerator* Esi::UIDGenerator::instance = nullptr;
 
-namespace Esi
+Esi::EntityID Esi::UIDGenerator::getNewUID()
 {
-	class IDCounter
-	{
-	public:
-		static EntityID getNewEntityID();
-		static SceneID getNewSceneID();
-		static ComponentID getNewComponentID();
-		static AssetID getNewAssetID();
-	private:
-		EntityID entityIDCount = 0;
-		SceneID sceneIDCount = 0;
-		ComponentID componentIDCount = 0;
-		AssetID assetIDCount = 0;
+	return ++getInstance()->uid;
+}
 
-		static IDCounter* instance;
-		static IDCounter* getInstance();
-	};
+Esi::UIDGenerator* Esi::UIDGenerator::getInstance()
+{
+	if (instance == nullptr)
+		instance = new UIDGenerator();
+	return instance;
 }

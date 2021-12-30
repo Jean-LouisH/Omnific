@@ -21,11 +21,11 @@
 // SOFTWARE.
 
 #include "component.hpp"
-#include <application/scene/id_counter.hpp>
+#include <application/scene/uid_generator.hpp>
 
 Esi::Component::Component()
 {
-	this->id = IDCounter::getNewComponentID();
+	this->id = UIDGenerator::getNewUID();
 }
 
 void Esi::Component::setEntityID(EntityID entityID)

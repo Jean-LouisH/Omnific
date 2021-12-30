@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 #include "component_variant.hpp"
-#include <application/scene/id_counter.hpp>
+#include <application/scene/uid_generator.hpp>
 
 
 Esi::ComponentVariant::ComponentVariant()
 {
-	this->ID = IDCounter::getNewComponentID();
+	this->ID = UIDGenerator::getNewUID();
 }
 
 Esi::ComponentVariant::ComponentVariant(const ComponentVariant& other)

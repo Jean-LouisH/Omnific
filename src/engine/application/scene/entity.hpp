@@ -29,7 +29,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <application/scene/id_counter.hpp>
+#include <application/scene/uid_generator.hpp>
 
 namespace Esi
 {
@@ -40,7 +40,7 @@ namespace Esi
 			_2D
 		};
 
-		EntityID ID = DUMMY_ENTITY;
+		UID ID = DUMMY_ENTITY;
 		EntityID parentID = DUMMY_ENTITY;
 		SpatialDimension spatialDimension = SpatialDimension::_2D;
 		std::vector<EntityID> childIDs;
@@ -52,7 +52,7 @@ namespace Esi
 
 		Entity()
 		{
-			this->ID = IDCounter::getNewEntityID();
+			this->ID = UIDGenerator::getNewUID();
 			this->name = "Entity (ID:" + std::to_string(this->ID) + ")";
 		}
 	};

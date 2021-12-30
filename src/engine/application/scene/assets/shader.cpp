@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "shader.hpp"
-#include <application/scene/id_counter.hpp>
+#include <application/scene/uid_generator.hpp>
 
 Esi::Shader::Shader(std::string sourceFilepath)
 {

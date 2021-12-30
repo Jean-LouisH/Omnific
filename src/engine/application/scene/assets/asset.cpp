@@ -21,11 +21,11 @@
 // SOFTWARE.
 
 #include "asset.hpp"
-#include <application/scene/id_counter.hpp>
+#include <application/scene/uid_generator.hpp>
 
 Esi::Asset::Asset()
 {
-	this->id = IDCounter::getNewAssetID();
+	this->id = UIDGenerator::getNewUID();
 }
 
 Esi::AssetID Esi::Asset::getID()

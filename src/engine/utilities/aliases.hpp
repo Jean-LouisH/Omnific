@@ -26,10 +26,10 @@
 
 namespace Esi
 {
-	using ID = uint64_t;
-	using EntityID = ID;
-	using SceneID = ID;
-	using ComponentID = ID;
-	using AssetID = ID;
+	using UID = uint64_t;
+	using EntityID = UID;
+	using SceneID = UID;
+	using ComponentID = UID;
+	using AssetID = UID;
 	using PlayerID = uint8_t;
 }

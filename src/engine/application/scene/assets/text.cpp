@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "text.hpp"
-#include <application/scene/id_counter.hpp>
+#include <application/scene/uid_generator.hpp>
 
 Esi::Text::Text(const char* filepath)
 {

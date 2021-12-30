@@ -28,7 +28,7 @@ Esi::Scene::Scene()
 	Transform* transform = new Transform();
 	ComponentVariant componentVariant;
 
-	this->ID = IDCounter::getNewSceneID();
+	this->ID = UIDGenerator::getNewUID();
 	componentVariant.setTo(transform);
 	this->addEmptyEntity();
 	this->addComponentToLastEntity(componentVariant);
