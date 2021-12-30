@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "asset.hpp"
+#include "application/scene/asset.hpp"
 #include <utilities/aliases.hpp>
 
 namespace Esi

@@ -22,9 +22,8 @@
 
 #pragma once
 
-#include <utilities/aliases.hpp>
 #include <SDL_mixer.h>
-#include "asset.hpp"
+#include "application/scene/asset.hpp"
 
 namespace Esi
 {

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "asset.hpp"
+#include "application/scene/asset.hpp"
 #include "stdint.h"
 #include "SDL_ttf.h"
 #include <utilities/aliases.hpp>

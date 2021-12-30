@@ -27,7 +27,7 @@
 #include <SDL_surface.h>
 #include <SDL_render.h>
 #include <stdint.h>
-#include "asset.hpp"
+#include "application/scene/asset.hpp"
 #include "font.hpp"
 #include "utilities/rectangle.hpp"
 #include <string>
