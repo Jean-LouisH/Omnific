@@ -28,6 +28,7 @@
 #include "application/scene/assets/font.hpp"
 #include "utilities/rectangle.hpp"
 #include "utilities/colour.hpp"
+#include <memory>
 
 namespace Esi
 {
@@ -37,7 +38,7 @@ namespace Esi
 
 		UITextLabel();
 		void setText(std::string text);
-		void setFont(Font font, uint16_t size_px);
+		void setFont(std::shared_ptr<Esi::Font> font, uint16_t size_px);
 		void setFontStyleNormal();
 		void setFontStyleBold();
 		void setFontStyleItalic();
@@ -55,7 +56,7 @@ namespace Esi
 		uint8_t getAlpha();
 	private:
 		std::string text;
-		Font font;
+		std::shared_ptr<Esi::Font> font;
 		Font::Style style = Font::Style::NORMAL;
 		Font::RenderMode mode = Font::RenderMode::SOLID;
 		uint16_t size_px = 0;

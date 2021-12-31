@@ -28,6 +28,7 @@
 #include "utilities/constants.hpp"
 #include <string>
 #include "application/scene/assets/image.hpp"
+#include <memory>
 
 
 namespace Esi
@@ -35,7 +36,7 @@ namespace Esi
 	class Sprite
 	{
 	public:
-		void setImage(Image image);
+		void setImage(std::shared_ptr<Image> image);
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		void hide();
@@ -46,7 +47,7 @@ namespace Esi
 
 		Image& getImage();
 	private:
-		Image image;
+		std::shared_ptr<Image> image;
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;
 	};

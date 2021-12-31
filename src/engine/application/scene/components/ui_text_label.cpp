@@ -37,7 +37,7 @@ void Esi::UITextLabel::setText(std::string text)
 	}
 }
 
-void Esi::UITextLabel::setFont(Font font, uint16_t size_px)
+void Esi::UITextLabel::setFont(std::shared_ptr<Esi::Font> font, uint16_t size_px)
 {
 	this->font = font;
 	this->size_px = size_px;
@@ -126,9 +126,12 @@ uint8_t Esi::UITextLabel::getAlpha()
 
 void Esi::UITextLabel::generateImage()
 {
-	if (this->font.getSDLTTFFont() != nullptr)
+	if (this->font != nullptr)
 	{
-		this->image.unload();
-		this->image = Image(this->text, this->font, this->colour, this->mode);
+		if (this->font->getSDLTTFFont() != nullptr)
+		{
+			this->image.unload();
+			this->image = Image(this->text, this->font, this->colour, this->mode);
+		}
 	}
 }

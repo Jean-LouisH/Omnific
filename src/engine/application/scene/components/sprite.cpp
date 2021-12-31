@@ -23,29 +23,29 @@
 #include "sprite.hpp"
 
 
-void Esi::Sprite::setImage(Image image)
+void Esi::Sprite::setImage(std::shared_ptr<Image> image)
 {
 	this->image = image;
 }
 
 void Esi::Sprite::setAlpha(uint8_t value)
 {
-	this->image.setAlpha(value);
+	this->image->setAlpha(value);
 }
 
 uint8_t Esi::Sprite::getAlpha()
 {
-	return this->image.getAlpha();
+	return this->image->getAlpha();
 }
 
 void Esi::Sprite::hide()
 {
-	this->image.setAlpha(0);
+	this->image->setAlpha(0);
 }
 
 void Esi::Sprite::show()
 {
-	this->image.setAlpha(255);
+	this->image->setAlpha(255);
 }
 
 void Esi::Sprite::flipVertically()
@@ -60,5 +60,5 @@ void Esi::Sprite::flipHorizontally()
 
 Esi::Image& Esi::Sprite::getImage()
 {
-	return this->image;
+	return *this->image;
 }
