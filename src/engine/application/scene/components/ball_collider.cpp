@@ -20,18 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "ball_collider.hpp"
 
-#include <string>
-#include "application/scene/component.hpp"
-
-namespace Esi
+std::string Esi::BallCollider::getType() const
 {
-	class SightPerception : public Component
-	{
-	public:
-		static constexpr const char* TYPE_STRING = "SightPerception";
-		std::string getType() const override;
-	private:
-	};
+	return TYPE_STRING;
 }
