@@ -26,17 +26,18 @@
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
+#include "system.hpp"
 #include "os/human_interface_devices.hpp"
 #include <application/scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
 
 namespace Esi
 {
-	class HapticSystem
+	class HapticSystem : public System
 	{
 	public:
-		HapticSystem();
-		void process(Scene& scene, HumanInterfaceDevices& hid);
+		HapticSystem(HumanInterfaceDevices* hid);
+		void process(Scene& scene) override;
 	private:
 		typedef struct HapticPlayback
 		{
@@ -45,6 +46,7 @@ namespace Esi
 			bool isPlaying;
 		};
 
+		HumanInterfaceDevices* hid = nullptr;
 		std::unordered_map<PlayerID, HapticPlayback> hapticPlaybacks;
 
 		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);

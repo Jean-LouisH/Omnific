@@ -25,15 +25,16 @@
 #include <SDL_mixer.h>
 #include <queue>
 #include "application/scene/scene.hpp"
+#include "system.hpp"
 
 namespace Esi
 {
-	class AudioSystem
+	class AudioSystem : System
 	{
 	public:
 		AudioSystem();
 		~AudioSystem();
-		void process(Scene& scene);
+		void process(Scene& scene) override;
 	private:
 		std::queue<Mix_Chunk*> immediateSounds;
 		std::queue<Mix_Chunk*> scheduledSounds;

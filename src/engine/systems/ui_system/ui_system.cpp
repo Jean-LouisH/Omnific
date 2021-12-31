@@ -23,10 +23,12 @@
 #include "ui_system.hpp"
 #include "SDL_ttf.h"
 
-Esi::UISystem::UISystem()
+Esi::UISystem::UISystem(HumanInterfaceDevices* hid)
 {
 	if (TTF_Init() == -1) 
 		printf("TTF_Init: %s\n", TTF_GetError());
+
+	this->hid = hid;
 }
 
 Esi::UISystem::~UISystem()
@@ -34,7 +36,7 @@ Esi::UISystem::~UISystem()
 	TTF_Quit();
 }
 
-void Esi::UISystem::process(Scene& scene, HumanInterfaceDevices& hid)
+void Esi::UISystem::process(Scene& scene)
 {
 
 }

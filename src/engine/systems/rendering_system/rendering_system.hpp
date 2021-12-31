@@ -24,6 +24,7 @@
 
 #include <SDL.h>
 #include "application/scene/scene.hpp"
+#include "system.hpp"
 #include <set>
 #include <vector>
 #include "os/window.hpp"
@@ -33,12 +34,12 @@
 
 namespace Esi
 {
-	class RenderingSystem
+	class RenderingSystem : public System
 	{
 	public:
 		RenderingSystem(Window& window);
 		~RenderingSystem();
-		void process(Scene& scene);
+		void process(Scene& scene) override;
 		Renderables& getRenderables();
 	private:
 		RenderingContext* context = nullptr;

@@ -20,20 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "application/scene/scene.hpp"
 #include "system.hpp"
-
-namespace Esi
-{
-	class AISystem : System
-	{
-	public:
-		AISystem();
-		~AISystem();
-		void process(Scene& scene) override;
-	private:
-	};
-}
-

@@ -35,9 +35,14 @@ Esi::PhysicsSystem::~PhysicsSystem()
 
 }
 
-void Esi::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpdate)
+void Esi::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
-	this->updateTimers(scene, msPerComputeUpdate);
+	this->msPerComputeUpdate = msPerComputeUpdate;
+}
+
+void Esi::PhysicsSystem::process(Scene& scene)
+{
+	this->updateTimers(scene, this->msPerComputeUpdate);
 }
 
 void Esi::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)

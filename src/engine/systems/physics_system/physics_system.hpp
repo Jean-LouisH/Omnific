@@ -23,16 +23,19 @@
 #pragma once
 
 #include "application/scene/scene.hpp"
+#include "system.hpp"
 
 namespace Esi
 {
-	class PhysicsSystem
+	class PhysicsSystem : public System
 	{
 	public:
 		PhysicsSystem();
 		~PhysicsSystem();
-		void process(Scene& scene, uint32_t msPerComputeUpdate);
+		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
+		void process(Scene& scene) override;
 	private:
+		uint32_t msPerComputeUpdate = 8;
 		void updateTimers(Scene& scene, uint32_t msPerComputeUpdate);
 	};
 }

@@ -23,17 +23,13 @@
 #pragma once
 
 #include "application/scene/scene.hpp"
-#include "system.hpp"
 
 namespace Esi
 {
-	class AISystem : System
-	{
-	public:
-		AISystem();
-		~AISystem();
-		void process(Scene& scene) override;
-	private:
-	};
+    class System
+    {
+    public:
+		virtual void process(Scene& scene) = 0;
+    private:
+    };
 }
-

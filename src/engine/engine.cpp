@@ -122,10 +122,10 @@ bool Esi::Engine::initialize()
 			this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
 			this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
 			this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
-			this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
+			this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem(&OS::getHid()));
 			this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
 			this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem(OS::getWindow()));
-			this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
+			this->uiSystem = std::unique_ptr<UISystem>(new UISystem(&OS::getHid()));
 		}
 
 		isInitializedOK = true;
@@ -157,17 +157,18 @@ void Esi::Engine::update()
 	Scene& activeScene = this->application->getActiveScene();
 	const uint32_t msPerComputeUpdate = this->application->getConfiguration().timeSettings.msPerComputeUpdate;
 
+	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 	this->application->executeOnInputMethods();
 	this->application->executeOnStartMethods();
 	this->application->executeOnFrameMethods();
-	this->uiSystem->process(activeScene, OS::getHid());
+	this->uiSystem->process(activeScene);
 	this->aiSystem->process(activeScene);
 
 	while (profiler.getLag_ms() >= msPerComputeUpdate)
 	{
 		this->application->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
-		this->physicsSystem->process(activeScene, msPerComputeUpdate);
+		this->physicsSystem->process(activeScene);
 		profiler.decrementLagCount(msPerComputeUpdate);
 	}
 
@@ -184,7 +185,7 @@ void Esi::Engine::output()
 
 	this->renderingSystem->process(this->application->getActiveScene());
 	this->audioSystem->process(this->application->getActiveScene());
-	this->hapticSystem->process(this->application->getActiveScene(), OS::getHid());
+	this->hapticSystem->process(this->application->getActiveScene());
 
 	profiler.getOutputTimer().setEnd();
 }

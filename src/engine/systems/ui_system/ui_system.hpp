@@ -30,10 +30,12 @@ namespace Esi
 	class UISystem
 	{
 	public:
-		UISystem();
+		UISystem(HumanInterfaceDevices* hid);
 		~UISystem();
-		void process(Scene& scene, HumanInterfaceDevices& hid);
+		void process(Scene& scene);
 	private:
+		HumanInterfaceDevices* hid = nullptr;
+
 		void orderUIComponentsByHierarchy();
 		void positionUIComponentsByHierarchy();
 		bool isCursorHoveringOverUIComponent(ComponentID componentID);

@@ -23,15 +23,16 @@
 #pragma once
 
 #include "application/scene/scene.hpp"
+#include "system.hpp"
 
 namespace Esi
 {
-	class AnimationSystem
+	class AnimationSystem : System
 	{
 	public:
 		AnimationSystem();
 		~AnimationSystem();
-		void process(Scene& scene);
+		void process(Scene& scene) override;
 	private:
 	};
 }
