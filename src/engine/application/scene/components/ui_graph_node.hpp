@@ -30,6 +30,7 @@ namespace Esi
 	class UIGraphNode : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UIGraphNode";
 		std::string getType() const override;
 		Image& getImage() override;
 		

@@ -29,5 +29,5 @@ Esi::Image& Esi::UIRectangle::getImage()
 
 std::string Esi::UIRectangle::getType() const
 {
-	return "UIRectangle";
+	return TYPE_STRING;
 }

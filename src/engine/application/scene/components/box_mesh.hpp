@@ -29,6 +29,7 @@ namespace Esi
 	class BoxMesh : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "BoxMesh";
 		std::string getType() const override;
 		Image& getImage() override;
 	private:

@@ -29,5 +29,5 @@ void Esi::Material::unload()
 
 std::string Esi::Material::getType() const
 {
-	return "Material";
+	return TYPE_STRING;
 }

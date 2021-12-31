@@ -33,6 +33,7 @@ namespace Esi
 	class UIViewport : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UIViewport";
 		UIViewport();
 		EntityID getCameraEntityID();
 		Rectangle getDimensions();

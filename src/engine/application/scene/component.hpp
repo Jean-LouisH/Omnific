@@ -33,6 +33,7 @@ namespace Esi
     class Component
     {
 	public:
+		static constexpr const char* TYPE_STRING = "Component";
 		Component();
 
 		void setEntityID(EntityID entityID);

@@ -30,6 +30,7 @@ namespace Esi
 	class UIRectangle : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UIRectangle";
 		std::string getType() const override;
 		Image& getImage() override;
 		

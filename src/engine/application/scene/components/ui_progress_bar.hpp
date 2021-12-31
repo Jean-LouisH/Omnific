@@ -30,6 +30,7 @@ namespace Esi
 	class UIProgressBar : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UIProgressBar";
 		std::string getType() const override;
 		Image& getImage() override;
 		

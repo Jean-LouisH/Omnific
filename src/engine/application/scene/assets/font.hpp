@@ -49,6 +49,8 @@ namespace Esi
 			BLENDED
 		};
 
+		static constexpr const char* TYPE_STRING = "Font";
+
 		Font();
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);

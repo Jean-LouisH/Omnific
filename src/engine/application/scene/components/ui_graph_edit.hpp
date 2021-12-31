@@ -30,6 +30,7 @@ namespace Esi
 	class UIGraphEdit : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UIGraphEdit";
 		std::string getType() const override;
 		Image& getImage() override;
 	private:

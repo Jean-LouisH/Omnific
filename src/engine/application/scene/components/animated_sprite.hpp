@@ -38,6 +38,7 @@ namespace Esi
 		using FrameIndex = uint16_t;
 		using FrameSequence = std::vector<Image>;
 	public:
+		static constexpr const char* TYPE_STRING = "AnimatedSprite";
 		std::string currentFrameSequenceName = "";
 
 		void addEmptyFrameSequence(std::string frameSequenceName);

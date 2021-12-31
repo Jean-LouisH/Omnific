@@ -37,6 +37,7 @@ namespace Esi
 	class Sprite : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Sprite";
 		void setImage(std::shared_ptr<Image> image);
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();

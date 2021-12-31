@@ -138,5 +138,5 @@ void Esi::UITextLabel::generateImage()
 
 std::string Esi::UITextLabel::getType() const
 {
-	return "UITextLabel";
+	return TYPE_STRING;
 }

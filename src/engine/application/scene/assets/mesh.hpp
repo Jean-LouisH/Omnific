@@ -29,6 +29,7 @@ namespace Esi
 	class Mesh : public Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Mesh";
 		void unload() override;
 		std::string getType() const override;
 	private:

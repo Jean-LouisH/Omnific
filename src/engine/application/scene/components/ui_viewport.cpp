@@ -81,5 +81,5 @@ void Esi::UIViewport::setInvisible()
 
 std::string Esi::UIViewport::getType() const
 {
-	return "UIViewport";
+	return TYPE_STRING;
 }

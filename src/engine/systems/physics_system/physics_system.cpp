@@ -48,7 +48,7 @@ void Esi::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 	for (int j = 0; j < componentVariantCount; j++)
 	{
 		std::shared_ptr<Component> component = components.at(j);
-		if (component->getType() == "CountdownTimer")
+		if (component->getType() == CountdownTimer::TYPE_STRING)
 		{
 			std::dynamic_pointer_cast<CountdownTimer>(component)->update(msPerComputeUpdate * (1.0 / MS_IN_S));
 		}

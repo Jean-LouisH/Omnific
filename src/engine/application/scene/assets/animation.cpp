@@ -29,5 +29,5 @@ void Esi::Animation::unload()
 
 std::string Esi::Animation::getType() const
 {
-	return "Animation";
+	return TYPE_STRING;
 }

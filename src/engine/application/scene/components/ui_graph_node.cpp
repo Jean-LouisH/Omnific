@@ -29,5 +29,5 @@ Esi::Image& Esi::UIGraphNode::getImage()
 
 std::string Esi::UIGraphNode::getType() const
 {
-	return "UIGraphNode";
+	return TYPE_STRING;
 }

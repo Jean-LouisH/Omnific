@@ -43,6 +43,7 @@ namespace Esi
 			this->scale.z = 1;
 		}
 
+		static constexpr const char* TYPE_STRING = "Transform";
 		std::string getType() const override;
 	private:
 	};

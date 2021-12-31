@@ -2,5 +2,5 @@
 
 std::string Esi::Transform::getType() const
 {
-	return "Transform";
+	return TYPE_STRING;
 }

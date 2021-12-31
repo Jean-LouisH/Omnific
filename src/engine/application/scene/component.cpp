@@ -50,7 +50,7 @@ bool Esi::Component::isAttachedToEntity()
 
 std::string Esi::Component::getType() const
 {
-	return "Component";
+	return TYPE_STRING;
 }
 
 bool Esi::Component::isRenderable()

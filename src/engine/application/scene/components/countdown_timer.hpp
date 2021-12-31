@@ -32,6 +32,7 @@ namespace Esi
 	class CountdownTimer : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "CountdownTimer";
 		void start(float time);
 		void update(float deltaTime);
 		void stop();

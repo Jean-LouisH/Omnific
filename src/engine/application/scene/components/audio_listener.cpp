@@ -3,5 +3,5 @@
 
 std::string Esi::AudioListener::getType() const
 {
-	return "AudioListener";
+	return TYPE_STRING;
 }

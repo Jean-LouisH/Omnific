@@ -34,6 +34,7 @@ namespace Esi
 	public:
 		float radius = 0.0;
 
+		static constexpr const char* TYPE_STRING = "BallCollider";
 		std::string getType() const override;
 	private:
 	};

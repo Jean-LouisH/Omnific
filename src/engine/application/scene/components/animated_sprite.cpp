@@ -180,7 +180,7 @@ Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getCurrentFrameSequence(
 
 std::string Esi::AnimatedSprite::getType() const
 {
-	return "AnimatedSprite";
+	return TYPE_STRING;
 }
 
 Esi::Image& Esi::AnimatedSprite::getImage()

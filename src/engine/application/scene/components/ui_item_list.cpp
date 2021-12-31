@@ -76,5 +76,5 @@ Esi::Image& Esi::UIItemList::getImage()
 
 std::string Esi::UIItemList::getType() const
 {
-	return "UIItemList";
+	return TYPE_STRING;
 }

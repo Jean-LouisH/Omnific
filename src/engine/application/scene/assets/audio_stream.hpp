@@ -31,6 +31,7 @@ namespace Esi
 	class AudioStream : public Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "AudioStream";
 		AudioStream();
 		AudioStream(std::string filepath);
 		Mix_Chunk* getSDLMixChunk();

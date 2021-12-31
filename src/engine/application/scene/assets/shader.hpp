@@ -36,6 +36,7 @@ namespace Esi
 			FRAGMENT
 		};
 
+		static constexpr const char* TYPE_STRING = "Shader";
 		Shader(std::string sourceFilepath);
 		Shader(std::string sourceFilepath, Type type);
 		Shader();

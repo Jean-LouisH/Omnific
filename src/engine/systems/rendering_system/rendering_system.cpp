@@ -64,8 +64,8 @@ void Esi::RenderingSystem::buildRenderables(Scene& scene)
 	std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
 	std::vector<size_t> uiViewportIndexCache;
 
-	if (scene.getComponentIndexCaches().count("UIViewport"))
-		uiViewportIndexCache = scene.getComponentIndexCaches().at("UIViewport");
+	if (scene.getComponentIndexCaches().count(UIViewport::TYPE_STRING))
+		uiViewportIndexCache = scene.getComponentIndexCaches().at(UIViewport::TYPE_STRING);
 
 	for (int i = 0; i < uiViewportIndexCache.size(); i++)
 	{

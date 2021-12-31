@@ -41,6 +41,7 @@ namespace Esi
 	class Image : public Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Image";
 		Image();
 		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
 		Image(std::string filepath);

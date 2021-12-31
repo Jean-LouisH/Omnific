@@ -30,12 +30,13 @@ namespace Esi
 	class Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Asset";
 		Asset();
 		virtual ~Asset() = default;
 		AssetID getID();
 		void setName(std::string name);
 		std::string getName();
-		virtual std::string getType() const = 0;
+		virtual std::string getType() const;
 		virtual void unload() = 0;
 	private:
 		AssetID id = 0;

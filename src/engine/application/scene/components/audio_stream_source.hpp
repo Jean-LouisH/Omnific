@@ -38,6 +38,7 @@ namespace Esi
 	class AudioStreamSource : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "AudioStreamSource";
 		void addAudioStream(AudioStream audioStream);
 		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
 		void clearAudioStreams();

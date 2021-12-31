@@ -51,5 +51,5 @@ void Esi::Font::unload()
 
 std::string Esi::Font::getType() const
 {
-	return "Font";
+	return TYPE_STRING;
 }

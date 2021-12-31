@@ -29,6 +29,7 @@ namespace Esi
 	class Material : public Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Material";
 		void unload() override;
 		std::string getType() const override;
 	private:

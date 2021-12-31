@@ -116,5 +116,5 @@ uint8_t Esi::Image::getBytesPerPixel()
 
 std::string Esi::Image::getType() const
 {
-	return "Image";
+	return TYPE_STRING;
 }

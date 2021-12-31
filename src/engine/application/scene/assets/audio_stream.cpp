@@ -45,5 +45,5 @@ void Esi::AudioStream::unload()
 
 std::string Esi::AudioStream::getType() const
 {
-	return "AudioStream";
+	return TYPE_STRING;
 }

@@ -47,5 +47,5 @@ bool Esi::CountdownTimer::isFinished()
 
 std::string Esi::CountdownTimer::getType() const
 {
-	return "CountdownTimer";
+	return TYPE_STRING;
 }

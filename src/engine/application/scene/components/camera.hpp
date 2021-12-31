@@ -35,6 +35,7 @@ namespace Esi
 	class Camera : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Camera";
 		Camera();
 		void resetAspect();
 		Rectangle getViewportDimensions();

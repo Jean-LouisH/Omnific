@@ -29,5 +29,5 @@ Esi::Image& Esi::UIHoverCard::getImage()
 
 std::string Esi::UIHoverCard::getType() const
 {
-	return "UIHoverCard";
+	return TYPE_STRING;
 }

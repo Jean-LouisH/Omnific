@@ -29,5 +29,5 @@ Esi::Image& Esi::UITree::getImage()
 
 std::string Esi::UITree::getType() const
 {
-	return "UITree";
+	return TYPE_STRING;
 }

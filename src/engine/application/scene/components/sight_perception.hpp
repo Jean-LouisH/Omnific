@@ -29,6 +29,7 @@ namespace Esi
 	class SightPerception : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "SightPerception";
 		std::string getType() const override;
 	private:
 	};

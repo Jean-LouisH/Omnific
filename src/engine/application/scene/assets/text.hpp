@@ -31,6 +31,7 @@ namespace Esi
 	class Text : public Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Text";
 		Text(std::string filepath);
 		void unload() override;
 		std::string getType() const override;

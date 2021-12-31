@@ -76,5 +76,5 @@ void Esi::Camera::setIsStreaming(bool value)
 
 std::string Esi::Camera::getType() const
 {
-	return "Camera";
+	return TYPE_STRING;
 }

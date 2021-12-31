@@ -55,6 +55,7 @@ namespace Esi
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 
+		static constexpr const char* TYPE_STRING = "UITextLabel";
 		std::string getType() const override;
 		Image& getImage() override;
 		

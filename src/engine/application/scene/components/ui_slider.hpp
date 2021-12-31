@@ -30,6 +30,7 @@ namespace Esi
 	class UISlider : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UISlider";
 		std::string getType() const override;
 		Image& getImage() override;
 		

@@ -29,6 +29,7 @@ namespace Esi
 	class RegularPolytopalMesh : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "RegularPolytopalMesh";
 		std::string getType() const override;
 		Image& getImage() override;
 	private:

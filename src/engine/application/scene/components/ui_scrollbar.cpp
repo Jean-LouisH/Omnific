@@ -29,5 +29,5 @@ Esi::Image& Esi::UIScrollbar::getImage()
 
 std::string Esi::UIScrollbar::getType() const
 {
-	return "UIScrollbar";
+	return TYPE_STRING;
 }

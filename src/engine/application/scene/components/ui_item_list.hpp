@@ -40,6 +40,7 @@ namespace Esi
 		void setIndex(uint32_t index);
 		uint32_t getIndex();
 
+		static constexpr const char* TYPE_STRING = "UIItemList";
 		std::string getType() const override;
 		Image& getImage() override;
 		

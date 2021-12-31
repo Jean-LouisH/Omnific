@@ -32,6 +32,7 @@ namespace Esi
 	class AudioListener : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "AudioListener";
 		std::string getType() const override;
 	private:
 	};

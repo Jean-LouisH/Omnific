@@ -3,5 +3,5 @@
 
 std::string Esi::BehaviourTree::getType() const
 {
-	return "BehaviourTree";
+	return TYPE_STRING;
 }

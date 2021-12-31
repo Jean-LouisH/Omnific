@@ -48,6 +48,7 @@ namespace Esi
 			this->drag_ratio.y = 1.0;
 		}
 
+		static constexpr const char* TYPE_STRING = "RigidBody";
 		std::string getType() const override;
 	private:
 	};

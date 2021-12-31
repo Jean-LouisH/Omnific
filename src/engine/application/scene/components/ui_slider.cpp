@@ -29,5 +29,5 @@ Esi::Image& Esi::UISlider::getImage()
 
 std::string Esi::UISlider::getType() const
 {
-	return "UISlider";
+	return TYPE_STRING;
 }

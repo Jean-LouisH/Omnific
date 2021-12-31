@@ -35,5 +35,5 @@ void Esi::Text::unload()
 
 std::string Esi::Text::getType() const
 {
-	return "Text";
+	return TYPE_STRING;
 }

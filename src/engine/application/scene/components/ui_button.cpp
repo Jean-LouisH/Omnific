@@ -29,5 +29,5 @@ Esi::Image& Esi::UIButton::getImage()
 
 std::string Esi::UIButton::getType() const
 {
-	return "UIButton";
+	return TYPE_STRING;
 }

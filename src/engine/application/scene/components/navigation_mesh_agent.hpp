@@ -33,6 +33,7 @@ namespace Esi
 	class NavigationMeshAgent : public Component
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "NavigationMeshAgent";
 		std::string getType() const override;
 	private:
 	};

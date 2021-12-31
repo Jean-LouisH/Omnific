@@ -36,6 +36,7 @@ namespace Esi
 	public:
 		std::vector<glm::vec3> waypoints;
 
+		static constexpr const char* TYPE_STRING = "NavigationPath";
 		std::string getType() const override;
 	private:
 	};

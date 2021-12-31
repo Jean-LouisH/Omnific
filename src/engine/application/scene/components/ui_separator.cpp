@@ -29,5 +29,5 @@ Esi::Image& Esi::UISeparator::getImage()
 
 std::string Esi::UISeparator::getType() const
 {
-	return "UISeparator";
+	return TYPE_STRING;
 }

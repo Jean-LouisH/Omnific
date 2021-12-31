@@ -56,5 +56,5 @@ void Esi::Shader::unload()
 
 std::string Esi::Shader::getType() const
 {
-	return "Shader";
+	return TYPE_STRING;
 }

@@ -29,6 +29,7 @@ namespace Esi
 	class Animation : public Asset
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Animation";
 		void unload() override;
 		std::string getType() const override;
 	private:

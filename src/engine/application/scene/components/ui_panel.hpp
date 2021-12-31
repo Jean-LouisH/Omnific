@@ -30,6 +30,7 @@ namespace Esi
 	class UIPanel : public RenderableComponent
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "UIPanel";
 		std::string getType() const override;
 		Image& getImage() override;
 		

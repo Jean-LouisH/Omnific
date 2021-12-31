@@ -29,5 +29,5 @@ Esi::Image& Esi::BoxMesh::getImage()
 
 std::string Esi::BoxMesh::getType() const
 {
-	return "BoxMesh";
+	return TYPE_STRING;
 }

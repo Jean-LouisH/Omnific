@@ -29,5 +29,5 @@ Esi::Image& Esi::UIPanel::getImage()
 
 std::string Esi::UIPanel::getType() const
 {
-	return "UIPanel";
+	return TYPE_STRING;
 }

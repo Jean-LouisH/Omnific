@@ -43,3 +43,8 @@ std::string Esi::Asset::getName()
 {
 	return this->name;
 }
+
+std::string Esi::Asset::getType() const
+{
+	return TYPE_STRING;
+}
