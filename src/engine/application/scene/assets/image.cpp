@@ -28,7 +28,7 @@ Esi::Image::Image()
 	this->surface = nullptr;
 }
 
-Esi::Image::Image(std::string text, Font font, Colour colour, Font::RenderMode mode)
+Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
 	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
 	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
@@ -36,20 +36,21 @@ Esi::Image::Image(std::string text, Font font, Colour colour, Font::RenderMode m
 	switch (mode)
 	{
 	case Font::RenderMode::SOLID:
-		this->surface = TTF_RenderUTF8_Solid(font.getSDLTTFFont(), text.c_str(), sdlColor);
+		this->surface = TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor);
 		break;
 	case Font::RenderMode::SHADED:
-		this->surface = TTF_RenderUTF8_Shaded(font.getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor);
+		this->surface = TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor);
 		break;
 	case Font::RenderMode::BLENDED:
-		this->surface = TTF_RenderUTF8_Blended(font.getSDLTTFFont(), text.c_str(), sdlColor);
+		this->surface = TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor);
 		break;
 	}
 }
 
-Esi::Image::Image(const char* filepath)
+Esi::Image::Image(std::string filepath)
 {
-	this->surface = IMG_Load(filepath);
+	this->setName(filepath);
+	this->surface = IMG_Load(filepath.c_str());
 }
 
 Esi::Image::Image(SDL_Surface* surface)
@@ -111,4 +112,9 @@ uint8_t Esi::Image::getAlpha()
 uint8_t Esi::Image::getBytesPerPixel()
 {
 	return this->surface->format->BytesPerPixel;
+}
+
+std::string Esi::Image::getType() const
+{
+	return "Image";
 }

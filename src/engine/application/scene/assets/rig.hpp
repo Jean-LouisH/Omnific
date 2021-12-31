@@ -29,7 +29,8 @@ namespace Esi
 	class Rig : public Asset
 	{
 	public:
-		virtual void unload();
+		void unload() override;
+		std::string getType() const override;
 	private:
 	};
 }

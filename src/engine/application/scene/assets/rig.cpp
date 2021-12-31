@@ -26,3 +26,8 @@ void Esi::Rig::unload()
 {
 
 }
+
+std::string Esi::Rig::getType() const
+{
+	return "Rig";
+}

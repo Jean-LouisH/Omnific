@@ -25,6 +25,7 @@
 
 Esi::Shader::Shader(std::string sourceFilepath)
 {
+	this->setName(sourceFilepath);
 	Shader(sourceFilepath, Type::VERTEX);
 }
 
@@ -51,4 +52,9 @@ Esi::Shader::Type Esi::Shader::getType()
 void Esi::Shader::unload()
 {
 
+}
+
+std::string Esi::Shader::getType() const
+{
+	return "Shader";
 }

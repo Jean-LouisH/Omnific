@@ -24,6 +24,7 @@
 
 #include <SDL_mixer.h>
 #include "application/scene/asset.hpp"
+#include <string>
 
 namespace Esi
 {
@@ -31,9 +32,10 @@ namespace Esi
 	{
 	public:
 		AudioStream();
-		AudioStream(const char* filepath);
+		AudioStream(std::string filepath);
 		Mix_Chunk* getSDLMixChunk();
-		virtual void unload();
+		void unload() override;
+		std::string getType() const override;
 	private:
 		Mix_Chunk* sound;
 	};

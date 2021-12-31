@@ -33,6 +33,8 @@
 #include <string>
 #include "utilities/colour.hpp"
 #include "font.hpp"
+#include <string>
+#include <memory>
 
 namespace Esi
 {
@@ -40,10 +42,10 @@ namespace Esi
 	{
 	public:
 		Image();
-		Image(std::string text, Font font, Colour colour, Font::RenderMode mode);
-		Image(const char* filepath);
+		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
+		Image(std::string filepath);
 		Image(SDL_Surface* surface);
-		virtual void unload();
+		void unload() override;
 		SDL_Surface* getSDLSurface();
 		uint32_t getWidth();
 		uint32_t getHeight();
@@ -51,6 +53,7 @@ namespace Esi
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		uint8_t getBytesPerPixel();
+		std::string getType() const override;
 	private:
 		SDL_Surface* surface;
 		uint8_t alpha = 255;

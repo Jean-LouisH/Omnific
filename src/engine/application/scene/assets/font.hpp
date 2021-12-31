@@ -26,6 +26,7 @@
 #include "stdint.h"
 #include "SDL_ttf.h"
 #include <utilities/aliases.hpp>
+#include <string>
 
 namespace Esi
 {
@@ -49,10 +50,11 @@ namespace Esi
 		};
 
 		Font();
-		Font(const char* filepath, uint16_t size_px);
+		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
 		TTF_Font* getSDLTTFFont();
-		virtual void unload();
+		void unload() override;
+		std::string getType() const override;
 	private:
 		TTF_Font* font;
 	};

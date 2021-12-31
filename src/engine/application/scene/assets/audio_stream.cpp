@@ -27,9 +27,10 @@ Esi::AudioStream::AudioStream()
 
 }
 
-Esi::AudioStream::AudioStream(const char* filepath)
+Esi::AudioStream::AudioStream(std::string filepath)
 {
-	this->sound = Mix_LoadWAV(filepath);
+	this->setName(filepath);
+	this->sound = Mix_LoadWAV(filepath.c_str());
 }
 
 Mix_Chunk* Esi::AudioStream::getSDLMixChunk()
@@ -40,4 +41,9 @@ Mix_Chunk* Esi::AudioStream::getSDLMixChunk()
 void Esi::AudioStream::unload()
 {
 	Mix_FreeChunk(this->sound);
+}
+
+std::string Esi::AudioStream::getType() const
+{
+	return "AudioStream";
 }

@@ -24,14 +24,16 @@
 
 #include "application/scene/asset.hpp"
 #include <utilities/aliases.hpp>
+#include <string>
 
 namespace Esi
 {
 	class Text : public Asset
 	{
 	public:
-		Text(const char* filepath);
-		virtual void unload();
+		Text(std::string filepath);
+		void unload() override;
+		std::string getType() const override;
 	private:
 		char* data = nullptr;
 	};

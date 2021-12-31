@@ -23,7 +23,7 @@
 #include "text.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Text::Text(const char* filepath)
+Esi::Text::Text(std::string filepath)
 {
 
 }
@@ -31,4 +31,9 @@ Esi::Text::Text(const char* filepath)
 void Esi::Text::unload()
 {
 
+}
+
+std::string Esi::Text::getType() const
+{
+	return "Text";
 }

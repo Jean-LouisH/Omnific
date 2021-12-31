@@ -26,3 +26,8 @@ void Esi::Mesh::unload()
 {
 
 }
+
+std::string Esi::Mesh::getType() const
+{
+	return "Mesh";
+}

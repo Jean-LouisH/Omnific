@@ -26,9 +26,20 @@
 Esi::Asset::Asset()
 {
 	this->id = UIDGenerator::getNewUID();
+	this->name = "asset " + std::to_string(this->id);
 }
 
 Esi::AssetID Esi::Asset::getID()
 {
 	return this->id;
+}
+
+void Esi::Asset::setName(std::string name)
+{
+	this->name = name;
+}
+
+std::string Esi::Asset::getName()
+{
+	return this->name;
 }

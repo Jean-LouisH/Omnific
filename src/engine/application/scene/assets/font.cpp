@@ -27,9 +27,10 @@ Esi::Font::Font()
 	this->font = nullptr;
 }
 
-Esi::Font::Font(const char* filepath, uint16_t size_px)
+Esi::Font::Font(std::string filepath, uint16_t size_px)
 {
-	this->font = TTF_OpenFont(filepath, size_px);
+	this->setName(filepath);
+	this->font = TTF_OpenFont(filepath.c_str(), size_px);
 }
 
 Esi::Font::Font(TTF_Font* font)
@@ -46,4 +47,9 @@ void Esi::Font::unload()
 {
 	TTF_CloseFont(this->font);
 	this->font = nullptr;
+}
+
+std::string Esi::Font::getType() const
+{
+	return "Font";
 }
