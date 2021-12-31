@@ -21,3 +21,9 @@
 // SOFTWARE.
 
 #include "renderable_component.hpp"
+
+
+bool Esi::RenderableComponent::isRenderable()
+{
+	return true;
+}

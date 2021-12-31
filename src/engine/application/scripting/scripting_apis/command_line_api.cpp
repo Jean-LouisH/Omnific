@@ -22,15 +22,17 @@
 
 #include "command_line_api.hpp"
 #include "scripting_apis.hpp"
-#include <application/scene/component_variant.hpp>
+#include <application/scene/component.hpp>
 
 void Esi::CommandLineAPI::openWindow()
 {
 	Entity panelEntity;
 	Entity textEditEntity;
 
-	UIPanel* uiPanel = new UIPanel();
-	UITextEdit* uiTextEdit = new UITextEdit();
+	std::shared_ptr<UIPanel> uiPanel(new UIPanel());
+	std::shared_ptr<UITextEdit> uiTextEdit(new UITextEdit());
+	std::shared_ptr<Component> textEditComponent = std::static_pointer_cast<Component>(uiTextEdit);
+	std::shared_ptr<Component> uiPanelComponent = std::static_pointer_cast<Component>(uiPanel);
 
 	//Fill data
 	//...
@@ -38,15 +40,11 @@ void Esi::CommandLineAPI::openWindow()
 
 	Scene& scene = ScriptingAPIs::getSceneAPI().getThisScene();
 
-	ComponentVariant uiPanelComponent;
 	scene.addEntity(panelEntity);
-	uiPanelComponent.setTo(uiPanel);
 	scene.addComponentToLastEntity(uiPanelComponent);
 	this->entityIDs.push_back(panelEntity.ID);
 
-	ComponentVariant textEditComponent;
 	scene.addEntity(textEditEntity);
-	textEditComponent.setTo(uiTextEdit);
 	scene.addComponentToLastEntity(textEditComponent);
 	this->entityIDs.push_back(textEditEntity.ID);
 }

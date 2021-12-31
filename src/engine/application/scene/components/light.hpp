@@ -22,11 +22,14 @@
 
 #pragma once
 
+#include "application/scene/component.hpp"
+
 namespace Esi
 {
-	class Light
+	class Light : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }

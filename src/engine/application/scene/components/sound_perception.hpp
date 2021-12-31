@@ -22,13 +22,15 @@
 
 #pragma once
 
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class SoundPerception
+	class SoundPerception : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }

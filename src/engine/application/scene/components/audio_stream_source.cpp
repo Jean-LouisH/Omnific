@@ -98,3 +98,8 @@ Esi::AudioStream Esi::AudioStreamSource::getAudioStreamByName(std::string audioS
 
 	return audioStream;
 }
+
+std::string Esi::AudioStreamSource::getType() const
+{
+	return "AudioStreamSource";
+}

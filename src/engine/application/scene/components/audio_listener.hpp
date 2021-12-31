@@ -24,13 +24,15 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class AudioListener
+	class AudioListener : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }

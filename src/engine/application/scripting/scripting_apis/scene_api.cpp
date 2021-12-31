@@ -38,7 +38,7 @@ void Esi::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 	this->sceneSerializer = sceneSerializer;
 }
 
-bool Esi::SceneAPI::thisHasComponent(ComponentVariant::Type type)
+bool Esi::SceneAPI::thisHasComponent(std::string type)
 {
 	return this->getThisScene().getEntity(this->boundEntityID).components.count(type) > 0;
 }
@@ -84,16 +84,16 @@ Esi::Scene& Esi::SceneAPI::getThisScene()
 	return sceneStorage->getActiveScene();
 }
 
-Esi::ComponentVariant& Esi::SceneAPI::getThisComponentVariant(ComponentVariant::Type type)
+Esi::Component& Esi::SceneAPI::getThisComponent(std::string type)
 {
-	ComponentVariant* componentVariant = nullptr;
+	std::shared_ptr<Component> component = std::make_shared<Component>();
 	
 	Entity& entity = this->getThisScene().getEntity(this->boundEntityID);
-	std::vector<ComponentVariant>& componentVariants = this->getThisScene().getComponentVariants();
+	std::vector<std::shared_ptr<Component>>& components = this->getThisScene().getComponents();
 
-	for (int i = 0; i < componentVariants.size(); i++)
-		if (componentVariants.at(i).getID() == entity.components.at(type))
-			componentVariant = &componentVariants.at(i);
+	for (int i = 0; i < components.size(); i++)
+		if (components.at(i)->getID() == entity.components.at(type))
+			component = components.at(i);
 
-	return *componentVariant;
+	return *component;
 }

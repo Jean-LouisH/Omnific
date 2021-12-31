@@ -21,13 +21,16 @@
 // SOFTWARE.
 
 #include "application/scene/assets/image.hpp"
+#include "application/scene/renderable_component.hpp"
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class RegularPolytopalMesh
+	class RegularPolytopalMesh : public RenderableComponent
 	{
 	public:
-		Image& getImage();
+		std::string getType() const override;
+		Image& getImage() override;
 	private:
 		Image image;
 	};

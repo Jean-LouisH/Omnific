@@ -24,14 +24,16 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class ConstantPointForce
+	class ConstantPointForce : public Component
 	{
 	public:
 		float force_N;
+
+		std::string getType() const override;
 	private:
 	};
 }

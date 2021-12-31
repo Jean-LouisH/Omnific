@@ -25,14 +25,17 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <glm/glm.hpp>
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class ConstantDirectionalForce
+	class ConstantDirectionalForce : public Component
 	{
 	public:
 		glm::vec3 force_N;
+
+		std::string getType() const override;
 	private:
 	};
 }

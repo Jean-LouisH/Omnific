@@ -47,3 +47,13 @@ bool Esi::Component::isAttachedToEntity()
 {
 	return this->getEntityID() != DUMMY_ENTITY;
 }
+
+std::string Esi::Component::getType() const
+{
+	return "Component";
+}
+
+bool Esi::Component::isRenderable()
+{
+	return false;
+}

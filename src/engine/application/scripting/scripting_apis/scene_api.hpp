@@ -23,7 +23,7 @@
 #pragma once
 
 #include <string>
-#include <application/scene/component_variant.hpp>
+#include <application/scene/component.hpp>
 #include <application/scene/scene.hpp>
 #include <application/scene_serializer.hpp>
 #include <application/scene_storage.hpp>
@@ -39,7 +39,7 @@ namespace Esi
 		void bindEntity(SceneID sceneTreeID, EntityID entityID);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
-		bool thisHasComponent(ComponentVariant::Type type);
+		bool thisHasComponent(std::string type);
 		void preloadScene(std::string sceneFilename);
 		void loadScene(std::string sceneFilename);
 		void unloadScene(std::string sceneFilename);
@@ -47,7 +47,7 @@ namespace Esi
 
 		Entity& getThisEntity();
 		Scene& getThisScene();
-		ComponentVariant& getThisComponentVariant(ComponentVariant::Type type);
+		Component& getThisComponent(std::string type);
 	private:
 		SceneID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;

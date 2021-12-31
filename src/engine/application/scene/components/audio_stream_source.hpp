@@ -30,11 +30,12 @@
 #include <vector>
 #include <unordered_map>
 #include "application/scene/assets/audio_stream.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class AudioStreamSource
+	class AudioStreamSource : public Component
 	{
 	public:
 		void addAudioStream(AudioStream audioStream);
@@ -48,6 +49,8 @@ namespace Esi
 		void stop();
 		std::vector<std::string> getAudioStreamNames();
 		AudioStream getAudioStreamByName(std::string audioStreamName);
+
+		std::string getType() const override;
 	private:
 //		Map<String, AudioStream> audioStreams;
 		std::queue<AudioStream> audioPlayQueue;

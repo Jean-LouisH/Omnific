@@ -24,9 +24,10 @@
 
 #include <vector>
 #include <stack>
+#include <memory>
 #include <queue>
 #include <unordered_map>
-#include "component_variant.hpp"
+#include "component.hpp"
 #include "application/scripting/virtual_machine/script_call_batch.hpp"
 #include "asset_cache.hpp"
 #include "haptic_signal_buffer.hpp"
@@ -37,6 +38,61 @@
 #include <string>
 #include "event_bus.hpp"
 
+#include <application/scene/assets/animation.hpp>
+#include <application/scene/assets/audio_stream.hpp>
+#include <application/scene/assets/font.hpp>
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/material.hpp>
+#include <application/scene/assets/mesh.hpp>
+#include <application/scene/assets/rig.hpp>
+#include <application/scene/assets/shader.hpp>
+#include <application/scene/assets/text.hpp>
+
+#include "components/behaviour_tree.hpp"
+#include "components/sight_perception.hpp"
+#include "components/sound_perception.hpp"
+#include "components/animated_sprite.hpp"
+#include "components/audio_listener.hpp"
+#include "components/audio_stream_source.hpp"
+#include "components/camera.hpp"
+#include "components/ball_collider.hpp"
+#include "components/constant_directional_force.hpp"
+#include "components/constant_point_force.hpp"
+#include "components/countdown_timer.hpp"
+#include "components/kinematic_body.hpp"
+#include "components/light.hpp"
+#include "components/navigation_mesh_agent.hpp"
+#include "components/navigation_mesh_box_obstacle.hpp"
+#include "components/navigation_path.hpp"
+#include "components/physics_constraint.hpp"
+#include "components/physics_thruster.hpp"
+#include "components/property_animation.hpp"
+#include "components/box_collider.hpp"
+#include "components/box_mesh.hpp"
+#include "components/box_trigger_space.hpp"
+#include "components/regular_polytopal_mesh.hpp"
+#include "components/rigid_body.hpp"
+#include "components/sprite.hpp"
+#include "components/static_fluid.hpp"
+#include "components/transform.hpp"
+#include "components/ui_button.hpp"
+#include "components/ui_rectangle.hpp"
+#include "components/ui_graph_edit.hpp"
+#include "components/ui_graph_node.hpp"
+#include "components/ui_scrollbar.hpp"
+#include "components/ui_separator.hpp"
+#include "components/ui_slider.hpp"
+#include "components/ui_hover_card.hpp"
+#include "components/ui_item_list.hpp"
+#include "components/ui_panel.hpp"
+#include "components/ui_progress_bar.hpp"
+#include "components/ui_spin_box.hpp"
+#include "components/ui_tab.hpp"
+#include "components/ui_text_edit.hpp"
+#include "components/ui_text_label.hpp"
+#include "components/ui_tree.hpp"
+#include "components/ui_viewport.hpp"
+
 namespace Esi
 {
 	class Scene
@@ -46,11 +102,11 @@ namespace Esi
 
 		void addEntity(Entity entity);
 		void addEmptyEntity();
-		void addComponent(EntityID entityID, ComponentVariant componentVariant);
-		void addComponentToLastEntity(ComponentVariant componentVariant);
+		void addComponent(EntityID entityID, std::shared_ptr<Component>  component);
+		void addComponentToLastEntity(std::shared_ptr<Component>  component);
 
 		void removeEntity(EntityID entityID);
-		void removeComponent(EntityID entityID, ComponentVariant::Type type);
+		void removeComponent(EntityID entityID, std::string type);
 
 		std::vector<ScriptCallBatch> generateOnStartCallBatches();
 		std::vector<ScriptCallBatch> generateOnInputCallBatches();
@@ -59,15 +115,15 @@ namespace Esi
 		std::vector<ScriptCallBatch> generateOnOutputCallBatches();
 		std::vector<ScriptCallBatch> generateOnFinishBatches();
 
-		std::vector<ComponentVariant>& getComponentVariants();
+		std::vector<std::shared_ptr<Component>>& getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();
-		std::unordered_map<ComponentVariant::Type, std::vector<size_t>> getComponentIndexCaches();
+		std::unordered_map<std::string, std::vector<size_t>> getComponentIndexCaches();
 		Transform& getEntityTransform(EntityID entityID);
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();
 		std::unordered_map<EntityID, Entity>& getEntities();
-		ComponentVariant& getComponent(ComponentID componentID);
+		Component& getComponent(ComponentID componentID);
 		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
@@ -85,7 +141,7 @@ namespace Esi
 
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
-		std::vector<ComponentVariant> componentVariants;
+		std::vector<std::shared_ptr<Component>> components;
 
 		std::queue<EntityID> startEntitiesQueue;
 		std::queue<EntityID> finishEntitiesQueue;
@@ -97,7 +153,7 @@ namespace Esi
 		EventBus eventBus;
 		HapticSignalBuffer hapticSignalBuffer;
 
-		std::unordered_map<ComponentVariant::Type, std::vector<size_t>> componentIndexCaches;
+		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;
 		std::vector<size_t> renderOrderIndexCache;
 
 		Entity& getDummyEntity();

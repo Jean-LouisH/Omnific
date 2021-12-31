@@ -21,17 +21,17 @@
 // SOFTWARE.
 
 #include "scene.hpp"
+#include "component.hpp"
 #include "application/scripting/virtual_machine/script_call_batch.hpp"
 
 Esi::Scene::Scene()
 {
-	Transform* transform = new Transform();
-	ComponentVariant componentVariant;
+	std::shared_ptr<Transform> transform(new Transform());
+	std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
 
 	this->ID = UIDGenerator::getNewUID();
-	componentVariant.setTo(transform);
 	this->addEmptyEntity();
-	this->addComponentToLastEntity(componentVariant);
+	this->addComponentToLastEntity(component);
 	this->dummyEntityID = this->getLastEntity().ID;
 }
 
@@ -48,13 +48,13 @@ void Esi::Scene::addEmptyEntity()
 	this->addEntity(emptyEntity);
 }
 
-void Esi::Scene::addComponent(EntityID entityID, ComponentVariant componentVariant)
+void Esi::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
-	componentVariant.setEntityID(entityID);
-	this->componentVariants.push_back(componentVariant);
-	ComponentVariant::Type type = componentVariant.getType();
-	this->entities.at(entityID).components.emplace(type, componentVariant.getID());
-	size_t lastIndex = this->componentVariants.size() - 1;
+	component->setEntityID(entityID);
+	this->components.push_back(component);
+	std::string type = component->getType();
+	this->entities.at(entityID).components.emplace(type, component->getID());
+	size_t lastIndex = this->components.size() - 1;
 
 	if (this->componentIndexCaches.count(type) > 0)
 	{
@@ -67,23 +67,21 @@ void Esi::Scene::addComponent(EntityID entityID, ComponentVariant componentVaria
 		this->componentIndexCaches.emplace(type, componentIndices);
 	}
 
-	if (componentVariant.isRenderable())
-		this->renderOrderIndexCache.push_back(this->componentVariants.size() - 1);
+	if (component->isRenderable())
+		this->renderOrderIndexCache.push_back(this->components.size() - 1);
 }
 
-void Esi::Scene::addComponentToLastEntity(ComponentVariant componentVariant)
+void Esi::Scene::addComponentToLastEntity(std::shared_ptr<Component> component)
 {
-	this->addComponent(this->lastEntityID, componentVariant);
+	this->addComponent(this->lastEntityID, component);
 }
 
 void Esi::Scene::removeEntity(EntityID entityID)
 {
-	for (int i = ComponentVariant::Type::BEHAVIOUR_TREE;
-		i < ComponentVariant::Type::UI_TREE;
-		i++)
-	{
-		this->removeComponent(entityID, (ComponentVariant::Type)i);
-	}
+	auto entityComponents = this->getEntity(entityID).components;
+	for (auto it = entityComponents.begin(); it != entityComponents.end();)
+		this->removeComponent(entityID, it->first);
+
 
 	std::vector<EntityID> childIDs = this->getEntity(entityID).childIDs;
 
@@ -94,16 +92,16 @@ void Esi::Scene::removeEntity(EntityID entityID)
 	std::vector<EntityID> parentChildIDs = this->getEntity(parentID).childIDs;
 }
 
-void Esi::Scene::removeComponent(EntityID entityID, ComponentVariant::Type type)
+void Esi::Scene::removeComponent(EntityID entityID, std::string type)
 {
-	Entity& Entity = this->getEntity(entityID);
-	ComponentID componentID = Entity.components.at(type);
+	Entity& entity = this->getEntity(entityID);
+	ComponentID componentID = entity.components.at(type);
 
-	Entity.components.erase(type);
+	entity.components.erase(type);
 
-	for (auto it = this->componentVariants.begin(); it != this->componentVariants.end();)
-		if (it->getID() == componentID)
-			it = this->componentVariants.erase(it);
+	for (auto it = this->components.begin(); it != this->components.end();)
+		if ((*it)->getID() == componentID)
+			it = this->components.erase(it);
 		else
 			++it;
 }
@@ -243,25 +241,26 @@ std::vector<size_t> Esi::Scene::getRenderOrderIndexCache()
 	return this->renderOrderIndexCache;
 }
 
-std::unordered_map<Esi::ComponentVariant::Type, std::vector<size_t>> Esi::Scene::getComponentIndexCaches()
+std::unordered_map<std::string, std::vector<size_t>> Esi::Scene::getComponentIndexCaches()
 {
 	return this->componentIndexCaches;
 }
 
-std::vector<Esi::ComponentVariant>& Esi::Scene::getComponentVariants()
+std::vector<std::shared_ptr<Esi::Component>>& Esi::Scene::getComponents()
 {
-	return this->componentVariants;
+	return this->components;
 }
 
 Esi::Transform& Esi::Scene::getEntityTransform(EntityID entityID)
 {
-	std::vector<size_t> transformIndices = this->componentIndexCaches.at(ComponentVariant::Type::TRANSFORM);
-	Transform* transform = this->componentVariants.at(
-		transformIndices.at(0)).getTransform();
+	std::vector<size_t> transformIndices = this->componentIndexCaches.at("Transform");
+		
+	std::shared_ptr<Transform> transform = 
+		std::dynamic_pointer_cast<Transform>(this->components.at(transformIndices.at(0)));
 
 	for (int i = 0; i < transformIndices.size(); i++)
-		if (this->componentVariants.at(transformIndices.at(i)).getEntityID() == entityID)
-			transform = this->componentVariants.at(transformIndices.at(i)).getTransform();
+		if (this->components.at(transformIndices.at(i))->getEntityID() == entityID)
+			transform = std::dynamic_pointer_cast<Transform>(this->components.at(transformIndices.at(i)));
 
 	return *transform;
 }
@@ -292,18 +291,18 @@ std::unordered_map<Esi::EntityID, Esi::Entity>& Esi::Scene::getEntities()
 	return this->entities;
 }
 
-Esi::ComponentVariant& Esi::Scene::getComponent(ComponentID componentID)
+Esi::Component& Esi::Scene::getComponent(ComponentID componentID)
 {
-	ComponentVariant* componentVariant = nullptr;
+	std::shared_ptr<Component> component = std::make_shared<Component>();
 
-	for (int i = 0; i < this->componentVariants.size(); i++)
+	for (int i = 0; i < this->components.size(); i++)
 	{
-		ComponentVariant& currentComponentVariant = this->componentVariants.at(i);
-		if (currentComponentVariant.getID() == componentID)
-			componentVariant = &currentComponentVariant;
+		std::shared_ptr<Component> currentComponent = this->components.at(i);
+		if (currentComponent->getID() == componentID)
+			component = currentComponent;
 	}
 
-	return *componentVariant;
+	return *component;
 }
 
 Esi::Entity::SpatialDimension Esi::Scene::getComponentSpatialDimension(ComponentID componentID)

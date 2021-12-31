@@ -25,7 +25,7 @@
 #include <string>
 #include <set>
 #include "scene/scene.hpp"
-#include "scene/component_variant.hpp"
+#include "scene/component.hpp"
 #include <os/os.hpp>
 
 Esi::SceneSerializer::SceneSerializer(std::string dataDirectory)
@@ -73,8 +73,6 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
-							ComponentVariant componentVariant;
-
 							//Entity attributes
 							if (it2->first.as<std::string>() == "name")
 							{
@@ -94,7 +92,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							//Components
 							else if (it2->first.as<std::string>() == "BehaviourTree")
 							{
-								BehaviourTree* aiBehaviourTree = new BehaviourTree();
+								std::shared_ptr<BehaviourTree> behaviourTree(new BehaviourTree());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -108,8 +106,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(aiBehaviourTree);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(behaviourTree);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "SightPerception")
 							{
@@ -169,7 +167,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "Camera")
 							{
-								Camera* camera = new Camera();
+								std::shared_ptr<Camera> camera(new Camera());
 
 								camera->setViewportHeight(480);
 								camera->setIsStreaming(true);
@@ -200,8 +198,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(camera);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "BallCollider")
 							{
@@ -247,8 +245,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "CountdownTimer")
 							{
-
-								CountdownTimer* countdownTimer = new CountdownTimer();
+								std::shared_ptr<CountdownTimer> countdownTimer(new CountdownTimer());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -258,8 +255,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(countdownTimer);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "NavigationMeshAgent")
 							{
@@ -417,7 +414,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "Sprite")
 							{
-								Sprite* sprite = new Sprite();
+								std::shared_ptr<Sprite> sprite(new Sprite());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -430,8 +427,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(sprite);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "StaticFluid")
 							{
@@ -449,7 +446,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "Transform")
 							{
-								Transform* transform = new Transform();
+								std::shared_ptr<Transform> transform(new Transform());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -473,8 +470,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(transform);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "UIButton")
 							{
@@ -674,7 +671,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "UITextLabel")
 							{
-								UITextLabel* uiTextLabel = new UITextLabel();
+								std::shared_ptr<UITextLabel> uiTextLabel(new UITextLabel());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -702,8 +699,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(uiTextLabel);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "UITree")
 							{
@@ -721,7 +718,7 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "UIViewport")
 							{
-								UIViewport* uiViewport = new UIViewport();
+								std::shared_ptr<UIViewport> uiViewport(new UIViewport());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -731,8 +728,8 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 								}
 
-								componentVariant.setTo(uiViewport);
-								scene.addComponentToLastEntity(componentVariant);
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiViewport);
+								scene.addComponentToLastEntity(component);
 							}
 							/*Non-components*/
 							else if (it2->first.as<std::string>() == "Scripts")

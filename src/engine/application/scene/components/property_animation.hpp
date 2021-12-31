@@ -26,11 +26,11 @@
 #include <vector>
 #include "utilities/constants.hpp"
 #include <stdint.h>
-
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class PropertyAnimation
+	class PropertyAnimation : public Component
 	{
 	public:
 		float* targetDoubleProperty = NULL;
@@ -44,6 +44,8 @@ namespace Esi
 		uint8_t repeats = 0;
 		uint8_t repeatCount = 0;
 		bool isPlaying = false;
+
+		std::string getType() const override;
 	private:
 	};
 }

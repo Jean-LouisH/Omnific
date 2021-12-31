@@ -25,14 +25,17 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include "utilities/aabb_2d.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class NavigationMeshBoxObstacle
+	class NavigationMeshBoxObstacle : public Component
 	{
 	public:
 		AABB2D aabb;
+
+		std::string getType() const override;
 	private:
 	};
 }

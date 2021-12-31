@@ -25,11 +25,12 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <glm/glm.hpp>
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class RigidBody
+	class RigidBody : public Component
 	{
 	public:
 		float mass_kg = 1.0;
@@ -46,6 +47,8 @@ namespace Esi
 			this->drag_ratio.x = 0.0001;
 			this->drag_ratio.y = 1.0;
 		}
+
+		std::string getType() const override;
 	private:
 	};
 }

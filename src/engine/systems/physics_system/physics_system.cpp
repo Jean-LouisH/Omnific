@@ -42,16 +42,15 @@ void Esi::PhysicsSystem::process(Scene& scene, uint32_t msPerComputeUpdate)
 
 void Esi::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 {
-	std::vector<ComponentVariant>& componentVariants = scene.getComponentVariants();
-	ComponentVariant* componentVariantsData = componentVariants.data();
-	int componentVariantCount = componentVariants.size();
+	std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
+	int componentVariantCount = components.size();
 
 	for (int j = 0; j < componentVariantCount; j++)
 	{
-		ComponentVariant* componentVariant = &componentVariantsData[j];
-		if (componentVariant->getType() == ComponentVariant::Type::COUNTDOWN_TIMER)
+		std::shared_ptr<Component> component = components.at(j);
+		if (component->getType() == "CountdownTimer")
 		{
-			componentVariant->getCountdownTimer()->update(msPerComputeUpdate * (1.0 / MS_IN_S));
+			std::dynamic_pointer_cast<CountdownTimer>(component)->update(msPerComputeUpdate * (1.0 / MS_IN_S));
 		}
 	}
 }

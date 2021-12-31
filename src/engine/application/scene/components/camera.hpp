@@ -27,11 +27,12 @@
 #include "utilities/aabb_2d.hpp"
 #include <glm/glm.hpp>
 #include "utilities/constants.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class Camera
+	class Camera : public Component
 	{
 	public:
 		Camera();
@@ -43,6 +44,8 @@ namespace Esi
 		void setLimits(float left, float bottom, float top, float right);
 		void setKeepAspect(bool value);
 		void setIsStreaming(bool value);
+
+		std::string getType() const override;
 	private:
 		const float defaultAspect = 1920.0 / 1080.0;
 		float aspect = defaultAspect;

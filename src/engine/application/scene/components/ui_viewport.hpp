@@ -26,10 +26,11 @@
 #include <utilities/rectangle.hpp>
 #include <utilities/aliases.hpp>
 #include <utilities/constants.hpp>
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class UIViewport
+	class UIViewport : public Component
 	{
 	public:
 		UIViewport();
@@ -43,6 +44,8 @@ namespace Esi
 		void setInvisibleToOtherCameras();
 		void setVisible();
 		void setInvisible();
+
+		std::string getType() const override;
 	private:
 		Rectangle dimensions;
 		EntityID cameraEntityID = DUMMY_ENTITY;

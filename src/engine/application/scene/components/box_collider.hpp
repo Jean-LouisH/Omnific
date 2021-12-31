@@ -25,11 +25,11 @@
 #include "utilities/aliases.hpp"
 #include "utilities/aabb_2d.hpp"
 #include "utilities/constants.hpp"
-
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class BoxCollider
+	class BoxCollider : public Component
 	{
 	public:
 		enum PlatformSide
@@ -43,6 +43,8 @@ namespace Esi
 
 		AABB2D aabb;
 		PlatformSide platformSide = PLATFORM_SIDE_NONE;
+
+		std::string getType() const override;
 	private:
 	};
 }

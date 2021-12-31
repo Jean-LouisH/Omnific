@@ -28,11 +28,12 @@
 #include "utilities/constants.hpp"
 #include <string>
 #include "application/scene/assets/image.hpp"
+#include "application/scene/renderable_component.hpp"
 
 
 namespace Esi
 {
-	class AnimatedSprite
+	class AnimatedSprite : public RenderableComponent
 	{
 		using FrameIndex = uint16_t;
 		using FrameSequence = std::vector<Image>;
@@ -69,6 +70,9 @@ namespace Esi
 		std::vector<std::string> getFrameSequenceNames();
 		FrameSequence getFrameSequenceByName(std::string frameSequenceName);
 		FrameSequence getCurrentFrameSequence();
+
+		std::string getType() const override;
+		Image& getImage() override;
 	private:
 		std::unordered_map<std::string, FrameSequence> frameSequences;
 		uint8_t alpha = 255;

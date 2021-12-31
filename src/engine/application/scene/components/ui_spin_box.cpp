@@ -26,3 +26,8 @@ Esi::Image& Esi::UISpinBox::getImage()
 {
 	return this->image;
 }
+
+std::string Esi::UISpinBox::getType() const
+{
+	return "UISpinBox";
+}

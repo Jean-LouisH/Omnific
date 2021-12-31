@@ -25,11 +25,12 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include "application/scene/assets/image.hpp"
+#include "application/scene/renderable_component.hpp"
 
 
 namespace Esi
 {
-	class UIItemList
+	class UIItemList : public RenderableComponent
 	{
 	public:
 		void setLowerBound(uint32_t lowerBound);
@@ -38,7 +39,10 @@ namespace Esi
 		void decrement();
 		void setIndex(uint32_t index);
 		uint32_t getIndex();
-		Image& getImage();
+
+		std::string getType() const override;
+		Image& getImage() override;
+		
 	private:
 		Image image;
 		uint32_t lowerBound = 0;

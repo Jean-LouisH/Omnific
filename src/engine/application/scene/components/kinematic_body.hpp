@@ -25,13 +25,14 @@
 #include "utilities/aliases.hpp"
 #include <glm/glm.hpp>
 #include "utilities/constants.hpp"
-
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class KinematicBody
+	class KinematicBody : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }

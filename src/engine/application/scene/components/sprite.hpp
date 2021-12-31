@@ -29,11 +29,12 @@
 #include <string>
 #include "application/scene/assets/image.hpp"
 #include <memory>
-
+#include "application/scene/renderable_component.hpp"
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class Sprite
+	class Sprite : public RenderableComponent
 	{
 	public:
 		void setImage(std::shared_ptr<Image> image);
@@ -45,7 +46,8 @@ namespace Esi
 		void flipVertically();
 		void flipHorizontally();
 
-		Image& getImage();
+		std::string getType() const override;
+		Image& getImage() override;
 	private:
 		std::shared_ptr<Image> image;
 		bool isFlippedVertically = false;

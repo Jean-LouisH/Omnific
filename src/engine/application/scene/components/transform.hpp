@@ -24,10 +24,11 @@
 
 
 #include <glm/glm.hpp>
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class Transform
+	class Transform : public Component
 	{
 	public:
 		glm::vec3 translation;
@@ -41,6 +42,8 @@ namespace Esi
 			this->scale.y = 1;
 			this->scale.z = 1;
 		}
+
+		std::string getType() const override;
 	private:
 	};
 }

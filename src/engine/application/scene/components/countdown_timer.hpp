@@ -24,17 +24,20 @@
 
 #include "../../../utilities/aliases.hpp"
 #include "utilities/constants.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class CountdownTimer
+	class CountdownTimer : public Component
 	{
 	public:
 		void start(float time);
 		void update(float deltaTime);
 		void stop();
 		bool isFinished();
+
+		std::string getType() const override;
 	private:
 		bool isActive = false;
 		float startTime = 0.0;

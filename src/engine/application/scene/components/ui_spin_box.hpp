@@ -23,13 +23,16 @@
 #pragma once
 
 #include "application/scene/assets/image.hpp"
+#include "application/scene/renderable_component.hpp"
 
 namespace Esi
 {
-	class UISpinBox
+	class UISpinBox : public RenderableComponent
 	{
 	public:
-		Image& getImage();
+		std::string getType() const override;
+		Image& getImage() override;
+		
 	private:
 		Image image;
 	};

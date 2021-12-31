@@ -26,3 +26,8 @@ Esi::Image& Esi::UIProgressBar::getImage()
 {
 	return this->image;
 }
+
+std::string Esi::UIProgressBar::getType() const
+{
+	return "UIProgressBar";
+}

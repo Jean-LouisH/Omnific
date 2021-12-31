@@ -29,10 +29,11 @@
 #include "utilities/rectangle.hpp"
 #include "utilities/colour.hpp"
 #include <memory>
+#include "application/scene/renderable_component.hpp"
 
 namespace Esi
 {
-	class UITextLabel
+	class UITextLabel : public RenderableComponent
 	{
 	public:
 
@@ -51,9 +52,12 @@ namespace Esi
 		void setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 		Font::Style getFontStyle();
 
-		Image& getImage();
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
+
+		std::string getType() const override;
+		Image& getImage() override;
+		
 	private:
 		std::string text;
 		std::shared_ptr<Esi::Font> font;

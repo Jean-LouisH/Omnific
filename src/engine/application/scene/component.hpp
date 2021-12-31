@@ -40,6 +40,8 @@ namespace Esi
 		ComponentID getID();
 		EntityID getEntityID();
 		bool isAttachedToEntity();
+		virtual std::string getType() const;
+		virtual bool isRenderable();
 	private:
 		ComponentID id = 0;
 		EntityID entityID = DUMMY_ENTITY;

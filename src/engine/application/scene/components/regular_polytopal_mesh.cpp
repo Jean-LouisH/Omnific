@@ -26,3 +26,8 @@ Esi::Image& Esi::RegularPolytopalMesh::getImage()
 {
 	return this->image;
 }
+
+std::string Esi::RegularPolytopalMesh::getType() const
+{
+	return "RegularPolytopalMesh";
+}

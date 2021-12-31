@@ -31,7 +31,7 @@ namespace Esi
 	{
 	public:
 		virtual Image& getImage() = 0;
-		virtual void unloadImage() = 0;
+		bool isRenderable() override;
 	private:
 	};
 }

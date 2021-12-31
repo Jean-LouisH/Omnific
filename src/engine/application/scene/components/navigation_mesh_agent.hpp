@@ -25,13 +25,15 @@
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class NavigationMeshAgent
+	class NavigationMeshAgent : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }

@@ -24,14 +24,17 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class BallCollider
+	class BallCollider : public Component
 	{
 	public:
 		float radius = 0.0;
+
+		std::string getType() const override;
 	private:
 	};
 }

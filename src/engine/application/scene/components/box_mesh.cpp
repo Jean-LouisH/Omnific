@@ -26,3 +26,8 @@ Esi::Image& Esi::BoxMesh::getImage()
 {
 	return this->image;
 }
+
+std::string Esi::BoxMesh::getType() const
+{
+	return "BoxMesh";
+}

@@ -26,14 +26,17 @@
 #include "utilities/constants.hpp"
 #include <vector>
 #include <glm/glm.hpp>
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class NavigationPath
+	class NavigationPath : public Component
 	{
 	public:
 		std::vector<glm::vec3> waypoints;
+
+		std::string getType() const override;
 	private:
 	};
 }

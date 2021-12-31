@@ -177,3 +177,13 @@ Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getCurrentFrameSequence(
 {
 	return this->frameSequences.at(this->currentFrameSequenceName);
 }
+
+std::string Esi::AnimatedSprite::getType() const
+{
+	return "AnimatedSprite";
+}
+
+Esi::Image& Esi::AnimatedSprite::getImage()
+{
+	return this->getCurrentFrame();
+}

@@ -78,3 +78,8 @@ void Esi::UIViewport::setInvisible()
 {
 	this->isVisible = false;
 }
+
+std::string Esi::UIViewport::getType() const
+{
+	return "UIViewport";
+}

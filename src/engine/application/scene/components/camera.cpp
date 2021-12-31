@@ -73,3 +73,8 @@ void Esi::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
 }
+
+std::string Esi::Camera::getType() const
+{
+	return "Camera";
+}

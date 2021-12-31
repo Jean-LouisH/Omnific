@@ -27,11 +27,12 @@
 #include <set>
 #include <string>
 #include "utilities/constants.hpp"
+#include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class BoxTriggerSpace
+	class BoxTriggerSpace : public Component
 	{
 	public:
 		AABB2D aabb;
@@ -41,6 +42,8 @@ namespace Esi
 
 		bool hasEntityEntered(EntityID entityID);
 		bool hasEntityWithTagEntered(std::string entityTag);
+
+		std::string getType() const override;
 	private:
 	};
 }

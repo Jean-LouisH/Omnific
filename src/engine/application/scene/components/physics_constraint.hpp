@@ -22,13 +22,14 @@
 
 #pragma once
 
-
+#include "application/scene/component.hpp"
 
 namespace Esi
 {
-	class PhysicsConstraint
+	class PhysicsConstraint : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }

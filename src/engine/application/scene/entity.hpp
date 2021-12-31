@@ -23,7 +23,7 @@
 #pragma once
 
 #include <application/scene/assets/shader.hpp>
-#include "component_variant.hpp"
+#include "component.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>
@@ -46,7 +46,7 @@ namespace Esi
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;
-		std::unordered_map<ComponentVariant::Type, ComponentID> components;
+		std::unordered_map<std::string, ComponentID> components;
 		std::vector<std::string> scripts;
 		std::vector<Shader> shaders;
 

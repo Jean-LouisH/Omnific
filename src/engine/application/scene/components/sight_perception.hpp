@@ -26,9 +26,10 @@
 
 namespace Esi
 {
-	class SightPerception
+	class SightPerception : public Component
 	{
 	public:
+		std::string getType() const override;
 	private:
 	};
 }
