@@ -26,6 +26,7 @@
 #include "application/scene/scene.hpp"
 #include <application/scene_storage.hpp>
 #include "utilities/aliases.hpp"
+#include <memory>
 
 namespace Esi
 {
@@ -42,7 +43,7 @@ namespace Esi
 		void executeOnFinishMethods(Scene& scene);
 		void setSceneStorage(SceneStorage* sceneStorage);
 	private:
-		VirtualMachine* vm = nullptr;
+		std::unique_ptr<VirtualMachine> vm;
 	};
 }
 

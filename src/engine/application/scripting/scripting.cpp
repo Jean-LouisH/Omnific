@@ -25,7 +25,7 @@
 
 Esi::Scripting::Scripting()
 {
-	this->vm = new VirtualMachine();
+	this->vm = std::unique_ptr<VirtualMachine>(new VirtualMachine());
 }
 
 void Esi::Scripting::loadModules(Scene scene)

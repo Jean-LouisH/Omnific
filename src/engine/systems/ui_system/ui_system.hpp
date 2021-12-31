@@ -24,17 +24,19 @@
 
 #include "application/scene/scene.hpp"
 #include "os/human_interface_devices.hpp"
+#include "system.hpp"
+#include <memory>
 
 namespace Esi
 {
-	class UISystem
+	class UISystem : public System
 	{
 	public:
 		UISystem(HumanInterfaceDevices* hid);
 		~UISystem();
-		void process(Scene& scene);
+		void process(Scene& scene) override;
 	private:
-		HumanInterfaceDevices* hid = nullptr;
+		std::shared_ptr<HumanInterfaceDevices> hid;
 
 		void orderUIComponentsByHierarchy();
 		void positionUIComponentsByHierarchy();

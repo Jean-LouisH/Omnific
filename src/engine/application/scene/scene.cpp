@@ -26,6 +26,10 @@
 
 Esi::Scene::Scene()
 {
+	this->assetCache = std::shared_ptr<AssetCache>(new AssetCache);
+	this->eventBus = std::shared_ptr<EventBus>(new EventBus);
+	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer);
+
 	std::shared_ptr<Transform> transform(new Transform());
 	std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
 
@@ -312,7 +316,7 @@ Esi::Entity::SpatialDimension Esi::Scene::getComponentSpatialDimension(Component
 
 Esi::EventBus& Esi::Scene::getEventBus()
 {
-	return this->eventBus;
+	return *this->eventBus;
 }
 
 Esi::SceneID Esi::Scene::getID()
@@ -322,17 +326,17 @@ Esi::SceneID Esi::Scene::getID()
 
 Esi::AssetCache& Esi::Scene::getAssetCache()
 {
-	return this->assetCache;
+	return *this->assetCache;
 }
 
 Esi::HapticSignalBuffer& Esi::Scene::getHapticSignalBuffer()
 {
-	return this->hapticSignalBuffer;
+	return *this->hapticSignalBuffer;
 }
 
 void Esi::Scene::unload()
 {
-	this->assetCache.deleteAllAssets();
+	this->assetCache->deleteAllAssets();
 }
 
 Esi::Entity& Esi::Scene::getDummyEntity()

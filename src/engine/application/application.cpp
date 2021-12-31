@@ -27,11 +27,11 @@
 
 Esi::Application::Application()
 {
-	this->scripting = new Scripting();
-	this->sceneStorage = new SceneStorage();
-	this->commandLine = new CommandLine(
-		this->sceneSerializer,
-		this->sceneStorage);
+	this->scripting = std::shared_ptr<Scripting>(new Scripting());
+	this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
+	this->commandLine = std::shared_ptr<CommandLine>(new CommandLine(
+		this->sceneSerializer.get(),
+		this->sceneStorage.get()));
 
 	ScriptingAPIs::initialize();
 }
@@ -49,7 +49,7 @@ void Esi::Application::initialize()
 
 	if (OS::getFileAccess().exists(bootFilepath))
 	{
-		this->configuration = bootLoader.loadFromFile(bootFilepath);
+		this->configuration = std::shared_ptr<Configuration>(bootLoader.loadFromFile(bootFilepath));
 #ifdef _DEBUG
 		std::string debugDataFilepath = DEBUG_DATA_FILEPATH;
 		std::string debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
@@ -57,8 +57,8 @@ void Esi::Application::initialize()
 			this->configuration->metadata.entrySceneFilepath = "assets/scenes/debug.yml";
 #endif
 		OS::getFileAccess().setDataDirectory(dataDirectory);
-		this->sceneSerializer = new SceneSerializer(dataDirectory);
-		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer);
+		this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
+		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer.get());
 
 		Image image = Image((dataDirectory + this->configuration->metadata.iconFilepath).c_str());
 		OS::getWindow().changeIcon(image);
@@ -68,12 +68,12 @@ void Esi::Application::initialize()
 		{
 			entryScene = this->sceneSerializer->loadFromFile(this->configuration->metadata.entrySceneFilepath);
 			this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
-			this->scripting->setSceneStorage(this->sceneStorage);
+			this->scripting->setSceneStorage(this->sceneStorage.get());
 		}
 	}
 	else
 	{
-		this->configuration = new Configuration();
+		this->configuration = std::shared_ptr<Configuration>(new Configuration());
 		this->configuration->isLoaded = false;
 	}
 
@@ -183,9 +183,7 @@ void Esi::Application::executeOnFinishMethods()
 
 void Esi::Application::deinitialize()
 {
-	delete this->configuration;
-	delete this->sceneSerializer;
-	delete this->scripting;
+
 }
 
 Esi::Scene& Esi::Application::getActiveScene()

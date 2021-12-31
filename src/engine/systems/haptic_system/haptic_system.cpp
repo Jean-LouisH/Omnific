@@ -25,7 +25,7 @@
 
 Esi::HapticSystem::HapticSystem(HumanInterfaceDevices* hid)
 {
-	this->hid = hid;
+	this->hid = std::shared_ptr<HumanInterfaceDevices>(hid);
 }
 
 void Esi::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)

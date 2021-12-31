@@ -30,6 +30,7 @@
 #include "os/os.hpp"
 #include "os/profiler.hpp"
 #include "scene_storage.hpp"
+#include <memory>
 
 namespace Esi
 {
@@ -43,7 +44,7 @@ namespace Esi
 
 		void execute(std::string command);
 	private:
-		SceneSerializer* sceneSerializer = nullptr;
-		SceneStorage* sceneStorage = nullptr;
+		std::shared_ptr<SceneSerializer> sceneSerializer;
+		std::shared_ptr<SceneStorage> sceneStorage;
 	};
 }

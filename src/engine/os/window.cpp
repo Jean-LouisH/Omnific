@@ -36,30 +36,30 @@ Esi::Window::Window(const char* title, uint16_t width, uint16_t height, bool isF
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	this->sdlWindow = SDL_CreateWindow(
+	this->sdlWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
 		title,
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width,
 		height,
-		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | SDL_WINDOW_OPENGL);
+		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | SDL_WINDOW_OPENGL));
 
 	SDL_DisableScreenSaver();
-	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode);
+	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode.get());
 }
 
 
 void Esi::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
-	SDL_SetWindowFullscreen(this->sdlWindow, 0);
-	SDL_SetWindowSize(this->sdlWindow, width_px, height_px);
+	SDL_SetWindowFullscreen(this->sdlWindow.get(), 0);
+	SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
 
 }
 
 void Esi::Window::setToFullscreen()
 {
-	SDL_SetWindowDisplayMode(this->sdlWindow, this->sdlDisplayMode);
-	SDL_SetWindowFullscreen(this->sdlWindow, SDL_WINDOW_FULLSCREEN);
+	SDL_SetWindowDisplayMode(this->sdlWindow.get(), this->sdlDisplayMode.get());
+	SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN);
 }
 
 void Esi::Window::toggleWindowedFullscreen()
@@ -68,13 +68,13 @@ void Esi::Window::toggleWindowedFullscreen()
 
 	if (this->isFullscreen)
 	{
-		SDL_SetWindowFullscreen(this->sdlWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN_DESKTOP);
 	}
 	else
 	{
-		SDL_SetWindowFullscreen(this->sdlWindow, 0);
+		SDL_SetWindowFullscreen(this->sdlWindow.get(), 0);
 		SDL_SetWindowPosition(
-			this->sdlWindow,
+			this->sdlWindow.get(),
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED);
 	}
@@ -84,48 +84,48 @@ void Esi::Window::toggleWindowedFullscreen()
 
 void Esi::Window::resize(uint16_t width_px, uint16_t height_px)
 {
-	SDL_SetWindowSize(this->sdlWindow, width_px, height_px);
-	SDL_SetWindowPosition(this->sdlWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+	SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
+	SDL_SetWindowPosition(this->sdlWindow.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }
 
 void Esi::Window::changeTitle(const char* title)
 {
-	SDL_SetWindowTitle(this->sdlWindow, title);
+	SDL_SetWindowTitle(this->sdlWindow.get(), title);
 }
 
 void Esi::Window::changeIcon(Image image)
 {
-	SDL_SetWindowIcon(this->sdlWindow, image.getSDLSurface());
+	SDL_SetWindowIcon(this->sdlWindow.get(), image.getSDLSurface());
 }
 
 void Esi::Window::maximize()
 {
-	SDL_MaximizeWindow(this->sdlWindow);
+	SDL_MaximizeWindow(this->sdlWindow.get());
 }
 
 void Esi::Window::minimize()
 {
-	SDL_MinimizeWindow(this->sdlWindow);
+	SDL_MinimizeWindow(this->sdlWindow.get());
 }
 
 void Esi::Window::raise()
 {
-	SDL_RaiseWindow(this->sdlWindow);
+	SDL_RaiseWindow(this->sdlWindow.get());
 }
 
 void Esi::Window::restore()
 {
-	SDL_RestoreWindow(this->sdlWindow);
+	SDL_RestoreWindow(this->sdlWindow.get());
 }
 
 void Esi::Window::hide()
 {
-	SDL_HideWindow(this->sdlWindow);
+	SDL_HideWindow(this->sdlWindow.get());
 }
 
 void Esi::Window::show()
 {
-	SDL_ShowWindow(this->sdlWindow);
+	SDL_ShowWindow(this->sdlWindow.get());
 }
 
 void Esi::Window::sleep(int time_ms)
@@ -136,7 +136,7 @@ void Esi::Window::sleep(int time_ms)
 
 void Esi::Window::swapBuffers()
 {
-	SDL_GL_SwapWindow(this->sdlWindow);
+	SDL_GL_SwapWindow(this->sdlWindow.get());
 }
 
 Esi::Rectangle Esi::Window::getWindowSize()
@@ -145,7 +145,7 @@ Esi::Rectangle Esi::Window::getWindowSize()
 	int width = 0;
 	int height = 0;
 	
-	SDL_GetWindowSize(this->sdlWindow, &width, &height);
+	SDL_GetWindowSize(this->sdlWindow.get(), &width, &height);
 	rectangle.width = width;
 	rectangle.height = height;
 
@@ -154,5 +154,5 @@ Esi::Rectangle Esi::Window::getWindowSize()
 
 SDL_Window* Esi::Window::getSDLWindow()
 {
-	return this->sdlWindow;
+	return this->sdlWindow.get();
 }

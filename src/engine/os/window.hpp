@@ -27,6 +27,7 @@
 #include <unordered_map>
 #include <application/scene/assets/image.hpp>
 #include <utilities/rectangle.hpp>
+#include <memory>
 
 namespace Esi
 {
@@ -52,8 +53,8 @@ namespace Esi
 
 		SDL_Window* getSDLWindow();
 	private:
-		SDL_Window* sdlWindow = nullptr;
-		SDL_DisplayMode* sdlDisplayMode = nullptr;
+		std::shared_ptr<SDL_Window> sdlWindow;
+		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
 		bool isFullscreen;
 	};
 }

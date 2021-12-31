@@ -30,6 +30,7 @@
 #include "os/human_interface_devices.hpp"
 #include <application/scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
+#include <memory>
 
 namespace Esi
 {
@@ -46,7 +47,7 @@ namespace Esi
 			bool isPlaying;
 		};
 
-		HumanInterfaceDevices* hid = nullptr;
+		std::shared_ptr<HumanInterfaceDevices> hid;
 		std::unordered_map<PlayerID, HapticPlayback> hapticPlaybacks;
 
 		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);

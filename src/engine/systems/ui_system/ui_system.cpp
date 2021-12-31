@@ -28,7 +28,7 @@ Esi::UISystem::UISystem(HumanInterfaceDevices* hid)
 	if (TTF_Init() == -1) 
 		printf("TTF_Init: %s\n", TTF_GetError());
 
-	this->hid = hid;
+	this->hid = std::shared_ptr<HumanInterfaceDevices>(hid);
 }
 
 Esi::UISystem::~UISystem()

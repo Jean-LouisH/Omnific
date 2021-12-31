@@ -37,6 +37,7 @@
 #include <vector>
 #include <stack>
 #include <string>
+#include <memory>
 
 namespace Esi
 {
@@ -55,10 +56,10 @@ namespace Esi
 		Scene& getActiveScene();
 		Configuration& getConfiguration();
 	private:
-		Configuration* configuration = nullptr;
-		SceneSerializer* sceneSerializer = nullptr;
-		CommandLine* commandLine = nullptr;
-		Scripting* scripting = nullptr;
-		SceneStorage* sceneStorage = nullptr;
+		std::shared_ptr<Configuration> configuration;
+		std::shared_ptr<SceneSerializer> sceneSerializer;
+		std::shared_ptr<CommandLine> commandLine;
+		std::shared_ptr<Scripting> scripting;
+		std::shared_ptr<SceneStorage> sceneStorage;
 	};
 }

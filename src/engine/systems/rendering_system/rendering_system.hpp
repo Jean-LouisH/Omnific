@@ -31,6 +31,7 @@
 #include "utilities/aliases.hpp"
 #include "rendering_context.hpp"
 #include "renderables.hpp"
+#include <memory>
 
 namespace Esi
 {
@@ -42,9 +43,9 @@ namespace Esi
 		void process(Scene& scene) override;
 		Renderables& getRenderables();
 	private:
-		RenderingContext* context = nullptr;
-		ShaderCompiler* shaderCompiler = nullptr;
-		Renderables* renderables = nullptr;
+		std::unique_ptr<RenderingContext> context;
+		std::unique_ptr<ShaderCompiler> shaderCompiler;
+		std::shared_ptr<Renderables> renderables;
 		void buildRenderables(Scene& scene);
 		std::set<AssetID> renderingAssetIDCache;
 	};

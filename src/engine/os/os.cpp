@@ -36,22 +36,15 @@ void Esi::OS::initialize(
 {
 	OS* newInstance = getInstance();
 
-	newInstance->logger = new Logger();
-	newInstance->window = new Window(title, width, height, isFullscreen);
-	newInstance->hid = new HumanInterfaceDevices();
-	newInstance->fileAccess = new FileAccess(executableFilepath);
-	newInstance->profiler = new Profiler();
-	newInstance->platform = new Platform();
-	newInstance->threadPool = new ThreadPool();
-	newInstance->runTimer = new HiResTimer();
+	newInstance->logger = std::shared_ptr<Logger>(new Logger());
+	newInstance->window = std::shared_ptr<Window>(new Window(title, width, height, isFullscreen));
+	newInstance->hid = std::shared_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
+	newInstance->fileAccess = std::shared_ptr<FileAccess>(new FileAccess(executableFilepath));
+	newInstance->profiler = std::shared_ptr<Profiler>(new Profiler());
+	newInstance->platform = std::shared_ptr<Platform>(new Platform());
+	newInstance->threadPool = std::shared_ptr<ThreadPool>(new ThreadPool());
+	newInstance->runTimer = std::shared_ptr<HiResTimer>(new HiResTimer());
 	newInstance->runTimer->setStart();
-}
-
-Esi::OS::~OS()
-{
-	delete this->window;
-	delete this->hid;
-	delete this->fileAccess;
 }
 
 Esi::Window& Esi::OS::getWindow()

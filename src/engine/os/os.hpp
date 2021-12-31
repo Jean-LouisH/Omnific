@@ -37,7 +37,6 @@ namespace Esi
 	class OS
 	{
 	public:
-		~OS();
 		static void initialize(
 			const char* title, 
 			uint16_t width, 
@@ -58,14 +57,14 @@ namespace Esi
 	private:
 		static OS* instance;
 
-		HiResTimer* runTimer = nullptr;
-		Window* window = nullptr;
-		HumanInterfaceDevices* hid = nullptr;
-		Logger* logger = nullptr;
-		FileAccess* fileAccess = nullptr;
-		Profiler* profiler = nullptr;
-		Platform* platform = nullptr;
-		ThreadPool* threadPool = nullptr;
+		std::shared_ptr<HiResTimer> runTimer;
+		std::shared_ptr<Window> window;
+		std::shared_ptr<HumanInterfaceDevices> hid;
+		std::shared_ptr<Logger> logger;
+		std::shared_ptr<FileAccess> fileAccess;
+		std::shared_ptr<Profiler> profiler;
+		std::shared_ptr<Platform> platform;
+		std::shared_ptr<ThreadPool> threadPool;
 
 		static OS* getInstance();
 	};

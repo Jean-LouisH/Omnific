@@ -93,6 +93,8 @@
 #include "components/ui_tree.hpp"
 #include "components/ui_viewport.hpp"
 
+#include <memory>
+
 namespace Esi
 {
 	class Scene
@@ -149,9 +151,9 @@ namespace Esi
 		EntityID dummyEntityID = DUMMY_ENTITY;
 		EntityID lastEntityID = DUMMY_ENTITY;
 
-		AssetCache assetCache;
-		EventBus eventBus;
-		HapticSignalBuffer hapticSignalBuffer;
+		std::shared_ptr<AssetCache> assetCache;
+		std::shared_ptr<EventBus> eventBus;
+		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer;
 
 		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;
 		std::vector<size_t> renderOrderIndexCache;

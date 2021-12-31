@@ -27,8 +27,8 @@ Esi::CommandLine::CommandLine(
 	SceneStorage* sceneStorage
 )
 {
-	this->sceneSerializer = sceneSerializer;
-	this->sceneStorage = sceneStorage;
+	this->sceneSerializer = std::shared_ptr<SceneSerializer>(sceneSerializer);
+	this->sceneStorage = std::shared_ptr<SceneStorage>(sceneStorage);
 }
 
 void Esi::CommandLine::execute(std::string command)
