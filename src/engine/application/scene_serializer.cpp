@@ -423,7 +423,9 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 								{
 									if (it3->first.as<std::string>() == "image")
 									{
-										Image image = scene.getAssetCache().loadImage((this->dataDirectory + it3->second.as<std::string>()).c_str());
+										std::shared_ptr<Esi::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
+										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
+										scene.getAssetCache().store(asset);
 										sprite->setImage(image);
 									}
 								}
@@ -682,10 +684,11 @@ Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
 									}
 									else if (it3->first.as<std::string>() == "font")
 									{
-										Font font = scene.getAssetCache().loadFont((
-											this->dataDirectory + it3->second[0].as<std::string>()).c_str(),
-											it3->second[1].as<int>());
-
+										std::shared_ptr<Esi::Font> font(new Font(
+											this->dataDirectory + it3->second[0].as<std::string>(),
+											it3->second[1].as<int>()));
+										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
+										scene.getAssetCache().store(asset);
 										uiTextLabel->setFont(font, it3->second[1].as<int>());
 									}
 									else if (it3->first.as<std::string>() == "colour")

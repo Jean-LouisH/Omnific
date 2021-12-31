@@ -24,41 +24,19 @@
 
 #include <unordered_map>
 #include <string>
-#include "assets/audio_stream.hpp"
-#include "assets/font.hpp"
-#include "assets/text.hpp"
-#include "assets/image.hpp"
+#include <memory>
+#include "asset.hpp"
 
 namespace Esi
 {
 	class AssetCache
 	{
 	public:
-		AudioStream loadAudioStream(const char* filepath);
-		Font loadFont(const char* filepath, uint16_t size_px);
-		Text loadText(const char* filepath);
-		Image loadImage(const char* filepath);
-
-		void deleteAudioStream(const char* filepath);
-		void deleteFont(const char* filepath);
-		void deleteText(const char* filepath);
-		void deleteImage(const char* filepath);
-
-		void deleteAllAudioStreams();
-		void deleteAllFonts();
-		void deleteAllTexts();
-		void deleteAllImages();
-
-		void deleteAll();
-
-		std::unordered_map<std::string, AudioStream> getAudioStreams();
-		std::unordered_map<std::string, Font> getFonts();
-		std::unordered_map<std::string, Text> getTexts();
-		std::unordered_map<std::string, Image> getImages();
+		void store(std::shared_ptr<Esi::Asset>);
+		void deleteAsset(std::string filepath);
+		void deleteAllAssets();
+		std::unordered_map<std::string, std::shared_ptr<Esi::Asset>> getAssets();
 	private:
-		std::unordered_map<std::string, AudioStream> audioStreams;
-		std::unordered_map<std::string, Font> fonts;
-		std::unordered_map<std::string, Text> texts;
-		std::unordered_map<std::string, Image> images;
+		std::unordered_map<std::string, std::shared_ptr<Esi::Asset>> assets;
 	};
 }

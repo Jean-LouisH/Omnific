@@ -333,7 +333,7 @@ Esi::HapticSignalBuffer& Esi::Scene::getHapticSignalBuffer()
 
 void Esi::Scene::unload()
 {
-	this->assetCache.deleteAll();
+	this->assetCache.deleteAllAssets();
 }
 
 Esi::Entity& Esi::Scene::getDummyEntity()

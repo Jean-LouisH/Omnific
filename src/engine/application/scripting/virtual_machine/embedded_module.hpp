@@ -27,6 +27,15 @@
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
+#include <application/scene/assets/animation.hpp>
+#include <application/scene/assets/audio_stream.hpp>
+#include <application/scene/assets/font.hpp>
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/material.hpp>
+#include <application/scene/assets/mesh.hpp>
+#include <application/scene/assets/rig.hpp>
+#include <application/scene/assets/shader.hpp>
+#include <application/scene/assets/text.hpp>
 #include <utilities/rectangle.hpp>
 #include <utilities/hi_res_timer.hpp>
 #include <utilities/colour.hpp>
@@ -361,14 +370,10 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 	pybind11::class_<Esi::Text>(m, "Text");
 
 	pybind11::class_<Esi::AssetCache>(m, "AssetCache")
-		.def("load_audio_stream", &Esi::AssetCache::loadAudioStream)
-		.def("load_font", &Esi::AssetCache::loadFont)
-		.def("load_text", &Esi::AssetCache::loadText)
-		.def("load_image", &Esi::AssetCache::loadImage)
-		.def("delete_audio_stream", &Esi::AssetCache::deleteAudioStream)
-		.def("delete_font", &Esi::AssetCache::deleteFont)
-		.def("delete_text", &Esi::AssetCache::deleteText)
-		.def("delete_image", &Esi::AssetCache::deleteImage);
+		.def("store", &Esi::AssetCache::store)
+		.def("delete_asset", &Esi::AssetCache::deleteAsset)
+		.def("delete_all_assets", &Esi::AssetCache::deleteAllAssets)
+		.def("get_assets", &Esi::AssetCache::getAssets);
 
 	/*Utility classes*/
 	pybind11::class_<glm::vec2>(m, "Vector2")

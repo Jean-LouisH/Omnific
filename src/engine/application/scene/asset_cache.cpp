@@ -22,137 +22,23 @@
 
 #include "asset_cache.hpp"
 
-Esi::AudioStream Esi::AssetCache::loadAudioStream(const char* filepath)
+void Esi::AssetCache::store(std::shared_ptr<Esi::Asset> asset)
 {
-	if (!this->audioStreams.count(filepath))
-	{
-		this->audioStreams.emplace(filepath, AudioStream(filepath));
-	}
-
-	return this->audioStreams.at(filepath);
+	if (!this->assets.count(asset->getName()))
+		this->assets.emplace(asset->getName(), asset);
 }
 
-Esi::Font Esi::AssetCache::loadFont(const char* filepath, uint16_t size_px)
+void Esi::AssetCache::deleteAsset(std::string filepath)
 {
-	if (!this->fonts.count(filepath))
-	{
-		this->fonts.emplace(filepath, Font(filepath, size_px));
-	}
-
-	return this->fonts.at(filepath);
+	this->assets.erase(filepath);
 }
 
-Esi::Text Esi::AssetCache::loadText(const char* filepath)
+void Esi::AssetCache::deleteAllAssets()
 {
-	if (!this->texts.count(filepath))
-	{
-		this->texts.emplace(filepath, Text(filepath));
-	}
-
-	return this->texts.at(filepath);
+	this->assets.clear();
 }
 
-Esi::Image Esi::AssetCache::loadImage(const char* filepath)
+std::unordered_map<std::string, std::shared_ptr<Esi::Asset>> Esi::AssetCache::getAssets()
 {
-	if (!this->images.count(filepath))
-	{
-		this->images.emplace(filepath, Image(filepath));
-	}
-
-	return this->images.at(filepath);
-}
-
-void Esi::AssetCache::deleteAudioStream(const char* filepath)
-{
-	this->audioStreams.at(filepath).unload();
-}
-
-void Esi::AssetCache::deleteFont(const char* filepath)
-{
-	this->fonts.at(filepath).unload();
-}
-
-void Esi::AssetCache::deleteText(const char* filepath)
-{
-	this->texts.at(filepath).unload();
-}
-
-void Esi::AssetCache::deleteImage(const char* filepath)
-{
-	this->images.at(filepath).unload();
-}
-
-void Esi::AssetCache::deleteAllAudioStreams()
-{
-	if (!this->audioStreams.empty())
-	{
-		for (std::pair<std::string, AudioStream> element : this->audioStreams)
-		{
-			element.second.unload();
-		}
-		this->audioStreams.clear();
-	}
-}
-
-void Esi::AssetCache::deleteAllFonts()
-{
-	if (!this->fonts.empty())
-	{
-		for (std::pair<std::string, Font> element : this->fonts)
-		{
-			element.second.unload();
-		}
-		this->fonts.clear();
-	}
-}
-
-void Esi::AssetCache::deleteAllTexts()
-{
-	if (!this->texts.empty())
-	{
-		for (std::pair<std::string, Text> element : this->texts)
-		{
-			element.second.unload();
-		}
-		this->texts.clear();
-	}
-}
-
-void Esi::AssetCache::deleteAllImages()
-{
-	if (!this->images.empty())
-	{
-		for (std::pair<std::string, Image> element : this->images)
-		{
-			element.second.unload();
-		}
-		this->images.clear();
-	}
-}
-
-void Esi::AssetCache::deleteAll()
-{
-	deleteAllFonts();
-	deleteAllAudioStreams();
-	deleteAllImages();
-}
-
-std::unordered_map<std::string, Esi::AudioStream> Esi::AssetCache::getAudioStreams()
-{
-	return this->audioStreams;
-}
-
-std::unordered_map<std::string, Esi::Font> Esi::AssetCache::getFonts()
-{
-	return this->fonts;
-}
-
-std::unordered_map<std::string, Esi::Text> Esi::AssetCache::getTexts()
-{
-	return this->texts;
-}
-
-std::unordered_map<std::string, Esi::Image> Esi::AssetCache::getImages()
-{
-	return this->images;
+	return this->assets;
 }
