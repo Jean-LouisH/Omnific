@@ -22,8 +22,6 @@
 
 #pragma once
 
-namespace Esi
-{
 #define TERA 1000000000000.0
 #define GIGA 1000000000.0
 #define MEGA 1000000.0
@@ -56,4 +54,3 @@ namespace Esi
 #if _DEBUG
 	#define DEBUG_CONSOLE_ENABLED
 #endif
-}
