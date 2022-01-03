@@ -130,7 +130,6 @@ void Esi::UITextLabel::generateImage()
 	{
 		if (this->font->getSDLTTFFont() != nullptr)
 		{
-			this->image.unload();
 			this->image = Image(this->text, this->font, this->colour, this->mode);
 		}
 	}

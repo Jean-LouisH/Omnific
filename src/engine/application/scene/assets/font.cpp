@@ -30,23 +30,17 @@ Esi::Font::Font()
 Esi::Font::Font(std::string filepath, uint16_t size_px)
 {
 	this->setName(filepath);
-	this->font = TTF_OpenFont(filepath.c_str(), size_px);
+	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), size_px), TTF_CloseFont);
 }
 
 Esi::Font::Font(TTF_Font* font)
 {
-	this->font = font;
+	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
 TTF_Font* Esi::Font::getSDLTTFFont()
 {
-	return this->font;
-}
-
-void Esi::Font::unload()
-{
-	TTF_CloseFont(this->font);
-	this->font = nullptr;
+	return this->font.get();
 }
 
 std::string Esi::Font::getType() const

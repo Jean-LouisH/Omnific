@@ -42,7 +42,6 @@ namespace Esi
 		Shader();
 		std::string getSource();
 		Type getType();
-		void unload() override;
 		std::string getType() const override;
 	private:
 		std::string source;

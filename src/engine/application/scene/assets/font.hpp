@@ -27,6 +27,7 @@
 #include "SDL_ttf.h"
 #include <utilities/aliases.hpp>
 #include <string>
+#include <memory>
 
 namespace Esi
 {
@@ -55,9 +56,8 @@ namespace Esi
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
 		TTF_Font* getSDLTTFFont();
-		void unload() override;
 		std::string getType() const override;
 	private:
-		TTF_Font* font;
+		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
 	};
 }

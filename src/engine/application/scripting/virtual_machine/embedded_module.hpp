@@ -229,8 +229,7 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 		.def("get_id", &Esi::Asset::getID)
 		.def("set_name", &Esi::Asset::setName)
 		.def("get_name", &Esi::Asset::getName)
-		.def("get_type", &Esi::Asset::getType)
-		.def("unload", &Esi::Asset::unload);
+		.def("get_type", &Esi::Asset::getType);
 
 	pybind11::class_<Esi::AudioStream, Esi::Asset>(m, "AudioStream");
 	pybind11::class_<Esi::Font, Esi::Asset>(m, "Font");

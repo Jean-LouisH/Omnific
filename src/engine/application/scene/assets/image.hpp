@@ -46,7 +46,6 @@ namespace Esi
 		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
 		Image(std::string filepath);
 		Image(SDL_Surface* surface);
-		void unload() override;
 		SDL_Surface* getSDLSurface();
 		uint32_t getWidth();
 		uint32_t getHeight();
@@ -56,7 +55,7 @@ namespace Esi
 		uint8_t getBytesPerPixel();
 		std::string getType() const override;
 	private:
-		SDL_Surface* surface;
+		std::shared_ptr<SDL_Surface> surface = { nullptr, SDL_FreeSurface };
 		uint8_t alpha = 255;
 	};
 }

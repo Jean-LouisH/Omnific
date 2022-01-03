@@ -22,11 +22,6 @@
 
 #include "material.hpp"
 
-void Esi::Material::unload()
-{
-
-}
-
 std::string Esi::Material::getType() const
 {
 	return TYPE_STRING;

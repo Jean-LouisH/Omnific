@@ -22,11 +22,6 @@
 
 #include "rig.hpp"
 
-void Esi::Rig::unload()
-{
-
-}
-
 std::string Esi::Rig::getType() const
 {
 	return TYPE_STRING;

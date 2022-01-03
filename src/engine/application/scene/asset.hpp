@@ -37,7 +37,6 @@ namespace Esi
 		void setName(std::string name);
 		std::string getName();
 		virtual std::string getType() const;
-		virtual void unload() = 0;
 	private:
 		AssetID id = 0;
 		std::string name = "";

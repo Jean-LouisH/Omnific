@@ -49,11 +49,6 @@ Esi::Shader::Type Esi::Shader::getType()
 	return this->type;
 }
 
-void Esi::Shader::unload()
-{
-
-}
-
 std::string Esi::Shader::getType() const
 {
 	return TYPE_STRING;

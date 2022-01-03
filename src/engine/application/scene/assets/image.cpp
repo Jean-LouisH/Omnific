@@ -36,13 +36,13 @@ Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, F
 	switch (mode)
 	{
 	case Font::RenderMode::SOLID:
-		this->surface = TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor);
+		this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
 		break;
 	case Font::RenderMode::SHADED:
-		this->surface = TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor);
+		this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor), SDL_FreeSurface);
 		break;
 	case Font::RenderMode::BLENDED:
-		this->surface = TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor);
+		this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
 		break;
 	}
 }
@@ -50,27 +50,18 @@ Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, F
 Esi::Image::Image(std::string filepath)
 {
 	this->setName(filepath);
-	this->surface = IMG_Load(filepath.c_str());
+	this->surface = std::shared_ptr<SDL_Surface>(IMG_Load(filepath.c_str()), SDL_FreeSurface);
 }
 
 Esi::Image::Image(SDL_Surface* surface)
 {
-	this->surface = surface;
-}
-
-void Esi::Image::unload()
-{
-	if (this->surface != nullptr)
-	{
-		SDL_FreeSurface(this->surface);
-		this->surface = nullptr;
-	}
+	this->surface = std::shared_ptr<SDL_Surface>(surface, SDL_FreeSurface);
 }
 
 SDL_Surface* Esi::Image::getSDLSurface()
 {
 	if (this->surface != nullptr)
-		return this->surface;
+		return this->surface.get();
 	else
 		return nullptr;
 }

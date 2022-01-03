@@ -22,11 +22,6 @@
 
 #include "animation.hpp"
 
-void Esi::Animation::unload()
-{
-
-}
-
 std::string Esi::Animation::getType() const
 {
 	return TYPE_STRING;

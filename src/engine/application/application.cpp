@@ -62,7 +62,6 @@ void Esi::Application::initialize()
 
 		Image image = Image((dataDirectory + this->configuration->metadata.iconFilepath).c_str());
 		OS::getWindow().changeIcon(image);
-		image.unload();
 
 		if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
 		{

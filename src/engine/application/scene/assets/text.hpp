@@ -25,6 +25,7 @@
 #include "application/scene/asset.hpp"
 #include <utilities/aliases.hpp>
 #include <string>
+#include <memory>
 
 namespace Esi
 {
@@ -33,9 +34,8 @@ namespace Esi
 	public:
 		static constexpr const char* TYPE_STRING = "Text";
 		Text(std::string filepath);
-		void unload() override;
 		std::string getType() const override;
 	private:
-		char* data = nullptr;
+		std::string data;
 	};
 }

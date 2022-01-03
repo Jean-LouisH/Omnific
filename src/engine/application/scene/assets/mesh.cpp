@@ -22,11 +22,6 @@
 
 #include "mesh.hpp"
 
-void Esi::Mesh::unload()
-{
-
-}
-
 std::string Esi::Mesh::getType() const
 {
 	return TYPE_STRING;
