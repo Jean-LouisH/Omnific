@@ -23,7 +23,6 @@
 #pragma once
 
 #include "application/scene/scene.hpp"
-#include "os/human_interface_devices.hpp"
 #include "system.hpp"
 #include <memory>
 
@@ -32,12 +31,10 @@ namespace Esi
 	class UISystem : public System
 	{
 	public:
-		UISystem(HumanInterfaceDevices* hid);
+		UISystem();
 		~UISystem();
 		void process(Scene& scene) override;
 	private:
-		std::shared_ptr<HumanInterfaceDevices> hid;
-
 		void orderUIComponentsByHierarchy();
 		void positionUIComponentsByHierarchy();
 		bool isCursorHoveringOverUIComponent(ComponentID componentID);

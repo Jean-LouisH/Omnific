@@ -36,14 +36,14 @@ void Esi::OS::initialize(
 {
 	OS* newInstance = getInstance();
 
-	newInstance->logger = std::shared_ptr<Logger>(new Logger());
-	newInstance->window = std::shared_ptr<Window>(new Window(title, width, height, isFullscreen));
-	newInstance->hid = std::shared_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
-	newInstance->fileAccess = std::shared_ptr<FileAccess>(new FileAccess(executableFilepath));
-	newInstance->profiler = std::shared_ptr<Profiler>(new Profiler());
-	newInstance->platform = std::shared_ptr<Platform>(new Platform());
-	newInstance->threadPool = std::shared_ptr<ThreadPool>(new ThreadPool());
-	newInstance->runTimer = std::shared_ptr<HiResTimer>(new HiResTimer());
+	newInstance->logger = std::unique_ptr<Logger>(new Logger());
+	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen));
+	newInstance->hid = std::unique_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
+	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
+	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
+	newInstance->platform = std::unique_ptr<Platform>(new Platform());
+	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
+	newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
 	newInstance->runTimer->setStart();
 }
 

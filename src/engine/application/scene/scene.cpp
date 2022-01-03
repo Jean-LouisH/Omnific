@@ -26,9 +26,9 @@
 
 Esi::Scene::Scene()
 {
-	this->assetCache = std::shared_ptr<AssetCache>(new AssetCache);
-	this->eventBus = std::shared_ptr<EventBus>(new EventBus);
-	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer);
+	this->assetCache = std::shared_ptr<AssetCache>(new AssetCache());
+	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
+	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 
 	std::shared_ptr<Transform> transform(new Transform());
 	std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);

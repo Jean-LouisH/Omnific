@@ -34,7 +34,7 @@ namespace Esi
 	class RenderingContext
 	{
 	public:
-		RenderingContext(Window& window);
+		RenderingContext();
 		void clearBuffers();
 		void generate2DTextures(std::vector<Image> images);
 		void delete2DTextures();

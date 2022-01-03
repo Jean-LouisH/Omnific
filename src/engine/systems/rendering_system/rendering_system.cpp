@@ -27,10 +27,10 @@
 #include <application/scene/assets/image.hpp>
 #include <os/os.hpp>
 
-Esi::RenderingSystem::RenderingSystem(Window& window)
+Esi::RenderingSystem::RenderingSystem()
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-	this->context = std::unique_ptr<RenderingContext>(new RenderingContext(window));
+	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
 
 	std::vector<std::string> vertexShaderSources;

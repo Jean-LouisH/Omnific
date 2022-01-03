@@ -22,13 +22,12 @@
 
 #include "ui_system.hpp"
 #include "SDL_ttf.h"
+#include "os/os.hpp"
 
-Esi::UISystem::UISystem(HumanInterfaceDevices* hid)
+Esi::UISystem::UISystem()
 {
 	if (TTF_Init() == -1) 
 		printf("TTF_Init: %s\n", TTF_GetError());
-
-	this->hid = std::shared_ptr<HumanInterfaceDevices>(hid);
 }
 
 Esi::UISystem::~UISystem()

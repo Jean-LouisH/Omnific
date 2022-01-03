@@ -57,14 +57,14 @@ namespace Esi
 	private:
 		static OS* instance;
 
-		std::shared_ptr<HiResTimer> runTimer;
-		std::shared_ptr<Window> window;
-		std::shared_ptr<HumanInterfaceDevices> hid;
-		std::shared_ptr<Logger> logger;
-		std::shared_ptr<FileAccess> fileAccess;
-		std::shared_ptr<Profiler> profiler;
-		std::shared_ptr<Platform> platform;
-		std::shared_ptr<ThreadPool> threadPool;
+		std::unique_ptr<HiResTimer> runTimer;
+		std::unique_ptr<Window> window;
+		std::unique_ptr<HumanInterfaceDevices> hid;
+		std::unique_ptr<Logger> logger;
+		std::unique_ptr<FileAccess> fileAccess;
+		std::unique_ptr<Profiler> profiler;
+		std::unique_ptr<Platform> platform;
+		std::unique_ptr<ThreadPool> threadPool;
 
 		static OS* getInstance();
 	};

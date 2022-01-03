@@ -21,12 +21,8 @@
 // SOFTWARE.
 
 #include "haptic_system.hpp"
+#include "os/os.hpp"
 #include <SDL.h>
-
-Esi::HapticSystem::HapticSystem(HumanInterfaceDevices* hid)
-{
-	this->hid = std::shared_ptr<HumanInterfaceDevices>(hid);
-}
 
 void Esi::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
 {
@@ -48,6 +44,7 @@ void Esi::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> h
 
 void Esi::HapticSystem::process(Scene& scene)
 {
+	HumanInterfaceDevices& hid = OS::getHid();
 	HapticSignalBuffer& hapticSignalBuffer = scene.getHapticSignalBuffer();
 	std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
 
@@ -67,7 +64,7 @@ void Esi::HapticSystem::process(Scene& scene)
 				if (hapticPlayback.timer.getDelta_ms() > hapticPlayback.duration_ms)
 				{
 					hapticPlayback.isPlaying = false;
-					this->stopRumble(playerID, this->hid->getHaptics());
+					this->stopRumble(playerID, hid.getHaptics());
 					hapticSignalQueue.pop();
 				}
 			}
@@ -79,7 +76,7 @@ void Esi::HapticSystem::process(Scene& scene)
 					hapticPlayback.duration_ms = hapticSignal.getDuration_ms();
 					hapticPlayback.timer.setStart();
 					hapticPlayback.isPlaying = true;
-					this->rumble(hapticSignal, this->hid->getHaptics());
+					this->rumble(hapticSignal, hid.getHaptics());
 				}
 			}
 		}

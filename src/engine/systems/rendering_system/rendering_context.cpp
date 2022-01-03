@@ -24,9 +24,9 @@
 #include <os/os.hpp>
 #include <string>
 
-Esi::RenderingContext::RenderingContext(Window& window)
+Esi::RenderingContext::RenderingContext()
 {
-	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
+	this->glContext = SDL_GL_CreateContext(OS::getWindow().getSDLWindow());
 
 	if (!gladLoadGL())
 	{

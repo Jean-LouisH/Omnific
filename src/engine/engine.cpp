@@ -122,10 +122,10 @@ bool Esi::Engine::initialize()
 			this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
 			this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
 			this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
-			this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem(&OS::getHid()));
+			this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
 			this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
-			this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem(OS::getWindow()));
-			this->uiSystem = std::unique_ptr<UISystem>(new UISystem(&OS::getHid()));
+			this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
+			this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
 		}
 
 		isInitializedOK = true;

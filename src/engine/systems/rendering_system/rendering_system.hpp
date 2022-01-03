@@ -38,7 +38,7 @@ namespace Esi
 	class RenderingSystem : public System
 	{
 	public:
-		RenderingSystem(Window& window);
+		RenderingSystem();
 		~RenderingSystem();
 		void process(Scene& scene) override;
 		Renderables& getRenderables();

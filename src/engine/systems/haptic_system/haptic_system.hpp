@@ -37,7 +37,6 @@ namespace Esi
 	class HapticSystem : public System
 	{
 	public:
-		HapticSystem(HumanInterfaceDevices* hid);
 		void process(Scene& scene) override;
 	private:
 		typedef struct HapticPlayback
@@ -46,8 +45,6 @@ namespace Esi
 			uint16_t duration_ms;
 			bool isPlaying;
 		};
-
-		std::shared_ptr<HumanInterfaceDevices> hid;
 		std::unordered_map<PlayerID, HapticPlayback> hapticPlaybacks;
 
 		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);
