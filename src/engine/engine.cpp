@@ -38,7 +38,7 @@ void Esi::Engine::run()
 		if (this->initialize())
 		{
 			this->application->initialize();
-			Configuration configuration = this->application->getConfiguration();
+			Configuration& configuration = this->application->getConfiguration();
 
 			if (configuration.isLoaded)
 			{
