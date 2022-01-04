@@ -38,7 +38,7 @@ void Esi::CommandLineAPI::openWindow()
 	//...
 	//...
 
-	Scene& scene = ScriptingAPIs::getSceneAPI().getThisScene();
+	Scene& scene = ScriptingAPIs::getSceneAPI().getScene();
 
 	scene.addEntity(panelEntity);
 	scene.addComponentToLastEntity(uiPanelComponent);
@@ -51,7 +51,7 @@ void Esi::CommandLineAPI::openWindow()
 
 void Esi::CommandLineAPI::closeWindow()
 {
-	Scene& scene = ScriptingAPIs::getSceneAPI().getThisScene();
+	Scene& scene = ScriptingAPIs::getSceneAPI().getScene();
 
 	for (int i = 0; i < this->entityIDs.size(); i++)
 		scene.removeEntity(this->entityIDs.at(i));

@@ -39,15 +39,15 @@ namespace Esi
 		void bindEntity(SceneID sceneTreeID, EntityID entityID);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
-		bool thisHasComponent(std::string type);
+		bool hasComponent(std::string type);
 		void preloadScene(std::string sceneFilename);
 		void loadScene(std::string sceneFilename);
 		void unloadScene(std::string sceneFilename);
 		void changeToScene(std::string sceneFilename);
 
-		Entity& getThisEntity();
-		Scene& getThisScene();
-		Component& getThisComponent(std::string type);
+		Entity& getEntity();
+		Scene& getScene();
+		Component& getComponent(std::string type);
 	private:
 		SceneID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;

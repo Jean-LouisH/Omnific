@@ -78,14 +78,14 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 		.def("get_logs", &Esi::LogAPI::getLogs);
 
 	pybind11::class_<Esi::SceneAPI>(m, "SceneAPI")
-		.def("this_has_component", &Esi::SceneAPI::thisHasComponent)
+		.def("has_component", &Esi::SceneAPI::hasComponent)
 		.def("preload_scene", &Esi::SceneAPI::preloadScene)
 		.def("load_scene", &Esi::SceneAPI::loadScene)
 		.def("unload_scene", &Esi::SceneAPI::unloadScene)
 		.def("change_to_scene", &Esi::SceneAPI::changeToScene)
-		.def("get_this_entity", &Esi::SceneAPI::getThisEntity, pybind11::return_value_policy::reference)
-		.def("get_this_component", &Esi::SceneAPI::getThisComponent, pybind11::return_value_policy::reference)
-		.def("get_this_scene", &Esi::SceneAPI::getThisScene, pybind11::return_value_policy::reference);
+		.def("get_entity", &Esi::SceneAPI::getEntity, pybind11::return_value_policy::reference)
+		.def("get_component", &Esi::SceneAPI::getComponent, pybind11::return_value_policy::reference)
+		.def("get_scene", &Esi::SceneAPI::getScene, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Esi::TimeAPI>(m, "TimeAPI")
 		.def("set_ms_per_compute_update", &Esi::TimeAPI::setMsPerComputeUpdate)

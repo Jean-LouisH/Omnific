@@ -21,7 +21,7 @@ def on_input():
         haptic_strength = 1.0
         haptic_duration_ms = 1000
         
-        scene = esi.get_scene_api().get_this_scene()    
+        scene = esi.get_scene_api().get_scene()    
         scene.get_haptic_signal_buffer().publish(
             haptic_playerID,
             haptic_strength,

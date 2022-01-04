@@ -38,9 +38,9 @@ void Esi::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 	this->sceneSerializer = sceneSerializer;
 }
 
-bool Esi::SceneAPI::thisHasComponent(std::string type)
+bool Esi::SceneAPI::hasComponent(std::string type)
 {
-	return this->getThisScene().getEntity(this->boundEntityID).components.count(type) > 0;
+	return this->getScene().getEntity(this->boundEntityID).components.count(type) > 0;
 }
 
 void Esi::SceneAPI::preloadScene(std::string sceneFilename)
@@ -74,22 +74,22 @@ void Esi::SceneAPI::changeToScene(std::string sceneFilename)
 	}
 }
 
-Esi::Entity& Esi::SceneAPI::getThisEntity()
+Esi::Entity& Esi::SceneAPI::getEntity()
 {
-	return this->getThisScene().getEntity(this->boundEntityID);
+	return this->getScene().getEntity(this->boundEntityID);
 }
 
-Esi::Scene& Esi::SceneAPI::getThisScene()
+Esi::Scene& Esi::SceneAPI::getScene()
 {
 	return sceneStorage->getActiveScene();
 }
 
-Esi::Component& Esi::SceneAPI::getThisComponent(std::string type)
+Esi::Component& Esi::SceneAPI::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component = std::make_shared<Component>();
 	
-	Entity& entity = this->getThisScene().getEntity(this->boundEntityID);
-	std::vector<std::shared_ptr<Component>>& components = this->getThisScene().getComponents();
+	Entity& entity = this->getScene().getEntity(this->boundEntityID);
+	std::vector<std::shared_ptr<Component>>& components = this->getScene().getComponents();
 
 	for (int i = 0; i < components.size(); i++)
 		if (components.at(i)->getID() == entity.components.at(type))
