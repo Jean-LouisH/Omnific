@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "scene_storage.hpp"
+#include "os/os.hpp"
 
 void Esi::SceneStorage::addScene(std::string sceneName, Scene scene)
 {
@@ -28,6 +29,7 @@ void Esi::SceneStorage::addScene(std::string sceneName, Scene scene)
 	{
 		this->activeSceneName = sceneName;
 		this->activeSceneChanged = true;
+		OS::getLogger().write("Added scene \"" + sceneName + "\"");
 	}
 
 	this->scenes.emplace(sceneName, scene);
@@ -40,6 +42,7 @@ void Esi::SceneStorage::removeScene(std::string sceneName)
 		{
 			this->scenes.at(sceneName).unload();
 			this->scenes.erase(sceneName);
+			OS::getLogger().write("Removed scene \"" + sceneName + "\"");
 		}
 	}
 }
@@ -52,12 +55,16 @@ void Esi::SceneStorage::replaceActiveScene(std::string sceneName, Scene scene)
 		this->changeToScene(sceneName);
 		this->removeScene(oldSceneName);
 		this->activeSceneChanged = true;
+		OS::getLogger().write("Replaced active scene with \"" + sceneName + "\"");
 	}
 }
 void Esi::SceneStorage::changeToScene(std::string sceneName)
 {
 	if (this->scenes.count(sceneName))
+	{
 		this->activeSceneName = sceneName;
+		OS::getLogger().write("Changed to scene \"" + sceneName + "\"");
+	}
 
 	this->activeSceneChanged = true;
 }
