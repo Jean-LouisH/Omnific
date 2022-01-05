@@ -26,7 +26,8 @@
 
 Esi::RenderingContext::RenderingContext()
 {
-	this->glContext = SDL_GL_CreateContext(OS::getWindow().getSDLWindow());
+	Window& window = OS::getWindow();
+	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
 
 	if (!gladLoadGL())
 	{
@@ -34,11 +35,10 @@ Esi::RenderingContext::RenderingContext()
 	}
 	else
 	{
-		Window& window = OS::getWindow();
 		Rectangle windowDimensions = window.getWindowSize();
 		glViewport(0, 0, windowDimensions.width, windowDimensions.height);
-		std::string renderinContextString = "Rendering System initialized with ";
-		OS::getLogger().write(renderinContextString + "OpenGL " + (char*)glGetString(GL_VERSION));
+		OS::getLogger().write((std::string)("Rendering System initialized with ") + 
+			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
 }
 

@@ -49,8 +49,8 @@ Esi::RenderingSystem::~RenderingSystem()
 
 void Esi::RenderingSystem::process(Scene& scene)
 {
-	this->context->clearBuffers();
 	this->buildRenderables(scene);
+	this->context->clearBuffers();
 	this->context->submit(this->getRenderables());
 	this->context->drawArrays();
 	OS::getWindow().swapBuffers();
@@ -72,7 +72,7 @@ void Esi::RenderingSystem::buildRenderables(Scene& scene)
 		if (uiViewport->getIsVisible())
 		{
 			Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
-			Component& cameraComponent = scene.getComponent(cameraEntity.components.at("Camera"));
+			Component& cameraComponent = scene.getComponent(cameraEntity.components.at(Camera::TYPE_STRING));
 			Camera& camera = dynamic_cast<Camera&>(cameraComponent);
 
 			if (camera.getIsStreaming())
