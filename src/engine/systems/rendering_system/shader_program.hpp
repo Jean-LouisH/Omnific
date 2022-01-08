@@ -26,25 +26,22 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <application/scene/assets/shader.hpp>
-#include "shader_program.hpp"
-#include <memory>
 
 namespace Esi
 {
-	class ShaderCompiler
+	class ShaderProgram
 	{
 	public:
-		std::shared_ptr<ShaderProgram> compile(std::vector<Shader> shaders);
+		ShaderProgram(GLuint programID);
+		~ShaderProgram();
+		void use();
+		void setInt(std::string name, int value);
+		void setBool(std::string name, bool value);
+		void setFloat(std::string name, float value);
+		void logUniforms();
+		void deleteProgram();
 	private:
-		std::vector<GLuint> vertexShaderIDs;
-		std::vector<GLuint> fragmentShaderIDs;
-
-		bool compileVertexShader(std::string vertexShaderSource);
-		bool compileFragmentShader(std::string fragmentShaderSource);
-		std::shared_ptr<Esi::ShaderProgram> linkShaderProgram();
-		bool checkCompileTimeErrors(GLuint ID, GLuint status);
-		void deleteShaders();
+		GLuint programID = 0;
 	};
 }
 

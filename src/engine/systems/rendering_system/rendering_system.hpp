@@ -32,6 +32,7 @@
 #include "rendering_context.hpp"
 #include "renderables.hpp"
 #include <memory>
+#include <map>
 
 namespace Esi
 {
@@ -46,8 +47,11 @@ namespace Esi
 		std::unique_ptr<RenderingContext> context;
 		std::unique_ptr<ShaderCompiler> shaderCompiler;
 		std::shared_ptr<Renderables> renderables;
-		void buildRenderables(Scene& scene);
+		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderProgramCache;
 		std::set<AssetID> renderingAssetIDCache;
+
+		void buildRenderables(Scene& scene);
+		void compileShaders(std::string name, std::vector<Shader> shaders);
 	};
 }
 

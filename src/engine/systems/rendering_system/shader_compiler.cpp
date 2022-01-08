@@ -25,62 +25,32 @@
 #include <glm/glm.hpp>
 #include <os/os.hpp>
 
-Esi::ShaderCompiler::~ShaderCompiler()
+std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::compile(std::vector<Shader> shaders)
 {
-	this->deleteProgram();
-}
-
-void Esi::ShaderCompiler::compile(std::vector<std::string> vertexShaderSources, std::vector<std::string> fragmentShaderSources)
-{
+	std::shared_ptr<Esi::ShaderProgram> shaderProgram;
 	bool compilationSuccess = true;
+	int shaderCount = shaders.size();
 
-	int vertexShaderSourceCount = vertexShaderSources.size();
-	for (int i = 0; i < vertexShaderSourceCount && compilationSuccess; i++)
-		compilationSuccess = this->compileVertexShader(vertexShaderSources.at(i));
-
-	int fragmentShaderSourceCount = fragmentShaderSources.size();
-	for (int i = 0; i < fragmentShaderSourceCount && compilationSuccess; i++)
-		compilationSuccess = this->compileFragmentShader(fragmentShaderSources.at(i));
-
-	if (compilationSuccess)
-		this->linkShaderProgram();
-
-	this->deleteShaders();
-	this->isCompiled = true;
-}
-
-void Esi::ShaderCompiler::compile(std::vector<Shader> shaders)
-{
-	std::vector<std::string> vertexShaderSources;
-	std::vector<std::string> fragmentShaderSources;
-
-	for (int i = 0; i < shaders.size(); i++)
+	for (int i = 0; i < shaderCount && compilationSuccess; i++)
 	{
 		Shader& shader = shaders.at(i);
-		Shader::Type type = shader.getType();
 
-		switch (type)
+		switch (shader.getType())
 		{
-			case Shader::Type::VERTEX: vertexShaderSources.push_back(shader.getSource());
-			case Shader::Type::FRAGMENT: fragmentShaderSources.push_back(shader.getSource());
+			case Shader::Type::VERTEX: 
+				compilationSuccess = this->compileVertexShader(shader.getSource());
+				break;
+			case Shader::Type::FRAGMENT: 
+				compilationSuccess = this->compileFragmentShader(shader.getSource());
+				break;
 		}
 	}
 
-	this->compile(vertexShaderSources, fragmentShaderSources);
-}
+	if (compilationSuccess)
+		shaderProgram = this->linkShaderProgram();
 
-void Esi::ShaderCompiler::deleteProgram()
-{
-	if (this->isCompiled)
-		glDeleteProgram(this->programID);
-
-	this->isCompiled = false;
-}
-
-void Esi::ShaderCompiler::use()
-{
-	if (this->isCompiled)
-		glUseProgram(this->programID);
+	this->deleteShaders();
+	return shaderProgram;
 }
 
 bool Esi::ShaderCompiler::compileVertexShader(std::string vertexShaderSource)
@@ -103,7 +73,7 @@ bool Esi::ShaderCompiler::compileFragmentShader(std::string fragmentShaderSource
 	return this->checkCompileTimeErrors(fragmentShader, GL_COMPILE_STATUS);
 }
 
-void Esi::ShaderCompiler::linkShaderProgram()
+std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::linkShaderProgram()
 {
 	GLuint programID = glCreateProgram();
 	int vertexShaderCount = this->vertexShaderIDs.size();
@@ -116,10 +86,11 @@ void Esi::ShaderCompiler::linkShaderProgram()
 
 	glLinkProgram(programID);
 	this->checkCompileTimeErrors(programID, GL_LINK_STATUS);
-	this->programID = programID;
 
-	OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(this->programID));
-	this->logUniforms();
+	OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(programID));
+	std::shared_ptr<Esi::ShaderProgram> shaderProgram = std::shared_ptr<Esi::ShaderProgram>(new ShaderProgram(programID));
+	shaderProgram->logUniforms();
+	return shaderProgram;
 }
 
 bool Esi::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint status)
@@ -152,41 +123,4 @@ void Esi::ShaderCompiler::deleteShaders()
 	for (int i = 0; i < fragmentShaderCount; i++)
 		glDeleteShader(this->fragmentShaderIDs.at(i));
 	this->fragmentShaderIDs.clear();
-}
-
-void Esi::ShaderCompiler::setInt(std::string name, int value)
-{
-	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), value);
-}
-
-void Esi::ShaderCompiler::setBool(std::string name, bool value)
-{
-	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), (int)value);
-}
-
-void Esi::ShaderCompiler::setFloat(std::string name, float value)
-{
-	glUniform1f(glGetUniformLocation(this->programID, name.c_str()), value);
-}
-
-/**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL 
-Shader tutorial comment section. Reference: https://learnopengl.com/Getting-started/Shaders#comment-4468935635*/
-void Esi::ShaderCompiler::logUniforms()
-{
-	int how_many{};
-	int bufsize{}; // max name size
-	glGetProgramiv(this->programID, GL_ACTIVE_UNIFORMS, &how_many);
-	glGetProgramiv(this->programID, GL_ACTIVE_UNIFORM_MAX_LENGTH, &bufsize);
-
-	for (int i{}; i < how_many; ++i)
-	{
-		GLenum type{};
-		int size{};
-		std::unique_ptr<char> name(new char[bufsize]);
-
-		glGetActiveUniform(this->programID, i, bufsize, nullptr, &size, &type, name.get());
-		OS::getLogger().write("Loaded active uniform: \"" + (std::string)name.get() + 
-			"\", location: " + std::to_string(glGetUniformLocation(this->programID, name.get())) + 
-			", type: " + std::to_string(type));
-	}
 }

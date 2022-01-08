@@ -30,16 +30,20 @@
 Esi::RenderingSystem::RenderingSystem()
 {
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
+
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
 
-	std::vector<std::string> vertexShaderSources;
-	std::vector<std::string> fragmentShaderSources;
+	std::vector<Shader> shaders;
+	Shader builtInVertexShader;
+	Shader builtInFragmentShader;
 
-	vertexShaderSources.push_back(BuiltInShaders::Vertex::texture);
-	fragmentShaderSources.push_back(BuiltInShaders::Fragment::texture);
-	this->shaderCompiler->compile(vertexShaderSources, fragmentShaderSources);
-	this->shaderCompiler->use();
+	builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::Type::VERTEX);
+	builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::Type::FRAGMENT);
+	shaders.push_back(builtInVertexShader);
+	shaders.push_back(builtInFragmentShader);
+
+	this->compileShaders("built_in_shaders", shaders);
 }
 
 Esi::RenderingSystem::~RenderingSystem()
@@ -52,7 +56,7 @@ void Esi::RenderingSystem::process(Scene& scene)
 	this->buildRenderables(scene);
 	this->context->clearBuffers();
 	this->context->submit(this->getRenderables());
-	this->context->drawArrays();
+	this->context->drawElements();
 	OS::getWindow().swapBuffers();
 }
 
@@ -104,4 +108,9 @@ void Esi::RenderingSystem::buildRenderables(Scene& scene)
 Esi::Renderables& Esi::RenderingSystem::getRenderables()
 {
 	return *this->renderables;
+}
+
+void Esi::RenderingSystem::compileShaders(std::string name, std::vector<Shader> shaders)
+{
+	this->shaderProgramCache.emplace(name, this->shaderCompiler->compile(shaders));
 }
