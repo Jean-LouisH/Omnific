@@ -23,20 +23,22 @@
 #include "shader.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Shader::Shader(std::string sourceFilepath)
+Esi::Shader::Shader()
 {
-	this->setName(sourceFilepath);
-	Shader(sourceFilepath, Type::VERTEX);
+
 }
 
 Esi::Shader::Shader(std::string sourceFilepath, Type type)
 {
-
+	this->setName(sourceFilepath);
+	//this->source;
+	this->type = type;
 }
 
-Esi::Shader::Shader()
+void Esi::Shader::setSource(std::string source, Type type)
 {
-
+	this->source = source;
+	this->type = type;
 }
 
 std::string Esi::Shader::getSource()

@@ -37,9 +37,9 @@ namespace Esi
 		};
 
 		static constexpr const char* TYPE_STRING = "Shader";
-		Shader(std::string sourceFilepath);
-		Shader(std::string sourceFilepath, Type type);
 		Shader();
+		Shader(std::string sourceFilepath, Type type);
+		void setSource(std::string source, Type type);
 		std::string getSource();
 		Type getType();
 		std::string getType() const override;
