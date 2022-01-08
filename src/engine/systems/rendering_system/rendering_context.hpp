@@ -40,6 +40,7 @@ namespace Esi
 		void delete2DTextures();
 		void submit(Renderables& renderables);
 		void drawArrays();
+		void drawElements();
 	private:
 		SDL_GLContext glContext;
 		std::vector<GLuint> glTextureIDs;

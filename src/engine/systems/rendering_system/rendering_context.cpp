@@ -107,7 +107,13 @@ void Esi::RenderingContext::delete2DTextures()
 
 void Esi::RenderingContext::drawArrays()
 {
-	glBindVertexArray(0);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glBindVertexArray(0);
+}
+
+void Esi::RenderingContext::drawElements()
+{
+	//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 }
