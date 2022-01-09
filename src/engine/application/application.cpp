@@ -63,7 +63,7 @@ void Esi::Application::initialize()
 
 		if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
 		{
-			entryScene = this->sceneSerializer->loadFromFile(this->configuration->metadata.entrySceneFilepath);
+			entryScene = this->sceneSerializer->deserialize(this->configuration->metadata.entrySceneFilepath);
 			this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
 			this->scripting->setSceneStorage(this->sceneStorage.get());
 		}

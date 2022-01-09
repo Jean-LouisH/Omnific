@@ -47,7 +47,7 @@ void Esi::SceneAPI::preloadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		Scene newScene = this->sceneSerializer->loadFromFile(sceneFilename);
+		Scene newScene = this->sceneSerializer->deserialize(sceneFilename);
 		this->sceneStorage->addScene(sceneFilename, newScene);
 	}
 }
@@ -56,7 +56,7 @@ void Esi::SceneAPI::loadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		Scene newScene = this->sceneSerializer->loadFromFile(sceneFilename);
+		Scene newScene = this->sceneSerializer->deserialize(sceneFilename);
 		this->sceneStorage->replaceActiveScene(sceneFilename, newScene);
 	}
 }

@@ -33,25 +33,17 @@ Esi::SceneSerializer::SceneSerializer(std::string dataDirectory)
 	this->dataDirectory = dataDirectory;
 }
 
-Esi::Scene Esi::SceneSerializer::loadFromFile(std::string filepath)
-{
-	Scene scene;
-
-	if (true)
-	{
-		scene = this->loadFromTextFile(filepath);
-	}
-
-	return scene;
-
-}
-
 bool Esi::SceneSerializer::doesSceneExist(std::string filepath)
 {
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-Esi::Scene Esi::SceneSerializer::loadFromTextFile(std::string filepath)
+void Esi::SceneSerializer::serialize(std::string filepath, Scene scene)
+{
+
+}
+
+Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 {
 	Scene scene;
 	const std::string fullFilepath = this->dataDirectory + filepath;

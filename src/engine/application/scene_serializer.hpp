@@ -32,10 +32,10 @@ namespace Esi
 	{
 	public:
 		SceneSerializer(std::string assetsDirectory);
-		Scene loadFromFile(std::string filepath);
+		void serialize(std::string filepath, Scene scene);
+		Scene deserialize(std::string filepath);
 		bool doesSceneExist(std::string filepath);
 	private:
 		std::string dataDirectory;
-		Scene loadFromTextFile(std::string filepath);
 	};
 }
