@@ -32,9 +32,10 @@ namespace Esi
 	class AudioSystem : System
 	{
 	public:
-		AudioSystem();
 		~AudioSystem();
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 	private:
 		std::queue<Mix_Chunk*> immediateSounds;
 		std::queue<Mix_Chunk*> scheduledSounds;

@@ -29,6 +29,14 @@ Esi::Engine::Engine(
 	this->state = std::unique_ptr<EngineState>(new EngineState());
 	this->argc = argc;
 	this->argv = argv;
+
+	this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
+	this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
+	this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
+	this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
+	this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
+	this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
+	this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
 }
 
 void Esi::Engine::run()
@@ -101,12 +109,19 @@ bool Esi::Engine::initialize()
 	}
 	else
 	{
-		OS::initialize("", 640, 480, false, this->argv[0]);
+		OS::initialize("", 640, 480, false, this->argv[0], this->renderingSystem->getRenderingContextName());
+
+		this->aiSystem->initialize();
+		this->animationSystem->initialize();
+		this->audioSystem->initialize();
+		this->hapticSystem->initialize();
+		this->physicsSystem->initialize();
+		this->renderingSystem->initialize();
+		this->uiSystem->initialize();
 
 		Platform& platform = OS::getPlatform();
 		Logger& logger = OS::getLogger();
 
-		logger.write("Esi initializing...");
 		logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
 		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize_B()) + " B");
 		logger.write("Retrieved OS Name: " + platform.getOSName());
@@ -116,18 +131,6 @@ bool Esi::Engine::initialize()
 		profiler.getBenchmarkTimer().setStart();
 
 		this->application = std::unique_ptr<Application>(new Application());
-
-		if (this->state->isInitializing())
-		{
-			this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
-			this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
-			this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
-			this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
-			this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
-			this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
-			this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
-		}
-
 		isInitializedOK = true;
 	}
 

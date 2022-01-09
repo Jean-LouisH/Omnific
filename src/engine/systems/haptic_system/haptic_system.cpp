@@ -24,6 +24,11 @@
 #include "os/os.hpp"
 #include <SDL.h>
 
+Esi::HapticSystem::~HapticSystem()
+{
+	this->deinitialize();
+}
+
 void Esi::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
 {
 	if (hapticSignal.getPlayerID() < haptics.size())
@@ -40,6 +45,11 @@ void Esi::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> h
 	{
 		SDL_HapticRumbleStop(haptics.at(playerID));
 	}
+}
+
+void Esi::HapticSystem::initialize()
+{
+	this->isInitialized = true;
 }
 
 void Esi::HapticSystem::process(Scene& scene)
@@ -87,4 +97,9 @@ void Esi::HapticSystem::process(Scene& scene)
 			this->hapticPlaybacks.emplace(playerID, hapticPlayback);
 		}
 	}
+}
+
+void Esi::HapticSystem::deinitialize()
+{
+	this->isInitialized = false;
 }

@@ -30,10 +30,11 @@ namespace Esi
 	class PhysicsSystem : public System
 	{
 	public:
-		PhysicsSystem();
 		~PhysicsSystem();
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 	private:
 		uint32_t msPerComputeUpdate = 8;
 		void updateTimers(Scene& scene, uint32_t msPerComputeUpdate);

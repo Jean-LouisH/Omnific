@@ -21,3 +21,13 @@
 // SOFTWARE.
 
 #include "system.hpp"
+
+Esi::System::~System()
+{
+	this->isInitialized = false;
+}
+
+bool Esi::System::getIsInitialized()
+{
+	return this->isInitialized;
+}

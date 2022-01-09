@@ -41,8 +41,11 @@ namespace Esi
 	public:
 		RenderingSystem();
 		~RenderingSystem();
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 		Renderables& getRenderables();
+		std::string getRenderingContextName();
 	private:
 		std::unique_ptr<RenderingContext> context;
 		std::unique_ptr<ShaderCompiler> shaderCompiler;

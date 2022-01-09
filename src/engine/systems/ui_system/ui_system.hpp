@@ -31,9 +31,10 @@ namespace Esi
 	class UISystem : public System
 	{
 	public:
-		UISystem();
 		~UISystem();
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 	private:
 		void orderUIComponentsByHierarchy();
 		void positionUIComponentsByHierarchy();

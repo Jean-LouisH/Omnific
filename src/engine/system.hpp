@@ -29,7 +29,13 @@ namespace Esi
     class System
     {
     public:
+        ~System();
+        virtual void initialize() = 0;
 		virtual void process(Scene& scene) = 0;
+        virtual void deinitialize() = 0;
+        bool getIsInitialized();
+    protected:
+        bool isInitialized = false;
     private:
     };
 }

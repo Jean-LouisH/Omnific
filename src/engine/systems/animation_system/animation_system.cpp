@@ -23,17 +23,22 @@
 #include "animation_system.hpp"
 #include "application/scene/scene.hpp"
 
-Esi::AnimationSystem::AnimationSystem()
-{
-
-}
-
 Esi::AnimationSystem::~AnimationSystem()
 {
+	this->deinitialize();
+}
 
+void Esi::AnimationSystem::initialize()
+{
+	this->isInitialized = true;
 }
 
 void Esi::AnimationSystem::process(Scene& scene)
 {
 
+}
+
+void Esi::AnimationSystem::deinitialize()
+{
+	this->isInitialized = false;
 }

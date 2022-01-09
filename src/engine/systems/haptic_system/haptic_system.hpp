@@ -37,7 +37,10 @@ namespace Esi
 	class HapticSystem : public System
 	{
 	public:
+		~HapticSystem();
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 	private:
 		typedef struct HapticPlayback
 		{

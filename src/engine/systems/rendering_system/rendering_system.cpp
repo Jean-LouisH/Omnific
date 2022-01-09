@@ -25,15 +25,34 @@
 #include <SDL_image.h>
 #include <application/scene/assets/shader.hpp>
 #include <application/scene/assets/image.hpp>
-#include <os/os.hpp>
 
 Esi::RenderingSystem::RenderingSystem()
 {
+	SDL_Init(SDL_INIT_VIDEO);
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
+}
 
+Esi::RenderingSystem::~RenderingSystem()
+{
+	this->deinitialize();
+}
+
+void Esi::RenderingSystem::initialize()
+{
 	std::vector<Shader> shaders;
 	Shader builtInVertexShader;
 	Shader builtInFragmentShader;
@@ -43,12 +62,9 @@ Esi::RenderingSystem::RenderingSystem()
 	shaders.push_back(builtInVertexShader);
 	shaders.push_back(builtInFragmentShader);
 
+	this->context->initialize();
 	this->compileShaders("built_in_shaders", shaders);
-}
-
-Esi::RenderingSystem::~RenderingSystem()
-{
-	IMG_Quit();
+	this->isInitialized = true;
 }
 
 void Esi::RenderingSystem::process(Scene& scene)
@@ -57,7 +73,15 @@ void Esi::RenderingSystem::process(Scene& scene)
 	this->context->clearBuffers();
 	this->context->submit(this->getRenderables());
 	this->context->drawElements();
-	OS::getWindow().swapBuffers();
+	this->context->swapBuffers();
+}
+
+void Esi::RenderingSystem::deinitialize()
+{
+	if (this->isInitialized)
+		IMG_Quit();
+
+	this->isInitialized = false;
 }
 
 void Esi::RenderingSystem::buildRenderables(Scene& scene)
@@ -108,6 +132,11 @@ void Esi::RenderingSystem::buildRenderables(Scene& scene)
 Esi::Renderables& Esi::RenderingSystem::getRenderables()
 {
 	return *this->renderables;
+}
+
+std::string Esi::RenderingSystem::getRenderingContextName()
+{
+	return this->context->getRenderingContextName();
 }
 
 void Esi::RenderingSystem::compileShaders(std::string name, std::vector<Shader> shaders)

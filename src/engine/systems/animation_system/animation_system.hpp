@@ -30,9 +30,10 @@ namespace Esi
 	class AnimationSystem : System
 	{
 	public:
-		AnimationSystem();
 		~AnimationSystem();
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 	private:
 	};
 }

@@ -23,16 +23,9 @@
 #include "audio_system.hpp"
 #include "audio_sdl/audio_sdl.hpp"
 
-Esi::AudioSystem::AudioSystem()
-{
-	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
-	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
-}
-
 Esi::AudioSystem::~AudioSystem()
 {
-	Mix_CloseAudio();
-	Mix_Quit();
+	this->deinitialize();
 }
 
 void Esi::AudioSystem::play()
@@ -40,7 +33,25 @@ void Esi::AudioSystem::play()
 	SDL::Audio::playSounds(&this->immediateSounds, &this->scheduledSounds);
 }
 
+void Esi::AudioSystem::initialize()
+{
+	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
+	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
+	this->isInitialized = true;
+}
+
 void Esi::AudioSystem::process(Scene& scene)
 {
 	//todo: build sounds lists from scene
+}
+
+void Esi::AudioSystem::deinitialize()
+{
+	if (this->isInitialized)
+	{
+		Mix_CloseAudio();
+		Mix_Quit();
+	}
+
+	this->isInitialized = false;
 }

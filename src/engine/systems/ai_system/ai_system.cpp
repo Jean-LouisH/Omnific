@@ -22,17 +22,22 @@
 
 #include "ai_system.hpp"
 
-Esi::AISystem::AISystem()
-{
-
-}
-
 Esi::AISystem::~AISystem()
 {
+	this->deinitialize();
+}
 
+void Esi::AISystem::initialize()
+{
+	this->isInitialized = true;
 }
 
 void Esi::AISystem::process(Scene& scene)
 {
 
+}
+
+void Esi::AISystem::deinitialize()
+{
+	this->isInitialized = false;
 }

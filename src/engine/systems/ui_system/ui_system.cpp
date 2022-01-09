@@ -24,20 +24,30 @@
 #include "SDL_ttf.h"
 #include "os/os.hpp"
 
-Esi::UISystem::UISystem()
-{
-	if (TTF_Init() == -1) 
-		printf("TTF_Init: %s\n", TTF_GetError());
-}
-
 Esi::UISystem::~UISystem()
 {
-	TTF_Quit();
+	this->deinitialize();
+}
+
+void Esi::UISystem::initialize()
+{
+	if (TTF_Init() == -1)
+		printf("TTF_Init: %s\n", TTF_GetError());
+	else
+		this->isInitialized = true;
 }
 
 void Esi::UISystem::process(Scene& scene)
 {
 
+}
+
+void Esi::UISystem::deinitialize()
+{
+	if (this->isInitialized)
+		TTF_Quit();
+
+	this->isInitialized = false;
 }
 
 void Esi::UISystem::orderUIComponentsByHierarchy()

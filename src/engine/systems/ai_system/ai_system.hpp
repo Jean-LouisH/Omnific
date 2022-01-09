@@ -30,9 +30,10 @@ namespace Esi
 	class AISystem : System
 	{
 	public:
-		AISystem();
 		~AISystem();
+		virtual void initialize() override;
 		void process(Scene& scene) override;
+		virtual void deinitialize() override;
 	private:
 	};
 }
