@@ -23,8 +23,8 @@
 #include "command_line.hpp"
 
 Esi::CommandLine::CommandLine(
-	SceneSerializer* sceneSerializer,
-	SceneStorage* sceneStorage
+	std::shared_ptr<SceneSerializer> sceneSerializer,
+	std::shared_ptr<SceneStorage> sceneStorage
 )
 {
 	this->sceneSerializer = std::shared_ptr<SceneSerializer>(sceneSerializer);

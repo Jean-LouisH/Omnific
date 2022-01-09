@@ -29,9 +29,7 @@ Esi::Application::Application()
 {
 	this->scripting = std::shared_ptr<Scripting>(new Scripting());
 	this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
-	this->commandLine = std::shared_ptr<CommandLine>(new CommandLine(
-		this->sceneSerializer.get(),
-		this->sceneStorage.get()));
+	this->commandLine = std::shared_ptr<CommandLine>(new CommandLine(this->sceneSerializer, this->sceneStorage));
 
 	ScriptingAPIs::initialize();
 }

@@ -38,8 +38,8 @@ namespace Esi
 	{
 	public:
 		CommandLine(
-			SceneSerializer* sceneSerializer,
-			SceneStorage* sceneStorage
+			std::shared_ptr<SceneSerializer> sceneSerializer,
+			std::shared_ptr<SceneStorage> sceneStorage
 			);
 
 		void execute(std::string command);
