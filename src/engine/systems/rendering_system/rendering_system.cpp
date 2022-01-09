@@ -72,7 +72,6 @@ void Esi::RenderingSystem::process(Scene& scene)
 	this->buildRenderables(scene);
 	this->context->clearBuffers();
 	this->context->submit(this->getRenderables());
-	this->context->drawElements();
 	this->context->swapBuffers();
 }
 

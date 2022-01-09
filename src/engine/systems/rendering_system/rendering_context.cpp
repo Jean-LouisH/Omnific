@@ -37,7 +37,7 @@ void Esi::RenderingContext::initialize()
 	else
 	{
 		Rectangle windowDimensions = window.getWindowSize();
-		glViewport(0, 0, windowDimensions.width, windowDimensions.height);
+		this->setViewport(windowDimensions.width, windowDimensions.height);
 		OS::getLogger().write((std::string)("Rendering System initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
@@ -93,7 +93,12 @@ void Esi::RenderingContext::generate2DTextures(std::vector<Image> images)
 
 void Esi::RenderingContext::submit(Renderables& renderables)
 {
-
+	//glBindVertexArray(0);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glBindVertexArray(0);
+	
+	//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Esi::RenderingContext::delete2DTextures()
@@ -106,17 +111,9 @@ void Esi::RenderingContext::delete2DTextures()
 	this->glTextureIDs.clear();
 }
 
-void Esi::RenderingContext::drawArrays()
+void Esi::RenderingContext::setViewport(uint32_t width, uint32_t height)
 {
-	//glBindVertexArray(0);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glBindVertexArray(0);
-}
-
-void Esi::RenderingContext::drawElements()
-{
-	//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
-	//glBindTexture(GL_TEXTURE_2D, 0);
+	glViewport(0, 0, width, height);
 }
 
 void Esi::RenderingContext::swapBuffers()
