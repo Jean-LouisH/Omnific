@@ -40,8 +40,6 @@ Esi::RenderingSystem::RenderingSystem()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
 }
@@ -56,6 +54,8 @@ void Esi::RenderingSystem::initialize()
 	std::vector<Shader> shaders;
 	Shader builtInVertexShader;
 	Shader builtInFragmentShader;
+
+	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
 	builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::Type::VERTEX);
 	builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::Type::FRAGMENT);
@@ -140,5 +140,8 @@ std::string Esi::RenderingSystem::getRenderingContextName()
 
 void Esi::RenderingSystem::compileShaders(std::string name, std::vector<Shader> shaders)
 {
-	this->shaderProgramCache.emplace(name, this->shaderCompiler->compile(shaders));
+	std::shared_ptr<ShaderProgram> shaderProgram = this->shaderCompiler->compile(shaders);
+
+	if (shaderProgram)
+		this->shaderProgramCache.emplace(name, shaderProgram);
 }
