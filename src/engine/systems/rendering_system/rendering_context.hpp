@@ -28,19 +28,22 @@
 #include <vector>
 #include "renderables.hpp"
 #include <application/scene/assets/image.hpp>
+#include <string>
 
 namespace Esi
 {
 	class RenderingContext
 	{
 	public:
-		RenderingContext();
+		void initialize();
 		void clearBuffers();
 		void generate2DTextures(std::vector<Image> images);
 		void delete2DTextures();
 		void submit(Renderables& renderables);
 		void drawArrays();
 		void drawElements();
+		void swapBuffers();
+		std::string getRenderingContextName();
 	private:
 		SDL_GLContext glContext;
 		std::vector<GLuint> glTextureIDs;

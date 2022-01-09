@@ -23,8 +23,9 @@
 #include "rendering_context.hpp"
 #include <os/os.hpp>
 #include <string>
+#include <SDL_video.h>
 
-Esi::RenderingContext::RenderingContext()
+void Esi::RenderingContext::initialize()
 {
 	Window& window = OS::getWindow();
 	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
@@ -37,7 +38,7 @@ Esi::RenderingContext::RenderingContext()
 	{
 		Rectangle windowDimensions = window.getWindowSize();
 		glViewport(0, 0, windowDimensions.width, windowDimensions.height);
-		OS::getLogger().write((std::string)("Rendering System initialized with ") + 
+		OS::getLogger().write((std::string)("Rendering System initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
 }
@@ -116,4 +117,14 @@ void Esi::RenderingContext::drawElements()
 {
 	//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 	//glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Esi::RenderingContext::swapBuffers()
+{
+	SDL_GL_SwapWindow(OS::getWindow().getSDLWindow());
+}
+
+std::string Esi::RenderingContext::getRenderingContextName()
+{
+	return "opengl";
 }
