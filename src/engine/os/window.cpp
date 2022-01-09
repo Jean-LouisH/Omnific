@@ -21,31 +21,26 @@
 // SOFTWARE.
 
 #include "window.hpp"
+#include <stdint.h>
 
-Esi::Window::Window(const char* title, uint16_t width, uint16_t height, bool isFullscreen)
+Esi::Window::Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext)
 {
-	this->isFullscreen = isFullscreen;
+	uint64_t renderingContextFlag = 0x0;
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	if (renderingContext == "opengl")
+		renderingContextFlag = SDL_WINDOW_OPENGL;
 
 	this->sdlWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
-		title,
+		title.c_str(),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width,
 		height,
-		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | SDL_WINDOW_OPENGL));
+		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | renderingContextFlag));
 
 	SDL_DisableScreenSaver();
 	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode.get());
+	this->isFullscreen = isFullscreen;
 }
 
 
@@ -132,11 +127,6 @@ void Esi::Window::sleep(int time_ms)
 {
 	if (time_ms > 0)
 		SDL_Delay(time_ms);
-}
-
-void Esi::Window::swapBuffers()
-{
-	SDL_GL_SwapWindow(this->sdlWindow.get());
 }
 
 Esi::Rectangle Esi::Window::getWindowSize()

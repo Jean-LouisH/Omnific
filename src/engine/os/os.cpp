@@ -28,16 +28,17 @@
 Esi::OS* Esi::OS::instance = nullptr;
 
 void Esi::OS::initialize(
-	const char* title, 
+	std::string title, 
 	uint16_t width, 
 	uint16_t height, 
 	bool isFullscreen, 
-	const char* executableFilepath)
+	std::string executableFilepath,
+	std::string renderingContext)
 {
 	OS* newInstance = getInstance();
 
 	newInstance->logger = std::unique_ptr<Logger>(new Logger());
-	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen));
+	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
 	newInstance->hid = std::unique_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
 	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
 	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());

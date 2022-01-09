@@ -34,7 +34,7 @@ namespace Esi
 	class Window
 	{
 	public:
-		Window(const char* title, uint16_t width, uint16_t height, bool isFullscreen);
+		Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
 		void setToWindowed(uint16_t width_px, uint16_t height_px);
 		void setToFullscreen();
 		void toggleWindowedFullscreen();
@@ -48,7 +48,6 @@ namespace Esi
 		void hide();
 		void show();
 		void sleep(int time_ms);
-		void swapBuffers();
 		Rectangle getWindowSize();
 
 		SDL_Window* getSDLWindow();

@@ -31,6 +31,7 @@
 #include "file_access.hpp"
 #include "platform.hpp"
 #include "thread_pool.hpp"
+#include <string>
 
 namespace Esi
 {
@@ -38,11 +39,12 @@ namespace Esi
 	{
 	public:
 		static void initialize(
-			const char* title, 
+			std::string title, 
 			uint16_t width, 
 			uint16_t height, 
 			bool isFullscreen, 
-			const char* executableFilepath);
+			std::string executableFilepath,
+			std::string renderingContext);
 
 		static Window& getWindow();
 		static HumanInterfaceDevices& getHid();
