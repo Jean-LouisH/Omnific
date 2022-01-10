@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "engine.hpp"
+#include "../gpu.hpp"
 
 #undef main
 

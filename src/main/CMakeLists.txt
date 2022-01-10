@@ -1,15 +1,37 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE application_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE application_headers "[a-zA-Z]*.hpp")
-
 add_executable(application 
-	  ${application_sources}
-	  ${application_headers}
+	  "application/main.cpp"
+ )
+
+ add_executable(dedicated_gpu_application 
+	  "dedicated_gpu_application/main.cpp"
+	  "gpu.hpp"
+ )
+
+ add_executable(steam_application 
+	  "steam_application/main.cpp"
+ )
+
+ add_executable(dedicated_gpu_steam_application 
+	  "dedicated_gpu_steam_application/main.cpp"
+	  "gpu.hpp"
  )
 
 add_dependencies(application
+	esi
+)
+
+add_dependencies(dedicated_gpu_application
+	esi
+)
+
+add_dependencies(steam_application
+	esi
+)
+
+add_dependencies(dedicated_gpu_steam_application
 	esi
 )
 
@@ -24,7 +46,6 @@ include_directories(
 		../../thirdparty/glad/include
 		../../thirdparty/python37/include
 		../../thirdparty/pybind11-2.8.1/include
-		../../thirdparty/glew-2.1.0/include
 		../../thirdparty/glm-0.9.9.8/glm
 		../../thirdparty/tinygltf-2.5.0/include
 		../../thirdparty/zlib-1.2.11/include
@@ -33,6 +54,21 @@ include_directories(
 )
 
 target_link_libraries (application
+		esi
+		${SDL2}
+)
+
+target_link_libraries (dedicated_gpu_application
+		esi
+		${SDL2}
+)
+
+target_link_libraries (steam_application
+		esi
+		${SDL2}
+)
+
+target_link_libraries (dedicated_gpu_steam_application
 		esi
 		${SDL2}
 )
