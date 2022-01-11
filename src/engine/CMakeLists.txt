@@ -1,18 +1,18 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE esi_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE esi_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE esi_engine_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE esi_engine_headers "[a-zA-Z]*.hpp")
 
-add_library(esi SHARED
-	  ${esi_sources}
-	  ${esi_headers}
+add_library(esi_engine SHARED
+	  ${esi_engine_sources}
+	  ${esi_engine_headers}
 )
 
-add_dependencies (esi
+add_dependencies (esi_engine
 	yaml_cpp
 	glad
-	esi_native
+	esi_native_assembly
 )
 
  add_definitions(/bigobj)
@@ -40,7 +40,7 @@ include_directories(
 		.
 )
 
-target_link_libraries (esi
+target_link_libraries (esi_engine
 		yaml_cpp
 		glad
 		${SDL2}
@@ -52,8 +52,8 @@ target_link_libraries (esi
 
 )
 
-add_definitions(-D_ESI_EXPORTS)
+add_definitions(-D_ESI_ENGINE_EXPORTS)
 
-add_custom_command(TARGET esi POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi> ${PROJECT_BINARY_DIR}/main/esi.dll
+add_custom_command(TARGET esi_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_engine> ${PROJECT_BINARY_DIR}/main/esi_engine.dll
 )

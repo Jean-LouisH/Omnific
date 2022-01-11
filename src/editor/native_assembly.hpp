@@ -23,13 +23,13 @@
 #pragma once
 
 #if defined (_WIN32)
-#if defined(_ESI_NATIVE_EXPORTS)
-#define  ESI_NATIVE_API __declspec(dllexport)
+#if defined(_ESI_NATIVE_ASSEMBLY_EXPORTS)
+#define  ESI_NATIVE_ASSEMBLY_API __declspec(dllexport)
 #else
-#define  ESI_NATIVE_API __declspec(dllimport)
+#define  ESI_NATIVE_ASSEMBLY_API __declspec(dllimport)
 #endif
 #else
-#define ESI_NATIVE_API
+#define ESI_NATIVE_ASSEMBLY_API
 #endif
 
 #include <application/scripting/native/native_script.hpp>
@@ -38,10 +38,10 @@
 
 namespace Esi
 {
-	class ESI_NATIVE_API Native
+	class ESI_NATIVE_ASSEMBLY_API NativeAssembly
 	{
 	public:
-		Native();
+		NativeAssembly();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<NativeScript>> nativeScripts;
 	};

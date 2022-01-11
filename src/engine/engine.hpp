@@ -38,18 +38,18 @@
 #include <memory>
 
 #if defined (_WIN32)
-#if defined(_ESI_EXPORTS)
-#define  ESI_API __declspec(dllexport)
+#if defined(_ESI_ENGINE_EXPORTS)
+#define  ESI_ENGINE_API __declspec(dllexport)
 #else
-#define  ESI_API __declspec(dllimport)
+#define  ESI_ENGINE_API __declspec(dllimport)
 #endif
 #else
-#define ESI_API
+#define ESI_ENGINE_API
 #endif
 
 namespace Esi
 {
-	class ESI_API Engine
+	class ESI_ENGINE_API Engine
 	{
 	public:
 		Engine(

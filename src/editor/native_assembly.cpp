@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "native.hpp"
+#include "native_assembly.hpp"
 
-Esi::Native::Native()
+Esi::NativeAssembly::NativeAssembly()
 {
 
 }
