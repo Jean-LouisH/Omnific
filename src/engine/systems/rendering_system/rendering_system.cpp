@@ -119,7 +119,7 @@ void Esi::RenderingSystem::buildRenderables(Scene& scene)
 						if (scene.getEntity(renderableComponent->getEntityID()).spatialDimension ==
 							Entity::SpatialDimension::_2D)
 						{
-							Image& image = renderableComponent->getImage();
+							std::shared_ptr<Image> image = renderableComponent->getImage();
 						}
 					}
 				}

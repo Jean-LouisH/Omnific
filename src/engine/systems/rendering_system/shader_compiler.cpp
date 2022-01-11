@@ -37,10 +37,10 @@ std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::compile(std::vector<Sha
 
 		switch (shader.getType())
 		{
-			case Shader::Type::VERTEX: 
+			case Shader::ShaderType::VERTEX: 
 				compilationSuccess = this->compileVertexShader(shader.getSource());
 				break;
-			case Shader::Type::FRAGMENT: 
+			case Shader::ShaderType::FRAGMENT: 
 				compilationSuccess = this->compileFragmentShader(shader.getSource());
 				break;
 		}
