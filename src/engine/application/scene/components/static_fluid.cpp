@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "static_fluid.hpp"
-
-std::string Esi::StaticFluid::getType() const
-{
-	return TYPE_STRING;
-}

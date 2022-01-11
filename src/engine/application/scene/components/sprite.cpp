@@ -62,8 +62,3 @@ Esi::Image& Esi::Sprite::getImage()
 {
 	return *this->image;
 }
-
-std::string Esi::Sprite::getType() const
-{
-	return TYPE_STRING;
-}

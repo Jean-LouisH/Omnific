@@ -46,5 +46,5 @@ std::string Esi::Asset::getName()
 
 std::string Esi::Asset::getType() const
 {
-	return TYPE_STRING;
+	return this->type;
 }

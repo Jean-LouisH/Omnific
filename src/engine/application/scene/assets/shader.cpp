@@ -23,22 +23,17 @@
 #include "shader.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Shader::Shader()
-{
-
-}
-
-Esi::Shader::Shader(std::string sourceFilepath, Type type)
+Esi::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
 {
 	this->setName(sourceFilepath);
 	//this->source;
-	this->type = type;
+	this->shaderType = shaderType;
 }
 
-void Esi::Shader::setSource(std::string source, Type type)
+void Esi::Shader::setSource(std::string source, ShaderType shaderType)
 {
 	this->source = source;
-	this->type = type;
+	this->shaderType = shaderType;
 }
 
 std::string Esi::Shader::getSource()
@@ -46,12 +41,7 @@ std::string Esi::Shader::getSource()
 	return this->source;
 }
 
-Esi::Shader::Type Esi::Shader::getType()
+Esi::Shader::ShaderType Esi::Shader::getType()
 {
-	return this->type;
-}
-
-std::string Esi::Shader::getType() const
-{
-	return TYPE_STRING;
+	return this->shaderType;
 }

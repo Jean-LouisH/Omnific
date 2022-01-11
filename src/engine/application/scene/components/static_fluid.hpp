@@ -29,8 +29,11 @@ namespace Esi
 	class StaticFluid : public Component
 	{
 	public:
+		StaticFluid()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "StaticFluid";
-		std::string getType() const override;
 	private:
 	};
 }

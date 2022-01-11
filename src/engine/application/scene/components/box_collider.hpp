@@ -44,8 +44,11 @@ namespace Esi
 		AABB2D aabb;
 		PlatformSide platformSide = PLATFORM_SIDE_NONE;
 
+		BoxCollider()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "BoxCollider";
-		std::string getType() const override;
 	private:
 	};
 }

@@ -42,7 +42,11 @@ namespace Esi
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Image";
-		Image();
+		Image() 
+		{ 
+			this->type = TYPE_STRING;
+			this->surface = nullptr;
+		};
 		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
 		Image(std::string filepath);
 		Image(SDL_Surface* surface);
@@ -53,7 +57,6 @@ namespace Esi
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		uint8_t getBytesPerPixel();
-		std::string getType() const override;
 	private:
 		std::shared_ptr<SDL_Surface> surface = { nullptr, SDL_FreeSurface };
 		uint8_t alpha = 255;

@@ -29,8 +29,11 @@ namespace Esi
 	class PhysicsConstraint : public Component
 	{
 	public:
+		PhysicsConstraint()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "PhysicsConstraint";
-		std::string getType() const override;
 	private:
 	};
 }

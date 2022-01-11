@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "sound_perception.hpp"
-
-std::string Esi::SoundPerception::getType() const
-{
-	return TYPE_STRING;
-}

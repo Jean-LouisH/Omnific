@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "rig.hpp"
-
-std::string Esi::Rig::getType() const
-{
-	return TYPE_STRING;
-}

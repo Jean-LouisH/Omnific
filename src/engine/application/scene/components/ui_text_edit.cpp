@@ -26,8 +26,3 @@ Esi::Image& Esi::UITextEdit::getImage()
 {
 	return this->image;
 }
-
-std::string Esi::UITextEdit::getType() const
-{
-	return TYPE_STRING;
-}

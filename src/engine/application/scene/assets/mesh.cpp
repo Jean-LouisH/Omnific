@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "mesh.hpp"
-
-std::string Esi::Mesh::getType() const
-{
-	return TYPE_STRING;
-}

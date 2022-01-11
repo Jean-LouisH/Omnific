@@ -52,11 +52,14 @@ namespace Esi
 
 		static constexpr const char* TYPE_STRING = "Font";
 
-		Font();
+		Font() 
+		{ 
+			this->type = TYPE_STRING;
+			this->font = nullptr;
+		};
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
 		TTF_Font* getSDLTTFFont();
-		std::string getType() const override;
 	private:
 		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
 	};

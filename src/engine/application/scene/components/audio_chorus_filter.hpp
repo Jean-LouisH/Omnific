@@ -20,14 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "box_mesh.hpp"
+#pragma once
 
-Esi::Image& Esi::BoxMesh::getImage()
-{
-	return this->image;
-}
+#include "application/scene/component.hpp"
 
-std::string Esi::BoxMesh::getType() const
+
+namespace Esi
 {
-	return TYPE_STRING;
+	class AudioChorusFilter : public Component
+	{
+	public:
+		AudioChorusFilter()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "AudioChorusFilter";
+	private:
+	};
 }

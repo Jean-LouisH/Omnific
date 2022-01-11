@@ -31,8 +31,11 @@ namespace Esi
 	class UIButton : public RenderableComponent
 	{
 	public:
+		UIButton()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UIButton";
-		std::string getType() const override;
 		Image& getImage() override;
 	private:
 		Image image;

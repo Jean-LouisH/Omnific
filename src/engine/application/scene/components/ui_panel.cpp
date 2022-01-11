@@ -26,8 +26,3 @@ Esi::Image& Esi::UIPanel::getImage()
 {
 	return this->image;
 }
-
-std::string Esi::UIPanel::getType() const
-{
-	return TYPE_STRING;
-}

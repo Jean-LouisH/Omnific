@@ -32,8 +32,11 @@ namespace Esi
 	class KinematicBody : public Component
 	{
 	public:
+		KinematicBody()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "KinematicBody";
-		std::string getType() const override;
 	private:
 	};
 }

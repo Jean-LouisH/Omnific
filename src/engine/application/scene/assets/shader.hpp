@@ -30,21 +30,23 @@ namespace Esi
 	class Shader : public Asset
 	{
 	public:
-		enum class Type
+		enum class ShaderType
 		{
 			VERTEX,
 			FRAGMENT
 		};
 
 		static constexpr const char* TYPE_STRING = "Shader";
-		Shader();
-		Shader(std::string sourceFilepath, Type type);
-		void setSource(std::string source, Type type);
+		Shader() 
+		{ 
+			this->type = TYPE_STRING;
+		};
+		Shader(std::string sourceFilepath, ShaderType type);
+		void setSource(std::string source, ShaderType type);
 		std::string getSource();
-		Type getType();
-		std::string getType() const override;
+		ShaderType getType();
 	private:
 		std::string source;
-		Type type;
+		ShaderType shaderType;
 	};
 }

@@ -40,11 +40,13 @@ namespace Esi
 		std::set<EntityID> enteringEntityIDs;
 		std::set<std::string> enteringEntityTags;
 
+		BoxTriggerSpace()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "BoxTriggerSpace";
 		bool hasEntityEntered(EntityID entityID);
 		bool hasEntityWithTagEntered(std::string entityTag);
-
-		std::string getType() const override;
 	private:
 	};
 }

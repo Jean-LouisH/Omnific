@@ -30,8 +30,11 @@ namespace Esi
 	class SoundPerception : public Component
 	{
 	public:
+		SoundPerception()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "SoundPerception";
-		std::string getType() const override;
 	private:
 	};
 }

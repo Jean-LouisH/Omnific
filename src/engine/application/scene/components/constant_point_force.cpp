@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "constant_point_force.hpp"
-
-std::string Esi::ConstantPointForce::getType() const
-{
-	return TYPE_STRING;
-}

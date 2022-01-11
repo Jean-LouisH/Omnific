@@ -44,8 +44,3 @@ bool Esi::CountdownTimer::isFinished()
 {
 	return this->currentTime <= 0.0;
 }
-
-std::string Esi::CountdownTimer::getType() const
-{
-	return TYPE_STRING;
-}

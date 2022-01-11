@@ -37,6 +37,10 @@ namespace Esi
 	class Sprite : public RenderableComponent
 	{
 	public:
+		Sprite()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "Sprite";
 		void setImage(std::shared_ptr<Image> image);
 		void setAlpha(uint8_t value);
@@ -47,7 +51,6 @@ namespace Esi
 		void flipVertically();
 		void flipHorizontally();
 
-		std::string getType() const override;
 		Image& getImage() override;
 	private:
 		std::shared_ptr<Image> image;

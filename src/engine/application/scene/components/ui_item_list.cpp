@@ -73,8 +73,3 @@ Esi::Image& Esi::UIItemList::getImage()
 {
 	return this->image;
 }
-
-std::string Esi::UIItemList::getType() const
-{
-	return TYPE_STRING;
-}

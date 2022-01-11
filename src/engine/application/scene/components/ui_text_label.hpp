@@ -37,7 +37,6 @@ namespace Esi
 	{
 	public:
 
-		UITextLabel();
 		void setText(std::string text);
 		void setFont(std::shared_ptr<Esi::Font> font, uint16_t size_px);
 		void setFontStyleNormal();
@@ -55,8 +54,11 @@ namespace Esi
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 
+		UITextLabel()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UITextLabel";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

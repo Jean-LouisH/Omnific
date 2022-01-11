@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "animation.hpp"
-
-std::string Esi::Animation::getType() const
-{
-	return TYPE_STRING;
-}

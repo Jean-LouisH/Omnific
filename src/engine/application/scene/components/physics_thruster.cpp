@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "physics_thruster.hpp"
-
-std::string Esi::PhysicsThruster::getType() const
-{
-	return TYPE_STRING;
-}

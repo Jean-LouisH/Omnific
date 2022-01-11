@@ -33,11 +33,13 @@ namespace Esi
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "AudioStream";
-		AudioStream();
+		AudioStream() 
+		{ 
+			this->type = TYPE_STRING; 
+		};
 		~AudioStream();
 		AudioStream(std::string filepath);
 		Mix_Chunk* getSDLMixChunk();
-		std::string getType() const override;
 	private:
 		std::shared_ptr<Mix_Chunk> sound = {nullptr, Mix_FreeChunk};
 	};

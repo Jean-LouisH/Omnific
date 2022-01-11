@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "sight_perception.hpp"
-
-std::string Esi::SightPerception::getType() const
-{
-	return TYPE_STRING;
-}

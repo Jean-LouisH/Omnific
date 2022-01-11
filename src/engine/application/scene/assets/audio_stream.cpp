@@ -22,11 +22,6 @@
 
 #include "audio_stream.hpp"
 
-Esi::AudioStream::AudioStream()
-{
-
-}
-
 Esi::AudioStream::~AudioStream()
 {
 
@@ -41,9 +36,4 @@ Esi::AudioStream::AudioStream(std::string filepath)
 Mix_Chunk* Esi::AudioStream::getSDLMixChunk()
 {
 	return this->sound.get();
-}
-
-std::string Esi::AudioStream::getType() const
-{
-	return TYPE_STRING;
 }

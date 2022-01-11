@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "navigation_mesh_box_obstacle.hpp"
-
-std::string Esi::NavigationMeshBoxObstacle::getType() const
-{
-	return TYPE_STRING;
-}

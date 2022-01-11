@@ -29,8 +29,11 @@ namespace Esi
 	class Rig : public Asset
 	{
 	public:
+		Rig() 
+		{ 
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "Rig";
-		std::string getType() const override;
 	private:
 	};
 }

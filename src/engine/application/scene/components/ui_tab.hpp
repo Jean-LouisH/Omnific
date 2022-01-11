@@ -30,8 +30,11 @@ namespace Esi
 	class UITab : public RenderableComponent
 	{
 	public:
+		UITab()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UITab";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

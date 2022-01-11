@@ -30,8 +30,11 @@ namespace Esi
 	class UIHoverCard : public RenderableComponent
 	{
 	public:
+		UIHoverCard()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UIHoverCard";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

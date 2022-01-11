@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "box_collider.hpp"
-
-std::string Esi::BoxCollider::getType() const
-{
-	return TYPE_STRING;
-}

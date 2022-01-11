@@ -33,8 +33,11 @@ namespace Esi
 	public:
 		float force_N;
 
+		ConstantPointForce()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "ConstantPointForce";
-		std::string getType() const override;
 	private:
 	};
 }

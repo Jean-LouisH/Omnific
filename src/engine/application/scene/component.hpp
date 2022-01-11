@@ -33,7 +33,6 @@ namespace Esi
     class Component
     {
 	public:
-		static constexpr const char* TYPE_STRING = "Component";
 		Component();
 
 		void setEntityID(EntityID entityID);
@@ -41,8 +40,10 @@ namespace Esi
 		ComponentID getID();
 		EntityID getEntityID();
 		bool isAttachedToEntity();
-		virtual std::string getType() const;
+		std::string getType() const;
 		virtual bool isRenderable();
+	protected:
+		std::string type;
 	private:
 		ComponentID id = 0;
 		EntityID entityID = DUMMY_ENTITY;

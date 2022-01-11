@@ -29,8 +29,11 @@ namespace Esi
 	class PhysicsThruster : public Component
 	{
 	public:
+		PhysicsThruster()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "PhysicsThruster";
-		std::string getType() const override;
 	private:
 	};
 }

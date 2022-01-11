@@ -26,8 +26,3 @@ Esi::Image& Esi::UITab::getImage()
 {
 	return this->image;
 }
-
-std::string Esi::UITab::getType() const
-{
-	return TYPE_STRING;
-}

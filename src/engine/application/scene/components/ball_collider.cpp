@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ball_collider.hpp"
-
-std::string Esi::BallCollider::getType() const
-{
-	return TYPE_STRING;
-}

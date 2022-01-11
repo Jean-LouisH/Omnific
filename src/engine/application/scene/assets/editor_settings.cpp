@@ -20,19 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "application/scene/assets/image.hpp"
-#include "application/scene/renderable_component.hpp"
-#include "application/scene/component.hpp"
-
-namespace Esi
-{
-	class BoxMesh : public RenderableComponent
-	{
-	public:
-		static constexpr const char* TYPE_STRING = "BoxMesh";
-		std::string getType() const override;
-		Image& getImage() override;
-	private:
-		Image image;
-	};
-}
+#include "editor_settings.hpp"

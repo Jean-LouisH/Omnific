@@ -21,12 +21,6 @@
 // SOFTWARE.
 
 #include "ui_viewport.hpp"
-#include <os/os.hpp>
-
-Esi::UIViewport::UIViewport()
-{
-	this->dimensions = OS::getWindow().getWindowSize();
-}
 
 Esi::EntityID Esi::UIViewport::getCameraEntityID()
 {
@@ -77,9 +71,4 @@ void Esi::UIViewport::setVisible()
 void Esi::UIViewport::setInvisible()
 {
 	this->isVisible = false;
-}
-
-std::string Esi::UIViewport::getType() const
-{
-	return TYPE_STRING;
 }

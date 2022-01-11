@@ -29,8 +29,11 @@ namespace Esi
 	class Light : public Component
 	{
 	public:
+		Light()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "Light";
-		std::string getType() const override;
 	private:
 	};
 }

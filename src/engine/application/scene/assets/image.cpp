@@ -23,11 +23,6 @@
 #include "image.hpp"
 #include <SDL_image.h>
 
-Esi::Image::Image()
-{
-	this->surface = nullptr;
-}
-
 Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
 	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
@@ -103,9 +98,4 @@ uint8_t Esi::Image::getAlpha()
 uint8_t Esi::Image::getBytesPerPixel()
 {
 	return this->surface->format->BytesPerPixel;
-}
-
-std::string Esi::Image::getType() const
-{
-	return TYPE_STRING;
 }

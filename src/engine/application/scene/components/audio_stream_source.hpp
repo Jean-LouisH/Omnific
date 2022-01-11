@@ -38,6 +38,10 @@ namespace Esi
 	class AudioStreamSource : public Component
 	{
 	public:
+		AudioStreamSource()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "AudioStreamSource";
 		void addAudioStream(AudioStream audioStream);
 		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
@@ -50,8 +54,6 @@ namespace Esi
 		void stop();
 		std::vector<std::string> getAudioStreamNames();
 		AudioStream getAudioStreamByName(std::string audioStreamName);
-
-		std::string getType() const override;
 	private:
 //		Map<String, AudioStream> audioStreams;
 		std::queue<AudioStream> audioPlayQueue;

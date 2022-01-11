@@ -38,6 +38,10 @@ namespace Esi
 		using FrameIndex = uint16_t;
 		using FrameSequence = std::vector<Image>;
 	public:
+		AnimatedSprite()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "AnimatedSprite";
 		std::string currentFrameSequenceName = "";
 
@@ -72,7 +76,6 @@ namespace Esi
 		FrameSequence getFrameSequenceByName(std::string frameSequenceName);
 		FrameSequence getCurrentFrameSequence();
 
-		std::string getType() const override;
 		Image& getImage() override;
 	private:
 		std::unordered_map<std::string, FrameSequence> frameSequences;

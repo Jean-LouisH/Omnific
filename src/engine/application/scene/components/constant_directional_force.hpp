@@ -35,8 +35,11 @@ namespace Esi
 	public:
 		glm::vec3 force_N;
 
+		ConstantDirectionalForce()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "ConstantDirectionalForce";
-		std::string getType() const override;
 	private:
 	};
 }

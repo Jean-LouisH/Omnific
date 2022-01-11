@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "physics_constraint.hpp"
-
-std::string Esi::PhysicsConstraint::getType() const
-{
-	return TYPE_STRING;
-}

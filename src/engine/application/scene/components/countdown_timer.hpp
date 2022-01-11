@@ -32,13 +32,15 @@ namespace Esi
 	class CountdownTimer : public Component
 	{
 	public:
+		CountdownTimer()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "CountdownTimer";
 		void start(float time);
 		void update(float deltaTime);
 		void stop();
 		bool isFinished();
-
-		std::string getType() const override;
 	private:
 		bool isActive = false;
 		float startTime = 0.0;

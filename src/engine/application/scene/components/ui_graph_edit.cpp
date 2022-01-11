@@ -26,8 +26,3 @@ Esi::Image& Esi::UIGraphEdit::getImage()
 {
 	return this->image;
 }
-
-std::string Esi::UIGraphEdit::getType() const
-{
-	return TYPE_STRING;
-}

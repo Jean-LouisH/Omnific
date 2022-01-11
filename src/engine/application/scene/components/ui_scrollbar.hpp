@@ -30,8 +30,11 @@ namespace Esi
 	class UIScrollbar : public RenderableComponent
 	{
 	public:
+		UIScrollbar()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UIScrollbar";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

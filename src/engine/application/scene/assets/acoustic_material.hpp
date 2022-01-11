@@ -20,14 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "regular_polytopal_mesh.hpp"
+#pragma once
 
-Esi::Image& Esi::RegularPolytopalMesh::getImage()
-{
-	return this->image;
-}
+#include "application/scene/asset.hpp"
 
-std::string Esi::RegularPolytopalMesh::getType() const
+namespace Esi
 {
-	return TYPE_STRING;
+	class AcousticMaterial : public Asset
+	{
+	public:
+		AcousticMaterial()
+		{ 
+			this->type = TYPE_STRING; 
+		};
+		static constexpr const char* TYPE_STRING = "AcousticMaterial";
+	private:
+	};
 }

@@ -27,8 +27,3 @@ Esi::Text::Text(std::string filepath)
 {
 
 }
-
-std::string Esi::Text::getType() const
-{
-	return TYPE_STRING;
-}

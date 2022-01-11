@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "material.hpp"
-
-std::string Esi::Material::getType() const
-{
-	return TYPE_STRING;
-}

@@ -30,8 +30,11 @@ namespace Esi
 	class UISpinBox : public RenderableComponent
 	{
 	public:
+		UISpinBox()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UISpinBox";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

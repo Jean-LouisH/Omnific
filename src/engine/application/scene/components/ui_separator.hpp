@@ -30,8 +30,11 @@ namespace Esi
 	class UISeparator : public RenderableComponent
 	{
 	public:
+		UISeparator()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UISeparator";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

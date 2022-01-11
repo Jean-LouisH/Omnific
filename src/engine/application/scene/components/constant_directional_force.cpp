@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "constant_directional_force.hpp"
-
-std::string Esi::ConstantDirectionalForce::getType() const
-{
-	return TYPE_STRING;
-}

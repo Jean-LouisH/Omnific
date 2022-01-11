@@ -29,8 +29,11 @@ namespace Esi
 	class BehaviourTree : public Component
 	{
 	public:
+		BehaviourTree()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "BehaviourTree";
-		std::string getType() const override;
 	private:
 	};
 }

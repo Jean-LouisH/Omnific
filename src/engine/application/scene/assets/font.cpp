@@ -22,11 +22,6 @@
 
 #include "font.hpp"
 
-Esi::Font::Font()
-{
-	this->font = nullptr;
-}
-
 Esi::Font::Font(std::string filepath, uint16_t size_px)
 {
 	this->setName(filepath);
@@ -41,9 +36,4 @@ Esi::Font::Font(TTF_Font* font)
 TTF_Font* Esi::Font::getSDLTTFFont()
 {
 	return this->font.get();
-}
-
-std::string Esi::Font::getType() const
-{
-	return TYPE_STRING;
 }

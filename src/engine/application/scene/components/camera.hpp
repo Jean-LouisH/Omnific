@@ -36,7 +36,11 @@ namespace Esi
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Camera";
-		Camera();
+		Camera()
+		{
+			this->type = TYPE_STRING;
+			this->setViewportWidth(300);
+		};
 		void resetAspect();
 		Rectangle getViewportDimensions();
 		bool getIsStreaming();
@@ -45,8 +49,6 @@ namespace Esi
 		void setLimits(float left, float bottom, float top, float right);
 		void setKeepAspect(bool value);
 		void setIsStreaming(bool value);
-
-		std::string getType() const override;
 	private:
 		const float defaultAspect = 1920.0 / 1080.0;
 		float aspect = defaultAspect;

@@ -23,11 +23,6 @@
 #include "ui_text_label.hpp"
 
 
-Esi::UITextLabel::UITextLabel()
-{
-	this->image = Image();
-}
-
 void Esi::UITextLabel::setText(std::string text)
 {
 	if (text != this->text)
@@ -133,9 +128,4 @@ void Esi::UITextLabel::generateImage()
 			this->image = Image(this->text, this->font, this->colour, this->mode);
 		}
 	}
-}
-
-std::string Esi::UITextLabel::getType() const
-{
-	return TYPE_STRING;
 }

@@ -20,19 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "application/scene/assets/image.hpp"
-#include "application/scene/renderable_component.hpp"
-#include "application/scene/component.hpp"
+#pragma once
+
+#include "application/scene/asset.hpp"
 
 namespace Esi
 {
-	class RegularPolytopalMesh : public RenderableComponent
+	class VMScript : public Asset
 	{
 	public:
-		static constexpr const char* TYPE_STRING = "RegularPolytopalMesh";
-		std::string getType() const override;
-		Image& getImage() override;
+		VMScript()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "VMScript";
 	private:
-		Image image;
 	};
 }

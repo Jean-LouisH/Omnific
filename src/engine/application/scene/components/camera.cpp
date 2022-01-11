@@ -22,11 +22,6 @@
 
 #include "camera.hpp"
 
-Esi::Camera::Camera()
-{
-	this->setViewportWidth(300);
-}
-
 void Esi::Camera::resetAspect()
 {
 	this->aspect = defaultAspect;
@@ -72,9 +67,4 @@ void Esi::Camera::setKeepAspect(bool value)
 void Esi::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
-}
-
-std::string Esi::Camera::getType() const
-{
-	return TYPE_STRING;
 }

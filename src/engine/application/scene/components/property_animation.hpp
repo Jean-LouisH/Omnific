@@ -45,8 +45,11 @@ namespace Esi
 		uint8_t repeatCount = 0;
 		bool isPlaying = false;
 
+		PropertyAnimation()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "PropertyAnimation";
-		std::string getType() const override;
 	private:
 	};
 }

@@ -35,7 +35,11 @@ namespace Esi
 	public:
 		AABB2D aabb;
 
-		std::string getType() const override;
+		NavigationMeshBoxObstacle()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "NavigationMeshBoxObstacle";
 	private:
 	};
 }

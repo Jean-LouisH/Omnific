@@ -27,14 +27,19 @@
 #include <utilities/aliases.hpp>
 #include <utilities/constants.hpp>
 #include "application/scene/component.hpp"
+#include <os/os.hpp>
 
 namespace Esi
 {
 	class UIViewport : public Component
 	{
 	public:
+		UIViewport()
+		{
+			this->type = TYPE_STRING;
+			this->dimensions = OS::getWindow().getWindowSize();
+		};
 		static constexpr const char* TYPE_STRING = "UIViewport";
-		UIViewport();
 		EntityID getCameraEntityID();
 		Rectangle getDimensions();
 		bool getIsVisibleToOtherCameras();
@@ -45,8 +50,6 @@ namespace Esi
 		void setInvisibleToOtherCameras();
 		void setVisible();
 		void setInvisible();
-
-		std::string getType() const override;
 	private:
 		Rectangle dimensions;
 		EntityID cameraEntityID = DUMMY_ENTITY;

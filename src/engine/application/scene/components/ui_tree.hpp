@@ -30,8 +30,11 @@ namespace Esi
 	class UITree : public RenderableComponent
 	{
 	public:
+		UITree()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UITree";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:

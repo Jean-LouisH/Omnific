@@ -30,8 +30,11 @@ namespace Esi
 	class UITextEdit : public RenderableComponent
 	{
 	public:
+		UITextEdit()
+		{
+			this->type = TYPE_STRING;
+		};
 		static constexpr const char* TYPE_STRING = "UITextEdit";
-		std::string getType() const override;
 		Image& getImage() override;
 		
 	private:
