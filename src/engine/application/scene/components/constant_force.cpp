@@ -20,14 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "box_trigger_space.hpp"
-
-bool Esi::BoxTriggerSpace::hasEntityEntered(EntityID entityID)
-{
-	return this->enteringEntityIDs.count(entityID);
-}
-
-bool Esi::BoxTriggerSpace::hasEntityWithTagEntered(std::string entityTag)
-{
-	return this->enteringEntityTags.count(entityTag);
-}
+#include "constant_force.hpp"

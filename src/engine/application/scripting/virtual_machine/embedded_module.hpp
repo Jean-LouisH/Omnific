@@ -177,13 +177,10 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 	pybind11::class_<Esi::BehaviourTree, Esi::Component>(m, "BehaviourTree");
 	pybind11::class_<Esi::SightPerception, Esi::Component>(m, "SightPerception");
 	pybind11::class_<Esi::SoundPerception, Esi::Component>(m, "SoundPerception");
-	pybind11::class_<Esi::AnimatedSprite, Esi::Component>(m, "AnimatedSprite");
 	pybind11::class_<Esi::AudioListener, Esi::Component>(m, "AudioListener");
-	pybind11::class_<Esi::AudioStreamSource, Esi::Component>(m, "AudioStreamSource");
+	pybind11::class_<Esi::AudioSource, Esi::Component>(m, "AudioStreamSource");
 	pybind11::class_<Esi::Camera, Esi::Component>(m, "Camera");
-	pybind11::class_<Esi::BallCollider, Esi::Component>(m, "BallCollider");
-	pybind11::class_<Esi::ConstantDirectionalForce, Esi::Component>(m, "ConstantDirectionalForce");
-	pybind11::class_<Esi::ConstantPointForce, Esi::Component>(m, "ConstantPointForce");
+	pybind11::class_<Esi::ConstantForce, Esi::Component>(m, "ConstantForce");
 	pybind11::class_<Esi::CountdownTimer, Esi::Component>(m, "CountdownTimer")
 		.def("start", &Esi::CountdownTimer::start)
 		.def("stop", &Esi::CountdownTimer::stop)
@@ -196,12 +193,11 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 	pybind11::class_<Esi::PhysicsConstraint, Esi::Component>(m, "PhysicsConstraint");
 	pybind11::class_<Esi::PhysicsThruster, Esi::Component>(m, "PhysicsThruster");
 	pybind11::class_<Esi::PropertyAnimation, Esi::Component>(m, "PropertyAnimation");
-	pybind11::class_<Esi::BoxCollider, Esi::Component>(m, "BoxCollider");
-	pybind11::class_<Esi::BoxModel, Esi::Component>(m, "BoxModel");
-	pybind11::class_<Esi::BoxTriggerSpace, Esi::Component>(m, "BoxTriggerSpace");
-	pybind11::class_<Esi::RegularPolytopalModel, Esi::Component>(m, "RegularPolytopalModel");
+	pybind11::class_<Esi::Collider, Esi::Component>(m, "Collider");
+	pybind11::class_<Esi::ModelContainer, Esi::Component>(m, "ModelContainer");
+	pybind11::class_<Esi::TriggerSpace, Esi::Component>(m, "BoxTriggerSpace");
 	pybind11::class_<Esi::RigidBody, Esi::Component>(m, "RigidBody");
-	pybind11::class_<Esi::Sprite, Esi::Component>(m, "Sprite");
+	pybind11::class_<Esi::SpriteContainer, Esi::Component>(m, "SpriteContainer");
 	pybind11::class_<Esi::StaticFluid, Esi::Component>(m, "StaticFluid");
 	pybind11::class_<Esi::Transform, Esi::Component>(m, "Transform");
 	pybind11::class_<Esi::UIButton, Esi::Component>(m, "UIButton");

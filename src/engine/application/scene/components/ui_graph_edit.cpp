@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_graph_edit.hpp"
-
-Esi::Image& Esi::UIGraphEdit::getImage()
-{
-	return this->image;
-}

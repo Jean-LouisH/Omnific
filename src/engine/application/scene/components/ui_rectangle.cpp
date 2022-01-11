@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_rectangle.hpp"
-
-Esi::Image& Esi::UIRectangle::getImage()
-{
-	return this->image;
-}

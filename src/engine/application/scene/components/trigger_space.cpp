@@ -20,21 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "trigger_space.hpp"
 
-#include "application/scene/component.hpp"
-
-
-namespace Esi
+bool Esi::TriggerSpace::hasEntityEntered(EntityID entityID)
 {
-	class CapsuleCollider : public Component
-	{
-	public:
-		CapsuleCollider()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "CapsuleCollider";
-	private:
-	};
+	return this->enteringEntityIDs.count(entityID);
+}
+
+bool Esi::TriggerSpace::hasEntityWithTagEntered(std::string entityTag)
+{
+	return this->enteringEntityTags.count(entityTag);
 }

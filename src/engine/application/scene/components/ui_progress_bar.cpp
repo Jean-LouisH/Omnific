@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_progress_bar.hpp"
-
-Esi::Image& Esi::UIProgressBar::getImage()
-{
-	return this->image;
-}

@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_slider.hpp"
-
-Esi::Image& Esi::UISlider::getImage()
-{
-	return this->image;
-}

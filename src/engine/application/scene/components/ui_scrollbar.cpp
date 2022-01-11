@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_scrollbar.hpp"
-
-Esi::Image& Esi::UIScrollbar::getImage()
-{
-	return this->image;
-}

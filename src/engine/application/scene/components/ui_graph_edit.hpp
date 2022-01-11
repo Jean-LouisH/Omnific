@@ -35,8 +35,6 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "UIGraphEdit";
-		Image& getImage() override;
 	private:
-		Image image;
 	};
 }

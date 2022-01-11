@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_text_edit.hpp"
-
-Esi::Image& Esi::UITextEdit::getImage()
-{
-	return this->image;
-}

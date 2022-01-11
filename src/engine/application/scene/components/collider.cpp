@@ -20,21 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "application/scene/component.hpp"
-
-
-namespace Esi
-{
-	class AcousticRegularPolytopalMeshContainer : public Component
-	{
-	public:
-		AcousticRegularPolytopalMeshContainer()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "AcousticRegularPolytopalMeshContainer";
-	private:
-	};
-}
+#include "collider.hpp"

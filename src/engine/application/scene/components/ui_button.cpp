@@ -21,9 +21,3 @@
 // SOFTWARE.
 
 #include "ui_button.hpp"
-
-Esi::Image& Esi::UIButton::getImage()
-{
-	return this->image;
-}
-

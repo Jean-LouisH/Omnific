@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_panel.hpp"
-
-Esi::Image& Esi::UIPanel::getImage()
-{
-	return this->image;
-}

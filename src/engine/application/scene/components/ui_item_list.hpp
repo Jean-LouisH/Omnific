@@ -45,10 +45,7 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "UIItemList";
-		Image& getImage() override;
-		
 	private:
-		Image image;
 		uint32_t lowerBound = 0;
 		uint32_t upperBound;
 		uint32_t index = 0;

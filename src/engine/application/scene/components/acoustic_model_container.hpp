@@ -27,15 +27,14 @@
 
 namespace Esi
 {
-	class AudioSynthesisSource : public Component
+	class AcousticModelContainer : public Component
 	{
 	public:
-		AudioSynthesisSource()
+		AcousticModelContainer()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AudioSynthesisSource";
-		std::string getType() const override;
+		static constexpr const char* TYPE_STRING = "AcousticModelContainer";
 	private:
 	};
 }

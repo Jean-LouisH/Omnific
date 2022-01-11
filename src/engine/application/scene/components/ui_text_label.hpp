@@ -59,7 +59,6 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "UITextLabel";
-		Image& getImage() override;
 		
 	private:
 		std::string text;
@@ -68,8 +67,6 @@ namespace Esi
 		Font::RenderMode mode = Font::RenderMode::SOLID;
 		uint16_t size_px = 0;
 		Colour colour;
-
-		Image image;
 
 		void generateImage();
 	};

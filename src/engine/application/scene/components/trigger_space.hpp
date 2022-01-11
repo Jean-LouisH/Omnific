@@ -20,22 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "application/scene/assets/image.hpp"
-#include "application/scene/renderable_component.hpp"
+#pragma once
+
+#include "utilities/aliases.hpp"
+#include "utilities/aabb_2d.hpp"
+#include <set>
+#include <string>
+#include "utilities/constants.hpp"
 #include "application/scene/component.hpp"
+
 
 namespace Esi
 {
-	class RegularPolytopalModel : public RenderableComponent
+	class TriggerSpace : public Component
 	{
 	public:
-		RegularPolytopalModel()
+		AABB2D aabb;
+
+		std::set<EntityID> enteringEntityIDs;
+		std::set<std::string> enteringEntityTags;
+
+		TriggerSpace()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "RegularPolytopalModel";
-		Image& getImage() override;
+		static constexpr const char* TYPE_STRING = "TriggerSpace";
+		bool hasEntityEntered(EntityID entityID);
+		bool hasEntityWithTagEntered(std::string entityTag);
 	private:
-		Image image;
 	};
 }

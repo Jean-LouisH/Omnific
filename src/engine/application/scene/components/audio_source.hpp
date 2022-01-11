@@ -20,9 +20,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "regular_polytopal_model.hpp"
+#pragma once
 
-Esi::Image& Esi::RegularPolytopalModel::getImage()
+#include "utilities/aliases.hpp"
+#include <set>
+#include <queue>
+#include "utilities/constants.hpp"
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include "application/scene/assets/audio_stream.hpp"
+#include "application/scene/component.hpp"
+
+
+namespace Esi
 {
-	return this->image;
+	class AudioSource : public Component
+	{
+	public:
+		AudioSource()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "AudioSource";
+		void addAudioStream(AudioStream audioStream);
+		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
+		void clearAudioStreams();
+		std::queue<AudioStream> popEntireAudioPlayQueue();
+		void clearAudioPlayQueue();
+		void play(std::string audioStreamName);
+		void play();
+		void pause();
+		void stop();
+		std::vector<std::string> getAudioStreamNames();
+		AudioStream getAudioStreamByName(std::string audioStreamName);
+	private:
+//		Map<String, AudioStream> audioStreams;
+		std::queue<AudioStream> audioPlayQueue;
+		bool isPlaying = false;
+	};
 }

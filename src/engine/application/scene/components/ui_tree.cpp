@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_tree.hpp"
-
-Esi::Image& Esi::UITree::getImage()
-{
-	return this->image;
-}

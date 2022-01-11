@@ -35,10 +35,7 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "UIScrollbar";
-		Image& getImage() override;
-		
 	private:
-		Image image;
 		bool isVertical = false;
 	};
 }

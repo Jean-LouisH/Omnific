@@ -20,65 +20,65 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "animated_sprite.hpp"
+#include "sprite_container.hpp"
 
-void Esi::AnimatedSprite::addEmptyFrameSequence(std::string frameSequenceName)
+void Esi::SpriteContainer::addEmptyFrameSequence(std::string frameSequenceName)
 {
-	FrameSequence frameSequence;
+	std::vector<std::shared_ptr<Image>> frameSequence;
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Esi::AnimatedSprite::addFrameSequence(std::string frameSequenceName, FrameSequence frameSequence)
+void Esi::SpriteContainer::addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Esi::AnimatedSprite::addFrameToFrameSequence(std::string frameSequenceName, Image frame)
+void Esi::SpriteContainer::addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
 }
 
-void Esi::AnimatedSprite::clearFrameSequences()
+void Esi::SpriteContainer::clearFrameSequences()
 {
 	this->frameSequences.clear();
 }
 
-void Esi::AnimatedSprite::setAlpha(uint8_t value)
+void Esi::SpriteContainer::setAlpha(uint8_t value)
 {
 	this->alpha = value;
 	//apply to all frames...
 }
 
-uint8_t Esi::AnimatedSprite::getAlpha()
+uint8_t Esi::SpriteContainer::getAlpha()
 {
 	return this->alpha;
 }
 
-void Esi::AnimatedSprite::hide()
+void Esi::SpriteContainer::hide()
 {
 	this->alpha = 0;
 	//apply to all frames...
 }
 
-void Esi::AnimatedSprite::show()
+void Esi::SpriteContainer::show()
 {
 	this->alpha = 255;
 	//apply to all frames...
 }
 
-void Esi::AnimatedSprite::setAnimationSpeed(float value_fps)
+void Esi::SpriteContainer::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)
 		this->animationSpeed_fps = value_fps;
 }
 
-float Esi::AnimatedSprite::getAnimationSpeed()
+float Esi::SpriteContainer::getAnimationSpeed()
 {
 	return this->animationSpeed_fps;
 }
 
-void Esi::AnimatedSprite::update(float delta_s)
+void Esi::SpriteContainer::update(float delta_s)
 {
 	if (this->isPlaying)
 	{
@@ -100,7 +100,7 @@ void Esi::AnimatedSprite::update(float delta_s)
 	}
 }
 
-void Esi::AnimatedSprite::play(std::string frameSequenceName)
+void Esi::SpriteContainer::play(std::string frameSequenceName)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -109,51 +109,51 @@ void Esi::AnimatedSprite::play(std::string frameSequenceName)
 	}
 }
 
-void Esi::AnimatedSprite::play()
+void Esi::SpriteContainer::play()
 {
 	this->isPlaying = true;
 }
 
-void Esi::AnimatedSprite::pause()
+void Esi::SpriteContainer::pause()
 {
 	this->isPlaying = false;
 }
 
-void Esi::AnimatedSprite::stop()
+void Esi::SpriteContainer::stop()
 {
 	this->pause();
 	this->currentFrameIndex = 0;
 }
 
-void Esi::AnimatedSprite::setBackwards()
+void Esi::SpriteContainer::setBackwards()
 {
 	this->isBackwards = true;
 }
-void Esi::AnimatedSprite::setForwards()
+void Esi::SpriteContainer::setForwards()
 {
 	this->isBackwards = false;
 }
 
-void Esi::AnimatedSprite::flipVertically()
+void Esi::SpriteContainer::flipVertically()
 {
 	this->isFlippedVertically != this->isFlippedVertically;
 }
 
-void Esi::AnimatedSprite::flipHorizontally()
+void Esi::SpriteContainer::flipHorizontally()
 {
 	this->isFlippedHorizontally != this->isFlippedHorizontally;
 }
 
-Esi::Image Esi::AnimatedSprite::getCurrentFrame()
+std::shared_ptr<Esi::Image> Esi::SpriteContainer::getCurrentFrame()
 {
 	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
 }
 
-std::vector<std::string> Esi::AnimatedSprite::getFrameSequenceNames()
+std::vector<std::string> Esi::SpriteContainer::getFrameSequenceNames()
 {
 	std::vector<std::string> frameSequenceNames;
 
-	for (std::unordered_map<std::string, FrameSequence>::iterator it = this->frameSequences.begin();
+	for (std::unordered_map<std::string, std::vector<std::shared_ptr<Image>>>::iterator it = this->frameSequences.begin();
 		it != this->frameSequences.end();
 		++it)
 	{
@@ -163,9 +163,9 @@ std::vector<std::string> Esi::AnimatedSprite::getFrameSequenceNames()
 	return frameSequenceNames;
 }
 
-Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getFrameSequenceByName(std::string frameSequenceName)
+std::vector<std::shared_ptr<Esi::Image>> Esi::SpriteContainer::getFrameSequenceByName(std::string frameSequenceName)
 {
-	FrameSequence frameSequence;
+	std::vector<std::shared_ptr<Image>> frameSequence;
 
 	if (this->frameSequences.count(frameSequenceName))
 		frameSequence = this->frameSequences.at(frameSequenceName);
@@ -173,12 +173,7 @@ Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getFrameSequenceByName(s
 	return frameSequence;
 }
 
-Esi::AnimatedSprite::FrameSequence Esi::AnimatedSprite::getCurrentFrameSequence()
+std::vector<std::shared_ptr<Esi::Image>> Esi::SpriteContainer::getCurrentFrameSequence()
 {
 	return this->frameSequences.at(this->currentFrameSequenceName);
-}
-
-Esi::Image& Esi::AnimatedSprite::getImage()
-{
-	return this->getCurrentFrame();
 }

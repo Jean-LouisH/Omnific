@@ -34,10 +34,7 @@ namespace Esi
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "UITree";
-		Image& getImage() override;
-		
+		static constexpr const char* TYPE_STRING = "UITree";		
 	private:
-		Image image;
 	};
 }

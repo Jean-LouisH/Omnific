@@ -27,14 +27,14 @@
 
 namespace Esi
 {
-	class AudioReverbZone : public Component
+	class AudioFilters : public Component
 	{
 	public:
-		AudioReverbZone()
+		AudioFilters()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AudioReverbZone";
+		static constexpr const char* TYPE_STRING = "AudioFilters";
 	private:
 	};
 }

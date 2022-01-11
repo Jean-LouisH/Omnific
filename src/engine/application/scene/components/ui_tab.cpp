@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_tab.hpp"
-
-Esi::Image& Esi::UITab::getImage()
-{
-	return this->image;
-}

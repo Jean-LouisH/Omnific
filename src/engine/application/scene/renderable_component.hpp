@@ -24,14 +24,17 @@
 
 #include "component.hpp"
 #include <application/scene/assets/image.hpp>
+#include <memory>
 
 namespace Esi
 {
 	class RenderableComponent : public Component
 	{
 	public:
-		virtual Image& getImage() = 0;
+		std::shared_ptr<Image> getImage();
 		bool isRenderable() override;
+	protected:
+		std::shared_ptr<Image> image;
 	private:
 	};
 }

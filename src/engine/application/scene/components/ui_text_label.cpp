@@ -104,19 +104,14 @@ Esi::Font::Style Esi::UITextLabel::getFontStyle()
 	return this->style;
 }
 
-Esi::Image& Esi::UITextLabel::getImage()
-{
-	return this->image;
-}
-
 void Esi::UITextLabel::setAlpha(uint8_t value)
 {
-	this->image.setAlpha(value);
+	this->image->setAlpha(value);
 }
 
 uint8_t Esi::UITextLabel::getAlpha()
 {
-	return this->image.getAlpha();
+	return this->image->getAlpha();
 }
 
 void Esi::UITextLabel::generateImage()
@@ -125,7 +120,7 @@ void Esi::UITextLabel::generateImage()
 	{
 		if (this->font->getSDLTTFFont() != nullptr)
 		{
-			this->image = Image(this->text, this->font, this->colour, this->mode);
+			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->mode));
 		}
 	}
 }

@@ -404,9 +404,9 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "Sprite")
+							else if (it2->first.as<std::string>() == "SpriteContainer")
 							{
-								std::shared_ptr<Sprite> sprite(new Sprite());
+								std::shared_ptr<SpriteContainer> sprite(new SpriteContainer());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -415,7 +415,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 										std::shared_ptr<Esi::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
 										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
 										scene.getAssetCache().store(asset);
-										sprite->setImage(image);
+										sprite->addFrameToFrameSequence("", image);
 									}
 								}
 

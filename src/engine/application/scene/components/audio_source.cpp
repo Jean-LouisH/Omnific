@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "audio_stream_source.hpp"
+#include "audio_source.hpp"
 
-void Esi::AudioStreamSource::addAudioStream(AudioStream audioStream)
+void Esi::AudioSource::addAudioStream(AudioStream audioStream)
 {
 //	this->audioStreams.emplace(audioStream);
 }
 
-void Esi::AudioStreamSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
+void Esi::AudioSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
 {
 	//if (this->audioStreams.count(audioStreamName) > 0 && count > 0)
 	//{
@@ -36,46 +36,46 @@ void Esi::AudioStreamSource::queueAudioToPlay(std::string audioStreamName, uint8
 	//}
 }
 
-void Esi::AudioStreamSource::clearAudioStreams()
+void Esi::AudioSource::clearAudioStreams()
 {
 //	this->audioStreams.clear();
 }
 
-std::queue<Esi::AudioStream> Esi::AudioStreamSource::popEntireAudioPlayQueue()
+std::queue<Esi::AudioStream> Esi::AudioSource::popEntireAudioPlayQueue()
 {
 	std::queue<AudioStream> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
 
-void Esi::AudioStreamSource::clearAudioPlayQueue()
+void Esi::AudioSource::clearAudioPlayQueue()
 {
 	for (int i = 0; i < this->audioPlayQueue.size(); i++)
 		this->audioPlayQueue.pop();
 }
 
 
-void Esi::AudioStreamSource::play(std::string audioStreamName)
+void Esi::AudioSource::play(std::string audioStreamName)
 {
 
 }
 
-void Esi::AudioStreamSource::play()
+void Esi::AudioSource::play()
 {
 
 }
 
-void Esi::AudioStreamSource::pause()
+void Esi::AudioSource::pause()
 {
 
 }
 
-void Esi::AudioStreamSource::stop()
+void Esi::AudioSource::stop()
 {
 
 }
 
-std::vector<std::string> Esi::AudioStreamSource::getAudioStreamNames()
+std::vector<std::string> Esi::AudioSource::getAudioStreamNames()
 {
 	std::vector<std::string> audioStreamNames;
 
@@ -89,7 +89,7 @@ std::vector<std::string> Esi::AudioStreamSource::getAudioStreamNames()
 	return audioStreamNames;
 }
 
-Esi::AudioStream Esi::AudioStreamSource::getAudioStreamByName(std::string audioStreamName)
+Esi::AudioStream Esi::AudioSource::getAudioStreamByName(std::string audioStreamName)
 {
 	AudioStream audioStream;
 

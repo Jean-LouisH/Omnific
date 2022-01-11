@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_separator.hpp"
-
-Esi::Image& Esi::UISeparator::getImage()
-{
-	return this->image;
-}

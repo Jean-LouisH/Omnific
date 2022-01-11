@@ -68,8 +68,3 @@ uint32_t Esi::UIItemList::getIndex()
 {
 	return this->index;
 }
-
-Esi::Image& Esi::UIItemList::getImage()
-{
-	return this->image;
-}

@@ -21,8 +21,3 @@
 // SOFTWARE.
 
 #include "ui_hover_card.hpp"
-
-Esi::Image& Esi::UIHoverCard::getImage()
-{
-	return this->image;
-}

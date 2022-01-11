@@ -22,19 +22,24 @@
 
 #pragma once
 
+#include "utilities/aliases.hpp"
+#include "utilities/constants.hpp"
+#include <glm/glm.hpp>
 #include "application/scene/component.hpp"
 
 
 namespace Esi
 {
-	class AudioChorusFilter : public Component
+	class ConstantForce : public Component
 	{
 	public:
-		AudioChorusFilter()
+		glm::vec3 force_N;
+
+		ConstantForce()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AudioChorusFilter";
+		static constexpr const char* TYPE_STRING = "ConstantForce";
 	private:
 	};
 }

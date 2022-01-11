@@ -22,6 +22,10 @@
 
 #include "renderable_component.hpp"
 
+std::shared_ptr<Esi::Image> Esi::RenderableComponent::getImage()
+{
+	return this->image;
+}
 
 bool Esi::RenderableComponent::isRenderable()
 {

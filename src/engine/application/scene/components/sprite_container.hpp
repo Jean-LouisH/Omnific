@@ -28,32 +28,59 @@
 #include "utilities/constants.hpp"
 #include <string>
 #include "application/scene/assets/image.hpp"
-#include <memory>
 #include "application/scene/renderable_component.hpp"
-#include "application/scene/component.hpp"
+#include <memory>
 
 namespace Esi
 {
-	class Sprite : public RenderableComponent
+	class SpriteContainer : public RenderableComponent
 	{
 	public:
-		Sprite()
+		SpriteContainer()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Sprite";
-		void setImage(std::shared_ptr<Image> image);
+		static constexpr const char* TYPE_STRING = "SpriteContainer";
+		std::string currentFrameSequenceName = "";
+
+		void addEmptyFrameSequence(std::string frameSequenceName);
+		void addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence);
+		void addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame);
+		void clearFrameSequences();
+
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();
 		void hide();
 		void show();
 
+		void setAnimationSpeed(float value_fps);
+		float getAnimationSpeed();
+
+		void update(float delta_s);
+
+		void play(std::string frameSequenceName);
+		void play();
+		void pause();
+		void stop();
+
+		void setBackwards();
+		void setForwards();
+
 		void flipVertically();
 		void flipHorizontally();
 
-		Image& getImage() override;
+		std::shared_ptr<Image> getCurrentFrame();
+		std::vector<std::string> getFrameSequenceNames();
+		std::vector<std::shared_ptr<Image>> getFrameSequenceByName(std::string frameSequenceName);
+		std::vector<std::shared_ptr<Image>> getCurrentFrameSequence();
 	private:
-		std::shared_ptr<Image> image;
+		std::unordered_map<std::string, std::vector<std::shared_ptr<Image>>> frameSequences;
+		uint8_t alpha = 255;
+		float animationSpeed_fps = 12.0;
+		float frameTime_s = 0.0;
+		uint16_t currentFrameIndex = 0;
+		bool isPlaying = false;
+		bool isBackwards = false;
 		bool isFlippedVertically = false;
 		bool isFlippedHorizontally = false;
 	};

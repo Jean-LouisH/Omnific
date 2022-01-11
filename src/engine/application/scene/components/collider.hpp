@@ -22,19 +22,45 @@
 
 #pragma once
 
+#include "utilities/aliases.hpp"
+#include "utilities/constants.hpp"
 #include "application/scene/component.hpp"
+
+#include "utilities/aabb_2d.hpp"
 
 
 namespace Esi
 {
-	class AcousticPolytopalMeshContainer : public Component
+	class Collider : public Component
 	{
 	public:
-		AcousticPolytopalMeshContainer()
+		struct Circle
+		{
+			float radius = 0.0;
+		}circle;
+
+		struct Box
+		{
+			enum PlatformSide
+			{
+				PLATFORM_SIDE_NONE,
+				PLATFORM_SIDE_LEFT,
+				PLATFORM_SIDE_RIGHT,
+				PLATFORM_SIDE_TOP,
+				PLATFORM_SIDE_BOTTOM
+			};
+
+			AABB2D aabb;
+			PlatformSide platformSide = PLATFORM_SIDE_NONE;
+		}box;
+
+
+
+		Collider()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AcousticPolytopalMeshContainer";
+		static constexpr const char* TYPE_STRING = "Collider";
 	private:
 	};
 }
