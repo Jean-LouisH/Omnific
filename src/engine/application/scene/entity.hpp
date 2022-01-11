@@ -37,7 +37,8 @@ namespace Esi
 	{
 		enum class SpatialDimension
 		{
-			_2D
+			_2D,
+			_3D
 		};
 
 		UID ID = DUMMY_ENTITY;
