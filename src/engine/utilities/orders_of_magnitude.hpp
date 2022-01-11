@@ -22,22 +22,11 @@
 
 #pragma once
 
-#include "orders_of_magnitude.hpp"
-#include "time_conversions.hpp"
-#include "physics_constants.hpp"
-
-#define DUMMY_ENTITY 0 
-
-#define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
-#define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
-#define DEBUG_DATA_FILEPATH DEBUG_EDITOR_DATA_FILEPATH
-
-#define DEBUG_DEMO_MODE false
-
-#if (DEBUG_DEMO_MODE)
-	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
-#endif
-
-#if _DEBUG
-	#define DEBUG_CONSOLE_ENABLED
-#endif
+#define TERA 1000000000000.0
+#define GIGA 1000000000.0
+#define MEGA 1000000.0
+#define KILO 1000.0
+#define MILLI 0.001
+#define MICRO 0.000001
+#define NANO 0.000000001
+#define PICO 0.000000000001

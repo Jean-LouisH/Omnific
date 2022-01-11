@@ -22,22 +22,11 @@
 
 #pragma once
 
-#include "orders_of_magnitude.hpp"
-#include "time_conversions.hpp"
-#include "physics_constants.hpp"
-
-#define DUMMY_ENTITY 0 
-
-#define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
-#define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
-#define DEBUG_DATA_FILEPATH DEBUG_EDITOR_DATA_FILEPATH
-
-#define DEBUG_DEMO_MODE false
-
-#if (DEBUG_DEMO_MODE)
-	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
-#endif
-
-#if _DEBUG
-	#define DEBUG_CONSOLE_ENABLED
-#endif
+namespace Esi
+{
+	class Quadtree
+	{
+	public:
+	private:
+	};
+}
