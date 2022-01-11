@@ -29,16 +29,21 @@
 #include <application/scene/assets/mesh.hpp>
 #include <application/scene/assets/shader.hpp>
 
+#include "vertex_array.hpp"
+
 namespace Esi
 {
-	class Renderables
+	class Renderable
 	{
 	public:
-		Transform* transform = nullptr;
-		Image* image = nullptr;
-		Material* material = nullptr;
-		Mesh* mesh = nullptr;
+		Transform transform;
+		Image image;
+		Material material;
+		Mesh mesh;
 		std::vector<Shader*> shader;
+
+		VertexArray vertexArray;
+		uint64_t indexCount;
 	private:
 	};
 }

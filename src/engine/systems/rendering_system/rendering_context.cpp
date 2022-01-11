@@ -91,14 +91,17 @@ void Esi::RenderingContext::generate2DTextures(std::vector<Image> images)
 	}
 }
 
-void Esi::RenderingContext::submit(Renderables& renderables)
+void Esi::RenderingContext::submit(std::vector<Renderable> renderables)
 {
-	//glBindVertexArray(0);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glBindVertexArray(0);
-	
-	//glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
-	//glBindTexture(GL_TEXTURE_2D, 0);
+	Renderable* renderablesData = renderables.data();
+	uint64_t renderablesCount = renderables.size();
+
+	for (uint64_t i = 0; i < renderablesCount; ++i)
+	{
+		renderablesData->vertexArray.bind();
+		glDrawElements(GL_TRIANGLES, (GLsizei)renderablesData->indexCount, GL_UNSIGNED_INT, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
 
 void Esi::RenderingContext::delete2DTextures()

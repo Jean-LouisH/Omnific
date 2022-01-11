@@ -26,7 +26,7 @@
 #include <glad/glad.h>
 #include "shader_compiler.hpp"
 #include <vector>
-#include "renderables.hpp"
+#include "renderable.hpp"
 #include <application/scene/assets/image.hpp>
 #include <string>
 
@@ -40,7 +40,7 @@ namespace Esi
 		void generate2DTextures(std::vector<Image> images);
 		void delete2DTextures();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(Renderables& renderables);
+		void submit(std::vector<Renderable> renderables);
 		void swapBuffers();
 		std::string getRenderingContextName();
 	private:

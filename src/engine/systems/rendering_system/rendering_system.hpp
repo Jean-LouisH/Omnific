@@ -30,7 +30,7 @@
 #include "os/window.hpp"
 #include "utilities/aliases.hpp"
 #include "rendering_context.hpp"
-#include "renderables.hpp"
+#include "renderable.hpp"
 #include <memory>
 #include <map>
 
@@ -44,12 +44,12 @@ namespace Esi
 		virtual void initialize() override;
 		void process(Scene& scene) override;
 		virtual void deinitialize() override;
-		Renderables& getRenderables();
+		std::vector<Renderable> getRenderables();
 		std::string getRenderingContextName();
 	private:
 		std::unique_ptr<RenderingContext> context;
 		std::unique_ptr<ShaderCompiler> shaderCompiler;
-		std::shared_ptr<Renderables> renderables;
+		std::vector<Renderable> renderables;
 		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderProgramCache;
 		std::set<AssetID> renderingAssetIDCache;
 

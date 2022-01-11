@@ -57,8 +57,8 @@ void Esi::RenderingSystem::initialize()
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
-	builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::Type::VERTEX);
-	builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::Type::FRAGMENT);
+	builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::ShaderType::VERTEX);
+	builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::ShaderType::FRAGMENT);
 	shaders.push_back(builtInVertexShader);
 	shaders.push_back(builtInFragmentShader);
 
@@ -128,9 +128,9 @@ void Esi::RenderingSystem::buildRenderables(Scene& scene)
 	}
 }
 
-Esi::Renderables& Esi::RenderingSystem::getRenderables()
+std::vector<Esi::Renderable> Esi::RenderingSystem::getRenderables()
 {
-	return *this->renderables;
+	return this->renderables;
 }
 
 std::string Esi::RenderingSystem::getRenderingContextName()
