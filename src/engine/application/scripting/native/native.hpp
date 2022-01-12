@@ -22,23 +22,27 @@
 
 #pragma once
 
-#if defined (_WIN32)
-#define EXTERN_DLL_EXPORT extern "C" __declspec(dllexport)
-#endif
-
-#include <application/scripting/native/native_script.hpp>
-#include <unordered_map>
-#include <memory>
+#include <string>
 
 namespace Esi
 {
-	class NativeAssembly
-	{
-	public:
-		NativeAssembly();
-	private:
-		std::unordered_map<std::string, std::shared_ptr<NativeScript>> nativeScripts;
-	};
-}
+    class Native
+    {
+    public:
+        ~Native();
+        void loadModules();
+        void executeOnStartMethods();
+        void executeOnInputMethods();
+        void executeOnFrameMethods();
+        void executeOnComputeMethods();
+        void executeOnOutputMethods();
+        void executeOnFinishMethods();
+    private:
+        void* dynamicLibraryHandle;
+        std::string nativeAssemblyFilename = "esi_native_assembly";
 
-EXTERN_DLL_EXPORT int getNumber();
+        void openDynamicLibrary();
+        void closeDynamicLibrary();
+        void* getDyamicLibraryProcedure(std::string procedureName);
+    };
+}

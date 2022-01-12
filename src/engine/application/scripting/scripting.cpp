@@ -26,11 +26,13 @@
 Esi::Scripting::Scripting()
 {
 	this->vm = std::unique_ptr<VirtualMachine>(new VirtualMachine());
+	this->native = std::unique_ptr<Native>(new Native());
 }
 
 void Esi::Scripting::loadModules(Scene scene)
 {
 	this->vm->loadModules(scene);
+	this->native->loadModules();
 }
 
 void Esi::Scripting::executeOnStartMethods(Scene& scene)
@@ -46,6 +48,7 @@ void Esi::Scripting::executeOnInputMethods(Scene& scene)
 void Esi::Scripting::executeOnFrameMethods(Scene& scene)
 {
 	this->vm->executeOnFrameMethods(scene.generateCallBatches(CallType::UPDATE));
+	this->native->executeOnFrameMethods();
 }
 
 void Esi::Scripting::executeOnComputeMethods(Scene& scene)

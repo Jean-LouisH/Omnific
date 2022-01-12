@@ -23,6 +23,7 @@
 #pragma once
 
 #include "virtual_machine/virtual_machine.hpp"
+#include "native/native.hpp"
 #include "application/scene/scene.hpp"
 #include <application/scene_storage.hpp>
 #include "utilities/aliases.hpp"
@@ -44,6 +45,7 @@ namespace Esi
 		void setSceneStorage(SceneStorage* sceneStorage);
 	private:
 		std::unique_ptr<VirtualMachine> vm;
+		std::unique_ptr<Native> native;
 	};
 }
 

@@ -26,3 +26,8 @@ Esi::NativeAssembly::NativeAssembly()
 {
 
 }
+
+EXTERN_DLL_EXPORT int getNumber()
+{
+	return 5;
+}
