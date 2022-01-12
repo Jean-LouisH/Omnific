@@ -110,130 +110,41 @@ void Esi::Scene::removeComponent(EntityID entityID, std::string type)
 			++it;
 }
 
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnStartCallBatches()
+std::vector<Esi::ScriptCallBatch> Esi::Scene::generateCallBatches(CallType callType)
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
+	std::queue<EntityID>* entityQueue = nullptr;
 
-	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
+	if (callType == CallType::START || callType == CallType::FINISH)
 	{
-		Entity entity = it->second;
+		if (callType == CallType::START)
+			entityQueue = &this->startEntitiesQueue;
+		else if (callType == CallType::FINISH)
+			entityQueue = &this->finishEntitiesQueue;
 
-		if (!this->startEntitiesQueue.empty())
+		for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 		{
-			if (entity.ID == this->startEntitiesQueue.front())
+			Entity entity = it->second;
+			if (!entityQueue->empty())
 			{
-				ScriptCallBatch scriptCallBatch;
-
-				scriptCallBatch.scripts = entity.scripts;
-				scriptCallBatch.entityID = entity.ID;
-				scriptCallBatch.sceneTreeID = this->ID;
-
-				scriptCallBatches.push_back(scriptCallBatch);
-				this->startEntitiesQueue.pop();
+				if (entity.ID == entityQueue->front())
+				{
+					scriptCallBatches.push_back({ entity.scripts, this->ID, entity.ID });
+					entityQueue->pop();
+				}
+			}
+			else
+			{
+				break;
 			}
 		}
 	}
-
-	return scriptCallBatches;
-}
-
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnInputCallBatches()
-{
-	std::vector<ScriptCallBatch> scriptCallBatches;
-
-	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
+	else if (callType == CallType::UPDATE)
 	{
-		Entity entity = it->second;
-		ScriptCallBatch scriptCallBatch;
-
-		scriptCallBatch.scripts = entity.scripts;
-		scriptCallBatch.entityID = entity.ID;
-		scriptCallBatch.sceneTreeID = this->ID;
-
-		scriptCallBatches.push_back(scriptCallBatch);
-	}
-
-	return scriptCallBatches;
-}
-
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnFrameCallBatches()
-{
-	std::vector<ScriptCallBatch> scriptCallBatches;
-
-	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
-	{
-		Entity entity = it->second;
-		ScriptCallBatch scriptCallBatch;
-
-		scriptCallBatch.scripts = entity.scripts;
-		scriptCallBatch.entityID = entity.ID;
-		scriptCallBatch.sceneTreeID = this->ID;
-
-		scriptCallBatches.push_back(scriptCallBatch);
-	}
-
-	return scriptCallBatches;
-}
-
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnComputeCallBatches()
-{
-	std::vector<ScriptCallBatch> scriptCallBatches;
-
-	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
-	{
-		Entity entity = it->second;
-		ScriptCallBatch scriptCallBatch;
-
-		scriptCallBatch.scripts = entity.scripts;
-		scriptCallBatch.entityID = entity.ID;
-		scriptCallBatch.sceneTreeID = this->ID;
-
-		scriptCallBatches.push_back(scriptCallBatch);
-	}
-
-	return scriptCallBatches;
-}
-
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnOutputCallBatches()
-{
-	std::vector<ScriptCallBatch> scriptCallBatches;
-
-	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
-	{
-		Entity entity = it->second;
-		ScriptCallBatch scriptCallBatch;
-
-		scriptCallBatch.scripts = entity.scripts;
-		scriptCallBatch.entityID = entity.ID;
-		scriptCallBatch.sceneTreeID = this->ID;
-
-		scriptCallBatches.push_back(scriptCallBatch);
-	}
-
-	return scriptCallBatches;
-}
-
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateOnFinishBatches()
-{
-	std::vector<ScriptCallBatch> scriptCallBatches;
-
-	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
-	{
-		Entity entity = it->second;
-
-		if (!this->finishEntitiesQueue.empty())
+		for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 		{
-			if (entity.ID == this->finishEntitiesQueue.front())
-			{
-				ScriptCallBatch scriptCallBatch;
-
-				scriptCallBatch.scripts = entity.scripts;
-				scriptCallBatch.entityID = entity.ID;
-				scriptCallBatch.sceneTreeID = this->ID;
-
-				scriptCallBatches.push_back(scriptCallBatch);
-				this->finishEntitiesQueue.pop();
-			}
+			Entity entity = it->second;
+			scriptCallBatches.push_back({ entity.scripts, this->ID, entity.ID });
 		}
 	}
 

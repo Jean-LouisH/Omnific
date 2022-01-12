@@ -35,32 +35,32 @@ void Esi::Scripting::loadModules(Scene scene)
 
 void Esi::Scripting::executeOnStartMethods(Scene& scene)
 {
-	this->vm->executeOnStartMethods(scene.generateOnStartCallBatches());
+	this->vm->executeOnStartMethods(scene.generateCallBatches(CallType::START));
 }
 
 void Esi::Scripting::executeOnInputMethods(Scene& scene)
 {
-	this->vm->executeOnInputMethods(scene.generateOnInputCallBatches());
+	this->vm->executeOnInputMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
 void Esi::Scripting::executeOnFrameMethods(Scene& scene)
 {
-	this->vm->executeOnFrameMethods(scene.generateOnFrameCallBatches());
+	this->vm->executeOnFrameMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
 void Esi::Scripting::executeOnComputeMethods(Scene& scene)
 {
-	this->vm->executeOnComputeMethods(scene.generateOnComputeCallBatches());
+	this->vm->executeOnComputeMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
 void Esi::Scripting::executeOnOutputMethods(Scene& scene)
 {
-	this->vm->executeOnOutputMethods(scene.generateOnOutputCallBatches());
+	this->vm->executeOnOutputMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
 void Esi::Scripting::executeOnFinishMethods(Scene& scene)
 {
-	this->vm->executeOnFinishMethods(scene.generateOnFinishBatches());
+	this->vm->executeOnFinishMethods(scene.generateCallBatches(CallType::FINISH));
 }
 
 void Esi::Scripting::setSceneStorage(SceneStorage* sceneStorage)

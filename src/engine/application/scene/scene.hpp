@@ -93,6 +93,13 @@
 
 namespace Esi
 {
+	enum class CallType
+	{
+		START,
+		UPDATE,
+		FINISH
+	};
+
 	class Scene
 	{
 	public:
@@ -106,12 +113,7 @@ namespace Esi
 		void removeEntity(EntityID entityID);
 		void removeComponent(EntityID entityID, std::string type);
 
-		std::vector<ScriptCallBatch> generateOnStartCallBatches();
-		std::vector<ScriptCallBatch> generateOnInputCallBatches();
-		std::vector<ScriptCallBatch> generateOnFrameCallBatches();
-		std::vector<ScriptCallBatch> generateOnComputeCallBatches();
-		std::vector<ScriptCallBatch> generateOnOutputCallBatches();
-		std::vector<ScriptCallBatch> generateOnFinishBatches();
+		std::vector<ScriptCallBatch> generateCallBatches(CallType callType);
 
 		std::vector<std::shared_ptr<Component>>& getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();
