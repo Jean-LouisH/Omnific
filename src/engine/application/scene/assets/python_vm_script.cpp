@@ -20,20 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "application/scene/asset.hpp"
-
-namespace Esi
-{
-	class VMScript : public Asset
-	{
-	public:
-		VMScript()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "VMScript";
-	private:
-	};
-}
+#include "python_vm_script.hpp"

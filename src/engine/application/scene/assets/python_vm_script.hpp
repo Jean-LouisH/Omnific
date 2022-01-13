@@ -20,4 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "vm_script.hpp"
+#pragma once
+
+#include "script.hpp"
+
+namespace Esi
+{
+    class PythonVMScript : public Script
+    {
+    public:
+        PythonVMScript()
+        {
+            this->type = TYPE_STRING;
+        };
+        static constexpr const char* TYPE_STRING = "PythonVMScript";
+    private:
+    };
+}
