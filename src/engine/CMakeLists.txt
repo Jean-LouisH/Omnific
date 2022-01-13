@@ -12,7 +12,6 @@ add_library(esi_engine SHARED
 add_dependencies (esi_engine
 	yaml_cpp
 	glad
-	esi_native_assembly
 )
 
  add_definitions(/bigobj)
