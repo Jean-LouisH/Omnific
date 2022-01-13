@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include <application/scripting/native/native_script.hpp>
+#include <application/scene/assets/cpp_native_script.hpp>
 
 namespace Esi
 {
-	class SplashScreenTransition : NativeScript
+	class SplashScreenTransition : CPPNativeScript
 	{
 	public:
 		virtual void onStart() override;

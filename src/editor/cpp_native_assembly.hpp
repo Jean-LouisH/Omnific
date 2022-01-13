@@ -20,14 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "native_assembly.hpp"
+#pragma once
 
-Esi::NativeAssembly::NativeAssembly()
+#if defined (_WIN32)
+#if defined(_ESI_CPP_NATIVE_ASSEMBLY_EXPORTS)
+#define  _ESI_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllexport)
+#else
+#define  _ESI_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllimport)
+#endif
+#else
+#define _ESI_CPP_NATIVE_ASSEMBLY_EXPORTS
+#endif
+
+#include <application/scene/assets/cpp_native_script.hpp>
+#include <unordered_map>
+#include <memory>
+
+namespace Esi
 {
-
-}
-
-EXTERN_DLL_EXPORT int getNumber()
-{
-	return 5;
+	class CPPNativeAssembly
+	{
+	public:
+		CPPNativeAssembly();
+	private:
+		std::unordered_map<std::string, std::shared_ptr<CPPNativeScript>> nativeScripts;
+	};
 }
