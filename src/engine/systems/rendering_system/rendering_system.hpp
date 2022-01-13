@@ -53,6 +53,7 @@ namespace Esi
 		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderProgramCache;
 		std::set<AssetID> renderingAssetIDCache;
 
+		void onModifiedShaderInstance(Scene& scene);
 		void buildRenderables(Scene& scene);
 		void compileShaders(std::string name, std::vector<Shader> shaders);
 	};

@@ -83,6 +83,14 @@ void Esi::RenderingSystem::deinitialize()
 	this->isInitialized = false;
 }
 
+void Esi::RenderingSystem::onModifiedShaderInstance(Scene& scene)
+{
+	if (scene.getHasShadersChanged())
+	{
+
+	}
+}
+
 void Esi::RenderingSystem::buildRenderables(Scene& scene)
 {
 	std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
