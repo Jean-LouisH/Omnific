@@ -79,7 +79,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 							}
 							else if (it2->first.as<std::string>() == "parent")
 							{
-								scene.getLastEntity().parentID = scene.getEntityByName(it2->second.as<std::string>()).ID;
+								scene.getLastEntity().parentID = scene.getEntityByName(it2->second.as<std::string>()).id;
 							}
 							//Components
 							else if (it2->first.as<std::string>() == "BehaviourTree")
@@ -716,7 +716,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 								{
 									if (it3->first.as<std::string>() == "camera_entity")
 									{
-										uiViewport->setCameraEntity(scene.getEntityByName(it3->second.as<std::string>()).ID);
+										uiViewport->setCameraEntity(scene.getEntityByName(it3->second.as<std::string>()).id);
 									}
 								}
 

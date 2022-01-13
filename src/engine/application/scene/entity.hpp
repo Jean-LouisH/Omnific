@@ -41,20 +41,21 @@ namespace Esi
 			_3D
 		};
 
-		UID ID = DUMMY_ENTITY;
+		EntityID id = DUMMY_ENTITY;
 		EntityID parentID = DUMMY_ENTITY;
 		SpatialDimension spatialDimension = SpatialDimension::_2D;
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;
 		std::unordered_map<std::string, ComponentID> components;
+
 		std::vector<std::string> scripts;
 		std::vector<Shader> shaders;
 
 		Entity()
 		{
-			this->ID = UIDGenerator::getNewUID();
-			this->name = "Entity (ID:" + std::to_string(this->ID) + ")";
+			this->id = UIDGenerator::getNewUID();
+			this->name = "Entity (ID:" + std::to_string(this->id) + ")";
 		}
 	};
 }
