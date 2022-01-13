@@ -42,11 +42,11 @@ void Esi::CommandLineAPI::openWindow()
 
 	scene.addEntity(panelEntity);
 	scene.addComponentToLastEntity(uiPanelComponent);
-	this->entityIDs.push_back(panelEntity.ID);
+	this->entityIDs.push_back(panelEntity.id);
 
 	scene.addEntity(textEditEntity);
 	scene.addComponentToLastEntity(textEditComponent);
-	this->entityIDs.push_back(textEditEntity.ID);
+	this->entityIDs.push_back(textEditEntity.id);
 }
 
 void Esi::CommandLineAPI::closeWindow()

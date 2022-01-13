@@ -27,18 +27,19 @@
 #include "script_call_batch.hpp"
 #include <unordered_map>
 #include "application/scripting/scripting_apis/scripting_apis.hpp"
+#include "../vm_scripting_language.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
 #include "module.hpp"
 
 namespace Esi
 {
-	class VirtualMachine
+	class PythonVM : VMScriptingLanguage
 	{
 	public:
-		VirtualMachine();
-		~VirtualMachine();
-		void loadModules(Scene scene);
+		PythonVM();
+		~PythonVM();
+		void onModifiedScriptInstance(Scene scene);
 		void executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);

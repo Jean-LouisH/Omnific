@@ -111,7 +111,7 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 	/*Scene classes*/
 
 	pybind11::class_<Esi::Entity>(m, "Entity")
-		.def_readonly("ID", &Esi::Entity::ID)
+		.def_readonly("ID", &Esi::Entity::id)
 		.def_readwrite("name", &Esi::Entity::name)
 		.def_readwrite("parentID", &Esi::Entity::parentID)
 		.def_readwrite("childIDs", &Esi::Entity::childIDs)

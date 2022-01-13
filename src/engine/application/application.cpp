@@ -85,7 +85,7 @@ void Esi::Application::initialize()
 void Esi::Application::executeOnStartMethods()
 {
 	if (this->sceneStorage->hasActiveSceneChanged())
-		this->scripting->loadModules(this->sceneStorage->getActiveScene());
+		this->scripting->onModifiedScriptInstance(this->sceneStorage->getActiveScene());
 
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnStartMethods(this->getActiveScene());

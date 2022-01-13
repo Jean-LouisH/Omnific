@@ -20,22 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "virtual_machine.hpp"
+#include "python_vm.hpp"
 #include "embedded_module.hpp"
 #include <iostream>
 #include <set>
 
-Esi::VirtualMachine::VirtualMachine()
+Esi::PythonVM::PythonVM()
 {
 
 }
 
-Esi::VirtualMachine::~VirtualMachine()
+Esi::PythonVM::~PythonVM()
 {
 
 }
 
-void Esi::VirtualMachine::loadModules(Scene scene)
+void Esi::PythonVM::onModifiedScriptInstance(Scene scene)
 {
 	this->modules.clear();
 
@@ -112,37 +112,37 @@ void Esi::VirtualMachine::loadModules(Scene scene)
 	}
 }
 
-void Esi::VirtualMachine::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::PythonVM::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_start");
 }
 
-void Esi::VirtualMachine::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::PythonVM::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_input");
 }
 
-void Esi::VirtualMachine::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::PythonVM::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_frame");
 }
 
-void Esi::VirtualMachine::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::PythonVM::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_compute");
 }
 
-void Esi::VirtualMachine::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::PythonVM::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_output");
 }
 
-void Esi::VirtualMachine::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Esi::PythonVM::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_finish");
 }
 
-void Esi::VirtualMachine::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
+void Esi::PythonVM::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
 {
 	for (int i = 0; i < scriptCallBatches.size(); i++)
 	{

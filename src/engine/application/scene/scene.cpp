@@ -22,7 +22,7 @@
 
 #include "scene.hpp"
 #include "component.hpp"
-#include "application/scripting/virtual_machine/script_call_batch.hpp"
+#include "application/scripting/python_vm/script_call_batch.hpp"
 
 Esi::Scene::Scene()
 {
@@ -36,14 +36,14 @@ Esi::Scene::Scene()
 	this->ID = UIDGenerator::getNewUID();
 	this->addEmptyEntity();
 	this->addComponentToLastEntity(component);
-	this->dummyEntityID = this->getLastEntity().ID;
+	this->dummyEntityID = this->getLastEntity().id;
 }
 
 void Esi::Scene::addEntity(Entity entity)
 {
-	this->startEntitiesQueue.emplace(entity.ID);
-	this->entities.emplace(entity.ID, entity);
-	this->lastEntityID = entity.ID;
+	this->startEntitiesQueue.emplace(entity.id);
+	this->entities.emplace(entity.id, entity);
+	this->lastEntityID = entity.id;
 }
 
 void Esi::Scene::addEmptyEntity()
@@ -127,9 +127,9 @@ std::vector<Esi::ScriptCallBatch> Esi::Scene::generateCallBatches(CallType callT
 			Entity entity = it->second;
 			if (!entityQueue->empty())
 			{
-				if (entity.ID == entityQueue->front())
+				if (entity.id == entityQueue->front())
 				{
-					scriptCallBatches.push_back({ entity.scripts, this->ID, entity.ID });
+					scriptCallBatches.push_back({ entity.scripts, this->ID, entity.id });
 					entityQueue->pop();
 				}
 			}
@@ -144,7 +144,7 @@ std::vector<Esi::ScriptCallBatch> Esi::Scene::generateCallBatches(CallType callT
 		for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 		{
 			Entity entity = it->second;
-			scriptCallBatches.push_back({ entity.scripts, this->ID, entity.ID });
+			scriptCallBatches.push_back({ entity.scripts, this->ID, entity.id });
 		}
 	}
 
@@ -228,6 +228,16 @@ Esi::Entity::SpatialDimension Esi::Scene::getComponentSpatialDimension(Component
 Esi::EventBus& Esi::Scene::getEventBus()
 {
 	return *this->eventBus;
+}
+
+bool Esi::Scene::getHasShadersChanged()
+{
+	return false;
+}
+
+bool Esi::Scene::getHasScriptsChange()
+{
+	return false;
 }
 
 Esi::SceneID Esi::Scene::getID()

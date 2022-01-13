@@ -28,7 +28,7 @@
 #include <queue>
 #include <unordered_map>
 #include "component.hpp"
-#include "application/scripting/virtual_machine/script_call_batch.hpp"
+#include "application/scripting/python_vm/script_call_batch.hpp"
 #include "asset_cache.hpp"
 #include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
@@ -128,6 +128,8 @@ namespace Esi
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
+		bool getHasShadersChanged();
+		bool getHasScriptsChange();
 		SceneID getID();
 
 		void unload();

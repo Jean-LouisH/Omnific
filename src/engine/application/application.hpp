@@ -32,7 +32,7 @@
 #include "configuration.hpp"
 #include "command_line.hpp"
 #include "scene_storage.hpp"
-#include "scripting/virtual_machine/virtual_machine.hpp"
+#include "scripting/python_vm/python_vm.hpp"
 #include "scripting/scripting.hpp"
 #include <vector>
 #include <stack>
