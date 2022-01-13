@@ -20,39 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "native_script.hpp"
+#include "cpp_native_script.hpp"
 
-Esi::NativeScript::~NativeScript()
+Esi::CPPNativeScript::~CPPNativeScript()
 {
 
 }
 
-void Esi::NativeScript::onStart()
+void Esi::CPPNativeScript::onStart()
 {
 
 }
 
-void Esi::NativeScript::onInput()
+void Esi::CPPNativeScript::onInput()
 {
 
 }
 
-void Esi::NativeScript::onFrame()
+void Esi::CPPNativeScript::onFrame()
 {
 
 }
 
-void Esi::NativeScript::onCompute()
+void Esi::CPPNativeScript::onCompute()
 {
 
 }
 
-void Esi::NativeScript::onOutput()
+void Esi::CPPNativeScript::onOutput()
 {
 
 }
 
-void Esi::NativeScript::onFinish()
+void Esi::CPPNativeScript::onFinish()
 {
 
 }

@@ -22,12 +22,14 @@
 
 #pragma once
 
-#include "virtual_machine/virtual_machine.hpp"
-#include "native/native.hpp"
+#include "python_vm/python_vm.hpp"
+#include "cpp_native/cpp_native.hpp"
 #include "application/scene/scene.hpp"
 #include <application/scene_storage.hpp>
 #include "utilities/aliases.hpp"
+#include "scripting_language.hpp"
 #include <memory>
+#include <vector>
 
 namespace Esi
 {
@@ -35,7 +37,7 @@ namespace Esi
 	{
 	public:
 		Scripting();
-		void loadModules(Scene scene);
+		void onModifiedScriptInstance(Scene scene);
 		void executeOnStartMethods(Scene& scene);
 		void executeOnInputMethods(Scene& scene);
 		void executeOnFrameMethods(Scene& scene);
@@ -44,8 +46,10 @@ namespace Esi
 		void executeOnFinishMethods(Scene& scene);
 		void setSceneStorage(SceneStorage* sceneStorage);
 	private:
-		std::unique_ptr<VirtualMachine> vm;
-		std::unique_ptr<Native> native;
+		std::vector<std::unique_ptr<ScriptingLanguage>> scriptingLanguages;
+
+		std::unique_ptr<PythonVM> pythonVM;
+		std::unique_ptr<CPPNative> cppNative;
 	};
 }
 

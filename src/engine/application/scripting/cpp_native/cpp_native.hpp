@@ -22,18 +22,26 @@
 
 #pragma once
 
+#include <string>
+#include "../native_scripting_language.hpp"
+
 namespace Esi
 {
-    class NativeScript
+    class CPPNative : NativeScriptingLanguage
     {
     public:
-        ~NativeScript();
-        virtual void onStart();
-        virtual void onInput();
-        virtual void onFrame();
-        virtual void onCompute();
-        virtual void onOutput();
-        virtual void onFinish();
+        ~CPPNative();
+        void onModifiedScriptInstance();
+        void executeOnStartMethods();
+        void executeOnInputMethods();
+        void executeOnFrameMethods();
+        void executeOnComputeMethods();
+        void executeOnOutputMethods();
+        void executeOnFinishMethods();
     private:
+        void* dynamicLibraryHandle;
+        std::string nativeAssemblyFilename = "esi_cpp_native_assembly";
+
+        void executeMethods(std::string methodName);
     };
 }

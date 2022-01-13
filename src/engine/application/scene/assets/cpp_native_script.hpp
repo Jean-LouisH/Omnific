@@ -22,27 +22,26 @@
 
 #pragma once
 
-#include <string>
+#include "script.hpp"
 
 namespace Esi
 {
-    class Native
+    class CPPNativeScript : public Script
     {
     public:
-        ~Native();
-        void loadModules();
-        void executeOnStartMethods();
-        void executeOnInputMethods();
-        void executeOnFrameMethods();
-        void executeOnComputeMethods();
-        void executeOnOutputMethods();
-        void executeOnFinishMethods();
-    private:
-        void* dynamicLibraryHandle;
-        std::string nativeAssemblyFilename = "esi_native_assembly";
+        CPPNativeScript()
+        {
+            this->type = TYPE_STRING;
+        };
+        static constexpr const char* TYPE_STRING = "CPPNativeScript";
 
-        void openDynamicLibrary();
-        void closeDynamicLibrary();
-        void* getDyamicLibraryProcedure(std::string procedureName);
+        ~CPPNativeScript();
+        virtual void onStart();
+        virtual void onInput();
+        virtual void onFrame();
+        virtual void onCompute();
+        virtual void onOutput();
+        virtual void onFinish();
+    private:
     };
 }
