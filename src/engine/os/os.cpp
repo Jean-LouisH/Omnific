@@ -37,6 +37,7 @@ void Esi::OS::initialize(
 {
 	OS* newInstance = getInstance();
 
+	newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
 	newInstance->logger = std::unique_ptr<Logger>(new Logger());
 	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
 	newInstance->hid = std::unique_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
@@ -46,6 +47,11 @@ void Esi::OS::initialize(
 	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
 	newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
 	newInstance->runTimer->setStart();
+}
+
+Esi::DynamicLinkLibraryAccess& Esi::OS::getDLLAccess()
+{
+	return *getInstance()->dllAccess;
 }
 
 Esi::Window& Esi::OS::getWindow()

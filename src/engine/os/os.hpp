@@ -24,6 +24,7 @@
 
 #include <SDL.h>
 #include <vector>
+#include "dynamic_link_library_access.hpp"
 #include "human_interface_devices.hpp"
 #include "logger.hpp"
 #include "window.hpp"
@@ -46,6 +47,7 @@ namespace Esi
 			std::string executableFilepath,
 			std::string renderingContext);
 
+		static DynamicLinkLibraryAccess& getDLLAccess();
 		static Window& getWindow();
 		static HumanInterfaceDevices& getHid();
 		static Logger& getLogger();
@@ -59,6 +61,7 @@ namespace Esi
 	private:
 		static OS* instance;
 
+		std::unique_ptr<DynamicLinkLibraryAccess> dllAccess;
 		std::unique_ptr<HiResTimer> runTimer;
 		std::unique_ptr<Window> window;
 		std::unique_ptr<HumanInterfaceDevices> hid;
