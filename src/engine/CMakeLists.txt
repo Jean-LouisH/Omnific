@@ -54,5 +54,5 @@ target_link_libraries (esi_engine
 add_definitions(-D_ESI_ENGINE_EXPORTS)
 
 add_custom_command(TARGET esi_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_engine> ${PROJECT_BINARY_DIR}/main/esi_engine.dll
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_engine> ${PROJECT_BINARY_DIR}/src/main/esi_engine.dll
 )

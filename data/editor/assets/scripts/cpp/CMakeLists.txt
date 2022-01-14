@@ -15,7 +15,7 @@ add_library(esi_cpp_native_assembly SHARED
 
 include_directories(
 		.
-		../engine
+		../../../../../src/engine
 )
 
 target_link_libraries (esi_cpp_native_assembly
@@ -25,5 +25,5 @@ target_link_libraries (esi_cpp_native_assembly
 add_definitions(-D_ESI_CPP_NATIVE_ASSEMBLY_EXPORTS)
 
 add_custom_command(TARGET esi_cpp_native_assembly POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_cpp_native_assembly> ${PROJECT_BINARY_DIR}/main/esi_cpp_native_assembly.dll
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_cpp_native_assembly> ${PROJECT_BINARY_DIR}/src/main/esi_cpp_native_assembly.dll
 )

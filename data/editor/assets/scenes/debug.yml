@@ -12,7 +12,7 @@ Scene:
       text: "Time: "
       font: ["assets/fonts/Lato-Regular.ttf", 90]
       colour: [0, 0, 255, 255]
-    Scripts: ["assets/scripts/debug_time_display.py", "assets/scripts/debug_escape_to_splash_screen.py", "assets/scripts/debug_input_logging.py"]
+    Scripts: ["assets/scripts/python/debug_time_display.py", "assets/scripts/python/debug_escape_to_splash_screen.py", "assets/scripts/python/debug_input_logging.py"]
   Entity:
     name: "Viewport"
     spatial_dimension: 2

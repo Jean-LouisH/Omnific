@@ -12,7 +12,7 @@ Scene:
     name: "SceneTransition"
     spatial_dimension: 2
     CountdownTimer: "default"
-    Scripts: ["assets/scripts/splash_screen_transition.py"]
+    Scripts: ["assets/scripts/python/splash_screen_transition.py"]
   Entity:
     name: "Text"
     spatial_dimension: 2
