@@ -29,9 +29,9 @@ namespace Esi
     class DynamicLinkLibraryAccess
     {
     public:
-        void* openDynamicLibrary(std::string filename);
-        void closeDynamicLibrary(void* dynamicLibraryHandle);
-        void* getDyamicLibraryProcedure(void* dynamicLibraryHandle, std::string procedureName);
+        void* open(std::string filename);
+        void close(void* dynamicLibraryHandle);
+        void* getProcedure(void* dynamicLibraryHandle, std::string procedureName);
     private:
     };
 }

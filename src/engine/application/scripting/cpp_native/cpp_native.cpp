@@ -23,16 +23,16 @@
 #include "cpp_native.hpp"
 #include "os/os.hpp"
 
-typedef void(ScriptMethod)(void);
+typedef void(ScriptProcedure)(void);
 
 Esi::CPPNative::~CPPNative()
 {
-	OS::getDLLAccess().closeDynamicLibrary(this->dynamicLibraryHandle);
+	OS::getDLLAccess().close(this->dynamicLibraryHandle);
 }
 
 void Esi::CPPNative::onModifiedScriptInstance()
 {
-	this->dynamicLibraryHandle = OS::getDLLAccess().openDynamicLibrary(this->nativeAssemblyFilename);
+	this->dynamicLibraryHandle = OS::getDLLAccess().open(this->nativeAssemblyFilename);
 }
 
 void Esi::CPPNative::executeOnStartMethods()
@@ -69,10 +69,10 @@ void Esi::CPPNative::executeMethods(std::string methodName)
 {
 	if (this->dynamicLibraryHandle != nullptr)
 	{
-		ScriptMethod* function = 
-			(ScriptMethod*)OS::getDLLAccess().getDyamicLibraryProcedure(this->dynamicLibraryHandle, methodName.c_str());
+		ScriptProcedure* procedure = 
+			(ScriptProcedure*)OS::getDLLAccess().getProcedure(this->dynamicLibraryHandle, methodName.c_str());
 
-		if (function != nullptr)
-			function();
+		if (procedure != nullptr)
+			procedure();
 	}
 }
