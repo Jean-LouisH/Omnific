@@ -27,14 +27,14 @@
 
 namespace Esi
 {
-	class AcousticModelContainer : public Component
+	class AcousticModelCollection : public Component
 	{
 	public:
-		AcousticModelContainer()
+		AcousticModelCollection()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AcousticModelContainer";
+		static constexpr const char* TYPE_STRING = "AcousticModelCollection";
 	private:
 	};
 }

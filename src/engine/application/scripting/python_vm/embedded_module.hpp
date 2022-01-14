@@ -194,10 +194,10 @@ PYBIND11_EMBEDDED_MODULE(esi, m)
 	pybind11::class_<Esi::PhysicsThruster, Esi::Component>(m, "PhysicsThruster");
 	pybind11::class_<Esi::PropertyAnimation, Esi::Component>(m, "PropertyAnimation");
 	pybind11::class_<Esi::Collider, Esi::Component>(m, "Collider");
-	pybind11::class_<Esi::ModelContainer, Esi::Component>(m, "ModelContainer");
+	pybind11::class_<Esi::ModelCollection, Esi::Component>(m, "ModelCollection");
 	pybind11::class_<Esi::TriggerSpace, Esi::Component>(m, "BoxTriggerSpace");
 	pybind11::class_<Esi::RigidBody, Esi::Component>(m, "RigidBody");
-	pybind11::class_<Esi::SpriteContainer, Esi::Component>(m, "SpriteContainer");
+	pybind11::class_<Esi::SpriteCollection, Esi::Component>(m, "SpriteCollection");
 	pybind11::class_<Esi::StaticFluid, Esi::Component>(m, "StaticFluid");
 	pybind11::class_<Esi::Transform, Esi::Component>(m, "Transform");
 	pybind11::class_<Esi::UIButton, Esi::Component>(m, "UIButton");
