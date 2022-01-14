@@ -6,7 +6,7 @@ Scene:
   Entity:
     name: "SplashScreenSprite"
     spatial_dimension: 2
-    SpriteCollection:
+    SpriteContainer:
       image: "assets/images/lilliputian_wordmark.png"
   Entity:
     name: "SceneTransition"

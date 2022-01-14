@@ -20,20 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "application/scene/assets/image.hpp"
-#include "application/scene/renderable_component.hpp"
-#include "application/scene/component.hpp"
-
-namespace Esi
-{
-	class ModelCollection : public RenderableComponent
-	{
-	public:
-		ModelCollection()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "ModelCollection";
-	private:
-	};
-}
+#include "model_container.hpp"

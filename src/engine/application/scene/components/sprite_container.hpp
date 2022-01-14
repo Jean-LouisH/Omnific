@@ -33,14 +33,14 @@
 
 namespace Esi
 {
-	class SpriteCollection : public RenderableComponent
+	class SpriteContainer : public RenderableComponent
 	{
 	public:
-		SpriteCollection()
+		SpriteContainer()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "SpriteCollection";
+		static constexpr const char* TYPE_STRING = "SpriteContainer";
 		std::string currentFrameSequenceName = "";
 
 		void addEmptyFrameSequence(std::string frameSequenceName);

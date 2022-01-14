@@ -404,9 +404,9 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "SpriteCollection")
+							else if (it2->first.as<std::string>() == "SpriteContainer")
 							{
-								std::shared_ptr<SpriteCollection> sprite(new SpriteCollection());
+								std::shared_ptr<SpriteContainer> sprite(new SpriteContainer());
 
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
