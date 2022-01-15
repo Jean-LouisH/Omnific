@@ -35,6 +35,7 @@ void Esi::AudioSystem::play()
 
 void Esi::AudioSystem::initialize()
 {
+	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
 	this->isInitialized = true;
@@ -51,6 +52,7 @@ void Esi::AudioSystem::deinitialize()
 	{
 		Mix_CloseAudio();
 		Mix_Quit();
+		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	}
 
 	this->isInitialized = false;

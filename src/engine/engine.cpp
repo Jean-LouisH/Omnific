@@ -232,4 +232,5 @@ void Esi::Engine::shutdown()
 	this->renderingSystem.reset();
 	this->uiSystem.reset();
 	OS::deinitialize();
+	SDL_Quit();
 }

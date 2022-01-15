@@ -49,6 +49,7 @@ void Esi::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> h
 
 void Esi::HapticSystem::initialize()
 {
+	SDL_InitSubSystem(SDL_INIT_HAPTIC);
 	this->isInitialized = true;
 }
 
@@ -101,5 +102,8 @@ void Esi::HapticSystem::process(Scene& scene)
 
 void Esi::HapticSystem::deinitialize()
 {
+	if (this->isInitialized)
+		SDL_INIT_HAPTIC;
+
 	this->isInitialized = false;
 }
