@@ -29,14 +29,6 @@ Esi::Engine::Engine(
 	this->state = std::unique_ptr<EngineState>(new EngineState());
 	this->argc = argc;
 	this->argv = argv;
-
-	this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
-	this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
-	this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
-	this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
-	this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
-	this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
-	this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
 }
 
 void Esi::Engine::run()
@@ -96,6 +88,14 @@ void Esi::Engine::run()
 bool Esi::Engine::initialize()
 {
 	bool isInitializedOK = false;
+
+	this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
+	this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
+	this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
+	this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
+	this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
+	this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
+	this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
 
 	if (!this->state->isRestarting())
 		this->state->setInitializing();
@@ -224,4 +224,12 @@ void Esi::Engine::sleep()
 void Esi::Engine::shutdown()
 {
 	this->application.reset();
+	this->aiSystem.reset();
+	this->animationSystem.reset();
+	this->audioSystem.reset();
+	this->hapticSystem.reset();
+	this->physicsSystem.reset();
+	this->renderingSystem.reset();
+	this->uiSystem.reset();
+	OS::deinitialize();
 }

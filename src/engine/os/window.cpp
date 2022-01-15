@@ -36,7 +36,7 @@ Esi::Window::Window(std::string title, uint16_t width, uint16_t height, bool isF
 		SDL_WINDOWPOS_CENTERED,
 		width,
 		height,
-		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | renderingContextFlag));
+		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | renderingContextFlag), SDL_DestroyWindow);
 
 	SDL_DisableScreenSaver();
 	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode.get());

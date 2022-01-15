@@ -47,6 +47,8 @@ namespace Esi
 			std::string executableFilepath,
 			std::string renderingContext);
 
+		static void deinitialize();
+
 		static DynamicLinkLibraryAccess& getDLLAccess();
 		static Window& getWindow();
 		static HumanInterfaceDevices& getHid();

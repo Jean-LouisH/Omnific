@@ -52,7 +52,7 @@ namespace Esi
 
 		SDL_Window* getSDLWindow();
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow;
+		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
 		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
 		bool isFullscreen;
 	};

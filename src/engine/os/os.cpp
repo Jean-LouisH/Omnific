@@ -49,6 +49,12 @@ void Esi::OS::initialize(
 	newInstance->runTimer->setStart();
 }
 
+void Esi::OS::deinitialize()
+{
+	delete getInstance();
+	instance = nullptr;
+}
+
 Esi::DynamicLinkLibraryAccess& Esi::OS::getDLLAccess()
 {
 	return *getInstance()->dllAccess;
