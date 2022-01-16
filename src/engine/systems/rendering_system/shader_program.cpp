@@ -24,6 +24,8 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include <os/os.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 Esi::ShaderProgram::ShaderProgram(GLuint programID)
 {
@@ -54,6 +56,11 @@ void Esi::ShaderProgram::setBool(std::string name, bool value)
 void Esi::ShaderProgram::setFloat(std::string name, float value)
 {
 	glUniform1f(glGetUniformLocation(this->programID, name.c_str()), value);
+}
+
+void Esi::ShaderProgram::setMat4(std::string name, glm::mat4 value)
+{
+	glUniformMatrix4fv(glGetUniformLocation(this->programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL
