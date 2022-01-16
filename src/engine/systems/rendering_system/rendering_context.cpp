@@ -94,13 +94,27 @@ void Esi::RenderingContext::generate2DTextures(std::vector<Image> images)
 void Esi::RenderingContext::submit(std::vector<Renderable> renderables)
 {
 	Renderable* renderablesData = renderables.data();
-	uint64_t renderablesCount = renderables.size();
+	size_t renderablesCount = renderables.size();
 
-	for (uint64_t i = 0; i < renderablesCount; ++i)
+	for (size_t i = 0; i < renderablesCount; ++i)
 	{
-		renderablesData->vertexArray.bind();
-		glDrawElements(GL_TRIANGLES, (GLsizei)renderablesData->indexCount, GL_UNSIGNED_INT, nullptr);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		Renderable& renderable = renderablesData[i];
+		ShaderProgram* shaderProgramsData = renderable.shaderPrograms.data();
+		size_t shaderCount = renderable.shaderPrograms.size();
+
+		renderable.vertexArray.bind();
+		renderable.texture.bind();
+
+		for (size_t j = 0; j < shaderCount; j++)
+		{
+			ShaderProgram& shaderProgram = shaderProgramsData[j];
+			shaderProgram.use();
+			shaderProgram.setInt("image", 0);
+			shaderProgram.setMat4("model", renderable.modelMatrix);
+			shaderProgram.setMat4("view", renderable.viewMatrix);
+			shaderProgram.setMat4("projection", renderable.projectionMatrix);
+			glDrawElements(GL_TRIANGLES, (GLsizei)renderable.indexCount, GL_UNSIGNED_INT, 0);
+		}
 	}
 }
 

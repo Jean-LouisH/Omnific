@@ -28,22 +28,30 @@
 #include <application/scene/assets/material.hpp>
 #include <application/scene/assets/mesh.hpp>
 #include <application/scene/assets/shader.hpp>
+#include <glm/glm.hpp>
 
 #include "vertex_array.hpp"
+#include "texture.hpp"
+#include "shader_program.hpp"
 
 namespace Esi
 {
 	class Renderable
 	{
 	public:
+		glm::mat4 modelMatrix;
+		glm::mat4 viewMatrix;
+		glm::mat4 projectionMatrix;
+		Texture texture;
+		std::vector<ShaderProgram> shaderPrograms;
+		VertexArray vertexArray;
+		uint64_t indexCount;
+
 		Transform transform;
 		Image image;
 		Material material;
 		Mesh mesh;
 		std::vector<Shader*> shader;
-
-		VertexArray vertexArray;
-		uint64_t indexCount;
 	private:
 	};
 }
