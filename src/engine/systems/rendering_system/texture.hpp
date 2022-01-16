@@ -32,6 +32,7 @@ namespace Esi
 	class Texture
 	{
 	public:
+		void bind();
 	private:
 	};
 }

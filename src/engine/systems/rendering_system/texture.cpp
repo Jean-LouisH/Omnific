@@ -21,3 +21,8 @@
 // SOFTWARE.
 
 #include "texture.hpp"
+
+void Esi::Texture::bind()
+{
+
+}
