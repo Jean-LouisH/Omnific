@@ -20,35 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include <vector>
-#include <application/scene/components/transform.hpp>
-#include <application/scene/components/camera.hpp>
-#include <application/scene/assets/image.hpp>
-#include <application/scene/assets/material.hpp>
-#include <application/scene/assets/mesh.hpp>
-#include <application/scene/assets/shader.hpp>
-#include <glm/glm.hpp>
-
-#include "vertex_array.hpp"
-#include "texture.hpp"
-#include "shader_program.hpp"
-#include <memory>
-
-namespace Esi
-{
-	class Renderable
-	{
-	public:
-		EntityID id = 0;
-		std::shared_ptr<Transform> entityTransform;
-		std::shared_ptr<Texture> texture;
-		std::shared_ptr<Material> material;
-		std::shared_ptr<VertexArray> vertexArray;
-		std::vector<std::shared_ptr<ShaderProgram>> shaderPrograms;
-		uint64_t indexCount;
-	private:
-	};
-}
-
+#include "renderable.hpp"
