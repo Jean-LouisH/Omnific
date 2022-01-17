@@ -30,15 +30,19 @@ namespace Esi
 		{
 			const char texture[] = R"(
 				#version 330 core
-				layout (location = 0) in vec4 vertex;
-				out vec2 texCoords;
-				uniform mat4 model;
-				uniform mat4 view;
-				uniform mat4 projection;
+				layout (location = 0) in vec3 modelVertexPosition;
+				layout (location = 1) in vec2 modelUV;
+				out vec2 uv;
+				uniform mat4 modelToWorldMatrix;
+				uniform mat4 worldToViewMatrix;
+				uniform mat4 viewToProjectionMatrix;
 				void main()
 				{
-					texCoords = vertex.zw;
-					gl_Position = projection * view * model * vec4(vertex.xyz, 1.0);
+					uv = modelUV;
+					gl_Position = viewToProjectionMatrix * 
+									worldToViewMatrix * 
+									modelToWorldMatrix * 
+									vec4(modelVertexPosition, 1.0);
 				}	
 			)";
 		}
@@ -47,12 +51,12 @@ namespace Esi
 		{
 			const char texture[] = R"(
 				#version 330 core
-				in vec2 texCoords;
-				out vec4 color;
-				uniform sampler2D image;
+				in vec2 uv;
+				out vec3 colour;
+				uniform sampler2D textureSampler;
 				void main()
 				{    
-					color = texture(image, texCoords);
+					colour = texture(textureSampler, uv).rgb;
 				}  
 			)";
 		}
