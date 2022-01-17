@@ -28,6 +28,7 @@
 #include <vector>
 #include "renderable.hpp"
 #include <application/scene/assets/image.hpp>
+#include <application/scene/scene.hpp>
 #include <string>
 
 namespace Esi
@@ -40,7 +41,11 @@ namespace Esi
 		void generate2DTextures(std::vector<Image> images);
 		void delete2DTextures();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::vector<Renderable> renderables);
+		void submit(
+			std::vector<Renderable> renderables, 
+			std::shared_ptr<Camera> cameraComponent, 
+			std::shared_ptr<Transform> cameraTransform,
+			std::vector<std::shared_ptr<Light>> lights);
 		void swapBuffers();
 		std::string getRenderingContextName();
 	private:

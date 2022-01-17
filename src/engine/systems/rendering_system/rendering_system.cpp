@@ -42,6 +42,9 @@ Esi::RenderingSystem::RenderingSystem()
 
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
+
+	this->currentCameraComponent = std::shared_ptr<Camera>(new Camera());
+	this->currentCameraTransform = std::shared_ptr<Transform>(new Transform());
 }
 
 Esi::RenderingSystem::~RenderingSystem()
@@ -71,7 +74,11 @@ void Esi::RenderingSystem::process(Scene& scene)
 {
 	this->buildRenderables(scene);
 	this->context->clearBuffers();
-	this->context->submit(this->getRenderables());
+	this->context->submit(
+		this->getRenderables(),
+		this->currentCameraComponent, 
+		this->currentCameraTransform, 
+		this->lights);
 	this->context->swapBuffers();
 }
 

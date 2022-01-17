@@ -49,9 +49,13 @@ namespace Esi
 	private:
 		std::unique_ptr<RenderingContext> context;
 		std::unique_ptr<ShaderCompiler> shaderCompiler;
-		std::vector<Renderable> renderables;
 		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderProgramCache;
 		std::set<AssetID> renderingAssetIDCache;
+
+		std::vector<Renderable> renderables;
+		std::shared_ptr<Camera> currentCameraComponent;
+		std::shared_ptr<Transform> currentCameraTransform;
+		std::vector<std::shared_ptr<Light>> lights;
 
 		void onModifiedShaderInstance(Scene& scene);
 		void buildRenderables(Scene& scene);

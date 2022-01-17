@@ -40,6 +40,8 @@ void Esi::RenderingContext::initialize()
 		this->setViewport(windowDimensions.width, windowDimensions.height);
 		OS::getLogger().write((std::string)("Rendering System initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
+
+		glEnable(GL_DEPTH_TEST);
 	}
 }
 
@@ -91,28 +93,35 @@ void Esi::RenderingContext::generate2DTextures(std::vector<Image> images)
 	}
 }
 
-void Esi::RenderingContext::submit(std::vector<Renderable> renderables)
+void Esi::RenderingContext::submit(
+		std::vector<Renderable> renderables,
+		std::shared_ptr<Camera> cameraComponent,
+		std::shared_ptr<Transform> cameraTransform,
+		std::vector<std::shared_ptr<Light>> lights)
 {
 	Renderable* renderablesData = renderables.data();
 	size_t renderablesCount = renderables.size();
+	glm::mat4 worldToViewMatrix = glm::inverse(cameraTransform->getGlobalTransformMatrix());
+	glm::mat4 viewToProjectionMatrix = cameraComponent->getViewToProjectionMatrix();
 
 	for (size_t i = 0; i < renderablesCount; ++i)
 	{
 		Renderable& renderable = renderablesData[i];
-		ShaderProgram* shaderProgramsData = renderable.shaderPrograms.data();
+		std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
+		glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
 		size_t shaderCount = renderable.shaderPrograms.size();
 
-		renderable.vertexArray.bind();
-		renderable.texture.bind();
+		renderable.vertexArray->bind();
+		renderable.texture->bind();
 
 		for (size_t j = 0; j < shaderCount; j++)
 		{
-			ShaderProgram& shaderProgram = shaderProgramsData[j];
-			shaderProgram.use();
-			shaderProgram.setInt("image", 0);
-			shaderProgram.setMat4("model", renderable.modelMatrix);
-			shaderProgram.setMat4("view", renderable.viewMatrix);
-			shaderProgram.setMat4("projection", renderable.projectionMatrix);
+			std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];
+			shaderProgram->use();
+			shaderProgram->setInt("textureSampler", 0);
+			shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
+			shaderProgram->setMat4("worldToViewMatrix", worldToViewMatrix);
+			shaderProgram->setMat4("viewToProjectionMatrix", viewToProjectionMatrix);
 			glDrawElements(GL_TRIANGLES, (GLsizei)renderable.indexCount, GL_UNSIGNED_INT, 0);
 		}
 	}
