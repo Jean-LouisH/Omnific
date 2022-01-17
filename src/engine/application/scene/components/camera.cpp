@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 #include "camera.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void Esi::Camera::resetAspect()
 {
@@ -67,4 +69,9 @@ void Esi::Camera::setKeepAspect(bool value)
 void Esi::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
+}
+
+glm::mat4 Esi::Camera::getViewToProjectionMatrix()
+{
+	return glm::perspective(glm::radians(this->fieldOfView), this->aspect, this->nearPlane, this->farPlane);
 }

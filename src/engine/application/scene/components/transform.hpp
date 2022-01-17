@@ -43,7 +43,10 @@ namespace Esi
 			this->scale.z = 1;
 			this->type = TYPE_STRING;
 		}
+
 		static constexpr const char* TYPE_STRING = "Transform";
+
+		glm::mat4 getGlobalTransformMatrix();
 	private:
 	};
 }

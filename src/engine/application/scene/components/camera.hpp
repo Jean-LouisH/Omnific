@@ -49,9 +49,13 @@ namespace Esi
 		void setLimits(float left, float bottom, float top, float right);
 		void setKeepAspect(bool value);
 		void setIsStreaming(bool value);
+		glm::mat4 getViewToProjectionMatrix();
 	private:
 		const float defaultAspect = 1920.0 / 1080.0;
 		float aspect = defaultAspect;
+		float fieldOfView = 90.0;
+		float nearPlane = 0.1;
+		float farPlane = 100.0;
 		AABB2D limits_px;
 		Rectangle viewport_px;
 		bool keepAspect = true;
