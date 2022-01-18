@@ -415,6 +415,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 										std::shared_ptr<Esi::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
 										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
 										scene.getAssetCache().store(asset);
+										sprite->addEmptyFrameSequence("");
 										sprite->addFrameToFrameSequence("", image);
 									}
 								}
