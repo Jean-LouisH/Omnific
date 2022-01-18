@@ -38,9 +38,9 @@ namespace Esi
 		Transform() :
 			rotation(0.0)
 		{
-			this->scale.x = 1;
-			this->scale.y = 1;
-			this->scale.z = 1;
+			this->translation = glm::vec3(0.0, 0.0, 0.0);
+			this->rotation = glm::vec3(0.0, 0.0, 0.0);
+			this->scale = glm::vec3(1.0, 1.0, 1.0);
 			this->type = TYPE_STRING;
 		}
 

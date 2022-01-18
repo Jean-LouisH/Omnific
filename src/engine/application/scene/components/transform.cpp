@@ -5,11 +5,10 @@
 
 glm::mat4 Esi::Transform::getGlobalTransformMatrix()
 {
-	glm::mat4 globalTransform;
-	globalTransform = glm::translate(globalTransform, this->translation);
-	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.x), glm::vec3(1.0, 0.0, 0.0));
-	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.y), glm::vec3(0.0, 1.0, 0.0));
-	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.z), glm::vec3(0.0, 0.0, 1.0));
+	glm::mat4 globalTransform = glm::translate(glm::mat4(1.0f), this->translation);
+	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 	globalTransform = glm::scale(globalTransform, this->scale);
 	return globalTransform;
 }
