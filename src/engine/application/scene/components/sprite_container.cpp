@@ -31,17 +31,21 @@ void Esi::SpriteContainer::addEmptyFrameSequence(std::string frameSequenceName)
 void Esi::SpriteContainer::addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
+	this->image = this->getCurrentFrame();
 }
 
 void Esi::SpriteContainer::addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
+	this->image = this->getCurrentFrame();
 }
 
 void Esi::SpriteContainer::clearFrameSequences()
 {
 	this->frameSequences.clear();
+	this->currentFrameIndex = 0;
+	this->image = this->getCurrentFrame();
 }
 
 void Esi::SpriteContainer::setAlpha(uint8_t value)
@@ -98,6 +102,8 @@ void Esi::SpriteContainer::update(float delta_s)
 			this->frameTime_s = 0.0;
 		}
 	}
+
+	this->image = this->getCurrentFrame();
 }
 
 void Esi::SpriteContainer::play(std::string frameSequenceName)
@@ -146,7 +152,10 @@ void Esi::SpriteContainer::flipHorizontally()
 
 std::shared_ptr<Esi::Image> Esi::SpriteContainer::getCurrentFrame()
 {
-	return this->getCurrentFrameSequence().at(this->currentFrameIndex);
+	std::shared_ptr<Image> image = std::shared_ptr<Image>(new Image());
+	if (this->frameSequences.size() > 0)
+		image = this->getCurrentFrameSequence().at(this->currentFrameIndex);
+	return image;
 }
 
 std::vector<std::string> Esi::SpriteContainer::getFrameSequenceNames()
