@@ -52,13 +52,16 @@ namespace Esi
 		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderProgramCache;
 		std::set<AssetID> renderingAssetIDCache;
 
+		std::string builtInShaderProgramName = "built_in_shaders";
+
 		std::vector<Renderable> renderables;
-		std::shared_ptr<Camera> currentCameraComponent;
+		std::shared_ptr<Camera> currentCamera;
 		std::shared_ptr<Transform> currentCameraTransform;
 		std::vector<std::shared_ptr<Light>> lights;
 
+		void onWindowResize();
 		void onModifiedShaderInstance(Scene& scene);
-		void buildRenderables(Scene& scene);
+		void onModifiedRenderableInstance(Scene& scene);
 		void compileShaders(std::string name, std::vector<Shader> shaders);
 	};
 }

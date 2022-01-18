@@ -43,7 +43,7 @@ Esi::RenderingSystem::RenderingSystem()
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
 
-	this->currentCameraComponent = std::shared_ptr<Camera>(new Camera());
+	this->currentCamera = std::shared_ptr<Camera>(new Camera());
 	this->currentCameraTransform = std::shared_ptr<Transform>(new Transform());
 }
 
@@ -66,17 +66,18 @@ void Esi::RenderingSystem::initialize()
 	shaders.push_back(builtInFragmentShader);
 
 	this->context->initialize();
-	this->compileShaders("built_in_shaders", shaders);
+	this->compileShaders(this->builtInShaderProgramName, shaders);
 	this->isInitialized = true;
 }
 
 void Esi::RenderingSystem::process(Scene& scene)
 {
-	this->buildRenderables(scene);
+	this->onWindowResize();
+	this->onModifiedRenderableInstance(scene);
 	this->context->clearBuffers();
 	this->context->submit(
 		this->getRenderables(),
-		this->currentCameraComponent, 
+		this->currentCamera, 
 		this->currentCameraTransform, 
 		this->lights);
 	this->context->swapBuffers();
@@ -93,6 +94,12 @@ void Esi::RenderingSystem::deinitialize()
 	this->isInitialized = false;
 }
 
+void Esi::RenderingSystem::onWindowResize()
+{
+	Rectangle windowRectangle = OS::getWindow().getWindowSize();
+	this->context->setViewport(windowRectangle.width, windowRectangle.height);
+}
+
 void Esi::RenderingSystem::onModifiedShaderInstance(Scene& scene)
 {
 	if (scene.getHasShadersChanged())
@@ -101,44 +108,62 @@ void Esi::RenderingSystem::onModifiedShaderInstance(Scene& scene)
 	}
 }
 
-void Esi::RenderingSystem::buildRenderables(Scene& scene)
+void Esi::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 {
-	std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
-	std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
-	std::vector<size_t> uiViewportIndexCache;
-
-	if (scene.getComponentIndexCaches().count(UIViewport::TYPE_STRING))
-		uiViewportIndexCache = scene.getComponentIndexCaches().at(UIViewport::TYPE_STRING);
-
-	for (int i = 0; i < uiViewportIndexCache.size(); i++)
+	if (scene.getHasRenderableComponentsChanged())
 	{
-		std::shared_ptr<UIViewport> uiViewport = std::dynamic_pointer_cast<UIViewport>(components.at(uiViewportIndexCache.at(i)));
+		this->renderables.clear();
+		std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
+		std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
+		std::vector<size_t> uiViewportIndexCache;
 
-		if (uiViewport->getIsVisible())
+		if (scene.getComponentIndexCaches().count(UIViewport::TYPE_STRING))
+			uiViewportIndexCache = scene.getComponentIndexCaches().at(UIViewport::TYPE_STRING);
+
+		for (int i = 0; i < uiViewportIndexCache.size(); i++)
 		{
-			Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
-			Component& cameraComponent = scene.getComponent(cameraEntity.components.at(Camera::TYPE_STRING));
-			Camera& camera = dynamic_cast<Camera&>(cameraComponent);
+			std::shared_ptr<UIViewport> uiViewport = std::dynamic_pointer_cast<UIViewport>(components.at(uiViewportIndexCache.at(i)));
 
-			if (camera.getIsStreaming())
+			if (uiViewport->getIsVisible())
 			{
-				Transform& cameraTransform = scene.getEntityTransform(cameraComponent.getEntityID());
-				Rectangle cameraViewport_px = camera.getViewportDimensions();
+				Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
+				std::shared_ptr<Component> cameraComponent = scene.getComponent(cameraEntity.components.at(Camera::TYPE_STRING));
+				std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(cameraComponent);
 
-				for (int i = 0; i < renderOrderIndexCache.size(); i++)
+				if (camera->getIsStreaming())
 				{
-					std::shared_ptr<RenderableComponent> renderableComponent = 
-						std::dynamic_pointer_cast<RenderableComponent>(components.at(renderOrderIndexCache.at(i)));
-					Transform& transform = scene.getEntityTransform(renderableComponent->getEntityID());
-					std::vector<Shader> shaders = scene.getEntity(renderableComponent->getEntityID()).shaders;
+					std::shared_ptr<Transform> cameraTransform = scene.getEntityTransform(cameraComponent->getEntityID());
+					Rectangle cameraViewport_px = camera->getViewportDimensions();
 
-					if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
+					this->currentCamera = camera;
+					this->currentCameraTransform = cameraTransform;
+
+					for (int i = 0; i < renderOrderIndexCache.size(); i++)
 					{
-						if (scene.getEntity(renderableComponent->getEntityID()).spatialDimension ==
-							Entity::SpatialDimension::_2D)
-						{
-							std::shared_ptr<Image> image = renderableComponent->getImage();
-						}
+						Renderable renderable;
+						std::shared_ptr<RenderableComponent> renderableComponent =
+							std::dynamic_pointer_cast<RenderableComponent>(components.at(renderOrderIndexCache.at(i)));
+						Entity entity = scene.getEntity(renderableComponent->getEntityID());
+						std::shared_ptr<Image> image = renderableComponent->getImage();
+
+						renderable.entityTransform = scene.getEntityTransform(renderableComponent->getEntityID());
+						renderable.id = scene.getEntity(renderableComponent->getEntityID()).id;
+						renderable.shaderPrograms.push_back(this->shaderProgramCache.at(this->builtInShaderProgramName));
+
+						renderable.vertexArray = std::shared_ptr<VertexArray>(new VertexArray());
+						renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(image, renderable.vertexArray));
+						renderable.texture = std::shared_ptr<Texture>(new Texture(image));
+
+						//if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
+						//{
+						//	if (scene.getEntity(renderableComponent->getEntityID()).spatialDimension ==
+						//		Entity::SpatialDimension::_2D)
+						//	{
+
+						//	}
+						//}
+
+						this->renderables.push_back(renderable);
 					}
 				}
 			}
