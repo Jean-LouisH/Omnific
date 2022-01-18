@@ -2,17 +2,14 @@ Scene:
   Entity:
     name: "Camera"
     spatial_dimension: 2
+    Transform:
+      translation: [0, 0, 1]
     Camera: "default"
   Entity:
     name: "SplashScreenSprite"
     spatial_dimension: 2
     SpriteContainer:
       image: "assets/images/lilliputian_wordmark.png"
-  Entity:
-    name: "SceneTransition"
-    spatial_dimension: 2
-    CountdownTimer: "default"
-    Scripts: ["assets/scripts/python/splash_screen_transition.py"]
   Entity:
     name: "Text"
     spatial_dimension: 2
@@ -22,3 +19,8 @@ Scene:
       text: "This is a UITextLabel test"
       font: ["assets/fonts/Lato-Regular.ttf", 32]
       colour: [255, 0, 0, 255]
+  Entity:
+    name: "Viewport"
+    spatial_dimension: 2
+    UIViewport:
+      camera_entity: "Camera"

@@ -2,6 +2,8 @@ Scene:
   Entity:
     name: "Camera"
     spatial_dimension: 2
+    Transform:
+      translation: [0, 0, 2]
     Camera: "default"
   Entity:
     name: "Text"
