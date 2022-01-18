@@ -118,18 +118,19 @@ namespace Esi
 		std::vector<std::shared_ptr<Component>>& getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();
 		std::unordered_map<std::string, std::vector<size_t>> getComponentIndexCaches();
-		Transform& getEntityTransform(EntityID entityID);
+		std::shared_ptr<Transform> getEntityTransform(EntityID entityID);
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();
 		std::unordered_map<EntityID, Entity>& getEntities();
-		Component& getComponent(ComponentID componentID);
+		std::shared_ptr<Component> getComponent(ComponentID componentID);
 		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
+		bool getHasRenderableComponentsChanged();
 		bool getHasShadersChanged();
-		bool getHasScriptsChange();
+		bool getHasScriptsChanged();
 		SceneID getID();
 
 		void unload();

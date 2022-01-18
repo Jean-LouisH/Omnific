@@ -166,7 +166,7 @@ std::vector<std::shared_ptr<Esi::Component>>& Esi::Scene::getComponents()
 	return this->components;
 }
 
-Esi::Transform& Esi::Scene::getEntityTransform(EntityID entityID)
+std::shared_ptr<Esi::Transform> Esi::Scene::getEntityTransform(EntityID entityID)
 {
 	std::vector<size_t> transformIndices = this->componentIndexCaches.at("Transform");
 		
@@ -177,7 +177,7 @@ Esi::Transform& Esi::Scene::getEntityTransform(EntityID entityID)
 		if (this->components.at(transformIndices.at(i))->getEntityID() == entityID)
 			transform = std::dynamic_pointer_cast<Transform>(this->components.at(transformIndices.at(i)));
 
-	return *transform;
+	return transform;
 }
 
 Esi::Entity& Esi::Scene::getEntity(EntityID entityID)
@@ -206,7 +206,7 @@ std::unordered_map<Esi::EntityID, Esi::Entity>& Esi::Scene::getEntities()
 	return this->entities;
 }
 
-Esi::Component& Esi::Scene::getComponent(ComponentID componentID)
+std::shared_ptr<Esi::Component> Esi::Scene::getComponent(ComponentID componentID)
 {
 	std::shared_ptr<Component> component = std::make_shared<Component>();
 
@@ -217,12 +217,12 @@ Esi::Component& Esi::Scene::getComponent(ComponentID componentID)
 			component = currentComponent;
 	}
 
-	return *component;
+	return component;
 }
 
 Esi::Entity::SpatialDimension Esi::Scene::getComponentSpatialDimension(ComponentID componentID)
 {
-	return this->getEntity(this->getComponent(componentID).getEntityID()).spatialDimension;
+	return this->getEntity(this->getComponent(componentID)->getEntityID()).spatialDimension;
 }
 
 Esi::EventBus& Esi::Scene::getEventBus()
@@ -230,12 +230,17 @@ Esi::EventBus& Esi::Scene::getEventBus()
 	return *this->eventBus;
 }
 
+bool Esi::Scene::getHasRenderableComponentsChanged()
+{
+	return true;
+}
+
 bool Esi::Scene::getHasShadersChanged()
 {
 	return false;
 }
 
-bool Esi::Scene::getHasScriptsChange()
+bool Esi::Scene::getHasScriptsChanged()
 {
 	return false;
 }
