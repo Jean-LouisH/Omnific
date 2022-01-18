@@ -51,58 +51,16 @@ void Esi::RenderingContext::clearBuffers()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Esi::RenderingContext::generate2DTextures(std::vector<Image> images)
-{
-	size_t imageCount = images.size();
-	Image* imageData = images.data();
-
-	for (int i = 0; i < imageCount; i++)
-	{
-		float borderColour[] = { 1.0, 1.0, 0.0, 1.0 };
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE, texture);
-		this->glTextureIDs.push_back(texture);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColour);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		uint64_t format = 0;
-		Image* currentImage = &imageData[i];
-
-		switch (currentImage->getBytesPerPixel())
-		{
-		case 3: format = GL_RGB; break;
-		case 4: format = GL_RGBA; break;
-		}
-
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RGBA,
-			currentImage->getWidth(),
-			currentImage->getHeight(),
-			0,
-			format,
-			GL_UNSIGNED_BYTE,
-			currentImage->getSDLSurface()->pixels);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-}
-
 void Esi::RenderingContext::submit(
 		std::vector<Renderable> renderables,
-		std::shared_ptr<Camera> cameraComponent,
+		std::shared_ptr<Camera> camera,
 		std::shared_ptr<Transform> cameraTransform,
 		std::vector<std::shared_ptr<Light>> lights)
 {
 	Renderable* renderablesData = renderables.data();
 	size_t renderablesCount = renderables.size();
 	glm::mat4 worldToViewMatrix = glm::inverse(cameraTransform->getGlobalTransformMatrix());
-	glm::mat4 viewToProjectionMatrix = cameraComponent->getViewToProjectionMatrix();
+	glm::mat4 viewToProjectionMatrix = camera->getViewToProjectionMatrix();
 
 	for (size_t i = 0; i < renderablesCount; ++i)
 	{
@@ -122,19 +80,9 @@ void Esi::RenderingContext::submit(
 			shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
 			shaderProgram->setMat4("worldToViewMatrix", worldToViewMatrix);
 			shaderProgram->setMat4("viewToProjectionMatrix", viewToProjectionMatrix);
-			glDrawElements(GL_TRIANGLES, (GLsizei)renderable.indexCount, GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
 		}
 	}
-}
-
-void Esi::RenderingContext::delete2DTextures()
-{
-	int size = this->glTextureIDs.size();
-
-	for (int i = 0; i < size; i++)
-		glDeleteTextures(1, &glTextureIDs.at(i));
-
-	this->glTextureIDs.clear();
 }
 
 void Esi::RenderingContext::setViewport(uint32_t width, uint32_t height)

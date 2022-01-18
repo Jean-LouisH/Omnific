@@ -22,7 +22,61 @@
 
 #include "texture.hpp"
 
-void Esi::Texture::bind()
+Esi::Texture::Texture()
 {
 
+}
+
+Esi::Texture::~Texture()
+{
+	this->deleteTexture();
+}
+
+Esi::Texture::Texture(std::shared_ptr<Image> image)
+{
+	float borderColour[] = { 1.0, 1.0, 0.0, 0.0 };
+	glGenTextures(1, &this->textureID);
+	this->bind();
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColour);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	if (image != nullptr)
+	{
+		uint64_t format = 0;
+
+		switch (image->getBytesPerPixel())
+		{
+		case 1: format = GL_RED; break;
+		case 3: format = GL_RGB; break;
+		case 4: format = GL_RGBA; break;
+		}
+
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			image->getWidth(),
+			image->getHeight(),
+			0,
+			format,
+			GL_UNSIGNED_BYTE,
+			image->getSDLSurface()->pixels);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+}
+
+
+void Esi::Texture::bind()
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->textureID);
+}
+
+void Esi::Texture::deleteTexture()
+{
+	glDeleteTextures(1, &this->textureID);
 }

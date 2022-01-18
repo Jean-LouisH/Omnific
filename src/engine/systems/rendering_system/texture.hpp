@@ -26,14 +26,21 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <application/scene/assets/image.hpp>
+#include <memory>
 
 namespace Esi
 {
 	class Texture
 	{
 	public:
+		Texture();
+		~Texture();
+		Texture(std::shared_ptr<Image> image);
 		void bind();
+		void deleteTexture();
 	private:
+		GLuint textureID = 0;
 	};
 }
 

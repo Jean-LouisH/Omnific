@@ -38,12 +38,10 @@ namespace Esi
 	public:
 		void initialize();
 		void clearBuffers();
-		void generate2DTextures(std::vector<Image> images);
-		void delete2DTextures();
 		void setViewport(uint32_t width, uint32_t height);
 		void submit(
 			std::vector<Renderable> renderables, 
-			std::shared_ptr<Camera> cameraComponent, 
+			std::shared_ptr<Camera> camera, 
 			std::shared_ptr<Transform> cameraTransform,
 			std::vector<std::shared_ptr<Light>> lights);
 		void swapBuffers();
