@@ -38,7 +38,7 @@ namespace Esi
 				uniform mat4 viewToProjectionMatrix;
 				void main()
 				{
-					uv = modelUV;
+					uv = vec2(modelUV.x, 1 - modelUV.y);
 					gl_Position = viewToProjectionMatrix * 
 									worldToViewMatrix * 
 									modelToWorldMatrix * 
@@ -52,11 +52,11 @@ namespace Esi
 			const char texture[] = R"(
 				#version 330 core
 				in vec2 uv;
-				out vec3 colour;
+				out vec4 colour;
 				uniform sampler2D textureSampler;
 				void main()
 				{    
-					colour = texture(textureSampler, uv).rgb;
+					colour = texture(textureSampler, uv);
 				}  
 			)";
 		}
