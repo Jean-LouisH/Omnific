@@ -32,8 +32,12 @@ namespace Esi
 	class VertexArray
 	{
 	public:
+		VertexArray();
+		~VertexArray();
 		void bind();
+		void deleteVertexArray();
 	private:
+		GLuint vertexArrayID;
 	};
 }
 

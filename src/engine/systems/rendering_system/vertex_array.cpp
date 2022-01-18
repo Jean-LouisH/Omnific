@@ -22,8 +22,22 @@
 
 #include "vertex_array.hpp"
 
+Esi::VertexArray::VertexArray()
+{
+	glGenVertexArrays(1, &this->vertexArrayID);
+}
+
+Esi::VertexArray::~VertexArray()
+{
+	this->deleteVertexArray();
+}
 
 void Esi::VertexArray::bind()
 {
+	glBindVertexArray(this->vertexArrayID);
+}
 
+void Esi::VertexArray::deleteVertexArray()
+{
+	glDeleteVertexArrays(1, &this->vertexArrayID);
 }
