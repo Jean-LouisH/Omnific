@@ -20,4 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "buffer.hpp"
+#pragma once
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <string>
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/mesh.hpp>
+#include "vertex_array.hpp"
+#include <memory>
+
+namespace Esi
+{
+	class VertexBuffer
+	{
+	public:
+		VertexBuffer();
+		VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray);
+		VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<VertexArray> vertexArray);
+		~VertexBuffer();
+		void bind();
+		void deleteVertexBuffer();
+		unsigned int getIndexCount();
+	private:
+		GLuint vertexBufferID = 0;
+		GLuint elementBufferID = 0;
+		GLsizei indexCount;
+		void buffer(float* meshData, unsigned int* indices);
+	};
+}
+

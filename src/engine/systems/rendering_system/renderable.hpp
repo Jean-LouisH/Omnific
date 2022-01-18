@@ -32,6 +32,7 @@
 #include <glm/glm.hpp>
 
 #include "vertex_array.hpp"
+#include "vertex_buffer.hpp"
 #include "texture.hpp"
 #include "shader_program.hpp"
 #include <memory>
@@ -46,8 +47,8 @@ namespace Esi
 		std::shared_ptr<Texture> texture;
 		std::shared_ptr<Material> material;
 		std::shared_ptr<VertexArray> vertexArray;
+		std::shared_ptr<VertexBuffer> vertexBuffer;
 		std::vector<std::shared_ptr<ShaderProgram>> shaderPrograms;
-		uint64_t indexCount;
 	private:
 	};
 }
