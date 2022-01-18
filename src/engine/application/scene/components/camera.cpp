@@ -23,6 +23,7 @@
 #include "camera.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <os/os.hpp>
 
 void Esi::Camera::resetAspect()
 {
@@ -73,5 +74,6 @@ void Esi::Camera::setIsStreaming(bool value)
 
 glm::mat4 Esi::Camera::getViewToProjectionMatrix()
 {
-	return glm::perspective(glm::radians(this->fieldOfView), this->aspect, this->nearPlane, this->farPlane);
+	Rectangle rectangle = OS::getWindow().getWindowSize();
+	return glm::perspective(glm::radians(this->fieldOfView), (float)rectangle.width / (float)rectangle.height, this->nearPlane, this->farPlane);
 }
