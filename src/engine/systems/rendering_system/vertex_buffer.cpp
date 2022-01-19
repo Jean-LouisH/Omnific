@@ -75,6 +75,7 @@ Esi::VertexBuffer::~VertexBuffer()
 void Esi::VertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
 }
 
 void Esi::VertexBuffer::deleteVertexBuffer()
