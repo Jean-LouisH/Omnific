@@ -29,12 +29,35 @@ Esi::VertexBuffer::VertexBuffer()
 
 Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray)
 {
+	this->indexCount = mesh->indices.size();
 	vertexArray->bind();
+
+	glGenBuffers(1, &this->vertexBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), &mesh->vertices[0], GL_STATIC_DRAW);
+
+	glGenBuffers(1, &this->elementBufferID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(unsigned int),
+		&mesh->indices[0], GL_STATIC_DRAW);
+
+	// vertex positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)0);
+	// vertex normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::normal));
+	// vertex uvs
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::uv));
+
+	vertexArray->unbind();
 }
 
 Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<VertexArray> vertexArray)
 {
-	float meshData[] = {
+	float meshVertices[] = 
+	{
 		 // positions         // texture coords
 		 0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // top right
 		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // bottom right
@@ -42,7 +65,8 @@ Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<Ve
 		-0.5f,  0.5f, 0.0f,  0.0f, 1.0f  // top left 
 	};
 
-	unsigned int indices[] = {
+	unsigned int indices[] = 
+	{
 	0, 1, 3, // first triangle
 	1, 2, 3  // second triangle
 	};
@@ -51,20 +75,19 @@ Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<Ve
 	vertexArray->bind();
 	
 	glGenBuffers(1, &this->vertexBufferID);
-	glGenBuffers(1, &this->elementBufferID);
-
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(meshData), meshData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(meshVertices), meshVertices, GL_STATIC_DRAW);
 
+	glGenBuffers(1, &this->elementBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	// texture coord attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	// uv attribute
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
 }
 
 Esi::VertexBuffer::~VertexBuffer()
