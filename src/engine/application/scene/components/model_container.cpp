@@ -21,3 +21,8 @@
 // SOFTWARE.
 
 #include "model_container.hpp"
+
+std::shared_ptr<Esi::Model> Esi::ModelContainer::getCurrentModel()
+{
+	return this->models.at(currentModelIndex);
+}

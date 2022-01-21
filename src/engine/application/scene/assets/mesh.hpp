@@ -23,6 +23,8 @@
 #pragma once
 
 #include "application/scene/asset.hpp"
+#include <glm/glm.hpp>
+#include <vector>
 
 namespace Esi
 {
@@ -34,6 +36,17 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "Mesh";
+
+		struct Vertex 
+		{
+			glm::vec3 position;
+			glm::vec3 normal;
+			glm::vec2 uv;
+		};
+
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
+
 	private:
 	};
 }

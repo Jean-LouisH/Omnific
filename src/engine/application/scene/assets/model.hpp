@@ -28,7 +28,9 @@
 #include "image.hpp"
 #include "skeletal_animation.hpp"
 #include "rig.hpp"
-#include "shader.hpp"
+
+#include <memory>
+#include <vector>
 
 namespace Esi
 {
@@ -40,6 +42,13 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "Model";
+
+		std::shared_ptr<Mesh> mesh;
+		std::shared_ptr<Image> image;
+		std::shared_ptr<Material> material;
+
+		std::shared_ptr<Rig> rig;
+		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 	private:
 	};
 }

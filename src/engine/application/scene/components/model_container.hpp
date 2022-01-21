@@ -24,6 +24,10 @@
 #include "application/scene/renderable_component.hpp"
 #include "application/scene/component.hpp"
 
+#include "application/scene/assets/model.hpp"
+#include <memory>
+#include <vector>
+
 namespace Esi
 {
 	class ModelContainer : public RenderableComponent
@@ -34,6 +38,10 @@ namespace Esi
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "ModelContainer";
+
+		std::shared_ptr<Model> getCurrentModel();
 	private:
+		std::vector<std::shared_ptr<Model>> models;
+		uint64_t currentModelIndex = 0;
 	};
 }
