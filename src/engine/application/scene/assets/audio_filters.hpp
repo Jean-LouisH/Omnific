@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include "application/scene/component.hpp"
+#include "application/scene/asset.hpp"
 
 
 namespace Esi
 {
-	class AudioFilters : public Component
+	class AudioFilters : public Asset
 	{
 	public:
 		AudioFilters()
