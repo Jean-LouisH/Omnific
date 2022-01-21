@@ -65,22 +65,26 @@ void Esi::RenderingContext::submit(
 	for (size_t i = 0; i < renderablesCount; ++i)
 	{
 		Renderable& renderable = renderablesData[i];
-		std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
-		glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
-		size_t shaderCount = renderable.shaderPrograms.size();
 
-		renderable.vertexArray->bind();
-		renderable.texture->bind();
-
-		for (size_t j = 0; j < shaderCount; j++)
+		if (renderable.shaderPrograms.size() > 0)
 		{
-			std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];
-			shaderProgram->use();
-			shaderProgram->setInt("textureSampler", 0);
-			shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
-			shaderProgram->setMat4("worldToViewMatrix", worldToViewMatrix);
-			shaderProgram->setMat4("viewToProjectionMatrix", viewToProjectionMatrix);
-			glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
+			std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
+			glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
+			size_t shaderCount = renderable.shaderPrograms.size();
+
+			renderable.vertexArray->bind();
+			renderable.texture->bind();
+
+			for (size_t j = 0; j < shaderCount; j++)
+			{
+				std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];
+				shaderProgram->use();
+				shaderProgram->setInt("textureSampler", 0);
+				shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
+				shaderProgram->setMat4("worldToViewMatrix", worldToViewMatrix);
+				shaderProgram->setMat4("viewToProjectionMatrix", viewToProjectionMatrix);
+				glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
+			}
 		}
 	}
 }
