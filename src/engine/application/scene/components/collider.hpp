@@ -27,6 +27,7 @@
 #include "application/scene/component.hpp"
 
 #include "utilities/aabb_2d.hpp"
+#include <set>
 
 
 namespace Esi
@@ -34,6 +35,11 @@ namespace Esi
 	class Collider : public Component
 	{
 	public:
+		AABB2D aabb;
+
+		std::set<EntityID> enteringEntityIDs;
+		std::set<std::string> enteringEntityTags;
+
 		struct Circle
 		{
 			float radius = 0.0;
@@ -54,13 +60,13 @@ namespace Esi
 			PlatformSide platformSide = PLATFORM_SIDE_NONE;
 		}box;
 
-
-
 		Collider()
 		{
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "Collider";
+		bool hasEntityEntered(EntityID entityID);
+		bool hasEntityWithTagEntered(std::string entityTag);
 	private:
 	};
 }

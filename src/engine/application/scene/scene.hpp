@@ -67,7 +67,6 @@
 #include "components/physics_thruster.hpp"
 #include "components/property_animation.hpp"
 #include "components/model_container.hpp"
-#include "components/trigger_space.hpp"
 #include "components/rigid_body.hpp"
 #include "components/static_fluid.hpp"
 #include "components/transform.hpp"

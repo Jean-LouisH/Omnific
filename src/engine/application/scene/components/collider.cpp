@@ -21,3 +21,13 @@
 // SOFTWARE.
 
 #include "collider.hpp"
+
+bool Esi::Collider::hasEntityEntered(EntityID entityID)
+{
+	return this->enteringEntityIDs.count(entityID);
+}
+
+bool Esi::Collider::hasEntityWithTagEntered(std::string entityTag)
+{
+	return this->enteringEntityTags.count(entityTag);
+}
