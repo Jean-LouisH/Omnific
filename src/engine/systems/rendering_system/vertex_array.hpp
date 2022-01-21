@@ -35,6 +35,7 @@ namespace Esi
 		VertexArray();
 		~VertexArray();
 		void bind();
+		void unbind();
 		void deleteVertexArray();
 	private:
 		GLuint vertexArrayID;

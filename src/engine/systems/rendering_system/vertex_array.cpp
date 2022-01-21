@@ -37,6 +37,11 @@ void Esi::VertexArray::bind()
 	glBindVertexArray(this->vertexArrayID);
 }
 
+void Esi::VertexArray::unbind()
+{
+	glBindVertexArray(0);
+}
+
 void Esi::VertexArray::deleteVertexArray()
 {
 	glDeleteVertexArrays(1, &this->vertexArrayID);
