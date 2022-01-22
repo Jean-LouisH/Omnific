@@ -36,6 +36,8 @@ Esi::Texture::Texture(std::shared_ptr<Image> image)
 {
 	float borderColour[] = { 1.0, 1.0, 0.0, 0.0 };
 	glGenTextures(1, &this->textureID);
+	this->type = "image";
+	this->textureUnit = 0;
 	this->bind();
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -50,7 +52,6 @@ Esi::Texture::Texture(std::shared_ptr<Image> image)
 
 		switch (image->getBytesPerPixel())
 		{
-		case 1: format = GL_RED; break;
 		case 3: format = GL_RGB; break;
 		case 4: format = GL_RGBA; break;
 		}
@@ -69,10 +70,19 @@ Esi::Texture::Texture(std::shared_ptr<Image> image)
 	}
 }
 
+void Esi::Texture::activateDefaultTextureUnit()
+{
+	glActiveTexture(GL_TEXTURE0);
+}
+
+void Esi::Texture::activateTextureUnit()
+{
+	glActiveTexture(GL_TEXTURE0 + this->textureUnit);
+}
 
 void Esi::Texture::bind()
 {
-	glActiveTexture(GL_TEXTURE0);
+	this->activateTextureUnit();
 	glBindTexture(GL_TEXTURE_2D, this->textureID);
 }
 

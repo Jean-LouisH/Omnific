@@ -37,10 +37,14 @@ namespace Esi
 		Texture();
 		~Texture();
 		Texture(std::shared_ptr<Image> image);
+		void activateDefaultTextureUnit();
+		void activateTextureUnit();
 		void bind();
 		void deleteTexture();
 	private:
 		GLuint textureID = 0;
+		uint8_t textureUnit = 0;
+		std::string type;
 	};
 }
 

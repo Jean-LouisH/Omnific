@@ -86,6 +86,9 @@ void Esi::RenderingContext::submit(
 				glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
 			}
 		}
+
+		renderable.vertexArray->unbind();
+		renderable.texture->activateDefaultTextureUnit();
 	}
 }
 
