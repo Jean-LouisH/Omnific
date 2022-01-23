@@ -24,5 +24,10 @@
 
 std::shared_ptr<Esi::Model> Esi::ModelContainer::getCurrentModel()
 {
-	return this->models.at(currentModelIndex);
+	std::shared_ptr<Model> model = std::shared_ptr<Model>(new Model());
+
+	if (this->models.size() > 0)
+		model = this->models.at(currentModelIndex);
+
+	return model;
 }

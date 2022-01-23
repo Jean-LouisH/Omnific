@@ -250,6 +250,23 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
 								scene.addComponentToLastEntity(component);
 							}
+							else if (it2->first.as<std::string>() == "ModelContainer")
+							{
+								std::shared_ptr<ModelContainer> modelContainer(new ModelContainer());
+
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "model")
+									{
+										std::shared_ptr<Esi::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
+										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
+										scene.getAssetCache().store(asset);
+									}
+								}
+
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
+								scene.addComponentToLastEntity(component);
+							}
 							else if (it2->first.as<std::string>() == "NavigationMeshAgent")
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
