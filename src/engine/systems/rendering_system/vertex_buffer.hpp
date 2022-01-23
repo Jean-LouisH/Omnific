@@ -47,7 +47,6 @@ namespace Esi
 		GLuint vertexBufferID = 0;
 		GLuint elementBufferID = 0;
 		GLsizei indexCount;
-		void buffer(float* meshData, unsigned int* indices);
 	};
 }
 
