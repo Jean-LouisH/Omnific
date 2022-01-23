@@ -29,6 +29,7 @@
 #include "skeletal_animation.hpp"
 #include "rig.hpp"
 
+#include <string>
 #include <memory>
 #include <vector>
 
@@ -41,6 +42,7 @@ namespace Esi
 		{ 
 			this->type = TYPE_STRING;
 		};
+		Model(std::string filepath);
 		static constexpr const char* TYPE_STRING = "Model";
 
 		std::shared_ptr<Mesh> mesh;

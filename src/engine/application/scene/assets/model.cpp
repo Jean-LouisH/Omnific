@@ -21,3 +21,36 @@
 // SOFTWARE.
 
 #include "model.hpp"
+#include <os/os.hpp>
+
+#define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+
+#include <tiny_gltf.h>
+
+Esi::Model::Model(std::string filepath)
+{
+	tinygltf::Model model;
+	tinygltf::TinyGLTF tinyGLTF;
+	std::string err;
+	std::string warn;
+
+	//bool ret = tinyGLTF.LoadASCIIFromFile(&model, &err, &warn, filepath);
+	bool ret = tinyGLTF.LoadBinaryFromFile(&model, &err, &warn, filepath);
+
+	if (!warn.empty()) {
+		printf("Warn: %s\n", warn.c_str());
+	}
+
+	if (!err.empty()) {
+		printf("Err: %s\n", err.c_str());
+	}
+
+	if (!ret) {
+		printf("Failed to parse glTF\n");
+	}
+
+	//Parse...
+
+}
