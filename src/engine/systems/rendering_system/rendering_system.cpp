@@ -144,15 +144,27 @@ void Esi::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 						std::shared_ptr<RenderableComponent> renderableComponent =
 							std::dynamic_pointer_cast<RenderableComponent>(components.at(renderOrderIndexCache.at(i)));
 						Entity entity = scene.getEntity(renderableComponent->getEntityID());
-						std::shared_ptr<Image> image = renderableComponent->getImage();
 
 						renderable.entityTransform = scene.getEntityTransform(renderableComponent->getEntityID());
 						renderable.id = scene.getEntity(renderableComponent->getEntityID()).id;
 						renderable.shaderPrograms.push_back(this->shaderProgramCache.at(this->builtInShaderProgramName));
 
 						renderable.vertexArray = std::shared_ptr<VertexArray>(new VertexArray());
-						renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(image, renderable.vertexArray));
-						renderable.texture = std::shared_ptr<Texture>(new Texture(image));
+
+						if (renderableComponent->getType() == ModelContainer::TYPE_STRING)
+						{
+							std::shared_ptr<ModelContainer> modelContainer =
+								std::dynamic_pointer_cast<ModelContainer>(renderableComponent);
+							std::shared_ptr<Model> model = modelContainer->getCurrentModel();
+							renderable.texture = std::shared_ptr<Texture>(new Texture(model->image));
+							renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(model->mesh, renderable.vertexArray));
+						}
+						else
+						{
+							std::shared_ptr<Image> image = renderableComponent->getImage();
+							renderable.texture = std::shared_ptr<Texture>(new Texture(image));
+							renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(image, renderable.vertexArray));
+						}
 
 						//if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
 						//{
