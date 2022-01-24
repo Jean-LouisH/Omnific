@@ -51,6 +51,7 @@ void Esi::Engine::run()
 				window.resize(configuration.windowSettings.width, configuration.windowSettings.height);
 				window.changeTitle(configuration.metadata.title.c_str());
 				this->state->setRunningApplicationWindowed();
+				OS::getLogger().write("Loaded application project \"" + configuration.metadata.title + "\" at: " + dataDirectory);
 			}
 			else
 			{
