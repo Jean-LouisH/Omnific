@@ -76,10 +76,29 @@ Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<Ve
 		   -0.5f,  0.5f, 0.0f,  0.0f, 1.0f  // top left 
 		};
 
+		int stride = 5;
+		int width = image->getWidth();
+		int height = image->getHeight();
+		int xCentre = width / 2;
+		int yCentre = height / 2;
+
+		//top right
+		meshVertices[(stride * 0) + 0] = width - xCentre;
+		meshVertices[(stride * 0) + 1] = height - yCentre;
+		//bottom right
+		meshVertices[(stride * 1) + 0] = width - xCentre;
+		meshVertices[(stride * 1) + 1] = 0 - yCentre;
+		//bottom left
+		meshVertices[(stride * 2) + 0] = 0 - xCentre;
+		meshVertices[(stride * 2) + 1] = 0 - yCentre;
+		//top left
+		meshVertices[(stride * 3) + 0] = 0 - xCentre;
+		meshVertices[(stride * 3) + 1] = height - yCentre;
+
 		unsigned int indices[] =
 		{
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
+			0, 1, 3, // first triangle
+			1, 2, 3  // second triangle
 		};
 
 		this->indexCount = sizeof(indices) / sizeof(unsigned int);
@@ -94,10 +113,10 @@ Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<Ve
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		// uv attribute
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(2);
 	}
 }
