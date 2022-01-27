@@ -70,6 +70,7 @@ void Esi::RenderingContext::submit(
 		{
 			std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
 			glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
+			glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
 			size_t shaderCount = renderable.shaderPrograms.size();
 
 			renderable.vertexArray->bind();
@@ -80,9 +81,7 @@ void Esi::RenderingContext::submit(
 				std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];
 				shaderProgram->use();
 				shaderProgram->setInt("textureSampler", 0);
-				shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
-				shaderProgram->setMat4("worldToViewMatrix", worldToViewMatrix);
-				shaderProgram->setMat4("viewToProjectionMatrix", viewToProjectionMatrix);
+				shaderProgram->setMat4("mvp", mvp);
 				glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
 			}
 		}
