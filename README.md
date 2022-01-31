@@ -4,7 +4,7 @@
 
 **This project is still a work in progress**
 
-[Esi](https://github.com/Jean-LouisH/Esi) is a game engine I'm developing for fun, studying and technical demonstrations.
+[Esi](https://github.com/Jean-LouisH/Esi) is a game engine I'm developing for fun, study and technical demonstrations.
 
 ## Notable Target Features
 
