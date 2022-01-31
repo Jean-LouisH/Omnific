@@ -61,6 +61,14 @@ SDL_Surface* Esi::Image::getSDLSurface()
 		return nullptr;
 }
 
+void* Esi::Image::getData()
+{
+	if (this->surface != nullptr)
+		return this->surface->pixels;
+	else
+		return nullptr;
+}
+
 uint32_t Esi::Image::getWidth()
 {
 	if (this->surface != nullptr)
@@ -75,6 +83,16 @@ uint32_t Esi::Image::getHeight()
 		return this->surface->h;
 	else
 		return 0;
+}
+
+uint32_t Esi::Image::getDepth()
+{
+	return this->getBytesPerPixel() * 8;
+}
+
+uint32_t Esi::Image::getPitch()
+{
+	return this->getBytesPerPixel() * this->getWidth();
 }
 
 Esi::Rectangle Esi::Image::getDimensions()

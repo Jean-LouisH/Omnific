@@ -65,7 +65,7 @@ Esi::Texture::Texture(std::shared_ptr<Image> image)
 			0,
 			format,
 			GL_UNSIGNED_BYTE,
-			image->getSDLSurface()->pixels);
+			image->getData());
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 }

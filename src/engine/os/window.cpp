@@ -90,7 +90,21 @@ void Esi::Window::changeTitle(const char* title)
 
 void Esi::Window::changeIcon(Image image)
 {
-	SDL_SetWindowIcon(this->sdlWindow.get(), image.getSDLSurface());
+	SDL_Surface* sdlSurface = SDL_CreateRGBSurfaceFrom(
+		image.getData(),
+		image.getWidth(),
+		image.getHeight(),
+		image.getDepth(),
+		image.getPitch(),
+		0,
+		0,
+		0,
+		0);
+
+	SDL_SetWindowIcon(this->sdlWindow.get(), sdlSurface);
+
+	if (sdlSurface != nullptr)
+		SDL_FreeSurface(sdlSurface);
 }
 
 void Esi::Window::maximize()

@@ -51,8 +51,11 @@ namespace Esi
 		Image(std::string filepath);
 		Image(SDL_Surface* surface);
 		SDL_Surface* getSDLSurface();
+		void* getData();
 		uint32_t getWidth();
 		uint32_t getHeight();
+		uint32_t getDepth();
+		uint32_t getPitch();
 		Rectangle getDimensions();
 		void setAlpha(uint8_t value);
 		uint8_t getAlpha();

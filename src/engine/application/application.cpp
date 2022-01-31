@@ -58,7 +58,7 @@ void Esi::Application::initialize()
 		this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
 		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer.get());
 
-		Image image = Image((dataDirectory + this->configuration->metadata.iconFilepath).c_str());
+		Image image = Image(dataDirectory + this->configuration->metadata.iconFilepath);
 		OS::getWindow().changeIcon(image);
 
 		if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
