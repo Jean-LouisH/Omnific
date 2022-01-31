@@ -36,6 +36,9 @@ include_directories(
 		../../thirdparty/glm-0.9.9.8/glm
 		../../thirdparty/tinygltf-2.5.0/include
 		../../thirdparty/zlib-1.2.11/include
+		../../thirdparty/stb_image_write-1.16/include
+		../../thirdparty/stb_image-2.27/include
+		../../thirdparty/stb_truetype-1.26/include
 		.
 )
 
