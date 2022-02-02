@@ -29,6 +29,7 @@ Esi::Scene::Scene()
 	this->assetCache = std::shared_ptr<AssetCache>(new AssetCache());
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
+	this->componentPropertyPool = std::shared_ptr<ComponentPropertyPool>(new ComponentPropertyPool());
 
 	std::shared_ptr<Transform> transform(new Transform());
 	std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
@@ -55,6 +56,7 @@ void Esi::Scene::addEmptyEntity()
 void Esi::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
 	component->setEntityID(entityID);
+	component->setComponentPropertyPool(this->componentPropertyPool);
 	this->components.push_back(component);
 	std::string type = component->getType();
 	this->entities.at(entityID).components.emplace(type, component->getID());

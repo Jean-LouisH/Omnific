@@ -37,6 +37,7 @@
 #include "utilities/aliases.hpp"
 #include <string>
 #include "event_bus.hpp"
+#include "component_property_pool.hpp"
 
 #include <application/scene/assets/animation.hpp>
 #include <application/scene/assets/audio_stream.hpp>
@@ -144,6 +145,8 @@ namespace Esi
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
 		std::vector<std::shared_ptr<Component>> components;
+
+		std::shared_ptr<ComponentPropertyPool> componentPropertyPool;
 
 		std::queue<EntityID> startEntitiesQueue;
 		std::queue<EntityID> finishEntitiesQueue;
