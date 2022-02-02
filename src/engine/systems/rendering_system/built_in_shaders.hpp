@@ -30,14 +30,14 @@ namespace Esi
 		{
 			const char texture[] = R"(
 				#version 330 core
-				layout (location = 0) in vec3 modelVertexPosition;
+				layout (location = 0) in vec3 modelVertexTranslation;
 				layout (location = 2) in vec2 modelVertexUV;
 				out vec2 uv;
 				uniform mat4 mvp;
 				void main()
 				{
 					uv = vec2(modelVertexUV.x, 1 - modelVertexUV.y);
-					gl_Position = mvp *	vec4(modelVertexPosition, 1.0);
+					gl_Position = mvp *	vec4(modelVertexTranslation, 1.0);
 				}	
 			)";
 		}
