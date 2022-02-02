@@ -22,6 +22,9 @@
 
 #pragma once
 
+#include "stb_image.h"
+#include "stb_image_write.h"
+
 #include "utilities/aliases.hpp"
 #include "utilities/rectangle.hpp"
 #include <SDL_surface.h>
@@ -45,12 +48,9 @@ namespace Esi
 		Image() 
 		{ 
 			this->type = TYPE_STRING;
-			this->surface = nullptr;
 		};
 		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
 		Image(std::string filepath);
-		Image(SDL_Surface* surface);
-		SDL_Surface* getSDLSurface();
 		void* getData();
 		uint32_t getWidth();
 		uint32_t getHeight();
@@ -61,7 +61,10 @@ namespace Esi
 		uint8_t getAlpha();
 		uint8_t getBytesPerPixel();
 	private:
-		std::shared_ptr<SDL_Surface> surface = { nullptr, SDL_FreeSurface };
+		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
+		int width = 0;
+		int height = 0;
+		int channels = 0;
 		uint8_t alpha = 255;
 	};
 }

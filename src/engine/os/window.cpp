@@ -101,10 +101,11 @@ void Esi::Window::changeIcon(Image image)
 		0,
 		0);
 
-	SDL_SetWindowIcon(this->sdlWindow.get(), sdlSurface);
-
 	if (sdlSurface != nullptr)
+	{
+		SDL_SetWindowIcon(this->sdlWindow.get(), sdlSurface);
 		SDL_FreeSurface(sdlSurface);
+	}
 }
 
 void Esi::Window::maximize()

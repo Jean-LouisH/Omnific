@@ -23,64 +23,54 @@
 #include "image.hpp"
 #include <SDL_image.h>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+
 Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
-	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
-	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
+	//SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
+	//SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
 
-	switch (mode)
-	{
-	case Font::RenderMode::SOLID:
-		this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
-		break;
-	case Font::RenderMode::SHADED:
-		this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor), SDL_FreeSurface);
-		break;
-	case Font::RenderMode::BLENDED:
-		this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
-		break;
-	}
+	//switch (mode)
+	//{
+	//case Font::RenderMode::SOLID:
+	//	this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
+	//	break;
+	//case Font::RenderMode::SHADED:
+	//	this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor), SDL_FreeSurface);
+	//	break;
+	//case Font::RenderMode::BLENDED:
+	//	this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
+	//	break;
+	//}
 }
 
 Esi::Image::Image(std::string filepath)
 {
 	this->setName(filepath);
-	this->surface = std::shared_ptr<SDL_Surface>(IMG_Load(filepath.c_str()), SDL_FreeSurface);
-}
-
-Esi::Image::Image(SDL_Surface* surface)
-{
-	this->surface = std::shared_ptr<SDL_Surface>(surface, SDL_FreeSurface);
-}
-
-SDL_Surface* Esi::Image::getSDLSurface()
-{
-	if (this->surface != nullptr)
-		return this->surface.get();
-	else
-		return nullptr;
+	this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
 }
 
 void* Esi::Image::getData()
 {
-	if (this->surface != nullptr)
-		return this->surface->pixels;
+	if (this->data != nullptr)
+		return this->data.get();
 	else
 		return nullptr;
 }
 
 uint32_t Esi::Image::getWidth()
 {
-	if (this->surface != nullptr)
-		return this->surface->w;
+	if (this->data != nullptr)
+		return this->width;
 	else
 		return 0;
 }
 
 uint32_t Esi::Image::getHeight()
 {
-	if (this->surface != nullptr)
-		return this->surface->h;
+	if (this->data != nullptr)
+		return this->height;
 	else
 		return 0;
 }
@@ -115,5 +105,5 @@ uint8_t Esi::Image::getAlpha()
 
 uint8_t Esi::Image::getBytesPerPixel()
 {
-	return this->surface->format->BytesPerPixel;
+	return this->channels;
 }

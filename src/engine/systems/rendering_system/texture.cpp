@@ -49,17 +49,28 @@ Esi::Texture::Texture(std::shared_ptr<Image> image)
 	if (image != nullptr)
 	{
 		uint64_t format = 0;
+		uint64_t internalFormat = 0;
 
 		switch (image->getBytesPerPixel())
 		{
-		case 3: format = GL_RGB; break;
-		case 4: format = GL_RGBA; break;
+			case 1: 
+				format = GL_RED; 
+				internalFormat = GL_RED;
+				break;
+			case 3: 
+				format = GL_RGB; 
+				internalFormat = GL_RGBA;
+				break;
+			case 4: 
+				format = GL_RGBA; 
+				internalFormat = GL_RGBA;
+				break;
 		}
 
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA,
+			internalFormat,
 			image->getWidth(),
 			image->getHeight(),
 			0,
