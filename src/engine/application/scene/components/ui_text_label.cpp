@@ -118,9 +118,9 @@ void Esi::UITextLabel::generateImage()
 {
 	if (this->font != nullptr)
 	{
-		if (this->font->getSDLTTFFont() != nullptr)
-		{
-			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->mode));
-		}
+		//if (this->font->getSDLTTFFont() != nullptr)
+		//{
+		//	this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->mode));
+		//}
 	}
 }

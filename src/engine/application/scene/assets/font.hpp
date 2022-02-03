@@ -24,10 +24,11 @@
 
 #include "application/scene/asset.hpp"
 #include "stdint.h"
-#include "SDL_ttf.h"
 #include <utilities/aliases.hpp>
 #include <string>
 #include <memory>
+
+#include "freetype/freetype.h"
 
 namespace Esi
 {
@@ -55,12 +56,11 @@ namespace Esi
 		Font() 
 		{ 
 			this->type = TYPE_STRING;
-			this->font = nullptr;
 		};
 		Font(std::string filepath, uint16_t size_px);
-		Font(TTF_Font* font);
-		TTF_Font* getSDLTTFFont();
+		//Font(TTF_Font* font);
+		//TTF_Font* getSDLTTFFont();
 	private:
-		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
+		//std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
 	};
 }

@@ -17,18 +17,15 @@ add_dependencies (esi_engine
  add_definitions(/bigobj)
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
-find_library(SDL2_Image SDL2_image.lib PATHS ../../thirdparty/SDL2_image-2.0.5/lib/x64)
 find_library(SDL2_Mixer SDL2_mixer.lib PATHS ../../thirdparty/SDL2_mixer-2.0.4/lib/x64)
-find_library(SDL2_TTF SDL2_ttf.lib PATHS ../../thirdparty/SDL2_ttf-2.0.15/lib/x64)
+find_library(FreeType freetype.lib PATHS ../../thirdparty/freetype-2.11.1/release_dll/win64)
 find_library(Python37 python37.lib PATHS ../../thirdparty/python37/lib)
 find_library(ZLIB zlib.lib PATHS ../../thirdparty/zlib-1.2.11/lib)
 
 
 include_directories(
 		../../thirdparty/SDL2-2.0.12/include
-		../../thirdparty/SDL2_image-2.0.5/include
 		../../thirdparty/SDL2_mixer-2.0.4/include
-		../../thirdparty/SDL2_ttf-2.0.15/include
 		../../thirdparty/yaml-cpp-0.6.3/include
 		../../thirdparty/python37/include
 		../../thirdparty/pybind11-2.8.1/include
@@ -38,7 +35,7 @@ include_directories(
 		../../thirdparty/zlib-1.2.11/include
 		../../thirdparty/stb_image_write-1.16/include
 		../../thirdparty/stb_image-2.27/include
-		../../thirdparty/stb_truetype-1.26/include
+		../../thirdparty/freetype-2.11.1/include
 		.
 )
 
@@ -46,9 +43,8 @@ target_link_libraries (esi_engine
 		yaml_cpp
 		glad
 		${SDL2}
-		${SDL2_Image}
 		${SDL2_Mixer}
-		${SDL2_TTF}
+		${FreeType}
 		${Python37}
 		${ZLIB}
 

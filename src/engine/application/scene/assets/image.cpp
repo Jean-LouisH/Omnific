@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "image.hpp"
-#include <SDL_image.h>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION

@@ -22,7 +22,6 @@
 
 #include "rendering_system.hpp"
 #include "built_in_shaders.hpp"
-#include <SDL_image.h>
 #include <application/scene/assets/shader.hpp>
 #include <application/scene/assets/image.hpp>
 
@@ -58,8 +57,6 @@ void Esi::RenderingSystem::initialize()
 	Shader builtInVertexShader;
 	Shader builtInFragmentShader;
 
-	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-
 	builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::ShaderType::VERTEX);
 	builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::ShaderType::FRAGMENT);
 	shaders.push_back(builtInVertexShader);
@@ -87,7 +84,6 @@ void Esi::RenderingSystem::deinitialize()
 {
 	if (this->isInitialized)
 	{
-		IMG_Quit();
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	}
 

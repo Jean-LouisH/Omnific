@@ -39,9 +39,7 @@ find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x
 
 include_directories(
 		../../thirdparty/SDL2-2.0.12/include
-		../../thirdparty/SDL2_image-2.0.5/include
 		../../thirdparty/SDL2_mixer-2.0.4/include
-		../../thirdparty/SDL2_ttf-2.0.15/include
 		../../thirdparty/yaml-cpp-0.6.3/include
 		../../thirdparty/glad/include
 		../../thirdparty/python37/include
@@ -51,7 +49,7 @@ include_directories(
 		../../thirdparty/zlib-1.2.11/include
 		../../thirdparty/stb_image_write-1.16/include
 		../../thirdparty/stb_image-2.27/include
-		../../thirdparty/stb_truetype-1.26/include
+		../../thirdparty/freetype-2.11.1/include
 		../engine
 		.
 )
