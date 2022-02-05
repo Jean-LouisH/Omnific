@@ -4,15 +4,28 @@
 
 **This project is still a work in progress**
 
-[Esi](https://github.com/Jean-LouisH/Esi) is a game engine I'm developing for fun, study and technical demonstrations.
+[Esi](https://github.com/Jean-LouisH/Esi) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, lightweight, and suitable also for interactive, multimedia applications. For now it is only targeted to PC Windows and Linux desktop platorms.
 
-## Notable Target Features
+## Notable Features
 
-- [ ]
+- 2D/3D simulation and rendering
+- Data-oriented Entity-Component-System (ECS) architecture with support for custom Components and Systems
+- C++ and Python scripting
+- OpenGL Rendering Context
+- Game Controller and Haptic Feedback support
+
+## Notable Planned Features
+
+- UI Framework built with UI Components and the UI System
+- An Editor Application built with the Engine, C++ and Python scripting
+- Multithreaded Systems
+- Physically Based Rendering
+- Vulkan Rendering Context
+- Acoustic Audio Simulation
 
 ## Compilation Instructions
 
-* Requires the [SDL2](https://www.libsdl.org/), [SDL2_image](https://www.libsdl.org/projects/SDL_image/), [SDL_ttf](https://www.libsdl.org/projects/SDL_ttf/), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and Python 3.7 libraries for your development platform.
+* Requires the [SDL2](https://www.libsdl.org/), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and Python 3.7 libraries for your development platform.
 * Include this source directory in CMake to generate a project from the top level CMakeLists.txt. 
 * Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want. 
 * Use your C++ IDE or compiler of choice to build Esi and Tests from the project.
