@@ -39,7 +39,7 @@
 #include <string>
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class Application
 	{

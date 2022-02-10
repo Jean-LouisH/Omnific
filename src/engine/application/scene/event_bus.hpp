@@ -28,7 +28,7 @@
 #include <string>
 #include <vector>
 
-namespace Esi
+namespace Omnific
 {
 	class EventBus
 	{

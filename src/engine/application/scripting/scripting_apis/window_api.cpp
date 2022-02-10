@@ -22,67 +22,67 @@
 
 #include "window_api.hpp"
 
-Esi::WindowAPI::WindowAPI(Window* window)
+Omnific::WindowAPI::WindowAPI(Window* window)
 {
 	this->window = window;
 }
 
-void Esi::WindowAPI::setToWindowed(uint16_t width_px, uint16_t height_px)
+void Omnific::WindowAPI::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
 	this->window->setToWindowed(width_px, height_px);
 }
 
-void Esi::WindowAPI::setToFullscreen()
+void Omnific::WindowAPI::setToFullscreen()
 {
 	this->window->setToFullscreen();
 }
 
-void Esi::WindowAPI::toggleWindowedFullscreen()
+void Omnific::WindowAPI::toggleWindowedFullscreen()
 {
 	this->window->toggleWindowedFullscreen();
 }
 
-void Esi::WindowAPI::resize(uint16_t width_px, uint16_t height_px)
+void Omnific::WindowAPI::resize(uint16_t width_px, uint16_t height_px)
 {
 	this->window->resize(width_px, height_px);
 }
 
-void Esi::WindowAPI::changeTitle(std::string title)
+void Omnific::WindowAPI::changeTitle(std::string title)
 {
 	this->window->changeTitle(title.c_str());
 }
 
-void Esi::WindowAPI::changeIcon(Image image)
+void Omnific::WindowAPI::changeIcon(Image image)
 {
 	this->window->changeIcon(image);
 }
 
-void Esi::WindowAPI::maximize()
+void Omnific::WindowAPI::maximize()
 {
 	this->window->maximize();
 }
 
-void Esi::WindowAPI::minimize()
+void Omnific::WindowAPI::minimize()
 {
 	this->window->minimize();
 }
 
-void Esi::WindowAPI::raise()
+void Omnific::WindowAPI::raise()
 {
 	this->window->raise();
 }
 
-void Esi::WindowAPI::restore()
+void Omnific::WindowAPI::restore()
 {
 	this->window->restore();
 }
 
-void Esi::WindowAPI::hide()
+void Omnific::WindowAPI::hide()
 {
 	this->window->hide();
 }
 
-void Esi::WindowAPI::show()
+void Omnific::WindowAPI::show()
 {
 	this->window->show();
 }

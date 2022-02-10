@@ -24,7 +24,7 @@
 
 #include "application/scene/component.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class BehaviourTree : public Component
 	{

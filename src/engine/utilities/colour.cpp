@@ -22,7 +22,7 @@
 
 #include "colour.hpp"
 
-Esi::Colour::Colour()
+Omnific::Colour::Colour()
 {
 	this->red = 1.0;
 	this->green = 1.0;
@@ -30,12 +30,12 @@ Esi::Colour::Colour()
 	this->alpha = 1.0;
 }
 
-Esi::Colour::Colour(std::string hex)
+Omnific::Colour::Colour(std::string hex)
 {
 
 }
 
-Esi::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+Omnific::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->red = float(red) / 255.0;
 	this->green = float(green) / 255.0;
@@ -43,23 +43,23 @@ Esi::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 	this->alpha = float(alpha) / 255.0;
 }
 
-uint8_t Esi::Colour::getRed()
+uint8_t Omnific::Colour::getRed()
 {
 	return (uint8_t)(this->red * 255.0);
 }
 
-uint8_t Esi::Colour::getGreen()
+uint8_t Omnific::Colour::getGreen()
 {
 	return (uint8_t)(this->green * 255.0);
 }
 
 
-uint8_t Esi::Colour::getBlue()
+uint8_t Omnific::Colour::getBlue()
 {
 	return (uint8_t)(this->blue * 255.0);
 }
 
-uint8_t Esi::Colour::getAlpha()
+uint8_t Omnific::Colour::getAlpha()
 {
 	return (uint8_t)(this->alpha * 255.0);
 }

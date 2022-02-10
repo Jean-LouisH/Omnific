@@ -23,22 +23,22 @@
 #include "acoustic_system.hpp"
 #include "application/scene/scene.hpp"
 
-Esi::AcousticSystem::~AcousticSystem()
+Omnific::AcousticSystem::~AcousticSystem()
 {
 	this->deinitialize();
 }
 
-void Esi::AcousticSystem::initialize()
+void Omnific::AcousticSystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Esi::AcousticSystem::process(Scene& scene)
+void Omnific::AcousticSystem::process(Scene& scene)
 {
 
 }
 
-void Esi::AcousticSystem::deinitialize()
+void Omnific::AcousticSystem::deinitialize()
 {
 	this->isInitialized = false;
 }

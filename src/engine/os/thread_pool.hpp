@@ -24,7 +24,7 @@
 
 #include <thread>
 
-namespace Esi
+namespace Omnific
 {
 	class ThreadPool
 	{

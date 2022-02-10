@@ -22,37 +22,37 @@
 
 #include "cpp_native_script.hpp"
 
-Esi::CPPNativeScript::~CPPNativeScript()
+Omnific::CPPNativeScript::~CPPNativeScript()
 {
 
 }
 
-void Esi::CPPNativeScript::onStart()
+void Omnific::CPPNativeScript::onStart()
 {
 
 }
 
-void Esi::CPPNativeScript::onInput()
+void Omnific::CPPNativeScript::onInput()
 {
 
 }
 
-void Esi::CPPNativeScript::onFrame()
+void Omnific::CPPNativeScript::onFrame()
 {
 
 }
 
-void Esi::CPPNativeScript::onCompute()
+void Omnific::CPPNativeScript::onCompute()
 {
 
 }
 
-void Esi::CPPNativeScript::onOutput()
+void Omnific::CPPNativeScript::onOutput()
 {
 
 }
 
-void Esi::CPPNativeScript::onFinish()
+void Omnific::CPPNativeScript::onFinish()
 {
 
 }

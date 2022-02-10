@@ -31,7 +31,7 @@
 #include "component_property_pool.hpp"
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
     class Component
     {

@@ -22,25 +22,25 @@
 
 #include "countdown_timer.hpp"
 
-void Esi::CountdownTimer::start(float time)
+void Omnific::CountdownTimer::start(float time)
 {
 	this->startTime = time;
 	this->currentTime = startTime;
 	this->isActive = true;
 }
 
-void Esi::CountdownTimer::update(float deltaTime)
+void Omnific::CountdownTimer::update(float deltaTime)
 {
 	if (this->isActive && this->currentTime > 0.0)
 		this->currentTime -= deltaTime;
 }
 
-void Esi::CountdownTimer::stop()
+void Omnific::CountdownTimer::stop()
 {
 	this->isActive = false;
 }
 
-bool Esi::CountdownTimer::isFinished()
+bool Omnific::CountdownTimer::isFinished()
 {
 	return this->currentTime <= 0.0;
 }

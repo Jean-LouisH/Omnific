@@ -91,7 +91,7 @@
 
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	enum class CallType
 	{

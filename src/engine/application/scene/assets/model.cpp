@@ -29,7 +29,7 @@
 
 #include <tiny_gltf.h>
 
-Esi::Model::Model(std::string filepath)
+Omnific::Model::Model(std::string filepath)
 {
 	tinygltf::Model model;
 	tinygltf::TinyGLTF tinyGLTF;

@@ -27,7 +27,7 @@
 #include <vector>
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class Query
 	{

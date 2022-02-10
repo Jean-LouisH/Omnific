@@ -23,20 +23,20 @@
 #pragma once
 
 #if defined (_WIN32)
-#if defined(_ESI_CPP_NATIVE_ASSEMBLY_EXPORTS)
-#define  _ESI_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllexport)
+#if defined(_OMNIFIC_CPP_NATIVE_ASSEMBLY_EXPORTS)
+#define  _OMNIFIC_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllexport)
 #else
-#define  _ESI_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllimport)
+#define  _OMNIFIC_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllimport)
 #endif
 #else
-#define _ESI_CPP_NATIVE_ASSEMBLY_EXPORTS
+#define _OMNIFIC_CPP_NATIVE_ASSEMBLY_EXPORTS
 #endif
 
 #include <application/scene/assets/cpp_native_script.hpp>
 #include <unordered_map>
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class CPPNativeAssembly
 	{

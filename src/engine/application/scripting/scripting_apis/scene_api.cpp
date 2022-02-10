@@ -22,28 +22,28 @@
 
 #include "scene_api.hpp"
 
-void Esi::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
+void Omnific::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
 {
 	this->sceneStorage = sceneStorage;
 }
 
-void Esi::SceneAPI::bindEntity(SceneID sceneTreeID, EntityID entityID)
+void Omnific::SceneAPI::bindEntity(SceneID sceneTreeID, EntityID entityID)
 {
 	this->boundSceneTreeID = sceneTreeID;
 	this->boundEntityID = entityID;
 }
 
-void Esi::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
+void Omnific::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 {
 	this->sceneSerializer = sceneSerializer;
 }
 
-bool Esi::SceneAPI::hasComponent(std::string type)
+bool Omnific::SceneAPI::hasComponent(std::string type)
 {
 	return this->getScene().getEntity(this->boundEntityID).components.count(type) > 0;
 }
 
-void Esi::SceneAPI::preloadScene(std::string sceneFilename)
+void Omnific::SceneAPI::preloadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -52,7 +52,7 @@ void Esi::SceneAPI::preloadScene(std::string sceneFilename)
 	}
 }
 
-void Esi::SceneAPI::loadScene(std::string sceneFilename)
+void Omnific::SceneAPI::loadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -61,12 +61,12 @@ void Esi::SceneAPI::loadScene(std::string sceneFilename)
 	}
 }
 
-void Esi::SceneAPI::unloadScene(std::string sceneFilename)
+void Omnific::SceneAPI::unloadScene(std::string sceneFilename)
 {
 	this->sceneStorage->removeScene(sceneFilename);
 }
 
-void Esi::SceneAPI::changeToScene(std::string sceneFilename)
+void Omnific::SceneAPI::changeToScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -74,17 +74,17 @@ void Esi::SceneAPI::changeToScene(std::string sceneFilename)
 	}
 }
 
-Esi::Entity& Esi::SceneAPI::getEntity()
+Omnific::Entity& Omnific::SceneAPI::getEntity()
 {
 	return this->getScene().getEntity(this->boundEntityID);
 }
 
-Esi::Scene& Esi::SceneAPI::getScene()
+Omnific::Scene& Omnific::SceneAPI::getScene()
 {
 	return sceneStorage->getActiveScene();
 }
 
-Esi::Component& Esi::SceneAPI::getComponent(std::string type)
+Omnific::Component& Omnific::SceneAPI::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component = std::make_shared<Component>();
 	

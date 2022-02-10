@@ -22,67 +22,67 @@
 
 #include "sprite_container.hpp"
 
-void Esi::SpriteContainer::addEmptyFrameSequence(std::string frameSequenceName)
+void Omnific::SpriteContainer::addEmptyFrameSequence(std::string frameSequenceName)
 {
 	std::vector<std::shared_ptr<Image>> frameSequence;
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Esi::SpriteContainer::addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence)
+void Omnific::SpriteContainer::addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 	this->image = this->getCurrentFrame();
 }
 
-void Esi::SpriteContainer::addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
+void Omnific::SpriteContainer::addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 		this->frameSequences.at(frameSequenceName).push_back(frame);
 	this->image = this->getCurrentFrame();
 }
 
-void Esi::SpriteContainer::clearFrameSequences()
+void Omnific::SpriteContainer::clearFrameSequences()
 {
 	this->frameSequences.clear();
 	this->currentFrameIndex = 0;
 	this->image = this->getCurrentFrame();
 }
 
-void Esi::SpriteContainer::setAlpha(uint8_t value)
+void Omnific::SpriteContainer::setAlpha(uint8_t value)
 {
 	this->alpha = value;
 	//apply to all frames...
 }
 
-uint8_t Esi::SpriteContainer::getAlpha()
+uint8_t Omnific::SpriteContainer::getAlpha()
 {
 	return this->alpha;
 }
 
-void Esi::SpriteContainer::hide()
+void Omnific::SpriteContainer::hide()
 {
 	this->alpha = 0;
 	//apply to all frames...
 }
 
-void Esi::SpriteContainer::show()
+void Omnific::SpriteContainer::show()
 {
 	this->alpha = 255;
 	//apply to all frames...
 }
 
-void Esi::SpriteContainer::setAnimationSpeed(float value_fps)
+void Omnific::SpriteContainer::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)
 		this->animationSpeed_fps = value_fps;
 }
 
-float Esi::SpriteContainer::getAnimationSpeed()
+float Omnific::SpriteContainer::getAnimationSpeed()
 {
 	return this->animationSpeed_fps;
 }
 
-void Esi::SpriteContainer::update(float delta_s)
+void Omnific::SpriteContainer::update(float delta_s)
 {
 	if (this->isPlaying)
 	{
@@ -106,7 +106,7 @@ void Esi::SpriteContainer::update(float delta_s)
 	this->image = this->getCurrentFrame();
 }
 
-void Esi::SpriteContainer::play(std::string frameSequenceName)
+void Omnific::SpriteContainer::play(std::string frameSequenceName)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -115,42 +115,42 @@ void Esi::SpriteContainer::play(std::string frameSequenceName)
 	}
 }
 
-void Esi::SpriteContainer::play()
+void Omnific::SpriteContainer::play()
 {
 	this->isPlaying = true;
 }
 
-void Esi::SpriteContainer::pause()
+void Omnific::SpriteContainer::pause()
 {
 	this->isPlaying = false;
 }
 
-void Esi::SpriteContainer::stop()
+void Omnific::SpriteContainer::stop()
 {
 	this->pause();
 	this->currentFrameIndex = 0;
 }
 
-void Esi::SpriteContainer::setBackwards()
+void Omnific::SpriteContainer::setBackwards()
 {
 	this->isBackwards = true;
 }
-void Esi::SpriteContainer::setForwards()
+void Omnific::SpriteContainer::setForwards()
 {
 	this->isBackwards = false;
 }
 
-void Esi::SpriteContainer::flipVertically()
+void Omnific::SpriteContainer::flipVertically()
 {
 	this->isFlippedVertically != this->isFlippedVertically;
 }
 
-void Esi::SpriteContainer::flipHorizontally()
+void Omnific::SpriteContainer::flipHorizontally()
 {
 	this->isFlippedHorizontally != this->isFlippedHorizontally;
 }
 
-std::shared_ptr<Esi::Image> Esi::SpriteContainer::getCurrentFrame()
+std::shared_ptr<Omnific::Image> Omnific::SpriteContainer::getCurrentFrame()
 {
 	std::shared_ptr<Image> image = std::shared_ptr<Image>(new Image());
 	if (this->frameSequences.size() > 0)
@@ -158,7 +158,7 @@ std::shared_ptr<Esi::Image> Esi::SpriteContainer::getCurrentFrame()
 	return image;
 }
 
-std::vector<std::string> Esi::SpriteContainer::getFrameSequenceNames()
+std::vector<std::string> Omnific::SpriteContainer::getFrameSequenceNames()
 {
 	std::vector<std::string> frameSequenceNames;
 
@@ -172,7 +172,7 @@ std::vector<std::string> Esi::SpriteContainer::getFrameSequenceNames()
 	return frameSequenceNames;
 }
 
-std::vector<std::shared_ptr<Esi::Image>> Esi::SpriteContainer::getFrameSequenceByName(std::string frameSequenceName)
+std::vector<std::shared_ptr<Omnific::Image>> Omnific::SpriteContainer::getFrameSequenceByName(std::string frameSequenceName)
 {
 	std::vector<std::shared_ptr<Image>> frameSequence;
 
@@ -182,7 +182,7 @@ std::vector<std::shared_ptr<Esi::Image>> Esi::SpriteContainer::getFrameSequenceB
 	return frameSequence;
 }
 
-std::vector<std::shared_ptr<Esi::Image>> Esi::SpriteContainer::getCurrentFrameSequence()
+std::vector<std::shared_ptr<Omnific::Image>> Omnific::SpriteContainer::getCurrentFrameSequence()
 {
 	return this->frameSequences.at(this->currentFrameSequenceName);
 }

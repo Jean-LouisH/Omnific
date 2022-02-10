@@ -24,7 +24,7 @@
 
 #include <stdint.h>
 
-namespace Esi
+namespace Omnific
 {
 	class EngineState
 	{

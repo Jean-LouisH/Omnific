@@ -32,7 +32,7 @@
 #include <utilities/hi_res_timer.hpp>
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class HapticSystem : public System
 	{

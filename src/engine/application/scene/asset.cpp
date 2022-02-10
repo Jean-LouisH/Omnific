@@ -23,28 +23,28 @@
 #include "asset.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Asset::Asset()
+Omnific::Asset::Asset()
 {
 	this->id = UIDGenerator::getNewUID();
 	this->name = "asset " + std::to_string(this->id);
 }
 
-Esi::AssetID Esi::Asset::getID()
+Omnific::AssetID Omnific::Asset::getID()
 {
 	return this->id;
 }
 
-void Esi::Asset::setName(std::string name)
+void Omnific::Asset::setName(std::string name)
 {
 	this->name = name;
 }
 
-std::string Esi::Asset::getName()
+std::string Omnific::Asset::getName()
 {
 	return this->name;
 }
 
-std::string Esi::Asset::getType() const
+std::string Omnific::Asset::getType() const
 {
 	return this->type;
 }

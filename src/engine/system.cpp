@@ -22,12 +22,12 @@
 
 #include "system.hpp"
 
-Esi::System::~System()
+Omnific::System::~System()
 {
 	this->isInitialized = false;
 }
 
-bool Esi::System::getIsInitialized()
+bool Omnific::System::getIsInitialized()
 {
 	return this->isInitialized;
 }

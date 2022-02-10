@@ -22,27 +22,27 @@
 
 #include "vertex_array.hpp"
 
-Esi::VertexArray::VertexArray()
+Omnific::VertexArray::VertexArray()
 {
 	glGenVertexArrays(1, &this->vertexArrayID);
 }
 
-Esi::VertexArray::~VertexArray()
+Omnific::VertexArray::~VertexArray()
 {
 	this->deleteVertexArray();
 }
 
-void Esi::VertexArray::bind()
+void Omnific::VertexArray::bind()
 {
 	glBindVertexArray(this->vertexArrayID);
 }
 
-void Esi::VertexArray::unbind()
+void Omnific::VertexArray::unbind()
 {
 	glBindVertexArray(0);
 }
 
-void Esi::VertexArray::deleteVertexArray()
+void Omnific::VertexArray::deleteVertexArray()
 {
 	glDeleteVertexArrays(1, &this->vertexArrayID);
 }

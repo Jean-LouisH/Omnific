@@ -25,36 +25,36 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <os/os.hpp>
 
-void Esi::Camera::resetAspect()
+void Omnific::Camera::resetAspect()
 {
 	this->aspect = defaultAspect;
 }
 
-Esi::Rectangle Esi::Camera::getViewportDimensions()
+Omnific::Rectangle Omnific::Camera::getViewportDimensions()
 {
 	return this->viewport_px;
 }
 
-bool Esi::Camera::getIsStreaming()
+bool Omnific::Camera::getIsStreaming()
 {
 	return this->isStreaming;
 }
 
-void Esi::Camera::setViewportWidth(uint32_t width_px)
+void Omnific::Camera::setViewportWidth(uint32_t width_px)
 {
 	this->viewport_px.width = width_px;
 	if (keepAspect)
 		this->viewport_px.height = (uint32_t)((double)width_px / aspect);
 }
 
-void Esi::Camera::setViewportHeight(uint32_t height_px)
+void Omnific::Camera::setViewportHeight(uint32_t height_px)
 {
 	this->viewport_px.height = height_px;
 	if (keepAspect)
 		this->viewport_px.width = (uint32_t)((double)height_px * aspect);
 }
 
-void Esi::Camera::setLimits(float left, float bottom, float top, float right)
+void Omnific::Camera::setLimits(float left, float bottom, float top, float right)
 {
 	this->limits_px.min_px.x = left;
 	this->limits_px.min_px.y = bottom;
@@ -62,17 +62,17 @@ void Esi::Camera::setLimits(float left, float bottom, float top, float right)
 	this->limits_px.max_px.y = top;
 }
 
-void Esi::Camera::setKeepAspect(bool value)
+void Omnific::Camera::setKeepAspect(bool value)
 {
 	this->keepAspect = value;
 }
 
-void Esi::Camera::setIsStreaming(bool value)
+void Omnific::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
 }
 
-glm::mat4 Esi::Camera::getViewToProjectionMatrix()
+glm::mat4 Omnific::Camera::getViewToProjectionMatrix()
 {
 	Rectangle rectangle = OS::getWindow().getWindowSize();
 	return glm::perspective(glm::radians(this->fieldOfView), (float)rectangle.width / (float)rectangle.height, this->nearPlane, this->farPlane);

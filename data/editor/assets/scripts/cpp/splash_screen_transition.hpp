@@ -24,7 +24,7 @@
 
 #include <application/scene/assets/cpp_native_script.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	class SplashScreenTransition : CPPNativeScript
 	{

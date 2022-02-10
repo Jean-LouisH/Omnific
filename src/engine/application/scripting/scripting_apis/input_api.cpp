@@ -23,7 +23,7 @@
 #include "input_api.hpp"
 #include <os/os.hpp>
 
-Esi::InputAPI::InputAPI(HumanInterfaceDevices* hid)
+Omnific::InputAPI::InputAPI(HumanInterfaceDevices* hid)
 {
 	this->hid = hid;
 
@@ -151,22 +151,22 @@ Esi::InputAPI::InputAPI(HumanInterfaceDevices* hid)
 	this->keyboardEventsByString.emplace("down", SDLK_DOWN);
 }
 
-bool Esi::InputAPI::isOnPress(std::string inputCode)
+bool Omnific::InputAPI::isOnPress(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isOnPress(inputCodes);
 }
 
-bool Esi::InputAPI::isOnPress(std::vector<std::string> inputCodes)
+bool Omnific::InputAPI::isOnPress(std::vector<std::string> inputCodes)
 {
 	return this->isOnPress(inputCodes, 0);
 }
 
-bool Esi::InputAPI::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnific::InputAPI::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
-	std::unordered_map<Esi::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::unordered_map<Omnific::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
 	for (int i = 0; i < inputCodes.size(); i++)
@@ -183,7 +183,7 @@ bool Esi::InputAPI::isOnPress(std::vector<std::string> inputCodes, PlayerID play
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
-			Esi::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			Omnific::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (controllerButtonEvents.count(controllerButtonCode))
 				if (hid->getControllerPlayerMap().count(playerID))
 					if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
@@ -195,19 +195,19 @@ bool Esi::InputAPI::isOnPress(std::vector<std::string> inputCodes, PlayerID play
 	return false;
 }
 
-bool Esi::InputAPI::isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms)
+bool Omnific::InputAPI::isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isOnDoublePress(inputCodes, timeInterval_ms);
 }
 
-bool Esi::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval_ms)
+bool Omnific::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval_ms)
 {
 	return this->isOnDoublePress(inputCodes, timeInterval_ms, 0);
 }
 
-bool Esi::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, PlayerID playerID)
+bool Omnific::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -217,19 +217,19 @@ bool Esi::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigne
 	return false;
 }
 
-bool Esi::InputAPI::isPressed(std::string inputCode)
+bool Omnific::InputAPI::isPressed(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isPressed(inputCodes);
 }
 
-bool Esi::InputAPI::isPressed(std::vector<std::string> inputCodes)
+bool Omnific::InputAPI::isPressed(std::vector<std::string> inputCodes)
 {
 	return this->isPressed(inputCodes, 0);
 }
 
-bool Esi::InputAPI::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnific::InputAPI::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -240,22 +240,22 @@ bool Esi::InputAPI::isPressed(std::vector<std::string> inputCodes, PlayerID play
 	return false;
 }
 
-bool Esi::InputAPI::isOnRelease(std::string inputCode)
+bool Omnific::InputAPI::isOnRelease(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isOnRelease(inputCodes);
 }
 
-bool Esi::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
+bool Omnific::InputAPI::isOnRelease(std::vector<std::string> inputCodes)
 {
 	return this->isOnRelease(inputCodes, 0);
 }
 
-bool Esi::InputAPI::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnific::InputAPI::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->hid->getKeyboardEvents();
-	std::unordered_map<Esi::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::unordered_map<Omnific::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->hid->getControllerButtonEvents();
 
 	for (int i = 0; i < inputCodes.size(); i++)
@@ -272,7 +272,7 @@ bool Esi::InputAPI::isOnRelease(std::vector<std::string> inputCodes, PlayerID pl
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
-			Esi::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			Omnific::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (controllerButtonEvents.count(controllerButtonCode))
 				if (hid->getControllerPlayerMap().count(playerID))
 					if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
@@ -284,17 +284,17 @@ bool Esi::InputAPI::isOnRelease(std::vector<std::string> inputCodes, PlayerID pl
 	return false;
 }
 
-bool Esi::InputAPI::isReleased(std::string inputCode)
+bool Omnific::InputAPI::isReleased(std::string inputCode)
 {
 	return false;
 }
 
-bool Esi::InputAPI::isReleased(std::string inputCode, PlayerID playerID)
+bool Omnific::InputAPI::isReleased(std::string inputCode, PlayerID playerID)
 {
 	return false;
 }
 
-bool Esi::InputAPI::isLeftMouseButtonOnPress()
+bool Omnific::InputAPI::isLeftMouseButtonOnPress()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -302,7 +302,7 @@ bool Esi::InputAPI::isLeftMouseButtonOnPress()
 		mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Esi::InputAPI::isLeftMouseButtonOnRelease()
+bool Omnific::InputAPI::isLeftMouseButtonOnRelease()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -310,7 +310,7 @@ bool Esi::InputAPI::isLeftMouseButtonOnRelease()
 		mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Esi::InputAPI::isLeftMouseButtonDoubleClicked()
+bool Omnific::InputAPI::isLeftMouseButtonDoubleClicked()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -319,7 +319,7 @@ bool Esi::InputAPI::isLeftMouseButtonDoubleClicked()
 		mouseButtonEvent.clicks == 2;
 }
 
-bool Esi::InputAPI::isMiddleMouseButtonOnPress()
+bool Omnific::InputAPI::isMiddleMouseButtonOnPress()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -327,7 +327,7 @@ bool Esi::InputAPI::isMiddleMouseButtonOnPress()
 		mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Esi::InputAPI::isMiddleMouseButtonOnRelease()
+bool Omnific::InputAPI::isMiddleMouseButtonOnRelease()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -335,7 +335,7 @@ bool Esi::InputAPI::isMiddleMouseButtonOnRelease()
 		mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Esi::InputAPI::isMiddleMouseButtonDoubleClicked()
+bool Omnific::InputAPI::isMiddleMouseButtonDoubleClicked()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -344,7 +344,7 @@ bool Esi::InputAPI::isMiddleMouseButtonDoubleClicked()
 		mouseButtonEvent.clicks == 2;
 }
 
-bool Esi::InputAPI::isRightMouseButtonOnPress()
+bool Omnific::InputAPI::isRightMouseButtonOnPress()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -352,7 +352,7 @@ bool Esi::InputAPI::isRightMouseButtonOnPress()
 		mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Esi::InputAPI::isRightMouseButtonOnRelease()
+bool Omnific::InputAPI::isRightMouseButtonOnRelease()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -360,7 +360,7 @@ bool Esi::InputAPI::isRightMouseButtonOnRelease()
 		mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Esi::InputAPI::isRightMouseButtonDoubleClicked()
+bool Omnific::InputAPI::isRightMouseButtonDoubleClicked()
 {
 	SDL_MouseButtonEvent mouseButtonEvent = this->hid->getMouseButtonEvent();
 
@@ -369,7 +369,7 @@ bool Esi::InputAPI::isRightMouseButtonDoubleClicked()
 		mouseButtonEvent.clicks == 2;
 }
 
-glm::vec2 Esi::InputAPI::getMousePosition()
+glm::vec2 Omnific::InputAPI::getMousePosition()
 {
 	glm::vec2 vector2;
 	SDL_MouseMotionEvent mouseMotionEvent = this->hid->getMouseMotionEvent();
@@ -378,7 +378,7 @@ glm::vec2 Esi::InputAPI::getMousePosition()
 	return vector2;
 }
 
-glm::vec2 Esi::InputAPI::getMouseWheelVelocity()
+glm::vec2 Omnific::InputAPI::getMouseWheelVelocity()
 {
 	glm::vec2 vector2;
 	SDL_MouseWheelEvent mouseWheelEvent = this->hid->getMouseWheelEvent();
@@ -387,7 +387,7 @@ glm::vec2 Esi::InputAPI::getMouseWheelVelocity()
 	return vector2;
 }
 
-glm::vec2 Esi::InputAPI::getMouseMotionVelocity()
+glm::vec2 Omnific::InputAPI::getMouseMotionVelocity()
 {
 	glm::vec2 vector2;
 	SDL_MouseMotionEvent mouseMotionEvent = this->hid->getMouseMotionEvent();
@@ -396,12 +396,12 @@ glm::vec2 Esi::InputAPI::getMouseMotionVelocity()
 	return vector2;
 }
 
-void Esi::InputAPI::forceShutdown()
+void Omnific::InputAPI::forceShutdown()
 {
 	this->hid->forceShutdownRequest();
 }
 
-void Esi::InputAPI::forceRestart()
+void Omnific::InputAPI::forceRestart()
 {
 	this->hid->forceRestartRequest();
 }

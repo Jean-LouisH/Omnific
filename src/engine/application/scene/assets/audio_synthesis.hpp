@@ -24,12 +24,12 @@
 
 #include "application/scene/asset.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class AudioSynthesis : public Asset
 	{
 	public:
-		AudioSynthesis() 
+		AudioSynthesis()
 		{ 
 			this->type = TYPE_STRING; 
 		};

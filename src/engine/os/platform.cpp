@@ -23,22 +23,22 @@
 #include "platform.hpp"
 #include <SDL.h>
 
-uint8_t Esi::Platform::getLogicalCoreCount()
+uint8_t Omnific::Platform::getLogicalCoreCount()
 {
 	return SDL_GetCPUCount();
 }
 
-uint32_t Esi::Platform::getL1CacheLineSize_B()
+uint32_t Omnific::Platform::getL1CacheLineSize_B()
 {
 	return SDL_GetCPUCacheLineSize();
 }
 
-uint32_t Esi::Platform::getSystemRAM_MB()
+uint32_t Omnific::Platform::getSystemRAM_MB()
 {
 	return SDL_GetSystemRAM();
 }
 
-std::string Esi::Platform::getOSName()
+std::string Omnific::Platform::getOSName()
 {
 	return SDL_GetPlatform();
 }

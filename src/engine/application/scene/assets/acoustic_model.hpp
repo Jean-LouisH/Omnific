@@ -28,7 +28,7 @@
 #include "skeletal_animation.hpp"
 #include "rig.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class AcousticModel : public Asset
 	{

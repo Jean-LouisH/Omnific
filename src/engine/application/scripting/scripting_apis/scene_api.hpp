@@ -30,7 +30,7 @@
 #include <utilities/aliases.hpp>
 #include <application/scene/event_bus.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	class SceneAPI
 	{

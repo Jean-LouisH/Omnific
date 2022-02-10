@@ -32,7 +32,7 @@
 #include "scene_storage.hpp"
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class CommandLine
 	{

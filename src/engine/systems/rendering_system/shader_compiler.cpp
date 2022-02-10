@@ -25,9 +25,9 @@
 #include <glm/glm.hpp>
 #include <os/os.hpp>
 
-std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::compile(std::vector<Shader> shaders)
+std::shared_ptr<Omnific::ShaderProgram> Omnific::ShaderCompiler::compile(std::vector<Shader> shaders)
 {
-	std::shared_ptr<Esi::ShaderProgram> shaderProgram;
+	std::shared_ptr<Omnific::ShaderProgram> shaderProgram;
 	bool compilationSuccess = true;
 	int shaderCount = shaders.size();
 
@@ -53,7 +53,7 @@ std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::compile(std::vector<Sha
 	return shaderProgram;
 }
 
-bool Esi::ShaderCompiler::compileVertexShader(std::string vertexShaderSource)
+bool Omnific::ShaderCompiler::compileVertexShader(std::string vertexShaderSource)
 {
 	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 	GLchar* source = (GLchar*)vertexShaderSource.c_str();
@@ -63,7 +63,7 @@ bool Esi::ShaderCompiler::compileVertexShader(std::string vertexShaderSource)
 	return this->checkCompileTimeErrors(vertexShader, GL_COMPILE_STATUS);
 }
 
-bool Esi::ShaderCompiler::compileFragmentShader(std::string fragmentShaderSource)
+bool Omnific::ShaderCompiler::compileFragmentShader(std::string fragmentShaderSource)
 {
 	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	GLchar* source = (GLchar*)fragmentShaderSource.c_str();
@@ -73,7 +73,7 @@ bool Esi::ShaderCompiler::compileFragmentShader(std::string fragmentShaderSource
 	return this->checkCompileTimeErrors(fragmentShader, GL_COMPILE_STATUS);
 }
 
-std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::linkShaderProgram()
+std::shared_ptr<Omnific::ShaderProgram> Omnific::ShaderCompiler::linkShaderProgram()
 {
 	GLuint programID = glCreateProgram();
 	int vertexShaderCount = this->vertexShaderIDs.size();
@@ -88,12 +88,12 @@ std::shared_ptr<Esi::ShaderProgram> Esi::ShaderCompiler::linkShaderProgram()
 	this->checkCompileTimeErrors(programID, GL_LINK_STATUS);
 
 	OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(programID));
-	std::shared_ptr<Esi::ShaderProgram> shaderProgram = std::shared_ptr<Esi::ShaderProgram>(new ShaderProgram(programID));
+	std::shared_ptr<Omnific::ShaderProgram> shaderProgram = std::shared_ptr<Omnific::ShaderProgram>(new ShaderProgram(programID));
 	shaderProgram->logUniforms();
 	return shaderProgram;
 }
 
-bool Esi::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint status)
+bool Omnific::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint status)
 {
 	GLint compilationSuccess = GL_FALSE;
 	char infoLog[512];
@@ -112,7 +112,7 @@ bool Esi::ShaderCompiler::checkCompileTimeErrors(GLuint ID, GLuint status)
 	return compilationSuccess;
 }
 
-void Esi::ShaderCompiler::deleteShaders()
+void Omnific::ShaderCompiler::deleteShaders()
 {
 	int vertexShaderCount = this->vertexShaderIDs.size();
 	for (int i = 0; i < vertexShaderCount; i++)

@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include "application/scene/component.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class Transform : public Component
 	{

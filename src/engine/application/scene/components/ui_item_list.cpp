@@ -22,7 +22,7 @@
 
 #include "ui_item_list.hpp"
 
-void Esi::UIItemList::setLowerBound(uint32_t lowerBound)
+void Omnific::UIItemList::setLowerBound(uint32_t lowerBound)
 {
 	this->lowerBound = lowerBound;
 
@@ -30,7 +30,7 @@ void Esi::UIItemList::setLowerBound(uint32_t lowerBound)
 		this->index = lowerBound;
 }
 
-void Esi::UIItemList::setUpperBound(uint32_t upperBound)
+void Omnific::UIItemList::setUpperBound(uint32_t upperBound)
 {
 	this->upperBound = upperBound;
 
@@ -38,7 +38,7 @@ void Esi::UIItemList::setUpperBound(uint32_t upperBound)
 		this->index = upperBound;
 }
 
-void Esi::UIItemList::increment()
+void Omnific::UIItemList::increment()
 {
 	this->index++;
 
@@ -46,7 +46,7 @@ void Esi::UIItemList::increment()
 		this->index = lowerBound;
 }
 
-void Esi::UIItemList::decrement()
+void Omnific::UIItemList::decrement()
 {
 	this->index--;
 
@@ -54,7 +54,7 @@ void Esi::UIItemList::decrement()
 		this->index = upperBound;
 }
 
-void Esi::UIItemList::setIndex(uint32_t index)
+void Omnific::UIItemList::setIndex(uint32_t index)
 {
 	this->index = index;
 
@@ -64,7 +64,7 @@ void Esi::UIItemList::setIndex(uint32_t index)
 		this->index = upperBound;
 }
 
-uint32_t Esi::UIItemList::getIndex()
+uint32_t Omnific::UIItemList::getIndex()
 {
 	return this->index;
 }

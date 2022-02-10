@@ -28,22 +28,22 @@
 #include "scene/component.hpp"
 #include <os/os.hpp>
 
-Esi::SceneSerializer::SceneSerializer(std::string dataDirectory)
+Omnific::SceneSerializer::SceneSerializer(std::string dataDirectory)
 {
 	this->dataDirectory = dataDirectory;
 }
 
-bool Esi::SceneSerializer::doesSceneExist(std::string filepath)
+bool Omnific::SceneSerializer::doesSceneExist(std::string filepath)
 {
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-void Esi::SceneSerializer::serialize(std::string filepath, Scene scene)
+void Omnific::SceneSerializer::serialize(std::string filepath, Scene scene)
 {
 
 }
 
-Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
+Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 {
 	Scene scene;
 	const std::string fullFilepath = this->dataDirectory + filepath;
@@ -258,7 +258,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 								{
 									if (it3->first.as<std::string>() == "model")
 									{
-										std::shared_ptr<Esi::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
+										std::shared_ptr<Omnific::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
 										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
 										scene.getAssetCache().store(asset);
 									}
@@ -429,7 +429,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 								{
 									if (it3->first.as<std::string>() == "image")
 									{
-										std::shared_ptr<Esi::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
+										std::shared_ptr<Omnific::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
 										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
 										scene.getAssetCache().store(asset);
 										sprite->addEmptyFrameSequence("");
@@ -691,7 +691,7 @@ Esi::Scene Esi::SceneSerializer::deserialize(std::string filepath)
 									}
 									else if (it3->first.as<std::string>() == "font")
 									{
-										std::shared_ptr<Esi::Font> font(new Font(
+										std::shared_ptr<Omnific::Font> font(new Font(
 											this->dataDirectory + it3->second[0].as<std::string>(),
 											it3->second[1].as<int>()));
 										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);

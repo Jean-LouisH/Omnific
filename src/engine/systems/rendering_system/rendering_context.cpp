@@ -25,7 +25,7 @@
 #include <string>
 #include <SDL_video.h>
 
-void Esi::RenderingContext::initialize()
+void Omnific::RenderingContext::initialize()
 {
 	Window& window = OS::getWindow();
 	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
@@ -45,13 +45,13 @@ void Esi::RenderingContext::initialize()
 	}
 }
 
-void Esi::RenderingContext::clearBuffers()
+void Omnific::RenderingContext::clearBuffers()
 {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Esi::RenderingContext::submit(
+void Omnific::RenderingContext::submit(
 		std::vector<Renderable> renderables,
 		std::shared_ptr<Camera> camera,
 		std::shared_ptr<Transform> cameraTransform,
@@ -91,17 +91,17 @@ void Esi::RenderingContext::submit(
 	}
 }
 
-void Esi::RenderingContext::setViewport(uint32_t width, uint32_t height)
+void Omnific::RenderingContext::setViewport(uint32_t width, uint32_t height)
 {
 	glViewport(0, 0, width, height);
 }
 
-void Esi::RenderingContext::swapBuffers()
+void Omnific::RenderingContext::swapBuffers()
 {
 	SDL_GL_SwapWindow(OS::getWindow().getSDLWindow());
 }
 
-std::string Esi::RenderingContext::getRenderingContextName()
+std::string Omnific::RenderingContext::getRenderingContextName()
 {
 	return "opengl";
 }

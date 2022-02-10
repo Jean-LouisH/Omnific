@@ -34,7 +34,7 @@
 #include <memory>
 #include <map>
 
-namespace Esi
+namespace Omnific
 {
 	class RenderingSystem : public System
 	{

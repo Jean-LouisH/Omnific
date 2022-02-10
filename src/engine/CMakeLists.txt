@@ -1,15 +1,15 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE esi_engine_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE esi_engine_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
 
-add_library(esi_engine SHARED
-	  ${esi_engine_sources}
-	  ${esi_engine_headers}
+add_library(omnific_engine SHARED
+	  ${omnific_engine_sources}
+	  ${omnific_engine_headers}
 )
 
-add_dependencies (esi_engine
+add_dependencies (omnific_engine
 	yaml_cpp
 	glad
 )
@@ -39,7 +39,7 @@ include_directories(
 		.
 )
 
-target_link_libraries (esi_engine
+target_link_libraries (omnific_engine
 		yaml_cpp
 		glad
 		${SDL2}
@@ -50,8 +50,8 @@ target_link_libraries (esi_engine
 
 )
 
-add_definitions(-D_ESI_ENGINE_EXPORTS)
+add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
 
-add_custom_command(TARGET esi_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:esi_engine> ${PROJECT_BINARY_DIR}/src/main/esi_engine.dll
+add_custom_command(TARGET omnific_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/main/omnific_engine.dll
 )

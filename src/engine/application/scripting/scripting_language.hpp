@@ -22,7 +22,7 @@
 
 #pragma once
 
-namespace Esi
+namespace Omnific
 {
 	class ScriptingLanguage
 	{

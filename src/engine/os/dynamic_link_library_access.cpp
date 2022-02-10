@@ -30,7 +30,7 @@
 #include <errno.h>
 #endif
 
-void* Esi::DynamicLinkLibraryAccess::open(std::string filename)
+void* Omnific::DynamicLinkLibraryAccess::open(std::string filename)
 {
 #ifdef _WIN32
 	return LoadLibraryA((filename + ".dll").c_str());
@@ -39,7 +39,7 @@ void* Esi::DynamicLinkLibraryAccess::open(std::string filename)
 #endif
 }
 
-void Esi::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
+void Omnific::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
 {
 	if (dynamicLibraryHandle != nullptr)
 	{
@@ -51,7 +51,7 @@ void Esi::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
 	}
 }
 
-void* Esi::DynamicLinkLibraryAccess::getProcedure(void* dynamicLibraryHandle, std::string procedureName)
+void* Omnific::DynamicLinkLibraryAccess::getProcedure(void* dynamicLibraryHandle, std::string procedureName)
 {
 	if (procedureName == "")
 	{

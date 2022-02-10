@@ -25,37 +25,37 @@
 #include <fstream>
 #include <algorithm>
 
-Esi::FileAccess::FileAccess(std::string executableFilepath)
+Omnific::FileAccess::FileAccess(std::string executableFilepath)
 {
 	this->executableFilepath = executableFilepath;
 }
 
-void Esi::FileAccess::setDataDirectory(std::string assetDirectory)
+void Omnific::FileAccess::setDataDirectory(std::string assetDirectory)
 {
 	this->dataDirectory = assetDirectory;
 }
 
-std::string Esi::FileAccess::getExecutableFilePath()
+std::string Omnific::FileAccess::getExecutableFilePath()
 {
 	return this->executableFilepath;
 }
 
-std::string Esi::FileAccess::getExecutableName()
+std::string Omnific::FileAccess::getExecutableName()
 {
 	return this->getFileNameWithoutExtension(this->executableFilepath);
 }
 
-std::string Esi::FileAccess::getExecutableDirectoryPath()
+std::string Omnific::FileAccess::getExecutableDirectoryPath()
 {
 	return this->getPathBeforeFile(this->executableFilepath);
 }
 
-std::string Esi::FileAccess::getDataDirectoryPath()
+std::string Omnific::FileAccess::getDataDirectoryPath()
 {
 	return this->dataDirectory;
 }
 
-std::string Esi::FileAccess::getFileNameWithoutExtension(std::string filepath)
+std::string Omnific::FileAccess::getFileNameWithoutExtension(std::string filepath)
 {
 	std::string fileName;
 	int nameIndexStart = 0;
@@ -73,7 +73,7 @@ std::string Esi::FileAccess::getFileNameWithoutExtension(std::string filepath)
 	return fileName;
 }
 
-std::string Esi::FileAccess::getPathBeforeFile(std::string filepath)
+std::string Omnific::FileAccess::getPathBeforeFile(std::string filepath)
 {
 	std::string path;
 	int nameEndIndex = 0;
@@ -91,7 +91,7 @@ std::string Esi::FileAccess::getPathBeforeFile(std::string filepath)
 	return path;
 }
 
-bool Esi::FileAccess::exists(std::string filepath)
+bool Omnific::FileAccess::exists(std::string filepath)
 {
 	std::ifstream inputFile(filepath);
 	return inputFile.good();

@@ -30,7 +30,7 @@
 
 #include "freetype/freetype.h"
 
-namespace Esi
+namespace Omnific
 {
 	class Font : public Asset
 	{

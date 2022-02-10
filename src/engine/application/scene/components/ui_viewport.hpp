@@ -29,7 +29,7 @@
 #include "application/scene/component.hpp"
 #include <os/os.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	class UIViewport : public Component
 	{

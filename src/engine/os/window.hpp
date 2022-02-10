@@ -29,7 +29,7 @@
 #include <utilities/rectangle.hpp>
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class Window
 	{

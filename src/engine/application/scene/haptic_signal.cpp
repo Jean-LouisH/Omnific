@@ -22,7 +22,7 @@
 
 #include "haptic_signal.hpp"
 
-Esi::HapticSignal::HapticSignal(PlayerID playerID, float strength_pct, uint16_t duration_ms)
+Omnific::HapticSignal::HapticSignal(PlayerID playerID, float strength_pct, uint16_t duration_ms)
 {
 	uint16_t durationLimit = 2000;
 
@@ -41,17 +41,17 @@ Esi::HapticSignal::HapticSignal(PlayerID playerID, float strength_pct, uint16_t 
 		this->duration_ms = duration_ms;
 }
 
-Esi::PlayerID Esi::HapticSignal::getPlayerID()
+Omnific::PlayerID Omnific::HapticSignal::getPlayerID()
 {
 	return this->playerID;
 }
 
-float Esi::HapticSignal::getStrength_pct()
+float Omnific::HapticSignal::getStrength_pct()
 {
 	return this->strength_pct;
 }
 
-uint16_t Esi::HapticSignal::getDuration_ms()
+uint16_t Omnific::HapticSignal::getDuration_ms()
 {
 	return this->duration_ms;
 }

@@ -30,7 +30,7 @@
 #include "shader_program.hpp"
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class ShaderCompiler
 	{
@@ -42,7 +42,7 @@ namespace Esi
 
 		bool compileVertexShader(std::string vertexShaderSource);
 		bool compileFragmentShader(std::string fragmentShaderSource);
-		std::shared_ptr<Esi::ShaderProgram> linkShaderProgram();
+		std::shared_ptr<Omnific::ShaderProgram> linkShaderProgram();
 		bool checkCompileTimeErrors(GLuint ID, GLuint status);
 		void deleteShaders();
 	};

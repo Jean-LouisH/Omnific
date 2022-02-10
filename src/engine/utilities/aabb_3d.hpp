@@ -24,7 +24,7 @@
 
 #include <glm/glm.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	class AABB3D
 	{

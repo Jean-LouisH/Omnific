@@ -36,7 +36,7 @@
 #include "os/os.hpp"
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class ScriptingAPIs
 	{

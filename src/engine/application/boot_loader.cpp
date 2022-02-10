@@ -23,7 +23,7 @@
 #include "boot_loader.hpp"
 #include <yaml-cpp/yaml.h>
 
-Esi::Configuration* Esi::BootLoader::loadFromFile(std::string bootFilepath)
+Omnific::Configuration* Omnific::BootLoader::loadFromFile(std::string bootFilepath)
 {
 	Configuration* configuration = new Configuration();
 
@@ -79,9 +79,9 @@ Esi::Configuration* Esi::BootLoader::loadFromFile(std::string bootFilepath)
 					{
 						configuration->windowSettings.isStartingMaximized = it1->second.as<bool>();
 					}
-					else if (it1->first.as<std::string>() == "resizable")
+					else if (it1->first.as<std::string>() == "romnificzable")
 					{
-						configuration->windowSettings.isResizable = it1->second.as<bool>();
+						configuration->windowSettings.isRomnificzable = it1->second.as<bool>();
 					}
 				}
 			}

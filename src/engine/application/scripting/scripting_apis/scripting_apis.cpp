@@ -23,9 +23,9 @@
 #include "scripting_apis.hpp"
 #include <os/os.hpp>
 
-Esi::ScriptingAPIs* Esi::ScriptingAPIs::instance = nullptr;
+Omnific::ScriptingAPIs* Omnific::ScriptingAPIs::instance = nullptr;
 
-void Esi::ScriptingAPIs::initialize()
+void Omnific::ScriptingAPIs::initialize()
 {
 	ScriptingAPIs* newInstance = getInstance();
 
@@ -37,62 +37,62 @@ void Esi::ScriptingAPIs::initialize()
 	newInstance->windowAPI = new WindowAPI(&OS::getWindow());
 }
 
-void Esi::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
+void Omnific::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
 {
 	getInstance()->sceneAPI->setSceneStorage(sceneStorage);
 }
 
-void Esi::ScriptingAPIs::setConfiguration(Configuration* configuration)
+void Omnific::ScriptingAPIs::setConfiguration(Configuration* configuration)
 {
 	getInstance()->timeAPI->setTimeSettings(&configuration->timeSettings);
 }
 
-void Esi::ScriptingAPIs::bindEntity(SceneID sceneTreeID, EntityID entityID)
+void Omnific::ScriptingAPIs::bindEntity(SceneID sceneTreeID, EntityID entityID)
 {
 	getInstance()->sceneAPI->bindEntity(sceneTreeID, entityID);
 }
 
-Esi::CommandLineAPI& Esi::ScriptingAPIs::getCommandLineAPI()
+Omnific::CommandLineAPI& Omnific::ScriptingAPIs::getCommandLineAPI()
 {
 	return *getInstance()->commandLineAPI;
 }
 
-Esi::InputAPI& Esi::ScriptingAPIs::getInputAPI()
+Omnific::InputAPI& Omnific::ScriptingAPIs::getInputAPI()
 {
 	return *getInstance()->inputAPI;
 }
 
-Esi::LogAPI& Esi::ScriptingAPIs::getLogAPI()
+Omnific::LogAPI& Omnific::ScriptingAPIs::getLogAPI()
 {
 	return *getInstance()->logAPI;
 }
 
-Esi::SceneAPI& Esi::ScriptingAPIs::getSceneAPI()
+Omnific::SceneAPI& Omnific::ScriptingAPIs::getSceneAPI()
 {
 	return *getInstance()->sceneAPI;
 }
 
-Esi::TimeAPI& Esi::ScriptingAPIs::getTimeAPI()
+Omnific::TimeAPI& Omnific::ScriptingAPIs::getTimeAPI()
 {
 	return *getInstance()->timeAPI;
 }
 
-Esi::WindowAPI& Esi::ScriptingAPIs::getWindowAPI()
+Omnific::WindowAPI& Omnific::ScriptingAPIs::getWindowAPI()
 {
 	return *getInstance()->windowAPI;
 }
 
-std::string Esi::ScriptingAPIs::getDataDirectoryPath()
+std::string Omnific::ScriptingAPIs::getDataDirectoryPath()
 {
 	return OS::getFileAccess().getDataDirectoryPath();
 }
 
-std::string Esi::ScriptingAPIs::getExecutableDirectoryPath()
+std::string Omnific::ScriptingAPIs::getExecutableDirectoryPath()
 {
 	return OS::getFileAccess().getExecutableDirectoryPath();
 }
 
-Esi::ScriptingAPIs* Esi::ScriptingAPIs::getInstance()
+Omnific::ScriptingAPIs* Omnific::ScriptingAPIs::getInstance()
 {
 	if (instance == nullptr)
 		instance = new ScriptingAPIs();

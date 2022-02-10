@@ -22,30 +22,30 @@
 
 #include "event.hpp"
 
-Esi::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
+Omnific::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 	this->parameters = parameters;
 }
 
-Esi::Event::Event(std::string name, uint64_t timestamp)
+Omnific::Event::Event(std::string name, uint64_t timestamp)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 }
 
-std::string Esi::Event::getName()
+std::string Omnific::Event::getName()
 {
 	return this->name;
 }
 
-uint64_t Esi::Event::getTimestamp()
+uint64_t Omnific::Event::getTimestamp()
 {
 	return this->timestamp;
 }
 
-Esi::Event::Parameters Esi::Event::getParameters()
+Omnific::Event::Parameters Omnific::Event::getParameters()
 {
 	return this->parameters;
 }

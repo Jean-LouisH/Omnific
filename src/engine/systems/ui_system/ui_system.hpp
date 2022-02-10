@@ -26,7 +26,7 @@
 #include "system.hpp"
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class UISystem : public System
 	{

@@ -22,17 +22,17 @@
 
 #include "texture.hpp"
 
-Esi::Texture::Texture()
+Omnific::Texture::Texture()
 {
 
 }
 
-Esi::Texture::~Texture()
+Omnific::Texture::~Texture()
 {
 	this->deleteTexture();
 }
 
-Esi::Texture::Texture(std::shared_ptr<Image> image)
+Omnific::Texture::Texture(std::shared_ptr<Image> image)
 {
 	float borderColour[] = { 1.0, 1.0, 0.0, 0.0 };
 	glGenTextures(1, &this->textureID);
@@ -81,23 +81,23 @@ Esi::Texture::Texture(std::shared_ptr<Image> image)
 	}
 }
 
-void Esi::Texture::activateDefaultTextureUnit()
+void Omnific::Texture::activateDefaultTextureUnit()
 {
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void Esi::Texture::activateTextureUnit()
+void Omnific::Texture::activateTextureUnit()
 {
 	glActiveTexture(GL_TEXTURE0 + this->textureUnit);
 }
 
-void Esi::Texture::bind()
+void Omnific::Texture::bind()
 {
 	this->activateTextureUnit();
 	glBindTexture(GL_TEXTURE_2D, this->textureID);
 }
 
-void Esi::Texture::deleteTexture()
+void Omnific::Texture::deleteTexture()
 {
 	glDeleteTextures(1, &this->textureID);
 }

@@ -24,38 +24,38 @@
 #include <utilities/constants.hpp>
 
 
-Esi::TimeAPI::TimeAPI(Profiler* profiler)
+Omnific::TimeAPI::TimeAPI(Profiler* profiler)
 {
 	this->profiler = profiler;
 }
 
-void Esi::TimeAPI::setTimeSettings(Configuration::TimeSettings* timeSettings)
+void Omnific::TimeAPI::setTimeSettings(Configuration::TimeSettings* timeSettings)
 {
 	this->timeSettings = timeSettings;
 }
 
-void Esi::TimeAPI::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+void Omnific::TimeAPI::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
 	if (msPerComputeUpdate <= (uint32_t)(1.0 / (double) this->timeSettings->targetFPS))
 		this->timeSettings->msPerComputeUpdate = msPerComputeUpdate;
 }
 
-void Esi::TimeAPI::setTargetFPS(uint32_t targetFPS)
+void Omnific::TimeAPI::setTargetFPS(uint32_t targetFPS)
 {
 	this->timeSettings->targetFPS = targetFPS;
 }
 
-uint32_t Esi::TimeAPI::getMsPerComputeUpdate()
+uint32_t Omnific::TimeAPI::getMsPerComputeUpdate()
 {
 	return this->timeSettings->msPerComputeUpdate;
 }
 
-uint32_t Esi::TimeAPI::getTargetFPS()
+uint32_t Omnific::TimeAPI::getTargetFPS()
 {
 	return this->timeSettings->targetFPS;
 }
 
-uint64_t Esi::TimeAPI::getFrameTimeDelta()
+uint64_t Omnific::TimeAPI::getFrameTimeDelta()
 {
 	return NS_IN_MS * this->profiler->getFrameTimer().getDelta_ns();
 }

@@ -1,12 +1,12 @@
-import esi
+import omnific_engine as oe
 
 def on_input():
     log_inputs = ["q", "p", "button_a"]
     shutdown_inputs = ["z"]
     restart_inputs = ["x"]
     playerID = 0
-    input_api = esi.get_input_api()
-    log_api = esi.get_log_api()
+    input_api = oe.get_input_api()
+    log_api = oe.get_log_api()
     
     if input_api.is_on_release(log_inputs, playerID):
         log_api.write("one of " + str(log_inputs) + " was pressed.")
@@ -21,7 +21,7 @@ def on_input():
         haptic_strength = 1.0
         haptic_duration_ms = 1000
         
-        scene = esi.get_scene_api().get_scene()    
+        scene = oe.get_scene_api().get_scene()    
         scene.get_haptic_signal_buffer().publish(
             haptic_playerID,
             haptic_strength,

@@ -24,18 +24,18 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 
-Esi::Font::Font(std::string filepath, uint16_t size_px)
+Omnific::Font::Font(std::string filepath, uint16_t size_px)
 {
 	this->setName(filepath);
 	//this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), size_px), TTF_CloseFont);
 }
 
-//Esi::Font::Font(TTF_Font* font)
+//Omnific::Font::Font(TTF_Font* font)
 //{
 //	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 //}
 //
-//TTF_Font* Esi::Font::getSDLTTFFont()
+//TTF_Font* Omnific::Font::getSDLTTFFont()
 //{
 //	return this->font.get();
 //}

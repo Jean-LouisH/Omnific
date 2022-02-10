@@ -31,7 +31,7 @@
 #include <application/scene/scene.hpp>
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class RenderingContext
 	{

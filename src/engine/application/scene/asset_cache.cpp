@@ -22,23 +22,23 @@
 
 #include "asset_cache.hpp"
 
-void Esi::AssetCache::store(std::shared_ptr<Esi::Asset> asset)
+void Omnific::AssetCache::store(std::shared_ptr<Omnific::Asset> asset)
 {
 	if (!this->assets.count(asset->getName()))
 		this->assets.emplace(asset->getName(), asset);
 }
 
-void Esi::AssetCache::deleteAsset(std::string filepath)
+void Omnific::AssetCache::deleteAsset(std::string filepath)
 {
 	this->assets.erase(filepath);
 }
 
-void Esi::AssetCache::deleteAllAssets()
+void Omnific::AssetCache::deleteAllAssets()
 {
 	this->assets.clear();
 }
 
-std::unordered_map<std::string, std::shared_ptr<Esi::Asset>> Esi::AssetCache::getAssets()
+std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> Omnific::AssetCache::getAssets()
 {
 	return this->assets;
 }

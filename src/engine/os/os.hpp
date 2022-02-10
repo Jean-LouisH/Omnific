@@ -34,7 +34,7 @@
 #include "thread_pool.hpp"
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class OS
 	{

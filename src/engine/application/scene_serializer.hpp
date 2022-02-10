@@ -26,7 +26,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace Esi
+namespace Omnific
 {
 	class SceneSerializer
 	{

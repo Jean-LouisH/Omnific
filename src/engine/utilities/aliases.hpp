@@ -24,7 +24,7 @@
 
 #include <stdint.h>
 
-namespace Esi
+namespace Omnific
 {
 	using UID = uint64_t;
 	using EntityID = UID;

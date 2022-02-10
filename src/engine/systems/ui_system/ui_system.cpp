@@ -23,12 +23,12 @@
 #include "ui_system.hpp"
 #include "os/os.hpp"
 
-Esi::UISystem::~UISystem()
+Omnific::UISystem::~UISystem()
 {
 	this->deinitialize();
 }
 
-void Esi::UISystem::initialize()
+void Omnific::UISystem::initialize()
 {
 	//if (TTF_Init() == -1)
 	//	printf("TTF_Init: %s\n", TTF_GetError());
@@ -36,12 +36,12 @@ void Esi::UISystem::initialize()
 	//	this->isInitialized = true;
 }
 
-void Esi::UISystem::process(Scene& scene)
+void Omnific::UISystem::process(Scene& scene)
 {
 
 }
 
-void Esi::UISystem::deinitialize()
+void Omnific::UISystem::deinitialize()
 {
 	//if (this->isInitialized)
 	//	TTF_Quit();
@@ -49,22 +49,22 @@ void Esi::UISystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Esi::UISystem::orderUIComponentsByHierarchy()
+void Omnific::UISystem::orderUIComponentsByHierarchy()
 {
 
 }
 
-void Esi::UISystem::positionUIComponentsByHierarchy()
+void Omnific::UISystem::positionUIComponentsByHierarchy()
 {
 
 }
 
-bool Esi::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
+bool Omnific::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
 {
 	return false;
 }
 
-//bool Esi::UISystem::isCursorInInputStateOnUIComponent(
+//bool Omnific::UISystem::isCursorInInputStateOnUIComponent(
 //	ComponentID componentID,
 //	InputCode inputCode,
 //	InputButtonMode inputButtonMode)

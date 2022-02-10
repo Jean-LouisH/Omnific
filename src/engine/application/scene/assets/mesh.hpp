@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-namespace Esi
+namespace Omnific
 {
 	class Mesh : public Asset
 	{

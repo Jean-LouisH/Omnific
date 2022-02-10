@@ -27,16 +27,16 @@
 #include <memory>
 #include "asset.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class AssetCache
 	{
 	public:
-		void store(std::shared_ptr<Esi::Asset>);
+		void store(std::shared_ptr<Omnific::Asset>);
 		void deleteAsset(std::string filepath);
 		void deleteAllAssets();
-		std::unordered_map<std::string, std::shared_ptr<Esi::Asset>> getAssets();
+		std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> getAssets();
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Esi::Asset>> assets;
+		std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> assets;
 	};
 }

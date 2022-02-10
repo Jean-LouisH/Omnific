@@ -31,14 +31,14 @@
 #include <memory>
 #include "application/scene/renderable_component.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class UITextLabel : public RenderableComponent
 	{
 	public:
 
 		void setText(std::string text);
-		void setFont(std::shared_ptr<Esi::Font> font, uint16_t size_px);
+		void setFont(std::shared_ptr<Omnific::Font> font, uint16_t size_px);
 		void setFontStyleNormal();
 		void setFontStyleBold();
 		void setFontStyleItalic();
@@ -62,7 +62,7 @@ namespace Esi
 		
 	private:
 		std::string text;
-		std::shared_ptr<Esi::Font> font;
+		std::shared_ptr<Omnific::Font> font;
 		Font::Style style = Font::Style::NORMAL;
 		Font::RenderMode mode = Font::RenderMode::SOLID;
 		uint16_t size_px = 0;

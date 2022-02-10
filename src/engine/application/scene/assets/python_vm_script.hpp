@@ -24,7 +24,7 @@
 
 #include "script.hpp"
 
-namespace Esi
+namespace Omnific
 {
     class PythonVMScript : public Script
     {

@@ -26,7 +26,7 @@
 #include <vector>
 #include <unordered_map>
 
-namespace Esi
+namespace Omnific
 {
 	class ComponentPropertyPool
 	{

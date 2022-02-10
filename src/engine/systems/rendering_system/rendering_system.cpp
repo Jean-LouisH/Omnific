@@ -25,7 +25,7 @@
 #include <application/scene/assets/shader.hpp>
 #include <application/scene/assets/image.hpp>
 
-Esi::RenderingSystem::RenderingSystem()
+Omnific::RenderingSystem::RenderingSystem()
 {
 	SDL_InitSubSystem(SDL_INIT_VIDEO);
 
@@ -46,12 +46,12 @@ Esi::RenderingSystem::RenderingSystem()
 	this->currentCameraTransform = std::shared_ptr<Transform>(new Transform());
 }
 
-Esi::RenderingSystem::~RenderingSystem()
+Omnific::RenderingSystem::~RenderingSystem()
 {
 	this->deinitialize();
 }
 
-void Esi::RenderingSystem::initialize()
+void Omnific::RenderingSystem::initialize()
 {
 	std::vector<Shader> shaders;
 	Shader builtInVertexShader;
@@ -67,7 +67,7 @@ void Esi::RenderingSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Esi::RenderingSystem::process(Scene& scene)
+void Omnific::RenderingSystem::process(Scene& scene)
 {
 	this->onWindowResize();
 	this->onModifiedRenderableInstance(scene);
@@ -80,7 +80,7 @@ void Esi::RenderingSystem::process(Scene& scene)
 	this->context->swapBuffers();
 }
 
-void Esi::RenderingSystem::deinitialize()
+void Omnific::RenderingSystem::deinitialize()
 {
 	if (this->isInitialized)
 	{
@@ -90,13 +90,13 @@ void Esi::RenderingSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Esi::RenderingSystem::onWindowResize()
+void Omnific::RenderingSystem::onWindowResize()
 {
 	Rectangle windowRectangle = OS::getWindow().getWindowSize();
 	this->context->setViewport(windowRectangle.width, windowRectangle.height);
 }
 
-void Esi::RenderingSystem::onModifiedShaderInstance(Scene& scene)
+void Omnific::RenderingSystem::onModifiedShaderInstance(Scene& scene)
 {
 	if (scene.getHasShadersChanged())
 	{
@@ -104,7 +104,7 @@ void Esi::RenderingSystem::onModifiedShaderInstance(Scene& scene)
 	}
 }
 
-void Esi::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
+void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 {
 	if (scene.getHasRenderableComponentsChanged())
 	{
@@ -179,17 +179,17 @@ void Esi::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 	}
 }
 
-std::vector<Esi::Renderable> Esi::RenderingSystem::getRenderables()
+std::vector<Omnific::Renderable> Omnific::RenderingSystem::getRenderables()
 {
 	return this->renderables;
 }
 
-std::string Esi::RenderingSystem::getRenderingContextName()
+std::string Omnific::RenderingSystem::getRenderingContextName()
 {
 	return this->context->getRenderingContextName();
 }
 
-void Esi::RenderingSystem::compileShaders(std::string name, std::vector<Shader> shaders)
+void Omnific::RenderingSystem::compileShaders(std::string name, std::vector<Shader> shaders)
 {
 	std::shared_ptr<ShaderProgram> shaderProgram = this->shaderCompiler->compile(shaders);
 

@@ -27,7 +27,7 @@
 
 #include <vector>
 
-namespace Esi
+namespace Omnific
 {
 	class ShaderCollection : public Component
 	{

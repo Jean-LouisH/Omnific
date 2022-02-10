@@ -28,7 +28,7 @@
 #include <memory>
 #include <vector>
 
-namespace Esi
+namespace Omnific
 {
 	class ModelContainer : public RenderableComponent
 	{

@@ -25,7 +25,7 @@
 #include <utilities/aliases.hpp>
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class Asset
 	{

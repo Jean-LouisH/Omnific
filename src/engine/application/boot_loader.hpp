@@ -25,7 +25,7 @@
 #include "configuration.hpp"
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class BootLoader
 	{

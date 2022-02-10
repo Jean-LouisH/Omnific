@@ -25,47 +25,47 @@
 
 typedef void(ScriptProcedure)(void);
 
-Esi::CPPNative::~CPPNative()
+Omnific::CPPNative::~CPPNative()
 {
 	OS::getDLLAccess().close(this->dynamicLibraryHandle);
 }
 
-void Esi::CPPNative::onModifiedScriptInstance()
+void Omnific::CPPNative::onModifiedScriptInstance()
 {
 	this->dynamicLibraryHandle = OS::getDLLAccess().open(this->nativeAssemblyFilename);
 }
 
-void Esi::CPPNative::executeOnStartMethods()
+void Omnific::CPPNative::executeOnStartMethods()
 {
 	this->executeMethods("executeOnStartMethods");
 }
 
-void Esi::CPPNative::executeOnInputMethods()
+void Omnific::CPPNative::executeOnInputMethods()
 {
 	this->executeMethods("executeOnInputMethods");
 }
 
-void Esi::CPPNative::executeOnFrameMethods()
+void Omnific::CPPNative::executeOnFrameMethods()
 {
 	this->executeMethods("executeOnFrameMethods");
 }
 
-void Esi::CPPNative::executeOnComputeMethods()
+void Omnific::CPPNative::executeOnComputeMethods()
 {
 	this->executeMethods("executeOnComputeMethods");
 }
 
-void Esi::CPPNative::executeOnOutputMethods()
+void Omnific::CPPNative::executeOnOutputMethods()
 {
 	this->executeMethods("executeOnOutputMethods");
 }
 
-void Esi::CPPNative::executeOnFinishMethods()
+void Omnific::CPPNative::executeOnFinishMethods()
 {
 	this->executeMethods("executeOnFinishMethods");
 }
 
-void Esi::CPPNative::executeMethods(std::string methodName)
+void Omnific::CPPNative::executeMethods(std::string methodName)
 {
 	if (this->dynamicLibraryHandle != nullptr)
 	{

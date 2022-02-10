@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include <chrono>
 
-namespace Esi
+namespace Omnific
 {
 	class HiResTimer
 	{

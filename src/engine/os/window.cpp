@@ -23,7 +23,7 @@
 #include "window.hpp"
 #include <stdint.h>
 
-Esi::Window::Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext)
+Omnific::Window::Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext)
 {
 	uint64_t renderingContextFlag = 0x0;
 
@@ -44,20 +44,20 @@ Esi::Window::Window(std::string title, uint16_t width, uint16_t height, bool isF
 }
 
 
-void Esi::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
+void Omnific::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowFullscreen(this->sdlWindow.get(), 0);
 	SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
 
 }
 
-void Esi::Window::setToFullscreen()
+void Omnific::Window::setToFullscreen()
 {
 	SDL_SetWindowDisplayMode(this->sdlWindow.get(), this->sdlDisplayMode.get());
 	SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN);
 }
 
-void Esi::Window::toggleWindowedFullscreen()
+void Omnific::Window::toggleWindowedFullscreen()
 {
 	this->isFullscreen = !isFullscreen;
 
@@ -77,18 +77,18 @@ void Esi::Window::toggleWindowedFullscreen()
 	SDL_ShowCursor(!this->isFullscreen);
 }
 
-void Esi::Window::resize(uint16_t width_px, uint16_t height_px)
+void Omnific::Window::resize(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
 	SDL_SetWindowPosition(this->sdlWindow.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }
 
-void Esi::Window::changeTitle(const char* title)
+void Omnific::Window::changeTitle(const char* title)
 {
 	SDL_SetWindowTitle(this->sdlWindow.get(), title);
 }
 
-void Esi::Window::changeIcon(Image image)
+void Omnific::Window::changeIcon(Image image)
 {
 	SDL_Surface* sdlSurface = SDL_CreateRGBSurfaceFrom(
 		image.getData(),
@@ -108,43 +108,43 @@ void Esi::Window::changeIcon(Image image)
 	}
 }
 
-void Esi::Window::maximize()
+void Omnific::Window::maximize()
 {
 	SDL_MaximizeWindow(this->sdlWindow.get());
 }
 
-void Esi::Window::minimize()
+void Omnific::Window::minimize()
 {
 	SDL_MinimizeWindow(this->sdlWindow.get());
 }
 
-void Esi::Window::raise()
+void Omnific::Window::raise()
 {
 	SDL_RaiseWindow(this->sdlWindow.get());
 }
 
-void Esi::Window::restore()
+void Omnific::Window::restore()
 {
 	SDL_RestoreWindow(this->sdlWindow.get());
 }
 
-void Esi::Window::hide()
+void Omnific::Window::hide()
 {
 	SDL_HideWindow(this->sdlWindow.get());
 }
 
-void Esi::Window::show()
+void Omnific::Window::show()
 {
 	SDL_ShowWindow(this->sdlWindow.get());
 }
 
-void Esi::Window::sleep(int time_ms)
+void Omnific::Window::sleep(int time_ms)
 {
 	if (time_ms > 0)
 		SDL_Delay(time_ms);
 }
 
-Esi::Rectangle Esi::Window::getWindowSize()
+Omnific::Rectangle Omnific::Window::getWindowSize()
 {
 	Rectangle rectangle;
 	int width = 0;
@@ -157,7 +157,7 @@ Esi::Rectangle Esi::Window::getWindowSize()
 	return rectangle;
 }
 
-SDL_Window* Esi::Window::getSDLWindow()
+SDL_Window* Omnific::Window::getSDLWindow()
 {
 	return this->sdlWindow.get();
 }

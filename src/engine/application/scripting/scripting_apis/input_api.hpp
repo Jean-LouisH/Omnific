@@ -30,7 +30,7 @@
 #include <glm/glm.hpp>
 #include <utilities/aliases.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	class InputAPI
 	{

@@ -27,45 +27,45 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Esi::ShaderProgram::ShaderProgram(GLuint programID)
+Omnific::ShaderProgram::ShaderProgram(GLuint programID)
 {
 	this->programID = programID;
 }
 
-Esi::ShaderProgram::~ShaderProgram()
+Omnific::ShaderProgram::~ShaderProgram()
 {
 	this->deleteProgram();
 }
 
-void Esi::ShaderProgram::use()
+void Omnific::ShaderProgram::use()
 {
 	if (this->programID != 0)
 		glUseProgram(this->programID);
 }
 
-void Esi::ShaderProgram::setInt(std::string name, int value)
+void Omnific::ShaderProgram::setInt(std::string name, int value)
 {
 	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), value);
 }
 
-void Esi::ShaderProgram::setBool(std::string name, bool value)
+void Omnific::ShaderProgram::setBool(std::string name, bool value)
 {
 	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), (int)value);
 }
 
-void Esi::ShaderProgram::setFloat(std::string name, float value)
+void Omnific::ShaderProgram::setFloat(std::string name, float value)
 {
 	glUniform1f(glGetUniformLocation(this->programID, name.c_str()), value);
 }
 
-void Esi::ShaderProgram::setMat4(std::string name, glm::mat4 value)
+void Omnific::ShaderProgram::setMat4(std::string name, glm::mat4 value)
 {
 	glUniformMatrix4fv(glGetUniformLocation(this->programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL
 Shader tutorial comment section. Reference: https://learnopengl.com/Getting-started/Shaders#comment-4468935635*/
-void Esi::ShaderProgram::logUniforms()
+void Omnific::ShaderProgram::logUniforms()
 {
 	int how_many{};
 	int bufsize{}; // max name size
@@ -85,7 +85,7 @@ void Esi::ShaderProgram::logUniforms()
 	}
 }
 
-void Esi::ShaderProgram::deleteProgram()
+void Omnific::ShaderProgram::deleteProgram()
 {
 	if (this->programID != 0)
 		glDeleteProgram(this->programID);

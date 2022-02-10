@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include "utilities/hi_res_timer.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class Profiler
 	{

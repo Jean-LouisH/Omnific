@@ -25,7 +25,7 @@
 #include "utilities/constants.hpp"
 #include <iostream>
 
-Esi::Application::Application()
+Omnific::Application::Application()
 {
 	this->scripting = std::shared_ptr<Scripting>(new Scripting());
 	this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
@@ -34,7 +34,7 @@ Esi::Application::Application()
 	ScriptingAPIs::initialize();
 }
 
-void Esi::Application::initialize()
+void Omnific::Application::initialize()
 {
 	BootLoader bootLoader;
 	Scene entryScene;
@@ -75,14 +75,14 @@ void Esi::Application::initialize()
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-	std::cout << "\n\n\tEsi Debug Console Enabled";
+	std::cout << "\n\n\tOmnific Debug Console Enabled";
 	std::cout << "\n\nPress '`' in-application to write to command line via console.";
 	std::cout << "\n\nTo see the list of commands, enter 'commands'.";
 	std::cout << "\n\n";
 #endif
 }
 
-void Esi::Application::executeOnStartMethods()
+void Omnific::Application::executeOnStartMethods()
 {
 	if (this->sceneStorage->hasActiveSceneChanged())
 		this->scripting->onModifiedScriptInstance(this->sceneStorage->getActiveScene());
@@ -91,7 +91,7 @@ void Esi::Application::executeOnStartMethods()
 		this->scripting->executeOnStartMethods(this->getActiveScene());
 }
 
-void Esi::Application::executeOnInputMethods()
+void Omnific::Application::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (OS::getHid().hasRequestedCommandLine())
@@ -150,13 +150,13 @@ void Esi::Application::executeOnInputMethods()
 	
 }
 
-void Esi::Application::executeOnFrameMethods()
+void Omnific::Application::executeOnFrameMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFrameMethods(this->getActiveScene());
 }
 
-void Esi::Application::executeOnComputeMethods()
+void Omnific::Application::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
 
@@ -164,13 +164,13 @@ void Esi::Application::executeOnComputeMethods()
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
-void Esi::Application::executeOnOutputMethods()
+void Omnific::Application::executeOnOutputMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnOutputMethods(this->getActiveScene());
 }
 
-void Esi::Application::executeOnFinishMethods()
+void Omnific::Application::executeOnFinishMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFinishMethods(this->getActiveScene());
@@ -178,17 +178,17 @@ void Esi::Application::executeOnFinishMethods()
 	this->getActiveScene().getEventBus().clear();
 }
 
-void Esi::Application::deinitialize()
+void Omnific::Application::deinitialize()
 {
 
 }
 
-Esi::Scene& Esi::Application::getActiveScene()
+Omnific::Scene& Omnific::Application::getActiveScene()
 {
 	return this->sceneStorage->getActiveScene();
 }
 
-Esi::Configuration& Esi::Application::getConfiguration()
+Omnific::Configuration& Omnific::Application::getConfiguration()
 {
 	return *this->configuration;
 }

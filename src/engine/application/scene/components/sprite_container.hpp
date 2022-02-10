@@ -31,7 +31,7 @@
 #include "application/scene/renderable_component.hpp"
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class SpriteContainer : public RenderableComponent
 	{

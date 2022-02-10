@@ -25,7 +25,7 @@
 #include <string>
 #include "application/scene/asset.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class Shader : public Asset
 	{

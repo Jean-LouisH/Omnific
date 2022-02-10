@@ -23,7 +23,7 @@
 #include "ui_text_label.hpp"
 
 
-void Esi::UITextLabel::setText(std::string text)
+void Omnific::UITextLabel::setText(std::string text)
 {
 	if (text != this->text)
 	{
@@ -32,89 +32,89 @@ void Esi::UITextLabel::setText(std::string text)
 	}
 }
 
-void Esi::UITextLabel::setFont(std::shared_ptr<Esi::Font> font, uint16_t size_px)
+void Omnific::UITextLabel::setFont(std::shared_ptr<Omnific::Font> font, uint16_t size_px)
 {
 	this->font = font;
 	this->size_px = size_px;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontStyleNormal()
+void Omnific::UITextLabel::setFontStyleNormal()
 {
 	this->style = Font::Style::NORMAL;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontStyleBold()
+void Omnific::UITextLabel::setFontStyleBold()
 {
 	this->style = Font::Style::BOLD;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontStyleItalic()
+void Omnific::UITextLabel::setFontStyleItalic()
 {
 	this->style = Font::Style::ITALIC;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontStyleUnderline()
+void Omnific::UITextLabel::setFontStyleUnderline()
 {
 	this->style = Font::Style::UNDERLINE;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontStyleStrikethrough()
+void Omnific::UITextLabel::setFontStyleStrikethrough()
 {
 	this->style = Font::Style::STRIKETHROUGH;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontRenderModeSolid()
+void Omnific::UITextLabel::setFontRenderModeSolid()
 {
 	this->mode = Font::RenderMode::SOLID;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontRenderModeShaded()
+void Omnific::UITextLabel::setFontRenderModeShaded()
 {
 	this->mode = Font::RenderMode::SHADED;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontRenderModeBlended()
+void Omnific::UITextLabel::setFontRenderModeBlended()
 {
 	this->mode = Font::RenderMode::BLENDED;
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setFontSize(uint16_t size_px)
+void Omnific::UITextLabel::setFontSize(uint16_t size_px)
 {
 
 	this->generateImage();
 }
 
-void Esi::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnific::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->colour = Colour(red, green, blue, alpha);
 	this->generateImage();
 }
 
-Esi::Font::Style Esi::UITextLabel::getFontStyle()
+Omnific::Font::Style Omnific::UITextLabel::getFontStyle()
 {
 	return this->style;
 }
 
-void Esi::UITextLabel::setAlpha(uint8_t value)
+void Omnific::UITextLabel::setAlpha(uint8_t value)
 {
 	this->image->setAlpha(value);
 }
 
-uint8_t Esi::UITextLabel::getAlpha()
+uint8_t Omnific::UITextLabel::getAlpha()
 {
 	return this->image->getAlpha();
 }
 
-void Esi::UITextLabel::generateImage()
+void Omnific::UITextLabel::generateImage()
 {
 	if (this->font != nullptr)
 	{

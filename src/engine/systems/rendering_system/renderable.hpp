@@ -37,7 +37,7 @@
 #include "shader_program.hpp"
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class Renderable
 	{

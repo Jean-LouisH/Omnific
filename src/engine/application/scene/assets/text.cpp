@@ -23,7 +23,7 @@
 #include "text.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Text::Text(std::string filepath)
+Omnific::Text::Text(std::string filepath)
 {
 
 }

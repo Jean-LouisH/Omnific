@@ -24,12 +24,12 @@
 #include "os/os.hpp"
 #include <SDL.h>
 
-Esi::HapticSystem::~HapticSystem()
+Omnific::HapticSystem::~HapticSystem()
 {
 	this->deinitialize();
 }
 
-void Esi::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
+void Omnific::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
 {
 	if (hapticSignal.getPlayerID() < haptics.size())
 	{
@@ -39,7 +39,7 @@ void Esi::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Hapti
 	}
 }
 
-void Esi::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
+void Omnific::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
 {
 	if (playerID < haptics.size())
 	{
@@ -47,13 +47,13 @@ void Esi::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> h
 	}
 }
 
-void Esi::HapticSystem::initialize()
+void Omnific::HapticSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_HAPTIC);
 	this->isInitialized = true;
 }
 
-void Esi::HapticSystem::process(Scene& scene)
+void Omnific::HapticSystem::process(Scene& scene)
 {
 	HumanInterfaceDevices& hid = OS::getHid();
 	HapticSignalBuffer& hapticSignalBuffer = scene.getHapticSignalBuffer();
@@ -100,7 +100,7 @@ void Esi::HapticSystem::process(Scene& scene)
 	}
 }
 
-void Esi::HapticSystem::deinitialize()
+void Omnific::HapticSystem::deinitialize()
 {
 	if (this->isInitialized)
 		SDL_INIT_HAPTIC;

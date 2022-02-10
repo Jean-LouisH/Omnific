@@ -25,9 +25,9 @@
 #include "SDL.h"
 #include "utilities/constants.hpp"
 
-Esi::OS* Esi::OS::instance = nullptr;
+Omnific::OS* Omnific::OS::instance = nullptr;
 
-void Esi::OS::initialize(
+void Omnific::OS::initialize(
 	std::string title, 
 	uint16_t width, 
 	uint16_t height, 
@@ -49,63 +49,63 @@ void Esi::OS::initialize(
 	newInstance->runTimer->setStart();
 }
 
-void Esi::OS::deinitialize()
+void Omnific::OS::deinitialize()
 {
 	delete getInstance();
 	instance = nullptr;
 }
 
-Esi::DynamicLinkLibraryAccess& Esi::OS::getDLLAccess()
+Omnific::DynamicLinkLibraryAccess& Omnific::OS::getDLLAccess()
 {
 	return *getInstance()->dllAccess;
 }
 
-Esi::Window& Esi::OS::getWindow()
+Omnific::Window& Omnific::OS::getWindow()
 {
 	return *getInstance()->window;
 }
 
-Esi::HumanInterfaceDevices& Esi::OS::getHid()
+Omnific::HumanInterfaceDevices& Omnific::OS::getHid()
 {
 	return *getInstance()->hid;
 }
 
-Esi::Logger& Esi::OS::getLogger()
+Omnific::Logger& Omnific::OS::getLogger()
 {
 	return *getInstance()->logger;
 }
 
-Esi::FileAccess& Esi::OS::getFileAccess()
+Omnific::FileAccess& Omnific::OS::getFileAccess()
 {
 	return *getInstance()->fileAccess;
 }
 
-Esi::Profiler& Esi::OS::getProfiler()
+Omnific::Profiler& Omnific::OS::getProfiler()
 {
 	return *getInstance()->profiler;
 }
 
-Esi::Platform& Esi::OS::getPlatform()
+Omnific::Platform& Omnific::OS::getPlatform()
 {
 	return *getInstance()->platform;
 }
 
-Esi::ThreadPool& Esi::OS::getThreadPool()
+Omnific::ThreadPool& Omnific::OS::getThreadPool()
 {
 	return *getInstance()->threadPool;
 }
 
-Esi::HiResTimer& Esi::OS::getRunTimer()
+Omnific::HiResTimer& Omnific::OS::getRunTimer()
 {
 	return *getInstance()->runTimer;
 }
 
-void Esi::OS::addGameControllerMappings(std::string mappingFilepath)
+void Omnific::OS::addGameControllerMappings(std::string mappingFilepath)
 {
 	SDL_GameControllerAddMappingsFromFile(mappingFilepath.c_str());
 }
 
-Esi::OS* Esi::OS::getInstance()
+Omnific::OS* Omnific::OS::getInstance()
 {
 	if (instance == nullptr)
 		instance = new OS();

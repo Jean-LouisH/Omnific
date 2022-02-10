@@ -25,17 +25,17 @@
 #include <iostream>
 #include <set>
 
-Esi::PythonVM::PythonVM()
+Omnific::PythonVM::PythonVM()
 {
 
 }
 
-Esi::PythonVM::~PythonVM()
+Omnific::PythonVM::~PythonVM()
 {
 
 }
 
-void Esi::PythonVM::onModifiedScriptInstance(Scene scene)
+void Omnific::PythonVM::onModifiedScriptInstance(Scene scene)
 {
 	this->modules.clear();
 
@@ -112,37 +112,37 @@ void Esi::PythonVM::onModifiedScriptInstance(Scene scene)
 	}
 }
 
-void Esi::PythonVM::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnific::PythonVM::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_start");
 }
 
-void Esi::PythonVM::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnific::PythonVM::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_input");
 }
 
-void Esi::PythonVM::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnific::PythonVM::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_frame");
 }
 
-void Esi::PythonVM::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnific::PythonVM::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_compute");
 }
 
-void Esi::PythonVM::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnific::PythonVM::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_output");
 }
 
-void Esi::PythonVM::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnific::PythonVM::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
 	this->executeMethods(scriptCallBatches, "on_finish");
 }
 
-void Esi::PythonVM::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
+void Omnific::PythonVM::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
 {
 	for (int i = 0; i < scriptCallBatches.size(); i++)
 	{

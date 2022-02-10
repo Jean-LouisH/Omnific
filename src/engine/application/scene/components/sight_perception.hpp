@@ -25,7 +25,7 @@
 #include <string>
 #include "application/scene/component.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class SightPerception : public Component
 	{

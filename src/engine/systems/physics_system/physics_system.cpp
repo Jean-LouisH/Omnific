@@ -25,32 +25,32 @@
 #include <utilities/constants.hpp>
 #include <os/os.hpp>
 
-Esi::PhysicsSystem::~PhysicsSystem()
+Omnific::PhysicsSystem::~PhysicsSystem()
 {
 	this->deinitialize();
 }
 
-void Esi::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+void Omnific::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
 	this->msPerComputeUpdate = msPerComputeUpdate;
 }
 
-void Esi::PhysicsSystem::initialize()
+void Omnific::PhysicsSystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Esi::PhysicsSystem::process(Scene& scene)
+void Omnific::PhysicsSystem::process(Scene& scene)
 {
 	this->updateTimers(scene, this->msPerComputeUpdate);
 }
 
-void Esi::PhysicsSystem::deinitialize()
+void Omnific::PhysicsSystem::deinitialize()
 {
 	this->isInitialized = false;
 }
 
-void Esi::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
+void Omnific::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
 {
 	std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
 	int componentVariantCount = components.size();

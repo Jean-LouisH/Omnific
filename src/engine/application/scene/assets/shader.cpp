@@ -23,25 +23,25 @@
 #include "shader.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
+Omnific::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
 {
 	this->setName(sourceFilepath);
 	//this->source;
 	this->shaderType = shaderType;
 }
 
-void Esi::Shader::setSource(std::string source, ShaderType shaderType)
+void Omnific::Shader::setSource(std::string source, ShaderType shaderType)
 {
 	this->source = source;
 	this->shaderType = shaderType;
 }
 
-std::string Esi::Shader::getSource()
+std::string Omnific::Shader::getSource()
 {
 	return this->source;
 }
 
-Esi::Shader::ShaderType Esi::Shader::getType()
+Omnific::Shader::ShaderType Omnific::Shader::getType()
 {
 	return this->shaderType;
 }

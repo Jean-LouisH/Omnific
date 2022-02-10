@@ -25,7 +25,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 
-Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
+Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
 	//SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
 	//SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
@@ -44,13 +44,13 @@ Esi::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, F
 	//}
 }
 
-Esi::Image::Image(std::string filepath)
+Omnific::Image::Image(std::string filepath)
 {
 	this->setName(filepath);
 	this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
 }
 
-void* Esi::Image::getData()
+void* Omnific::Image::getData()
 {
 	if (this->data != nullptr)
 		return this->data.get();
@@ -58,7 +58,7 @@ void* Esi::Image::getData()
 		return nullptr;
 }
 
-uint32_t Esi::Image::getWidth()
+uint32_t Omnific::Image::getWidth()
 {
 	if (this->data != nullptr)
 		return this->width;
@@ -66,7 +66,7 @@ uint32_t Esi::Image::getWidth()
 		return 0;
 }
 
-uint32_t Esi::Image::getHeight()
+uint32_t Omnific::Image::getHeight()
 {
 	if (this->data != nullptr)
 		return this->height;
@@ -74,17 +74,17 @@ uint32_t Esi::Image::getHeight()
 		return 0;
 }
 
-uint32_t Esi::Image::getDepth()
+uint32_t Omnific::Image::getDepth()
 {
 	return this->getBytesPerPixel() * 8;
 }
 
-uint32_t Esi::Image::getPitch()
+uint32_t Omnific::Image::getPitch()
 {
 	return this->getBytesPerPixel() * this->getWidth();
 }
 
-Esi::Rectangle Esi::Image::getDimensions()
+Omnific::Rectangle Omnific::Image::getDimensions()
 {
 	Rectangle dimensions;
 	dimensions.width = this->getWidth();
@@ -92,17 +92,17 @@ Esi::Rectangle Esi::Image::getDimensions()
 	return dimensions;
 }
 
-void Esi::Image::setAlpha(uint8_t value)
+void Omnific::Image::setAlpha(uint8_t value)
 {
 	this->alpha = value;
 }
 
-uint8_t Esi::Image::getAlpha()
+uint8_t Omnific::Image::getAlpha()
 {
 	return this->alpha;
 }
 
-uint8_t Esi::Image::getBytesPerPixel()
+uint8_t Omnific::Image::getBytesPerPixel()
 {
 	return this->channels;
 }

@@ -23,17 +23,17 @@
 #include "audio_system.hpp"
 #include "audio_sdl/audio_sdl.hpp"
 
-Esi::AudioSystem::~AudioSystem()
+Omnific::AudioSystem::~AudioSystem()
 {
 	this->deinitialize();
 }
 
-void Esi::AudioSystem::play()
+void Omnific::AudioSystem::play()
 {
 	SDL::Audio::playSounds(&this->immediateSounds, &this->scheduledSounds);
 }
 
-void Esi::AudioSystem::initialize()
+void Omnific::AudioSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
@@ -41,12 +41,12 @@ void Esi::AudioSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Esi::AudioSystem::process(Scene& scene)
+void Omnific::AudioSystem::process(Scene& scene)
 {
 	//todo: build sounds lists from scene
 }
 
-void Esi::AudioSystem::deinitialize()
+void Omnific::AudioSystem::deinitialize()
 {
 	if (this->isInitialized)
 	{

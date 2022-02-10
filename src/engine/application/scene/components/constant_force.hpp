@@ -28,7 +28,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Esi
+namespace Omnific
 {
 	class ConstantForce : public Component
 	{

@@ -22,12 +22,12 @@
 
 #include "vertex_buffer.hpp"
 
-Esi::VertexBuffer::VertexBuffer()
+Omnific::VertexBuffer::VertexBuffer()
 {
 
 }
 
-Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray)
+Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray)
 {
 	if (mesh != nullptr)
 	{
@@ -63,7 +63,7 @@ Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<Vert
 	}
 }
 
-Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<VertexArray> vertexArray)
+Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<VertexArray> vertexArray)
 {
 	if (image != nullptr)
 	{
@@ -121,24 +121,24 @@ Esi::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<Ve
 	}
 }
 
-Esi::VertexBuffer::~VertexBuffer()
+Omnific::VertexBuffer::~VertexBuffer()
 {
 	this->deleteVertexBuffer();
 }
 
-void Esi::VertexBuffer::bind()
+void Omnific::VertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
 }
 
-void Esi::VertexBuffer::deleteVertexBuffer()
+void Omnific::VertexBuffer::deleteVertexBuffer()
 {
 	glDeleteBuffers(1, &this->vertexBufferID);
 	glDeleteBuffers(1, &this->elementBufferID);
 }
 
-unsigned int Esi::VertexBuffer::getIndexCount()
+unsigned int Omnific::VertexBuffer::getIndexCount()
 {
 	return this->indexCount;
 }

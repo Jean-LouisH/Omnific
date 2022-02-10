@@ -24,7 +24,7 @@
 
 #include "scripting_language.hpp"
 
-namespace Esi
+namespace Omnific
 {
     class NativeScriptingLanguage : ScriptingLanguage
     {

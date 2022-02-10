@@ -30,7 +30,7 @@
 #include <set>
 
 
-namespace Esi
+namespace Omnific
 {
 	class Collider : public Component
 	{

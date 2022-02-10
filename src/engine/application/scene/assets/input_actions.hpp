@@ -24,7 +24,7 @@
 
 #include "application/scene/asset.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class InputActions : public Asset
 	{

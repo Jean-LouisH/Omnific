@@ -27,7 +27,7 @@
 
 int main(int argc, char* argv[])
 {
-	Esi::Engine esi(argc, argv);
-	esi.run();
+	Omnific::Engine omnific(argc, argv);
+	omnific.run();
 	return 0;
 }

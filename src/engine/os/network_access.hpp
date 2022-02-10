@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace Esi
+namespace Omnific
 {
 	class NetworkAccess
 	{

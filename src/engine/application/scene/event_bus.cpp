@@ -23,7 +23,7 @@
 #include "event_bus.hpp"
 #include <os/os.hpp>
 
-void Esi::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name,
 	std::vector<float> floats,
 	std::vector<std::string> strings)
@@ -32,7 +32,7 @@ void Esi::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Esi::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name,
 	std::vector<float> floats)
 {
@@ -41,7 +41,7 @@ void Esi::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Esi::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name,
 	std::vector<std::string> strings)
 {
@@ -50,7 +50,7 @@ void Esi::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Esi::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name)
 {
 	std::vector<Event> eventsList;
@@ -67,12 +67,12 @@ void Esi::EventBus::publish(
 	this->events.emplace(name, eventsList);
 }
 
-void Esi::EventBus::clear()
+void Omnific::EventBus::clear()
 {
 	this->events.clear();
 }
 
-std::vector<Esi::Event> Esi::EventBus::query(std::string name)
+std::vector<Omnific::Event> Omnific::EventBus::query(std::string name)
 {
 	std::vector<Event> queryResults;
 
@@ -82,7 +82,7 @@ std::vector<Esi::Event> Esi::EventBus::query(std::string name)
 	return queryResults;
 }
 
-void Esi::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
+void Omnific::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	std::vector<Event> eventsList;
 

@@ -22,27 +22,27 @@
 
 #include "log_api.hpp"
 
-Esi::LogAPI::LogAPI(Logger* logger)
+Omnific::LogAPI::LogAPI(Logger* logger)
 {
 	this->logger = logger;
 }
 
-void Esi::LogAPI::write(std::string message)
+void Omnific::LogAPI::write(std::string message)
 {
 	this->logger->write(message);
 }
 
-void Esi::LogAPI::writeToFile(std::string message)
+void Omnific::LogAPI::writeToFile(std::string message)
 {
 	this->logger->writeToFile(message);
 }
 
-std::string Esi::LogAPI::getLastMessage()
+std::string Omnific::LogAPI::getLastMessage()
 {
 	return this->logger->getLastMessage();
 }
 
-std::vector<std::string> Esi::LogAPI::getLogs()
+std::vector<std::string> Omnific::LogAPI::getLogs()
 {
 	return this->logger->getLogs();
 }

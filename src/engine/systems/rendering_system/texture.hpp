@@ -29,7 +29,7 @@
 #include <application/scene/assets/image.hpp>
 #include <memory>
 
-namespace Esi
+namespace Omnific
 {
 	class Texture
 	{

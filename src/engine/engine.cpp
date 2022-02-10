@@ -22,7 +22,7 @@
 
 #include "engine.hpp"
 
-Esi::Engine::Engine(
+Omnific::Engine::Engine(
 	int argc, 
 	char* argv[])
 {
@@ -31,7 +31,7 @@ Esi::Engine::Engine(
 	this->argv = argv;
 }
 
-void Esi::Engine::run()
+void Omnific::Engine::run()
 {
 	do
 	{
@@ -86,7 +86,7 @@ void Esi::Engine::run()
 	} while (this->state->isRestarting());
 }
 
-bool Esi::Engine::initialize()
+bool Omnific::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
@@ -138,7 +138,7 @@ bool Esi::Engine::initialize()
 	return isInitializedOK;
 }
 
-void Esi::Engine::input()
+void Omnific::Engine::input()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getInputTimer().setStart();
@@ -154,7 +154,7 @@ void Esi::Engine::input()
 	profiler.getInputTimer().setEnd();
 }
 
-void Esi::Engine::update()
+void Omnific::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
@@ -182,7 +182,7 @@ void Esi::Engine::update()
 	profiler.getUpdateTimer().setEnd();
 }
 
-void Esi::Engine::output()
+void Omnific::Engine::output()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getOutputTimer().setStart();
@@ -194,7 +194,7 @@ void Esi::Engine::output()
 	profiler.getOutputTimer().setEnd();
 }
 
-void Esi::Engine::benchmark()
+void Omnific::Engine::benchmark()
 {
 	Profiler& profiler = OS::getProfiler();
 #ifdef _DEBUG
@@ -214,7 +214,7 @@ void Esi::Engine::benchmark()
 	profiler.getBenchmarkTimer().setEnd();
 }
 
-void Esi::Engine::sleep()
+void Omnific::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime_ms = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
@@ -222,7 +222,7 @@ void Esi::Engine::sleep()
 	OS::getWindow().sleep(targetFrameTime_ms - processTime_ms);
 }
 
-void Esi::Engine::shutdown()
+void Omnific::Engine::shutdown()
 {
 	this->application.reset();
 	this->aiSystem.reset();

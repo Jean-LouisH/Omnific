@@ -24,7 +24,7 @@
 
 #include "application/scene/scene.hpp"
 
-namespace Esi
+namespace Omnific
 {
     class System
     {

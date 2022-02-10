@@ -22,12 +22,12 @@
 
 #include "audio_source.hpp"
 
-void Esi::AudioSource::addAudioStream(AudioStream audioStream)
+void Omnific::AudioSource::addAudioStream(AudioStream audioStream)
 {
 //	this->audioStreams.emplace(audioStream);
 }
 
-void Esi::AudioSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
+void Omnific::AudioSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
 {
 	//if (this->audioStreams.count(audioStreamName) > 0 && count > 0)
 	//{
@@ -36,46 +36,46 @@ void Esi::AudioSource::queueAudioToPlay(std::string audioStreamName, uint8_t cou
 	//}
 }
 
-void Esi::AudioSource::clearAudioStreams()
+void Omnific::AudioSource::clearAudioStreams()
 {
 //	this->audioStreams.clear();
 }
 
-std::queue<Esi::AudioStream> Esi::AudioSource::popEntireAudioPlayQueue()
+std::queue<Omnific::AudioStream> Omnific::AudioSource::popEntireAudioPlayQueue()
 {
 	std::queue<AudioStream> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
 
-void Esi::AudioSource::clearAudioPlayQueue()
+void Omnific::AudioSource::clearAudioPlayQueue()
 {
 	for (int i = 0; i < this->audioPlayQueue.size(); i++)
 		this->audioPlayQueue.pop();
 }
 
 
-void Esi::AudioSource::play(std::string audioStreamName)
+void Omnific::AudioSource::play(std::string audioStreamName)
 {
 
 }
 
-void Esi::AudioSource::play()
+void Omnific::AudioSource::play()
 {
 
 }
 
-void Esi::AudioSource::pause()
+void Omnific::AudioSource::pause()
 {
 
 }
 
-void Esi::AudioSource::stop()
+void Omnific::AudioSource::stop()
 {
 
 }
 
-std::vector<std::string> Esi::AudioSource::getAudioStreamNames()
+std::vector<std::string> Omnific::AudioSource::getAudioStreamNames()
 {
 	std::vector<std::string> audioStreamNames;
 
@@ -89,7 +89,7 @@ std::vector<std::string> Esi::AudioSource::getAudioStreamNames()
 	return audioStreamNames;
 }
 
-Esi::AudioStream Esi::AudioSource::getAudioStreamByName(std::string audioStreamName)
+Omnific::AudioStream Omnific::AudioSource::getAudioStreamByName(std::string audioStreamName)
 {
 	AudioStream audioStream;
 

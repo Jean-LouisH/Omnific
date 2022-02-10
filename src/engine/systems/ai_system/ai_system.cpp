@@ -22,22 +22,22 @@
 
 #include "ai_system.hpp"
 
-Esi::AISystem::~AISystem()
+Omnific::AISystem::~AISystem()
 {
 	this->deinitialize();
 }
 
-void Esi::AISystem::initialize()
+void Omnific::AISystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Esi::AISystem::process(Scene& scene)
+void Omnific::AISystem::process(Scene& scene)
 {
 
 }
 
-void Esi::AISystem::deinitialize()
+void Omnific::AISystem::deinitialize()
 {
 	this->isInitialized = false;
 }

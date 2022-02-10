@@ -22,22 +22,22 @@
 
 #include "module.hpp"
 
-void Esi::Module::setData(pybind11::module_ newModule)
+void Omnific::Module::setData(pybind11::module_ newModule)
 {
 	this->data = newModule;
 }
 
-void Esi::Module::setCallable(std::string methodName)
+void Omnific::Module::setCallable(std::string methodName)
 {
 	this->callableMethods.emplace(methodName);
 }
 
-void Esi::Module::call(std::string methodName)
+void Omnific::Module::call(std::string methodName)
 {
 	this->data.attr(methodName.c_str())();
 }
 
-bool Esi::Module::hasCallable(std::string methodName)
+bool Omnific::Module::hasCallable(std::string methodName)
 {
 	return this->callableMethods.count(methodName) > 0;
 }

@@ -27,7 +27,7 @@
 #include "application/scene/scene.hpp"
 #include "system.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class AudioSystem : System
 	{

@@ -23,50 +23,50 @@
 #include "scripting.hpp"
 #include "scripting_apis/scripting_apis.hpp"
 
-Esi::Scripting::Scripting()
+Omnific::Scripting::Scripting()
 {
 	this->pythonVM = std::unique_ptr<PythonVM>(new PythonVM());
 	this->cppNative = std::unique_ptr<CPPNative>(new CPPNative());
 }
 
-void Esi::Scripting::onModifiedScriptInstance(Scene scene)
+void Omnific::Scripting::onModifiedScriptInstance(Scene scene)
 {
 	this->pythonVM->onModifiedScriptInstance(scene);
 	this->cppNative->onModifiedScriptInstance();
 }
 
-void Esi::Scripting::executeOnStartMethods(Scene& scene)
+void Omnific::Scripting::executeOnStartMethods(Scene& scene)
 {
 	this->pythonVM->executeOnStartMethods(scene.generateCallBatches(CallType::START));
 }
 
-void Esi::Scripting::executeOnInputMethods(Scene& scene)
+void Omnific::Scripting::executeOnInputMethods(Scene& scene)
 {
 	this->pythonVM->executeOnInputMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
-void Esi::Scripting::executeOnFrameMethods(Scene& scene)
+void Omnific::Scripting::executeOnFrameMethods(Scene& scene)
 {
 	this->pythonVM->executeOnFrameMethods(scene.generateCallBatches(CallType::UPDATE));
 	this->cppNative->executeOnFrameMethods();
 }
 
-void Esi::Scripting::executeOnComputeMethods(Scene& scene)
+void Omnific::Scripting::executeOnComputeMethods(Scene& scene)
 {
 	this->pythonVM->executeOnComputeMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
-void Esi::Scripting::executeOnOutputMethods(Scene& scene)
+void Omnific::Scripting::executeOnOutputMethods(Scene& scene)
 {
 	this->pythonVM->executeOnOutputMethods(scene.generateCallBatches(CallType::UPDATE));
 }
 
-void Esi::Scripting::executeOnFinishMethods(Scene& scene)
+void Omnific::Scripting::executeOnFinishMethods(Scene& scene)
 {
 	this->pythonVM->executeOnFinishMethods(scene.generateCallBatches(CallType::FINISH));
 }
 
-void Esi::Scripting::setSceneStorage(SceneStorage* sceneStorage)
+void Omnific::Scripting::setSceneStorage(SceneStorage* sceneStorage)
 {
 	ScriptingAPIs::setSceneStorage(sceneStorage);
 }

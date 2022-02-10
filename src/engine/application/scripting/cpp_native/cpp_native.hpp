@@ -25,7 +25,7 @@
 #include <string>
 #include "../native_scripting_language.hpp"
 
-namespace Esi
+namespace Omnific
 {
     class CPPNative : NativeScriptingLanguage
     {
@@ -40,7 +40,7 @@ namespace Esi
         void executeOnFinishMethods();
     private:
         void* dynamicLibraryHandle;
-        std::string nativeAssemblyFilename = "esi_cpp_native_assembly";
+        std::string nativeAssemblyFilename = "omnific_cpp_native_assembly";
 
         void executeMethods(std::string methodName);
     };

@@ -24,7 +24,7 @@
 
 #include <os/logger.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	class LogAPI
 	{

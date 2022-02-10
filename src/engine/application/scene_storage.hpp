@@ -26,7 +26,7 @@
 #include <string>
 #include "utilities/aliases.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class SceneStorage
 	{

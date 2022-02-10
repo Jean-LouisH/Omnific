@@ -31,7 +31,7 @@
 #include <string>
 #include <application/scene/uid_generator.hpp>
 
-namespace Esi
+namespace Omnific
 {
 	typedef struct Entity
 	{

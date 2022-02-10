@@ -22,72 +22,72 @@
 
 #include "engine_state.hpp"
 
-Esi::EngineState::EngineState()
+Omnific::EngineState::EngineState()
 {
 	this->setInitializing();
 }
 
-void Esi::EngineState::setInitializing()
+void Omnific::EngineState::setInitializing()
 {
 	this->value = ENGINE_STATE_INITIALIZING;
 }
 
-void Esi::EngineState::setRunningApplicationWindowed()
+void Omnific::EngineState::setRunningApplicationWindowed()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_WINDOWED;
 }
 
-void Esi::EngineState::setRunningApplicationFullscreen()
+void Omnific::EngineState::setRunningApplicationFullscreen()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN;
 }
 
-void Esi::EngineState::setRunningApplicationFullscreenDesktop()
+void Omnific::EngineState::setRunningApplicationFullscreenDesktop()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP;
 }
 
-void Esi::EngineState::setRestarting()
+void Omnific::EngineState::setRestarting()
 {
 	this->value = ENGINE_STATE_RESTARTING;
 }
 
-void Esi::EngineState::setShuttingDown()
+void Omnific::EngineState::setShuttingDown()
 {
 	this->value = ENGINE_STATE_SHUTTING_DOWN;
 }
 
-bool Esi::EngineState::isInitializing()
+bool Omnific::EngineState::isInitializing()
 {
 	return this->value == ENGINE_STATE_INITIALIZING;
 }
 
-bool Esi::EngineState::isRunningApplicationWindowed()
+bool Omnific::EngineState::isRunningApplicationWindowed()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_WINDOWED;
 }
 
-bool Esi::EngineState::isRunningApplicationFullscreen()
+bool Omnific::EngineState::isRunningApplicationFullscreen()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN;
 }
 
-bool Esi::EngineState::isRunningApplicationFullscreenDesktop()
+bool Omnific::EngineState::isRunningApplicationFullscreenDesktop()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP;
 }
 
-bool Esi::EngineState::isRestarting()
+bool Omnific::EngineState::isRestarting()
 {
 	return this->value == ENGINE_STATE_RESTARTING;
 }
 
-bool Esi::EngineState::isShuttingDown()
+bool Omnific::EngineState::isShuttingDown()
 {
 	return this->value == ENGINE_STATE_SHUTTING_DOWN;
 }
 
-bool Esi::EngineState::isRunning()
+bool Omnific::EngineState::isRunning()
 {
 	return (this->isRunningApplicationFullscreen() ||
 		this->isRunningApplicationFullscreenDesktop() ||

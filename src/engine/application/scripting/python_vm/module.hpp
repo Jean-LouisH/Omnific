@@ -28,7 +28,7 @@
 #include <string>
 #include <set>
 
-namespace Esi
+namespace Omnific
 {
 	class Module
 	{

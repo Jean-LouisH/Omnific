@@ -27,7 +27,7 @@
 #include "utilities/constants.hpp"
 #include "application/scene/component.hpp"
 
-namespace Esi
+namespace Omnific
 {
 	class KinematicBody : public Component
 	{

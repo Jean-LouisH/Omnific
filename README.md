@@ -1,15 +1,15 @@
-# [Esi](https://github.com/Jean-LouisH/Esi)
+# [Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine)
 
 ![screenshot](Screenshot.png)
 
 **This project is still a work in progress**
 
-[Esi](https://github.com/Jean-LouisH/Esi) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, lightweight, and suitable also for interactive, multimedia applications. For now it is only targeted to PC Windows and Linux desktop platorms.
+[Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, lightweight, and suitable also for interactive, multimedia applications. For now it is only targeted to PC Windows and Linux desktop platorms.
 
 ## Notable Features
 
-- 2D/3D simulation and rendering
-- Data-oriented Entity-Component-System (ECS) architecture with support for custom Components and Systems
+- 2D/3D Entities
+- Data-oriented Entity-Component-System (ECS) architecture
 - C++ and Python scripting
 - OpenGL Rendering Context
 - Game Controller and Haptic Feedback support

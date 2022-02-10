@@ -22,12 +22,12 @@
 
 #include "renderable_component.hpp"
 
-std::shared_ptr<Esi::Image> Esi::RenderableComponent::getImage()
+std::shared_ptr<Omnific::Image> Omnific::RenderableComponent::getImage()
 {
 	return this->image;
 }
 
-bool Esi::RenderableComponent::isRenderable()
+bool Omnific::RenderableComponent::isRenderable()
 {
 	return true;
 }

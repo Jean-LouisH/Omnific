@@ -22,53 +22,53 @@
 
 #include "ui_viewport.hpp"
 
-Esi::EntityID Esi::UIViewport::getCameraEntityID()
+Omnific::EntityID Omnific::UIViewport::getCameraEntityID()
 {
 	return this->cameraEntityID;
 }
 
-void Esi::UIViewport::setCameraEntity(EntityID cameraEntityID)
+void Omnific::UIViewport::setCameraEntity(EntityID cameraEntityID)
 {
 	this->cameraEntityID = cameraEntityID;
 }
 
-Esi::Rectangle Esi::UIViewport::getDimensions()
+Omnific::Rectangle Omnific::UIViewport::getDimensions()
 {
 	return  this->dimensions;
 }
 
-bool Esi::UIViewport::getIsVisibleToOtherCameras()
+bool Omnific::UIViewport::getIsVisibleToOtherCameras()
 {
 	return this->isVisibleToOtherCameras;
 }
 
-bool Esi::UIViewport::getIsVisible()
+bool Omnific::UIViewport::getIsVisible()
 {
 	return this->isVisible;
 }
 
-void Esi::UIViewport::setDimensions(uint32_t width, uint32_t height)
+void Omnific::UIViewport::setDimensions(uint32_t width, uint32_t height)
 {
 	this->dimensions.width = width;
 	this->dimensions.height = height;
 }
 
-void Esi::UIViewport::setVisibleToOtherCameras()
+void Omnific::UIViewport::setVisibleToOtherCameras()
 {
 	this->isVisibleToOtherCameras = true;
 }
 
-void Esi::UIViewport::setInvisibleToOtherCameras()
+void Omnific::UIViewport::setInvisibleToOtherCameras()
 {
 	this->isVisibleToOtherCameras = false;
 }
 
-void Esi::UIViewport::setVisible()
+void Omnific::UIViewport::setVisible()
 {
 	this->isVisible = true;
 }
 
-void Esi::UIViewport::setInvisible()
+void Omnific::UIViewport::setInvisible()
 {
 	this->isVisible = false;
 }

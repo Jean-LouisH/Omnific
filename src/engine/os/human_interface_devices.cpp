@@ -22,7 +22,7 @@
 
 #include "human_interface_devices.hpp"
 
-void Esi::HumanInterfaceDevices::clear()
+void Omnific::HumanInterfaceDevices::clear()
 {
 	this->controllerAxisEvents.clear();
 	this->controllerButtonEvents.clear();
@@ -37,7 +37,7 @@ void Esi::HumanInterfaceDevices::clear()
 	this->hasDetectedInputChanges = false;
 }
 
-void Esi::HumanInterfaceDevices::detectGameControllers()
+void Omnific::HumanInterfaceDevices::detectGameControllers()
 {
 	if (SDL_NumJoysticks() != this->gameControllers.size())
 	{
@@ -69,7 +69,7 @@ void Esi::HumanInterfaceDevices::detectGameControllers()
 	}
 }
 
-void Esi::HumanInterfaceDevices::pollInputEvents()
+void Omnific::HumanInterfaceDevices::pollInputEvents()
 {
 	SDL_Event SDLEvents;
 
@@ -123,32 +123,32 @@ void Esi::HumanInterfaceDevices::pollInputEvents()
 	}
 }
 
-bool Esi::HumanInterfaceDevices::hasRequestedShutdown()
+bool Omnific::HumanInterfaceDevices::hasRequestedShutdown()
 {
 	return this->shutdownRequest;
 }
 
-bool Esi::HumanInterfaceDevices::hasRequestedRestart()
+bool Omnific::HumanInterfaceDevices::hasRequestedRestart()
 {
 	return this->restartRequest;
 }
 
-void Esi::HumanInterfaceDevices::forceShutdownRequest()
+void Omnific::HumanInterfaceDevices::forceShutdownRequest()
 {
 	this->shutdownRequest = true;
 }
 
-void Esi::HumanInterfaceDevices::forceRestartRequest()
+void Omnific::HumanInterfaceDevices::forceRestartRequest()
 {
 	this->restartRequest = true;
 }
 
-bool Esi::HumanInterfaceDevices::getHasDetectedInputChanges()
+bool Omnific::HumanInterfaceDevices::getHasDetectedInputChanges()
 {
 	return this->hasDetectedInputChanges;
 }
 
-bool Esi::HumanInterfaceDevices::hasRequestedCommandLine()
+bool Omnific::HumanInterfaceDevices::hasRequestedCommandLine()
 {
 	bool backquoteReleased = false;
 
@@ -158,47 +158,47 @@ bool Esi::HumanInterfaceDevices::hasRequestedCommandLine()
 	return backquoteReleased;	 
 }
 
-std::vector<SDL_Haptic*> Esi::HumanInterfaceDevices::getHaptics()
+std::vector<SDL_Haptic*> Omnific::HumanInterfaceDevices::getHaptics()
 {
 	return this->haptics;
 }
 
-std::unordered_map<Esi::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Esi::HumanInterfaceDevices::getControllerButtonEvents()
+std::unordered_map<Omnific::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Omnific::HumanInterfaceDevices::getControllerButtonEvents()
 {
 	return this->controllerButtonEvents;
 }
 
-std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Esi::HumanInterfaceDevices::getKeyboardEvents()
+std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Omnific::HumanInterfaceDevices::getKeyboardEvents()
 {
 	return this->keyboardEvents;
 }
 
-std::unordered_map<Esi::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Esi::HumanInterfaceDevices::getControllerAxisEvents()
+std::unordered_map<Omnific::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Omnific::HumanInterfaceDevices::getControllerAxisEvents()
 {
 	return this->controllerAxisEvents;
 }
 
-SDL_MouseButtonEvent Esi::HumanInterfaceDevices::getMouseButtonEvent()
+SDL_MouseButtonEvent Omnific::HumanInterfaceDevices::getMouseButtonEvent()
 {
 	return this->mouseButtonEvent;
 }
 
-SDL_MouseMotionEvent Esi::HumanInterfaceDevices::getMouseMotionEvent()
+SDL_MouseMotionEvent Omnific::HumanInterfaceDevices::getMouseMotionEvent()
 {
 	return this->mouseMotionEvent;
 }
 
-SDL_MouseWheelEvent  Esi::HumanInterfaceDevices::getMouseWheelEvent()
+SDL_MouseWheelEvent  Omnific::HumanInterfaceDevices::getMouseWheelEvent()
 {
 	return this->mouseWheelEvent;
 }
 
-std::unordered_map<Esi::PlayerID, SDL_JoystickID> Esi::HumanInterfaceDevices::getControllerPlayerMap()
+std::unordered_map<Omnific::PlayerID, SDL_JoystickID> Omnific::HumanInterfaceDevices::getControllerPlayerMap()
 {
 	return this->controllerPlayerMap;
 }
 
-std::queue<Esi::PlayerID>& Esi::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
+std::queue<Omnific::PlayerID>& Omnific::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
 {
 	return this->newlyLoadedPlayerIDs;
 }

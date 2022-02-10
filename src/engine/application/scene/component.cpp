@@ -23,64 +23,64 @@
 #include "component.hpp"
 #include <application/scene/uid_generator.hpp>
 
-Esi::Component::Component()
+Omnific::Component::Component()
 {
 	this->id = UIDGenerator::getNewUID();
 }
 
-void Esi::Component::setEntityID(EntityID entityID)
+void Omnific::Component::setEntityID(EntityID entityID)
 {
 	this->entityID = entityID;
 }
 
-void Esi::Component::setComponentPropertyPool(std::shared_ptr<Esi::ComponentPropertyPool> componentPropertyPool)
+void Omnific::Component::setComponentPropertyPool(std::shared_ptr<Omnific::ComponentPropertyPool> componentPropertyPool)
 {
 
 }
 
-Esi::ComponentID Esi::Component::getID()
+Omnific::ComponentID Omnific::Component::getID()
 {
 	return this->id;
 }
 
-Esi::EntityID Esi::Component::getEntityID()
+Omnific::EntityID Omnific::Component::getEntityID()
 {
 	return this->entityID;
 }
 
-bool Esi::Component::isAttachedToEntity()
+bool Omnific::Component::isAttachedToEntity()
 {
 	return this->getEntityID() != DUMMY_ENTITY;
 }
 
-std::string Esi::Component::getType() const
+std::string Omnific::Component::getType() const
 {
 	return this->type;
 }
 
-bool Esi::Component::isRenderable()
+bool Omnific::Component::isRenderable()
 {
 	return false;
 }
 
-void Esi::Component::addProperty(std::string propertyName, float propertyValue)
+void Omnific::Component::addProperty(std::string propertyName, float propertyValue)
 {
 
 }
 
-void Esi::Component::updateProperty(std::string propertyName, float propertyValue)
+void Omnific::Component::updateProperty(std::string propertyName, float propertyValue)
 {
 
 }
 
-float Esi::Component::getProperty(std::string propertyName)
+float Omnific::Component::getProperty(std::string propertyName)
 {
 	float propertyValue = 0.0;
 
 	return propertyValue;
 }
 
-std::vector<std::string> Esi::Component::getPropertyNames()
+std::vector<std::string> Omnific::Component::getPropertyNames()
 {
 	std::vector<std::string> names;
 	

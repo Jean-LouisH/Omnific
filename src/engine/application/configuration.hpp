@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace Esi 
+namespace Omnific 
 {
 	class Configuration
 	{
@@ -44,7 +44,7 @@ namespace Esi
 			uint16_t width;
 			bool isStartingFullscreen;
 			bool isStartingMaximized;
-			bool isResizable;
+			bool isRomnificzable;
 		} windowSettings;
 
 		struct TimeSettings

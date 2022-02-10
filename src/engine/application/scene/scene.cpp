@@ -24,7 +24,7 @@
 #include "component.hpp"
 #include "application/scripting/python_vm/script_call_batch.hpp"
 
-Esi::Scene::Scene()
+Omnific::Scene::Scene()
 {
 	this->assetCache = std::shared_ptr<AssetCache>(new AssetCache());
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
@@ -40,20 +40,20 @@ Esi::Scene::Scene()
 	this->dummyEntityID = this->getLastEntity().id;
 }
 
-void Esi::Scene::addEntity(Entity entity)
+void Omnific::Scene::addEntity(Entity entity)
 {
 	this->startEntitiesQueue.emplace(entity.id);
 	this->entities.emplace(entity.id, entity);
 	this->lastEntityID = entity.id;
 }
 
-void Esi::Scene::addEmptyEntity()
+void Omnific::Scene::addEmptyEntity()
 {
 	Entity emptyEntity;
 	this->addEntity(emptyEntity);
 }
 
-void Esi::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> component)
+void Omnific::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
 	component->setEntityID(entityID);
 	component->setComponentPropertyPool(this->componentPropertyPool);
@@ -77,12 +77,12 @@ void Esi::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> comp
 		this->renderOrderIndexCache.push_back(this->components.size() - 1);
 }
 
-void Esi::Scene::addComponentToLastEntity(std::shared_ptr<Component> component)
+void Omnific::Scene::addComponentToLastEntity(std::shared_ptr<Component> component)
 {
 	this->addComponent(this->lastEntityID, component);
 }
 
-void Esi::Scene::removeEntity(EntityID entityID)
+void Omnific::Scene::removeEntity(EntityID entityID)
 {
 	auto entityComponents = this->getEntity(entityID).components;
 	for (auto it = entityComponents.begin(); it != entityComponents.end();)
@@ -98,7 +98,7 @@ void Esi::Scene::removeEntity(EntityID entityID)
 	std::vector<EntityID> parentChildIDs = this->getEntity(parentID).childIDs;
 }
 
-void Esi::Scene::removeComponent(EntityID entityID, std::string type)
+void Omnific::Scene::removeComponent(EntityID entityID, std::string type)
 {
 	Entity& entity = this->getEntity(entityID);
 	ComponentID componentID = entity.components.at(type);
@@ -112,7 +112,7 @@ void Esi::Scene::removeComponent(EntityID entityID, std::string type)
 			++it;
 }
 
-std::vector<Esi::ScriptCallBatch> Esi::Scene::generateCallBatches(CallType callType)
+std::vector<Omnific::ScriptCallBatch> Omnific::Scene::generateCallBatches(CallType callType)
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 	std::queue<EntityID>* entityQueue = nullptr;
@@ -153,22 +153,22 @@ std::vector<Esi::ScriptCallBatch> Esi::Scene::generateCallBatches(CallType callT
 	return scriptCallBatches;
 }
 
-std::vector<size_t> Esi::Scene::getRenderOrderIndexCache()
+std::vector<size_t> Omnific::Scene::getRenderOrderIndexCache()
 {
 	return this->renderOrderIndexCache;
 }
 
-std::unordered_map<std::string, std::vector<size_t>> Esi::Scene::getComponentIndexCaches()
+std::unordered_map<std::string, std::vector<size_t>> Omnific::Scene::getComponentIndexCaches()
 {
 	return this->componentIndexCaches;
 }
 
-std::vector<std::shared_ptr<Esi::Component>>& Esi::Scene::getComponents()
+std::vector<std::shared_ptr<Omnific::Component>>& Omnific::Scene::getComponents()
 {
 	return this->components;
 }
 
-std::shared_ptr<Esi::Transform> Esi::Scene::getEntityTransform(EntityID entityID)
+std::shared_ptr<Omnific::Transform> Omnific::Scene::getEntityTransform(EntityID entityID)
 {
 	std::vector<size_t> transformIndices = this->componentIndexCaches.at("Transform");
 		
@@ -182,12 +182,12 @@ std::shared_ptr<Esi::Transform> Esi::Scene::getEntityTransform(EntityID entityID
 	return transform;
 }
 
-Esi::Entity& Esi::Scene::getEntity(EntityID entityID)
+Omnific::Entity& Omnific::Scene::getEntity(EntityID entityID)
 {
 	return this->entities.at(entityID);
 }
 
-Esi::Entity& Esi::Scene::getEntityByName(std::string name)
+Omnific::Entity& Omnific::Scene::getEntityByName(std::string name)
 {
 	Entity* Entity = nullptr;
 
@@ -198,17 +198,17 @@ Esi::Entity& Esi::Scene::getEntityByName(std::string name)
 	return *Entity;
 }
 
-Esi::Entity& Esi::Scene::getLastEntity()
+Omnific::Entity& Omnific::Scene::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
 }
 
-std::unordered_map<Esi::EntityID, Esi::Entity>& Esi::Scene::getEntities()
+std::unordered_map<Omnific::EntityID, Omnific::Entity>& Omnific::Scene::getEntities()
 {
 	return this->entities;
 }
 
-std::shared_ptr<Esi::Component> Esi::Scene::getComponent(ComponentID componentID)
+std::shared_ptr<Omnific::Component> Omnific::Scene::getComponent(ComponentID componentID)
 {
 	std::shared_ptr<Component> component = std::make_shared<Component>();
 
@@ -222,52 +222,52 @@ std::shared_ptr<Esi::Component> Esi::Scene::getComponent(ComponentID componentID
 	return component;
 }
 
-Esi::Entity::SpatialDimension Esi::Scene::getComponentSpatialDimension(ComponentID componentID)
+Omnific::Entity::SpatialDimension Omnific::Scene::getComponentSpatialDimension(ComponentID componentID)
 {
 	return this->getEntity(this->getComponent(componentID)->getEntityID()).spatialDimension;
 }
 
-Esi::EventBus& Esi::Scene::getEventBus()
+Omnific::EventBus& Omnific::Scene::getEventBus()
 {
 	return *this->eventBus;
 }
 
-bool Esi::Scene::getHasRenderableComponentsChanged()
+bool Omnific::Scene::getHasRenderableComponentsChanged()
 {
 	return true;
 }
 
-bool Esi::Scene::getHasShadersChanged()
+bool Omnific::Scene::getHasShadersChanged()
 {
 	return false;
 }
 
-bool Esi::Scene::getHasScriptsChanged()
+bool Omnific::Scene::getHasScriptsChanged()
 {
 	return false;
 }
 
-Esi::SceneID Esi::Scene::getID()
+Omnific::SceneID Omnific::Scene::getID()
 {
 	return this->ID;
 }
 
-Esi::AssetCache& Esi::Scene::getAssetCache()
+Omnific::AssetCache& Omnific::Scene::getAssetCache()
 {
 	return *this->assetCache;
 }
 
-Esi::HapticSignalBuffer& Esi::Scene::getHapticSignalBuffer()
+Omnific::HapticSignalBuffer& Omnific::Scene::getHapticSignalBuffer()
 {
 	return *this->hapticSignalBuffer;
 }
 
-void Esi::Scene::unload()
+void Omnific::Scene::unload()
 {
 	this->assetCache->deleteAllAssets();
 }
 
-Esi::Entity& Esi::Scene::getDummyEntity()
+Omnific::Entity& Omnific::Scene::getDummyEntity()
 {
 	return this->getEntity(this->dummyEntityID);
 }

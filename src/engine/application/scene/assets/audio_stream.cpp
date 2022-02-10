@@ -22,18 +22,18 @@
 
 #include "audio_stream.hpp"
 
-Esi::AudioStream::~AudioStream()
+Omnific::AudioStream::~AudioStream()
 {
 
 }
 
-Esi::AudioStream::AudioStream(std::string filepath)
+Omnific::AudioStream::AudioStream(std::string filepath)
 {
 	this->setName(filepath);
 	this->sound = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
 }
 
-Mix_Chunk* Esi::AudioStream::getSDLMixChunk()
+Mix_Chunk* Omnific::AudioStream::getSDLMixChunk()
 {
 	return this->sound.get();
 }

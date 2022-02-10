@@ -29,7 +29,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Esi
+namespace Omnific
 {
 	class NavigationPath : public Component
 	{

@@ -38,18 +38,18 @@
 #include <memory>
 
 #if defined (_WIN32)
-#if defined(_ESI_ENGINE_EXPORTS)
-#define  ESI_ENGINE_API __declspec(dllexport)
+#if defined(_OMNIFIC_ENGINE_EXPORTS)
+#define  OMNIFIC_ENGINE_API __declspec(dllexport)
 #else
-#define  ESI_ENGINE_API __declspec(dllimport)
+#define  OMNIFIC_ENGINE_API __declspec(dllimport)
 #endif
 #else
-#define ESI_ENGINE_API
+#define OMNIFIC_ENGINE_API
 #endif
 
-namespace Esi
+namespace Omnific
 {
-	class ESI_ENGINE_API Engine
+	class OMNIFIC_ENGINE_API Engine
 	{
 	public:
 		Engine(
