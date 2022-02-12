@@ -28,6 +28,7 @@
 
 namespace Omnific
 {
+	/* Processes Components with data related to HID interaction.*/
 	class UISystem : public System
 	{
 	public:

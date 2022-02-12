@@ -31,6 +31,7 @@
 
 namespace Omnific
 {
+	/* Image or material data formatted in GPU memory. */
 	class Texture
 	{
 	public:

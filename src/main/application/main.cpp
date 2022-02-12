@@ -25,6 +25,8 @@
 
 #undef main
 
+/**Regular entry point*/
+
 int main(int argc, char* argv[])
 {
 	Omnific::Engine omnific(argc, argv);

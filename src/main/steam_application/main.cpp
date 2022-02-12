@@ -25,6 +25,8 @@
 
 #undef main
 
+/**Entry point for applications that use the steam API DLL*/
+
 int main(int argc, char* argv[])
 {
 	Omnific::Engine omnific(argc, argv);

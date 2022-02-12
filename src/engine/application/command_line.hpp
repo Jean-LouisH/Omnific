@@ -34,6 +34,7 @@
 
 namespace Omnific
 {
+	/* Enables debug entry of commands to test the Engine. */
 	class CommandLine
 	{
 	public:

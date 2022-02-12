@@ -36,6 +36,7 @@
 
 namespace Omnific
 {
+	/* Processes RenderableComponents for output to graphics display. */
 	class RenderingSystem : public System
 	{
 	public:

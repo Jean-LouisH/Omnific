@@ -32,6 +32,9 @@
 
 namespace Omnific
 {
+	/* Manufactures ShaderPrograms given valid Shaders. 
+	   Shaders are valid when their sources comply with the
+	   shading language's compiler requirements. */
 	class ShaderCompiler
 	{
 	public:

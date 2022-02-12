@@ -27,6 +27,8 @@
 
 namespace Omnific
 {
+	/* Processes audio acoustic simulations based on 
+	   Components that provide material properties in the Scene.*/
 	class AcousticSystem : System
 	{
 	public:

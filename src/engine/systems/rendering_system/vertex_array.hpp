@@ -29,6 +29,7 @@
 
 namespace Omnific
 {
+	/* Identifier for buffers bound to a draw call. */
 	class VertexArray
 	{
 	public:

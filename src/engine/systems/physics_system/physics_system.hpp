@@ -27,6 +27,7 @@
 
 namespace Omnific
 {
+	/* Processes Components related to time and classical mechanics physics simulations. */
 	class PhysicsSystem : public System
 	{
 	public:

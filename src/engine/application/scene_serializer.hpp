@@ -28,6 +28,7 @@
 
 namespace Omnific
 {
+	/* Handles memory to IO interaction of Scene data. */
 	class SceneSerializer
 	{
 	public:

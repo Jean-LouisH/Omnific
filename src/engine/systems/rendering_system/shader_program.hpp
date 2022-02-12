@@ -29,6 +29,7 @@
 
 namespace Omnific
 {
+	/* The objects that facilitate GPU computation with settable uniform values. */
 	class ShaderProgram
 	{
 	public:

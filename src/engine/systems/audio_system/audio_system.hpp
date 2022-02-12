@@ -29,6 +29,7 @@
 
 namespace Omnific
 {
+	/* Processes Components that enable playback of audio and outputs its waveforms. */
 	class AudioSystem : System
 	{
 	public:

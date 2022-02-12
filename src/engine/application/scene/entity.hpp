@@ -33,6 +33,9 @@
 
 namespace Omnific
 {
+	/* An object that exists within the Scene with its own
+	   identity, components, spatial dimension and hierarchy 
+	   with other Entities. */
 	typedef struct Entity
 	{
 		enum class SpatialDimension

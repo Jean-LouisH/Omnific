@@ -6,6 +6,8 @@
 
 [Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, lightweight, and suitable also for interactive, multimedia applications. For now it is only targeted to PC Windows and Linux desktop platorms.
 
+"Omnific" means ["all-creating."](https://www.merriam-webster.com/dictionary/omnific)
+
 ## Notable Features
 
 - 2D/3D Entities

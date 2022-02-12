@@ -34,6 +34,7 @@
 
 namespace Omnific
 {
+	/* Processes HapticSignals from the HapticSignalBuffer in the Scene.*/
 	class HapticSystem : public System
 	{
 	public:

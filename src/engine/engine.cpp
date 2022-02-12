@@ -67,6 +67,7 @@ void Omnific::Engine::run()
 
 		Profiler& profiler = OS::getProfiler();
 
+		/* Main engine loop */
 		while (this->state->isRunning())
 		{
 			profiler.getFrameTimer().setStart();
@@ -168,6 +169,10 @@ void Omnific::Engine::update()
 	this->uiSystem->process(activeScene);
 	this->aiSystem->process(activeScene);
 
+	/* This calls the compute based Systems repeatedly until the accumulated
+	   lag milliseconds are depleted. This ensures compute operations
+	   are accurate to real-time, even when frames drop. */
+
 	while (profiler.getLag_ms() >= msPerComputeUpdate)
 	{
 		this->application->executeOnComputeMethods();
@@ -217,9 +222,9 @@ void Omnific::Engine::benchmark()
 void Omnific::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
-	float targetFrameTime_ms = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
-	float processTime_ms = profiler.getProcessTimer().getDelta_ns() / NS_IN_MS;
-	OS::getWindow().sleep(targetFrameTime_ms - processTime_ms);
+	float targetFrameTime = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
+	float processTime = profiler.getProcessTimer().getDelta_ns() / NS_IN_MS;
+	OS::getWindow().sleep(targetFrameTime - processTime);
 }
 
 void Omnific::Engine::shutdown()

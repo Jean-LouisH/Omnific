@@ -25,6 +25,9 @@
 
 #undef main
 
+/**Entry point for applications that use the steam API DLL with
+ * the high performance graphics card option.*/
+
 int main(int argc, char* argv[])
 {
 	Omnific::Engine omnific(argc, argv);

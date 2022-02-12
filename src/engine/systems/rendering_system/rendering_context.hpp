@@ -33,6 +33,7 @@
 
 namespace Omnific
 {
+	/* The object that calls the rendering API functions. */
 	class RenderingContext
 	{
 	public:

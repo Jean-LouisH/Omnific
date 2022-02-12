@@ -49,6 +49,8 @@
 
 namespace Omnific
 {
+	/* The main class responsible for engine runtime 
+	   that supports the application built on it. */
 	class OMNIFIC_ENGINE_API Engine
 	{
 	public:

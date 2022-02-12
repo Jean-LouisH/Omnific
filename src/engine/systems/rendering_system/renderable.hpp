@@ -39,6 +39,8 @@
 
 namespace Omnific
 {
+	/* Caches memory locations for values 
+	   relevant to rendering a single Entity. */
 	class Renderable
 	{
 	public:

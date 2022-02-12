@@ -33,6 +33,9 @@
 
 namespace Omnific
 {
+	/* Base class for objects that store and manipulate 
+	   data relevant to individual Entities in a Scene.
+	   These are attached to Entities when added to a Scene.*/
     class Component
     {
 	public:

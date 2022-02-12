@@ -28,6 +28,7 @@
 
 namespace Omnific
 {
+	/* Loads and stores multiple Scenes at once. */
 	class SceneStorage
 	{
 	public:

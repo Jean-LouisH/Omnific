@@ -76,6 +76,7 @@ void Omnific::RenderingContext::submit(
 			renderable.vertexArray->bind();
 			renderable.texture->bind();
 
+			/* Render for each ShaderProgram. */
 			for (size_t j = 0; j < shaderCount; j++)
 			{
 				std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];

@@ -33,6 +33,7 @@
 
 namespace Omnific
 {
+	/* Storage for mesh data in GPU memory. */
 	class VertexBuffer
 	{
 	public:

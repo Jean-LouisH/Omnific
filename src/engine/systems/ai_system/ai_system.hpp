@@ -27,6 +27,8 @@
 
 namespace Omnific
 {
+	/* Processes components with data for traditional AI algorithms
+	   like navigational path finding. */
 	class AISystem : System
 	{
 	public:

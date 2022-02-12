@@ -36,6 +36,7 @@
 
 namespace Omnific
 {
+	/* Singleton for objects related to Operating System utilities. */
 	class OS
 	{
 	public:
