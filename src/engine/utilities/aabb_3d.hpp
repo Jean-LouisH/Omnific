@@ -29,8 +29,8 @@ namespace Omnific
 	class AABB3D
 	{
 	public:
-		glm::vec3 min_px;
-		glm::vec3 max_px;
+		glm::vec3 min;
+		glm::vec3 max;
 	private:
 	};
 }

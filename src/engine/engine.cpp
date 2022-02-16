@@ -125,9 +125,9 @@ bool Omnific::Engine::initialize()
 		Logger& logger = OS::getLogger();
 
 		logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
-		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize_B()) + " B");
+		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize()) + " B");
 		logger.write("Retrieved OS Name: " + platform.getOSName());
-		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM_MB()) + " MB");
+		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
 
 		Profiler& profiler = OS::getProfiler();
 		profiler.getBenchmarkTimer().setStart();
@@ -173,7 +173,7 @@ void Omnific::Engine::update()
 	   lag milliseconds are depleted. This ensures compute operations
 	   are accurate to real-time, even when frames drop. */
 
-	while (profiler.getLag_ms() >= msPerComputeUpdate)
+	while (profiler.getLag() >= msPerComputeUpdate)
 	{
 		this->application->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
@@ -183,7 +183,7 @@ void Omnific::Engine::update()
 
 	this->application->executeOnOutputMethods();
 	this->application->executeOnFinishMethods();
-	profiler.incrementLagCount(profiler.getFrameTimer().getDelta_ns() / NS_IN_MS);
+	profiler.incrementLagCount(profiler.getFrameTimer().getDeltaInNanoseconds() / NS_IN_MS);
 	profiler.getUpdateTimer().setEnd();
 }
 
@@ -205,12 +205,12 @@ void Omnific::Engine::benchmark()
 #ifdef _DEBUG
 	uint32_t FPSUpdateSeconds = 1;
 
-	if (profiler.getBenchmarkTimer().getDelta_ns() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
+	if (profiler.getBenchmarkTimer().getDeltaInNanoseconds() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
 	{
 		profiler.getBenchmarkTimer().setStart();
 		std::string FPSString = std::to_string(profiler.getFPS());
 		std::string frameUtilizationString =
-			std::to_string((int)(((double)profiler.getProcessTimer().getDelta_ns() / (double)profiler.getFrameTimer().getDelta_ns()) * 100));
+			std::to_string((int)(((double)profiler.getProcessTimer().getDeltaInNanoseconds() / (double)profiler.getFrameTimer().getDeltaInNanoseconds()) * 100));
 		OS::getWindow().changeTitle((this->application->getConfiguration().metadata.title + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
@@ -223,7 +223,7 @@ void Omnific::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
-	float processTime = profiler.getProcessTimer().getDelta_ns() / NS_IN_MS;
+	float processTime = profiler.getProcessTimer().getDeltaInNanoseconds() / NS_IN_MS;
 	OS::getWindow().sleep(targetFrameTime - processTime);
 }
 

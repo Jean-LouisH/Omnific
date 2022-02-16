@@ -30,12 +30,13 @@ namespace Omnific
 	class HiResTimer
 	{
 	public:
-		uint64_t getDelta_ns();
-		uint64_t getDelta_ms();
+		uint64_t getDeltaInNanoseconds();
+		/* Returns delta time in Milliseconds */
+		uint64_t getDelta();
 		void setStart();
 		void setEnd();
 	private:
-		uint64_t delta_ns = 0;
+		uint64_t delta = 0; //In nanoseconds.
 		std::chrono::time_point<std::chrono::steady_clock> start;
 		std::chrono::time_point<std::chrono::steady_clock> end;
 	};

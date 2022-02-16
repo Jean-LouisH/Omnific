@@ -65,20 +65,20 @@ void Omnific::Profiler::incrementFrameCount()
 
 void Omnific::Profiler::incrementLagCount(uint64_t deltaTime_ms)
 {
-	this->lag_ms += deltaTime_ms;
+	this->lag += deltaTime_ms;
 }
 
 void Omnific::Profiler::decrementLagCount(uint64_t deltaTime_ms)
 {
-	this->lag_ms -= deltaTime_ms;
+	this->lag -= deltaTime_ms;
 }
 
-uint64_t Omnific::Profiler::getLag_ms()
+uint64_t Omnific::Profiler::getLag()
 {
-	return this->lag_ms;
+	return this->lag;
 }
 
 uint16_t Omnific::Profiler::getFPS()
 {
-	return (1.0 / (this->getFrameTimer().getDelta_ns() / NS_IN_S));
+	return (1.0 / (this->getFrameTimer().getDeltaInNanoseconds() / NS_IN_S));
 }

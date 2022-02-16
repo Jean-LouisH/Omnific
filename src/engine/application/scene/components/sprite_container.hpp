@@ -76,8 +76,8 @@ namespace Omnific
 	private:
 		std::unordered_map<std::string, std::vector<std::shared_ptr<Image>>> frameSequences;
 		uint8_t alpha = 255;
-		float animationSpeed_fps = 12.0;
-		float frameTime_s = 0.0;
+		float animationSpeedInFPS = 12.0;
+		float frameTime = 0.0;
 		uint16_t currentFrameIndex = 0;
 		bool isPlaying = false;
 		bool isBackwards = false;

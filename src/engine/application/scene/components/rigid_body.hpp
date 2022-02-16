@@ -33,19 +33,19 @@ namespace Omnific
 	class RigidBody : public Component
 	{
 	public:
-		float mass_kg = 1.0;
-		float friction_ratio = 1.0;
-		float angularDrag_ratio = 1.0;
-		float angularVelocity_rad_per_s = 0.0;
-		float gravity_scale = 1.0;
-		float elasticity_ratio = 0.01;
-		glm::vec2 drag_ratio;
-		glm::vec2 velocity_px_per_s;
+		float mass = 1.0;
+		float frictionRatio = 1.0;
+		float angularDragRatio = 1.0;
+		float angularVelocity = 0.0;
+		float gravityScale = 1.0;
+		float elasticityRatio = 0.01;
+		glm::vec2 dragRatio;
+		glm::vec2 velocity;
 
 		RigidBody()
 		{
-			this->drag_ratio.x = 0.0001;
-			this->drag_ratio.y = 1.0;
+			this->dragRatio.x = 0.0001;
+			this->dragRatio.y = 1.0;
 			this->type = TYPE_STRING;
 		}
 		static constexpr const char* TYPE_STRING = "RigidBody";

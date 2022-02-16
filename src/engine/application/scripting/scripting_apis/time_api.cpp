@@ -57,5 +57,5 @@ uint32_t Omnific::TimeAPI::getTargetFPS()
 
 uint64_t Omnific::TimeAPI::getFrameTimeDelta()
 {
-	return NS_IN_MS * this->profiler->getFrameTimer().getDelta_ns();
+	return NS_IN_MS * this->profiler->getFrameTimer().getDeltaInNanoseconds();
 }

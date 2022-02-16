@@ -32,10 +32,10 @@ namespace Omnific
 	{
 	public:
 		WindowAPI(Window* window);
-		void setToWindowed(uint16_t width_px, uint16_t height_px);
+		void setToWindowed(uint16_t width, uint16_t height);
 		void setToFullscreen();
 		void toggleWindowedFullscreen();
-		void resize(uint16_t width_px, uint16_t height_px);
+		void resize(uint16_t width, uint16_t height);
 		void changeTitle(std::string title);
 		void changeIcon(Image image);
 		void maximize();

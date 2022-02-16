@@ -195,19 +195,19 @@ bool Omnific::InputAPI::isOnPress(std::vector<std::string> inputCodes, PlayerID 
 	return false;
 }
 
-bool Omnific::InputAPI::isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms)
+bool Omnific::InputAPI::isOnDoublePress(std::string inputCode, unsigned int timeInterval)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
-	return this->isOnDoublePress(inputCodes, timeInterval_ms);
+	return this->isOnDoublePress(inputCodes, timeInterval);
 }
 
-bool Omnific::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval_ms)
+bool Omnific::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval)
 {
-	return this->isOnDoublePress(inputCodes, timeInterval_ms, 0);
+	return this->isOnDoublePress(inputCodes, timeInterval, 0);
 }
 
-bool Omnific::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, PlayerID playerID)
+bool Omnific::InputAPI::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{

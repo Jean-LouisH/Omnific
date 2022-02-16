@@ -39,9 +39,9 @@ namespace Omnific
 		bool isOnPress(std::string inputCode);
 		bool isOnPress(std::vector<std::string> inputCodes);
 		bool isOnPress(std::vector<std::string> inputCodes, PlayerID playerID);
-		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval_ms);
-		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms);
-		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval_ms, PlayerID playerID);
+		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval, PlayerID playerID);
 		bool isPressed(std::string inputCode);
 		bool isPressed(std::vector<std::string> inputCodes);
 		bool isPressed(std::vector<std::string> inputCodes, PlayerID playerID);

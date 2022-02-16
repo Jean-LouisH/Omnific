@@ -62,7 +62,7 @@ void Omnific::EventBus::publish(
 
 	eventsList.push_back(Event(
 		name,
-		OS::getRunTimer().getDelta_ns()));
+		OS::getRunTimer().getDeltaInNanoseconds()));
 
 	this->events.emplace(name, eventsList);
 }
@@ -93,7 +93,7 @@ void Omnific::EventBus::publishWithParameters(std::string name, Event::Parameter
 
 	eventsList.push_back(Event(
 		name,
-		OS::getRunTimer().getDelta_ns(),
+		OS::getRunTimer().getDeltaInNanoseconds(),
 		parameters));
 
 	this->events.emplace(name, eventsList);

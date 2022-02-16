@@ -38,9 +38,10 @@ namespace Omnific
 		HiResTimer& getBenchmarkTimer();
 		HiResTimer& getDebugTimer();
 		void incrementFrameCount();
-		void incrementLagCount(uint64_t deltaTime_ms);
-		void decrementLagCount(uint64_t deltaTime_ms);
-		uint64_t getLag_ms();
+		void incrementLagCount(uint64_t deltaTime);
+		void decrementLagCount(uint64_t deltaTime);
+		/* In milliseconds */
+		uint64_t getLag();
 		uint16_t getFPS();
 	private:
 		HiResTimer process;
@@ -50,7 +51,8 @@ namespace Omnific
 		HiResTimer output;
 		HiResTimer FPS;
 		HiResTimer debug;
-		uint64_t lag_ms = 0;
+		/* In milliseconds */
+		uint64_t lag = 0;
 		uint64_t frameCount = 0;
 	};
 }

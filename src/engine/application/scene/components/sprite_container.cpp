@@ -74,21 +74,21 @@ void Omnific::SpriteContainer::show()
 void Omnific::SpriteContainer::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)
-		this->animationSpeed_fps = value_fps;
+		this->animationSpeedInFPS = value_fps;
 }
 
 float Omnific::SpriteContainer::getAnimationSpeed()
 {
-	return this->animationSpeed_fps;
+	return this->animationSpeedInFPS;
 }
 
 void Omnific::SpriteContainer::update(float delta_s)
 {
 	if (this->isPlaying)
 	{
-		this->frameTime_s += delta_s;
+		this->frameTime += delta_s;
 
-		if (this->frameTime_s > (1.0 / this->animationSpeed_fps))
+		if (this->frameTime > (1.0 / this->animationSpeedInFPS))
 		{
 			uint32_t currentFrameSequenceSize = this->getCurrentFrameSequence().size();
 
@@ -99,7 +99,7 @@ void Omnific::SpriteContainer::update(float delta_s)
 				this->currentFrameIndex = 
 				this->currentFrameIndex - 1 < 0 ? currentFrameSequenceSize - 1 : this->currentFrameIndex - 1;
 
-			this->frameTime_s = 0.0;
+			this->frameTime = 0.0;
 		}
 	}
 

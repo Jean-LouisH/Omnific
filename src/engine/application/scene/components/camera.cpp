@@ -32,7 +32,7 @@ void Omnific::Camera::resetAspect()
 
 Omnific::Rectangle Omnific::Camera::getViewportDimensions()
 {
-	return this->viewport_px;
+	return this->viewport;
 }
 
 bool Omnific::Camera::getIsStreaming()
@@ -42,24 +42,24 @@ bool Omnific::Camera::getIsStreaming()
 
 void Omnific::Camera::setViewportWidth(uint32_t width_px)
 {
-	this->viewport_px.width = width_px;
+	this->viewport.width = width_px;
 	if (keepAspect)
-		this->viewport_px.height = (uint32_t)((double)width_px / aspect);
+		this->viewport.height = (uint32_t)((double)width_px / aspect);
 }
 
 void Omnific::Camera::setViewportHeight(uint32_t height_px)
 {
-	this->viewport_px.height = height_px;
+	this->viewport.height = height_px;
 	if (keepAspect)
-		this->viewport_px.width = (uint32_t)((double)height_px * aspect);
+		this->viewport.width = (uint32_t)((double)height_px * aspect);
 }
 
 void Omnific::Camera::setLimits(float left, float bottom, float top, float right)
 {
-	this->limits_px.min_px.x = left;
-	this->limits_px.min_px.y = bottom;
-	this->limits_px.max_px.x = right;
-	this->limits_px.max_px.y = top;
+	this->limits.min.x = left;
+	this->limits.min.y = bottom;
+	this->limits.max.x = right;
+	this->limits.max.y = top;
 }
 
 void Omnific::Camera::setKeepAspect(bool value)

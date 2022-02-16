@@ -44,8 +44,8 @@ namespace Omnific
 		void resetAspect();
 		Rectangle getViewportDimensions();
 		bool getIsStreaming();
-		void setViewportWidth(uint32_t width_px);
-		void setViewportHeight(uint32_t height_px);
+		void setViewportWidth(uint32_t width);
+		void setViewportHeight(uint32_t height);
 		void setLimits(float left, float bottom, float top, float right);
 		void setKeepAspect(bool value);
 		void setIsStreaming(bool value);
@@ -56,8 +56,8 @@ namespace Omnific
 		float fieldOfView = 45.0;
 		float nearPlane = 0.1;
 		float farPlane = 100.0;
-		AABB2D limits_px;
-		Rectangle viewport_px;
+		AABB2D limits;
+		Rectangle viewport;
 		bool keepAspect = true;
 		bool isStreaming = true;
 	};

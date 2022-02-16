@@ -29,8 +29,8 @@ namespace Omnific
 	class AABB2D
 	{
 	public:
-		glm::vec2 min_px;
-		glm::vec2 max_px;
+		glm::vec2 min;
+		glm::vec2 max;
 	private:
 	};
 }

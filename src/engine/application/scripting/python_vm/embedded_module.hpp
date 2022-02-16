@@ -156,9 +156,9 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 
 	pybind11::class_<Omnific::HapticSignal>(m, "HapticSignal")
 		.def(pybind11::init<Omnific::PlayerID, float, uint16_t>())
-		.def("get_duration_ms", &Omnific::HapticSignal::getDuration_ms)
+		.def("get_duration", &Omnific::HapticSignal::getDuration)
 		.def("get_player_id", &Omnific::HapticSignal::getPlayerID)
-		.def("get_strength_pct", &Omnific::HapticSignal::getStrength_pct);
+		.def("get_strength", &Omnific::HapticSignal::getStrength);
 
 	pybind11::class_<Omnific::HapticSignalBuffer>(m, "HapticSignalBuffer")
 		.def("publish", &Omnific::HapticSignalBuffer::publish)
@@ -248,7 +248,7 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 	pybind11::class_<Omnific::HiResTimer>(m, "HiResTimer")
 		.def("set_start", &Omnific::HiResTimer::setStart)
 		.def("set_end", &Omnific::HiResTimer::setEnd)
-		.def("get_delta_ns", &Omnific::HiResTimer::getDelta_ns);
+		.def("get_delta_in_nanoseconds", &Omnific::HiResTimer::getDeltaInNanoseconds);
 	pybind11::class_<Omnific::Colour>(m, "Colour")
 		.def(pybind11::init<std::string>())
 		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
@@ -257,8 +257,8 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 		.def("get_blue", &Omnific::Colour::getBlue)
 		.def("get_alpha", &Omnific::Colour::getAlpha);
 	pybind11::class_<Omnific::AABB2D>(m, "AABB2D")
-		.def_readwrite("max_px", &Omnific::AABB2D::max_px)
-		.def_readwrite("min_px", &Omnific::AABB2D::min_px);
+		.def_readwrite("max", &Omnific::AABB2D::max)
+		.def_readwrite("min", &Omnific::AABB2D::min);
 
 	/*API getters*/
 	m.def("get_command_line_api", &Omnific::ScriptingAPIs::getCommandLineAPI);

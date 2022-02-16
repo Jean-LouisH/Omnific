@@ -34,8 +34,8 @@ void Omnific::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_H
 	if (hapticSignal.getPlayerID() < haptics.size())
 	{
 		SDL_HapticRumblePlay(haptics.at(hapticSignal.getPlayerID()),
-			hapticSignal.getStrength_pct(),
-			hapticSignal.getDuration_ms());
+			hapticSignal.getStrength(),
+			hapticSignal.getDuration());
 	}
 }
 
@@ -72,7 +72,7 @@ void Omnific::HapticSystem::process(Scene& scene)
 			{
 				hapticPlayback.timer.setEnd();
 
-				if (hapticPlayback.timer.getDelta_ms() > hapticPlayback.duration_ms)
+				if (hapticPlayback.timer.getDelta() > hapticPlayback.duration_ms)
 				{
 					hapticPlayback.isPlaying = false;
 					this->stopRumble(playerID, hid.getHaptics());
@@ -84,7 +84,7 @@ void Omnific::HapticSystem::process(Scene& scene)
 				if (!hapticSignalQueue.empty())
 				{
 					HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
-					hapticPlayback.duration_ms = hapticSignal.getDuration_ms();
+					hapticPlayback.duration_ms = hapticSignal.getDuration();
 					hapticPlayback.timer.setStart();
 					hapticPlayback.isPlaying = true;
 					this->rumble(hapticSignal, hid.getHaptics());

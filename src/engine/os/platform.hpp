@@ -31,8 +31,10 @@ namespace Omnific
 	{
 	public:
 		uint8_t getLogicalCoreCount();
-		uint32_t getL1CacheLineSize_B();
-		uint32_t getSystemRAM_MB();
+		/* In Bytes */
+		uint32_t getL1CacheLineSize();
+		/* In MegaBytes */
+		uint32_t getSystemRAM();
 		std::string getOSName();
 	private:
 	};

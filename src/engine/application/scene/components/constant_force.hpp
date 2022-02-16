@@ -33,7 +33,7 @@ namespace Omnific
 	class ConstantForce : public Component
 	{
 	public:
-		glm::vec3 force_N;
+		glm::vec3 force;
 
 		ConstantForce()
 		{

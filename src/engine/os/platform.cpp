@@ -28,12 +28,12 @@ uint8_t Omnific::Platform::getLogicalCoreCount()
 	return SDL_GetCPUCount();
 }
 
-uint32_t Omnific::Platform::getL1CacheLineSize_B()
+uint32_t Omnific::Platform::getL1CacheLineSize()
 {
 	return SDL_GetCPUCacheLineSize();
 }
 
-uint32_t Omnific::Platform::getSystemRAM_MB()
+uint32_t Omnific::Platform::getSystemRAM()
 {
 	return SDL_GetSystemRAM();
 }

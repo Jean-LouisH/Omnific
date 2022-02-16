@@ -33,8 +33,8 @@ namespace Omnific
 	public:
 		HapticSignal(PlayerID playerID, float strength_pct, uint16_t duration_ms);
 		PlayerID getPlayerID();
-		float getStrength_pct();
-		uint16_t getDuration_ms();
+		float getStrength();
+		uint16_t getDuration();
 	private:
 		PlayerID playerID = 0;
 		float strength_pct = 0.0;

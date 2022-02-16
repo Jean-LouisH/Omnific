@@ -35,10 +35,10 @@ namespace Omnific
 	{
 	public:
 		Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width_px, uint16_t height_px);
+		void setToWindowed(uint16_t width, uint16_t height);
 		void setToFullscreen();
 		void toggleWindowedFullscreen();
-		void resize(uint16_t width_px, uint16_t height_px);
+		void resize(uint16_t width, uint16_t height);
 		void changeTitle(const char* title);
 		void changeIcon(Image image);
 		void maximize();
@@ -47,7 +47,7 @@ namespace Omnific
 		void restore();
 		void hide();
 		void show();
-		void sleep(int time_ms);
+		void sleep(int time);
 		Rectangle getWindowSize();
 
 		SDL_Window* getSDLWindow();

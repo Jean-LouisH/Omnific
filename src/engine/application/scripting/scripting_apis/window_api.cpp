@@ -27,9 +27,9 @@ Omnific::WindowAPI::WindowAPI(Window* window)
 	this->window = window;
 }
 
-void Omnific::WindowAPI::setToWindowed(uint16_t width_px, uint16_t height_px)
+void Omnific::WindowAPI::setToWindowed(uint16_t width, uint16_t height)
 {
-	this->window->setToWindowed(width_px, height_px);
+	this->window->setToWindowed(width, height);
 }
 
 void Omnific::WindowAPI::setToFullscreen()
@@ -42,9 +42,9 @@ void Omnific::WindowAPI::toggleWindowedFullscreen()
 	this->window->toggleWindowedFullscreen();
 }
 
-void Omnific::WindowAPI::resize(uint16_t width_px, uint16_t height_px)
+void Omnific::WindowAPI::resize(uint16_t width, uint16_t height)
 {
-	this->window->resize(width_px, height_px);
+	this->window->resize(width, height);
 }
 
 void Omnific::WindowAPI::changeTitle(std::string title)

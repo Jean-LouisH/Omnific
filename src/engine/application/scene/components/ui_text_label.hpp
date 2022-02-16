@@ -65,7 +65,7 @@ namespace Omnific
 		std::shared_ptr<Omnific::Font> font;
 		Font::Style style = Font::Style::NORMAL;
 		Font::RenderMode mode = Font::RenderMode::SOLID;
-		uint16_t size_px = 0;
+		uint16_t size = 0;
 		Colour colour;
 
 		void generateImage();

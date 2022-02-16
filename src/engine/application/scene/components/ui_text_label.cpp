@@ -35,7 +35,7 @@ void Omnific::UITextLabel::setText(std::string text)
 void Omnific::UITextLabel::setFont(std::shared_ptr<Omnific::Font> font, uint16_t size_px)
 {
 	this->font = font;
-	this->size_px = size_px;
+	this->size = size_px;
 	this->generateImage();
 }
 

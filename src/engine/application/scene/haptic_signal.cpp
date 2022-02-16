@@ -46,12 +46,12 @@ Omnific::PlayerID Omnific::HapticSignal::getPlayerID()
 	return this->playerID;
 }
 
-float Omnific::HapticSignal::getStrength_pct()
+float Omnific::HapticSignal::getStrength()
 {
 	return this->strength_pct;
 }
 
-uint16_t Omnific::HapticSignal::getDuration_ms()
+uint16_t Omnific::HapticSignal::getDuration()
 {
 	return this->duration_ms;
 }
