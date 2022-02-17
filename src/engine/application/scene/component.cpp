@@ -58,6 +58,11 @@ std::string Omnific::Component::getType() const
 	return this->type;
 }
 
+bool Omnific::Component::isType(std::string typeString)
+{
+	return this->type == typeString;
+}
+
 bool Omnific::Component::isRenderable()
 {
 	return false;

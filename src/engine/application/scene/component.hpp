@@ -48,6 +48,7 @@ namespace Omnific
 		EntityID getEntityID();
 		bool isAttachedToEntity();
 		std::string getType() const;
+		bool isType(std::string typeString);
 		virtual bool isRenderable();
 	protected:
 		std::string type;
