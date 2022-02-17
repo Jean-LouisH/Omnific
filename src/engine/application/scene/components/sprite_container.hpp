@@ -29,6 +29,7 @@
 #include <string>
 #include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
+#include <glm/glm.hpp>
 #include <memory>
 
 namespace Omnific
@@ -42,6 +43,9 @@ namespace Omnific
 		};
 		static constexpr const char* TYPE_STRING = "SpriteContainer";
 		std::string currentFrameSequenceName = "";
+
+		bool isXBillboarded = false;
+		bool isYBillboarded = false;
 
 		void addEmptyFrameSequence(std::string frameSequenceName);
 		void addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence);
@@ -79,6 +83,7 @@ namespace Omnific
 		float animationSpeedInFPS = 12.0;
 		float frameTime = 0.0;
 		uint16_t currentFrameIndex = 0;
+		glm::vec3 billboardOffsetRotation;
 		bool isPlaying = false;
 		bool isBackwards = false;
 		bool isFlippedVertically = false;

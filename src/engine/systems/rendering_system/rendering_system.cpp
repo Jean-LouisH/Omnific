@@ -157,6 +157,16 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 						}
 						else
 						{
+							if (renderableComponent->getType() == SpriteContainer::TYPE_STRING)
+							{
+								std::shared_ptr<SpriteContainer> spriteContainer =
+									std::dynamic_pointer_cast<SpriteContainer>(renderableComponent);
+
+								if (spriteContainer->isXBillboarded)
+									renderable.entityTransform->rotation.x = cameraTransform->rotation.x;
+								if (spriteContainer->isYBillboarded)
+									renderable.entityTransform->rotation.y = cameraTransform->rotation.y;
+							}
 							std::shared_ptr<Image> image = renderableComponent->getImage();
 							renderable.texture = std::shared_ptr<Texture>(new Texture(image));
 							renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(image, renderable.vertexArray));
