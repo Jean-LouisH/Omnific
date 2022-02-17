@@ -24,6 +24,7 @@
 
 #include <SDL_mixer.h>
 #include <queue>
+#include <memory>
 #include "application/scene/scene.hpp"
 #include "system.hpp"
 
@@ -38,8 +39,8 @@ namespace Omnific
 		void process(Scene& scene) override;
 		virtual void deinitialize() override;
 	private:
-		std::queue<Mix_Chunk*> immediateSounds;
-		std::queue<Mix_Chunk*> scheduledSounds;
+		std::queue<std::shared_ptr<Mix_Chunk>> soundFXQueue;
+		std::queue<std::shared_ptr<Mix_Music>> musicQueue;
 
 		void play();
 	};

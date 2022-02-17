@@ -30,7 +30,8 @@ Omnific::AudioSystem::~AudioSystem()
 
 void Omnific::AudioSystem::play()
 {
-	SDL::Audio::playSounds(&this->immediateSounds, &this->scheduledSounds);
+	SDL::Audio::playSoundFXs(&this->soundFXQueue);
+	SDL::Audio::playMusic(&this->musicQueue);
 }
 
 void Omnific::AudioSystem::initialize()
@@ -43,7 +44,29 @@ void Omnific::AudioSystem::initialize()
 
 void Omnific::AudioSystem::process(Scene& scene)
 {
-	//todo: build sounds lists from scene
+	/* Basic functionality for now, without 3D audio listener calculations. */
+	ComponentIterables audioSourceIterables = scene.getComponentIterables(AudioSource::TYPE_STRING);
+
+	for (size_t i = 0; i < audioSourceIterables.count; i++)
+	{
+		std::shared_ptr<AudioSource> audioSource = std::dynamic_pointer_cast<AudioSource>(
+			audioSourceIterables.components.at(audioSourceIterables.indexCache.at(i)));
+		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue = audioSource->popEntireAudioPlayQueue();
+
+		while (!audioPlayQueue.empty())
+		{
+			std::shared_ptr<AudioStream> audioStream = audioPlayQueue.front();
+
+			if (audioStream->getIsMusic())
+				this->musicQueue.emplace(audioStream->getSDLMixMusic());
+			else
+				this->soundFXQueue.emplace(audioStream->getSDLMixChunk());
+
+			audioPlayQueue.pop();
+		}
+	}
+
+	this->play();
 }
 
 void Omnific::AudioSystem::deinitialize()

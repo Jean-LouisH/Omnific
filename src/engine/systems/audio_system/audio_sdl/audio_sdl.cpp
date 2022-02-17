@@ -22,22 +22,26 @@
 
 #include "audio_sdl.hpp"
 
-void SDL::Audio::playSounds(
-	std::queue<Mix_Chunk*>* immediateSounds,
-	std::queue<Mix_Chunk*>* scheduledSounds)
+void SDL::Audio::playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQueue)
 {
-	while (!immediateSounds->empty())
+	while (!soundFXQueue->empty())
 	{
-		Mix_PlayChannel(-1, immediateSounds->front(), 0);
-		immediateSounds->pop();
+		Mix_PlayChannel(-1, soundFXQueue->front().get(), 0);
+		soundFXQueue->pop();
 	}
+}
 
-	if (!scheduledSounds->empty())
+void SDL::Audio::playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue)
+{
+	/* For now plays the last music that was queued. */
+	while (!musicQueue->empty())
 	{
-		if (!Mix_Playing(-1))
-		{
-			Mix_PlayChannel(-1, scheduledSounds->front(), 0);
-			scheduledSounds->pop();
-		}
+		Mix_PlayMusic(musicQueue->front().get(), -1);
+		musicQueue->pop();
 	}
+}
+
+void SDL::Audio::stopMusic()
+{
+	Mix_HaltMusic();
 }

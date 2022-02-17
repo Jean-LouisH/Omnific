@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 #include "application/scene/assets/audio_stream.hpp"
 #include "application/scene/component.hpp"
 
@@ -43,20 +44,16 @@ namespace Omnific
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "AudioSource";
-		void addAudioStream(AudioStream audioStream);
-		void queueAudioToPlay(std::string audioStreamName, uint8_t count);
+		void addAudioStream(std::shared_ptr<AudioStream> audioStream);
+		void queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count);
+		void queueAudioToPlay(std::string audioStreamName);
 		void clearAudioStreams();
-		std::queue<AudioStream> popEntireAudioPlayQueue();
+		std::queue<std::shared_ptr<AudioStream>> popEntireAudioPlayQueue();
 		void clearAudioPlayQueue();
-		void play(std::string audioStreamName);
-		void play();
-		void pause();
-		void stop();
 		std::vector<std::string> getAudioStreamNames();
-		AudioStream getAudioStreamByName(std::string audioStreamName);
+		std::shared_ptr<AudioStream> getAudioStreamByName(std::string audioStreamName);
 	private:
-//		Map<String, AudioStream> audioStreams;
-		std::queue<AudioStream> audioPlayQueue;
-		bool isPlaying = false;
+		std::unordered_map<std::string, std::shared_ptr<AudioStream>> audioStreams;
+		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue;
 	};
 }

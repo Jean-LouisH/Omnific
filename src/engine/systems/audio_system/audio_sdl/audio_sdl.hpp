@@ -24,13 +24,14 @@
 
 #include <SDL_mixer.h>
 #include <queue>
+#include <memory>
 
 namespace SDL
 {
 	namespace Audio
 	{
-		void playSounds(
-			std::queue<Mix_Chunk*>* immediateSounds,
-			std::queue<Mix_Chunk*>* scheduledSounds);
+		void playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQueue);
+		void playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue);
+		void stopMusic();
 	}
 }

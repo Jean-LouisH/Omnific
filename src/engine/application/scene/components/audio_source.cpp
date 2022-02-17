@@ -22,28 +22,31 @@
 
 #include "audio_source.hpp"
 
-void Omnific::AudioSource::addAudioStream(AudioStream audioStream)
+void Omnific::AudioSource::addAudioStream(std::shared_ptr<AudioStream> audioStream)
 {
-//	this->audioStreams.emplace(audioStream);
+	this->audioStreams.emplace(audioStream->getName(), audioStream);
 }
 
-void Omnific::AudioSource::queueAudioToPlay(std::string audioStreamName, uint8_t count)
+void Omnific::AudioSource::queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count)
 {
-	//if (this->audioStreams.count(audioStreamName) > 0 && count > 0)
-	//{
-	//	for (int i = 0; i < count; i++)
-	//		this->audioPlayQueue.emplace(this->audioStreams.at(audioStreamName));
-	//}
+	if (this->audioStreams.count(audioStreamName) > 0)
+		for (int i = 0; i < count; i++)
+			this->audioPlayQueue.emplace(this->audioStreams.at(audioStreamName));
+}
+
+void Omnific::AudioSource::queueAudioToPlay(std::string audioStreamName)
+{
+	this->queueAudioToPlayAndRepeat(audioStreamName, 1);
 }
 
 void Omnific::AudioSource::clearAudioStreams()
 {
-//	this->audioStreams.clear();
+	this->audioStreams.clear();
 }
 
-std::queue<Omnific::AudioStream> Omnific::AudioSource::popEntireAudioPlayQueue()
+std::queue<std::shared_ptr<Omnific::AudioStream>> Omnific::AudioSource::popEntireAudioPlayQueue()
 {
-	std::queue<AudioStream> outputQueue = this->audioPlayQueue;
+	std::queue<std::shared_ptr<AudioStream>> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
@@ -54,47 +57,26 @@ void Omnific::AudioSource::clearAudioPlayQueue()
 		this->audioPlayQueue.pop();
 }
 
-
-void Omnific::AudioSource::play(std::string audioStreamName)
-{
-
-}
-
-void Omnific::AudioSource::play()
-{
-
-}
-
-void Omnific::AudioSource::pause()
-{
-
-}
-
-void Omnific::AudioSource::stop()
-{
-
-}
-
 std::vector<std::string> Omnific::AudioSource::getAudioStreamNames()
 {
 	std::vector<std::string> audioStreamNames;
 
-	//for (Map<String, AudioStream>::iterator it = this->audioStreams.begin();
-	//	it != this->audioStreams.end();
-	//	++it)
-	//{
-	//	audioStreamNames.push_back(it->first);
-	//}
+	for (std::unordered_map<std::string, std::shared_ptr<AudioStream>>::iterator it = this->audioStreams.begin();
+		it != this->audioStreams.end();
+		++it)
+	{
+		audioStreamNames.push_back(it->first);
+	}
 
 	return audioStreamNames;
 }
 
-Omnific::AudioStream Omnific::AudioSource::getAudioStreamByName(std::string audioStreamName)
+std::shared_ptr<Omnific::AudioStream> Omnific::AudioSource::getAudioStreamByName(std::string audioStreamName)
 {
-	AudioStream audioStream;
+	std::shared_ptr<AudioStream> audioStream;
 
-	//if (this->audioStreams.count(audioStreamName))
-	//	audioStream = this->audioStreams.at(audioStreamName);
+	if (this->audioStreams.count(audioStreamName))
+		audioStream = this->audioStreams.at(audioStreamName);
 
 	return audioStream;
 }

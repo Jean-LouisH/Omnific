@@ -38,9 +38,13 @@ namespace Omnific
 			this->type = TYPE_STRING; 
 		};
 		~AudioStream();
-		AudioStream(std::string filepath);
-		Mix_Chunk* getSDLMixChunk();
+		AudioStream(std::string filepath, bool isMusic);
+		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
+		std::shared_ptr<Mix_Music> getSDLMixMusic();
+		bool getIsMusic();
 	private:
-		std::shared_ptr<Mix_Chunk> sound = {nullptr, Mix_FreeChunk};
+		bool isMusic = false;
+		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
+		std::shared_ptr<Mix_Chunk> soundFX = {nullptr, Mix_FreeChunk};
 	};
 }

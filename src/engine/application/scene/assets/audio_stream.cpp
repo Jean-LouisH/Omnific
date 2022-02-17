@@ -27,13 +27,28 @@ Omnific::AudioStream::~AudioStream()
 
 }
 
-Omnific::AudioStream::AudioStream(std::string filepath)
+Omnific::AudioStream::AudioStream(std::string filepath, bool isMusic)
 {
 	this->setName(filepath);
-	this->sound = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
+	this->isMusic = isMusic;
+
+	if (isMusic)
+		this->music = std::shared_ptr<Mix_Music>(Mix_LoadMUS(filepath.c_str()), Mix_FreeMusic);
+	else
+		this->soundFX = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
 }
 
-Mix_Chunk* Omnific::AudioStream::getSDLMixChunk()
+std::shared_ptr<Mix_Chunk> Omnific::AudioStream::getSDLMixChunk()
 {
-	return this->sound.get();
+	return this->soundFX;
+}
+
+std::shared_ptr<Mix_Music> Omnific::AudioStream::getSDLMixMusic()
+{
+	return this->music;
+}
+
+bool Omnific::AudioStream::getIsMusic()
+{
+	return this->isMusic;
 }
