@@ -163,7 +163,7 @@ std::unordered_map<std::string, std::vector<size_t>> Omnific::Scene::getComponen
 	return this->componentIndexCaches;
 }
 
-std::vector<std::shared_ptr<Omnific::Component>>& Omnific::Scene::getComponents()
+std::vector<std::shared_ptr<Omnific::Component>> Omnific::Scene::getComponents()
 {
 	return this->components;
 }
@@ -225,6 +225,18 @@ std::shared_ptr<Omnific::Component> Omnific::Scene::getComponent(ComponentID com
 Omnific::Entity::SpatialDimension Omnific::Scene::getComponentSpatialDimension(ComponentID componentID)
 {
 	return this->getEntity(this->getComponent(componentID)->getEntityID()).spatialDimension;
+}
+
+Omnific::ComponentIterables Omnific::Scene::getComponentIterables(std::string componentTypeString)
+{
+	ComponentIterables iterables;
+
+	iterables.components = this->getComponents();
+	if (this->getComponentIndexCaches().count(componentTypeString))
+		iterables.indexCache = this->getComponentIndexCaches().at(componentTypeString);
+	iterables.count = iterables.indexCache.size();
+
+	return iterables;
 }
 
 Omnific::EventBus& Omnific::Scene::getEventBus()

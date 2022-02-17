@@ -109,16 +109,14 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 	if (scene.getHasRenderableComponentsChanged())
 	{
 		this->renderables.clear();
-		std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
+
+		ComponentIterables uiViewPortIterables = scene.getComponentIterables(UIViewport::TYPE_STRING);
 		std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
-		std::vector<size_t> uiViewportIndexCache;
 
-		if (scene.getComponentIndexCaches().count(UIViewport::TYPE_STRING))
-			uiViewportIndexCache = scene.getComponentIndexCaches().at(UIViewport::TYPE_STRING);
-
-		for (int i = 0; i < uiViewportIndexCache.size(); i++)
+		for (int i = 0; i < uiViewPortIterables.count; i++)
 		{
-			std::shared_ptr<UIViewport> uiViewport = std::dynamic_pointer_cast<UIViewport>(components.at(uiViewportIndexCache.at(i)));
+			std::shared_ptr<UIViewport> uiViewport = std::dynamic_pointer_cast<UIViewport>(
+				uiViewPortIterables.components.at(uiViewPortIterables.indexCache.at(i)));
 
 			if (uiViewport->getIsVisible())
 			{
@@ -138,16 +136,16 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 					{
 						Renderable renderable;
 						std::shared_ptr<RenderableComponent> renderableComponent =
-							std::dynamic_pointer_cast<RenderableComponent>(components.at(renderOrderIndexCache.at(i)));
+							std::dynamic_pointer_cast<RenderableComponent>(uiViewPortIterables.components.at(renderOrderIndexCache.at(i)));
 						Entity entity = scene.getEntity(renderableComponent->getEntityID());
 
 						renderable.entityTransform = scene.getEntityTransform(renderableComponent->getEntityID());
-						renderable.id = scene.getEntity(renderableComponent->getEntityID()).id;
+						renderable.id = renderableComponent->getEntityID();
 						renderable.shaderPrograms.push_back(this->shaderProgramCache.at(this->builtInShaderProgramName));
 
 						renderable.vertexArray = std::shared_ptr<VertexArray>(new VertexArray());
 
-						if (renderableComponent->getType() == ModelContainer::TYPE_STRING)
+						if (renderableComponent->isType(ModelContainer::TYPE_STRING))
 						{
 							std::shared_ptr<ModelContainer> modelContainer =
 								std::dynamic_pointer_cast<ModelContainer>(renderableComponent);
@@ -157,7 +155,7 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 						}
 						else
 						{
-							if (renderableComponent->getType() == SpriteContainer::TYPE_STRING)
+							if (renderableComponent->isType(SpriteContainer::TYPE_STRING))
 							{
 								std::shared_ptr<SpriteContainer> spriteContainer =
 									std::dynamic_pointer_cast<SpriteContainer>(renderableComponent);

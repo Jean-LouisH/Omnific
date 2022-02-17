@@ -100,6 +100,14 @@ namespace Omnific
 		FINISH
 	};
 
+	class ComponentIterables
+	{
+	public:
+		std::vector<std::shared_ptr<Component>> components;
+		std::vector<size_t> indexCache;
+		size_t count;
+	};
+
 	class Scene
 	{
 	public:
@@ -115,7 +123,7 @@ namespace Omnific
 
 		std::vector<ScriptCallBatch> generateCallBatches(CallType callType);
 
-		std::vector<std::shared_ptr<Component>>& getComponents();
+		std::vector<std::shared_ptr<Component>> getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();
 		std::unordered_map<std::string, std::vector<size_t>> getComponentIndexCaches();
 		std::shared_ptr<Transform> getEntityTransform(EntityID entityID);
@@ -125,6 +133,7 @@ namespace Omnific
 		std::unordered_map<EntityID, Entity>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
 		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);
+		ComponentIterables getComponentIterables(std::string componentTypeString);
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
