@@ -190,8 +190,6 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 	pybind11::class_<Omnific::NavigationMeshAgent, Omnific::Component>(m, "NavigationMeshAgent");
 	pybind11::class_<Omnific::NavigationMeshBoxObstacle, Omnific::Component>(m, "NavigationMeshBoxObstacle");
 	pybind11::class_<Omnific::NavigationPath, Omnific::Component>(m, "NavigationPath");
-	pybind11::class_<Omnific::PhysicsConstraint, Omnific::Component>(m, "PhysicsConstraint");
-	pybind11::class_<Omnific::PhysicsThruster, Omnific::Component>(m, "PhysicsThruster");
 	pybind11::class_<Omnific::PropertyAnimation, Omnific::Component>(m, "PropertyAnimation");
 	pybind11::class_<Omnific::Collider, Omnific::Component>(m, "Collider");
 	pybind11::class_<Omnific::ModelContainer, Omnific::Component>(m, "ModelContainer");

@@ -64,8 +64,6 @@
 #include "components/navigation_mesh_agent.hpp"
 #include "components/navigation_mesh_box_obstacle.hpp"
 #include "components/navigation_path.hpp"
-#include "components/physics_constraint.hpp"
-#include "components/physics_thruster.hpp"
 #include "components/property_animation.hpp"
 #include "components/model_container.hpp"
 #include "components/rigid_body.hpp"
