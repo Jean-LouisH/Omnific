@@ -20,4 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "kinematic_body.hpp"
+#include "character_body.hpp"

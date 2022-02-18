@@ -185,7 +185,7 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 		.def("start", &Omnific::CountdownTimer::start)
 		.def("stop", &Omnific::CountdownTimer::stop)
 		.def("is_finished", &Omnific::CountdownTimer::isFinished);
-	pybind11::class_<Omnific::KinematicBody, Omnific::Component>(m, "KinematicBody");
+	pybind11::class_<Omnific::CharacterBody, Omnific::Component>(m, "CharacterBody");
 	pybind11::class_<Omnific::Light, Omnific::Component>(m, "Light");
 	pybind11::class_<Omnific::NavigationMeshAgent, Omnific::Component>(m, "NavigationMeshAgent");
 	pybind11::class_<Omnific::NavigationMeshBoxObstacle, Omnific::Component>(m, "NavigationMeshBoxObstacle");

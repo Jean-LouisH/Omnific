@@ -59,7 +59,7 @@
 #include "components/collider.hpp"
 #include "components/constant_force.hpp"
 #include "components/countdown_timer.hpp"
-#include "components/kinematic_body.hpp"
+#include "components/character_body.hpp"
 #include "components/light.hpp"
 #include "components/navigation_mesh_agent.hpp"
 #include "components/navigation_mesh_box_obstacle.hpp"

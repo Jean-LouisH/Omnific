@@ -29,14 +29,14 @@
 
 namespace Omnific
 {
-	class KinematicBody : public Component
+	class CharacterBody : public Component
 	{
 	public:
-		KinematicBody()
+		CharacterBody()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "KinematicBody";
+		static constexpr const char* TYPE_STRING = "CharacterBody";
 	private:
 	};
 }
