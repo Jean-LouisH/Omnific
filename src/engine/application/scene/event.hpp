@@ -24,6 +24,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 namespace Omnific
 {
@@ -32,8 +33,8 @@ namespace Omnific
 	public:
 		typedef struct Parameters
 		{
-			std::vector<float>floats;
-			std::vector<std::string> strings;
+			std::unordered_map<std::string, float> floats;
+			std::unordered_map<std::string, std::string> strings;
 		};
 
 		Event(std::string name, uint64_t timestamp, Parameters parameters);

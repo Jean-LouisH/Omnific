@@ -26,7 +26,6 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include <vector>
 
 namespace Omnific
 {
@@ -35,16 +34,16 @@ namespace Omnific
 	public:
 		void publish(
 			std::string name,
-			std::vector<float> floats,
-			std::vector<std::string> strings);
+			std::unordered_map<std::string, float> floats,
+			std::unordered_map<std::string, std::string> strings);
 
 		void publish(
 			std::string name,
-			std::vector<float> floats);
+			std::unordered_map<std::string, float> floats);
 
 		void publish(
 			std::string name,
-			std::vector<std::string> strings);
+			std::unordered_map<std::string, std::string> strings);
 
 		void publish(
 			std::string name);

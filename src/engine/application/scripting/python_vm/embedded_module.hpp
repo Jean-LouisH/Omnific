@@ -150,9 +150,9 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 		.def("clear", &Omnific::EventBus::clear)
 		.def("query", &Omnific::EventBus::query)
 		.def("publish", pybind11::overload_cast<std::string>(&Omnific::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::vector<float>>(&Omnific::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::vector<std::string>>(&Omnific::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::vector<float>, std::vector<std::string>>(&Omnific::EventBus::publish));
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>, std::unordered_map<std::string, std::string>>(&Omnific::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnific::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>>(&Omnific::EventBus::publish));
 
 	pybind11::class_<Omnific::HapticSignal>(m, "HapticSignal")
 		.def(pybind11::init<Omnific::PlayerID, float, uint16_t>())
@@ -174,47 +174,47 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 		.def("get_type", &Omnific::Component::getType)
 		.def("is_renderable", &Omnific::Component::isRenderable);
 
-	pybind11::class_<Omnific::BehaviourTree, Omnific::Component>(m, "BehaviourTree");
-	pybind11::class_<Omnific::SightPerception, Omnific::Component>(m, "SightPerception");
-	pybind11::class_<Omnific::SoundPerception, Omnific::Component>(m, "SoundPerception");
-	pybind11::class_<Omnific::AudioListener, Omnific::Component>(m, "AudioListener");
-	pybind11::class_<Omnific::AudioSource, Omnific::Component>(m, "AudioStreamSource");
-	pybind11::class_<Omnific::Camera, Omnific::Component>(m, "Camera");
-	pybind11::class_<Omnific::ConstantForce, Omnific::Component>(m, "ConstantForce");
-	pybind11::class_<Omnific::CountdownTimer, Omnific::Component>(m, "CountdownTimer")
+	pybind11::class_<Omnific::BehaviourTree, Omnific::Component>(m, Omnific::BehaviourTree::TYPE_STRING);
+	pybind11::class_<Omnific::SightPerception, Omnific::Component>(m, Omnific::SightPerception::TYPE_STRING);
+	pybind11::class_<Omnific::SoundPerception, Omnific::Component>(m, Omnific::SoundPerception::TYPE_STRING);
+	pybind11::class_<Omnific::AudioListener, Omnific::Component>(m, Omnific::AudioListener::TYPE_STRING);
+	pybind11::class_<Omnific::AudioSource, Omnific::Component>(m, Omnific::AudioSource::TYPE_STRING);
+	pybind11::class_<Omnific::Camera, Omnific::Component>(m, Omnific::Camera::TYPE_STRING);
+	pybind11::class_<Omnific::ConstantForce, Omnific::Component>(m, Omnific::ConstantForce::TYPE_STRING);
+	pybind11::class_<Omnific::CountdownTimer, Omnific::Component>(m, Omnific::CountdownTimer::TYPE_STRING)
 		.def("start", &Omnific::CountdownTimer::start)
 		.def("stop", &Omnific::CountdownTimer::stop)
 		.def("is_finished", &Omnific::CountdownTimer::isFinished);
-	pybind11::class_<Omnific::CharacterBody, Omnific::Component>(m, "CharacterBody");
-	pybind11::class_<Omnific::Light, Omnific::Component>(m, "Light");
-	pybind11::class_<Omnific::NavigationMeshAgent, Omnific::Component>(m, "NavigationMeshAgent");
-	pybind11::class_<Omnific::NavigationMeshBoxObstacle, Omnific::Component>(m, "NavigationMeshBoxObstacle");
-	pybind11::class_<Omnific::NavigationPath, Omnific::Component>(m, "NavigationPath");
-	pybind11::class_<Omnific::PropertyAnimation, Omnific::Component>(m, "PropertyAnimation");
-	pybind11::class_<Omnific::Collider, Omnific::Component>(m, "Collider");
-	pybind11::class_<Omnific::ModelContainer, Omnific::Component>(m, "ModelContainer");
-	pybind11::class_<Omnific::RigidBody, Omnific::Component>(m, "RigidBody");
-	pybind11::class_<Omnific::SpriteContainer, Omnific::Component>(m, "SpriteContainer");
-	pybind11::class_<Omnific::StaticFluid, Omnific::Component>(m, "StaticFluid");
-	pybind11::class_<Omnific::Transform, Omnific::Component>(m, "Transform");
-	pybind11::class_<Omnific::UIButton, Omnific::Component>(m, "UIButton");
-	pybind11::class_<Omnific::UIGraphEdit, Omnific::Component>(m, "UIGraphEdit");
-	pybind11::class_<Omnific::UIGraphNode, Omnific::Component>(m, "UIGraphNode");
-	pybind11::class_<Omnific::UIHoverCard, Omnific::Component>(m, "UIHoverCard");
-	pybind11::class_<Omnific::UIItemList, Omnific::Component>(m, "UIItemList");
-	pybind11::class_<Omnific::UIPanel, Omnific::Component>(m, "UIPanel");
-	pybind11::class_<Omnific::UIProgressBar, Omnific::Component>(m, "UIProgressBar");
-	pybind11::class_<Omnific::UIRectangle, Omnific::Component>(m, "UIRectangle");
-	pybind11::class_<Omnific::UIScrollbar, Omnific::Component>(m, "UIScrollbar");
-	pybind11::class_<Omnific::UISeparator, Omnific::Component>(m, "UISeparator");
-	pybind11::class_<Omnific::UISlider, Omnific::Component>(m, "UISlider");
-	pybind11::class_<Omnific::UISpinBox, Omnific::Component>(m, "UISpinBox");
-	pybind11::class_<Omnific::UITab, Omnific::Component>(m, "UITab");
-	pybind11::class_<Omnific::UITextEdit, Omnific::Component>(m, "UITextEdit");
-	pybind11::class_<Omnific::UITextLabel, Omnific::Component>(m, "UITextLabel")
+	pybind11::class_<Omnific::CharacterBody, Omnific::Component>(m, Omnific::CharacterBody::TYPE_STRING);
+	pybind11::class_<Omnific::Light, Omnific::Component>(m, Omnific::Light::TYPE_STRING);
+	pybind11::class_<Omnific::NavigationMeshAgent, Omnific::Component>(m, Omnific::NavigationMeshAgent::TYPE_STRING);
+	pybind11::class_<Omnific::NavigationMeshBoxObstacle, Omnific::Component>(m, Omnific::NavigationMeshBoxObstacle::TYPE_STRING);
+	pybind11::class_<Omnific::NavigationPath, Omnific::Component>(m, Omnific::NavigationPath::TYPE_STRING);
+	pybind11::class_<Omnific::PropertyAnimation, Omnific::Component>(m, Omnific::PropertyAnimation::TYPE_STRING);
+	pybind11::class_<Omnific::Collider, Omnific::Component>(m, Omnific::Collider::TYPE_STRING);
+	pybind11::class_<Omnific::ModelContainer, Omnific::Component>(m, Omnific::ModelContainer::TYPE_STRING);
+	pybind11::class_<Omnific::RigidBody, Omnific::Component>(m, Omnific::RigidBody::TYPE_STRING);
+	pybind11::class_<Omnific::SpriteContainer, Omnific::Component>(m, Omnific::SpriteContainer::TYPE_STRING);
+	pybind11::class_<Omnific::StaticFluid, Omnific::Component>(m, Omnific::StaticFluid::TYPE_STRING);
+	pybind11::class_<Omnific::Transform, Omnific::Component>(m, Omnific::Transform::TYPE_STRING);
+	pybind11::class_<Omnific::UIButton, Omnific::Component>(m, Omnific::UIButton::TYPE_STRING);
+	pybind11::class_<Omnific::UIGraphEdit, Omnific::Component>(m, Omnific::UIGraphEdit::TYPE_STRING);
+	pybind11::class_<Omnific::UIGraphNode, Omnific::Component>(m, Omnific::UIGraphNode::TYPE_STRING);
+	pybind11::class_<Omnific::UIHoverCard, Omnific::Component>(m, Omnific::UIHoverCard::TYPE_STRING);
+	pybind11::class_<Omnific::UIItemList, Omnific::Component>(m, Omnific::UIItemList::TYPE_STRING);
+	pybind11::class_<Omnific::UIPanel, Omnific::Component>(m, Omnific::UIPanel::TYPE_STRING);
+	pybind11::class_<Omnific::UIProgressBar, Omnific::Component>(m, Omnific::UIProgressBar::TYPE_STRING);
+	pybind11::class_<Omnific::UIRectangle, Omnific::Component>(m, Omnific::UIRectangle::TYPE_STRING);
+	pybind11::class_<Omnific::UIScrollbar, Omnific::Component>(m, Omnific::UIScrollbar::TYPE_STRING);
+	pybind11::class_<Omnific::UISeparator, Omnific::Component>(m, Omnific::UISeparator::TYPE_STRING);
+	pybind11::class_<Omnific::UISlider, Omnific::Component>(m, Omnific::UISlider::TYPE_STRING);
+	pybind11::class_<Omnific::UISpinBox, Omnific::Component>(m, Omnific::UISpinBox::TYPE_STRING);
+	pybind11::class_<Omnific::UITab, Omnific::Component>(m, Omnific::UITab::TYPE_STRING);
+	pybind11::class_<Omnific::UITextEdit, Omnific::Component>(m, Omnific::UITextEdit::TYPE_STRING);
+	pybind11::class_<Omnific::UITextLabel, Omnific::Component>(m, Omnific::UITextLabel::TYPE_STRING)
 		.def("set_text", &Omnific::UITextLabel::setText);
-	pybind11::class_<Omnific::UITree, Omnific::Component>(m, "UITree");
-	pybind11::class_<Omnific::UIViewport, Omnific::Component>(m, "UIViewport");
+	pybind11::class_<Omnific::UITree, Omnific::Component>(m, Omnific::UITree::TYPE_STRING);
+	pybind11::class_<Omnific::UIViewport, Omnific::Component>(m, Omnific::UIViewport::TYPE_STRING);
 
 	/*Asset classes*/
 
@@ -224,10 +224,10 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 		.def("get_name", &Omnific::Asset::getName)
 		.def("get_type", &Omnific::Asset::getType);
 
-	pybind11::class_<Omnific::AudioStream, Omnific::Asset>(m, "AudioStream");
-	pybind11::class_<Omnific::Font, Omnific::Asset>(m, "Font");
-	pybind11::class_<Omnific::Image, Omnific::Asset>(m, "Image");
-	pybind11::class_<Omnific::Text, Omnific::Asset>(m, "Text");
+	pybind11::class_<Omnific::AudioStream, Omnific::Asset>(m, Omnific::AudioStream::TYPE_STRING);
+	pybind11::class_<Omnific::Font, Omnific::Asset>(m, Omnific::Font::TYPE_STRING);
+	pybind11::class_<Omnific::Image, Omnific::Asset>(m, Omnific::Image::TYPE_STRING);
+	pybind11::class_<Omnific::Text, Omnific::Asset>(m, Omnific::Text::TYPE_STRING);
 
 	pybind11::class_<Omnific::AssetCache>(m, "AssetCache")
 		.def("store", &Omnific::AssetCache::store)

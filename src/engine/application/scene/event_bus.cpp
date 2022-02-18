@@ -25,8 +25,8 @@
 
 void Omnific::EventBus::publish(
 	std::string name,
-	std::vector<float> floats,
-	std::vector<std::string> strings)
+	std::unordered_map<std::string, float> floats,
+	std::unordered_map<std::string, std::string> strings)
 {
 	Event::Parameters parameters = {floats, strings};
 	this->publishWithParameters(name, parameters);
@@ -34,7 +34,7 @@ void Omnific::EventBus::publish(
 
 void Omnific::EventBus::publish(
 	std::string name,
-	std::vector<float> floats)
+	std::unordered_map<std::string, float> floats)
 {
 	Event::Parameters parameters;
 	parameters.floats = floats;
@@ -43,7 +43,7 @@ void Omnific::EventBus::publish(
 
 void Omnific::EventBus::publish(
 	std::string name,
-	std::vector<std::string> strings)
+	std::unordered_map<std::string, std::string> strings)
 {
 	Event::Parameters parameters;
 	parameters.strings = strings;
