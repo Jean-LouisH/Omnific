@@ -51,44 +51,47 @@ void Omnific::RenderingContext::clearBuffers()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Omnific::RenderingContext::submit(
-		std::vector<Renderable> renderables,
-		std::shared_ptr<Camera> camera,
-		std::shared_ptr<Transform> cameraTransform,
-		std::vector<std::shared_ptr<Light>> lights)
+void Omnific::RenderingContext::submit(std::vector<SceneRenderable> sceneRenderables)
 {
-	Renderable* renderablesData = renderables.data();
-	size_t renderablesCount = renderables.size();
-	glm::mat4 worldToViewMatrix = glm::inverse(cameraTransform->getGlobalTransformMatrix());
-	glm::mat4 viewToProjectionMatrix = camera->getViewToProjectionMatrix();
+	SceneRenderable* sceneRenderablesData = sceneRenderables.data();
+	size_t sceneRenderableCount = sceneRenderables.size();
 
-	for (size_t i = 0; i < renderablesCount; ++i)
+	for (size_t i = 0; i < sceneRenderableCount; i++)
 	{
-		Renderable& renderable = renderablesData[i];
+		SceneRenderable& sceneRenderable = sceneRenderablesData[i];
+		EntityRenderable* renderablesData = sceneRenderable.entityRenderables.data();
+		size_t renderablesCount = sceneRenderable.entityRenderables.size();
+		glm::mat4 worldToViewMatrix = glm::inverse(sceneRenderable.cameraTransform->getGlobalTransformMatrix());
+		glm::mat4 viewToProjectionMatrix = sceneRenderable.camera->getViewToProjectionMatrix();
 
-		if (renderable.shaderPrograms.size() > 0)
+		for (size_t i = 0; i < renderablesCount; ++i)
 		{
-			std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
-			glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
-			glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
-			size_t shaderCount = renderable.shaderPrograms.size();
+			EntityRenderable& renderable = renderablesData[i];
 
-			renderable.vertexArray->bind();
-			renderable.texture->bind();
-
-			/* Render for each ShaderProgram. */
-			for (size_t j = 0; j < shaderCount; j++)
+			if (renderable.shaderPrograms.size() > 0)
 			{
-				std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];
-				shaderProgram->use();
-				shaderProgram->setInt("textureSampler", 0);
-				shaderProgram->setMat4("mvp", mvp);
-				glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
-			}
-		}
+				std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
+				glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
+				glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
+				size_t shaderCount = renderable.shaderPrograms.size();
 
-		renderable.vertexArray->unbind();
-		renderable.texture->activateDefaultTextureUnit();
+				renderable.vertexArray->bind();
+				renderable.texture->bind();
+
+				/* Render for each ShaderProgram. */
+				for (size_t j = 0; j < shaderCount; j++)
+				{
+					std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[j];
+					shaderProgram->use();
+					shaderProgram->setInt("textureSampler", 0);
+					shaderProgram->setMat4("mvp", mvp);
+					glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
+				}
+			}
+
+			renderable.vertexArray->unbind();
+			renderable.texture->activateDefaultTextureUnit();
+		}
 	}
 }
 

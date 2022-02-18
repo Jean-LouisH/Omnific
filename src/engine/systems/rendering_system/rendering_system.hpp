@@ -30,7 +30,8 @@
 #include "os/window.hpp"
 #include "utilities/aliases.hpp"
 #include "rendering_context.hpp"
-#include "renderable.hpp"
+#include "entity_renderable.hpp"
+#include "scene_renderable.hpp"
 #include <memory>
 #include <map>
 
@@ -45,7 +46,6 @@ namespace Omnific
 		virtual void initialize() override;
 		void process(Scene& scene) override;
 		virtual void deinitialize() override;
-		std::vector<Renderable> getRenderables();
 		std::string getRenderingContextName();
 	private:
 		std::unique_ptr<RenderingContext> context;
@@ -55,10 +55,7 @@ namespace Omnific
 
 		std::string builtInShaderProgramName = "built_in_shaders";
 
-		std::vector<Renderable> renderables;
-		std::shared_ptr<Camera> currentCamera;
-		std::shared_ptr<Transform> currentCameraTransform;
-		std::vector<std::shared_ptr<Light>> lights;
+		std::vector<SceneRenderable> sceneRenderables;
 
 		void onWindowResize();
 		void onModifiedShaderInstance(Scene& scene);

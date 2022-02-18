@@ -20,35 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include <os/window.hpp>
-#include <glad/glad.h>
-#include "shader_compiler.hpp"
-#include <vector>
-#include "entity_renderable.hpp"
-#include <application/scene/assets/image.hpp>
-#include <application/scene/scene.hpp>
 #include "scene_renderable.hpp"
-#include <string>
-
-namespace Omnific
-{
-	/* The object that calls the rendering API functions. */
-	class RenderingContext
-	{
-	public:
-		void initialize();
-		void clearBuffers();
-		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::vector<SceneRenderable> sceneRenderables);
-		void swapBuffers();
-		std::string getRenderingContextName();
-	private:
-		SDL_GLContext glContext;
-		std::vector<GLuint> glTextureIDs;
-		std::vector<std::string> glslVertexShaderSources;
-		std::vector<std::string> glslFragmentShaderSources;
-	};
-}
-

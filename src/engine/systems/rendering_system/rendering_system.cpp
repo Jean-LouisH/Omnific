@@ -41,9 +41,6 @@ Omnific::RenderingSystem::RenderingSystem()
 
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
-
-	this->currentCamera = std::shared_ptr<Camera>(new Camera());
-	this->currentCameraTransform = std::shared_ptr<Transform>(new Transform());
 }
 
 Omnific::RenderingSystem::~RenderingSystem()
@@ -72,11 +69,7 @@ void Omnific::RenderingSystem::process(Scene& scene)
 	this->onWindowResize();
 	this->onModifiedRenderableInstance(scene);
 	this->context->clearBuffers();
-	this->context->submit(
-		this->getRenderables(),
-		this->currentCamera, 
-		this->currentCameraTransform, 
-		this->lights);
+	this->context->submit(this->sceneRenderables);
 	this->context->swapBuffers();
 }
 
@@ -108,7 +101,7 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 {
 	if (scene.getHasRenderableComponentsChanged())
 	{
-		this->renderables.clear();
+		this->sceneRenderables.clear();
 
 		ComponentIterables uiViewPortIterables = scene.getComponentIterables(UIViewport::TYPE_STRING);
 		std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
@@ -123,18 +116,19 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 				Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
 				std::shared_ptr<Component> cameraComponent = scene.getComponent(cameraEntity.components.at(Camera::TYPE_STRING));
 				std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(cameraComponent);
+				SceneRenderable sceneRenderable;
 
 				if (camera->getIsStreaming())
 				{
 					std::shared_ptr<Transform> cameraTransform = scene.getEntityTransform(cameraComponent->getEntityID());
 					Rectangle cameraViewport_px = camera->getViewportDimensions();
 
-					this->currentCamera = camera;
-					this->currentCameraTransform = cameraTransform;
+					sceneRenderable.camera = camera;
+					sceneRenderable.cameraTransform = cameraTransform;
 
 					for (int i = 0; i < renderOrderIndexCache.size(); i++)
 					{
-						Renderable renderable;
+						EntityRenderable renderable;
 						std::shared_ptr<RenderableComponent> renderableComponent =
 							std::dynamic_pointer_cast<RenderableComponent>(uiViewPortIterables.components.at(renderOrderIndexCache.at(i)));
 						Entity entity = scene.getEntity(renderableComponent->getEntityID());
@@ -179,17 +173,14 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 						//	}
 						//}
 
-						this->renderables.push_back(renderable);
+						sceneRenderable.entityRenderables.push_back(renderable);
 					}
 				}
+
+				this->sceneRenderables.push_back(sceneRenderable);
 			}
 		}
 	}
-}
-
-std::vector<Omnific::Renderable> Omnific::RenderingSystem::getRenderables()
-{
-	return this->renderables;
 }
 
 std::string Omnific::RenderingSystem::getRenderingContextName()
