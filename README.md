@@ -4,26 +4,31 @@
 
 **This project is still a work in progress**
 
-[Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, lightweight, and suitable also for interactive, multimedia applications. For now it is only targeted to PC Windows and Linux desktop platorms.
+[Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, and lightweight. It is designed for games, but it is also ideally suitable for interactive, multimedia applications. For now it is targeted to PC Windows and Linux desktop platforms.
 
 "Omnific" means ["all-creating."](https://www.merriam-webster.com/dictionary/omnific)
 
 ## Notable Features
 
-- 2D/3D Entities
-- Data-oriented Entity-Component-System (ECS) architecture
-- C++ and Python scripting
-- OpenGL Rendering Context
+- Project-based, data-driven Applications
+- Scene Tree Hierarchy of 2D/3D Entities
+- Scene EventBus for a publish/subscribe architecture
+- Entity-Component-System (ECS) architecture
+- C++ scripting via Native shared library builds
+- Python scripting via a Virtual Machine
+- OpenGL Rendering Context with GLSL
 - Game Controller and Haptic Feedback support
 
 ## Notable Planned Features
 
 - UI Framework built with UI Components and the UI System
 - An Editor Application built with the Engine, C++ and Python scripting
+- Data-oriented Component property access using a ComponentPropertyPool for Systems
 - Multithreaded Systems
 - Physically Based Rendering
-- Vulkan Rendering Context
+- Vulkan Rendering Context with SPIR-V
 - Acoustic Audio Simulation
+- Network Access for peer-to-peer gameplay
 
 ## Compilation Instructions
 
