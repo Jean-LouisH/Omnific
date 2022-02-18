@@ -184,7 +184,7 @@ void Omnific::Engine::update()
 
 	this->application->executeOnOutputMethods();
 	this->application->executeOnFinishMethods();
-	profiler.incrementLagCount(profiler.getFrameTimer().getDeltaInNanoseconds() / NS_IN_MS);
+	profiler.incrementLagCount(profiler.getFrameTimer().getDelta());
 	profiler.getUpdateTimer().setEnd();
 }
 
@@ -224,7 +224,7 @@ void Omnific::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
-	float processTime = profiler.getProcessTimer().getDeltaInNanoseconds() / NS_IN_MS;
+	float processTime = profiler.getProcessTimer().getDelta();
 	OS::getWindow().sleep(targetFrameTime - processTime);
 }
 
