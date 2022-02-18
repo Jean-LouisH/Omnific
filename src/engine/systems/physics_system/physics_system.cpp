@@ -42,7 +42,7 @@ void Omnific::PhysicsSystem::initialize()
 
 void Omnific::PhysicsSystem::process(Scene& scene)
 {
-	this->updateTimers(scene, this->msPerComputeUpdate);
+	this->updateTimers(scene);
 }
 
 void Omnific::PhysicsSystem::deinitialize()
@@ -50,7 +50,7 @@ void Omnific::PhysicsSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnific::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpdate)
+void Omnific::PhysicsSystem::updateTimers(Scene& scene)
 {
 	std::vector<std::shared_ptr<Component>>& components = scene.getComponents();
 	int componentVariantCount = components.size();
@@ -60,7 +60,7 @@ void Omnific::PhysicsSystem::updateTimers(Scene& scene, uint32_t msPerComputeUpd
 		std::shared_ptr<Component> component = components.at(j);
 		if (component->getType() == CountdownTimer::TYPE_STRING)
 		{
-			std::dynamic_pointer_cast<CountdownTimer>(component)->update(msPerComputeUpdate * (1.0 / MS_IN_S));
+			std::dynamic_pointer_cast<CountdownTimer>(component)->update(this->msPerComputeUpdate * (1.0 / MS_IN_S));
 		}
 	}
 }

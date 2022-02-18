@@ -32,10 +32,13 @@ namespace Omnific
 	{
 	public:
 		~AnimationSystem();
+		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		virtual void initialize() override;
 		void process(Scene& scene) override;
 		virtual void deinitialize() override;
 	private:
+		uint32_t msPerComputeUpdate = 8;
+		void updateSpriteContainers(Scene& scene);
 	};
 }
 

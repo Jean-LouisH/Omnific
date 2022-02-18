@@ -162,6 +162,7 @@ void Omnific::Engine::update()
 	Scene& activeScene = this->application->getActiveScene();
 	const uint32_t msPerComputeUpdate = this->application->getConfiguration().timeSettings.msPerComputeUpdate;
 
+	this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 	this->application->executeOnInputMethods();
 	this->application->executeOnStartMethods();

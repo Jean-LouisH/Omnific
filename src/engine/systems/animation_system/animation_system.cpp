@@ -28,6 +28,11 @@ Omnific::AnimationSystem::~AnimationSystem()
 	this->deinitialize();
 }
 
+void Omnific::AnimationSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+{
+	this->msPerComputeUpdate = msPerComputeUpdate;
+}
+
 void Omnific::AnimationSystem::initialize()
 {
 	this->isInitialized = true;
@@ -35,10 +40,23 @@ void Omnific::AnimationSystem::initialize()
 
 void Omnific::AnimationSystem::process(Scene& scene)
 {
-
+	this->updateSpriteContainers(scene);
 }
 
 void Omnific::AnimationSystem::deinitialize()
 {
 	this->isInitialized = false;
+}
+
+void Omnific::AnimationSystem::updateSpriteContainers(Scene& scene)
+{
+	ComponentIterables spriteContainerIterables = scene.getComponentIterables(SpriteContainer::TYPE_STRING);
+
+	for (size_t i = 0; spriteContainerIterables.count; i++)
+	{
+		std::shared_ptr<SpriteContainer> spriteContainer = std::dynamic_pointer_cast<SpriteContainer>(
+			spriteContainerIterables.components.at(spriteContainerIterables.indexCache.at(i)));
+
+		spriteContainer->update(this->msPerComputeUpdate * 1.0 / MS_IN_S);
+	}
 }

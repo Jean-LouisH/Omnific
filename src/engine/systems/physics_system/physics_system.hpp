@@ -38,7 +38,7 @@ namespace Omnific
 		virtual void deinitialize() override;
 	private:
 		uint32_t msPerComputeUpdate = 8;
-		void updateTimers(Scene& scene, uint32_t msPerComputeUpdate);
+		void updateTimers(Scene& scene);
 	};
 }
 
