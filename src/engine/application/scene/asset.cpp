@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "asset.hpp"
-#include <application/scene/uid_generator.hpp>
+#include <application/uid_generator.hpp>
 
 Omnific::Asset::Asset()
 {

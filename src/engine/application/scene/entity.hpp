@@ -29,7 +29,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <application/scene/uid_generator.hpp>
+#include <application/uid_generator.hpp>
 
 namespace Omnific
 {

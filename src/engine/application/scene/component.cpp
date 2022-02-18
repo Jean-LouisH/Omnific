@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "component.hpp"
-#include <application/scene/uid_generator.hpp>
+#include <application/uid_generator.hpp>
 
 Omnific::Component::Component()
 {

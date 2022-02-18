@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "shader.hpp"
-#include <application/scene/uid_generator.hpp>
+#include <application/uid_generator.hpp>
 
 Omnific::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
 {
