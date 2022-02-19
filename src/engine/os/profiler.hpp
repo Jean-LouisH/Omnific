@@ -41,7 +41,7 @@ namespace Omnific
 		void incrementLagCount(uint64_t deltaTime);
 		void decrementLagCount(uint64_t deltaTime);
 		/* In milliseconds */
-		uint64_t getLag();
+		uint64_t getLagCount();
 		uint16_t getFPS();
 	private:
 		HiResTimer process;

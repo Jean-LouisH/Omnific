@@ -73,7 +73,7 @@ void Omnific::Profiler::decrementLagCount(uint64_t deltaTime_ms)
 	this->lag -= deltaTime_ms;
 }
 
-uint64_t Omnific::Profiler::getLag()
+uint64_t Omnific::Profiler::getLagCount()
 {
 	return this->lag;
 }
