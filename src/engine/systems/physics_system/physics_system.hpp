@@ -36,9 +36,18 @@ namespace Omnific
 		virtual void initialize() override;
 		void process(Scene& scene) override;
 		virtual void deinitialize() override;
+		void onComputeEnd(Scene& scene);
 	private:
-		uint32_t msPerComputeUpdate = 8;
+		float secondsPerComputeUpdate = 0.008;
+		std::string collisionEventString = "collision_detected";
+
 		void updateTimers(Scene& scene);
+		void displace(Scene& scene);
+		void gravitate(Scene& scene);
+		void decelerate(Scene& scene);
+		void applyForces(Scene& scene);
+		void detectCollisions(Scene& scene);
+		void handleCollisions(Scene& scene);
 	};
 }
 

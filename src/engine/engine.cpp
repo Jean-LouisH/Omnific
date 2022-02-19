@@ -174,7 +174,7 @@ void Omnific::Engine::update()
 	   lag milliseconds are depleted. This ensures compute operations
 	   are accurate to real-time, even when frames drop. */
 
-	while (profiler.getLag() >= msPerComputeUpdate)
+	while (profiler.getLagCount() >= msPerComputeUpdate)
 	{
 		this->application->executeOnComputeMethods();
 		this->animationSystem->process(activeScene);
@@ -182,6 +182,7 @@ void Omnific::Engine::update()
 		profiler.decrementLagCount(msPerComputeUpdate);
 	}
 
+	this->physicsSystem->onComputeEnd(activeScene);
 	this->application->executeOnOutputMethods();
 	this->application->executeOnFinishMethods();
 	profiler.incrementLagCount(profiler.getFrameTimer().getDelta());
