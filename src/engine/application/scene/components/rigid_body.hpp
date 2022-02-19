@@ -39,13 +39,12 @@ namespace Omnific
 		float angularVelocity = 0.0;
 		float gravityScale = 1.0;
 		float elasticityRatio = 0.01;
-		glm::vec2 dragRatio;
-		glm::vec2 velocity;
+		glm::vec3 dragRatio;
+		glm::vec3 linearVelocity;
 
 		RigidBody()
 		{
-			this->dragRatio.x = 0.0001;
-			this->dragRatio.y = 1.0;
+			this->dragRatio = glm::vec3(0.0001, 1.0, 0.0001);
 			this->type = TYPE_STRING;
 		}
 		static constexpr const char* TYPE_STRING = "RigidBody";
