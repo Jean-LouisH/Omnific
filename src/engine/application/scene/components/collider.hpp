@@ -26,45 +26,49 @@
 #include "utilities/constants.hpp"
 #include "application/scene/component.hpp"
 
-#include "utilities/aabb_2d.hpp"
+#include "utilities/aabb_3d.hpp"
 #include <set>
 
 
 namespace Omnific
 {
+	enum class ColliderType
+	{
+		BOX
+	};
+
 	class Collider : public Component
 	{
 	public:
-		AABB2D aabb;
-
 		std::set<EntityID> enteringEntityIDs;
 		std::set<std::string> enteringEntityTags;
-
-		struct Circle
-		{
-			float radius = 0.0;
-		}circle;
+		ColliderType colliderType;
+		bool isTrigger = false;
 
 		struct Box
 		{
-			enum PlatformSide
+			enum CollidingSide
 			{
-				PLATFORM_SIDE_NONE,
-				PLATFORM_SIDE_LEFT,
-				PLATFORM_SIDE_RIGHT,
-				PLATFORM_SIDE_TOP,
-				PLATFORM_SIDE_BOTTOM
+				COLLIDING_SIDE_LEFT = 1 << 0,
+				COLLIDING_SIDE_RIGHT = 1 << 1,
+				COLLIDING_SIDE_TOP = 1 << 2,
+				COLLIDING_SIDE_BOTTOM = 1 << 3,
+				COLLIDING_SIDE_FRONT = 1 << 4,
+				COLLIDING_SIDE_BACK = 1 << 5
 			};
 
-			AABB2D aabb;
-			PlatformSide platformSide = PLATFORM_SIDE_NONE;
+			uint8_t CollidingSides = 0;
+			AABB3D aabb;
 		}box;
 
 		Collider()
 		{
 			this->type = TYPE_STRING;
 		};
+
 		static constexpr const char* TYPE_STRING = "Collider";
+		void setColliderType(ColliderType colliderType);
+		bool isColliderType(ColliderType colliderType);
 		bool hasEntityEntered(EntityID entityID);
 		bool hasEntityWithTagEntered(std::string entityTag);
 	private:

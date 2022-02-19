@@ -22,6 +22,16 @@
 
 #include "collider.hpp"
 
+void Omnific::Collider::setColliderType(ColliderType colliderType)
+{
+	this->colliderType = colliderType;
+}
+
+bool Omnific::Collider::isColliderType(ColliderType colliderType)
+{
+	return this->colliderType == colliderType;
+}
+
 bool Omnific::Collider::hasEntityEntered(EntityID entityID)
 {
 	return this->enteringEntityIDs.count(entityID);
