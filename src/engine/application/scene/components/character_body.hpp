@@ -35,8 +35,16 @@ namespace Omnific
 		CharacterBody()
 		{
 			this->type = TYPE_STRING;
+			this->reload();
 		};
 		static constexpr const char* TYPE_STRING = "CharacterBody";
+
+		glm::vec3 linearVelocity;
+		glm::vec3 snapDirection;
+		glm::vec3 upDirection;
+
+		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);
+		void reload();
 	private:
 	};
 }
