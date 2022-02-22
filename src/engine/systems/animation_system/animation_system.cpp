@@ -50,13 +50,10 @@ void Omnific::AnimationSystem::deinitialize()
 
 void Omnific::AnimationSystem::updateSpriteContainers(Scene& scene)
 {
-	ComponentIterables spriteContainerIterables = scene.getComponentIterables(SpriteContainer::TYPE_STRING);
+	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = scene.getComponentsByType<SpriteContainer>();
 
-	for (size_t i = 0; spriteContainerIterables.count; i++)
+	for (size_t i = 0; spriteContainers.size(); i++)
 	{
-		std::shared_ptr<SpriteContainer> spriteContainer = std::dynamic_pointer_cast<SpriteContainer>(
-			spriteContainerIterables.components.at(spriteContainerIterables.indexCache.at(i)));
-
-		spriteContainer->update(this->msPerComputeUpdate * 1.0 / MS_IN_S);
+		spriteContainers.at(i)->update(this->msPerComputeUpdate * 1.0 / MS_IN_S);
 	}
 }

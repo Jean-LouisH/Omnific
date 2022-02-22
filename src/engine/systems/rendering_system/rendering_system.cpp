@@ -103,13 +103,12 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 	{
 		this->sceneRenderables.clear();
 
-		ComponentIterables uiViewPortIterables = scene.getComponentIterables(UIViewport::TYPE_STRING);
+		std::vector<std::shared_ptr<UIViewport>> uiViewports = scene.getComponentsByType<UIViewport>();
 		std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
 
-		for (int i = 0; i < uiViewPortIterables.count; i++)
+		for (int i = 0; i < uiViewports.size(); i++)
 		{
-			std::shared_ptr<UIViewport> uiViewport = std::dynamic_pointer_cast<UIViewport>(
-				uiViewPortIterables.components.at(uiViewPortIterables.indexCache.at(i)));
+			std::shared_ptr<UIViewport> uiViewport = uiViewports.at(i);
 
 			if (uiViewport->getIsVisible())
 			{
@@ -130,8 +129,8 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 					{
 						EntityRenderable renderable;
 						std::shared_ptr<RenderableComponent> renderableComponent =
-							std::dynamic_pointer_cast<RenderableComponent>(uiViewPortIterables.components.at(renderOrderIndexCache.at(i)));
-						Entity entity = scene.getEntity(renderableComponent->getEntityID());
+							std::dynamic_pointer_cast<RenderableComponent>(scene.getComponents().at(renderOrderIndexCache.at(i)));
+						Entity& entity = scene.getEntity(renderableComponent->getEntityID());
 
 						renderable.entityTransform = scene.getEntityTransform(renderableComponent->getEntityID());
 						renderable.id = renderableComponent->getEntityID();

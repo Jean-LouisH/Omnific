@@ -45,13 +45,11 @@ void Omnific::AudioSystem::initialize()
 void Omnific::AudioSystem::process(Scene& scene)
 {
 	/* Basic functionality for now, without 3D audio listener calculations. */
-	ComponentIterables audioSourceIterables = scene.getComponentIterables(AudioSource::TYPE_STRING);
+	std::vector<std::shared_ptr<AudioSource>> audioSources = scene.getComponentsByType<AudioSource>();
 
-	for (size_t i = 0; i < audioSourceIterables.count; i++)
+	for (size_t i = 0; i < audioSources.size(); i++)
 	{
-		std::shared_ptr<AudioSource> audioSource = std::dynamic_pointer_cast<AudioSource>(
-			audioSourceIterables.components.at(audioSourceIterables.indexCache.at(i)));
-		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue = audioSource->popEntireAudioPlayQueue();
+		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue = audioSources.at(i)->popEntireAudioPlayQueue();
 
 		while (!audioPlayQueue.empty())
 		{

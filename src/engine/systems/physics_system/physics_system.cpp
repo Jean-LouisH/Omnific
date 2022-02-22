@@ -58,37 +58,30 @@ void Omnific::PhysicsSystem::deinitialize()
 
 void Omnific::PhysicsSystem::updateTimers(Scene& scene)
 {
-	ComponentIterables countdownTimerIterables = scene.getComponentIterables(CountdownTimer::TYPE_STRING);
+	std::vector<std::shared_ptr<CountdownTimer>> countdownTimers = scene.getComponentsByType<CountdownTimer>();
 
-	for (size_t i = 0; i < countdownTimerIterables.count; i++)
+	for (size_t i = 0; i < countdownTimers.size(); i++)
 	{
-		std::shared_ptr<CountdownTimer> countdownTimer = std::dynamic_pointer_cast<CountdownTimer>(
-			countdownTimerIterables.components.at(countdownTimerIterables.indexCache.at(i)));
-
-		countdownTimer->update(this->secondsPerComputeUpdate);
+		countdownTimers.at(i)->update(this->secondsPerComputeUpdate);
 	}
 }
 
 void Omnific::PhysicsSystem::displace(Scene& scene)
 {
-	ComponentIterables rigidBodyIterables = scene.getComponentIterables(RigidBody::TYPE_STRING);
-	ComponentIterables characterBodyIterables = scene.getComponentIterables(CharacterBody::TYPE_STRING);
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = scene.getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<CharacterBody>> characterBodies = scene.getComponentsByType<CharacterBody>();
 
-	for (size_t i = 0; i < rigidBodyIterables.count; i++)
+	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
-		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(
-			rigidBodyIterables.components.at(rigidBodyIterables.indexCache.at(i)));
+		std::shared_ptr<RigidBody> rigidBody = rigidBodies.at(i);
 		std::shared_ptr<Transform> transform = scene.getEntityTransform(rigidBody->getEntityID());
-
 		transform->translation += rigidBody->linearVelocity * this->secondsPerComputeUpdate;
 	}
 
-	for (int i = 0; i < characterBodyIterables.count; i++)
+	for (int i = 0; i < characterBodies.size(); i++)
 	{
-		std::shared_ptr<CharacterBody> characterBody = std::dynamic_pointer_cast<CharacterBody>(
-			characterBodyIterables.components.at(characterBodyIterables.indexCache.at(i)));
+		std::shared_ptr<CharacterBody> characterBody = characterBodies.at(i);
 		std::shared_ptr<Transform> transform = scene.getEntityTransform(characterBody->getEntityID());
-
 		//ToDo: translating according to the snap and up vectors.
 		transform->translation += characterBody->linearVelocity * this->secondsPerComputeUpdate;
 	}
@@ -96,26 +89,22 @@ void Omnific::PhysicsSystem::displace(Scene& scene)
 
 void Omnific::PhysicsSystem::gravitate(Scene& scene)
 {
-	ComponentIterables rigidBodyIterables = scene.getComponentIterables(RigidBody::TYPE_STRING);
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = scene.getComponentsByType<RigidBody>();
 
-	for (size_t i = 0; i < rigidBodyIterables.count; i++)
+	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
-		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(
-			rigidBodyIterables.components.at(rigidBodyIterables.indexCache.at(i)));
-
+		std::shared_ptr<RigidBody> rigidBody = rigidBodies.at(i);
 		rigidBody->linearVelocity.y -= rigidBody->gravityScale * EARTH_GRAVITY * this->secondsPerComputeUpdate;
 	}
 }
 
 void Omnific::PhysicsSystem::decelerate(Scene& scene)
 {
-	ComponentIterables rigidBodyIterables = scene.getComponentIterables(RigidBody::TYPE_STRING);
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = scene.getComponentsByType<RigidBody>();
 
-	for (size_t i = 0; i < rigidBodyIterables.count; i++)
+	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
-		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(
-			rigidBodyIterables.components.at(rigidBodyIterables.indexCache.at(i)));
-
+		std::shared_ptr<RigidBody> rigidBody = rigidBodies.at(i);
 		rigidBody->linearVelocity.x *= pow(rigidBody->dragRatio.x, this->secondsPerComputeUpdate);
 		rigidBody->linearVelocity.y *= pow(rigidBody->dragRatio.y, this->secondsPerComputeUpdate);
 		rigidBody->linearVelocity.z *= pow(rigidBody->dragRatio.z, this->secondsPerComputeUpdate);
@@ -124,12 +113,11 @@ void Omnific::PhysicsSystem::decelerate(Scene& scene)
 
 void Omnific::PhysicsSystem::applyForces(Scene& scene)
 {
-	ComponentIterables constantForceIterables = scene.getComponentIterables(ConstantForce::TYPE_STRING);
+	std::vector<std::shared_ptr<ConstantForce>> constantForces = scene.getComponentsByType<ConstantForce>();
 
-	for (size_t i = 0; i < constantForceIterables.count; i++)
+	for (size_t i = 0; i < constantForces.size(); i++)
 	{
-		std::shared_ptr<ConstantForce> constantForce = std::dynamic_pointer_cast<ConstantForce>(
-			constantForceIterables.components.at(constantForceIterables.indexCache.at(i)));
+		std::shared_ptr<ConstantForce> constantForce = constantForces.at(i);
 		std::shared_ptr<Transform> transform = scene.getEntityTransform(constantForce->getEntityID());
 
 		//Todo: Apply force on entities
@@ -139,22 +127,21 @@ void Omnific::PhysicsSystem::applyForces(Scene& scene)
 void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 {
 	/* Very basic collision detection on boxes for now. */
-	ComponentIterables colliderIterables = scene.getComponentIterables(Collider::TYPE_STRING);
+	std::vector<std::shared_ptr<Collider>> colliders = scene.getComponentsByType<Collider>();
+	size_t collidersCount = colliders.size();
 
-	for (size_t i = 0; i < colliderIterables.count; i++)
+	for (size_t i = 0; i < collidersCount; i++)
 	{
-		std::shared_ptr<Collider> collider1 = std::dynamic_pointer_cast<Collider>(
-			colliderIterables.components.at(colliderIterables.indexCache.at(i)));
+		std::shared_ptr<Collider> collider1 = colliders.at(i);
 		std::shared_ptr<Transform> transform1 = scene.getEntityTransform(collider1->getEntityID());
 		glm::vec3 translation1 = transform1->translation;
 		AABB3D aabb1 = collider1->box.aabb;
 
-		for (size_t j = 0; j < colliderIterables.count; j++)
+		for (size_t j = 0; j < collidersCount; j++)
 		{
 			if (i != j)
 			{
-				std::shared_ptr<Collider> collider2 = std::dynamic_pointer_cast<Collider>(
-					colliderIterables.components.at(colliderIterables.indexCache.at(j)));
+				std::shared_ptr<Collider> collider2 = colliders.at(j);
 				std::shared_ptr<Transform> transform2 = scene.getEntityTransform(collider2->getEntityID());
 				glm::vec3 translation2 = transform2->translation;
 				AABB3D aabb2 = collider2->box.aabb;
@@ -270,13 +257,10 @@ void Omnific::PhysicsSystem::handleCollisions(Scene& scene)
 
 void Omnific::PhysicsSystem::onComputeEnd(Scene& scene)
 {
-	ComponentIterables characterBodyIterables = scene.getComponentIterables(CharacterBody::TYPE_STRING);
+	std::vector<std::shared_ptr<CharacterBody>> characterBodies = scene.getComponentsByType<CharacterBody>();
 
-	for (int i = 0; i < characterBodyIterables.count; i++)
+	for (int i = 0; i < characterBodies.size(); i++)
 	{
-		std::shared_ptr<CharacterBody> characterBody = std::dynamic_pointer_cast<CharacterBody>(
-			characterBodyIterables.components.at(characterBodyIterables.indexCache.at(i)));
-
-		characterBody->reload();
+		characterBodies.at(i)->reload();
 	}
 }

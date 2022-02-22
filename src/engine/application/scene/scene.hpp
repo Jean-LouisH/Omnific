@@ -98,14 +98,6 @@ namespace Omnific
 		FINISH
 	};
 
-	class ComponentIterables
-	{
-	public:
-		std::vector<std::shared_ptr<Component>> components;
-		std::vector<size_t> indexCache;
-		size_t count;
-	};
-
 	class Scene
 	{
 	public:
@@ -131,7 +123,6 @@ namespace Omnific
 		std::unordered_map<EntityID, Entity>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
 		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);
-		ComponentIterables getComponentIterables(std::string componentTypeString);
 		AssetCache& getAssetCache();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
@@ -141,6 +132,25 @@ namespace Omnific
 		SceneID getID();
 
 		void unload();
+
+		template <class T>
+		std::vector<std::shared_ptr<T>> getComponentsByType()
+		{
+			std::vector<std::shared_ptr<T>> componentsByType;
+			std::vector<std::shared_ptr<Component>> components = this->getComponents();
+			std::vector<size_t> componentIndices;
+			std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches = this->getComponentIndexCaches();
+
+			if (componentIndexCaches.count(T::TYPE_STRING))
+				componentIndices = componentIndexCaches.at(T::TYPE_STRING);
+
+			size_t componentIndexCount = componentIndices.size();
+
+			for (size_t i = 0; i < componentIndexCount; i++)
+				componentsByType.push_back(std::dynamic_pointer_cast<T>(components.at(componentIndices.at(i))));
+
+			return componentsByType;
+		}
 	private:
 		SceneID ID = 0;
 
