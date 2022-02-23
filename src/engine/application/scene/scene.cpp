@@ -74,7 +74,7 @@ void Omnific::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> 
 	}
 
 	if (component->isRenderable())
-		this->renderOrderIndexCache.push_back(this->components.size() - 1);
+		this->renderOrderIndexCache.push_back(lastIndex);
 }
 
 void Omnific::Scene::addComponentToLastEntity(std::shared_ptr<Component> component)
@@ -101,15 +101,40 @@ void Omnific::Scene::removeEntity(EntityID entityID)
 void Omnific::Scene::removeComponent(EntityID entityID, std::string type)
 {
 	Entity& entity = this->getEntity(entityID);
-	ComponentID componentID = entity.components.at(type);
+	
+	if (entity.components.count(type) > 0)
+	{
+		ComponentID componentID = entity.components.at(type);
+		entity.components.erase(type);
 
-	entity.components.erase(type);
+		/* Remove the component from the list. */
 
-	for (auto it = this->components.begin(); it != this->components.end();)
-		if ((*it)->getID() == componentID)
-			it = this->components.erase(it);
-		else
-			++it;
+		for (auto it = this->components.begin(); it != this->components.end();)
+		{
+			if ((*it)->getID() == componentID)
+			{
+				it = this->components.erase(it);
+				break;
+			}
+			else
+			{
+				++it;
+			}
+		}
+
+		/* Rebuild index caches */
+
+		this->componentIndexCaches.clear();
+		this->renderOrderIndexCache.clear();
+
+		for (size_t i = 0; i < components.size(); i++)
+		{
+			std::shared_ptr<Component> component = components.at(i);
+			this->componentIndexCaches.at(component->getType()).push_back(i);
+			if (component->isRenderable())
+				this->renderOrderIndexCache.push_back(i);
+		}
+	}
 }
 
 std::vector<Omnific::ScriptCallBatch> Omnific::Scene::generateCallBatches(CallType callType)
@@ -170,14 +195,15 @@ std::vector<std::shared_ptr<Omnific::Component>> Omnific::Scene::getComponents()
 
 std::shared_ptr<Omnific::Transform> Omnific::Scene::getEntityTransform(EntityID entityID)
 {
-	std::vector<size_t> transformIndices = this->componentIndexCaches.at("Transform");
-		
-	std::shared_ptr<Transform> transform = 
-		std::dynamic_pointer_cast<Transform>(this->components.at(transformIndices.at(0)));
+	/* Gets the dummy root Entity Transform by default. */
+	std::shared_ptr<Transform> transform = this->getComponentsByType<Transform>().at(0);
+	Entity& entity = this->getEntity(entityID);
 
-	for (int i = 0; i < transformIndices.size(); i++)
-		if (this->components.at(transformIndices.at(i))->getEntityID() == entityID)
-			transform = std::dynamic_pointer_cast<Transform>(this->components.at(transformIndices.at(i)));
+	if (entity.components.count(Transform::TYPE_STRING) > 0)
+	{
+		std::shared_ptr<Component> transformComponent = this->getComponent(entity.components.at(Transform::TYPE_STRING));
+		transform = std::dynamic_pointer_cast<Transform>(transformComponent);
+	}
 
 	return transform;
 }
