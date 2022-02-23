@@ -107,47 +107,7 @@ void Omnific::Application::executeOnInputMethods()
 #endif
 
 	if (!this->sceneStorage->isEmpty() && OS::getHid().getHasDetectedInputChanges())
-		this->scripting->executeOnInputMethods(this->getActiveScene());
-
-	std::queue<PlayerID>& newlyLoadedPlayerIDs = OS::getHid().getNewlyLoadedPlayerIDs();
-
-	if (!this->sceneStorage->isEmpty() && !newlyLoadedPlayerIDs.empty())
-	{
-		Scene& activeScene = this->getActiveScene();
-		HapticSignalBuffer& hapticSignalBuffer = activeScene.getHapticSignalBuffer();
-
-		while (!newlyLoadedPlayerIDs.empty())
-		{
-			/*
-				For every newly detected controller, a pulse and silence signal is 
-				fed to its haptics the amount of times that correspond to the player ID number.
-			*/
-
-			/*Warm up*/
-			hapticSignalBuffer.publish(
-				newlyLoadedPlayerIDs.front(),
-				0.0,
-				1000);
-
-			for (int i = 0; i < newlyLoadedPlayerIDs.front() + 1; i++)
-			{
-				/*Silence*/
-				hapticSignalBuffer.publish(
-					newlyLoadedPlayerIDs.front(),
-					0.0,
-					250);
-
-				/*Pulse*/
-				hapticSignalBuffer.publish(
-					newlyLoadedPlayerIDs.front(),
-					1.0,
-					250);
-			}
-
-			newlyLoadedPlayerIDs.pop();
-		}
-	}
-	
+		this->scripting->executeOnInputMethods(this->getActiveScene());	
 }
 
 void Omnific::Application::executeOnFrameMethods()
