@@ -63,7 +63,7 @@ Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<
 	}
 }
 
-Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<VertexArray> vertexArray)
+Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions, std::shared_ptr<VertexArray> vertexArray)
 {
 	if (image != nullptr)
 	{
@@ -77,8 +77,8 @@ Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, std::shared_pt
 		};
 
 		int stride = 5;
-		int width = image->getWidth();
-		int height = image->getHeight();
+		int width = dimensions.x;
+		int height = dimensions.y;
 		int xCentre = width / 2;
 		int yCentre = height / 2;
 

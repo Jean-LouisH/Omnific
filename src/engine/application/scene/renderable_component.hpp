@@ -25,16 +25,21 @@
 #include "component.hpp"
 #include <application/scene/assets/image.hpp>
 #include <memory>
+#include <glm/glm.hpp>
 
 namespace Omnific
 {
 	class RenderableComponent : public Component
 	{
 	public:
+		void setDimensions(float width, float height);
+		void setDimensions(float width, float height, float depth);
 		std::shared_ptr<Image> getImage();
+		glm::vec3 getDimensions();
 		bool isRenderable() override;
 	protected:
 		std::shared_ptr<Image> image;
+		glm::vec3 dimensions;
 	private:
 	};
 }

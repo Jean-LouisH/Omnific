@@ -39,7 +39,7 @@ namespace Omnific
 	public:
 		VertexBuffer();
 		VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray);
-		VertexBuffer(std::shared_ptr<Image> image, std::shared_ptr<VertexArray> vertexArray);
+		VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions, std::shared_ptr<VertexArray> vertexArray);
 		~VertexBuffer();
 		void bind();
 		void deleteVertexBuffer();

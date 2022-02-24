@@ -160,7 +160,8 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 							}
 							std::shared_ptr<Image> image = renderableComponent->getImage();
 							renderable.texture = std::shared_ptr<Texture>(new Texture(image));
-							renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(image, renderable.vertexArray));
+							renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(
+								new VertexBuffer(image, renderableComponent->getDimensions(), renderable.vertexArray));
 						}
 
 						//if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)

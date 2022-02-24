@@ -22,9 +22,27 @@
 
 #include "renderable_component.hpp"
 
+void Omnific::RenderableComponent::setDimensions(float width, float height)
+{
+	this->dimensions.x = width;
+	this->dimensions.y = height;
+}
+
+void Omnific::RenderableComponent::setDimensions(float width, float height, float depth)
+{
+	this->dimensions.x = width;
+	this->dimensions.y = height;
+	this->dimensions.z = depth;
+}
+
 std::shared_ptr<Omnific::Image> Omnific::RenderableComponent::getImage()
 {
 	return this->image;
+}
+
+glm::vec3 Omnific::RenderableComponent::getDimensions()
+{
+	return this->dimensions;
 }
 
 bool Omnific::RenderableComponent::isRenderable()
