@@ -193,19 +193,42 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "BallCollider")
+							else if (it2->first.as<std::string>() == "CharacterBody")
 							{
+								std::shared_ptr<CharacterBody> characterBody(new CharacterBody());
+
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
 									if (it3->first.as<std::string>() == "default")
 									{
 
 									}
-									else if (it3->first.as<std::string>() == "")
+								}
+
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(characterBody);
+								scene.addComponentToLastEntity(component);
+							}
+							else if (it2->first.as<std::string>() == "Collider")
+							{
+								std::shared_ptr<Collider> collider(new Collider());
+
+								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								{
+									if (it3->first.as<std::string>() == "default")
 									{
 
 									}
+									else if (it3->first.as<std::string>() == "dimensions")
+									{
+										collider->setDimensions(
+											it3->second[0].as<double>(),
+											it3->second[1].as<double>(),
+											it3->second[2].as<double>());
+									}
 								}
+
+								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);
+								scene.addComponentToLastEntity(component);
 							}
 							else if (it2->first.as<std::string>() == "ConstantDirectionalForce")
 							{
@@ -432,8 +455,14 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 										std::shared_ptr<Omnific::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
 										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
 										scene.getAssetCache().store(asset);
-										sprite->addEmptyFrameSequence("");
-										sprite->addFrameToFrameSequence("", image);
+										sprite->addImage(image);
+									}
+									else if (it3->first.as<std::string>() == "dimensions")
+									{
+										sprite->setDimensions(
+											it3->second[0].as<double>(),
+											it3->second[1].as<double>(),
+											it3->second[2].as<double>());
 									}
 								}
 
