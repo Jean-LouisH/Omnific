@@ -82,7 +82,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								scene.getLastEntity().parentID = scene.getEntityByName(it2->second.as<std::string>()).id;
 							}
 							//Components
-							else if (it2->first.as<std::string>() == "BehaviourTree")
+							else if (it2->first.as<std::string>() == BehaviourTree::TYPE_STRING)
 							{
 								std::shared_ptr<BehaviourTree> behaviourTree(new BehaviourTree());
 
@@ -101,7 +101,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(behaviourTree);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "SightPerception")
+							else if (it2->first.as<std::string>() == SightPerception::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -115,7 +115,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "AnimatedSprite")
+							else if (it2->first.as<std::string>() == AudioListener::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -129,7 +129,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "AudioListener")
+							else if (it2->first.as<std::string>() == AudioSource::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -143,21 +143,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "AudioStreamSource")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "Camera")
+							else if (it2->first.as<std::string>() == Camera::TYPE_STRING)
 							{
 								std::shared_ptr<Camera> camera(new Camera());
 
@@ -193,7 +179,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "CharacterBody")
+							else if (it2->first.as<std::string>() == CharacterBody::TYPE_STRING)
 							{
 								std::shared_ptr<CharacterBody> characterBody(new CharacterBody());
 
@@ -208,7 +194,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(characterBody);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "Collider")
+							else if (it2->first.as<std::string>() == Collider::TYPE_STRING)
 							{
 								std::shared_ptr<Collider> collider(new Collider());
 
@@ -230,7 +216,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "ConstantDirectionalForce")
+							else if (it2->first.as<std::string>() == ConstantForce::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -244,21 +230,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "ConstantPointForce")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "CountdownTimer")
+							else if (it2->first.as<std::string>() == CountdownTimer::TYPE_STRING)
 							{
 								std::shared_ptr<CountdownTimer> countdownTimer(new CountdownTimer());
 
@@ -273,7 +245,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "ModelContainer")
+							else if (it2->first.as<std::string>() == ModelContainer::TYPE_STRING)
 							{
 								std::shared_ptr<ModelContainer> modelContainer(new ModelContainer());
 
@@ -290,7 +262,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "NavigationMeshAgent")
+							else if (it2->first.as<std::string>() == NavigationMeshAgent::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -304,7 +276,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "NavigationMeshBoxObstacle")
+							else if (it2->first.as<std::string>() == NavigationMeshBoxObstacle::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -318,7 +290,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "NavigationPath")
+							else if (it2->first.as<std::string>() == NavigationPath::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -332,7 +304,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "PhysicsConstraint")
+							else if (it2->first.as<std::string>() == PropertyAnimation::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -346,7 +318,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "PhysicsThruster")
+							else if (it2->first.as<std::string>() == RigidBody::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -360,91 +332,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "PropertyAnimation")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "BoxCollider")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "BoxMesh")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "BoxTriggerSpace")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "RegularPolytopalMesh")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "RigidBody")
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == "SpriteContainer")
+							else if (it2->first.as<std::string>() == SpriteContainer::TYPE_STRING)
 							{
 								std::shared_ptr<SpriteContainer> sprite(new SpriteContainer());
 
@@ -469,7 +357,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "StaticFluid")
+							else if (it2->first.as<std::string>() == StaticFluid::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -483,7 +371,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "Transform")
+							else if (it2->first.as<std::string>() == Transform::TYPE_STRING)
 							{
 								std::shared_ptr<Transform> transform(new Transform());
 
@@ -512,7 +400,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "UIButton")
+							else if (it2->first.as<std::string>() == UIButton::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -526,7 +414,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIGraphEdit")
+							else if (it2->first.as<std::string>() == UIGraphEdit::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -540,7 +428,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIGraphNode")
+							else if (it2->first.as<std::string>() == UIGraphNode::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -554,7 +442,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIScrollbar")
+							else if (it2->first.as<std::string>() == UIScrollbar::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -568,7 +456,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UISeparator")
+							else if (it2->first.as<std::string>() == UISeparator::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -582,7 +470,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UISlider")
+							else if (it2->first.as<std::string>() == UISlider::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -596,7 +484,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIHoverCard")
+							else if (it2->first.as<std::string>() == UIHoverCard::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -610,7 +498,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIItemList")
+							else if (it2->first.as<std::string>() == UIItemList::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -624,7 +512,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIPanel")
+							else if (it2->first.as<std::string>() == UIPanel::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -638,7 +526,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIProgressBar")
+							else if (it2->first.as<std::string>() == UIProgressBar::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -652,7 +540,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIRectangle")
+							else if (it2->first.as<std::string>() == UIRectangle::TYPE_STRING)
 							{
 							for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 							{
@@ -666,7 +554,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								}
 							}
 							}
-							else if (it2->first.as<std::string>() == "UISpinBox")
+							else if (it2->first.as<std::string>() == UISpinBox::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -680,7 +568,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UITab")
+							else if (it2->first.as<std::string>() == UITab::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -694,7 +582,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UITextEdit")
+							else if (it2->first.as<std::string>() == UITextEdit::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -708,7 +596,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UITextLabel")
+							else if (it2->first.as<std::string>() == UITextLabel::TYPE_STRING)
 							{
 								std::shared_ptr<UITextLabel> uiTextLabel(new UITextLabel());
 
@@ -741,7 +629,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
 								scene.addComponentToLastEntity(component);
 							}
-							else if (it2->first.as<std::string>() == "UITree")
+							else if (it2->first.as<std::string>() == UITree::TYPE_STRING)
 							{
 								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 								{
@@ -755,7 +643,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 									}
 								}
 							}
-							else if (it2->first.as<std::string>() == "UIViewport")
+							else if (it2->first.as<std::string>() == UIViewport::TYPE_STRING)
 							{
 								std::shared_ptr<UIViewport> uiViewport(new UIViewport());
 
