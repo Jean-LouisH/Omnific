@@ -52,7 +52,7 @@ void Omnific::AnimationSystem::updateSpriteContainers(Scene& scene)
 {
 	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = scene.getComponentsByType<SpriteContainer>();
 
-	for (size_t i = 0; spriteContainers.size(); i++)
+	for (size_t i = 0; i < spriteContainers.size(); i++)
 	{
 		spriteContainers.at(i)->update(this->msPerComputeUpdate * 1.0 / MS_IN_S);
 	}
