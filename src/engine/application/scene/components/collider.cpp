@@ -22,6 +22,12 @@
 
 #include "collider.hpp"
 
+void Omnific::Collider::setDimensions(float width, float height, float depth)
+{
+	this->box.aabb.min = {-(width / 2.0), -(height / 2.0), -(depth / 2.0) };
+	this->box.aabb.max = { (width / 2.0), (height / 2.0), (depth / 2.0) };
+}
+
 void Omnific::Collider::setColliderType(ColliderType colliderType)
 {
 	this->colliderType = colliderType;

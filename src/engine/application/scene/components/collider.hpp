@@ -67,6 +67,7 @@ namespace Omnific
 		};
 
 		static constexpr const char* TYPE_STRING = "Collider";
+		void setDimensions(float width, float height, float depth);
 		void setColliderType(ColliderType colliderType);
 		bool isColliderType(ColliderType colliderType);
 		bool hasEntityEntered(EntityID entityID);
