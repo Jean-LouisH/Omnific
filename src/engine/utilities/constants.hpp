@@ -33,7 +33,7 @@
 #define DEBUG_DEBUG_DATA_FILEPATH "../../../../../data/omnific_debug/"
 #define DEBUG_DATA_FILEPATH DEBUG_DEBUG_DATA_FILEPATH
 
-#define DEBUG_DEMO_MODE false
+#define DEBUG_DEMO_MODE true
 
 #if (DEBUG_DEMO_MODE)
 	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
