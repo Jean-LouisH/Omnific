@@ -22,6 +22,12 @@
 
 #include "sprite_container.hpp"
 
+void Omnific::SpriteContainer::addImage(std::shared_ptr<Image> image)
+{
+	this->addEmptyFrameSequence("");
+	this->addImageToFrameSequence("", image);
+}
+
 void Omnific::SpriteContainer::addEmptyFrameSequence(std::string frameSequenceName)
 {
 	std::vector<std::shared_ptr<Image>> frameSequence;
@@ -34,10 +40,15 @@ void Omnific::SpriteContainer::addFrameSequence(std::string frameSequenceName, s
 	this->image = this->getCurrentFrame();
 }
 
-void Omnific::SpriteContainer::addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
+void Omnific::SpriteContainer::addImageToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
+	{
+		std::vector<std::shared_ptr<Image>> frameSequence = this->frameSequences.at(frameSequenceName);
 		this->frameSequences.at(frameSequenceName).push_back(frame);
+		if (frameSequence.size() == 1)
+			this->setDimensions(frame->getWidth(), frame->getHeight());
+	}
 	this->image = this->getCurrentFrame();
 }
 

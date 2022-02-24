@@ -47,9 +47,10 @@ namespace Omnific
 		bool isXBillboarded = false;
 		bool isYBillboarded = false;
 
+		void addImage(std::shared_ptr<Image> image);
 		void addEmptyFrameSequence(std::string frameSequenceName);
 		void addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence);
-		void addFrameToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame);
+		void addImageToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame);
 		void clearFrameSequences();
 
 		void setAlpha(uint8_t value);
