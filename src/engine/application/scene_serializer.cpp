@@ -76,6 +76,8 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 
 								if (value == 2)
 									scene.getLastEntity().spatialDimension = Entity::SpatialDimension::_2D;
+								else if (value == 3)
+									scene.getLastEntity().spatialDimension = Entity::SpatialDimension::_3D;
 							}
 							else if (it2->first.as<std::string>() == "parent")
 							{
@@ -665,6 +667,58 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 								{
 									std::string script = it2->second[i].as<std::string>();
 									scene.getLastEntity().scripts.push_back(script);
+								}
+							}
+						}
+					}
+					/* Recursively load another Scene into this one if the filename
+					   is not the same. */
+					else if (it1->first.as<std::string>() == "Scene")
+					{ 
+						EntityID parentID = scene.getDummyEntityID();
+
+						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+						{
+							if (it2->first.as<std::string>() == "parent")
+							{
+								parentID = scene.getEntityByName(it2->second.as<std::string>()).id;
+							}
+							else if (it2->first.as<std::string>() == "name")
+							{
+								std::string newSceneFilepath = it1->second.as<std::string>();
+
+								if (newSceneFilepath != filepath)
+								{
+									Scene subScene = this->deserialize(newSceneFilepath);
+
+									/* Transfer stored Assets */
+									std::unordered_map<std::string, std::shared_ptr<Asset>>& subSceneAssets = subScene.getAssetCache().getAssets();
+
+									for (auto it = subSceneAssets.begin(); it != subSceneAssets.end(); it++)
+										scene.getAssetCache().store(it->second);
+
+
+									/* Transfer Entities and their Components */
+									Entity rootEntity;
+									rootEntity.name = newSceneFilepath;
+									rootEntity.parentID = parentID;
+									scene.addEntity(rootEntity);
+									std::unordered_map<EntityID, Entity>& subSceneEntities = subScene.getEntities();
+
+									for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
+									{
+										Entity subSceneEntity = it->second;
+
+										if (subSceneEntity.parentID == DUMMY_ENTITY)
+											subSceneEntity.parentID = rootEntity.id;
+
+										scene.addEntity(subSceneEntity);
+
+										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity.components;
+
+										for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
+											scene.addComponentToLastEntity(subScene.getComponent(it2->second));
+									}
 								}
 							}
 						}
