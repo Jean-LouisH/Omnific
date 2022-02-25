@@ -120,6 +120,7 @@ namespace Omnific
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();
+		EntityID getDummyEntityID();
 		std::unordered_map<EntityID, Entity>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
 		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);

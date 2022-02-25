@@ -42,6 +42,9 @@ Omnific::Scene::Scene()
 
 void Omnific::Scene::addEntity(Entity entity)
 {
+	if (entity.parentID != DUMMY_ENTITY)
+		this->entities.at(entity.parentID).childIDs.push_back(entity.id);
+
 	this->startEntitiesQueue.emplace(entity.id);
 	this->entities.emplace(entity.id, entity);
 	this->lastEntityID = entity.id;
@@ -227,6 +230,11 @@ Omnific::Entity& Omnific::Scene::getEntityByName(std::string name)
 Omnific::Entity& Omnific::Scene::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
+}
+
+Omnific::EntityID Omnific::Scene::getDummyEntityID()
+{
+	return this->dummyEntityID;
 }
 
 std::unordered_map<Omnific::EntityID, Omnific::Entity>& Omnific::Scene::getEntities()
