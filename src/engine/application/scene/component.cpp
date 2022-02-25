@@ -50,7 +50,7 @@ Omnific::EntityID Omnific::Component::getEntityID()
 
 bool Omnific::Component::isAttachedToEntity()
 {
-	return this->getEntityID() != DUMMY_ENTITY;
+	return this->getEntityID() != 0;
 }
 
 std::string Omnific::Component::getType() const

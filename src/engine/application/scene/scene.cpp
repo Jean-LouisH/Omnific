@@ -31,18 +31,12 @@ Omnific::Scene::Scene()
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 	this->componentPropertyPool = std::shared_ptr<ComponentPropertyPool>(new ComponentPropertyPool());
 
-	std::shared_ptr<Transform> transform(new Transform());
-	std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
-
 	this->ID = UIDGenerator::getNewUID();
-	this->addEmptyEntity();
-	this->addComponentToLastEntity(component);
-	this->dummyEntityID = this->getLastEntity().id;
 }
 
 void Omnific::Scene::addEntity(Entity entity)
 {
-	if (entity.parentID != DUMMY_ENTITY)
+	if (entity.parentID != 0)
 		this->entities.at(entity.parentID).childIDs.push_back(entity.id);
 
 	this->startEntitiesQueue.emplace(entity.id);
@@ -62,7 +56,7 @@ void Omnific::Scene::addComponent(EntityID entityID, std::shared_ptr<Component> 
 	component->setComponentPropertyPool(this->componentPropertyPool);
 	this->components.push_back(component);
 	std::string type = component->getType();
-	this->entities.at(entityID).components.emplace(type, component->getID());
+	this->entities.at(entityID).componentIDs.emplace(type, component->getID());
 	size_t lastIndex = this->components.size() - 1;
 
 	if (this->componentIndexCaches.count(type) > 0)
@@ -87,36 +81,27 @@ void Omnific::Scene::addComponentToLastEntity(std::shared_ptr<Component> compone
 
 void Omnific::Scene::removeEntity(EntityID entityID)
 {
-	auto entityComponents = this->getEntity(entityID).components;
-	for (auto it = entityComponents.begin(); it != entityComponents.end();)
-		this->removeComponent(entityID, it->first);
-
-
-	std::vector<EntityID> childIDs = this->getEntity(entityID).childIDs;
-
-	for (int i = 0; i < childIDs.size(); i++)
-		this->getEntity(childIDs.at(i)).parentID = DUMMY_ENTITY;
-
-	EntityID parentID = this->getEntity(entityID).parentID;
-	std::vector<EntityID> parentChildIDs = this->getEntity(parentID).childIDs;
-}
-
-void Omnific::Scene::removeComponent(EntityID entityID, std::string type)
-{
-	Entity& entity = this->getEntity(entityID);
-	
-	if (entity.components.count(type) > 0)
+	if (this->entities.count(entityID) > 0)
 	{
-		ComponentID componentID = entity.components.at(type);
-		entity.components.erase(type);
+		std::unordered_map<std::string, ComponentID> entityComponentIDs = this->getEntity(entityID).componentIDs;
 
-		/* Remove the component from the list. */
+		for (auto it = entityComponentIDs.begin(); it != entityComponentIDs.end(); it++)
+			this->removeComponent(entityID, it->first);
 
-		for (auto it = this->components.begin(); it != this->components.end();)
+		/* Remove the children */
+		std::vector<EntityID> childIDs = this->getEntity(entityID).childIDs;
+
+		for (int i = 0; i < childIDs.size(); i++)
+			this->removeEntity(childIDs.at(i));
+
+		/* Remove the ID from the parent children list */
+		Entity& parentEntity = this->getEntity(this->getEntity(entityID).parentID);
+
+		for (auto it = parentEntity.childIDs.begin(); it != parentEntity.childIDs.end();)
 		{
-			if ((*it)->getID() == componentID)
+			if ((*it) == entityID)
 			{
-				it = this->components.erase(it);
+				it = parentEntity.childIDs.erase(it);
 				break;
 			}
 			else
@@ -125,17 +110,50 @@ void Omnific::Scene::removeComponent(EntityID entityID, std::string type)
 			}
 		}
 
-		/* Rebuild index caches */
+		/* Remove the entity itself*/
 
-		this->componentIndexCaches.clear();
-		this->renderOrderIndexCache.clear();
+		this->entities.erase(entityID);
+	}
+}
 
-		for (size_t i = 0; i < components.size(); i++)
+void Omnific::Scene::removeComponent(EntityID entityID, std::string type)
+{
+	if (this->entities.count(entityID) > 0)
+	{
+		Entity& entity = this->getEntity(entityID);
+
+		if (entity.componentIDs.count(type) > 0)
 		{
-			std::shared_ptr<Component> component = components.at(i);
-			this->componentIndexCaches.at(component->getType()).push_back(i);
-			if (component->isRenderable())
-				this->renderOrderIndexCache.push_back(i);
+			ComponentID componentID = entity.componentIDs.at(type);
+			entity.componentIDs.erase(type);
+
+			/* Remove the component from the list. */
+
+			for (auto it = this->components.begin(); it != this->components.end();)
+			{
+				if ((*it)->getID() == componentID)
+				{
+					it = this->components.erase(it);
+					break;
+				}
+				else
+				{
+					++it;
+				}
+			}
+
+			/* Rebuild index caches */
+
+			this->componentIndexCaches.clear();
+			this->renderOrderIndexCache.clear();
+
+			for (size_t i = 0; i < components.size(); i++)
+			{
+				std::shared_ptr<Component> component = components.at(i);
+				this->componentIndexCaches.at(component->getType()).push_back(i);
+				if (component->isRenderable())
+					this->renderOrderIndexCache.push_back(i);
+			}
 		}
 	}
 }
@@ -198,13 +216,13 @@ std::vector<std::shared_ptr<Omnific::Component>> Omnific::Scene::getComponents()
 
 std::shared_ptr<Omnific::Transform> Omnific::Scene::getEntityTransform(EntityID entityID)
 {
-	/* Gets the dummy root Entity Transform by default. */
-	std::shared_ptr<Transform> transform = this->getComponentsByType<Transform>().at(0);
+	/* Uses a new Transform by default. */
+	std::shared_ptr<Transform> transform = std::shared_ptr<Transform>(new Transform());
 	Entity& entity = this->getEntity(entityID);
 
-	if (entity.components.count(Transform::TYPE_STRING) > 0)
+	if (entity.componentIDs.count(Transform::TYPE_STRING) > 0)
 	{
-		std::shared_ptr<Component> transformComponent = this->getComponent(entity.components.at(Transform::TYPE_STRING));
+		std::shared_ptr<Component> transformComponent = this->getComponent(entity.componentIDs.at(Transform::TYPE_STRING));
 		transform = std::dynamic_pointer_cast<Transform>(transformComponent);
 	}
 
@@ -230,11 +248,6 @@ Omnific::Entity& Omnific::Scene::getEntityByName(std::string name)
 Omnific::Entity& Omnific::Scene::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
-}
-
-Omnific::EntityID Omnific::Scene::getDummyEntityID()
-{
-	return this->dummyEntityID;
 }
 
 std::unordered_map<Omnific::EntityID, Omnific::Entity>& Omnific::Scene::getEntities()
@@ -299,9 +312,4 @@ Omnific::HapticSignalBuffer& Omnific::Scene::getHapticSignalBuffer()
 void Omnific::Scene::unload()
 {
 	this->assetCache->deleteAllAssets();
-}
-
-Omnific::Entity& Omnific::Scene::getDummyEntity()
-{
-	return this->getEntity(this->dummyEntityID);
 }

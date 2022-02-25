@@ -59,7 +59,7 @@ namespace Omnific
 		std::vector<std::string> getPropertyNames();
 	private:
 		ComponentID id = 0;
-		EntityID entityID = DUMMY_ENTITY;
+		EntityID entityID = 0;
 		std::unordered_map<std::string, size_t> propertyIndices;
 		std::shared_ptr<ComponentPropertyPool> componentPropertyPool = nullptr;
     };

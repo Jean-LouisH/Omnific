@@ -52,7 +52,7 @@ namespace Omnific
 		void setInvisible();
 	private:
 		Rectangle dimensions;
-		EntityID cameraEntityID = DUMMY_ENTITY;
+		EntityID cameraEntityID = 0;
 		bool isVisibleToOtherCameras = false;
 		bool isVisible = true;
 	};

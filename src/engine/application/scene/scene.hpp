@@ -105,8 +105,8 @@ namespace Omnific
 
 		void addEntity(Entity entity);
 		void addEmptyEntity();
-		void addComponent(EntityID entityID, std::shared_ptr<Component>  component);
-		void addComponentToLastEntity(std::shared_ptr<Component>  component);
+		void addComponent(EntityID entityID, std::shared_ptr<Component> component);
+		void addComponentToLastEntity(std::shared_ptr<Component> component);
 
 		void removeEntity(EntityID entityID);
 		void removeComponent(EntityID entityID, std::string type);
@@ -120,7 +120,6 @@ namespace Omnific
 		Entity& getEntity(EntityID entityID);
 		Entity& getEntityByName(std::string name);
 		Entity& getLastEntity();
-		EntityID getDummyEntityID();
 		std::unordered_map<EntityID, Entity>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
 		Entity::SpatialDimension getComponentSpatialDimension(ComponentID componentID);
@@ -169,8 +168,7 @@ namespace Omnific
 		std::queue<EntityID> startEntitiesQueue;
 		std::queue<EntityID> finishEntitiesQueue;
 
-		EntityID dummyEntityID = DUMMY_ENTITY;
-		EntityID lastEntityID = DUMMY_ENTITY;
+		EntityID lastEntityID = 0;
 
 		std::shared_ptr<AssetCache> assetCache;
 		std::shared_ptr<EventBus> eventBus;
@@ -178,7 +176,5 @@ namespace Omnific
 
 		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;
 		std::vector<size_t> renderOrderIndexCache;
-
-		Entity& getDummyEntity();
 	};
 }

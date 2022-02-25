@@ -44,13 +44,13 @@ namespace Omnific
 			_3D
 		};
 
-		EntityID id = DUMMY_ENTITY;
-		EntityID parentID = DUMMY_ENTITY;
+		EntityID id = 0;
+		EntityID parentID = 0;
 		SpatialDimension spatialDimension = SpatialDimension::_2D;
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;
-		std::unordered_map<std::string, ComponentID> components;
+		std::unordered_map<std::string, ComponentID> componentIDs;
 
 		std::vector<std::string> scripts;
 		std::vector<Shader> shaders;

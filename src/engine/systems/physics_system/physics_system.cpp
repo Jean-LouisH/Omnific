@@ -167,8 +167,8 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 				{
 					Entity& entity1 = scene.getEntity(collider1->getEntityID());
 					Entity& entity2 = scene.getEntity(collider2->getEntityID());
-					bool hasRigidBody1 = entity1.components.count(RigidBody::TYPE_STRING) > 0;
-					bool hasRigidBody2 = entity2.components.count(RigidBody::TYPE_STRING) > 0;
+					bool hasRigidBody1 = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
+					bool hasRigidBody2 = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
 					std::unordered_map<std::string, float> eventNumbers;
 
 					eventNumbers.emplace("first_entity_id", collider1->getEntityID());
@@ -177,7 +177,7 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 
 					if (hasRigidBody1)
 					{
-						std::shared_ptr<Component> rigidBodyComponent1 = scene.getComponent(entity1.components.at(RigidBody::TYPE_STRING));
+						std::shared_ptr<Component> rigidBodyComponent1 = scene.getComponent(entity1.componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody1 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent1);
 
 						eventNumbers.emplace("first_elasticity_ratio", rigidBody1->elasticityRatio);
@@ -192,7 +192,7 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 
 					if (hasRigidBody2)
 					{
-						std::shared_ptr<Component> rigidBodyComponent2 = scene.getComponent(entity2.components.at(RigidBody::TYPE_STRING));
+						std::shared_ptr<Component> rigidBodyComponent2 = scene.getComponent(entity2.componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody2 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent2);
 
 						eventNumbers.emplace("second_elasticity_ratio", rigidBody2->elasticityRatio);
@@ -236,17 +236,17 @@ void Omnific::PhysicsSystem::handleCollisions(Scene& scene)
 		Entity& entity = scene.getEntity(floats.at("first_entity_id"));
 
 		/* Collision response for RigidBodies and CharacterBodies */
-		if (entity.components.count(RigidBody::TYPE_STRING))
+		if (entity.componentIDs.count(RigidBody::TYPE_STRING))
 		{
-			std::shared_ptr<Component> rigidBodyComponent = scene.getComponent(entity.components.at(RigidBody::TYPE_STRING));
+			std::shared_ptr<Component> rigidBodyComponent = scene.getComponent(entity.componentIDs.at(RigidBody::TYPE_STRING));
 			std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent);
 			rigidBody->linearVelocity.x = floats.at("second_linear_velocity_x");
 			rigidBody->linearVelocity.y = floats.at("second_linear_velocity_y");
 			rigidBody->linearVelocity.z = floats.at("second_linear_velocity_z");
 		}
-		else if (entity.components.count(CharacterBody::TYPE_STRING))
+		else if (entity.componentIDs.count(CharacterBody::TYPE_STRING))
 		{
-			std::shared_ptr<Component> characterBodyComponent = scene.getComponent(entity.components.at(CharacterBody::TYPE_STRING));
+			std::shared_ptr<Component> characterBodyComponent = scene.getComponent(entity.componentIDs.at(CharacterBody::TYPE_STRING));
 			std::shared_ptr<CharacterBody> characterBody = std::dynamic_pointer_cast<CharacterBody>(characterBodyComponent);
 			characterBody->linearVelocity.x = floats.at("second_linear_velocity_x");
 			characterBody->linearVelocity.y = floats.at("second_linear_velocity_y");

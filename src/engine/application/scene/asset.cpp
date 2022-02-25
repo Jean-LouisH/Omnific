@@ -26,7 +26,7 @@
 Omnific::Asset::Asset()
 {
 	this->id = UIDGenerator::getNewUID();
-	this->name = "asset " + std::to_string(this->id);
+	this->name = "Asset (ID:" + std::to_string(this->id) + ")";
 }
 
 Omnific::AssetID Omnific::Asset::getID()

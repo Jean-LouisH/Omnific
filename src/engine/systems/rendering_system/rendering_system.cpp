@@ -113,7 +113,7 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 			if (uiViewport->getIsVisible())
 			{
 				Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
-				std::shared_ptr<Component> cameraComponent = scene.getComponent(cameraEntity.components.at(Camera::TYPE_STRING));
+				std::shared_ptr<Component> cameraComponent = scene.getComponent(cameraEntity.componentIDs.at(Camera::TYPE_STRING));
 				std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(cameraComponent);
 				SceneRenderable sceneRenderable;
 

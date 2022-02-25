@@ -40,7 +40,7 @@ void Omnific::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 
 bool Omnific::SceneAPI::hasComponent(std::string type)
 {
-	return this->getScene().getEntity(this->boundEntityID).components.count(type) > 0;
+	return this->getScene().getEntity(this->boundEntityID).componentIDs.count(type) > 0;
 }
 
 void Omnific::SceneAPI::preloadScene(std::string sceneFilename)
@@ -92,7 +92,7 @@ Omnific::Component& Omnific::SceneAPI::getComponent(std::string type)
 	std::vector<std::shared_ptr<Component>>& components = this->getScene().getComponents();
 
 	for (int i = 0; i < components.size(); i++)
-		if (components.at(i)->getID() == entity.components.at(type))
+		if (components.at(i)->getID() == entity.componentIDs.at(type))
 			component = components.at(i);
 
 	return *component;

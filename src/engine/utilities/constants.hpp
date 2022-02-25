@@ -26,8 +26,6 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
-#define DUMMY_ENTITY 0 
-
 #define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
 #define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
 #define DEBUG_DEBUG_DATA_FILEPATH "../../../../../data/omnific_debug/"

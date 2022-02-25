@@ -675,7 +675,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 					   is not the same. */
 					else if (it1->first.as<std::string>() == "Scene")
 					{ 
-						EntityID parentID = scene.getDummyEntityID();
+						EntityID parentID = 0;
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
@@ -699,22 +699,22 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 
 
 									/* Transfer Entities and their Components */
-									Entity rootEntity;
-									rootEntity.name = newSceneFilepath;
-									rootEntity.parentID = parentID;
-									scene.addEntity(rootEntity);
+									Entity newRootEntity;
+									newRootEntity.name = newSceneFilepath;
+									newRootEntity.parentID = parentID;
+									scene.addEntity(newRootEntity);
 									std::unordered_map<EntityID, Entity>& subSceneEntities = subScene.getEntities();
 
 									for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
 									{
 										Entity subSceneEntity = it->second;
 
-										if (subSceneEntity.parentID == DUMMY_ENTITY)
-											subSceneEntity.parentID = rootEntity.id;
+										if (subSceneEntity.parentID == 0)
+											subSceneEntity.parentID = newRootEntity.id;
 
 										scene.addEntity(subSceneEntity);
 
-										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity.components;
+										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity.componentIDs;
 
 										for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
 											scene.addComponentToLastEntity(subScene.getComponent(it2->second));
