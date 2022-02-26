@@ -1,6 +1,6 @@
 # [Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine)
 
-![screenshot](Screenshot.png)
+![In Progress](sprite_in_arena.png)
 
 **This project is still a work in progress**
 
