@@ -3,9 +3,17 @@ Scene:
     name: "Camera"
     spatial_dimension: 3
     Transform:
-      translation: [0, 0, 75]
-      rotation: [-10, 0, 0]
+      translation: [0, 0, 90]
+      rotation: [0, 0, 0]
     Camera: "default"
+  Entity:
+    name: "SkyBackground"
+    spatial_dimension: 3
+    Transform:
+      translation: [0, 0, -7]
+    SpriteContainer:
+      image: "sprite_in_arena/images/sky.jpg"
+      dimensions: [200, 200, 0.1]
   Entity:
     name: "Player"
     spatial_dimension: 3
@@ -24,7 +32,7 @@ Scene:
       translation: [0, -25.0, 0]
       rotation: [91.0, 0, 0]
     SpriteContainer:
-      image: "sprite_in_arena/images/pebble-texture.jpg"
+      image: "sprite_in_arena/images/pebbles.jpg"
       dimensions: [50.0, 50.0, 0.1]
     Collider:
       dimensions: [50.0, 0.1, 50.0]
