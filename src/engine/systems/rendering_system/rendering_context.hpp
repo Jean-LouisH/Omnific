@@ -39,7 +39,8 @@ namespace Omnific
 	{
 	public:
 		void initialize();
-		void clearBuffers();
+		void clearColourBuffer();
+		void clearDepthBuffer();
 		void setViewport(uint32_t width, uint32_t height);
 		void submit(std::vector<SceneRenderable> sceneRenderables);
 		void swapBuffers();
