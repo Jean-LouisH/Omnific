@@ -37,38 +37,8 @@ Omnific::Rectangle Omnific::UIViewport::getDimensions()
 	return  this->dimensions;
 }
 
-bool Omnific::UIViewport::getIsVisibleToOtherCameras()
-{
-	return this->isVisibleToOtherCameras;
-}
-
-bool Omnific::UIViewport::getIsVisible()
-{
-	return this->isVisible;
-}
-
 void Omnific::UIViewport::setDimensions(uint32_t width, uint32_t height)
 {
 	this->dimensions.width = width;
 	this->dimensions.height = height;
-}
-
-void Omnific::UIViewport::setVisibleToOtherCameras()
-{
-	this->isVisibleToOtherCameras = true;
-}
-
-void Omnific::UIViewport::setInvisibleToOtherCameras()
-{
-	this->isVisibleToOtherCameras = false;
-}
-
-void Omnific::UIViewport::setVisible()
-{
-	this->isVisible = true;
-}
-
-void Omnific::UIViewport::setInvisible()
-{
-	this->isVisible = false;
 }

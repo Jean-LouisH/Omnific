@@ -42,18 +42,10 @@ namespace Omnific
 		static constexpr const char* TYPE_STRING = "UIViewport";
 		EntityID getCameraEntityID();
 		Rectangle getDimensions();
-		bool getIsVisibleToOtherCameras();
-		bool getIsVisible();
 		void setCameraEntity(EntityID cameraEntityID);
 		void setDimensions(uint32_t width, uint32_t height);
-		void setVisibleToOtherCameras();
-		void setInvisibleToOtherCameras();
-		void setVisible();
-		void setInvisible();
 	private:
 		Rectangle dimensions;
 		EntityID cameraEntityID = 0;
-		bool isVisibleToOtherCameras = false;
-		bool isVisible = true;
 	};
 }
