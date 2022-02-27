@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#pragma once
+
 #include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
 #include "application/scene/component.hpp"
