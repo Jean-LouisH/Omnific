@@ -25,18 +25,20 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-#include "asset.hpp"
+#include "scene/asset.hpp"
 
 namespace Omnific
 {
 	class AssetCache
 	{
 	public:
-		void store(std::shared_ptr<Omnific::Asset>);
-		void deleteAsset(std::string filepath);
-		void deleteAllAssets();
-		std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> getAssets();
+		static void store(std::shared_ptr<Omnific::Asset>);
+		static void deleteAsset(std::string filepath);
+		static void deleteAllAssets();
+		static std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> getAssets();
 	private:
+		static AssetCache* instance;
+		static AssetCache* getInstance();
 		std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> assets;
 	};
 }
