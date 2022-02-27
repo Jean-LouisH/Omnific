@@ -41,13 +41,13 @@ namespace Omnific
 		float secondsPerComputeUpdate = 0.008;
 		std::string collisionEventString = "collision_detected";
 
-		void updateTimers(Scene& scene);
-		void displace(Scene& scene);
-		void gravitate(Scene& scene);
-		void decelerate(Scene& scene);
-		void applyForces(Scene& scene);
-		void detectCollisions(Scene& scene);
-		void handleCollisions(Scene& scene);
+		void updateTimers(SceneTree& scene);
+		void displace(SceneTree& scene);
+		void gravitate(SceneTree& scene);
+		void decelerate(SceneTree& scene);
+		void applyForces(SceneTree& scene);
+		void detectCollisions(SceneTree& scene);
+		void handleCollisions(SceneTree& scene);
 	};
 }
 

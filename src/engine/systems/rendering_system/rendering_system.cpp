@@ -69,7 +69,7 @@ void Omnific::RenderingSystem::process(Scene& scene)
 	this->onWindowResize();
 	this->onModifiedRenderableInstance(scene);
 	this->context->clearColourBuffer();
-	this->context->submit(this->sceneRenderables);
+	this->context->submit(this->sceneTreeRenderableLists);
 	this->context->swapBuffers();
 }
 
@@ -91,86 +91,101 @@ void Omnific::RenderingSystem::onWindowResize()
 
 void Omnific::RenderingSystem::onModifiedShaderInstance(Scene& scene)
 {
-	if (scene.getHasShadersChanged())
-	{
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	{
+		if (it->second.getHasShadersChanged())
+		{
+
+		}
 	}
 }
 
 void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 {
-	if (scene.getHasRenderableComponentsChanged())
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		this->sceneRenderables.clear();
+		SceneTree& sceneTree = it->second;
 
-		std::vector<std::shared_ptr<UIViewport>> uiViewports = scene.getComponentsByType<UIViewport>();
-		std::vector<size_t> renderOrderIndexCache = scene.getRenderOrderIndexCache();
-
-		for (int i = 0; i < uiViewports.size(); i++)
+		if (sceneTree.getHasRenderableComponentsChanged())
 		{
-			std::shared_ptr<UIViewport> uiViewport = uiViewports.at(i);
-			Entity& cameraEntity = scene.getEntity(uiViewport->getCameraEntityID());
-			std::shared_ptr<Component> cameraComponent = scene.getComponent(cameraEntity.componentIDs.at(Camera::TYPE_STRING));
-			std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(cameraComponent);
-			SceneRenderable sceneRenderable;
-			std::shared_ptr<Transform> cameraTransform = scene.getEntityTransform(cameraComponent->getEntityID());
+			std::vector<SceneTreeRenderable> sceneTreeRenderableList;
 
-			sceneRenderable.camera = camera;
-			sceneRenderable.cameraTransform = cameraTransform;
+			std::vector<std::shared_ptr<UIViewport>> uiViewports = sceneTree.getComponentsByType<UIViewport>();
+			std::vector<size_t> renderOrderIndexCache = sceneTree.getRenderOrderIndexCache();
 
-			for (int i = 0; i < renderOrderIndexCache.size(); i++)
+			for (int i = 0; i < uiViewports.size(); i++)
 			{
-				EntityRenderable renderable;
-				std::shared_ptr<RenderableComponent> renderableComponent =
-					std::dynamic_pointer_cast<RenderableComponent>(scene.getComponents().at(renderOrderIndexCache.at(i)));
-				Entity& entity = scene.getEntity(renderableComponent->getEntityID());
+				std::shared_ptr<UIViewport> uiViewport = uiViewports.at(i);
+				Entity& cameraEntity = sceneTree.getEntity(uiViewport->getCameraEntityID());
+				std::shared_ptr<Component> cameraComponent = sceneTree.getComponent(cameraEntity.componentIDs.at(Camera::TYPE_STRING));
+				std::shared_ptr<Camera> camera = std::dynamic_pointer_cast<Camera>(cameraComponent);
+				SceneTreeRenderable sceneTreeRenderable;
+				std::shared_ptr<Transform> cameraTransform = sceneTree.getEntityTransform(cameraComponent->getEntityID());
 
-				renderable.entityTransform = scene.getEntityTransform(renderableComponent->getEntityID());
-				renderable.id = renderableComponent->getEntityID();
-				renderable.shaderPrograms.push_back(this->shaderProgramCache.at(this->builtInShaderProgramName));
+				sceneTreeRenderable.camera = camera;
+				sceneTreeRenderable.cameraTransform = cameraTransform;
 
-				renderable.vertexArray = std::shared_ptr<VertexArray>(new VertexArray());
-
-				if (renderableComponent->isType(ModelContainer::TYPE_STRING))
+				for (int i = 0; i < renderOrderIndexCache.size(); i++)
 				{
-					std::shared_ptr<ModelContainer> modelContainer =
-						std::dynamic_pointer_cast<ModelContainer>(renderableComponent);
-					std::shared_ptr<Model> model = modelContainer->getCurrentModel();
-					renderable.texture = std::shared_ptr<Texture>(new Texture(model->image));
-					renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(model->mesh, renderable.vertexArray));
-				}
-				else
-				{
-					if (renderableComponent->isType(SpriteContainer::TYPE_STRING))
+					EntityRenderable entityRenderable;
+					std::shared_ptr<RenderableComponent> renderableComponent =
+						std::dynamic_pointer_cast<RenderableComponent>(sceneTree.getComponents().at(renderOrderIndexCache.at(i)));
+					Entity& entity = sceneTree.getEntity(renderableComponent->getEntityID());
+
+					entityRenderable.entityTransform = sceneTree.getEntityTransform(renderableComponent->getEntityID());
+					entityRenderable.id = renderableComponent->getEntityID();
+					entityRenderable.shaderPrograms.push_back(this->shaderProgramCache.at(this->builtInShaderProgramName));
+
+					entityRenderable.vertexArray = std::shared_ptr<VertexArray>(new VertexArray());
+
+					if (renderableComponent->isType(ModelContainer::TYPE_STRING))
 					{
-						std::shared_ptr<SpriteContainer> spriteContainer =
-							std::dynamic_pointer_cast<SpriteContainer>(renderableComponent);
-
-						if (spriteContainer->isXBillboarded)
-							renderable.entityTransform->rotation.x = cameraTransform->rotation.x;
-						if (spriteContainer->isYBillboarded)
-							renderable.entityTransform->rotation.y = cameraTransform->rotation.y;
+						std::shared_ptr<ModelContainer> modelContainer =
+							std::dynamic_pointer_cast<ModelContainer>(renderableComponent);
+						std::shared_ptr<Model> model = modelContainer->getCurrentModel();
+						entityRenderable.texture = std::shared_ptr<Texture>(new Texture(model->image));
+						entityRenderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(model->mesh, entityRenderable.vertexArray));
 					}
-					std::shared_ptr<Image> image = renderableComponent->getImage();
-					renderable.texture = std::shared_ptr<Texture>(new Texture(image));
-					renderable.vertexBuffer = std::shared_ptr<VertexBuffer>(
-						new VertexBuffer(image, renderableComponent->getDimensions(), renderable.vertexArray));
+					else
+					{
+						if (renderableComponent->isType(SpriteContainer::TYPE_STRING))
+						{
+							std::shared_ptr<SpriteContainer> spriteContainer =
+								std::dynamic_pointer_cast<SpriteContainer>(renderableComponent);
+
+							if (spriteContainer->isXBillboarded)
+								entityRenderable.entityTransform->rotation.x = cameraTransform->rotation.x;
+							if (spriteContainer->isYBillboarded)
+								entityRenderable.entityTransform->rotation.y = cameraTransform->rotation.y;
+						}
+						std::shared_ptr<Image> image = renderableComponent->getImage();
+						entityRenderable.texture = std::shared_ptr<Texture>(new Texture(image));
+						entityRenderable.vertexBuffer = std::shared_ptr<VertexBuffer>(
+							new VertexBuffer(image, renderableComponent->getDimensions(), entityRenderable.vertexArray));
+					}
+
+					//if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
+					//{
+					//	if (scene.getEntity(renderableComponent->getEntityID()).spatialDimension ==
+					//		Entity::SpatialDimension::_2D)
+					//	{
+
+					//	}
+					//}
+
+					sceneTreeRenderable.entityRenderables.push_back(entityRenderable);
 				}
 
-				//if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
-				//{
-				//	if (scene.getEntity(renderableComponent->getEntityID()).spatialDimension ==
-				//		Entity::SpatialDimension::_2D)
-				//	{
-
-				//	}
-				//}
-
-				sceneRenderable.entityRenderables.push_back(renderable);
+				sceneTreeRenderableList.push_back(sceneTreeRenderable);
 			}
 
-			this->sceneRenderables.push_back(sceneRenderable);
+			this->sceneTreeRenderableLists.emplace(sceneTree.getID(), sceneTreeRenderableList);
 		}
+
 	}
 }
 

@@ -38,7 +38,12 @@ void Omnific::UISystem::initialize()
 
 void Omnific::UISystem::process(Scene& scene)
 {
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	{
+
+	}
 }
 
 void Omnific::UISystem::deinitialize()

@@ -40,7 +40,12 @@ void Omnific::AnimationSystem::initialize()
 
 void Omnific::AnimationSystem::process(Scene& scene)
 {
-	this->updateSpriteContainers(scene);
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	{
+		this->updateSpriteContainers(it->second);
+	}
 }
 
 void Omnific::AnimationSystem::deinitialize()
@@ -48,9 +53,9 @@ void Omnific::AnimationSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnific::AnimationSystem::updateSpriteContainers(Scene& scene)
+void Omnific::AnimationSystem::updateSpriteContainers(SceneTree& sceneTree)
 {
-	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = scene.getComponentsByType<SpriteContainer>();
+	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = sceneTree.getComponentsByType<SpriteContainer>();
 
 	for (size_t i = 0; i < spriteContainers.size(); i++)
 	{

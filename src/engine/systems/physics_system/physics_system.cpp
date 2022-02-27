@@ -42,13 +42,19 @@ void Omnific::PhysicsSystem::initialize()
 
 void Omnific::PhysicsSystem::process(Scene& scene)
 {
-	this->updateTimers(scene);
-	this->gravitate(scene);
-	this->applyForces(scene);
-	this->decelerate(scene);
-	this->detectCollisions(scene);
-	this->handleCollisions(scene);
-	this->displace(scene);
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	{
+		SceneTree& sceneTree = it->second;
+		this->updateTimers(sceneTree);
+		this->gravitate(sceneTree);
+		this->applyForces(sceneTree);
+		this->decelerate(sceneTree);
+		this->detectCollisions(sceneTree);
+		this->handleCollisions(sceneTree);
+		this->displace(sceneTree);
+	}
 }
 
 void Omnific::PhysicsSystem::deinitialize()
@@ -56,9 +62,9 @@ void Omnific::PhysicsSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnific::PhysicsSystem::updateTimers(Scene& scene)
+void Omnific::PhysicsSystem::updateTimers(SceneTree& sceneTree)
 {
-	std::vector<std::shared_ptr<CountdownTimer>> countdownTimers = scene.getComponentsByType<CountdownTimer>();
+	std::vector<std::shared_ptr<CountdownTimer>> countdownTimers = sceneTree.getComponentsByType<CountdownTimer>();
 
 	for (size_t i = 0; i < countdownTimers.size(); i++)
 	{
@@ -66,30 +72,30 @@ void Omnific::PhysicsSystem::updateTimers(Scene& scene)
 	}
 }
 
-void Omnific::PhysicsSystem::displace(Scene& scene)
+void Omnific::PhysicsSystem::displace(SceneTree& sceneTree)
 {
-	std::vector<std::shared_ptr<RigidBody>> rigidBodies = scene.getComponentsByType<RigidBody>();
-	std::vector<std::shared_ptr<CharacterBody>> characterBodies = scene.getComponentsByType<CharacterBody>();
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree.getComponentsByType<CharacterBody>();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
 		std::shared_ptr<RigidBody> rigidBody = rigidBodies.at(i);
-		std::shared_ptr<Transform> transform = scene.getEntityTransform(rigidBody->getEntityID());
+		std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(rigidBody->getEntityID());
 		transform->translation += rigidBody->linearVelocity * this->secondsPerComputeUpdate;
 	}
 
 	for (int i = 0; i < characterBodies.size(); i++)
 	{
 		std::shared_ptr<CharacterBody> characterBody = characterBodies.at(i);
-		std::shared_ptr<Transform> transform = scene.getEntityTransform(characterBody->getEntityID());
+		std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(characterBody->getEntityID());
 		//ToDo: translating according to the snap and up vectors.
 		transform->translation += characterBody->linearVelocity * this->secondsPerComputeUpdate;
 	}
 }
 
-void Omnific::PhysicsSystem::gravitate(Scene& scene)
+void Omnific::PhysicsSystem::gravitate(SceneTree& sceneTree)
 {
-	std::vector<std::shared_ptr<RigidBody>> rigidBodies = scene.getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
@@ -98,9 +104,9 @@ void Omnific::PhysicsSystem::gravitate(Scene& scene)
 	}
 }
 
-void Omnific::PhysicsSystem::decelerate(Scene& scene)
+void Omnific::PhysicsSystem::decelerate(SceneTree& sceneTree)
 {
-	std::vector<std::shared_ptr<RigidBody>> rigidBodies = scene.getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
@@ -111,29 +117,29 @@ void Omnific::PhysicsSystem::decelerate(Scene& scene)
 	}
 }
 
-void Omnific::PhysicsSystem::applyForces(Scene& scene)
+void Omnific::PhysicsSystem::applyForces(SceneTree& sceneTree)
 {
-	std::vector<std::shared_ptr<ConstantForce>> constantForces = scene.getComponentsByType<ConstantForce>();
+	std::vector<std::shared_ptr<ConstantForce>> constantForces = sceneTree.getComponentsByType<ConstantForce>();
 
 	for (size_t i = 0; i < constantForces.size(); i++)
 	{
 		std::shared_ptr<ConstantForce> constantForce = constantForces.at(i);
-		std::shared_ptr<Transform> transform = scene.getEntityTransform(constantForce->getEntityID());
+		std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(constantForce->getEntityID());
 
 		//Todo: Apply force on entities
 	}
 }
 
-void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
+void Omnific::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 {
 	/* Very basic collision detection on boxes for now. */
-	std::vector<std::shared_ptr<Collider>> colliders = scene.getComponentsByType<Collider>();
+	std::vector<std::shared_ptr<Collider>> colliders = sceneTree.getComponentsByType<Collider>();
 	size_t collidersCount = colliders.size();
 
 	for (size_t i = 0; i < collidersCount; i++)
 	{
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
-		std::shared_ptr<Transform> transform1 = scene.getEntityTransform(collider1->getEntityID());
+		std::shared_ptr<Transform> transform1 = sceneTree.getEntityTransform(collider1->getEntityID());
 		glm::vec3 translation1 = transform1->translation;
 		AABB3D aabb1 = collider1->box.aabb;
 
@@ -142,7 +148,7 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 			if (i != j)
 			{
 				std::shared_ptr<Collider> collider2 = colliders.at(j);
-				std::shared_ptr<Transform> transform2 = scene.getEntityTransform(collider2->getEntityID());
+				std::shared_ptr<Transform> transform2 = sceneTree.getEntityTransform(collider2->getEntityID());
 				glm::vec3 translation2 = transform2->translation;
 				AABB3D aabb2 = collider2->box.aabb;
 
@@ -165,8 +171,8 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 					(box1bottom <= box2top && box1top >= box2bottom) &&
 					(box1back <= box2front && box1front >= box2back))
 				{
-					Entity& entity1 = scene.getEntity(collider1->getEntityID());
-					Entity& entity2 = scene.getEntity(collider2->getEntityID());
+					Entity& entity1 = sceneTree.getEntity(collider1->getEntityID());
+					Entity& entity2 = sceneTree.getEntity(collider2->getEntityID());
 					bool hasRigidBody1 = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
 					bool hasRigidBody2 = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
 					std::unordered_map<std::string, float> eventNumbers;
@@ -177,7 +183,7 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 
 					if (hasRigidBody1)
 					{
-						std::shared_ptr<Component> rigidBodyComponent1 = scene.getComponent(entity1.componentIDs.at(RigidBody::TYPE_STRING));
+						std::shared_ptr<Component> rigidBodyComponent1 = sceneTree.getComponent(entity1.componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody1 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent1);
 
 						eventNumbers.emplace("first_elasticity_ratio", rigidBody1->elasticityRatio);
@@ -192,7 +198,7 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 
 					if (hasRigidBody2)
 					{
-						std::shared_ptr<Component> rigidBodyComponent2 = scene.getComponent(entity2.componentIDs.at(RigidBody::TYPE_STRING));
+						std::shared_ptr<Component> rigidBodyComponent2 = sceneTree.getComponent(entity2.componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody2 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent2);
 
 						eventNumbers.emplace("second_elasticity_ratio", rigidBody2->elasticityRatio);
@@ -216,16 +222,16 @@ void Omnific::PhysicsSystem::detectCollisions(Scene& scene)
 						eventNumbers.emplace("second_rotation_z", transform2->rotation.z);
 					}
 
-					scene.getEventBus().publish(this->collisionEventString, eventNumbers);
+					sceneTree.getEventBus().publish(this->collisionEventString, eventNumbers);
 				}
 			}
 		}
 	}
 }
 
-void Omnific::PhysicsSystem::handleCollisions(Scene& scene)
+void Omnific::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 {
-	std::vector<Event> collisionEvents = scene.getEventBus().query(this->collisionEventString);
+	std::vector<Event> collisionEvents = sceneTree.getEventBus().query(this->collisionEventString);
 	size_t collisionEventCount = collisionEvents.size();
 
 	/* Basic collision response on boxes */
@@ -233,12 +239,12 @@ void Omnific::PhysicsSystem::handleCollisions(Scene& scene)
 	{
 		Event& collisionEvent = collisionEvents.at(i);
 		std::unordered_map<std::string, float> floats = collisionEvent.getParameters().floats;
-		Entity& entity = scene.getEntity(floats.at("first_entity_id"));
+		Entity& entity = sceneTree.getEntity(floats.at("first_entity_id"));
 
 		/* Collision response for RigidBodies and CharacterBodies */
 		if (entity.componentIDs.count(RigidBody::TYPE_STRING))
 		{
-			std::shared_ptr<Component> rigidBodyComponent = scene.getComponent(entity.componentIDs.at(RigidBody::TYPE_STRING));
+			std::shared_ptr<Component> rigidBodyComponent = sceneTree.getComponent(entity.componentIDs.at(RigidBody::TYPE_STRING));
 			std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent);
 			rigidBody->linearVelocity.x = floats.at("second_linear_velocity_x");
 			rigidBody->linearVelocity.y = floats.at("second_linear_velocity_y");
@@ -246,7 +252,7 @@ void Omnific::PhysicsSystem::handleCollisions(Scene& scene)
 		}
 		else if (entity.componentIDs.count(CharacterBody::TYPE_STRING))
 		{
-			std::shared_ptr<Component> characterBodyComponent = scene.getComponent(entity.componentIDs.at(CharacterBody::TYPE_STRING));
+			std::shared_ptr<Component> characterBodyComponent = sceneTree.getComponent(entity.componentIDs.at(CharacterBody::TYPE_STRING));
 			std::shared_ptr<CharacterBody> characterBody = std::dynamic_pointer_cast<CharacterBody>(characterBodyComponent);
 			characterBody->linearVelocity.x = floats.at("second_linear_velocity_x");
 			characterBody->linearVelocity.y = floats.at("second_linear_velocity_y");
@@ -257,10 +263,16 @@ void Omnific::PhysicsSystem::handleCollisions(Scene& scene)
 
 void Omnific::PhysicsSystem::onComputeEnd(Scene& scene)
 {
-	std::vector<std::shared_ptr<CharacterBody>> characterBodies = scene.getComponentsByType<CharacterBody>();
+	std::unordered_map<SceneTreeID, SceneTree> sceneTrees = scene.getSceneTrees();
 
-	for (int i = 0; i < characterBodies.size(); i++)
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		characterBodies.at(i)->reload();
+		SceneTree& sceneTree = it->second;
+		std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree.getComponentsByType<CharacterBody>();
+
+		for (int i = 0; i < characterBodies.size(); i++)
+		{
+			characterBodies.at(i)->reload();
+		}
 	}
 }

@@ -34,7 +34,12 @@ void Omnific::AISystem::initialize()
 
 void Omnific::AISystem::process(Scene& scene)
 {
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	{
+
+	}
 }
 
 void Omnific::AISystem::deinitialize()

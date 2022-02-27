@@ -38,23 +38,23 @@ void Omnific::CommandLineAPI::openWindow()
 	//...
 	//...
 
-	Scene& scene = ScriptingAPIs::getSceneAPI().getScene();
+	SceneTree& sceneTree = ScriptingAPIs::getSceneAPI().getSceneTree();
 
-	scene.addEntity(panelEntity);
-	scene.addComponentToLastEntity(uiPanelComponent);
+	sceneTree.addEntity(panelEntity);
+	sceneTree.addComponentToLastEntity(uiPanelComponent);
 	this->entityIDs.push_back(panelEntity.id);
 
-	scene.addEntity(textEditEntity);
-	scene.addComponentToLastEntity(textEditComponent);
+	sceneTree.addEntity(textEditEntity);
+	sceneTree.addComponentToLastEntity(textEditComponent);
 	this->entityIDs.push_back(textEditEntity.id);
 }
 
 void Omnific::CommandLineAPI::closeWindow()
 {
-	Scene& scene = ScriptingAPIs::getSceneAPI().getScene();
+	SceneTree& sceneTree = ScriptingAPIs::getSceneAPI().getSceneTree();
 
 	for (int i = 0; i < this->entityIDs.size(); i++)
-		scene.removeEntity(this->entityIDs.at(i));
+		sceneTree.removeEntity(this->entityIDs.at(i));
 
 	this->entityIDs.clear();
 }

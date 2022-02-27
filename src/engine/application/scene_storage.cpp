@@ -40,7 +40,6 @@ void Omnific::SceneStorage::removeScene(std::string sceneName)
 	{
 		if (this->scenes.count(sceneName))
 		{
-			this->scenes.at(sceneName).unload();
 			this->scenes.erase(sceneName);
 			OS::getLogger().write("Removed scene \"" + sceneName + "\"");
 		}

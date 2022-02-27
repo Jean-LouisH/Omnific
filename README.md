@@ -11,9 +11,9 @@
 ## Notable Features
 
 - Project-based, data-driven Applications
-- Scene Tree Hierarchy of 2D/3D Entities
-- Scene EventBus for a publish/subscribe architecture
 - Entity-Component-System (ECS) architecture
+- Scenes of multiple SceneTree layers (2D and 3D)
+- SceneTree EventBus for a publish/subscribe architecture
 - C++ scripting via Native shared library builds
 - Python scripting via a Virtual Machine
 - OpenGL Rendering Context with GLSL

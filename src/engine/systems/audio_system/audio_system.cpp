@@ -44,23 +44,28 @@ void Omnific::AudioSystem::initialize()
 
 void Omnific::AudioSystem::process(Scene& scene)
 {
-	/* Basic functionality for now, without 3D audio listener calculations. */
-	std::vector<std::shared_ptr<AudioSource>> audioSources = scene.getComponentsByType<AudioSource>();
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
-	for (size_t i = 0; i < audioSources.size(); i++)
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue = audioSources.at(i)->popEntireAudioPlayQueue();
+		/* Basic functionality for now, without 3D audio listener calculations. */
+		std::vector<std::shared_ptr<AudioSource>> audioSources = it->second.getComponentsByType<AudioSource>();
 
-		while (!audioPlayQueue.empty())
+		for (size_t i = 0; i < audioSources.size(); i++)
 		{
-			std::shared_ptr<AudioStream> audioStream = audioPlayQueue.front();
+			std::queue<std::shared_ptr<AudioStream>> audioPlayQueue = audioSources.at(i)->popEntireAudioPlayQueue();
 
-			if (audioStream->getIsMusic())
-				this->musicQueue.emplace(audioStream->getSDLMixMusic());
-			else
-				this->soundFXQueue.emplace(audioStream->getSDLMixChunk());
+			while (!audioPlayQueue.empty())
+			{
+				std::shared_ptr<AudioStream> audioStream = audioPlayQueue.front();
 
-			audioPlayQueue.pop();
+				if (audioStream->getIsMusic())
+					this->musicQueue.emplace(audioStream->getSDLMixMusic());
+				else
+					this->soundFXQueue.emplace(audioStream->getSDLMixChunk());
+
+				audioPlayQueue.pop();
+			}
 		}
 	}
 

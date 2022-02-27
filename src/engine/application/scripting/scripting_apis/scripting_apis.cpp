@@ -47,7 +47,7 @@ void Omnific::ScriptingAPIs::setConfiguration(Configuration* configuration)
 	getInstance()->timeAPI->setTimeSettings(&configuration->timeSettings);
 }
 
-void Omnific::ScriptingAPIs::bindEntity(SceneID sceneTreeID, EntityID entityID)
+void Omnific::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
 {
 	getInstance()->sceneAPI->bindEntity(sceneTreeID, entityID);
 }

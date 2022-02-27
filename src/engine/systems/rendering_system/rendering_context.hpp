@@ -29,7 +29,7 @@
 #include "entity_renderable.hpp"
 #include <application/scene/assets/image.hpp>
 #include <application/scene/scene.hpp>
-#include "scene_renderable.hpp"
+#include "scene_tree_renderable.hpp"
 #include <string>
 
 namespace Omnific
@@ -42,7 +42,7 @@ namespace Omnific
 		void clearColourBuffer();
 		void clearDepthBuffer();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::vector<SceneRenderable> sceneRenderables);
+		void submit(std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists);
 		void swapBuffers();
 		std::string getRenderingContextName();
 	private:

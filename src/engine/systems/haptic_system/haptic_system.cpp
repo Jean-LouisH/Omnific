@@ -56,46 +56,51 @@ void Omnific::HapticSystem::initialize()
 void Omnific::HapticSystem::process(Scene& scene)
 {
 	HumanInterfaceDevices& hid = OS::getHid();
-	HapticSignalBuffer& hapticSignalBuffer = scene.getHapticSignalBuffer();
-	std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
-	for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		PlayerID playerID = it->first;
+		HapticSignalBuffer& hapticSignalBuffer = it->second.getHapticSignalBuffer();
+		std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
 
-		if (this->hapticPlaybacks.count(playerID))
+		for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
 		{
-			HapticPlayback& hapticPlayback = this->hapticPlaybacks.at(playerID);
-			std::queue<HapticSignal>& hapticSignalQueue = it->second;
+			PlayerID playerID = it->first;
 
-			if (hapticPlayback.isPlaying)
+			if (this->hapticPlaybacks.count(playerID))
 			{
-				hapticPlayback.timer.setEnd();
+				HapticPlayback& hapticPlayback = this->hapticPlaybacks.at(playerID);
+				std::queue<HapticSignal>& hapticSignalQueue = it->second;
 
-				if (hapticPlayback.timer.getDelta() > hapticPlayback.duration_ms)
+				if (hapticPlayback.isPlaying)
 				{
-					hapticPlayback.isPlaying = false;
-					this->stopRumble(playerID, hid.getHaptics());
-					hapticSignalQueue.pop();
+					hapticPlayback.timer.setEnd();
+
+					if (hapticPlayback.timer.getDelta() > hapticPlayback.duration_ms)
+					{
+						hapticPlayback.isPlaying = false;
+						this->stopRumble(playerID, hid.getHaptics());
+						hapticSignalQueue.pop();
+					}
+				}
+				else
+				{
+					if (!hapticSignalQueue.empty())
+					{
+						HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
+						hapticPlayback.duration_ms = hapticSignal.getDuration();
+						hapticPlayback.timer.setStart();
+						hapticPlayback.isPlaying = true;
+						this->rumble(hapticSignal, hid.getHaptics());
+					}
 				}
 			}
 			else
 			{
-				if (!hapticSignalQueue.empty())
-				{
-					HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
-					hapticPlayback.duration_ms = hapticSignal.getDuration();
-					hapticPlayback.timer.setStart();
-					hapticPlayback.isPlaying = true;
-					this->rumble(hapticSignal, hid.getHaptics());
-				}
+				HapticPlayback hapticPlayback;
+				hapticPlayback.isPlaying = false;
+				this->hapticPlaybacks.emplace(playerID, hapticPlayback);
 			}
-		}
-		else
-		{
-			HapticPlayback hapticPlayback;
-			hapticPlayback.isPlaying = false;
-			this->hapticPlaybacks.emplace(playerID, hapticPlayback);
 		}
 	}
 }

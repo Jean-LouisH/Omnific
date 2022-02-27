@@ -117,23 +117,22 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 		.def_readwrite("childIDs", &Omnific::Entity::childIDs)
 		.def_readwrite("tags", &Omnific::Entity::tags);
 
-	pybind11::class_<Omnific::Scene>(m, "Scene")
-		.def("get_asset_cache", &Omnific::Scene::getAssetCache, pybind11::return_value_policy::reference)	
-		.def("add_entity", &Omnific::Scene::addEntity)
-		.def("add_empty_entity", &Omnific::Scene::addEmptyEntity)
-		.def("add_component", &Omnific::Scene::addComponent)
-		.def("add_component_to_last_entity", &Omnific::Scene::addComponentToLastEntity)
-		.def("remove_entity", &Omnific::Scene::removeEntity)
-		.def("remove_component", &Omnific::Scene::removeComponent)
-		.def("get_component_variants", &Omnific::Scene::getComponents, pybind11::return_value_policy::reference)
-		.def("get_entity_transform", &Omnific::Scene::getEntityTransform, pybind11::return_value_policy::reference)
-		.def("get_entity", &Omnific::Scene::getEntity, pybind11::return_value_policy::reference)
-		.def("get_entity_by_name", &Omnific::Scene::getEntityByName, pybind11::return_value_policy::reference)
-		.def("get_last_entity", &Omnific::Scene::getLastEntity, pybind11::return_value_policy::reference)
-		.def("get_entities", &Omnific::Scene::getEntities, pybind11::return_value_policy::reference)
-		.def("get_event_bus", &Omnific::Scene::getEventBus, pybind11::return_value_policy::reference)
-		.def("get_haptic_signal_buffer", &Omnific::Scene::getHapticSignalBuffer, pybind11::return_value_policy::reference)
-		.def("get_id", &Omnific::Scene::getID);
+	pybind11::class_<Omnific::SceneTree>(m, "SceneTree")	
+		.def("add_entity", &Omnific::SceneTree::addEntity)
+		.def("add_empty_entity", &Omnific::SceneTree::addEmptyEntity)
+		.def("add_component", &Omnific::SceneTree::addComponent)
+		.def("add_component_to_last_entity", &Omnific::SceneTree::addComponentToLastEntity)
+		.def("remove_entity", &Omnific::SceneTree::removeEntity)
+		.def("remove_component", &Omnific::SceneTree::removeComponent)
+		.def("get_component_variants", &Omnific::SceneTree::getComponents, pybind11::return_value_policy::reference)
+		.def("get_entity_transform", &Omnific::SceneTree::getEntityTransform, pybind11::return_value_policy::reference)
+		.def("get_entity", &Omnific::SceneTree::getEntity, pybind11::return_value_policy::reference)
+		.def("get_entity_by_name", &Omnific::SceneTree::getEntityByName, pybind11::return_value_policy::reference)
+		.def("get_last_entity", &Omnific::SceneTree::getLastEntity, pybind11::return_value_policy::reference)
+		.def("get_entities", &Omnific::SceneTree::getEntities, pybind11::return_value_policy::reference)
+		.def("get_event_bus", &Omnific::SceneTree::getEventBus, pybind11::return_value_policy::reference)
+		.def("get_haptic_signal_buffer", &Omnific::SceneTree::getHapticSignalBuffer, pybind11::return_value_policy::reference)
+		.def("get_id", &Omnific::SceneTree::getID);
 
 	pybind11::class_<Omnific::Event::Parameters>(m, "EventParameters")
 		.def_readwrite("floats", &Omnific::Event::Parameters::floats)
@@ -228,12 +227,6 @@ PYBIND11_EMBEDDED_MODULE(omnific_engine, m)
 	pybind11::class_<Omnific::Font, Omnific::Asset>(m, Omnific::Font::TYPE_STRING);
 	pybind11::class_<Omnific::Image, Omnific::Asset>(m, Omnific::Image::TYPE_STRING);
 	pybind11::class_<Omnific::Text, Omnific::Asset>(m, Omnific::Text::TYPE_STRING);
-
-	pybind11::class_<Omnific::AssetCache>(m, "AssetCache")
-		.def("store", &Omnific::AssetCache::store)
-		.def("delete_asset", &Omnific::AssetCache::deleteAsset)
-		.def("delete_all_assets", &Omnific::AssetCache::deleteAllAssets)
-		.def("get_assets", &Omnific::AssetCache::getAssets);
 
 	/*Utility classes*/
 	pybind11::class_<glm::vec2>(m, "Vector2")

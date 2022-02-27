@@ -31,7 +31,7 @@
 #include "utilities/aliases.hpp"
 #include "rendering_context.hpp"
 #include "entity_renderable.hpp"
-#include "scene_renderable.hpp"
+#include "scene_tree_renderable.hpp"
 #include <memory>
 #include <map>
 
@@ -55,7 +55,7 @@ namespace Omnific
 
 		std::string builtInShaderProgramName = "built_in_shaders";
 
-		std::vector<SceneRenderable> sceneRenderables;
+		std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
 
 		void onWindowResize();
 		void onModifiedShaderInstance(Scene& scene);

@@ -33,7 +33,7 @@ namespace Omnific
 {
 	/* Caches memory locations for values
 	   relevant to rendering from a given Camera. */
-	class SceneRenderable
+	class SceneTreeRenderable
 	{
 	public:
 		std::shared_ptr<Camera> camera;

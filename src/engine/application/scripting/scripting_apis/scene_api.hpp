@@ -36,7 +36,7 @@ namespace Omnific
 	{
 	public:
 		void setSceneStorage(SceneStorage* sceneStorage);
-		void bindEntity(SceneID sceneTreeID, EntityID entityID);
+		void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 		void setSceneSerializer(SceneSerializer* sceneSerializer);
 
 		bool hasComponent(std::string type);
@@ -47,9 +47,10 @@ namespace Omnific
 
 		Entity& getEntity();
 		Scene& getScene();
+		SceneTree& getSceneTree();
 		Component& getComponent(std::string type);
 	private:
-		SceneID boundSceneTreeID = 0;
+		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
 		SceneStorage* sceneStorage = nullptr;
 		SceneSerializer* sceneSerializer = nullptr;

@@ -56,54 +56,60 @@ void Omnific::RenderingContext::clearDepthBuffer()
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Omnific::RenderingContext::submit(std::vector<SceneRenderable> sceneRenderables)
+
+void Omnific::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
 {
-	SceneRenderable* sceneRenderablesData = sceneRenderables.data();
-	size_t sceneRenderableCount = sceneRenderables.size();
-
-	for (size_t i = 0; i < sceneRenderableCount; i++)
+	for (auto it = sceneTreeRenderableLists.begin(); it != sceneTreeRenderableLists.end(); it++)
 	{
-		SceneRenderable& sceneRenderable = sceneRenderablesData[i];
+		std::vector<SceneTreeRenderable> sceneTreeRenderableList = it->second;
+		SceneTreeRenderable* sceneTreeRenderableListData = sceneTreeRenderableList.data();
+		size_t sceneTreeRenderableListCount = sceneTreeRenderableList.size();
 
-		if (sceneRenderable.camera->getIsStreaming())
+		for (size_t i = 0; i < sceneTreeRenderableListCount; i++)
 		{
-			EntityRenderable* renderablesData = sceneRenderable.entityRenderables.data();
-			size_t renderablesCount = sceneRenderable.entityRenderables.size();
-			glm::mat4 worldToViewMatrix = glm::inverse(sceneRenderable.cameraTransform->getGlobalTransformMatrix());
-			glm::mat4 viewToProjectionMatrix = sceneRenderable.camera->getViewToProjectionMatrix();
+			SceneTreeRenderable& sceneTreeRenderable = sceneTreeRenderableListData[i];
 
-			this->clearDepthBuffer();
-
-			for (size_t j = 0; j < renderablesCount; j++)
+			if (sceneTreeRenderable.camera->getIsStreaming())
 			{
-				EntityRenderable& renderable = renderablesData[j];
+				EntityRenderable* entityRenderablesData = sceneTreeRenderable.entityRenderables.data();
+				size_t entityRenderablesCount = sceneTreeRenderable.entityRenderables.size();
+				glm::mat4 worldToViewMatrix = glm::inverse(sceneTreeRenderable.cameraTransform->getGlobalTransformMatrix());
+				glm::mat4 viewToProjectionMatrix = sceneTreeRenderable.camera->getViewToProjectionMatrix();
 
-				if (renderable.shaderPrograms.size() > 0)
+				this->clearDepthBuffer();
+
+				for (size_t j = 0; j < entityRenderablesCount; j++)
 				{
-					std::shared_ptr<ShaderProgram>* shaderProgramsData = renderable.shaderPrograms.data();
-					glm::mat4 modelToWorldMatrix = renderable.entityTransform->getGlobalTransformMatrix();
-					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
-					size_t shaderCount = renderable.shaderPrograms.size();
+					EntityRenderable& entityRenderable = entityRenderablesData[j];
 
-					renderable.vertexArray->bind();
-					renderable.texture->bind();
-
-					/* Render for each ShaderProgram. */
-					for (size_t k = 0; k < shaderCount; k++)
+					if (entityRenderable.shaderPrograms.size() > 0)
 					{
-						std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[k];
-						shaderProgram->use();
-						shaderProgram->setInt("textureSampler", 0);
-						shaderProgram->setMat4("mvp", mvp);
-						glDrawElements(GL_TRIANGLES, (GLsizei)renderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
-					}
-				}
+						std::shared_ptr<ShaderProgram>* shaderProgramsData = entityRenderable.shaderPrograms.data();
+						glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
+						glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
+						size_t shaderCount = entityRenderable.shaderPrograms.size();
 
-				renderable.vertexArray->unbind();
-				renderable.texture->activateDefaultTextureUnit();
+						entityRenderable.vertexArray->bind();
+						entityRenderable.texture->bind();
+
+						/* Render for each ShaderProgram. */
+						for (size_t k = 0; k < shaderCount; k++)
+						{
+							std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[k];
+							shaderProgram->use();
+							shaderProgram->setInt("textureSampler", 0);
+							shaderProgram->setMat4("mvp", mvp);
+							glDrawElements(GL_TRIANGLES, (GLsizei)entityRenderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
+						}
+					}
+
+					entityRenderable.vertexArray->unbind();
+					entityRenderable.texture->activateDefaultTextureUnit();
+				}
 			}
 		}
 	}
+
 }
 
 void Omnific::RenderingContext::setViewport(uint32_t width, uint32_t height)

@@ -135,7 +135,10 @@ void Omnific::Application::executeOnFinishMethods()
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFinishMethods(this->getActiveScene());
 
-	this->getActiveScene().getEventBus().clear();
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = this->getActiveScene().getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		it->second.getEventBus().clear();
 }
 
 void Omnific::Application::deinitialize()

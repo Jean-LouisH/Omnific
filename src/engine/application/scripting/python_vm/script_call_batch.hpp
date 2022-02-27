@@ -31,7 +31,7 @@ namespace Omnific
 	typedef struct ScriptCallBatch
 	{
 		std::vector<std::string> scripts;
-		SceneID sceneTreeID = 0;
+		SceneTreeID sceneTreeID = 0;
 		EntityID entityID = 0;
 	};
 }

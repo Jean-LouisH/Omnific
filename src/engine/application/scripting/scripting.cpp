@@ -37,33 +37,52 @@ void Omnific::Scripting::onModifiedScriptInstance(Scene scene)
 
 void Omnific::Scripting::executeOnStartMethods(Scene& scene)
 {
-	this->pythonVM->executeOnStartMethods(scene.generateCallBatches(CallType::START));
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		this->pythonVM->executeOnStartMethods(it->second.generateCallBatches(CallType::START));
+
 }
 
 void Omnific::Scripting::executeOnInputMethods(Scene& scene)
 {
-	this->pythonVM->executeOnInputMethods(scene.generateCallBatches(CallType::UPDATE));
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		this->pythonVM->executeOnInputMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
 void Omnific::Scripting::executeOnFrameMethods(Scene& scene)
 {
-	this->pythonVM->executeOnFrameMethods(scene.generateCallBatches(CallType::UPDATE));
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		this->pythonVM->executeOnFrameMethods(it->second.generateCallBatches(CallType::UPDATE));
 	this->cppNative->executeOnFrameMethods();
 }
 
 void Omnific::Scripting::executeOnComputeMethods(Scene& scene)
 {
-	this->pythonVM->executeOnComputeMethods(scene.generateCallBatches(CallType::UPDATE));
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		this->pythonVM->executeOnComputeMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
 void Omnific::Scripting::executeOnOutputMethods(Scene& scene)
 {
-	this->pythonVM->executeOnOutputMethods(scene.generateCallBatches(CallType::UPDATE));
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		this->pythonVM->executeOnOutputMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
 void Omnific::Scripting::executeOnFinishMethods(Scene& scene)
 {
-	this->pythonVM->executeOnFinishMethods(scene.generateCallBatches(CallType::FINISH));
+	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+
+	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		this->pythonVM->executeOnFinishMethods(it->second.generateCallBatches(CallType::FINISH));
 }
 
 void Omnific::Scripting::setSceneStorage(SceneStorage* sceneStorage)

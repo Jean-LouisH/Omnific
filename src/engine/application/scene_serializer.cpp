@@ -27,6 +27,7 @@
 #include "scene/scene.hpp"
 #include "scene/component.hpp"
 #include <os/os.hpp>
+#include "asset_cache.hpp"
 
 Omnific::SceneSerializer::SceneSerializer(std::string dataDirectory)
 {
@@ -45,6 +46,11 @@ void Omnific::SceneSerializer::serialize(std::string filepath, Scene scene)
 
 Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 {
+	return this->deserialize(filepath, "");
+}
+
+Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::string name)
+{
 	Scene scene;
 	const std::string fullFilepath = this->dataDirectory + filepath;
 
@@ -54,676 +60,701 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
 
 		for (YAML::const_iterator it0 = yamlNode.begin(); it0 != yamlNode.end(); ++it0)
 		{
-			if (it0->first.as<std::string>() == "Scene")
+			if (it0->first.as<std::string>() == "SceneTree")
 			{
-				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
+				SceneTree sceneTree;
+				bool loadThisSceneTree = true;
+
+				/* If the name is an empty string, load all, otherwise search for the name */
+				if (name != "")
 				{
-					if (it1->first.as<std::string>() == "Entity")
+					loadThisSceneTree = false;
+
+					for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 					{
-						Entity entity;
-						scene.addEntity(entity);
-
-						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+						if (it1->first.as<std::string>() == "name")
 						{
-							//Entity attributes
-							if (it2->first.as<std::string>() == "name")
-							{
-								scene.getLastEntity().name = it2->second.as<std::string>();
-							}
-							else if (it2->first.as<std::string>() == "spatial_dimension")
-							{
-								int value = it2->second.as<int>();
+							loadThisSceneTree = it1->second.as<std::string>() == name;
+							break;
+						}
+					}
+				}
 
-								if (value == 2)
-									scene.getLastEntity().spatialDimension = Entity::SpatialDimension::_2D;
-								else if (value == 3)
-									scene.getLastEntity().spatialDimension = Entity::SpatialDimension::_3D;
-							}
-							else if (it2->first.as<std::string>() == "parent")
-							{
-								scene.getLastEntity().parentID = scene.getEntityByName(it2->second.as<std::string>()).id;
-							}
-							//Components
-							else if (it2->first.as<std::string>() == BehaviourTree::TYPE_STRING)
-							{
-								std::shared_ptr<BehaviourTree> behaviourTree(new BehaviourTree());
+				if (loadThisSceneTree)
+				{
+					for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
+					{
+						if (it1->first.as<std::string>() == "name")
+						{
+							sceneTree.name = it1->second.as<std::string>();
+						}
+						else if (it1->first.as<std::string>() == "spatial_dimension")
+						{
+							int value = it1->second.as<int>();
 
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+							if (value == 2)
+								sceneTree.is2D = true;
+							else if (value == 3)
+								sceneTree.is2D = false;
+						}
+						else if (it1->first.as<std::string>() == "Entity")
+						{
+							Entity entity;
+							sceneTree.addEntity(entity);
+
+							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+							{
+								//Entity attributes
+								if (it2->first.as<std::string>() == "name")
 								{
-									if (it3->first.as<std::string>() == "default")
-									{
+									sceneTree.getLastEntity().name = it2->second.as<std::string>();
+								}
+								else if (it2->first.as<std::string>() == "parent")
+								{
+									sceneTree.getLastEntity().parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).id;
+								}
+								//Components
+								else if (it2->first.as<std::string>() == BehaviourTree::TYPE_STRING)
+								{
+									std::shared_ptr<BehaviourTree> behaviourTree(new BehaviourTree());
 
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
-									else if (it3->first.as<std::string>() == "")
-									{
 
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(behaviourTree);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == SightPerception::TYPE_STRING)
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(behaviourTree);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == SightPerception::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == AudioListener::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == AudioListener::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == AudioSource::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == AudioSource::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == Camera::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
-									{
+									std::shared_ptr<Camera> camera(new Camera());
 
+									camera->setViewportHeight(480);
+									camera->setIsStreaming(true);
+
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "viewport_px")
+										{
+											camera->setViewportHeight(it3->second[1].as<double>());
+											camera->setViewportWidth(it3->second[0].as<double>());
+										}
+										else if (it3->first.as<std::string>() == "limits_px")
+										{
+											camera->setLimits(
+												it3->second[0].as<double>(),
+												it3->second[1].as<double>(),
+												it3->second[2].as<double>(),
+												it3->second[3].as<double>()
+											);
+										}
+										else if (it3->first.as<std::string>() == "keepAspect")
+										{
+											camera->setKeepAspect(it3->second.as<bool>());
+										}
+										else if (it3->first.as<std::string>() == "isStreaming")
+										{
+											camera->setIsStreaming(it3->second.as<bool>());
+										}
 									}
-									else if (it3->first.as<std::string>() == "")
-									{
 
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == CharacterBody::TYPE_STRING)
+								{
+									std::shared_ptr<CharacterBody> characterBody(new CharacterBody());
+
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+									}
+
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(characterBody);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == Collider::TYPE_STRING)
+								{
+									std::shared_ptr<Collider> collider(new Collider());
+
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "dimensions")
+										{
+											collider->setDimensions(
+												it3->second[0].as<double>(),
+												it3->second[1].as<double>(),
+												it3->second[2].as<double>());
+										}
+									}
+
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == ConstantForce::TYPE_STRING)
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == Camera::TYPE_STRING)
-							{
-								std::shared_ptr<Camera> camera(new Camera());
-
-								camera->setViewportHeight(480);
-								camera->setIsStreaming(true);
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == CountdownTimer::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "viewport_px")
+									std::shared_ptr<CountdownTimer> countdownTimer(new CountdownTimer());
+
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										camera->setViewportHeight(it3->second[1].as<double>());
-										camera->setViewportWidth(it3->second[0].as<double>());
+										if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
-									else if (it3->first.as<std::string>() == "limits_px")
+
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == ModelContainer::TYPE_STRING)
+								{
+									std::shared_ptr<ModelContainer> modelContainer(new ModelContainer());
+
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										camera->setLimits(
-											it3->second[0].as<double>(),
-											it3->second[1].as<double>(),
-											it3->second[2].as<double>(),
-											it3->second[3].as<double>()
-										);
+										if (it3->first.as<std::string>() == "model")
+										{
+											std::shared_ptr<Omnific::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
+											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
+											AssetCache::store(asset);
+										}
 									}
-									else if (it3->first.as<std::string>() == "keepAspect")
+
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == NavigationMeshAgent::TYPE_STRING)
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										camera->setKeepAspect(it3->second.as<bool>());
-									}
-									else if (it3->first.as<std::string>() == "isStreaming")
-									{
-										camera->setIsStreaming(it3->second.as<bool>());
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == CharacterBody::TYPE_STRING)
-							{
-								std::shared_ptr<CharacterBody> characterBody(new CharacterBody());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == NavigationMeshBoxObstacle::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(characterBody);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == Collider::TYPE_STRING)
-							{
-								std::shared_ptr<Collider> collider(new Collider());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == NavigationPath::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "dimensions")
-									{
-										collider->setDimensions(
-											it3->second[0].as<double>(),
-											it3->second[1].as<double>(),
-											it3->second[2].as<double>());
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == ConstantForce::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == PropertyAnimation::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == CountdownTimer::TYPE_STRING)
-							{
-								std::shared_ptr<CountdownTimer> countdownTimer(new CountdownTimer());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == RigidBody::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == ModelContainer::TYPE_STRING)
-							{
-								std::shared_ptr<ModelContainer> modelContainer(new ModelContainer());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == SpriteContainer::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "model")
+									std::shared_ptr<SpriteContainer> sprite(new SpriteContainer());
+
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										std::shared_ptr<Omnific::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
-										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
-										scene.getAssetCache().store(asset);
+										if (it3->first.as<std::string>() == "image")
+										{
+											std::shared_ptr<Omnific::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
+											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
+											AssetCache::store(asset);
+											sprite->addImage(image);
+										}
+										else if (it3->first.as<std::string>() == "dimensions")
+										{
+											sprite->setDimensions(
+												it3->second[0].as<double>(),
+												it3->second[1].as<double>(),
+												it3->second[2].as<double>());
+										}
+									}
+
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == StaticFluid::TYPE_STRING)
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == NavigationMeshAgent::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == Transform::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
-									{
+									std::shared_ptr<Transform> transform(new Transform());
 
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "translation")
+										{
+											transform->translation.x = it3->second[0].as<double>();
+											transform->translation.y = it3->second[1].as<double>();
+											transform->translation.z = it3->second[2].as<double>();
+										}
+										else if (it3->first.as<std::string>() == "rotation")
+										{
+											transform->rotation.x = it3->second[0].as<double>();
+											transform->rotation.y = it3->second[1].as<double>();
+											transform->rotation.z = it3->second[2].as<double>();
+										}
+										else if (it3->first.as<std::string>() == "scale")
+										{
+											transform->scale.x = it3->second[0].as<double>();
+											transform->scale.y = it3->second[1].as<double>();
+											transform->scale.z = it3->second[2].as<double>();
+										}
 									}
-									else if (it3->first.as<std::string>() == "")
-									{
 
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == UIButton::TYPE_STRING)
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == NavigationMeshBoxObstacle::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIGraphEdit::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == NavigationPath::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIGraphNode::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == PropertyAnimation::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIScrollbar::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == RigidBody::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UISeparator::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == SpriteContainer::TYPE_STRING)
-							{
-								std::shared_ptr<SpriteContainer> sprite(new SpriteContainer());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UISlider::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "image")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										std::shared_ptr<Omnific::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
-										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
-										scene.getAssetCache().store(asset);
-										sprite->addImage(image);
-									}
-									else if (it3->first.as<std::string>() == "dimensions")
-									{
-										sprite->setDimensions(
-											it3->second[0].as<double>(),
-											it3->second[1].as<double>(),
-											it3->second[2].as<double>());
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == StaticFluid::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIHoverCard::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == Transform::TYPE_STRING)
-							{
-								std::shared_ptr<Transform> transform(new Transform());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIItemList::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "translation")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										transform->translation.x = it3->second[0].as<double>();
-										transform->translation.y = it3->second[1].as<double>();
-										transform->translation.z = it3->second[2].as<double>();
-									}
-									else if (it3->first.as<std::string>() == "rotation")
-									{
-										transform->rotation.x = it3->second[0].as<double>();
-										transform->rotation.y = it3->second[1].as<double>();
-										transform->rotation.z = it3->second[2].as<double>();
-									}
-									else if (it3->first.as<std::string>() == "scale")
-									{
-										transform->scale.x = it3->second[0].as<double>();
-										transform->scale.y = it3->second[1].as<double>();
-										transform->scale.z = it3->second[2].as<double>();
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == UIButton::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIPanel::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UIGraphEdit::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIProgressBar::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UIGraphNode::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIRectangle::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UIScrollbar::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UISpinBox::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UISeparator::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UITab::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UISlider::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UITextEdit::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
+										if (it3->first.as<std::string>() == "default")
+										{
 
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
 
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UIHoverCard::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UITextLabel::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
-									{
+									std::shared_ptr<UITextLabel> uiTextLabel(new UITextLabel());
 
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "text")
+										{
+											uiTextLabel->setText(it3->second.as<std::string>());
+										}
+										else if (it3->first.as<std::string>() == "font")
+										{
+											std::shared_ptr<Omnific::Font> font(new Font(
+												this->dataDirectory + it3->second[0].as<std::string>(),
+												it3->second[1].as<int>()));
+											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
+											AssetCache::store(asset);
+											uiTextLabel->setFont(font, it3->second[1].as<int>());
+										}
+										else if (it3->first.as<std::string>() == "colour")
+										{
+											uiTextLabel->setColour(
+												it3->second[0].as<int>(),
+												it3->second[1].as<int>(),
+												it3->second[2].as<int>(),
+												it3->second[3].as<int>()
+											);
+										}
 									}
-									else if (it3->first.as<std::string>() == "")
-									{
 
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
+									sceneTree.addComponentToLastEntity(component);
+								}
+								else if (it2->first.as<std::string>() == UITree::TYPE_STRING)
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										if (it3->first.as<std::string>() == "default")
+										{
+
+										}
+										else if (it3->first.as<std::string>() == "")
+										{
+
+										}
 									}
 								}
-							}
-							else if (it2->first.as<std::string>() == UIItemList::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								else if (it2->first.as<std::string>() == UIViewport::TYPE_STRING)
 								{
-									if (it3->first.as<std::string>() == "default")
-									{
+									std::shared_ptr<UIViewport> uiViewport(new UIViewport());
 
-									}
-									else if (it3->first.as<std::string>() == "")
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-
+										if (it3->first.as<std::string>() == "camera_entity")
+										{
+											uiViewport->setCameraEntity(sceneTree.getEntityByName(it3->second.as<std::string>()).id);
+										}
 									}
+
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiViewport);
+									sceneTree.addComponentToLastEntity(component);
 								}
-							}
-							else if (it2->first.as<std::string>() == UIPanel::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+								/*Non-components*/
+								else if (it2->first.as<std::string>() == "Scripts")
 								{
-									if (it3->first.as<std::string>() == "default")
+									for (int i = 0; i < it2->second.size(); i++)
 									{
-
+										std::string script = it2->second[i].as<std::string>();
+										sceneTree.getLastEntity().scripts.push_back(script);
 									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == UIProgressBar::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == UIRectangle::TYPE_STRING)
-							{
-							for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-							{
-								if (it3->first.as<std::string>() == "default")
-								{
-
-								}
-								else if (it3->first.as<std::string>() == "")
-								{
-
-								}
-							}
-							}
-							else if (it2->first.as<std::string>() == UISpinBox::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == UITab::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == UITextEdit::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == UITextLabel::TYPE_STRING)
-							{
-								std::shared_ptr<UITextLabel> uiTextLabel(new UITextLabel());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "text")
-									{
-										uiTextLabel->setText(it3->second.as<std::string>());
-									}
-									else if (it3->first.as<std::string>() == "font")
-									{
-										std::shared_ptr<Omnific::Font> font(new Font(
-											this->dataDirectory + it3->second[0].as<std::string>(),
-											it3->second[1].as<int>()));
-										std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
-										scene.getAssetCache().store(asset);
-										uiTextLabel->setFont(font, it3->second[1].as<int>());
-									}
-									else if (it3->first.as<std::string>() == "colour")
-									{
-										uiTextLabel->setColour(
-											it3->second[0].as<int>(),
-											it3->second[1].as<int>(),
-											it3->second[2].as<int>(),
-											it3->second[3].as<int>()
-										);
-									}
-								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
-								scene.addComponentToLastEntity(component);
-							}
-							else if (it2->first.as<std::string>() == UITree::TYPE_STRING)
-							{
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "default")
-									{
-
-									}
-									else if (it3->first.as<std::string>() == "")
-									{
-
-									}
-								}
-							}
-							else if (it2->first.as<std::string>() == UIViewport::TYPE_STRING)
-							{
-								std::shared_ptr<UIViewport> uiViewport(new UIViewport());
-
-								for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-								{
-									if (it3->first.as<std::string>() == "camera_entity")
-									{
-										uiViewport->setCameraEntity(scene.getEntityByName(it3->second.as<std::string>()).id);
-									}
-								}
-
-								std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiViewport);
-								scene.addComponentToLastEntity(component);
-							}
-							/*Non-components*/
-							else if (it2->first.as<std::string>() == "Scripts")
-							{
-								for (int i = 0; i < it2->second.size(); i++)
-								{
-									std::string script = it2->second[i].as<std::string>();
-									scene.getLastEntity().scripts.push_back(script);
 								}
 							}
 						}
-					}
-					/* Recursively load another Scene into this one if the filename
-					   is not the same. */
-					else if (it1->first.as<std::string>() == "Scene")
-					{ 
-						EntityID parentID = 0;
-
-						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+						/* Recursively load another SceneTree into this one if the filename
+						   is not the same. */
+						else if (it1->first.as<std::string>() == "SubSceneTree")
 						{
-							if (it2->first.as<std::string>() == "parent")
-							{
-								parentID = scene.getEntityByName(it2->second.as<std::string>()).id;
-							}
-							else if (it2->first.as<std::string>() == "name")
-							{
-								std::string newSceneFilepath = it1->second.as<std::string>();
+							EntityID parentID = 0;
 
-								if (newSceneFilepath != filepath)
+							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+							{
+								if (it2->first.as<std::string>() == "parent")
 								{
-									Scene subScene = this->deserialize(newSceneFilepath);
+									parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).id;
+								}
+								else if (it2->first.as<std::string>() == "name")
+								{
+									std::string subSceneFilepath = it1->second[0].as<std::string>();
+									std::string subSceneTreeName = it1->second[1].as<std::string>();
 
-									/* Transfer stored Assets */
-									std::unordered_map<std::string, std::shared_ptr<Asset>>& subSceneAssets = subScene.getAssetCache().getAssets();
-
-									for (auto it = subSceneAssets.begin(); it != subSceneAssets.end(); it++)
-										scene.getAssetCache().store(it->second);
-
-
-									/* Transfer Entities and their Components */
-									Entity newRootEntity;
-									newRootEntity.name = newSceneFilepath;
-									newRootEntity.parentID = parentID;
-									scene.addEntity(newRootEntity);
-									std::unordered_map<EntityID, Entity>& subSceneEntities = subScene.getEntities();
-
-									for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
+									if (subSceneFilepath != filepath)
 									{
-										Entity subSceneEntity = it->second;
+										SceneTree subSceneTree = this->deserialize(subSceneFilepath, subSceneTreeName).getLastSceneTree();
 
-										if (subSceneEntity.parentID == 0)
-											subSceneEntity.parentID = newRootEntity.id;
+										/* Only load the SceneTree if it is the same spatial dimension. */
+										if (subSceneTree.is2D == sceneTree.is2D)
+										{
+											/* Transfer Entities and their Components */
+											Entity newRootEntity;
+											newRootEntity.name = subSceneFilepath;
+											newRootEntity.parentID = parentID;
+											sceneTree.addEntity(newRootEntity);
+											std::unordered_map<EntityID, Entity>& subSceneEntities = subSceneTree.getEntities();
 
-										scene.addEntity(subSceneEntity);
+											for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
+											{
+												Entity subSceneEntity = it->second;
 
-										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity.componentIDs;
+												if (subSceneEntity.parentID == 0)
+													subSceneEntity.parentID = newRootEntity.id;
 
-										for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
-											scene.addComponentToLastEntity(subScene.getComponent(it2->second));
+												sceneTree.addEntity(subSceneEntity);
+
+												std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity.componentIDs;
+
+												for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
+													sceneTree.addComponentToLastEntity(subSceneTree.getComponent(it2->second));
+											}
+										}
 									}
 								}
 							}
 						}
 					}
 				}
+
+				scene.addSceneTree(sceneTree);
 			}
 		}
 	}

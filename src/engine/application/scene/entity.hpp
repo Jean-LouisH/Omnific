@@ -34,19 +34,11 @@
 namespace Omnific
 {
 	/* An object that exists within the Scene with its own
-	   identity, components, spatial dimension and hierarchy 
-	   with other Entities. */
+	   identity, components and  hierarchy with other Entities. */
 	typedef struct Entity
 	{
-		enum class SpatialDimension
-		{
-			_2D,
-			_3D
-		};
-
 		EntityID id = 0;
 		EntityID parentID = 0;
-		SpatialDimension spatialDimension = SpatialDimension::_2D;
 		std::vector<EntityID> childIDs;
 		std::string name;
 		std::vector<std::string> tags;

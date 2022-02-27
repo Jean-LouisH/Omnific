@@ -44,7 +44,7 @@ namespace Omnific
 		static void initialize();
 		static void setSceneStorage(SceneStorage* sceneStorage);
 		static void setConfiguration(Configuration* configuration);
-		static void bindEntity(SceneID sceneTreeID, EntityID entityID);
+		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		static CommandLineAPI& getCommandLineAPI();
 		static InputAPI& getInputAPI();
