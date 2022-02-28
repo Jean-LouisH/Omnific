@@ -71,7 +71,10 @@ void Omnific::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Compone
 	}
 
 	if (component->isRenderable())
+	{
 		this->renderOrderIndexCache.push_back(lastIndex);
+		this->hasRenderableComponentsChanged = true;
+	}
 }
 
 void Omnific::SceneTree::addComponentToLastEntity(std::shared_ptr<Component> component)
@@ -133,6 +136,8 @@ void Omnific::SceneTree::removeComponent(EntityID entityID, std::string type)
 			{
 				if ((*it)->getID() == componentID)
 				{
+					if ((*it)->isRenderable())
+						this->hasRenderableComponentsChanged = true;
 					it = this->components.erase(it);
 					break;
 				}
@@ -272,11 +277,6 @@ std::shared_ptr<Omnific::Component> Omnific::SceneTree::getComponent(ComponentID
 Omnific::EventBus& Omnific::SceneTree::getEventBus()
 {
 	return *this->eventBus;
-}
-
-bool Omnific::SceneTree::getHasRenderableComponentsChanged()
-{
-	return true;
 }
 
 bool Omnific::SceneTree::getHasShadersChanged()

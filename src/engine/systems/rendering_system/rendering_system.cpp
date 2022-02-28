@@ -110,7 +110,7 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 	{
 		SceneTree& sceneTree = it->second;
 
-		if (sceneTree.getHasRenderableComponentsChanged())
+		if (sceneTree.hasRenderableComponentsChanged)
 		{
 			std::vector<SceneTreeRenderable> sceneTreeRenderableList;
 
@@ -184,6 +184,7 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 			}
 
 			this->sceneTreeRenderableLists.emplace(sceneTree.getID(), sceneTreeRenderableList);
+			sceneTree.hasRenderableComponentsChanged = false;
 		}
 
 	}

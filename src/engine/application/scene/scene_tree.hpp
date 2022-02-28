@@ -101,6 +101,7 @@ namespace Omnific
 	{
 	public:
 		bool is2D = false;
+		bool hasRenderableComponentsChanged = false;
 		std::string name;
 
 		SceneTree();
@@ -126,7 +127,6 @@ namespace Omnific
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
-		bool getHasRenderableComponentsChanged();
 		bool getHasShadersChanged();
 		bool getHasScriptsChanged();
 		SceneTreeID getID();
