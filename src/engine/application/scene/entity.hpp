@@ -44,9 +44,6 @@ namespace Omnific
 		std::vector<std::string> tags;
 		std::unordered_map<std::string, ComponentID> componentIDs;
 
-		std::vector<std::string> scripts;
-		std::vector<Shader> shaders;
-
 		Entity()
 		{
 			this->id = UIDGenerator::getNewUID();

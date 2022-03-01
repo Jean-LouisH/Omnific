@@ -20,25 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "application/scene/component.hpp"
-#include "../assets/script.hpp"
-
-#include <vector>
-
-namespace Omnific
-{
-	class ScriptCollection : public Component
-	{
-	public:
-		ScriptCollection()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "ScriptCollection";
-
-		std::vector<std::shared_ptr<Script>> scripts;
-	private:
-	};
-}
+#include "script.hpp"

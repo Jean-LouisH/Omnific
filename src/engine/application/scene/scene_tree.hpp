@@ -40,10 +40,12 @@
 
 #include <application/scene/assets/animation.hpp>
 #include <application/scene/assets/audio_stream.hpp>
+#include "application/scene/assets/cpp_native_script.hpp"
 #include <application/scene/assets/font.hpp>
 #include <application/scene/assets/image.hpp>
 #include <application/scene/assets/material.hpp>
 #include <application/scene/assets/mesh.hpp>
+#include "application/scene/assets/python_vm_script.hpp"
 #include <application/scene/assets/rig.hpp>
 #include <application/scene/assets/shader.hpp>
 #include <application/scene/assets/text.hpp>
@@ -66,6 +68,8 @@
 #include "components/property_animation.hpp"
 #include "components/model_container.hpp"
 #include "components/rigid_body.hpp"
+#include "components/script_collection.hpp"
+#include "components/shader_collection.hpp"
 #include "components/static_fluid.hpp"
 #include "components/transform.hpp"
 #include "components/ui_button.hpp"

@@ -48,11 +48,16 @@ void Omnific::PythonVM::onModifiedScriptInstance(Scene scene)
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		std::unordered_map<EntityID, Entity> entities = it->second.getEntities();
+		std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = it->second.getComponentsByType<ScriptCollection>();
+		size_t scriptCollectionsCount = scriptCollections.size();
 
-		for (auto it = entities.begin(); it != entities.end(); ++it)
+		for (size_t i = 0; i < scriptCollectionsCount; i++)
 		{
-			std::vector<std::string> entityScripts = entities.at(it->first).scripts;
+			std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
+			std::vector<std::string> entityScripts;
+
+			for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
+				entityScripts.push_back(scriptCollection->scripts.at(j)->getName());
 
 			for (int j = 0; j < entityScripts.size(); j++)
 				scripts.emplace(entityScripts.at(j));

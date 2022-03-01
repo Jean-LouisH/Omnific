@@ -35,6 +35,7 @@ namespace Omnific
         };
         static constexpr const char* TYPE_STRING = "CPPNativeScript";
 
+        CPPNativeScript(std::string filepath);
         ~CPPNativeScript();
         virtual void onStart();
         virtual void onInput();

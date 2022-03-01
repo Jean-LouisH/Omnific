@@ -22,6 +22,12 @@
 
 #include "cpp_native_script.hpp"
 
+Omnific::CPPNativeScript::CPPNativeScript(std::string filepath)
+{
+	CPPNativeScript();
+	this->setName(filepath);
+}
+
 Omnific::CPPNativeScript::~CPPNativeScript()
 {
 

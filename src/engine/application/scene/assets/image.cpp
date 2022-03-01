@@ -27,6 +27,7 @@
 
 Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
+	Image();
 	//SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
 	//SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
 
@@ -46,6 +47,7 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colou
 
 Omnific::Image::Image(std::string filepath)
 {
+	Image();
 	this->setName(filepath);
 	this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
 }

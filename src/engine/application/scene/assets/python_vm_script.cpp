@@ -21,3 +21,10 @@
 // SOFTWARE.
 
 #include "python_vm_script.hpp"
+
+
+Omnific::PythonVMScript::PythonVMScript(std::string filepath)
+{
+	PythonVMScript();
+	this->setName(filepath);
+}

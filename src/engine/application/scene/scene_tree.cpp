@@ -167,6 +167,8 @@ std::vector<Omnific::ScriptCallBatch> Omnific::SceneTree::generateCallBatches(Ca
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 	std::queue<EntityID>* entityQueue = nullptr;
+	std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = this->getComponentsByType<ScriptCollection>();
+	size_t scriptCollectionsCount = scriptCollections.size();
 
 	if (callType == CallType::START || callType == CallType::FINISH)
 	{
@@ -175,14 +177,20 @@ std::vector<Omnific::ScriptCallBatch> Omnific::SceneTree::generateCallBatches(Ca
 		else if (callType == CallType::FINISH)
 			entityQueue = &this->finishEntitiesQueue;
 
-		for (auto it = this->entities.begin(); it != this->entities.end(); it++)
+		for (size_t i = 0; i < scriptCollectionsCount; i++)
 		{
-			Entity entity = it->second;
+			std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
+
 			if (!entityQueue->empty())
 			{
-				if (entity.id == entityQueue->front())
+				if (scriptCollection->getEntityID() == entityQueue->front())
 				{
-					scriptCallBatches.push_back({ entity.scripts, this->id, entity.id });
+					std::vector<std::string> scriptNames;
+					
+					for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
+						scriptNames.push_back(scriptCollection->scripts.at(j)->getName());
+
+					scriptCallBatches.push_back({ scriptNames, this->id, scriptCollection->getEntityID()});
 					entityQueue->pop();
 				}
 			}
@@ -194,10 +202,15 @@ std::vector<Omnific::ScriptCallBatch> Omnific::SceneTree::generateCallBatches(Ca
 	}
 	else if (callType == CallType::UPDATE)
 	{
-		for (auto it = this->entities.begin(); it != this->entities.end(); it++)
+		for (size_t i = 0; i < scriptCollectionsCount; i++)
 		{
-			Entity entity = it->second;
-			scriptCallBatches.push_back({ entity.scripts, this->id, entity.id });
+			std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
+			std::vector<std::string> scriptNames;
+
+			for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
+				scriptNames.push_back(scriptCollection->scripts.at(j)->getName());
+
+			scriptCallBatches.push_back({ scriptNames, this->id, scriptCollection->getEntityID() });
 		}
 	}
 

@@ -34,6 +34,8 @@ namespace Omnific
             this->type = TYPE_STRING;
         };
         static constexpr const char* TYPE_STRING = "PythonVMScript";
+
+        PythonVMScript(std::string filepath);
     private:
     };
 }

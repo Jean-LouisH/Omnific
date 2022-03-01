@@ -364,6 +364,34 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 										}
 									}
 								}
+								else if (it2->first.as<std::string>() == ScriptCollection::TYPE_STRING)
+								{
+									std::shared_ptr<ScriptCollection> scriptCollection(new ScriptCollection());
+
+										for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+										{
+											if (it3->first.as<std::string>() == "python")
+											{
+												for (int i = 0; i < it3->second.size(); i++)
+												{
+													std::shared_ptr<Omnific::PythonVMScript> pythonScript(new PythonVMScript(it3->second[i].as<std::string>()));
+													AssetCache::store(std::static_pointer_cast<Asset>(pythonScript));
+													scriptCollection->scripts.push_back(pythonScript);
+												}
+											}
+											else if (it3->first.as<std::string>() == "cpp")
+											{
+												for (int i = 0; i < it3->second.size(); i++)
+												{
+													std::shared_ptr<Omnific::CPPNativeScript> cppScript(new CPPNativeScript(it3->second[i].as<std::string>()));
+													AssetCache::store(std::static_pointer_cast<Asset>(cppScript));
+													scriptCollection->scripts.push_back(cppScript);
+												}
+											}
+										}
+
+									sceneTree.addComponentToLastEntity(std::static_pointer_cast<Component>(scriptCollection));
+								}
 								else if (it2->first.as<std::string>() == SpriteContainer::TYPE_STRING)
 								{
 									std::shared_ptr<SpriteContainer> sprite(new SpriteContainer());
@@ -689,15 +717,6 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiViewport);
 									sceneTree.addComponentToLastEntity(component);
-								}
-								/*Non-components*/
-								else if (it2->first.as<std::string>() == "Scripts")
-								{
-									for (int i = 0; i < it2->second.size(); i++)
-									{
-										std::string script = it2->second[i].as<std::string>();
-										sceneTree.getLastEntity().scripts.push_back(script);
-									}
 								}
 							}
 						}
