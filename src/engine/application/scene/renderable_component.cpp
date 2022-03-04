@@ -35,9 +35,19 @@ void Omnific::RenderableComponent::setDimensions(float width, float height, floa
 	this->dimensions.z = depth;
 }
 
+void Omnific::RenderableComponent::addShader(std::shared_ptr<Omnific::Shader> shader)
+{
+	this->shaders.push_back(shader);
+}
+
 std::shared_ptr<Omnific::Image> Omnific::RenderableComponent::getImage()
 {
 	return this->image;
+}
+
+std::vector<std::shared_ptr<Omnific::Shader>> Omnific::RenderableComponent::getShaders()
+{
+	return this->shaders;
 }
 
 glm::vec3 Omnific::RenderableComponent::getDimensions()

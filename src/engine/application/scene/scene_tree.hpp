@@ -69,7 +69,6 @@
 #include "components/model_container.hpp"
 #include "components/rigid_body.hpp"
 #include "components/script_collection.hpp"
-#include "components/shader_collection.hpp"
 #include "components/static_fluid.hpp"
 #include "components/transform.hpp"
 #include "components/ui_button.hpp"

@@ -24,6 +24,7 @@
 
 #include "component.hpp"
 #include <application/scene/assets/image.hpp>
+#include <application/scene/assets/shader.hpp>
 #include <memory>
 #include <glm/glm.hpp>
 
@@ -34,11 +35,14 @@ namespace Omnific
 	public:
 		void setDimensions(float width, float height);
 		void setDimensions(float width, float height, float depth);
+		void addShader(std::shared_ptr<Shader> shader);
 		std::shared_ptr<Image> getImage();
+		std::vector<std::shared_ptr<Shader>> getShaders();
 		glm::vec3 getDimensions();
 		bool isRenderable() override;
 	protected:
 		std::shared_ptr<Image> image;
+		std::vector<std::shared_ptr<Shader>> shaders;
 		glm::vec3 dimensions;
 	private:
 	};
