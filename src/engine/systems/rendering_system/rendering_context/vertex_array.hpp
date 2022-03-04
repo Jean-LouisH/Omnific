@@ -20,29 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "vertex_array.hpp"
+#pragma once
 
-Omnific::VertexArray::VertexArray()
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <string>
+#include "vertex_buffer.hpp"
+#include "index_buffer.hpp"
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/mesh.hpp>
+#include <memory>
+
+
+namespace Omnific
 {
-	glGenVertexArrays(1, &this->vertexArrayID);
+	/* Identifier for buffers bound to a draw call. */
+	class VertexArray
+	{
+	public:
+		VertexArray();
+		VertexArray(std::shared_ptr<Mesh> mesh);
+		VertexArray(std::shared_ptr<Image> image, glm::vec3 dimensions);
+		~VertexArray();
+		void bind();
+		void unbind();
+		void deleteVertexArray();
+		unsigned int getIndexCount();
+	private:
+		GLuint vertexArrayID;
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		std::shared_ptr<IndexBuffer> indexBuffer;
+	};
 }
 
-Omnific::VertexArray::~VertexArray()
-{
-	this->deleteVertexArray();
-}
-
-void Omnific::VertexArray::bind()
-{
-	glBindVertexArray(this->vertexArrayID);
-}
-
-void Omnific::VertexArray::unbind()
-{
-	glBindVertexArray(0);
-}
-
-void Omnific::VertexArray::deleteVertexArray()
-{
-	glDeleteVertexArrays(1, &this->vertexArrayID);
-}

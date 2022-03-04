@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "rendering_context.hpp"
+#include "built_in_shaders.hpp"
 #include <os/os.hpp>
 #include <string>
 #include <SDL_video.h>
@@ -36,6 +37,17 @@ void Omnific::RenderingContext::initialize()
 	}
 	else
 	{
+		std::vector<Shader> shaders;
+		Shader builtInVertexShader;
+		Shader builtInFragmentShader;
+
+		builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::ShaderType::VERTEX);
+		builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::ShaderType::FRAGMENT);
+		shaders.push_back(builtInVertexShader);
+		shaders.push_back(builtInFragmentShader);
+
+		this->builtInShaderProgram = std::shared_ptr<ShaderProgram>(new ShaderProgram(shaders));
+
 		Rectangle windowDimensions = window.getWindowSize();
 		this->setViewport(windowDimensions.width, windowDimensions.height);
 		OS::getLogger().write((std::string)("Rendering System initialized with ") +
@@ -81,30 +93,66 @@ void Omnific::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vect
 				for (size_t j = 0; j < entityRenderablesCount; j++)
 				{
 					EntityRenderable& entityRenderable = entityRenderablesData[j];
+					std::vector<std::shared_ptr<Shader>> shaders = entityRenderable.renderableComponent->getShaders();
+					size_t shaderCount = shaders.size();
 
-					if (entityRenderable.shaderPrograms.size() > 0)
+					glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
+					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
+					AssetID assetID = 0;
+
+					if (entityRenderable.renderableComponent->isType(ModelContainer::TYPE_STRING))
 					{
-						std::shared_ptr<ShaderProgram>* shaderProgramsData = entityRenderable.shaderPrograms.data();
-						glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
-						glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
-						size_t shaderCount = entityRenderable.shaderPrograms.size();
-
-						entityRenderable.vertexArray->bind();
-						entityRenderable.texture->bind();
-
-						/* Render for each ShaderProgram. */
-						for (size_t k = 0; k < shaderCount; k++)
+						std::shared_ptr<ModelContainer> modelContainer =
+							std::dynamic_pointer_cast<ModelContainer>(entityRenderable.renderableComponent);
+						std::shared_ptr<Model> model = modelContainer->getCurrentModel();
+						assetID = model->getID();
+						if (this->vertexArrays.count(assetID) == 0)
+							this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(model->mesh)));
+						this->vertexArrays.at(assetID)->bind();
+					}
+					else
+					{
+						if (entityRenderable.renderableComponent->isType(SpriteContainer::TYPE_STRING))
 						{
-							std::shared_ptr<ShaderProgram> shaderProgram = shaderProgramsData[k];
-							shaderProgram->use();
-							shaderProgram->setInt("textureSampler", 0);
-							shaderProgram->setMat4("mvp", mvp);
-							glDrawElements(GL_TRIANGLES, (GLsizei)entityRenderable.vertexBuffer->getIndexCount(), GL_UNSIGNED_INT, 0);
+							std::shared_ptr<SpriteContainer> spriteContainer =
+								std::dynamic_pointer_cast<SpriteContainer>(entityRenderable.renderableComponent);
+
+							if (spriteContainer->isXBillboarded)
+								entityRenderable.entityTransform->rotation.x = sceneTreeRenderable.cameraTransform->rotation.x;
+							if (spriteContainer->isYBillboarded)
+								entityRenderable.entityTransform->rotation.y = sceneTreeRenderable.cameraTransform->rotation.y;
 						}
+
+						std::shared_ptr<Image> image = entityRenderable.renderableComponent->getImage();
+						assetID = image->getID();
+						if (this->textures.count(assetID) == 0)
+							this->textures.emplace(assetID, std::shared_ptr<Texture>(new Texture(image)));
+						if (this->vertexArrays.count(assetID) == 0)
+							this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(image, entityRenderable.renderableComponent->getDimensions())));
+						this->textures.at(assetID)->bind();
 					}
 
-					entityRenderable.vertexArray->unbind();
-					entityRenderable.texture->activateDefaultTextureUnit();
+					this->vertexArrays.at(assetID)->bind();
+
+					/* Render for each ShaderProgram. Starting with the built in one. */
+					for (int k = -1; k < (int)shaderCount; k++)
+					{
+						std::shared_ptr<ShaderProgram> shaderProgram;
+
+						if (k == -1)
+							shaderProgram = this->builtInShaderProgram;
+						else
+							shaderProgram = this->shaderPrograms.at(shaders.at(k)->getID());
+
+						shaderProgram->use();
+						shaderProgram->setInt("textureSampler", 0);
+						shaderProgram->setMat4("mvp", mvp);
+						glDrawElements(GL_TRIANGLES, (GLsizei)this->vertexArrays.at(assetID)->getIndexCount(), GL_UNSIGNED_INT, 0);
+					}
+
+					this->vertexArrays.at(assetID)->unbind();
+					if (this->textures.count(assetID) > 0)
+						this->textures.at(assetID)->activateDefaultTextureUnit();
 				}
 			}
 		}

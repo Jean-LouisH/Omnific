@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "rendering_system.hpp"
-#include "built_in_shaders.hpp"
 #include <application/scene/assets/shader.hpp>
 #include <application/scene/assets/image.hpp>
 
@@ -40,7 +39,6 @@ Omnific::RenderingSystem::RenderingSystem()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
-	this->shaderCompiler = std::unique_ptr<ShaderCompiler>(new ShaderCompiler());
 }
 
 Omnific::RenderingSystem::~RenderingSystem()
@@ -50,24 +48,14 @@ Omnific::RenderingSystem::~RenderingSystem()
 
 void Omnific::RenderingSystem::initialize()
 {
-	std::vector<Shader> shaders;
-	Shader builtInVertexShader;
-	Shader builtInFragmentShader;
-
-	builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::ShaderType::VERTEX);
-	builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::ShaderType::FRAGMENT);
-	shaders.push_back(builtInVertexShader);
-	shaders.push_back(builtInFragmentShader);
-
 	this->context->initialize();
-	this->compileShaders(this->builtInShaderProgramName, shaders);
 	this->isInitialized = true;
 }
 
 void Omnific::RenderingSystem::process(Scene& scene)
 {
 	this->onWindowResize();
-	this->onModifiedRenderableInstance(scene);
+	this->buildRenderablesOnModifiedComponents(scene);
 	this->context->clearColourBuffer();
 	this->context->submit(this->sceneTreeRenderableLists);
 	this->context->swapBuffers();
@@ -76,9 +64,7 @@ void Omnific::RenderingSystem::process(Scene& scene)
 void Omnific::RenderingSystem::deinitialize()
 {
 	if (this->isInitialized)
-	{
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
-	}
 
 	this->isInitialized = false;
 }
@@ -89,20 +75,7 @@ void Omnific::RenderingSystem::onWindowResize()
 	this->context->setViewport(windowRectangle.width, windowRectangle.height);
 }
 
-void Omnific::RenderingSystem::onModifiedShaderInstance(Scene& scene)
-{
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
-
-	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-	{
-		if (it->second.getHasShadersChanged())
-		{
-
-		}
-	}
-}
-
-void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
+void Omnific::RenderingSystem::buildRenderablesOnModifiedComponents(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -126,6 +99,7 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 				SceneTreeRenderable sceneTreeRenderable;
 				std::shared_ptr<Transform> cameraTransform = sceneTree.getEntityTransform(cameraComponent->getEntityID());
 
+				sceneTreeRenderable.is2D = sceneTree.is2D;
 				sceneTreeRenderable.camera = camera;
 				sceneTreeRenderable.cameraTransform = cameraTransform;
 
@@ -137,49 +111,9 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 					Entity& entity = sceneTree.getEntity(renderableComponent->getEntityID());
 
 					entityRenderable.entityTransform = sceneTree.getEntityTransform(renderableComponent->getEntityID());
-					entityRenderable.id = renderableComponent->getEntityID();
-					entityRenderable.shaderPrograms.push_back(this->shaderProgramCache.at(this->builtInShaderProgramName));
-
-					entityRenderable.vertexArray = std::shared_ptr<VertexArray>(new VertexArray());
-
-					if (renderableComponent->isType(ModelContainer::TYPE_STRING))
-					{
-						std::shared_ptr<ModelContainer> modelContainer =
-							std::dynamic_pointer_cast<ModelContainer>(renderableComponent);
-						std::shared_ptr<Model> model = modelContainer->getCurrentModel();
-						entityRenderable.texture = std::shared_ptr<Texture>(new Texture(model->image));
-						entityRenderable.vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(model->mesh, entityRenderable.vertexArray));
-					}
-					else
-					{
-						if (renderableComponent->isType(SpriteContainer::TYPE_STRING))
-						{
-							std::shared_ptr<SpriteContainer> spriteContainer =
-								std::dynamic_pointer_cast<SpriteContainer>(renderableComponent);
-
-							if (spriteContainer->isXBillboarded)
-								entityRenderable.entityTransform->rotation.x = cameraTransform->rotation.x;
-							if (spriteContainer->isYBillboarded)
-								entityRenderable.entityTransform->rotation.y = cameraTransform->rotation.y;
-						}
-						std::shared_ptr<Image> image = renderableComponent->getImage();
-						entityRenderable.texture = std::shared_ptr<Texture>(new Texture(image));
-						entityRenderable.vertexBuffer = std::shared_ptr<VertexBuffer>(
-							new VertexBuffer(image, renderableComponent->getDimensions(), entityRenderable.vertexArray));
-					}
-
-					//if (cameraEntity.spatialDimension == Entity::SpatialDimension::_2D)
-					//{
-					//	if (scene.getEntity(renderableComponent->getEntityID()).spatialDimension ==
-					//		Entity::SpatialDimension::_2D)
-					//	{
-
-					//	}
-					//}
-
+					entityRenderable.renderableComponent = renderableComponent;
 					sceneTreeRenderable.entityRenderables.push_back(entityRenderable);
 				}
-
 				sceneTreeRenderableList.push_back(sceneTreeRenderable);
 			}
 
@@ -193,12 +127,4 @@ void Omnific::RenderingSystem::onModifiedRenderableInstance(Scene& scene)
 std::string Omnific::RenderingSystem::getRenderingContextName()
 {
 	return this->context->getRenderingContextName();
-}
-
-void Omnific::RenderingSystem::compileShaders(std::string name, std::vector<Shader> shaders)
-{
-	std::shared_ptr<ShaderProgram> shaderProgram = this->shaderCompiler->compile(shaders);
-
-	if (shaderProgram)
-		this->shaderProgramCache.emplace(name, shaderProgram);
 }

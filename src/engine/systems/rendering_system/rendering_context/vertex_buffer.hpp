@@ -26,28 +26,24 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <application/scene/assets/shader.hpp>
-#include "shader_program.hpp"
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/mesh.hpp>
 #include <memory>
 
 namespace Omnific
 {
-	/* Manufactures ShaderPrograms given valid Shaders. 
-	   Shaders are valid when their sources comply with the
-	   shading language's compiler requirements. */
-	class ShaderCompiler
+	/* Storage for mesh data in GPU memory. */
+	class VertexBuffer
 	{
 	public:
-		std::shared_ptr<ShaderProgram> compile(std::vector<Shader> shaders);
+		VertexBuffer();
+		VertexBuffer(std::shared_ptr<Mesh> mesh);
+		VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions);
+		~VertexBuffer();
+		void bind();
+		void deleteVertexBuffer();
 	private:
-		std::vector<GLuint> vertexShaderIDs;
-		std::vector<GLuint> fragmentShaderIDs;
-
-		bool compileVertexShader(std::string vertexShaderSource);
-		bool compileFragmentShader(std::string fragmentShaderSource);
-		std::shared_ptr<Omnific::ShaderProgram> linkShaderProgram();
-		bool checkCompileTimeErrors(GLuint ID, GLuint status);
-		void deleteShaders();
+		GLuint vertexBufferID = 0;
 	};
 }
 

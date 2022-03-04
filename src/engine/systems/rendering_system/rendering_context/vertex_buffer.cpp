@@ -27,43 +27,17 @@ Omnific::VertexBuffer::VertexBuffer()
 
 }
 
-Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray)
+Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh)
 {
 	if (mesh != nullptr)
 	{
-		this->indexCount = mesh->indices.size();
-		vertexArray->bind();
-
 		glGenBuffers(1, &this->vertexBufferID);
 		glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
 		glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), &mesh->vertices[0], GL_STATIC_DRAW);
-
-		glGenBuffers(1, &this->elementBufferID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(unsigned int),
-			&mesh->indices[0], GL_STATIC_DRAW);
-
-		// vertex positions
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)0);
-		// vertex normals
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::normal));
-		// vertex uvs
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::uv));
-		// vertex tangent
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::tangent));
-		// vertex bitangent
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::bitangent));
-
-		vertexArray->unbind();
 	}
 }
 
-Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions, std::shared_ptr<VertexArray> vertexArray)
+Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions)
 {
 	if (image != nullptr)
 	{
@@ -82,6 +56,8 @@ Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dime
 		int xCentre = width / 2;
 		int yCentre = height / 2;
 
+		/* This stretches the dimensions to the image. */
+
 		//top right
 		meshVertices[(stride * 0) + 0] = width - xCentre;
 		meshVertices[(stride * 0) + 1] = height - yCentre;
@@ -95,29 +71,9 @@ Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dime
 		meshVertices[(stride * 3) + 0] = 0 - xCentre;
 		meshVertices[(stride * 3) + 1] = height - yCentre;
 
-		unsigned int indices[] =
-		{
-			0, 1, 3, // first triangle
-			1, 2, 3  // second triangle
-		};
-
-		this->indexCount = sizeof(indices) / sizeof(unsigned int);
-		vertexArray->bind();
-
 		glGenBuffers(1, &this->vertexBufferID);
 		glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(meshVertices), meshVertices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &this->elementBufferID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
-		// uv attribute
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(2);
 	}
 }
 
@@ -129,16 +85,9 @@ Omnific::VertexBuffer::~VertexBuffer()
 void Omnific::VertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->elementBufferID);
 }
 
 void Omnific::VertexBuffer::deleteVertexBuffer()
 {
 	glDeleteBuffers(1, &this->vertexBufferID);
-	glDeleteBuffers(1, &this->elementBufferID);
-}
-
-unsigned int Omnific::VertexBuffer::getIndexCount()
-{
-	return this->indexCount;
 }

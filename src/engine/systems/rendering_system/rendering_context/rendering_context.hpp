@@ -24,12 +24,15 @@
 
 #include <os/window.hpp>
 #include <glad/glad.h>
-#include "shader_compiler.hpp"
 #include <vector>
-#include "entity_renderable.hpp"
+#include "shader_program.hpp"
+#include "texture.hpp"
+#include "vertex_array.hpp"
 #include <application/scene/assets/image.hpp>
+#include <application/scene/assets/shader.hpp>
 #include <application/scene/scene.hpp>
-#include "scene_tree_renderable.hpp"
+#include "../scene_tree_renderable.hpp"
+#include "utilities/aliases.hpp"
 #include <string>
 
 namespace Omnific
@@ -47,9 +50,11 @@ namespace Omnific
 		std::string getRenderingContextName();
 	private:
 		SDL_GLContext glContext;
-		std::vector<GLuint> glTextureIDs;
-		std::vector<std::string> glslVertexShaderSources;
-		std::vector<std::string> glslFragmentShaderSources;
+
+		std::unordered_map<AssetID, std::shared_ptr<Texture>> textures;
+		std::unordered_map<AssetID, std::shared_ptr<VertexArray>> vertexArrays;
+		std::unordered_map<AssetID, std::shared_ptr<ShaderProgram>> shaderPrograms;
+		std::shared_ptr<ShaderProgram> builtInShaderProgram;
 	};
 }
 

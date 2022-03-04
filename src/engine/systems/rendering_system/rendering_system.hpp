@@ -29,7 +29,7 @@
 #include <vector>
 #include "os/window.hpp"
 #include "utilities/aliases.hpp"
-#include "rendering_context.hpp"
+#include "rendering_context/rendering_context.hpp"
 #include "entity_renderable.hpp"
 #include "scene_tree_renderable.hpp"
 #include <memory>
@@ -49,18 +49,10 @@ namespace Omnific
 		std::string getRenderingContextName();
 	private:
 		std::unique_ptr<RenderingContext> context;
-		std::unique_ptr<ShaderCompiler> shaderCompiler;
-		std::unordered_map<std::string, std::shared_ptr<ShaderProgram>> shaderProgramCache;
-		std::set<AssetID> renderingAssetIDCache;
-
-		std::string builtInShaderProgramName = "built_in_shaders";
-
 		std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
 
 		void onWindowResize();
-		void onModifiedShaderInstance(Scene& scene);
-		void onModifiedRenderableInstance(Scene& scene);
-		void compileShaders(std::string name, std::vector<Shader> shaders);
+		void buildRenderablesOnModifiedComponents(Scene& scene);
 	};
 }
 

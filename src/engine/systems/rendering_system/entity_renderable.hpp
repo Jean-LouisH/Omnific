@@ -24,17 +24,14 @@
 
 #include <vector>
 #include <application/scene/components/transform.hpp>
+#include "application/scene/renderable_component.hpp"
+
 #include <application/scene/components/camera.hpp>
 #include <application/scene/assets/image.hpp>
 #include <application/scene/assets/material.hpp>
 #include <application/scene/assets/mesh.hpp>
 #include <application/scene/assets/shader.hpp>
 #include <glm/glm.hpp>
-
-#include "vertex_array.hpp"
-#include "vertex_buffer.hpp"
-#include "texture.hpp"
-#include "shader_program.hpp"
 #include <memory>
 
 namespace Omnific
@@ -44,13 +41,8 @@ namespace Omnific
 	class EntityRenderable
 	{
 	public:
-		EntityID id = 0;
 		std::shared_ptr<Transform> entityTransform;
-		std::shared_ptr<Texture> texture;
-		std::shared_ptr<Material> material;
-		std::shared_ptr<VertexArray> vertexArray;
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		std::vector<std::shared_ptr<ShaderProgram>> shaderPrograms;
+		std::shared_ptr<RenderableComponent> renderableComponent;
 	private:
 	};
 }

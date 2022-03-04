@@ -25,11 +25,33 @@
 #include <glm/glm.hpp>
 #include <os/os.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <application/scene/assets/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Omnific::ShaderProgram::ShaderProgram(GLuint programID)
+Omnific::ShaderProgram::ShaderProgram(std::vector<Shader> shaders)
 {
-	this->programID = programID;
+	bool compilationSuccess = true;
+	int shaderCount = shaders.size();
+
+	for (int i = 0; i < shaderCount && compilationSuccess; i++)
+	{
+		Shader& shader = shaders.at(i);
+
+		switch (shader.getType())
+		{
+		case Shader::ShaderType::VERTEX:
+			compilationSuccess = this->compileVertexShader(shader.getSource());
+			break;
+		case Shader::ShaderType::FRAGMENT:
+			compilationSuccess = this->compileFragmentShader(shader.getSource());
+			break;
+		}
+	}
+
+	if (compilationSuccess)
+		this->linkShaderProgram();
+
+	this->deleteShaders();
 }
 
 Omnific::ShaderProgram::~ShaderProgram()
@@ -89,4 +111,75 @@ void Omnific::ShaderProgram::deleteProgram()
 {
 	if (this->programID != 0)
 		glDeleteProgram(this->programID);
+}
+
+bool Omnific::ShaderProgram::compileVertexShader(std::string vertexShaderSource)
+{
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	GLchar* source = (GLchar*)vertexShaderSource.c_str();
+	glShaderSource(vertexShader, 1, &source, NULL);
+	glCompileShader(vertexShader);
+	this->vertexShaderIDs.push_back(vertexShader);
+	return this->checkCompileTimeErrors(vertexShader, GL_COMPILE_STATUS);
+}
+
+bool Omnific::ShaderProgram::compileFragmentShader(std::string fragmentShaderSource)
+{
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLchar* source = (GLchar*)fragmentShaderSource.c_str();
+	glShaderSource(fragmentShader, 1, &source, NULL);
+	glCompileShader(fragmentShader);
+	this->fragmentShaderIDs.push_back(fragmentShader);
+	return this->checkCompileTimeErrors(fragmentShader, GL_COMPILE_STATUS);
+}
+
+void Omnific::ShaderProgram::linkShaderProgram()
+{
+	GLuint programID = glCreateProgram();
+	int vertexShaderCount = this->vertexShaderIDs.size();
+	for (int i = 0; i < vertexShaderCount; i++)
+		glAttachShader(programID, this->vertexShaderIDs.at(i));
+
+	int fragmentShaderCount = this->fragmentShaderIDs.size();
+	for (int i = 0; i < fragmentShaderCount; i++)
+		glAttachShader(programID, this->fragmentShaderIDs.at(i));
+
+	glLinkProgram(programID);
+	this->checkCompileTimeErrors(programID, GL_LINK_STATUS);
+
+	OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(programID));
+	this->logUniforms();
+	this->programID = programID;
+}
+
+bool Omnific::ShaderProgram::checkCompileTimeErrors(GLuint ID, GLuint status)
+{
+	GLint compilationSuccess = GL_FALSE;
+	char infoLog[512];
+
+	if (status == GL_COMPILE_STATUS)
+		glGetShaderiv(ID, status, &compilationSuccess);
+	else if (status == GL_LINK_STATUS)
+		glGetProgramiv(ID, status, &compilationSuccess);
+
+	if (!compilationSuccess)
+	{
+		glGetShaderInfoLog(ID, 512, NULL, infoLog);
+		OS::getLogger().write(infoLog);
+	}
+
+	return compilationSuccess;
+}
+
+void Omnific::ShaderProgram::deleteShaders()
+{
+	int vertexShaderCount = this->vertexShaderIDs.size();
+	for (int i = 0; i < vertexShaderCount; i++)
+		glDeleteShader(this->vertexShaderIDs.at(i));
+	this->vertexShaderIDs.clear();
+
+	int fragmentShaderCount = this->fragmentShaderIDs.size();
+	for (int i = 0; i < fragmentShaderCount; i++)
+		glDeleteShader(this->fragmentShaderIDs.at(i));
+	this->fragmentShaderIDs.clear();
 }

@@ -26,28 +26,34 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <application/scene/assets/image.hpp>
-#include <application/scene/assets/mesh.hpp>
-#include "vertex_array.hpp"
-#include <memory>
+#include <application/scene/assets/shader.hpp>
 
 namespace Omnific
 {
-	/* Storage for mesh data in GPU memory. */
-	class VertexBuffer
+	/* The objects that facilitate GPU computation with settable uniform values. */
+	class ShaderProgram
 	{
 	public:
-		VertexBuffer();
-		VertexBuffer(std::shared_ptr<Mesh> mesh, std::shared_ptr<VertexArray> vertexArray);
-		VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions, std::shared_ptr<VertexArray> vertexArray);
-		~VertexBuffer();
-		void bind();
-		void deleteVertexBuffer();
-		unsigned int getIndexCount();
+		ShaderProgram(std::vector<Shader> shaders);
+		~ShaderProgram();
+		void use();
+		void setInt(std::string name, int value);
+		void setBool(std::string name, bool value);
+		void setFloat(std::string name, float value);
+		void setMat4(std::string name, glm::mat4 value);
+		void logUniforms();
+		void deleteProgram();
 	private:
-		GLuint vertexBufferID = 0;
-		GLuint elementBufferID = 0;
-		GLsizei indexCount;
+		GLuint programID = 0;
+
+		std::vector<GLuint> vertexShaderIDs;
+		std::vector<GLuint> fragmentShaderIDs;
+
+		bool compileVertexShader(std::string vertexShaderSource);
+		bool compileFragmentShader(std::string fragmentShaderSource);
+		void linkShaderProgram();
+		bool checkCompileTimeErrors(GLuint ID, GLuint status);
+		void deleteShaders();
 	};
 }
 

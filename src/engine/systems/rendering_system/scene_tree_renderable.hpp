@@ -36,6 +36,7 @@ namespace Omnific
 	class SceneTreeRenderable
 	{
 	public:
+		bool is2D = false;
 		std::shared_ptr<Camera> camera;
 		std::shared_ptr<Transform> cameraTransform;
 		std::vector<std::shared_ptr<Light>> lights;

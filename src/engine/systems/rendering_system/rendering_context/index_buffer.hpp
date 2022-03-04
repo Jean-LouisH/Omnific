@@ -26,20 +26,26 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <application/scene/assets/image.hpp>
+#include <application/scene/assets/mesh.hpp>
+#include <memory>
 
 namespace Omnific
 {
-	/* Identifier for buffers bound to a draw call. */
-	class VertexArray
+	/* Storage for mesh index data in GPU memory. */
+	class IndexBuffer
 	{
 	public:
-		VertexArray();
-		~VertexArray();
+		IndexBuffer();
+		IndexBuffer(std::shared_ptr<Mesh> mesh);
+		IndexBuffer(std::shared_ptr<Image> image);
+		~IndexBuffer();
 		void bind();
-		void unbind();
-		void deleteVertexArray();
+		void deleteIndexBuffer();
+		unsigned int getIndexCount();
 	private:
-		GLuint vertexArrayID;
+		GLuint indexBufferID = 0;
+		GLsizei indexCount;
 	};
 }
 
