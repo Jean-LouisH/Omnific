@@ -23,12 +23,12 @@
 #include "ui_system.hpp"
 #include "os/os.hpp"
 
-Omnific::UISystem::~UISystem()
+Omnia::UISystem::~UISystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::UISystem::initialize()
+void Omnia::UISystem::initialize()
 {
 	//if (TTF_Init() == -1)
 	//	printf("TTF_Init: %s\n", TTF_GetError());
@@ -36,7 +36,7 @@ void Omnific::UISystem::initialize()
 	//	this->isInitialized = true;
 }
 
-void Omnific::UISystem::process(Scene& scene)
+void Omnia::UISystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -46,7 +46,7 @@ void Omnific::UISystem::process(Scene& scene)
 	}
 }
 
-void Omnific::UISystem::deinitialize()
+void Omnia::UISystem::deinitialize()
 {
 	//if (this->isInitialized)
 	//	TTF_Quit();
@@ -54,22 +54,22 @@ void Omnific::UISystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnific::UISystem::orderUIComponentsByHierarchy()
+void Omnia::UISystem::orderUIComponentsByHierarchy()
 {
 
 }
 
-void Omnific::UISystem::positionUIComponentsByHierarchy()
+void Omnia::UISystem::positionUIComponentsByHierarchy()
 {
 
 }
 
-bool Omnific::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
+bool Omnia::UISystem::isCursorHoveringOverUIComponent(ComponentID componentID)
 {
 	return false;
 }
 
-//bool Omnific::UISystem::isCursorInInputStateOnUIComponent(
+//bool Omnia::UISystem::isCursorInInputStateOnUIComponent(
 //	ComponentID componentID,
 //	InputCode inputCode,
 //	InputButtonMode inputButtonMode)

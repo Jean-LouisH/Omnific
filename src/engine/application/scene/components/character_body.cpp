@@ -22,14 +22,14 @@
 
 #include "character_body.hpp"
 
-void Omnific::CharacterBody::move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection)
+void Omnia::CharacterBody::move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection)
 {
 	this->linearVelocity = linearVelocity;
 	this->snapDirection = snapDirection;
 	this->upDirection = upDirection;
 }
 
-void Omnific::CharacterBody::reload()
+void Omnia::CharacterBody::reload()
 {
 	this->linearVelocity = glm::vec3(0.0, 0.0, 0.0);
 	this->snapDirection = glm::vec3(0.0, 0.0, 0.0);

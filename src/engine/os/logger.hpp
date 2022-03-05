@@ -25,7 +25,7 @@
 #include <vector>
 #include <string>
 
-namespace Omnific
+namespace Omnia
 {
 	class Logger
 	{

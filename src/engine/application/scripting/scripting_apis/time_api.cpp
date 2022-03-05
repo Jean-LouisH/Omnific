@@ -24,38 +24,38 @@
 #include <utilities/constants.hpp>
 
 
-Omnific::TimeAPI::TimeAPI(Profiler* profiler)
+Omnia::TimeAPI::TimeAPI(Profiler* profiler)
 {
 	this->profiler = profiler;
 }
 
-void Omnific::TimeAPI::setTimeSettings(Configuration::TimeSettings* timeSettings)
+void Omnia::TimeAPI::setTimeSettings(Configuration::TimeSettings* timeSettings)
 {
 	this->timeSettings = timeSettings;
 }
 
-void Omnific::TimeAPI::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+void Omnia::TimeAPI::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
 	if (msPerComputeUpdate <= (uint32_t)(1.0 / (double) this->timeSettings->targetFPS))
 		this->timeSettings->msPerComputeUpdate = msPerComputeUpdate;
 }
 
-void Omnific::TimeAPI::setTargetFPS(uint32_t targetFPS)
+void Omnia::TimeAPI::setTargetFPS(uint32_t targetFPS)
 {
 	this->timeSettings->targetFPS = targetFPS;
 }
 
-uint32_t Omnific::TimeAPI::getMsPerComputeUpdate()
+uint32_t Omnia::TimeAPI::getMsPerComputeUpdate()
 {
 	return this->timeSettings->msPerComputeUpdate;
 }
 
-uint32_t Omnific::TimeAPI::getTargetFPS()
+uint32_t Omnia::TimeAPI::getTargetFPS()
 {
 	return this->timeSettings->targetFPS;
 }
 
-uint64_t Omnific::TimeAPI::getFrameTimeDelta()
+uint64_t Omnia::TimeAPI::getFrameTimeDelta()
 {
 	return NS_IN_MS * this->profiler->getFrameTimer().getDeltaInNanoseconds();
 }

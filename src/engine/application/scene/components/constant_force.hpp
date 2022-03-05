@@ -28,7 +28,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Omnific
+namespace Omnia
 {
 	class ConstantForce : public Component
 	{

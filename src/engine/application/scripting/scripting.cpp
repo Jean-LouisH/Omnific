@@ -23,19 +23,19 @@
 #include "scripting.hpp"
 #include "scripting_apis/scripting_apis.hpp"
 
-Omnific::Scripting::Scripting()
+Omnia::Scripting::Scripting()
 {
 	this->pythonVM = std::unique_ptr<PythonVM>(new PythonVM());
 	this->cppNative = std::unique_ptr<CPPNative>(new CPPNative());
 }
 
-void Omnific::Scripting::onModifiedScriptInstance(Scene scene)
+void Omnia::Scripting::onModifiedScriptInstance(Scene scene)
 {
 	this->pythonVM->onModifiedScriptInstance(scene);
 	this->cppNative->onModifiedScriptInstance();
 }
 
-void Omnific::Scripting::executeOnStartMethods(Scene& scene)
+void Omnia::Scripting::executeOnStartMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -44,7 +44,7 @@ void Omnific::Scripting::executeOnStartMethods(Scene& scene)
 
 }
 
-void Omnific::Scripting::executeOnInputMethods(Scene& scene)
+void Omnia::Scripting::executeOnInputMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -52,7 +52,7 @@ void Omnific::Scripting::executeOnInputMethods(Scene& scene)
 		this->pythonVM->executeOnInputMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
-void Omnific::Scripting::executeOnFrameMethods(Scene& scene)
+void Omnia::Scripting::executeOnFrameMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -61,7 +61,7 @@ void Omnific::Scripting::executeOnFrameMethods(Scene& scene)
 	this->cppNative->executeOnFrameMethods();
 }
 
-void Omnific::Scripting::executeOnComputeMethods(Scene& scene)
+void Omnia::Scripting::executeOnComputeMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -69,7 +69,7 @@ void Omnific::Scripting::executeOnComputeMethods(Scene& scene)
 		this->pythonVM->executeOnComputeMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
-void Omnific::Scripting::executeOnOutputMethods(Scene& scene)
+void Omnia::Scripting::executeOnOutputMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -77,7 +77,7 @@ void Omnific::Scripting::executeOnOutputMethods(Scene& scene)
 		this->pythonVM->executeOnOutputMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
-void Omnific::Scripting::executeOnFinishMethods(Scene& scene)
+void Omnia::Scripting::executeOnFinishMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -85,7 +85,7 @@ void Omnific::Scripting::executeOnFinishMethods(Scene& scene)
 		this->pythonVM->executeOnFinishMethods(it->second.generateCallBatches(CallType::FINISH));
 }
 
-void Omnific::Scripting::setSceneStorage(SceneStorage* sceneStorage)
+void Omnia::Scripting::setSceneStorage(SceneStorage* sceneStorage)
 {
 	ScriptingAPIs::setSceneStorage(sceneStorage);
 }

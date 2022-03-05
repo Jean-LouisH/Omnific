@@ -22,28 +22,28 @@
 
 #include "scene_api.hpp"
 
-void Omnific::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
+void Omnia::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
 {
 	this->sceneStorage = sceneStorage;
 }
 
-void Omnific::SceneAPI::bindEntity(SceneID sceneTreeID, EntityID entityID)
+void Omnia::SceneAPI::bindEntity(SceneID sceneTreeID, EntityID entityID)
 {
 	this->boundSceneTreeID = sceneTreeID;
 	this->boundEntityID = entityID;
 }
 
-void Omnific::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
+void Omnia::SceneAPI::setSceneSerializer(SceneSerializer* sceneSerializer)
 {
 	this->sceneSerializer = sceneSerializer;
 }
 
-bool Omnific::SceneAPI::hasComponent(std::string type)
+bool Omnia::SceneAPI::hasComponent(std::string type)
 {
 	return this->getSceneTree().getEntity(this->boundEntityID).componentIDs.count(type) > 0;
 }
 
-void Omnific::SceneAPI::preloadScene(std::string sceneFilename)
+void Omnia::SceneAPI::preloadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -52,7 +52,7 @@ void Omnific::SceneAPI::preloadScene(std::string sceneFilename)
 	}
 }
 
-void Omnific::SceneAPI::loadScene(std::string sceneFilename)
+void Omnia::SceneAPI::loadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -61,12 +61,12 @@ void Omnific::SceneAPI::loadScene(std::string sceneFilename)
 	}
 }
 
-void Omnific::SceneAPI::unloadScene(std::string sceneFilename)
+void Omnia::SceneAPI::unloadScene(std::string sceneFilename)
 {
 	this->sceneStorage->removeScene(sceneFilename);
 }
 
-void Omnific::SceneAPI::changeToScene(std::string sceneFilename)
+void Omnia::SceneAPI::changeToScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
@@ -74,22 +74,22 @@ void Omnific::SceneAPI::changeToScene(std::string sceneFilename)
 	}
 }
 
-Omnific::Entity& Omnific::SceneAPI::getEntity()
+Omnia::Entity& Omnia::SceneAPI::getEntity()
 {
 	return this->getSceneTree().getEntity(this->boundEntityID);
 }
 
-Omnific::Scene& Omnific::SceneAPI::getScene()
+Omnia::Scene& Omnia::SceneAPI::getScene()
 {
 	return sceneStorage->getActiveScene();
 }
 
-Omnific::SceneTree& Omnific::SceneAPI::getSceneTree()
+Omnia::SceneTree& Omnia::SceneAPI::getSceneTree()
 {
 	return this->getScene().getSceneTrees().at(this->boundSceneTreeID);
 }
 
-Omnific::Component& Omnific::SceneAPI::getComponent(std::string type)
+Omnia::Component& Omnia::SceneAPI::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component = std::make_shared<Component>();
 	

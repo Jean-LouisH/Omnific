@@ -23,25 +23,25 @@
 #include "shader.hpp"
 #include <application/uid_generator.hpp>
 
-Omnific::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
+Omnia::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
 {
 	this->setName(sourceFilepath);
 	//this->source;
 	this->shaderType = shaderType;
 }
 
-void Omnific::Shader::setSource(std::string source, ShaderType shaderType)
+void Omnia::Shader::setSource(std::string source, ShaderType shaderType)
 {
 	this->source = source;
 	this->shaderType = shaderType;
 }
 
-std::string Omnific::Shader::getSource()
+std::string Omnia::Shader::getSource()
 {
 	return this->source;
 }
 
-Omnific::Shader::ShaderType Omnific::Shader::getType()
+Omnia::Shader::ShaderType Omnia::Shader::getType()
 {
 	return this->shaderType;
 }

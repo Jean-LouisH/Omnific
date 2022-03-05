@@ -22,12 +22,12 @@
 
 #include "splash_screen_transition.hpp"
 
-void Omnific::SplashScreenTransition::onStart()
+void Omnia::SplashScreenTransition::onStart()
 {
 
 }
 
-void Omnific::SplashScreenTransition::onFrame()
+void Omnia::SplashScreenTransition::onFrame()
 {
 
 }

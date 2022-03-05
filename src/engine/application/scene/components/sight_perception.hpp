@@ -25,7 +25,7 @@
 #include <string>
 #include "application/scene/component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class SightPerception : public Component
 	{

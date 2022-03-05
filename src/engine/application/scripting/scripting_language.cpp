@@ -22,32 +22,32 @@
 
 #include "scripting_language.hpp"
 
-void Omnific::ScriptingLanguage::executeOnStartMethods()
+void Omnia::ScriptingLanguage::executeOnStartMethods()
 {
 
 }
 
-void Omnific::ScriptingLanguage::executeOnInputMethods()
+void Omnia::ScriptingLanguage::executeOnInputMethods()
 {
 
 }
 
-void Omnific::ScriptingLanguage::executeOnFrameMethods()
+void Omnia::ScriptingLanguage::executeOnFrameMethods()
 {
 
 }
 
-void Omnific::ScriptingLanguage::executeOnComputeMethods()
+void Omnia::ScriptingLanguage::executeOnComputeMethods()
 {
 
 }
 
-void Omnific::ScriptingLanguage::executeOnOutputMethods()
+void Omnia::ScriptingLanguage::executeOnOutputMethods()
 {
 
 }
 
-void Omnific::ScriptingLanguage::executeOnFinishMethods()
+void Omnia::ScriptingLanguage::executeOnFinishMethods()
 {
 
 }

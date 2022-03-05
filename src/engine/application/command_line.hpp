@@ -32,7 +32,7 @@
 #include "scene_storage.hpp"
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Enables debug entry of commands to test the Engine. */
 	class CommandLine

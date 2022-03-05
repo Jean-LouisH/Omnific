@@ -26,7 +26,7 @@
 #include <string>
 #include "utilities/aliases.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	/* Loads and stores multiple Scenes at once. */
 	class SceneStorage

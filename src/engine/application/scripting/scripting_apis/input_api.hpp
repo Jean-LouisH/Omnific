@@ -30,7 +30,7 @@
 #include <glm/glm.hpp>
 #include <utilities/aliases.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	class InputAPI
 	{

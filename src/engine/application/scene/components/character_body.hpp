@@ -27,7 +27,7 @@
 #include "utilities/constants.hpp"
 #include "application/scene/component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class CharacterBody : public Component
 	{

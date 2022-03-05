@@ -24,7 +24,7 @@
 
 #include "application/scene/component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class BehaviourTree : public Component
 	{

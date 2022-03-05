@@ -25,7 +25,7 @@
 #include "application/scene/scene.hpp"
 #include "system.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes components with data for traditional AI algorithms
 	   like navigational path finding. */

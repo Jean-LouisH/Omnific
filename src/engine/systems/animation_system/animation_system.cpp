@@ -23,22 +23,22 @@
 #include "animation_system.hpp"
 #include "application/scene/scene.hpp"
 
-Omnific::AnimationSystem::~AnimationSystem()
+Omnia::AnimationSystem::~AnimationSystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::AnimationSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+void Omnia::AnimationSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
 	this->msPerComputeUpdate = msPerComputeUpdate;
 }
 
-void Omnific::AnimationSystem::initialize()
+void Omnia::AnimationSystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Omnific::AnimationSystem::process(Scene& scene)
+void Omnia::AnimationSystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -48,12 +48,12 @@ void Omnific::AnimationSystem::process(Scene& scene)
 	}
 }
 
-void Omnific::AnimationSystem::deinitialize()
+void Omnia::AnimationSystem::deinitialize()
 {
 	this->isInitialized = false;
 }
 
-void Omnific::AnimationSystem::updateSpriteContainers(SceneTree& sceneTree)
+void Omnia::AnimationSystem::updateSpriteContainers(SceneTree& sceneTree)
 {
 	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = sceneTree.getComponentsByType<SpriteContainer>();
 

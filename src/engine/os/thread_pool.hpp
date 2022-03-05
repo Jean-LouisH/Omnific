@@ -24,7 +24,7 @@
 
 #include <thread>
 
-namespace Omnific
+namespace Omnia
 {
 	class ThreadPool
 	{

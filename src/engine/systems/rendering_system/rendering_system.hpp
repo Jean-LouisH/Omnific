@@ -35,7 +35,7 @@
 #include <memory>
 #include <map>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes RenderableComponents for output to graphics display. */
 	class RenderingSystem : public System

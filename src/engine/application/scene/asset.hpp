@@ -25,7 +25,7 @@
 #include <utilities/aliases.hpp>
 #include <string>
 
-namespace Omnific
+namespace Omnia
 {
 	class Asset
 	{

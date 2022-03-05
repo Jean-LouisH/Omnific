@@ -22,22 +22,22 @@
 
 #include "module.hpp"
 
-void Omnific::Module::setData(pybind11::module_ newModule)
+void Omnia::Module::setData(pybind11::module_ newModule)
 {
 	this->data = newModule;
 }
 
-void Omnific::Module::setCallable(std::string methodName)
+void Omnia::Module::setCallable(std::string methodName)
 {
 	this->callableMethods.emplace(methodName);
 }
 
-void Omnific::Module::call(std::string methodName)
+void Omnia::Module::call(std::string methodName)
 {
 	this->data.attr(methodName.c_str())();
 }
 
-bool Omnific::Module::hasCallable(std::string methodName)
+bool Omnia::Module::hasCallable(std::string methodName)
 {
 	return this->callableMethods.count(methodName) > 0;
 }

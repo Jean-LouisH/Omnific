@@ -27,7 +27,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Omnific
+namespace Omnia
 {
 	class CountdownTimer : public Component
 	{

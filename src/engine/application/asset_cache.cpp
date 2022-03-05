@@ -22,9 +22,9 @@
 
 #include "asset_cache.hpp"
 
-Omnific::AssetCache* Omnific::AssetCache::instance = nullptr;
+Omnia::AssetCache* Omnia::AssetCache::instance = nullptr;
 
-void Omnific::AssetCache::store(std::shared_ptr<Omnific::Asset> asset)
+void Omnia::AssetCache::store(std::shared_ptr<Omnia::Asset> asset)
 {
 	AssetCache* instance = getInstance();
 
@@ -32,22 +32,22 @@ void Omnific::AssetCache::store(std::shared_ptr<Omnific::Asset> asset)
 		instance->assets.emplace(asset->getName(), asset);
 }
 
-void Omnific::AssetCache::deleteAsset(std::string filepath)
+void Omnia::AssetCache::deleteAsset(std::string filepath)
 {
 	getInstance()->assets.erase(filepath);
 }
 
-void Omnific::AssetCache::deleteAllAssets()
+void Omnia::AssetCache::deleteAllAssets()
 {
 	getInstance()->assets.clear();
 }
 
-std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> Omnific::AssetCache::getAssets()
+std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> Omnia::AssetCache::getAssets()
 {
 	return getInstance()->assets;
 }
 
-Omnific::AssetCache* Omnific::AssetCache::getInstance()
+Omnia::AssetCache* Omnia::AssetCache::getInstance()
 {
 	if (instance == nullptr)
 		instance = new AssetCache();

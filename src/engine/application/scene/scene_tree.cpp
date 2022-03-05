@@ -24,7 +24,7 @@
 #include "component.hpp"
 #include "application/scripting/python_vm/script_call_batch.hpp"
 
-Omnific::SceneTree::SceneTree()
+Omnia::SceneTree::SceneTree()
 {
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
@@ -34,7 +34,7 @@ Omnific::SceneTree::SceneTree()
 	this->name = "SceneTree (ID:" + std::to_string(this->id) + ")";
 }
 
-void Omnific::SceneTree::addEntity(Entity entity)
+void Omnia::SceneTree::addEntity(Entity entity)
 {
 	if (entity.parentID != 0)
 		this->entities.at(entity.parentID).childIDs.push_back(entity.id);
@@ -44,13 +44,13 @@ void Omnific::SceneTree::addEntity(Entity entity)
 	this->lastEntityID = entity.id;
 }
 
-void Omnific::SceneTree::addEmptyEntity()
+void Omnia::SceneTree::addEmptyEntity()
 {
 	Entity emptyEntity;
 	this->addEntity(emptyEntity);
 }
 
-void Omnific::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component> component)
+void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
 	component->setEntityID(entityID);
 	component->setComponentPropertyPool(this->componentPropertyPool);
@@ -77,12 +77,12 @@ void Omnific::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Compone
 	}
 }
 
-void Omnific::SceneTree::addComponentToLastEntity(std::shared_ptr<Component> component)
+void Omnia::SceneTree::addComponentToLastEntity(std::shared_ptr<Component> component)
 {
 	this->addComponent(this->lastEntityID, component);
 }
 
-void Omnific::SceneTree::removeEntity(EntityID entityID)
+void Omnia::SceneTree::removeEntity(EntityID entityID)
 {
 	if (this->entities.count(entityID) > 0)
 	{
@@ -119,7 +119,7 @@ void Omnific::SceneTree::removeEntity(EntityID entityID)
 	}
 }
 
-void Omnific::SceneTree::removeComponent(EntityID entityID, std::string type)
+void Omnia::SceneTree::removeComponent(EntityID entityID, std::string type)
 {
 	if (this->entities.count(entityID) > 0)
 	{
@@ -163,7 +163,7 @@ void Omnific::SceneTree::removeComponent(EntityID entityID, std::string type)
 	}
 }
 
-std::vector<Omnific::ScriptCallBatch> Omnific::SceneTree::generateCallBatches(CallType callType)
+std::vector<Omnia::ScriptCallBatch> Omnia::SceneTree::generateCallBatches(CallType callType)
 {
 	std::vector<ScriptCallBatch> scriptCallBatches;
 	std::queue<EntityID>* entityQueue = nullptr;
@@ -217,22 +217,22 @@ std::vector<Omnific::ScriptCallBatch> Omnific::SceneTree::generateCallBatches(Ca
 	return scriptCallBatches;
 }
 
-std::vector<size_t> Omnific::SceneTree::getRenderOrderIndexCache()
+std::vector<size_t> Omnia::SceneTree::getRenderOrderIndexCache()
 {
 	return this->renderOrderIndexCache;
 }
 
-std::unordered_map<std::string, std::vector<size_t>> Omnific::SceneTree::getComponentIndexCaches()
+std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneTree::getComponentIndexCaches()
 {
 	return this->componentIndexCaches;
 }
 
-std::vector<std::shared_ptr<Omnific::Component>> Omnific::SceneTree::getComponents()
+std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponents()
 {
 	return this->components;
 }
 
-std::shared_ptr<Omnific::Transform> Omnific::SceneTree::getEntityTransform(EntityID entityID)
+std::shared_ptr<Omnia::Transform> Omnia::SceneTree::getEntityTransform(EntityID entityID)
 {
 	/* Uses a new Transform by default. */
 	std::shared_ptr<Transform> transform = std::shared_ptr<Transform>(new Transform());
@@ -247,12 +247,12 @@ std::shared_ptr<Omnific::Transform> Omnific::SceneTree::getEntityTransform(Entit
 	return transform;
 }
 
-Omnific::Entity& Omnific::SceneTree::getEntity(EntityID entityID)
+Omnia::Entity& Omnia::SceneTree::getEntity(EntityID entityID)
 {
 	return this->entities.at(entityID);
 }
 
-Omnific::Entity& Omnific::SceneTree::getEntityByName(std::string name)
+Omnia::Entity& Omnia::SceneTree::getEntityByName(std::string name)
 {
 	Entity* Entity = nullptr;
 
@@ -263,17 +263,17 @@ Omnific::Entity& Omnific::SceneTree::getEntityByName(std::string name)
 	return *Entity;
 }
 
-Omnific::Entity& Omnific::SceneTree::getLastEntity()
+Omnia::Entity& Omnia::SceneTree::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
 }
 
-std::unordered_map<Omnific::EntityID, Omnific::Entity>& Omnific::SceneTree::getEntities()
+std::unordered_map<Omnia::EntityID, Omnia::Entity>& Omnia::SceneTree::getEntities()
 {
 	return this->entities;
 }
 
-std::shared_ptr<Omnific::Component> Omnific::SceneTree::getComponent(ComponentID componentID)
+std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID componentID)
 {
 	std::shared_ptr<Component> component = std::make_shared<Component>();
 
@@ -287,32 +287,32 @@ std::shared_ptr<Omnific::Component> Omnific::SceneTree::getComponent(ComponentID
 	return component;
 }
 
-Omnific::EventBus& Omnific::SceneTree::getEventBus()
+Omnia::EventBus& Omnia::SceneTree::getEventBus()
 {
 	return *this->eventBus;
 }
 
-bool Omnific::SceneTree::getHasShadersChanged()
+bool Omnia::SceneTree::getHasShadersChanged()
 {
 	return false;
 }
 
-bool Omnific::SceneTree::getHasScriptsChanged()
+bool Omnia::SceneTree::getHasScriptsChanged()
 {
 	return false;
 }
 
-Omnific::SceneTreeID Omnific::SceneTree::getID()
+Omnia::SceneTreeID Omnia::SceneTree::getID()
 {
 	return this->id;
 }
 
-std::string Omnific::SceneTree::getName()
+std::string Omnia::SceneTree::getName()
 {
 	return this->name;
 }
 
-Omnific::HapticSignalBuffer& Omnific::SceneTree::getHapticSignalBuffer()
+Omnia::HapticSignalBuffer& Omnia::SceneTree::getHapticSignalBuffer()
 {
 	return *this->hapticSignalBuffer;
 }

@@ -30,7 +30,7 @@
 #include <application/scene/assets/mesh.hpp>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Storage for mesh index data in GPU memory. */
 	class IndexBuffer

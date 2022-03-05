@@ -22,40 +22,40 @@
 
 #include "renderable_component.hpp"
 
-void Omnific::RenderableComponent::setDimensions(float width, float height)
+void Omnia::RenderableComponent::setDimensions(float width, float height)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 }
 
-void Omnific::RenderableComponent::setDimensions(float width, float height, float depth)
+void Omnia::RenderableComponent::setDimensions(float width, float height, float depth)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 	this->dimensions.z = depth;
 }
 
-void Omnific::RenderableComponent::addShader(std::shared_ptr<Omnific::Shader> shader)
+void Omnia::RenderableComponent::addShader(std::shared_ptr<Omnia::Shader> shader)
 {
 	this->shaders.push_back(shader);
 }
 
-std::shared_ptr<Omnific::Image> Omnific::RenderableComponent::getImage()
+std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::getImage()
 {
 	return this->image;
 }
 
-std::vector<std::shared_ptr<Omnific::Shader>> Omnific::RenderableComponent::getShaders()
+std::vector<std::shared_ptr<Omnia::Shader>> Omnia::RenderableComponent::getShaders()
 {
 	return this->shaders;
 }
 
-glm::vec3 Omnific::RenderableComponent::getDimensions()
+glm::vec3 Omnia::RenderableComponent::getDimensions()
 {
 	return this->dimensions;
 }
 
-bool Omnific::RenderableComponent::isRenderable()
+bool Omnia::RenderableComponent::isRenderable()
 {
 	return true;
 }

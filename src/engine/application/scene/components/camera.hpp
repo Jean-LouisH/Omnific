@@ -30,7 +30,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Omnific
+namespace Omnia
 {
 	class Camera : public Component
 	{

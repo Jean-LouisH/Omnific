@@ -24,7 +24,7 @@
 
 #include <os/logger.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	class LogAPI
 	{

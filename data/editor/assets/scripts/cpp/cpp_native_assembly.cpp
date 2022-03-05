@@ -22,7 +22,7 @@
 
 #include "cpp_native_assembly.hpp"
 
-Omnific::CPPNativeAssembly::CPPNativeAssembly()
+Omnia::CPPNativeAssembly::CPPNativeAssembly()
 {
 
 }

@@ -29,27 +29,27 @@
 #include <os/os.hpp>
 #include "asset_cache.hpp"
 
-Omnific::SceneSerializer::SceneSerializer(std::string dataDirectory)
+Omnia::SceneSerializer::SceneSerializer(std::string dataDirectory)
 {
 	this->dataDirectory = dataDirectory;
 }
 
-bool Omnific::SceneSerializer::doesSceneExist(std::string filepath)
+bool Omnia::SceneSerializer::doesSceneExist(std::string filepath)
 {
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-void Omnific::SceneSerializer::serialize(std::string filepath, Scene scene)
+void Omnia::SceneSerializer::serialize(std::string filepath, Scene scene)
 {
 
 }
 
-Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath)
+Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath)
 {
 	return this->deserialize(filepath, "");
 }
 
-Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::string name)
+Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::string name)
 {
 	Scene scene;
 	const std::string fullFilepath = this->dataDirectory + filepath;
@@ -285,7 +285,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 									{
 										if (it3->first.as<std::string>() == "model")
 										{
-											std::shared_ptr<Omnific::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
+											std::shared_ptr<Omnia::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
 											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
 											AssetCache::store(asset);
 										}
@@ -374,7 +374,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 											{
 												for (int i = 0; i < it3->second.size(); i++)
 												{
-													std::shared_ptr<Omnific::PythonVMScript> pythonScript(new PythonVMScript(it3->second[i].as<std::string>()));
+													std::shared_ptr<Omnia::PythonVMScript> pythonScript(new PythonVMScript(it3->second[i].as<std::string>()));
 													AssetCache::store(std::static_pointer_cast<Asset>(pythonScript));
 													scriptCollection->scripts.push_back(pythonScript);
 												}
@@ -383,7 +383,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 											{
 												for (int i = 0; i < it3->second.size(); i++)
 												{
-													std::shared_ptr<Omnific::CPPNativeScript> cppScript(new CPPNativeScript(it3->second[i].as<std::string>()));
+													std::shared_ptr<Omnia::CPPNativeScript> cppScript(new CPPNativeScript(it3->second[i].as<std::string>()));
 													AssetCache::store(std::static_pointer_cast<Asset>(cppScript));
 													scriptCollection->scripts.push_back(cppScript);
 												}
@@ -400,7 +400,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 									{
 										if (it3->first.as<std::string>() == "image")
 										{
-											std::shared_ptr<Omnific::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
+											std::shared_ptr<Omnia::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
 											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
 											AssetCache::store(asset);
 											sprite->addImage(image);
@@ -668,7 +668,7 @@ Omnific::Scene Omnific::SceneSerializer::deserialize(std::string filepath, std::
 										}
 										else if (it3->first.as<std::string>() == "font")
 										{
-											std::shared_ptr<Omnific::Font> font(new Font(
+											std::shared_ptr<Omnia::Font> font(new Font(
 												this->dataDirectory + it3->second[0].as<std::string>(),
 												it3->second[1].as<int>()));
 											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);

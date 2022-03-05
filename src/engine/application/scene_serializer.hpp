@@ -26,7 +26,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Handles memory to IO interaction of Scene data. */
 	class SceneSerializer

@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include "application/scene/component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class Transform : public Component
 	{

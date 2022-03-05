@@ -23,22 +23,22 @@
 #include "hi_res_timer.hpp"
 #include "constants.hpp"
 
-uint64_t Omnific::HiResTimer::getDeltaInNanoseconds()
+uint64_t Omnia::HiResTimer::getDeltaInNanoseconds()
 {
 	return this->delta;
 }
 
-uint64_t Omnific::HiResTimer::getDelta()
+uint64_t Omnia::HiResTimer::getDelta()
 {
 	return this->delta / NS_IN_MS;
 }
 
-void Omnific::HiResTimer::setStart()
+void Omnia::HiResTimer::setStart()
 {
 	this->start = std::chrono::high_resolution_clock::now();
 }
 
-void Omnific::HiResTimer::setEnd()
+void Omnia::HiResTimer::setEnd()
 {
 	this->end = std::chrono::high_resolution_clock::now();
 	this->delta = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();

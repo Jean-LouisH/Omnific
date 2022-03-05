@@ -24,7 +24,7 @@
 
 #include "script.hpp"
 
-namespace Omnific
+namespace Omnia
 {
     class CPPNativeScript : public Script
     {

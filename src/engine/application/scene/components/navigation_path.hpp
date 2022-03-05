@@ -29,7 +29,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Omnific
+namespace Omnia
 {
 	class NavigationPath : public Component
 	{

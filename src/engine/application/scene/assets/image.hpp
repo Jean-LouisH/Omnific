@@ -39,7 +39,7 @@
 #include <string>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	class Image : public Asset
 	{

@@ -27,7 +27,7 @@
 #include <string>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	class Text : public Asset
 	{

@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-glm::mat4 Omnific::Transform::getGlobalTransformMatrix()
+glm::mat4 Omnia::Transform::getGlobalTransformMatrix()
 {
 	glm::mat4 globalTransform = glm::translate(glm::mat4(1.0f), this->translation);
 	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));

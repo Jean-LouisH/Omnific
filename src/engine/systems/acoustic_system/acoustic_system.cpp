@@ -23,17 +23,17 @@
 #include "acoustic_system.hpp"
 #include "application/scene/scene.hpp"
 
-Omnific::AcousticSystem::~AcousticSystem()
+Omnia::AcousticSystem::~AcousticSystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::AcousticSystem::initialize()
+void Omnia::AcousticSystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Omnific::AcousticSystem::process(Scene& scene)
+void Omnia::AcousticSystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -43,7 +43,7 @@ void Omnific::AcousticSystem::process(Scene& scene)
 	}
 }
 
-void Omnific::AcousticSystem::deinitialize()
+void Omnia::AcousticSystem::deinitialize()
 {
 	this->isInitialized = false;
 }

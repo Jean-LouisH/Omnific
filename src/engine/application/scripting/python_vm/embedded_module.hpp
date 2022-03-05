@@ -34,230 +34,230 @@
 #include <utilities/aabb_2d.hpp>
 #include <utilities/aliases.hpp>
 
-PYBIND11_EMBEDDED_MODULE(omnific_engine, m) 
+PYBIND11_EMBEDDED_MODULE(omnia_engine, m) 
 {
 	/*API classes*/
-	pybind11::class_<Omnific::CommandLineAPI>(m, "CommandLineAPI")
-		.def("open_window", &Omnific::CommandLineAPI::openWindow)
-		.def("close_window", &Omnific::CommandLineAPI::closeWindow);
+	pybind11::class_<Omnia::CommandLineAPI>(m, "CommandLineAPI")
+		.def("open_window", &Omnia::CommandLineAPI::openWindow)
+		.def("close_window", &Omnia::CommandLineAPI::closeWindow);
 
-	pybind11::class_<Omnific::InputAPI>(m, "InputAPI")
-		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnific::InputAPI::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnific::InputAPI::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::InputAPI::isOnPress))
-		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnific::InputAPI::isOnDoublePress))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnific::InputAPI::isOnDoublePress))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnific::InputAPI::isOnDoublePress))
-		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnific::InputAPI::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnific::InputAPI::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::InputAPI::isPressed))
-		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnific::InputAPI::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnific::InputAPI::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::InputAPI::isOnRelease))
-		.def("is_released", pybind11::overload_cast<std::string>(&Omnific::InputAPI::isReleased))
-		.def("is_released", pybind11::overload_cast<std::string, Omnific::PlayerID>(&Omnific::InputAPI::isReleased))
-		.def("is_left_mouse_button_on_press", &Omnific::InputAPI::isLeftMouseButtonOnPress)
-		.def("is_left_mouse_button_on_release", &Omnific::InputAPI::isLeftMouseButtonOnRelease)
-		.def("is_left_mouse_button_double_clicked", &Omnific::InputAPI::isLeftMouseButtonDoubleClicked)
-		.def("is_middle_mouse_button_on_press", &Omnific::InputAPI::isMiddleMouseButtonOnPress)
-		.def("is_middle_mouse_button_on_release", &Omnific::InputAPI::isMiddleMouseButtonOnRelease)
-		.def("is_middle_mouse_button_double_clicked", &Omnific::InputAPI::isMiddleMouseButtonDoubleClicked)
-		.def("is_right_mouse_button_on_press", &Omnific::InputAPI::isRightMouseButtonOnPress)
-		.def("is_right_mouse_button_on_release", &Omnific::InputAPI::isRightMouseButtonOnRelease)
-		.def("is_right_mouse_button_double_clicked", &Omnific::InputAPI::isRightMouseButtonDoubleClicked)
-		.def("get_mouse_position", &Omnific::InputAPI::getMousePosition)
-		.def("get_mouse_wheel_velocity", &Omnific::InputAPI::getMouseWheelVelocity)
-		.def("get_mouse_motion_velocity", &Omnific::InputAPI::getMouseMotionVelocity)
-		.def("force_shutdown", &Omnific::InputAPI::forceShutdown)
-		.def("force_restart", &Omnific::InputAPI::forceRestart);
+	pybind11::class_<Omnia::InputAPI>(m, "InputAPI")
+		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isOnPress))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnia::InputAPI::isOnPress))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::InputAPI::isOnPress))
+		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnia::InputAPI::isOnDoublePress))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::InputAPI::isOnDoublePress))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::InputAPI::isOnDoublePress))
+		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isPressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnia::InputAPI::isPressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::InputAPI::isPressed))
+		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isOnRelease))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnia::InputAPI::isOnRelease))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::InputAPI::isOnRelease))
+		.def("is_released", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isReleased))
+		.def("is_released", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::InputAPI::isReleased))
+		.def("is_left_mouse_button_on_press", &Omnia::InputAPI::isLeftMouseButtonOnPress)
+		.def("is_left_mouse_button_on_release", &Omnia::InputAPI::isLeftMouseButtonOnRelease)
+		.def("is_left_mouse_button_double_clicked", &Omnia::InputAPI::isLeftMouseButtonDoubleClicked)
+		.def("is_middle_mouse_button_on_press", &Omnia::InputAPI::isMiddleMouseButtonOnPress)
+		.def("is_middle_mouse_button_on_release", &Omnia::InputAPI::isMiddleMouseButtonOnRelease)
+		.def("is_middle_mouse_button_double_clicked", &Omnia::InputAPI::isMiddleMouseButtonDoubleClicked)
+		.def("is_right_mouse_button_on_press", &Omnia::InputAPI::isRightMouseButtonOnPress)
+		.def("is_right_mouse_button_on_release", &Omnia::InputAPI::isRightMouseButtonOnRelease)
+		.def("is_right_mouse_button_double_clicked", &Omnia::InputAPI::isRightMouseButtonDoubleClicked)
+		.def("get_mouse_position", &Omnia::InputAPI::getMousePosition)
+		.def("get_mouse_wheel_velocity", &Omnia::InputAPI::getMouseWheelVelocity)
+		.def("get_mouse_motion_velocity", &Omnia::InputAPI::getMouseMotionVelocity)
+		.def("force_shutdown", &Omnia::InputAPI::forceShutdown)
+		.def("force_restart", &Omnia::InputAPI::forceRestart);
 
-	pybind11::class_<Omnific::LogAPI>(m, "LogAPI")
-		.def("write", &Omnific::LogAPI::write)
-		.def("write_to_file", &Omnific::LogAPI::writeToFile)
-		.def("get_last_message", &Omnific::LogAPI::getLastMessage)
-		.def("get_logs", &Omnific::LogAPI::getLogs);
+	pybind11::class_<Omnia::LogAPI>(m, "LogAPI")
+		.def("write", &Omnia::LogAPI::write)
+		.def("write_to_file", &Omnia::LogAPI::writeToFile)
+		.def("get_last_message", &Omnia::LogAPI::getLastMessage)
+		.def("get_logs", &Omnia::LogAPI::getLogs);
 
-	pybind11::class_<Omnific::SceneAPI>(m, "SceneAPI")
-		.def("has_component", &Omnific::SceneAPI::hasComponent)
-		.def("preload_scene", &Omnific::SceneAPI::preloadScene)
-		.def("load_scene", &Omnific::SceneAPI::loadScene)
-		.def("unload_scene", &Omnific::SceneAPI::unloadScene)
-		.def("change_to_scene", &Omnific::SceneAPI::changeToScene)
-		.def("get_entity", &Omnific::SceneAPI::getEntity, pybind11::return_value_policy::reference)
-		.def("get_component", &Omnific::SceneAPI::getComponent, pybind11::return_value_policy::reference)
-		.def("get_scene", &Omnific::SceneAPI::getScene, pybind11::return_value_policy::reference);
+	pybind11::class_<Omnia::SceneAPI>(m, "SceneAPI")
+		.def("has_component", &Omnia::SceneAPI::hasComponent)
+		.def("preload_scene", &Omnia::SceneAPI::preloadScene)
+		.def("load_scene", &Omnia::SceneAPI::loadScene)
+		.def("unload_scene", &Omnia::SceneAPI::unloadScene)
+		.def("change_to_scene", &Omnia::SceneAPI::changeToScene)
+		.def("get_entity", &Omnia::SceneAPI::getEntity, pybind11::return_value_policy::reference)
+		.def("get_component", &Omnia::SceneAPI::getComponent, pybind11::return_value_policy::reference)
+		.def("get_scene", &Omnia::SceneAPI::getScene, pybind11::return_value_policy::reference);
 
-	pybind11::class_<Omnific::TimeAPI>(m, "TimeAPI")
-		.def("set_ms_per_compute_update", &Omnific::TimeAPI::setMsPerComputeUpdate)
-		.def("set_target_fps", &Omnific::TimeAPI::setTargetFPS)
-		.def("get_ms_per_compute_update", &Omnific::TimeAPI::setMsPerComputeUpdate)
-		.def("get_target_fps", &Omnific::TimeAPI::setTargetFPS)
-		.def("get_frame_time_delta", &Omnific::TimeAPI::getFrameTimeDelta);
+	pybind11::class_<Omnia::TimeAPI>(m, "TimeAPI")
+		.def("set_ms_per_compute_update", &Omnia::TimeAPI::setMsPerComputeUpdate)
+		.def("set_target_fps", &Omnia::TimeAPI::setTargetFPS)
+		.def("get_ms_per_compute_update", &Omnia::TimeAPI::setMsPerComputeUpdate)
+		.def("get_target_fps", &Omnia::TimeAPI::setTargetFPS)
+		.def("get_frame_time_delta", &Omnia::TimeAPI::getFrameTimeDelta);
 
-    pybind11::class_<Omnific::WindowAPI>(m, "WindowAPI")
-		.def("set_to_windowed", &Omnific::WindowAPI::setToWindowed)
-		.def("set_to_fullscreen", &Omnific::WindowAPI::setToFullscreen)
-        .def("toggle_windowed_fullscreen", &Omnific::WindowAPI::toggleWindowedFullscreen)
-		.def("resize", &Omnific::WindowAPI::resize)
-		.def("change_title", &Omnific::WindowAPI::changeTitle)
-		.def("change_icon", &Omnific::WindowAPI::changeIcon)
-		.def("maximize", &Omnific::WindowAPI::maximize)
-		.def("minimize", &Omnific::WindowAPI::minimize)
-		.def("raise", &Omnific::WindowAPI::raise)
-		.def("restore", &Omnific::WindowAPI::restore)
-		.def("hide", &Omnific::WindowAPI::hide)
-		.def("show", &Omnific::WindowAPI::show);
+    pybind11::class_<Omnia::WindowAPI>(m, "WindowAPI")
+		.def("set_to_windowed", &Omnia::WindowAPI::setToWindowed)
+		.def("set_to_fullscreen", &Omnia::WindowAPI::setToFullscreen)
+        .def("toggle_windowed_fullscreen", &Omnia::WindowAPI::toggleWindowedFullscreen)
+		.def("resize", &Omnia::WindowAPI::resize)
+		.def("change_title", &Omnia::WindowAPI::changeTitle)
+		.def("change_icon", &Omnia::WindowAPI::changeIcon)
+		.def("maximize", &Omnia::WindowAPI::maximize)
+		.def("minimize", &Omnia::WindowAPI::minimize)
+		.def("raise", &Omnia::WindowAPI::raise)
+		.def("restore", &Omnia::WindowAPI::restore)
+		.def("hide", &Omnia::WindowAPI::hide)
+		.def("show", &Omnia::WindowAPI::show);
 
 	/*Scene classes*/
 
-	pybind11::class_<Omnific::Entity>(m, "Entity")
-		.def_readonly("ID", &Omnific::Entity::id)
-		.def_readwrite("name", &Omnific::Entity::name)
-		.def_readwrite("parentID", &Omnific::Entity::parentID)
-		.def_readwrite("childIDs", &Omnific::Entity::childIDs)
-		.def_readwrite("tags", &Omnific::Entity::tags);
+	pybind11::class_<Omnia::Entity>(m, "Entity")
+		.def_readonly("ID", &Omnia::Entity::id)
+		.def_readwrite("name", &Omnia::Entity::name)
+		.def_readwrite("parentID", &Omnia::Entity::parentID)
+		.def_readwrite("childIDs", &Omnia::Entity::childIDs)
+		.def_readwrite("tags", &Omnia::Entity::tags);
 
-	pybind11::class_<Omnific::SceneTree>(m, "SceneTree")	
-		.def("add_entity", &Omnific::SceneTree::addEntity)
-		.def("add_empty_entity", &Omnific::SceneTree::addEmptyEntity)
-		.def("add_component", &Omnific::SceneTree::addComponent)
-		.def("add_component_to_last_entity", &Omnific::SceneTree::addComponentToLastEntity)
-		.def("remove_entity", &Omnific::SceneTree::removeEntity)
-		.def("remove_component", &Omnific::SceneTree::removeComponent)
-		.def("get_component_variants", &Omnific::SceneTree::getComponents, pybind11::return_value_policy::reference)
-		.def("get_entity_transform", &Omnific::SceneTree::getEntityTransform, pybind11::return_value_policy::reference)
-		.def("get_entity", &Omnific::SceneTree::getEntity, pybind11::return_value_policy::reference)
-		.def("get_entity_by_name", &Omnific::SceneTree::getEntityByName, pybind11::return_value_policy::reference)
-		.def("get_last_entity", &Omnific::SceneTree::getLastEntity, pybind11::return_value_policy::reference)
-		.def("get_entities", &Omnific::SceneTree::getEntities, pybind11::return_value_policy::reference)
-		.def("get_event_bus", &Omnific::SceneTree::getEventBus, pybind11::return_value_policy::reference)
-		.def("get_haptic_signal_buffer", &Omnific::SceneTree::getHapticSignalBuffer, pybind11::return_value_policy::reference)
-		.def("get_id", &Omnific::SceneTree::getID);
+	pybind11::class_<Omnia::SceneTree>(m, "SceneTree")	
+		.def("add_entity", &Omnia::SceneTree::addEntity)
+		.def("add_empty_entity", &Omnia::SceneTree::addEmptyEntity)
+		.def("add_component", &Omnia::SceneTree::addComponent)
+		.def("add_component_to_last_entity", &Omnia::SceneTree::addComponentToLastEntity)
+		.def("remove_entity", &Omnia::SceneTree::removeEntity)
+		.def("remove_component", &Omnia::SceneTree::removeComponent)
+		.def("get_component_variants", &Omnia::SceneTree::getComponents, pybind11::return_value_policy::reference)
+		.def("get_entity_transform", &Omnia::SceneTree::getEntityTransform, pybind11::return_value_policy::reference)
+		.def("get_entity", &Omnia::SceneTree::getEntity, pybind11::return_value_policy::reference)
+		.def("get_entity_by_name", &Omnia::SceneTree::getEntityByName, pybind11::return_value_policy::reference)
+		.def("get_last_entity", &Omnia::SceneTree::getLastEntity, pybind11::return_value_policy::reference)
+		.def("get_entities", &Omnia::SceneTree::getEntities, pybind11::return_value_policy::reference)
+		.def("get_event_bus", &Omnia::SceneTree::getEventBus, pybind11::return_value_policy::reference)
+		.def("get_haptic_signal_buffer", &Omnia::SceneTree::getHapticSignalBuffer, pybind11::return_value_policy::reference)
+		.def("get_id", &Omnia::SceneTree::getID);
 
-	pybind11::class_<Omnific::Event::Parameters>(m, "EventParameters")
-		.def_readwrite("floats", &Omnific::Event::Parameters::floats)
-		.def_readwrite("strings", &Omnific::Event::Parameters::strings);
+	pybind11::class_<Omnia::Event::Parameters>(m, "EventParameters")
+		.def_readwrite("floats", &Omnia::Event::Parameters::floats)
+		.def_readwrite("strings", &Omnia::Event::Parameters::strings);
 
-	pybind11::class_<Omnific::Event>(m, "Event")
-		.def(pybind11::init<std::string, uint64_t, Omnific::Event::Parameters>())
+	pybind11::class_<Omnia::Event>(m, "Event")
+		.def(pybind11::init<std::string, uint64_t, Omnia::Event::Parameters>())
 		.def(pybind11::init<std::string, uint64_t>())
-		.def("get_name", &Omnific::Event::getName)
-		.def("get_parameters", &Omnific::Event::getParameters)
-		.def("get_timestamp", &Omnific::Event::getTimestamp);
+		.def("get_name", &Omnia::Event::getName)
+		.def("get_parameters", &Omnia::Event::getParameters)
+		.def("get_timestamp", &Omnia::Event::getTimestamp);
 
-	pybind11::class_<Omnific::EventBus>(m, "EventBus")
-		.def("clear", &Omnific::EventBus::clear)
-		.def("query", &Omnific::EventBus::query)
-		.def("publish", pybind11::overload_cast<std::string>(&Omnific::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>, std::unordered_map<std::string, std::string>>(&Omnific::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnific::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>>(&Omnific::EventBus::publish));
+	pybind11::class_<Omnia::EventBus>(m, "EventBus")
+		.def("clear", &Omnia::EventBus::clear)
+		.def("query", &Omnia::EventBus::query)
+		.def("publish", pybind11::overload_cast<std::string>(&Omnia::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>>(&Omnia::EventBus::publish));
 
-	pybind11::class_<Omnific::HapticSignal>(m, "HapticSignal")
-		.def(pybind11::init<Omnific::PlayerID, float, uint16_t>())
-		.def("get_duration", &Omnific::HapticSignal::getDuration)
-		.def("get_player_id", &Omnific::HapticSignal::getPlayerID)
-		.def("get_strength", &Omnific::HapticSignal::getStrength);
+	pybind11::class_<Omnia::HapticSignal>(m, "HapticSignal")
+		.def(pybind11::init<Omnia::PlayerID, float, uint16_t>())
+		.def("get_duration", &Omnia::HapticSignal::getDuration)
+		.def("get_player_id", &Omnia::HapticSignal::getPlayerID)
+		.def("get_strength", &Omnia::HapticSignal::getStrength);
 
-	pybind11::class_<Omnific::HapticSignalBuffer>(m, "HapticSignalBuffer")
-		.def("publish", &Omnific::HapticSignalBuffer::publish)
-		.def("query", &Omnific::HapticSignalBuffer::query)
-		.def("get_haptic_signals", &Omnific::HapticSignalBuffer::getHapticSignals)
-		.def("clear", &Omnific::HapticSignalBuffer::clear);
+	pybind11::class_<Omnia::HapticSignalBuffer>(m, "HapticSignalBuffer")
+		.def("publish", &Omnia::HapticSignalBuffer::publish)
+		.def("query", &Omnia::HapticSignalBuffer::query)
+		.def("get_haptic_signals", &Omnia::HapticSignalBuffer::getHapticSignals)
+		.def("clear", &Omnia::HapticSignalBuffer::clear);
 
 	/*Component classes*/
-	pybind11::class_<Omnific::Component>(m, "Component")
-		.def("set_entity_id", &Omnific::Component::setEntityID)
-		.def("get_id", &Omnific::Component::getID)
-		.def("is_attached_to_entity", &Omnific::Component::isAttachedToEntity)
-		.def("get_type", &Omnific::Component::getType)
-		.def("is_renderable", &Omnific::Component::isRenderable);
+	pybind11::class_<Omnia::Component>(m, "Component")
+		.def("set_entity_id", &Omnia::Component::setEntityID)
+		.def("get_id", &Omnia::Component::getID)
+		.def("is_attached_to_entity", &Omnia::Component::isAttachedToEntity)
+		.def("get_type", &Omnia::Component::getType)
+		.def("is_renderable", &Omnia::Component::isRenderable);
 
-	pybind11::class_<Omnific::BehaviourTree, Omnific::Component>(m, Omnific::BehaviourTree::TYPE_STRING);
-	pybind11::class_<Omnific::SightPerception, Omnific::Component>(m, Omnific::SightPerception::TYPE_STRING);
-	pybind11::class_<Omnific::SoundPerception, Omnific::Component>(m, Omnific::SoundPerception::TYPE_STRING);
-	pybind11::class_<Omnific::AudioListener, Omnific::Component>(m, Omnific::AudioListener::TYPE_STRING);
-	pybind11::class_<Omnific::AudioSource, Omnific::Component>(m, Omnific::AudioSource::TYPE_STRING);
-	pybind11::class_<Omnific::Camera, Omnific::Component>(m, Omnific::Camera::TYPE_STRING);
-	pybind11::class_<Omnific::ConstantForce, Omnific::Component>(m, Omnific::ConstantForce::TYPE_STRING);
-	pybind11::class_<Omnific::CountdownTimer, Omnific::Component>(m, Omnific::CountdownTimer::TYPE_STRING)
-		.def("start", &Omnific::CountdownTimer::start)
-		.def("stop", &Omnific::CountdownTimer::stop)
-		.def("is_finished", &Omnific::CountdownTimer::isFinished);
-	pybind11::class_<Omnific::CharacterBody, Omnific::Component>(m, Omnific::CharacterBody::TYPE_STRING);
-	pybind11::class_<Omnific::Light, Omnific::Component>(m, Omnific::Light::TYPE_STRING);
-	pybind11::class_<Omnific::NavigationMeshAgent, Omnific::Component>(m, Omnific::NavigationMeshAgent::TYPE_STRING);
-	pybind11::class_<Omnific::NavigationMeshBoxObstacle, Omnific::Component>(m, Omnific::NavigationMeshBoxObstacle::TYPE_STRING);
-	pybind11::class_<Omnific::NavigationPath, Omnific::Component>(m, Omnific::NavigationPath::TYPE_STRING);
-	pybind11::class_<Omnific::PropertyAnimation, Omnific::Component>(m, Omnific::PropertyAnimation::TYPE_STRING);
-	pybind11::class_<Omnific::Collider, Omnific::Component>(m, Omnific::Collider::TYPE_STRING);
-	pybind11::class_<Omnific::ModelContainer, Omnific::Component>(m, Omnific::ModelContainer::TYPE_STRING);
-	pybind11::class_<Omnific::RigidBody, Omnific::Component>(m, Omnific::RigidBody::TYPE_STRING);
-	pybind11::class_<Omnific::SpriteContainer, Omnific::Component>(m, Omnific::SpriteContainer::TYPE_STRING);
-	pybind11::class_<Omnific::StaticFluid, Omnific::Component>(m, Omnific::StaticFluid::TYPE_STRING);
-	pybind11::class_<Omnific::Transform, Omnific::Component>(m, Omnific::Transform::TYPE_STRING);
-	pybind11::class_<Omnific::UIButton, Omnific::Component>(m, Omnific::UIButton::TYPE_STRING);
-	pybind11::class_<Omnific::UIGraphEdit, Omnific::Component>(m, Omnific::UIGraphEdit::TYPE_STRING);
-	pybind11::class_<Omnific::UIGraphNode, Omnific::Component>(m, Omnific::UIGraphNode::TYPE_STRING);
-	pybind11::class_<Omnific::UIHoverCard, Omnific::Component>(m, Omnific::UIHoverCard::TYPE_STRING);
-	pybind11::class_<Omnific::UIItemList, Omnific::Component>(m, Omnific::UIItemList::TYPE_STRING);
-	pybind11::class_<Omnific::UIPanel, Omnific::Component>(m, Omnific::UIPanel::TYPE_STRING);
-	pybind11::class_<Omnific::UIProgressBar, Omnific::Component>(m, Omnific::UIProgressBar::TYPE_STRING);
-	pybind11::class_<Omnific::UIRectangle, Omnific::Component>(m, Omnific::UIRectangle::TYPE_STRING);
-	pybind11::class_<Omnific::UIScrollbar, Omnific::Component>(m, Omnific::UIScrollbar::TYPE_STRING);
-	pybind11::class_<Omnific::UISeparator, Omnific::Component>(m, Omnific::UISeparator::TYPE_STRING);
-	pybind11::class_<Omnific::UISlider, Omnific::Component>(m, Omnific::UISlider::TYPE_STRING);
-	pybind11::class_<Omnific::UISpinBox, Omnific::Component>(m, Omnific::UISpinBox::TYPE_STRING);
-	pybind11::class_<Omnific::UITab, Omnific::Component>(m, Omnific::UITab::TYPE_STRING);
-	pybind11::class_<Omnific::UITextEdit, Omnific::Component>(m, Omnific::UITextEdit::TYPE_STRING);
-	pybind11::class_<Omnific::UITextLabel, Omnific::Component>(m, Omnific::UITextLabel::TYPE_STRING)
-		.def("set_text", &Omnific::UITextLabel::setText);
-	pybind11::class_<Omnific::UITree, Omnific::Component>(m, Omnific::UITree::TYPE_STRING);
-	pybind11::class_<Omnific::UIViewport, Omnific::Component>(m, Omnific::UIViewport::TYPE_STRING);
+	pybind11::class_<Omnia::BehaviourTree, Omnia::Component>(m, Omnia::BehaviourTree::TYPE_STRING);
+	pybind11::class_<Omnia::SightPerception, Omnia::Component>(m, Omnia::SightPerception::TYPE_STRING);
+	pybind11::class_<Omnia::SoundPerception, Omnia::Component>(m, Omnia::SoundPerception::TYPE_STRING);
+	pybind11::class_<Omnia::AudioListener, Omnia::Component>(m, Omnia::AudioListener::TYPE_STRING);
+	pybind11::class_<Omnia::AudioSource, Omnia::Component>(m, Omnia::AudioSource::TYPE_STRING);
+	pybind11::class_<Omnia::Camera, Omnia::Component>(m, Omnia::Camera::TYPE_STRING);
+	pybind11::class_<Omnia::ConstantForce, Omnia::Component>(m, Omnia::ConstantForce::TYPE_STRING);
+	pybind11::class_<Omnia::CountdownTimer, Omnia::Component>(m, Omnia::CountdownTimer::TYPE_STRING)
+		.def("start", &Omnia::CountdownTimer::start)
+		.def("stop", &Omnia::CountdownTimer::stop)
+		.def("is_finished", &Omnia::CountdownTimer::isFinished);
+	pybind11::class_<Omnia::CharacterBody, Omnia::Component>(m, Omnia::CharacterBody::TYPE_STRING);
+	pybind11::class_<Omnia::Light, Omnia::Component>(m, Omnia::Light::TYPE_STRING);
+	pybind11::class_<Omnia::NavigationMeshAgent, Omnia::Component>(m, Omnia::NavigationMeshAgent::TYPE_STRING);
+	pybind11::class_<Omnia::NavigationMeshBoxObstacle, Omnia::Component>(m, Omnia::NavigationMeshBoxObstacle::TYPE_STRING);
+	pybind11::class_<Omnia::NavigationPath, Omnia::Component>(m, Omnia::NavigationPath::TYPE_STRING);
+	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component>(m, Omnia::PropertyAnimation::TYPE_STRING);
+	pybind11::class_<Omnia::Collider, Omnia::Component>(m, Omnia::Collider::TYPE_STRING);
+	pybind11::class_<Omnia::ModelContainer, Omnia::Component>(m, Omnia::ModelContainer::TYPE_STRING);
+	pybind11::class_<Omnia::RigidBody, Omnia::Component>(m, Omnia::RigidBody::TYPE_STRING);
+	pybind11::class_<Omnia::SpriteContainer, Omnia::Component>(m, Omnia::SpriteContainer::TYPE_STRING);
+	pybind11::class_<Omnia::StaticFluid, Omnia::Component>(m, Omnia::StaticFluid::TYPE_STRING);
+	pybind11::class_<Omnia::Transform, Omnia::Component>(m, Omnia::Transform::TYPE_STRING);
+	pybind11::class_<Omnia::UIButton, Omnia::Component>(m, Omnia::UIButton::TYPE_STRING);
+	pybind11::class_<Omnia::UIGraphEdit, Omnia::Component>(m, Omnia::UIGraphEdit::TYPE_STRING);
+	pybind11::class_<Omnia::UIGraphNode, Omnia::Component>(m, Omnia::UIGraphNode::TYPE_STRING);
+	pybind11::class_<Omnia::UIHoverCard, Omnia::Component>(m, Omnia::UIHoverCard::TYPE_STRING);
+	pybind11::class_<Omnia::UIItemList, Omnia::Component>(m, Omnia::UIItemList::TYPE_STRING);
+	pybind11::class_<Omnia::UIPanel, Omnia::Component>(m, Omnia::UIPanel::TYPE_STRING);
+	pybind11::class_<Omnia::UIProgressBar, Omnia::Component>(m, Omnia::UIProgressBar::TYPE_STRING);
+	pybind11::class_<Omnia::UIRectangle, Omnia::Component>(m, Omnia::UIRectangle::TYPE_STRING);
+	pybind11::class_<Omnia::UIScrollbar, Omnia::Component>(m, Omnia::UIScrollbar::TYPE_STRING);
+	pybind11::class_<Omnia::UISeparator, Omnia::Component>(m, Omnia::UISeparator::TYPE_STRING);
+	pybind11::class_<Omnia::UISlider, Omnia::Component>(m, Omnia::UISlider::TYPE_STRING);
+	pybind11::class_<Omnia::UISpinBox, Omnia::Component>(m, Omnia::UISpinBox::TYPE_STRING);
+	pybind11::class_<Omnia::UITab, Omnia::Component>(m, Omnia::UITab::TYPE_STRING);
+	pybind11::class_<Omnia::UITextEdit, Omnia::Component>(m, Omnia::UITextEdit::TYPE_STRING);
+	pybind11::class_<Omnia::UITextLabel, Omnia::Component>(m, Omnia::UITextLabel::TYPE_STRING)
+		.def("set_text", &Omnia::UITextLabel::setText);
+	pybind11::class_<Omnia::UITree, Omnia::Component>(m, Omnia::UITree::TYPE_STRING);
+	pybind11::class_<Omnia::UIViewport, Omnia::Component>(m, Omnia::UIViewport::TYPE_STRING);
 
 	/*Asset classes*/
 
-	pybind11::class_<Omnific::Asset>(m, "Asset")
-		.def("get_id", &Omnific::Asset::getID)
-		.def("set_name", &Omnific::Asset::setName)
-		.def("get_name", &Omnific::Asset::getName)
-		.def("get_type", &Omnific::Asset::getType);
+	pybind11::class_<Omnia::Asset>(m, "Asset")
+		.def("get_id", &Omnia::Asset::getID)
+		.def("set_name", &Omnia::Asset::setName)
+		.def("get_name", &Omnia::Asset::getName)
+		.def("get_type", &Omnia::Asset::getType);
 
-	pybind11::class_<Omnific::AudioStream, Omnific::Asset>(m, Omnific::AudioStream::TYPE_STRING);
-	pybind11::class_<Omnific::Font, Omnific::Asset>(m, Omnific::Font::TYPE_STRING);
-	pybind11::class_<Omnific::Image, Omnific::Asset>(m, Omnific::Image::TYPE_STRING);
-	pybind11::class_<Omnific::Text, Omnific::Asset>(m, Omnific::Text::TYPE_STRING);
+	pybind11::class_<Omnia::AudioStream, Omnia::Asset>(m, Omnia::AudioStream::TYPE_STRING);
+	pybind11::class_<Omnia::Font, Omnia::Asset>(m, Omnia::Font::TYPE_STRING);
+	pybind11::class_<Omnia::Image, Omnia::Asset>(m, Omnia::Image::TYPE_STRING);
+	pybind11::class_<Omnia::Text, Omnia::Asset>(m, Omnia::Text::TYPE_STRING);
 
 	/*Utility classes*/
 	pybind11::class_<glm::vec2>(m, "Vector2")
 		.def_readwrite("x", &glm::vec2::x)
 		.def_readwrite("y", &glm::vec2::y);
 
-	pybind11::class_<Omnific::Rectangle>(m, "Rectangle")
-		.def_readwrite("height", &Omnific::Rectangle::height)
-		.def_readwrite("width", &Omnific::Rectangle::width);
-	pybind11::class_<Omnific::HiResTimer>(m, "HiResTimer")
-		.def("set_start", &Omnific::HiResTimer::setStart)
-		.def("set_end", &Omnific::HiResTimer::setEnd)
-		.def("get_delta_in_nanoseconds", &Omnific::HiResTimer::getDeltaInNanoseconds);
-	pybind11::class_<Omnific::Colour>(m, "Colour")
+	pybind11::class_<Omnia::Rectangle>(m, "Rectangle")
+		.def_readwrite("height", &Omnia::Rectangle::height)
+		.def_readwrite("width", &Omnia::Rectangle::width);
+	pybind11::class_<Omnia::HiResTimer>(m, "HiResTimer")
+		.def("set_start", &Omnia::HiResTimer::setStart)
+		.def("set_end", &Omnia::HiResTimer::setEnd)
+		.def("get_delta_in_nanoseconds", &Omnia::HiResTimer::getDeltaInNanoseconds);
+	pybind11::class_<Omnia::Colour>(m, "Colour")
 		.def(pybind11::init<std::string>())
 		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
-		.def("get_red", &Omnific::Colour::getRed)
-		.def("get_green", &Omnific::Colour::getGreen)
-		.def("get_blue", &Omnific::Colour::getBlue)
-		.def("get_alpha", &Omnific::Colour::getAlpha);
-	pybind11::class_<Omnific::AABB2D>(m, "AABB2D")
-		.def_readwrite("max", &Omnific::AABB2D::max)
-		.def_readwrite("min", &Omnific::AABB2D::min);
+		.def("get_red", &Omnia::Colour::getRed)
+		.def("get_green", &Omnia::Colour::getGreen)
+		.def("get_blue", &Omnia::Colour::getBlue)
+		.def("get_alpha", &Omnia::Colour::getAlpha);
+	pybind11::class_<Omnia::AABB2D>(m, "AABB2D")
+		.def_readwrite("max", &Omnia::AABB2D::max)
+		.def_readwrite("min", &Omnia::AABB2D::min);
 
 	/*API getters*/
-	m.def("get_command_line_api", &Omnific::ScriptingAPIs::getCommandLineAPI);
-	m.def("get_input_api", &Omnific::ScriptingAPIs::getInputAPI);
-	m.def("get_log_api", &Omnific::ScriptingAPIs::getLogAPI);
-    m.def("get_scene_api", &Omnific::ScriptingAPIs::getSceneAPI);
-	m.def("get_time_api", &Omnific::ScriptingAPIs::getTimeAPI);
-	m.def("get_window_api", &Omnific::ScriptingAPIs::getWindowAPI);
-	m.def("get_data_directory_path", &Omnific::ScriptingAPIs::getDataDirectoryPath);
-	m.def("get_executable_directory_path", &Omnific::ScriptingAPIs::getExecutableDirectoryPath);
+	m.def("get_command_line_api", &Omnia::ScriptingAPIs::getCommandLineAPI);
+	m.def("get_input_api", &Omnia::ScriptingAPIs::getInputAPI);
+	m.def("get_log_api", &Omnia::ScriptingAPIs::getLogAPI);
+    m.def("get_scene_api", &Omnia::ScriptingAPIs::getSceneAPI);
+	m.def("get_time_api", &Omnia::ScriptingAPIs::getTimeAPI);
+	m.def("get_window_api", &Omnia::ScriptingAPIs::getWindowAPI);
+	m.def("get_data_directory_path", &Omnia::ScriptingAPIs::getDataDirectoryPath);
+	m.def("get_executable_directory_path", &Omnia::ScriptingAPIs::getExecutableDirectoryPath);
 }

@@ -24,7 +24,7 @@
 #include "scripting_apis.hpp"
 #include <application/scene/component.hpp>
 
-void Omnific::CommandLineAPI::openWindow()
+void Omnia::CommandLineAPI::openWindow()
 {
 	Entity panelEntity;
 	Entity textEditEntity;
@@ -49,7 +49,7 @@ void Omnific::CommandLineAPI::openWindow()
 	this->entityIDs.push_back(textEditEntity.id);
 }
 
-void Omnific::CommandLineAPI::closeWindow()
+void Omnia::CommandLineAPI::closeWindow()
 {
 	SceneTree& sceneTree = ScriptingAPIs::getSceneAPI().getSceneTree();
 

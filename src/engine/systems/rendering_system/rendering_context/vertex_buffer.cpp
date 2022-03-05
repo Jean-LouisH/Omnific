@@ -22,12 +22,12 @@
 
 #include "vertex_buffer.hpp"
 
-Omnific::VertexBuffer::VertexBuffer()
+Omnia::VertexBuffer::VertexBuffer()
 {
 
 }
 
-Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh)
+Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh)
 {
 	if (mesh != nullptr)
 	{
@@ -37,7 +37,7 @@ Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh)
 	}
 }
 
-Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions)
+Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions)
 {
 	if (image != nullptr)
 	{
@@ -77,17 +77,17 @@ Omnific::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dime
 	}
 }
 
-Omnific::VertexBuffer::~VertexBuffer()
+Omnia::VertexBuffer::~VertexBuffer()
 {
 	this->deleteVertexBuffer();
 }
 
-void Omnific::VertexBuffer::bind()
+void Omnia::VertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
 }
 
-void Omnific::VertexBuffer::deleteVertexBuffer()
+void Omnia::VertexBuffer::deleteVertexBuffer()
 {
 	glDeleteBuffers(1, &this->vertexBufferID);
 }

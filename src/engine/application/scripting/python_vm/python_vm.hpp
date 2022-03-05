@@ -32,7 +32,7 @@
 #include "pybind11/embed.h"
 #include "module.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class PythonVM : VMScriptingLanguage
 	{

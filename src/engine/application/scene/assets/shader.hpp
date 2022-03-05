@@ -25,7 +25,7 @@
 #include <string>
 #include "application/scene/asset.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class Shader : public Asset
 	{

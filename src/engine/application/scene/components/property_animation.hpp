@@ -28,7 +28,7 @@
 #include <stdint.h>
 #include "application/scene/component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class PropertyAnimation : public Component
 	{

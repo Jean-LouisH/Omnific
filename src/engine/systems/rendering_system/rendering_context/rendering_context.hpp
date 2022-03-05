@@ -35,7 +35,7 @@
 #include "utilities/aliases.hpp"
 #include <string>
 
-namespace Omnific
+namespace Omnia
 {
 	/* The object that calls the rendering API functions. */
 	class RenderingContext

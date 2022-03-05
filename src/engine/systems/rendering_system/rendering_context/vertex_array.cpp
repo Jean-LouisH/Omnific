@@ -22,12 +22,12 @@
 
 #include "vertex_array.hpp"
 
-Omnific::VertexArray::VertexArray()
+Omnia::VertexArray::VertexArray()
 {
 	glGenVertexArrays(1, &this->vertexArrayID);
 }
 
-Omnific::VertexArray::VertexArray(std::shared_ptr<Omnific::Mesh> mesh)
+Omnia::VertexArray::VertexArray(std::shared_ptr<Omnia::Mesh> mesh)
 {
 	glGenVertexArrays(1, &this->vertexArrayID);
 
@@ -57,7 +57,7 @@ Omnific::VertexArray::VertexArray(std::shared_ptr<Omnific::Mesh> mesh)
 	}
 }
 
-Omnific::VertexArray::VertexArray(std::shared_ptr<Omnific::Image> image, glm::vec3 dimensions)
+Omnia::VertexArray::VertexArray(std::shared_ptr<Omnia::Image> image, glm::vec3 dimensions)
 {
 	int stride = 5;
 
@@ -76,27 +76,27 @@ Omnific::VertexArray::VertexArray(std::shared_ptr<Omnific::Image> image, glm::ve
 	this->unbind();
 }
 
-Omnific::VertexArray::~VertexArray()
+Omnia::VertexArray::~VertexArray()
 {
 	this->deleteVertexArray();
 }
 
-void Omnific::VertexArray::bind()
+void Omnia::VertexArray::bind()
 {
 	glBindVertexArray(this->vertexArrayID);
 }
 
-void Omnific::VertexArray::unbind()
+void Omnia::VertexArray::unbind()
 {
 	glBindVertexArray(0);
 }
 
-void Omnific::VertexArray::deleteVertexArray()
+void Omnia::VertexArray::deleteVertexArray()
 {
 	glDeleteVertexArrays(1, &this->vertexArrayID);
 }
 
-unsigned int Omnific::VertexArray::getIndexCount()
+unsigned int Omnia::VertexArray::getIndexCount()
 {
 	return this->indexBuffer->getIndexCount();
 }

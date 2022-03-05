@@ -32,7 +32,7 @@
 #include <utilities/hi_res_timer.hpp>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes HapticSignals from the HapticSignalBuffer in the Scene.*/
 	class HapticSystem : public System

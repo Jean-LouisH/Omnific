@@ -1,12 +1,12 @@
-# [Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine)
+# [Omnia](https://github.com/Jean-LouisH/Omnia)
 
 ![In Progress](sprite_in_arena.png)
 
 **This project is still a work in progress**
 
-[Omnific Engine](https://github.com/Jean-LouisH/Omnific_Engine) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, and lightweight. It is designed for games, but it is also ideally suitable for interactive, multimedia applications. For now it is targeted to PC Windows and Linux desktop platforms.
+[Omnia](https://github.com/Jean-LouisH/Omnia) is a game engine I'm developing for fun, study and technical demonstrations. It is designed to be general purpose, data-driven, and lightweight. It is designed for games, but it is also ideally suitable for interactive, multimedia applications. For now it is targeted to PC Windows and Linux desktop platforms.
 
-"Omnific" means ["all-creating."](https://www.merriam-webster.com/dictionary/omnific)
+The name "Omnia" stems from the prefix "Omni-" which means "all." It's loosely based on the term "Omnific" which means ["all-creating"](https://www.merriam-webster.com/dictionary/omnific).
 
 ## Notable Features
 

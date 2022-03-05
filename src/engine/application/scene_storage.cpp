@@ -23,7 +23,7 @@
 #include "scene_storage.hpp"
 #include "os/os.hpp"
 
-void Omnific::SceneStorage::addScene(std::string sceneName, Scene scene)
+void Omnia::SceneStorage::addScene(std::string sceneName, Scene scene)
 {
 	if (this->activeSceneName == "")
 	{
@@ -34,7 +34,7 @@ void Omnific::SceneStorage::addScene(std::string sceneName, Scene scene)
 
 	this->scenes.emplace(sceneName, scene);
 }
-void Omnific::SceneStorage::removeScene(std::string sceneName)
+void Omnia::SceneStorage::removeScene(std::string sceneName)
 {
 	if (sceneName != this->activeSceneName)
 	{
@@ -45,7 +45,7 @@ void Omnific::SceneStorage::removeScene(std::string sceneName)
 		}
 	}
 }
-void Omnific::SceneStorage::replaceActiveScene(std::string sceneName, Scene scene)
+void Omnia::SceneStorage::replaceActiveScene(std::string sceneName, Scene scene)
 {
 	if (sceneName != this->activeSceneName)
 	{
@@ -57,7 +57,7 @@ void Omnific::SceneStorage::replaceActiveScene(std::string sceneName, Scene scen
 		OS::getLogger().write("Replaced active scene with \"" + sceneName + "\"");
 	}
 }
-void Omnific::SceneStorage::changeToScene(std::string sceneName)
+void Omnia::SceneStorage::changeToScene(std::string sceneName)
 {
 	if (this->scenes.count(sceneName))
 	{
@@ -68,22 +68,22 @@ void Omnific::SceneStorage::changeToScene(std::string sceneName)
 	this->activeSceneChanged = true;
 }
 
-Omnific::Scene& Omnific::SceneStorage::getActiveScene()
+Omnia::Scene& Omnia::SceneStorage::getActiveScene()
 {
 	return this->scenes.at(this->activeSceneName);
 }
 
-std::string Omnific::SceneStorage::getActiveSceneName()
+std::string Omnia::SceneStorage::getActiveSceneName()
 {
 	return this->activeSceneName;
 }
 
-bool Omnific::SceneStorage::isEmpty()
+bool Omnia::SceneStorage::isEmpty()
 {
 	return this->scenes.empty();
 }
 
-bool Omnific::SceneStorage::hasActiveSceneChanged()
+bool Omnia::SceneStorage::hasActiveSceneChanged()
 {
 	bool result = this->activeSceneChanged;
 	this->activeSceneChanged = false;

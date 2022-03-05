@@ -25,7 +25,7 @@
 #include "utilities/constants.hpp"
 #include <iostream>
 
-Omnific::Application::Application()
+Omnia::Application::Application()
 {
 	this->scripting = std::shared_ptr<Scripting>(new Scripting());
 	this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
@@ -34,7 +34,7 @@ Omnific::Application::Application()
 	ScriptingAPIs::initialize();
 }
 
-void Omnific::Application::initialize()
+void Omnia::Application::initialize()
 {
 	BootLoader bootLoader;
 	Scene entryScene;
@@ -75,14 +75,14 @@ void Omnific::Application::initialize()
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-	std::cout << "\n\n\tOmnific Debug Console Enabled";
+	std::cout << "\n\n\tOmnia Debug Console Enabled";
 	std::cout << "\n\nPress '`' in-application to write to command line via console.";
 	std::cout << "\n\nTo see the list of commands, enter 'commands'.";
 	std::cout << "\n\n";
 #endif
 }
 
-void Omnific::Application::executeOnStartMethods()
+void Omnia::Application::executeOnStartMethods()
 {
 	if (this->sceneStorage->hasActiveSceneChanged())
 		this->scripting->onModifiedScriptInstance(this->sceneStorage->getActiveScene());
@@ -91,7 +91,7 @@ void Omnific::Application::executeOnStartMethods()
 		this->scripting->executeOnStartMethods(this->getActiveScene());
 }
 
-void Omnific::Application::executeOnInputMethods()
+void Omnia::Application::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (OS::getHid().hasRequestedCommandLine())
@@ -110,13 +110,13 @@ void Omnific::Application::executeOnInputMethods()
 		this->scripting->executeOnInputMethods(this->getActiveScene());	
 }
 
-void Omnific::Application::executeOnFrameMethods()
+void Omnia::Application::executeOnFrameMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFrameMethods(this->getActiveScene());
 }
 
-void Omnific::Application::executeOnComputeMethods()
+void Omnia::Application::executeOnComputeMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
 
@@ -124,13 +124,13 @@ void Omnific::Application::executeOnComputeMethods()
 		this->scripting->executeOnComputeMethods(this->getActiveScene());
 }
 
-void Omnific::Application::executeOnOutputMethods()
+void Omnia::Application::executeOnOutputMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnOutputMethods(this->getActiveScene());
 }
 
-void Omnific::Application::executeOnFinishMethods()
+void Omnia::Application::executeOnFinishMethods()
 {
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFinishMethods(this->getActiveScene());
@@ -141,17 +141,17 @@ void Omnific::Application::executeOnFinishMethods()
 		it->second.getEventBus().clear();
 }
 
-void Omnific::Application::deinitialize()
+void Omnia::Application::deinitialize()
 {
 
 }
 
-Omnific::Scene& Omnific::Application::getActiveScene()
+Omnia::Scene& Omnia::Application::getActiveScene()
 {
 	return this->sceneStorage->getActiveScene();
 }
 
-Omnific::Configuration& Omnific::Application::getConfiguration()
+Omnia::Configuration& Omnia::Application::getConfiguration()
 {
 	return *this->configuration;
 }

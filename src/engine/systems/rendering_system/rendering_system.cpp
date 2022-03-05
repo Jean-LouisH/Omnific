@@ -24,7 +24,7 @@
 #include <application/scene/assets/shader.hpp>
 #include <application/scene/assets/image.hpp>
 
-Omnific::RenderingSystem::RenderingSystem()
+Omnia::RenderingSystem::RenderingSystem()
 {
 	SDL_InitSubSystem(SDL_INIT_VIDEO);
 
@@ -41,18 +41,18 @@ Omnific::RenderingSystem::RenderingSystem()
 	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
 }
 
-Omnific::RenderingSystem::~RenderingSystem()
+Omnia::RenderingSystem::~RenderingSystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::RenderingSystem::initialize()
+void Omnia::RenderingSystem::initialize()
 {
 	this->context->initialize();
 	this->isInitialized = true;
 }
 
-void Omnific::RenderingSystem::process(Scene& scene)
+void Omnia::RenderingSystem::process(Scene& scene)
 {
 	this->onWindowResize();
 	this->buildRenderablesOnModifiedComponents(scene);
@@ -61,7 +61,7 @@ void Omnific::RenderingSystem::process(Scene& scene)
 	this->context->swapBuffers();
 }
 
-void Omnific::RenderingSystem::deinitialize()
+void Omnia::RenderingSystem::deinitialize()
 {
 	if (this->isInitialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
@@ -69,13 +69,13 @@ void Omnific::RenderingSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnific::RenderingSystem::onWindowResize()
+void Omnia::RenderingSystem::onWindowResize()
 {
 	Rectangle windowRectangle = OS::getWindow().getWindowSize();
 	this->context->setViewport(windowRectangle.width, windowRectangle.height);
 }
 
-void Omnific::RenderingSystem::buildRenderablesOnModifiedComponents(Scene& scene)
+void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -124,7 +124,7 @@ void Omnific::RenderingSystem::buildRenderablesOnModifiedComponents(Scene& scene
 	}
 }
 
-std::string Omnific::RenderingSystem::getRenderingContextName()
+std::string Omnia::RenderingSystem::getRenderingContextName()
 {
 	return this->context->getRenderingContextName();
 }

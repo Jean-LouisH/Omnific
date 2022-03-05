@@ -33,7 +33,7 @@
 #include <memory>
 #include <vector>
 
-namespace Omnific
+namespace Omnia
 {
 	class Model : public Asset
 	{

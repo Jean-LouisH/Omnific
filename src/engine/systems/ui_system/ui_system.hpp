@@ -26,7 +26,7 @@
 #include "system.hpp"
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes Components with data related to HID interaction.*/
 	class UISystem : public System

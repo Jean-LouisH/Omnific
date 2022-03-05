@@ -22,7 +22,7 @@
 
 #include "command_line.hpp"
 
-Omnific::CommandLine::CommandLine(
+Omnia::CommandLine::CommandLine(
 	std::shared_ptr<SceneSerializer> sceneSerializer,
 	std::shared_ptr<SceneStorage> sceneStorage
 )
@@ -31,7 +31,7 @@ Omnific::CommandLine::CommandLine(
 	this->sceneStorage = std::shared_ptr<SceneStorage>(sceneStorage);
 }
 
-void Omnific::CommandLine::execute(std::string command)
+void Omnia::CommandLine::execute(std::string command)
 {
 	if (command == "shutdown" || command == "exit")
 		OS::getHid().forceShutdownRequest();

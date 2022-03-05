@@ -30,7 +30,7 @@
 #include <set>
 
 
-namespace Omnific
+namespace Omnia
 {
 	enum class ColliderType
 	{

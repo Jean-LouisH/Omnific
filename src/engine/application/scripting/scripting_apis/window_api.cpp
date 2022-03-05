@@ -22,67 +22,67 @@
 
 #include "window_api.hpp"
 
-Omnific::WindowAPI::WindowAPI(Window* window)
+Omnia::WindowAPI::WindowAPI(Window* window)
 {
 	this->window = window;
 }
 
-void Omnific::WindowAPI::setToWindowed(uint16_t width, uint16_t height)
+void Omnia::WindowAPI::setToWindowed(uint16_t width, uint16_t height)
 {
 	this->window->setToWindowed(width, height);
 }
 
-void Omnific::WindowAPI::setToFullscreen()
+void Omnia::WindowAPI::setToFullscreen()
 {
 	this->window->setToFullscreen();
 }
 
-void Omnific::WindowAPI::toggleWindowedFullscreen()
+void Omnia::WindowAPI::toggleWindowedFullscreen()
 {
 	this->window->toggleWindowedFullscreen();
 }
 
-void Omnific::WindowAPI::resize(uint16_t width, uint16_t height)
+void Omnia::WindowAPI::resize(uint16_t width, uint16_t height)
 {
 	this->window->resize(width, height);
 }
 
-void Omnific::WindowAPI::changeTitle(std::string title)
+void Omnia::WindowAPI::changeTitle(std::string title)
 {
 	this->window->changeTitle(title.c_str());
 }
 
-void Omnific::WindowAPI::changeIcon(Image image)
+void Omnia::WindowAPI::changeIcon(Image image)
 {
 	this->window->changeIcon(image);
 }
 
-void Omnific::WindowAPI::maximize()
+void Omnia::WindowAPI::maximize()
 {
 	this->window->maximize();
 }
 
-void Omnific::WindowAPI::minimize()
+void Omnia::WindowAPI::minimize()
 {
 	this->window->minimize();
 }
 
-void Omnific::WindowAPI::raise()
+void Omnia::WindowAPI::raise()
 {
 	this->window->raise();
 }
 
-void Omnific::WindowAPI::restore()
+void Omnia::WindowAPI::restore()
 {
 	this->window->restore();
 }
 
-void Omnific::WindowAPI::hide()
+void Omnia::WindowAPI::hide()
 {
 	this->window->hide();
 }
 
-void Omnific::WindowAPI::show()
+void Omnia::WindowAPI::show()
 {
 	this->window->show();
 }

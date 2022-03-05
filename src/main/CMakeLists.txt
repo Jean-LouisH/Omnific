@@ -20,19 +20,19 @@ add_executable(application
  )
 
 add_dependencies(application
-	omnific_engine
+	omnia_engine
 )
 
 add_dependencies(dedicated_gpu_application
-	omnific_engine
+	omnia_engine
 )
 
 add_dependencies(steam_application
-	omnific_engine
+	omnia_engine
 )
 
 add_dependencies(dedicated_gpu_steam_application
-	omnific_engine
+	omnia_engine
 )
 
 find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
@@ -55,21 +55,21 @@ include_directories(
 )
 
 target_link_libraries (application
-		omnific_engine
+		omnia_engine
 		${SDL2}
 )
 
 target_link_libraries (dedicated_gpu_application
-		omnific_engine
+		omnia_engine
 		${SDL2}
 )
 
 target_link_libraries (steam_application
-		omnific_engine
+		omnia_engine
 		${SDL2}
 )
 
 target_link_libraries (dedicated_gpu_steam_application
-		omnific_engine
+		omnia_engine
 		${SDL2}
 )

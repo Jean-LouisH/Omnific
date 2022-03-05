@@ -23,7 +23,7 @@
 #include "text.hpp"
 #include <application/uid_generator.hpp>
 
-Omnific::Text::Text(std::string filepath)
+Omnia::Text::Text(std::string filepath)
 {
 
 }

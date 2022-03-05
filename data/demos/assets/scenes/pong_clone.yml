@@ -1,4 +1,6 @@
-Scene:
+SceneTree:
+  name: "entry"
+  spatial_dimension: 3
   Entity:
     name: "Camera"
     Scripts: ["PongShakeCamera"]

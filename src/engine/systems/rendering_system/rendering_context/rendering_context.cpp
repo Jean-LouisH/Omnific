@@ -26,7 +26,7 @@
 #include <string>
 #include <SDL_video.h>
 
-void Omnific::RenderingContext::initialize()
+void Omnia::RenderingContext::initialize()
 {
 	Window& window = OS::getWindow();
 	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
@@ -57,19 +57,19 @@ void Omnific::RenderingContext::initialize()
 	}
 }
 
-void Omnific::RenderingContext::clearColourBuffer()
+void Omnia::RenderingContext::clearColourBuffer()
 {
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Omnific::RenderingContext::clearDepthBuffer()
+void Omnia::RenderingContext::clearDepthBuffer()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 
-void Omnific::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
+void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
 {
 	for (auto it = sceneTreeRenderableLists.begin(); it != sceneTreeRenderableLists.end(); it++)
 	{
@@ -160,17 +160,17 @@ void Omnific::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vect
 
 }
 
-void Omnific::RenderingContext::setViewport(uint32_t width, uint32_t height)
+void Omnia::RenderingContext::setViewport(uint32_t width, uint32_t height)
 {
 	glViewport(0, 0, width, height);
 }
 
-void Omnific::RenderingContext::swapBuffers()
+void Omnia::RenderingContext::swapBuffers()
 {
 	SDL_GL_SwapWindow(OS::getWindow().getSDLWindow());
 }
 
-std::string Omnific::RenderingContext::getRenderingContextName()
+std::string Omnia::RenderingContext::getRenderingContextName()
 {
 	return "opengl";
 }

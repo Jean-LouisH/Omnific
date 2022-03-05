@@ -26,7 +26,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace Omnific
+namespace Omnia
 {
 	class Event
 	{

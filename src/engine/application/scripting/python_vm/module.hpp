@@ -28,7 +28,7 @@
 #include <string>
 #include <set>
 
-namespace Omnific
+namespace Omnia
 {
 	class Module
 	{

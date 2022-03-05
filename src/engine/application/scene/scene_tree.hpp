@@ -91,7 +91,7 @@
 
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	enum class CallType
 	{

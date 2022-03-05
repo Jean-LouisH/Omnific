@@ -24,7 +24,7 @@
 
 #include <glm/glm.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	class AABB3D
 	{

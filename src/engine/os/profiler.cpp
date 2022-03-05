@@ -23,62 +23,62 @@
 #include "profiler.hpp"
 #include "utilities/constants.hpp"
 
-Omnific::HiResTimer& Omnific::Profiler::getProcessTimer()
+Omnia::HiResTimer& Omnia::Profiler::getProcessTimer()
 {
 	return this->process;
 }
 
-Omnific::HiResTimer& Omnific::Profiler::getFrameTimer()
+Omnia::HiResTimer& Omnia::Profiler::getFrameTimer()
 {
 	return this->frame;
 }
 
-Omnific::HiResTimer& Omnific::Profiler::getInputTimer()
+Omnia::HiResTimer& Omnia::Profiler::getInputTimer()
 {
 	return this->input;
 }
 
-Omnific::HiResTimer& Omnific::Profiler::getUpdateTimer()
+Omnia::HiResTimer& Omnia::Profiler::getUpdateTimer()
 {
 	return this->update;
 }
 
-Omnific::HiResTimer& Omnific::Profiler::getOutputTimer()
+Omnia::HiResTimer& Omnia::Profiler::getOutputTimer()
 {
 	return this->output;
 }
 
-Omnific::HiResTimer& Omnific::Profiler::getBenchmarkTimer()
+Omnia::HiResTimer& Omnia::Profiler::getBenchmarkTimer()
 {
 	return this->FPS;
 }
 
-Omnific::HiResTimer& Omnific::Profiler::getDebugTimer()
+Omnia::HiResTimer& Omnia::Profiler::getDebugTimer()
 {
 	return this->debug;
 }
 
-void Omnific::Profiler::incrementFrameCount()
+void Omnia::Profiler::incrementFrameCount()
 {
 	this->frameCount++;
 }
 
-void Omnific::Profiler::incrementLagCount(uint64_t deltaTime_ms)
+void Omnia::Profiler::incrementLagCount(uint64_t deltaTime_ms)
 {
 	this->lag += deltaTime_ms;
 }
 
-void Omnific::Profiler::decrementLagCount(uint64_t deltaTime_ms)
+void Omnia::Profiler::decrementLagCount(uint64_t deltaTime_ms)
 {
 	this->lag -= deltaTime_ms;
 }
 
-uint64_t Omnific::Profiler::getLagCount()
+uint64_t Omnia::Profiler::getLagCount()
 {
 	return this->lag;
 }
 
-uint16_t Omnific::Profiler::getFPS()
+uint16_t Omnia::Profiler::getFPS()
 {
 	return (1.0 / (this->getFrameTimer().getDeltaInNanoseconds() / NS_IN_S));
 }

@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace Omnific
+namespace Omnia
 {
 	class Platform
 	{

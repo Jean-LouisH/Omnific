@@ -29,7 +29,7 @@
 #include "application/scene/component.hpp"
 #include <os/os.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	class UIViewport : public Component
 	{

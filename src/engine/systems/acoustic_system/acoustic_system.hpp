@@ -25,7 +25,7 @@
 #include "application/scene/scene.hpp"
 #include "system.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes audio acoustic simulations based on 
 	   Components that provide material properties in the Scene.*/

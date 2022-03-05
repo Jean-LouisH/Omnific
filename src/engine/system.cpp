@@ -22,12 +22,12 @@
 
 #include "system.hpp"
 
-Omnific::System::~System()
+Omnia::System::~System()
 {
 	this->isInitialized = false;
 }
 
-bool Omnific::System::getIsInitialized()
+bool Omnia::System::getIsInitialized()
 {
 	return this->isInitialized;
 }

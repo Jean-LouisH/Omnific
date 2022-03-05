@@ -31,7 +31,7 @@
 #include <string>
 #include <application/uid_generator.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	/* An object that exists within the Scene with its own
 	   identity, components and  hierarchy with other Entities. */

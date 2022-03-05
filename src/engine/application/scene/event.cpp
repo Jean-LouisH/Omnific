@@ -22,30 +22,30 @@
 
 #include "event.hpp"
 
-Omnific::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
+Omnia::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 	this->parameters = parameters;
 }
 
-Omnific::Event::Event(std::string name, uint64_t timestamp)
+Omnia::Event::Event(std::string name, uint64_t timestamp)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 }
 
-std::string Omnific::Event::getName()
+std::string Omnia::Event::getName()
 {
 	return this->name;
 }
 
-uint64_t Omnific::Event::getTimestamp()
+uint64_t Omnia::Event::getTimestamp()
 {
 	return this->timestamp;
 }
 
-Omnific::Event::Parameters Omnific::Event::getParameters()
+Omnia::Event::Parameters Omnia::Event::getParameters()
 {
 	return this->parameters;
 }

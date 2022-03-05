@@ -32,7 +32,7 @@
 #include <glm/glm.hpp>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	class SpriteContainer : public RenderableComponent
 	{

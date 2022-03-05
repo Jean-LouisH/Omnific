@@ -22,43 +22,43 @@
 
 #include "cpp_native_script.hpp"
 
-Omnific::CPPNativeScript::CPPNativeScript(std::string filepath)
+Omnia::CPPNativeScript::CPPNativeScript(std::string filepath)
 {
 	CPPNativeScript();
 	this->setName(filepath);
 }
 
-Omnific::CPPNativeScript::~CPPNativeScript()
+Omnia::CPPNativeScript::~CPPNativeScript()
 {
 
 }
 
-void Omnific::CPPNativeScript::onStart()
+void Omnia::CPPNativeScript::onStart()
 {
 
 }
 
-void Omnific::CPPNativeScript::onInput()
+void Omnia::CPPNativeScript::onInput()
 {
 
 }
 
-void Omnific::CPPNativeScript::onFrame()
+void Omnia::CPPNativeScript::onFrame()
 {
 
 }
 
-void Omnific::CPPNativeScript::onCompute()
+void Omnia::CPPNativeScript::onCompute()
 {
 
 }
 
-void Omnific::CPPNativeScript::onOutput()
+void Omnia::CPPNativeScript::onOutput()
 {
 
 }
 
-void Omnific::CPPNativeScript::onFinish()
+void Omnia::CPPNativeScript::onFinish()
 {
 
 }

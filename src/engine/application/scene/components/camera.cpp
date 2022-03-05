@@ -25,36 +25,36 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <os/os.hpp>
 
-void Omnific::Camera::resetAspect()
+void Omnia::Camera::resetAspect()
 {
 	this->aspect = defaultAspect;
 }
 
-Omnific::Rectangle Omnific::Camera::getViewportDimensions()
+Omnia::Rectangle Omnia::Camera::getViewportDimensions()
 {
 	return this->viewport;
 }
 
-bool Omnific::Camera::getIsStreaming()
+bool Omnia::Camera::getIsStreaming()
 {
 	return this->isStreaming;
 }
 
-void Omnific::Camera::setViewportWidth(uint32_t width_px)
+void Omnia::Camera::setViewportWidth(uint32_t width_px)
 {
 	this->viewport.width = width_px;
 	if (keepAspect)
 		this->viewport.height = (uint32_t)((double)width_px / aspect);
 }
 
-void Omnific::Camera::setViewportHeight(uint32_t height_px)
+void Omnia::Camera::setViewportHeight(uint32_t height_px)
 {
 	this->viewport.height = height_px;
 	if (keepAspect)
 		this->viewport.width = (uint32_t)((double)height_px * aspect);
 }
 
-void Omnific::Camera::setLimits(float left, float bottom, float top, float right)
+void Omnia::Camera::setLimits(float left, float bottom, float top, float right)
 {
 	this->limits.min.x = left;
 	this->limits.min.y = bottom;
@@ -62,17 +62,17 @@ void Omnific::Camera::setLimits(float left, float bottom, float top, float right
 	this->limits.max.y = top;
 }
 
-void Omnific::Camera::setKeepAspect(bool value)
+void Omnia::Camera::setKeepAspect(bool value)
 {
 	this->keepAspect = value;
 }
 
-void Omnific::Camera::setIsStreaming(bool value)
+void Omnia::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
 }
 
-glm::mat4 Omnific::Camera::getViewToProjectionMatrix()
+glm::mat4 Omnia::Camera::getViewToProjectionMatrix()
 {
 	Rectangle rectangle = OS::getWindow().getWindowSize();
 	return glm::perspective(glm::radians(this->fieldOfView), (float)rectangle.width / (float)rectangle.height, this->nearPlane, this->farPlane);

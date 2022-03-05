@@ -24,7 +24,7 @@
 
 #include <stdint.h>
 
-namespace Omnific
+namespace Omnia
 {
 	class Rectangle
 	{

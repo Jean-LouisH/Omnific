@@ -22,42 +22,42 @@
 
 #include "audio_source.hpp"
 
-void Omnific::AudioSource::addAudioStream(std::shared_ptr<AudioStream> audioStream)
+void Omnia::AudioSource::addAudioStream(std::shared_ptr<AudioStream> audioStream)
 {
 	this->audioStreams.emplace(audioStream->getName(), audioStream);
 }
 
-void Omnific::AudioSource::queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count)
+void Omnia::AudioSource::queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count)
 {
 	if (this->audioStreams.count(audioStreamName) > 0)
 		for (int i = 0; i < count; i++)
 			this->audioPlayQueue.emplace(this->audioStreams.at(audioStreamName));
 }
 
-void Omnific::AudioSource::queueAudioToPlay(std::string audioStreamName)
+void Omnia::AudioSource::queueAudioToPlay(std::string audioStreamName)
 {
 	this->queueAudioToPlayAndRepeat(audioStreamName, 1);
 }
 
-void Omnific::AudioSource::clearAudioStreams()
+void Omnia::AudioSource::clearAudioStreams()
 {
 	this->audioStreams.clear();
 }
 
-std::queue<std::shared_ptr<Omnific::AudioStream>> Omnific::AudioSource::popEntireAudioPlayQueue()
+std::queue<std::shared_ptr<Omnia::AudioStream>> Omnia::AudioSource::popEntireAudioPlayQueue()
 {
 	std::queue<std::shared_ptr<AudioStream>> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
 
-void Omnific::AudioSource::clearAudioPlayQueue()
+void Omnia::AudioSource::clearAudioPlayQueue()
 {
 	for (int i = 0; i < this->audioPlayQueue.size(); i++)
 		this->audioPlayQueue.pop();
 }
 
-std::vector<std::string> Omnific::AudioSource::getAudioStreamNames()
+std::vector<std::string> Omnia::AudioSource::getAudioStreamNames()
 {
 	std::vector<std::string> audioStreamNames;
 
@@ -71,7 +71,7 @@ std::vector<std::string> Omnific::AudioSource::getAudioStreamNames()
 	return audioStreamNames;
 }
 
-std::shared_ptr<Omnific::AudioStream> Omnific::AudioSource::getAudioStreamByName(std::string audioStreamName)
+std::shared_ptr<Omnia::AudioStream> Omnia::AudioSource::getAudioStreamByName(std::string audioStreamName)
 {
 	std::shared_ptr<AudioStream> audioStream;
 

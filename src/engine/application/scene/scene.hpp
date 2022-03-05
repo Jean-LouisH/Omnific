@@ -33,7 +33,7 @@
 #include <string>
 #include "scene_tree.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class Scene
 	{

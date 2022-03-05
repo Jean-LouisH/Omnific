@@ -25,7 +25,7 @@
 #include "configuration.hpp"
 #include <string>
 
-namespace Omnific
+namespace Omnia
 {
 	class BootLoader
 	{

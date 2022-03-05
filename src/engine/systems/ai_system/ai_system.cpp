@@ -22,17 +22,17 @@
 
 #include "ai_system.hpp"
 
-Omnific::AISystem::~AISystem()
+Omnia::AISystem::~AISystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::AISystem::initialize()
+void Omnia::AISystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Omnific::AISystem::process(Scene& scene)
+void Omnia::AISystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -42,7 +42,7 @@ void Omnific::AISystem::process(Scene& scene)
 	}
 }
 
-void Omnific::AISystem::deinitialize()
+void Omnia::AISystem::deinitialize()
 {
 	this->isInitialized = false;
 }

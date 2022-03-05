@@ -24,12 +24,12 @@
 #include "os/os.hpp"
 #include <SDL.h>
 
-Omnific::HapticSystem::~HapticSystem()
+Omnia::HapticSystem::~HapticSystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
+void Omnia::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
 {
 	if (hapticSignal.getPlayerID() < haptics.size())
 	{
@@ -39,7 +39,7 @@ void Omnific::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_H
 	}
 }
 
-void Omnific::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
+void Omnia::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
 {
 	if (playerID < haptics.size())
 	{
@@ -47,13 +47,13 @@ void Omnific::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic
 	}
 }
 
-void Omnific::HapticSystem::initialize()
+void Omnia::HapticSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_HAPTIC);
 	this->isInitialized = true;
 }
 
-void Omnific::HapticSystem::process(Scene& scene)
+void Omnia::HapticSystem::process(Scene& scene)
 {
 	HumanInterfaceDevices& hid = OS::getHid();
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
@@ -105,7 +105,7 @@ void Omnific::HapticSystem::process(Scene& scene)
 	}
 }
 
-void Omnific::HapticSystem::deinitialize()
+void Omnia::HapticSystem::deinitialize()
 {
 	if (this->isInitialized)
 		SDL_INIT_HAPTIC;

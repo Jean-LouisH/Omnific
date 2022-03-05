@@ -22,72 +22,72 @@
 
 #include "engine_state.hpp"
 
-Omnific::EngineState::EngineState()
+Omnia::EngineState::EngineState()
 {
 	this->setInitializing();
 }
 
-void Omnific::EngineState::setInitializing()
+void Omnia::EngineState::setInitializing()
 {
 	this->value = ENGINE_STATE_INITIALIZING;
 }
 
-void Omnific::EngineState::setRunningApplicationWindowed()
+void Omnia::EngineState::setRunningApplicationWindowed()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_WINDOWED;
 }
 
-void Omnific::EngineState::setRunningApplicationFullscreen()
+void Omnia::EngineState::setRunningApplicationFullscreen()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN;
 }
 
-void Omnific::EngineState::setRunningApplicationFullscreenDesktop()
+void Omnia::EngineState::setRunningApplicationFullscreenDesktop()
 {
 	this->value = ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP;
 }
 
-void Omnific::EngineState::setRestarting()
+void Omnia::EngineState::setRestarting()
 {
 	this->value = ENGINE_STATE_RESTARTING;
 }
 
-void Omnific::EngineState::setShuttingDown()
+void Omnia::EngineState::setShuttingDown()
 {
 	this->value = ENGINE_STATE_SHUTTING_DOWN;
 }
 
-bool Omnific::EngineState::isInitializing()
+bool Omnia::EngineState::isInitializing()
 {
 	return this->value == ENGINE_STATE_INITIALIZING;
 }
 
-bool Omnific::EngineState::isRunningApplicationWindowed()
+bool Omnia::EngineState::isRunningApplicationWindowed()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_WINDOWED;
 }
 
-bool Omnific::EngineState::isRunningApplicationFullscreen()
+bool Omnia::EngineState::isRunningApplicationFullscreen()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN;
 }
 
-bool Omnific::EngineState::isRunningApplicationFullscreenDesktop()
+bool Omnia::EngineState::isRunningApplicationFullscreenDesktop()
 {
 	return this->value == ENGINE_STATE_RUNNING_APPLICATION_FULLSCREEN_DESKTOP;
 }
 
-bool Omnific::EngineState::isRestarting()
+bool Omnia::EngineState::isRestarting()
 {
 	return this->value == ENGINE_STATE_RESTARTING;
 }
 
-bool Omnific::EngineState::isShuttingDown()
+bool Omnia::EngineState::isShuttingDown()
 {
 	return this->value == ENGINE_STATE_SHUTTING_DOWN;
 }
 
-bool Omnific::EngineState::isRunning()
+bool Omnia::EngineState::isRunning()
 {
 	return (this->isRunningApplicationFullscreen() ||
 		this->isRunningApplicationFullscreenDesktop() ||

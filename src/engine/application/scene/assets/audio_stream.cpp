@@ -22,12 +22,12 @@
 
 #include "audio_stream.hpp"
 
-Omnific::AudioStream::~AudioStream()
+Omnia::AudioStream::~AudioStream()
 {
 
 }
 
-Omnific::AudioStream::AudioStream(std::string filepath, bool isMusic)
+Omnia::AudioStream::AudioStream(std::string filepath, bool isMusic)
 {
 	this->setName(filepath);
 	this->isMusic = isMusic;
@@ -38,17 +38,17 @@ Omnific::AudioStream::AudioStream(std::string filepath, bool isMusic)
 		this->soundFX = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
 }
 
-std::shared_ptr<Mix_Chunk> Omnific::AudioStream::getSDLMixChunk()
+std::shared_ptr<Mix_Chunk> Omnia::AudioStream::getSDLMixChunk()
 {
 	return this->soundFX;
 }
 
-std::shared_ptr<Mix_Music> Omnific::AudioStream::getSDLMixMusic()
+std::shared_ptr<Mix_Music> Omnia::AudioStream::getSDLMixMusic()
 {
 	return this->music;
 }
 
-bool Omnific::AudioStream::getIsMusic()
+bool Omnia::AudioStream::getIsMusic()
 {
 	return this->isMusic;
 }

@@ -23,69 +23,69 @@
 #include "component.hpp"
 #include <application/uid_generator.hpp>
 
-Omnific::Component::Component()
+Omnia::Component::Component()
 {
 	this->id = UIDGenerator::getNewUID();
 }
 
-void Omnific::Component::setEntityID(EntityID entityID)
+void Omnia::Component::setEntityID(EntityID entityID)
 {
 	this->entityID = entityID;
 }
 
-void Omnific::Component::setComponentPropertyPool(std::shared_ptr<Omnific::ComponentPropertyPool> componentPropertyPool)
+void Omnia::Component::setComponentPropertyPool(std::shared_ptr<Omnia::ComponentPropertyPool> componentPropertyPool)
 {
 
 }
 
-Omnific::ComponentID Omnific::Component::getID()
+Omnia::ComponentID Omnia::Component::getID()
 {
 	return this->id;
 }
 
-Omnific::EntityID Omnific::Component::getEntityID()
+Omnia::EntityID Omnia::Component::getEntityID()
 {
 	return this->entityID;
 }
 
-bool Omnific::Component::isAttachedToEntity()
+bool Omnia::Component::isAttachedToEntity()
 {
 	return this->getEntityID() != 0;
 }
 
-std::string Omnific::Component::getType() const
+std::string Omnia::Component::getType() const
 {
 	return this->type;
 }
 
-bool Omnific::Component::isType(std::string typeString)
+bool Omnia::Component::isType(std::string typeString)
 {
 	return this->type == typeString;
 }
 
-bool Omnific::Component::isRenderable()
+bool Omnia::Component::isRenderable()
 {
 	return false;
 }
 
-void Omnific::Component::addProperty(std::string propertyName, float propertyValue)
+void Omnia::Component::addProperty(std::string propertyName, float propertyValue)
 {
 
 }
 
-void Omnific::Component::updateProperty(std::string propertyName, float propertyValue)
+void Omnia::Component::updateProperty(std::string propertyName, float propertyValue)
 {
 
 }
 
-float Omnific::Component::getProperty(std::string propertyName)
+float Omnia::Component::getProperty(std::string propertyName)
 {
 	float propertyValue = 0.0;
 
 	return propertyValue;
 }
 
-std::vector<std::string> Omnific::Component::getPropertyNames()
+std::vector<std::string> Omnia::Component::getPropertyNames()
 {
 	std::vector<std::string> names;
 	

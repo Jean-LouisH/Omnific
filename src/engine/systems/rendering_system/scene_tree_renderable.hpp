@@ -29,7 +29,7 @@
 #include <memory>
 #include "entity_renderable.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	/* Caches memory locations for values
 	   relevant to rendering from a given Camera. */

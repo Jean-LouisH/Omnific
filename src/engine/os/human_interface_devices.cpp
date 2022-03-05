@@ -22,7 +22,7 @@
 
 #include "human_interface_devices.hpp"
 
-void Omnific::HumanInterfaceDevices::clear()
+void Omnia::HumanInterfaceDevices::clear()
 {
 	this->controllerAxisEvents.clear();
 	this->controllerButtonEvents.clear();
@@ -37,7 +37,7 @@ void Omnific::HumanInterfaceDevices::clear()
 	this->hasDetectedInputChanges = false;
 }
 
-void Omnific::HumanInterfaceDevices::detectGameControllers()
+void Omnia::HumanInterfaceDevices::detectGameControllers()
 {
 	if (SDL_NumJoysticks() != this->gameControllers.size())
 	{
@@ -69,7 +69,7 @@ void Omnific::HumanInterfaceDevices::detectGameControllers()
 	}
 }
 
-void Omnific::HumanInterfaceDevices::pollInputEvents()
+void Omnia::HumanInterfaceDevices::pollInputEvents()
 {
 	SDL_Event SDLEvents;
 
@@ -123,32 +123,32 @@ void Omnific::HumanInterfaceDevices::pollInputEvents()
 	}
 }
 
-bool Omnific::HumanInterfaceDevices::hasRequestedShutdown()
+bool Omnia::HumanInterfaceDevices::hasRequestedShutdown()
 {
 	return this->shutdownRequest;
 }
 
-bool Omnific::HumanInterfaceDevices::hasRequestedRestart()
+bool Omnia::HumanInterfaceDevices::hasRequestedRestart()
 {
 	return this->restartRequest;
 }
 
-void Omnific::HumanInterfaceDevices::forceShutdownRequest()
+void Omnia::HumanInterfaceDevices::forceShutdownRequest()
 {
 	this->shutdownRequest = true;
 }
 
-void Omnific::HumanInterfaceDevices::forceRestartRequest()
+void Omnia::HumanInterfaceDevices::forceRestartRequest()
 {
 	this->restartRequest = true;
 }
 
-bool Omnific::HumanInterfaceDevices::getHasDetectedInputChanges()
+bool Omnia::HumanInterfaceDevices::getHasDetectedInputChanges()
 {
 	return this->hasDetectedInputChanges;
 }
 
-bool Omnific::HumanInterfaceDevices::hasRequestedCommandLine()
+bool Omnia::HumanInterfaceDevices::hasRequestedCommandLine()
 {
 	bool backquoteReleased = false;
 
@@ -158,47 +158,47 @@ bool Omnific::HumanInterfaceDevices::hasRequestedCommandLine()
 	return backquoteReleased;	 
 }
 
-std::vector<SDL_Haptic*> Omnific::HumanInterfaceDevices::getHaptics()
+std::vector<SDL_Haptic*> Omnia::HumanInterfaceDevices::getHaptics()
 {
 	return this->haptics;
 }
 
-std::unordered_map<Omnific::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Omnific::HumanInterfaceDevices::getControllerButtonEvents()
+std::unordered_map<Omnia::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> Omnia::HumanInterfaceDevices::getControllerButtonEvents()
 {
 	return this->controllerButtonEvents;
 }
 
-std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Omnific::HumanInterfaceDevices::getKeyboardEvents()
+std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> Omnia::HumanInterfaceDevices::getKeyboardEvents()
 {
 	return this->keyboardEvents;
 }
 
-std::unordered_map<Omnific::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Omnific::HumanInterfaceDevices::getControllerAxisEvents()
+std::unordered_map<Omnia::HumanInterfaceDevices::ControllerAxisCode, SDL_ControllerAxisEvent> Omnia::HumanInterfaceDevices::getControllerAxisEvents()
 {
 	return this->controllerAxisEvents;
 }
 
-SDL_MouseButtonEvent Omnific::HumanInterfaceDevices::getMouseButtonEvent()
+SDL_MouseButtonEvent Omnia::HumanInterfaceDevices::getMouseButtonEvent()
 {
 	return this->mouseButtonEvent;
 }
 
-SDL_MouseMotionEvent Omnific::HumanInterfaceDevices::getMouseMotionEvent()
+SDL_MouseMotionEvent Omnia::HumanInterfaceDevices::getMouseMotionEvent()
 {
 	return this->mouseMotionEvent;
 }
 
-SDL_MouseWheelEvent  Omnific::HumanInterfaceDevices::getMouseWheelEvent()
+SDL_MouseWheelEvent  Omnia::HumanInterfaceDevices::getMouseWheelEvent()
 {
 	return this->mouseWheelEvent;
 }
 
-std::unordered_map<Omnific::PlayerID, SDL_JoystickID> Omnific::HumanInterfaceDevices::getControllerPlayerMap()
+std::unordered_map<Omnia::PlayerID, SDL_JoystickID> Omnia::HumanInterfaceDevices::getControllerPlayerMap()
 {
 	return this->controllerPlayerMap;
 }
 
-std::queue<Omnific::PlayerID>& Omnific::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
+std::queue<Omnia::PlayerID>& Omnia::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
 {
 	return this->newlyLoadedPlayerIDs;
 }

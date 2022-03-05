@@ -29,7 +29,7 @@
 #include <utilities/rectangle.hpp>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	class Window
 	{

@@ -26,7 +26,7 @@
 #include "application/scene/renderable_component.hpp"
 #include "application/scene/component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class UIButton : public RenderableComponent
 	{

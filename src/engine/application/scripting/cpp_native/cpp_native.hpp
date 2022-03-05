@@ -25,7 +25,7 @@
 #include <string>
 #include "../native_scripting_language.hpp"
 
-namespace Omnific
+namespace Omnia
 {
     class CPPNative : NativeScriptingLanguage
     {
@@ -40,7 +40,7 @@ namespace Omnific
         void executeOnFinishMethods();
     private:
         void* dynamicLibraryHandle;
-        std::string nativeAssemblyFilename = "omnific_cpp_native_assembly";
+        std::string nativeAssemblyFilename = "omnia_cpp_native_assembly";
 
         void executeMethods(std::string methodName);
     };

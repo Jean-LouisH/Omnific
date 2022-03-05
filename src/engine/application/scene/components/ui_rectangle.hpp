@@ -25,7 +25,7 @@
 #include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class UIRectangle : public RenderableComponent
 	{

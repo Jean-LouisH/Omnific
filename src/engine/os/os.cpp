@@ -25,9 +25,9 @@
 #include "SDL.h"
 #include "utilities/constants.hpp"
 
-Omnific::OS* Omnific::OS::instance = nullptr;
+Omnia::OS* Omnia::OS::instance = nullptr;
 
-void Omnific::OS::initialize(
+void Omnia::OS::initialize(
 	std::string title, 
 	uint16_t width, 
 	uint16_t height, 
@@ -49,63 +49,63 @@ void Omnific::OS::initialize(
 	newInstance->runTimer->setStart();
 }
 
-void Omnific::OS::deinitialize()
+void Omnia::OS::deinitialize()
 {
 	delete getInstance();
 	instance = nullptr;
 }
 
-Omnific::DynamicLinkLibraryAccess& Omnific::OS::getDLLAccess()
+Omnia::DynamicLinkLibraryAccess& Omnia::OS::getDLLAccess()
 {
 	return *getInstance()->dllAccess;
 }
 
-Omnific::Window& Omnific::OS::getWindow()
+Omnia::Window& Omnia::OS::getWindow()
 {
 	return *getInstance()->window;
 }
 
-Omnific::HumanInterfaceDevices& Omnific::OS::getHid()
+Omnia::HumanInterfaceDevices& Omnia::OS::getHid()
 {
 	return *getInstance()->hid;
 }
 
-Omnific::Logger& Omnific::OS::getLogger()
+Omnia::Logger& Omnia::OS::getLogger()
 {
 	return *getInstance()->logger;
 }
 
-Omnific::FileAccess& Omnific::OS::getFileAccess()
+Omnia::FileAccess& Omnia::OS::getFileAccess()
 {
 	return *getInstance()->fileAccess;
 }
 
-Omnific::Profiler& Omnific::OS::getProfiler()
+Omnia::Profiler& Omnia::OS::getProfiler()
 {
 	return *getInstance()->profiler;
 }
 
-Omnific::Platform& Omnific::OS::getPlatform()
+Omnia::Platform& Omnia::OS::getPlatform()
 {
 	return *getInstance()->platform;
 }
 
-Omnific::ThreadPool& Omnific::OS::getThreadPool()
+Omnia::ThreadPool& Omnia::OS::getThreadPool()
 {
 	return *getInstance()->threadPool;
 }
 
-Omnific::HiResTimer& Omnific::OS::getRunTimer()
+Omnia::HiResTimer& Omnia::OS::getRunTimer()
 {
 	return *getInstance()->runTimer;
 }
 
-void Omnific::OS::addGameControllerMappings(std::string mappingFilepath)
+void Omnia::OS::addGameControllerMappings(std::string mappingFilepath)
 {
 	SDL_GameControllerAddMappingsFromFile(mappingFilepath.c_str());
 }
 
-Omnific::OS* Omnific::OS::getInstance()
+Omnia::OS* Omnia::OS::getInstance()
 {
 	if (instance == nullptr)
 		instance = new OS();

@@ -28,7 +28,7 @@
 #include "application/scene/component.hpp"
 
 
-namespace Omnific
+namespace Omnia
 {
 	class NavigationMeshBoxObstacle : public Component
 	{

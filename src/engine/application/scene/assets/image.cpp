@@ -25,7 +25,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 
-Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
+Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
 	Image();
 	//SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
@@ -45,14 +45,14 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colou
 	//}
 }
 
-Omnific::Image::Image(std::string filepath)
+Omnia::Image::Image(std::string filepath)
 {
 	Image();
 	this->setName(filepath);
 	this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
 }
 
-void* Omnific::Image::getData()
+void* Omnia::Image::getData()
 {
 	if (this->data != nullptr)
 		return this->data.get();
@@ -60,7 +60,7 @@ void* Omnific::Image::getData()
 		return nullptr;
 }
 
-uint32_t Omnific::Image::getWidth()
+uint32_t Omnia::Image::getWidth()
 {
 	if (this->data != nullptr)
 		return this->width;
@@ -68,7 +68,7 @@ uint32_t Omnific::Image::getWidth()
 		return 0;
 }
 
-uint32_t Omnific::Image::getHeight()
+uint32_t Omnia::Image::getHeight()
 {
 	if (this->data != nullptr)
 		return this->height;
@@ -76,17 +76,17 @@ uint32_t Omnific::Image::getHeight()
 		return 0;
 }
 
-uint32_t Omnific::Image::getDepth()
+uint32_t Omnia::Image::getDepth()
 {
 	return this->getBytesPerPixel() * 8;
 }
 
-uint32_t Omnific::Image::getPitch()
+uint32_t Omnia::Image::getPitch()
 {
 	return this->getBytesPerPixel() * this->getWidth();
 }
 
-Omnific::Rectangle Omnific::Image::getDimensions()
+Omnia::Rectangle Omnia::Image::getDimensions()
 {
 	Rectangle dimensions;
 	dimensions.width = this->getWidth();
@@ -94,17 +94,17 @@ Omnific::Rectangle Omnific::Image::getDimensions()
 	return dimensions;
 }
 
-void Omnific::Image::setAlpha(uint8_t value)
+void Omnia::Image::setAlpha(uint8_t value)
 {
 	this->alpha = value;
 }
 
-uint8_t Omnific::Image::getAlpha()
+uint8_t Omnia::Image::getAlpha()
 {
 	return this->alpha;
 }
 
-uint8_t Omnific::Image::getBytesPerPixel()
+uint8_t Omnia::Image::getBytesPerPixel()
 {
 	return this->channels;
 }

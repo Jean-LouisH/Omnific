@@ -22,28 +22,28 @@
 
 #include "collider.hpp"
 
-void Omnific::Collider::setDimensions(float width, float height, float depth)
+void Omnia::Collider::setDimensions(float width, float height, float depth)
 {
 	this->box.aabb.min = {-(width / 2.0), -(height / 2.0), -(depth / 2.0) };
 	this->box.aabb.max = { (width / 2.0), (height / 2.0), (depth / 2.0) };
 }
 
-void Omnific::Collider::setColliderType(ColliderType colliderType)
+void Omnia::Collider::setColliderType(ColliderType colliderType)
 {
 	this->colliderType = colliderType;
 }
 
-bool Omnific::Collider::isColliderType(ColliderType colliderType)
+bool Omnia::Collider::isColliderType(ColliderType colliderType)
 {
 	return this->colliderType == colliderType;
 }
 
-bool Omnific::Collider::hasEntityEntered(EntityID entityID)
+bool Omnia::Collider::hasEntityEntered(EntityID entityID)
 {
 	return this->enteringEntityIDs.count(entityID);
 }
 
-bool Omnific::Collider::hasEntityWithTagEntered(std::string entityTag)
+bool Omnia::Collider::hasEntityWithTagEntered(std::string entityTag)
 {
 	return this->enteringEntityTags.count(entityTag);
 }

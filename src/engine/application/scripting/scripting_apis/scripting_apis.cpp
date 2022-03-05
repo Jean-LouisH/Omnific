@@ -23,9 +23,9 @@
 #include "scripting_apis.hpp"
 #include <os/os.hpp>
 
-Omnific::ScriptingAPIs* Omnific::ScriptingAPIs::instance = nullptr;
+Omnia::ScriptingAPIs* Omnia::ScriptingAPIs::instance = nullptr;
 
-void Omnific::ScriptingAPIs::initialize()
+void Omnia::ScriptingAPIs::initialize()
 {
 	ScriptingAPIs* newInstance = getInstance();
 
@@ -37,62 +37,62 @@ void Omnific::ScriptingAPIs::initialize()
 	newInstance->windowAPI = new WindowAPI(&OS::getWindow());
 }
 
-void Omnific::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
+void Omnia::ScriptingAPIs::setSceneStorage(SceneStorage* sceneStorage)
 {
 	getInstance()->sceneAPI->setSceneStorage(sceneStorage);
 }
 
-void Omnific::ScriptingAPIs::setConfiguration(Configuration* configuration)
+void Omnia::ScriptingAPIs::setConfiguration(Configuration* configuration)
 {
 	getInstance()->timeAPI->setTimeSettings(&configuration->timeSettings);
 }
 
-void Omnific::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
+void Omnia::ScriptingAPIs::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
 {
 	getInstance()->sceneAPI->bindEntity(sceneTreeID, entityID);
 }
 
-Omnific::CommandLineAPI& Omnific::ScriptingAPIs::getCommandLineAPI()
+Omnia::CommandLineAPI& Omnia::ScriptingAPIs::getCommandLineAPI()
 {
 	return *getInstance()->commandLineAPI;
 }
 
-Omnific::InputAPI& Omnific::ScriptingAPIs::getInputAPI()
+Omnia::InputAPI& Omnia::ScriptingAPIs::getInputAPI()
 {
 	return *getInstance()->inputAPI;
 }
 
-Omnific::LogAPI& Omnific::ScriptingAPIs::getLogAPI()
+Omnia::LogAPI& Omnia::ScriptingAPIs::getLogAPI()
 {
 	return *getInstance()->logAPI;
 }
 
-Omnific::SceneAPI& Omnific::ScriptingAPIs::getSceneAPI()
+Omnia::SceneAPI& Omnia::ScriptingAPIs::getSceneAPI()
 {
 	return *getInstance()->sceneAPI;
 }
 
-Omnific::TimeAPI& Omnific::ScriptingAPIs::getTimeAPI()
+Omnia::TimeAPI& Omnia::ScriptingAPIs::getTimeAPI()
 {
 	return *getInstance()->timeAPI;
 }
 
-Omnific::WindowAPI& Omnific::ScriptingAPIs::getWindowAPI()
+Omnia::WindowAPI& Omnia::ScriptingAPIs::getWindowAPI()
 {
 	return *getInstance()->windowAPI;
 }
 
-std::string Omnific::ScriptingAPIs::getDataDirectoryPath()
+std::string Omnia::ScriptingAPIs::getDataDirectoryPath()
 {
 	return OS::getFileAccess().getDataDirectoryPath();
 }
 
-std::string Omnific::ScriptingAPIs::getExecutableDirectoryPath()
+std::string Omnia::ScriptingAPIs::getExecutableDirectoryPath()
 {
 	return OS::getFileAccess().getExecutableDirectoryPath();
 }
 
-Omnific::ScriptingAPIs* Omnific::ScriptingAPIs::getInstance()
+Omnia::ScriptingAPIs* Omnia::ScriptingAPIs::getInstance()
 {
 	if (instance == nullptr)
 		instance = new ScriptingAPIs();

@@ -30,7 +30,7 @@
 #include <queue>
 #include <utilities/aliases.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	class HapticSignalBuffer
 	{

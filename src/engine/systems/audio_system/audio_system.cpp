@@ -23,18 +23,18 @@
 #include "audio_system.hpp"
 #include "audio_sdl/audio_sdl.hpp"
 
-Omnific::AudioSystem::~AudioSystem()
+Omnia::AudioSystem::~AudioSystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::AudioSystem::play()
+void Omnia::AudioSystem::play()
 {
 	SDL::Audio::playSoundFXs(&this->soundFXQueue);
 	SDL::Audio::playMusic(&this->musicQueue);
 }
 
-void Omnific::AudioSystem::initialize()
+void Omnia::AudioSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
@@ -42,7 +42,7 @@ void Omnific::AudioSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnific::AudioSystem::process(Scene& scene)
+void Omnia::AudioSystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -72,7 +72,7 @@ void Omnific::AudioSystem::process(Scene& scene)
 	this->play();
 }
 
-void Omnific::AudioSystem::deinitialize()
+void Omnia::AudioSystem::deinitialize()
 {
 	if (this->isInitialized)
 	{

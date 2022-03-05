@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace Omnific 
+namespace Omnia 
 {
 	class Configuration
 	{
@@ -44,7 +44,7 @@ namespace Omnific
 			uint16_t width;
 			bool isStartingFullscreen;
 			bool isStartingMaximized;
-			bool isRomnificzable;
+			bool isRomniazable;
 		} windowSettings;
 
 		struct TimeSettings

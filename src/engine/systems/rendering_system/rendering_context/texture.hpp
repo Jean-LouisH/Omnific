@@ -29,7 +29,7 @@
 #include <application/scene/assets/image.hpp>
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Image or material data formatted in GPU memory. */
 	class Texture

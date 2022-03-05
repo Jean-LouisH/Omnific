@@ -22,7 +22,7 @@
 
 #include "engine.hpp"
 
-Omnific::Engine::Engine(
+Omnia::Engine::Engine(
 	int argc, 
 	char* argv[])
 {
@@ -31,7 +31,7 @@ Omnific::Engine::Engine(
 	this->argv = argv;
 }
 
-void Omnific::Engine::run()
+void Omnia::Engine::run()
 {
 	do
 	{
@@ -87,7 +87,7 @@ void Omnific::Engine::run()
 	} while (this->state->isRestarting());
 }
 
-bool Omnific::Engine::initialize()
+bool Omnia::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
@@ -139,7 +139,7 @@ bool Omnific::Engine::initialize()
 	return isInitializedOK;
 }
 
-void Omnific::Engine::input()
+void Omnia::Engine::input()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getInputTimer().setStart();
@@ -155,7 +155,7 @@ void Omnific::Engine::input()
 	profiler.getInputTimer().setEnd();
 }
 
-void Omnific::Engine::update()
+void Omnia::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
@@ -189,7 +189,7 @@ void Omnific::Engine::update()
 	profiler.getUpdateTimer().setEnd();
 }
 
-void Omnific::Engine::output()
+void Omnia::Engine::output()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getOutputTimer().setStart();
@@ -201,7 +201,7 @@ void Omnific::Engine::output()
 	profiler.getOutputTimer().setEnd();
 }
 
-void Omnific::Engine::benchmark()
+void Omnia::Engine::benchmark()
 {
 	Profiler& profiler = OS::getProfiler();
 #ifdef _DEBUG
@@ -221,7 +221,7 @@ void Omnific::Engine::benchmark()
 	profiler.getBenchmarkTimer().setEnd();
 }
 
-void Omnific::Engine::sleep()
+void Omnia::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
@@ -229,7 +229,7 @@ void Omnific::Engine::sleep()
 	OS::getWindow().sleep(targetFrameTime - processTime);
 }
 
-void Omnific::Engine::shutdown()
+void Omnia::Engine::shutdown()
 {
 	this->application.reset();
 	this->aiSystem.reset();

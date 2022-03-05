@@ -22,14 +22,14 @@
 
 #include "uid_generator.hpp"
 
-Omnific::UIDGenerator* Omnific::UIDGenerator::instance = nullptr;
+Omnia::UIDGenerator* Omnia::UIDGenerator::instance = nullptr;
 
-Omnific::EntityID Omnific::UIDGenerator::getNewUID()
+Omnia::EntityID Omnia::UIDGenerator::getNewUID()
 {
 	return ++getInstance()->uid;
 }
 
-Omnific::UIDGenerator* Omnific::UIDGenerator::getInstance()
+Omnia::UIDGenerator* Omnia::UIDGenerator::getInstance()
 {
 	if (instance == nullptr)
 		instance = new UIDGenerator();

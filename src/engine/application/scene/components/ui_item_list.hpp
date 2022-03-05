@@ -28,7 +28,7 @@
 #include "application/scene/renderable_component.hpp"
 
 
-namespace Omnific
+namespace Omnia
 {
 	class UIItemList : public RenderableComponent
 	{

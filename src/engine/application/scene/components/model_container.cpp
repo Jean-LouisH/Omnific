@@ -22,7 +22,7 @@
 
 #include "model_container.hpp"
 
-std::shared_ptr<Omnific::Model> Omnific::ModelContainer::getCurrentModel()
+std::shared_ptr<Omnia::Model> Omnia::ModelContainer::getCurrentModel()
 {
 	std::shared_ptr<Model> model = std::shared_ptr<Model>(new Model());
 

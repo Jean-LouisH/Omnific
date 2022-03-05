@@ -30,7 +30,7 @@
 #include <memory>
 #include <vector>
 
-namespace Omnific
+namespace Omnia
 {
 	class ModelContainer : public RenderableComponent
 	{

@@ -22,25 +22,25 @@
 
 #include "countdown_timer.hpp"
 
-void Omnific::CountdownTimer::start(float time)
+void Omnia::CountdownTimer::start(float time)
 {
 	this->startTime = time;
 	this->currentTime = startTime;
 	this->isActive = true;
 }
 
-void Omnific::CountdownTimer::update(float deltaTime)
+void Omnia::CountdownTimer::update(float deltaTime)
 {
 	if (this->isActive && this->currentTime > 0.0)
 		this->currentTime -= deltaTime;
 }
 
-void Omnific::CountdownTimer::stop()
+void Omnia::CountdownTimer::stop()
 {
 	this->isActive = false;
 }
 
-bool Omnific::CountdownTimer::isFinished()
+bool Omnia::CountdownTimer::isFinished()
 {
 	return this->currentTime <= 0.0;
 }

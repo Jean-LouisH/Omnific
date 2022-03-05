@@ -24,7 +24,7 @@
 
 #include "application/scene/scene.hpp"
 
-namespace Omnific
+namespace Omnia
 {
     /* Base class for objects that process Scenes and
     their Component properties for updates or output.*/

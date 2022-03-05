@@ -23,28 +23,28 @@
 #include "asset.hpp"
 #include <application/uid_generator.hpp>
 
-Omnific::Asset::Asset()
+Omnia::Asset::Asset()
 {
 	this->id = UIDGenerator::getNewUID();
 	this->name = "Asset (ID:" + std::to_string(this->id) + ")";
 }
 
-Omnific::AssetID Omnific::Asset::getID()
+Omnia::AssetID Omnia::Asset::getID()
 {
 	return this->id;
 }
 
-void Omnific::Asset::setName(std::string name)
+void Omnia::Asset::setName(std::string name)
 {
 	this->name = name;
 }
 
-std::string Omnific::Asset::getName()
+std::string Omnia::Asset::getName()
 {
 	return this->name;
 }
 
-std::string Omnific::Asset::getType() const
+std::string Omnia::Asset::getType() const
 {
 	return this->type;
 }

@@ -26,7 +26,7 @@
 #include "utilities/aliases.hpp"
 #include <vector>
 
-namespace Omnific
+namespace Omnia
 {
 	typedef struct ScriptCallBatch
 	{

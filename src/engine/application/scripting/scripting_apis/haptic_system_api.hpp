@@ -22,7 +22,7 @@
 
 #pragma once
 
-namespace Omnific
+namespace Omnia
 {
 	class HapticSystemAPI
 	{

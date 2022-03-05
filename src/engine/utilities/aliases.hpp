@@ -24,7 +24,7 @@
 
 #include <stdint.h>
 
-namespace Omnific
+namespace Omnia
 {
 	using UID = uint64_t;
 	using EntityID = UID;

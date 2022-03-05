@@ -23,7 +23,7 @@
 #include "ui_text_label.hpp"
 
 
-void Omnific::UITextLabel::setText(std::string text)
+void Omnia::UITextLabel::setText(std::string text)
 {
 	if (text != this->text)
 	{
@@ -32,89 +32,89 @@ void Omnific::UITextLabel::setText(std::string text)
 	}
 }
 
-void Omnific::UITextLabel::setFont(std::shared_ptr<Omnific::Font> font, uint16_t size_px)
+void Omnia::UITextLabel::setFont(std::shared_ptr<Omnia::Font> font, uint16_t size_px)
 {
 	this->font = font;
 	this->size = size_px;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontStyleNormal()
+void Omnia::UITextLabel::setFontStyleNormal()
 {
 	this->style = Font::Style::NORMAL;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontStyleBold()
+void Omnia::UITextLabel::setFontStyleBold()
 {
 	this->style = Font::Style::BOLD;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontStyleItalic()
+void Omnia::UITextLabel::setFontStyleItalic()
 {
 	this->style = Font::Style::ITALIC;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontStyleUnderline()
+void Omnia::UITextLabel::setFontStyleUnderline()
 {
 	this->style = Font::Style::UNDERLINE;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontStyleStrikethrough()
+void Omnia::UITextLabel::setFontStyleStrikethrough()
 {
 	this->style = Font::Style::STRIKETHROUGH;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontRenderModeSolid()
+void Omnia::UITextLabel::setFontRenderModeSolid()
 {
 	this->mode = Font::RenderMode::SOLID;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontRenderModeShaded()
+void Omnia::UITextLabel::setFontRenderModeShaded()
 {
 	this->mode = Font::RenderMode::SHADED;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontRenderModeBlended()
+void Omnia::UITextLabel::setFontRenderModeBlended()
 {
 	this->mode = Font::RenderMode::BLENDED;
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setFontSize(uint16_t size_px)
+void Omnia::UITextLabel::setFontSize(uint16_t size_px)
 {
 
 	this->generateImage();
 }
 
-void Omnific::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnia::UITextLabel::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->colour = Colour(red, green, blue, alpha);
 	this->generateImage();
 }
 
-Omnific::Font::Style Omnific::UITextLabel::getFontStyle()
+Omnia::Font::Style Omnia::UITextLabel::getFontStyle()
 {
 	return this->style;
 }
 
-void Omnific::UITextLabel::setAlpha(uint8_t value)
+void Omnia::UITextLabel::setAlpha(uint8_t value)
 {
 	this->image->setAlpha(value);
 }
 
-uint8_t Omnific::UITextLabel::getAlpha()
+uint8_t Omnia::UITextLabel::getAlpha()
 {
 	return this->image->getAlpha();
 }
 
-void Omnific::UITextLabel::generateImage()
+void Omnia::UITextLabel::generateImage()
 {
 	if (this->font != nullptr)
 	{

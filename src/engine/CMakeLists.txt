@@ -1,15 +1,15 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE omnia_engine_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE omnia_engine_headers "[a-zA-Z]*.hpp")
 
-add_library(omnific_engine SHARED
-	  ${omnific_engine_sources}
-	  ${omnific_engine_headers}
+add_library(omnia_engine SHARED
+	  ${omnia_engine_sources}
+	  ${omnia_engine_headers}
 )
 
-add_dependencies (omnific_engine
+add_dependencies (omnia_engine
 	yaml_cpp
 	glad
 )
@@ -39,7 +39,7 @@ include_directories(
 		.
 )
 
-target_link_libraries (omnific_engine
+target_link_libraries (omnia_engine
 		yaml_cpp
 		glad
 		${SDL2}
@@ -50,8 +50,8 @@ target_link_libraries (omnific_engine
 
 )
 
-add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
+add_definitions(-D_OMNIA_ENGINE_EXPORTS)
 
-add_custom_command(TARGET omnific_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/main/omnific_engine.dll
+add_custom_command(TARGET omnia_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnia_engine> ${PROJECT_BINARY_DIR}/src/main/omnia_engine.dll
 )

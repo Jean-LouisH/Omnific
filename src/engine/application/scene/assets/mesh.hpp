@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-namespace Omnific
+namespace Omnia
 {
 	class Mesh : public Asset
 	{

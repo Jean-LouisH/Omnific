@@ -27,18 +27,18 @@
 #include <memory>
 #include "scene/asset.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	class AssetCache
 	{
 	public:
-		static void store(std::shared_ptr<Omnific::Asset>);
+		static void store(std::shared_ptr<Omnia::Asset>);
 		static void deleteAsset(std::string filepath);
 		static void deleteAllAssets();
-		static std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> getAssets();
+		static std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> getAssets();
 	private:
 		static AssetCache* instance;
 		static AssetCache* getInstance();
-		std::unordered_map<std::string, std::shared_ptr<Omnific::Asset>> assets;
+		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> assets;
 	};
 }

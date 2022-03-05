@@ -38,20 +38,20 @@
 #include <memory>
 
 #if defined (_WIN32)
-#if defined(_OMNIFIC_ENGINE_EXPORTS)
-#define  OMNIFIC_ENGINE_API __declspec(dllexport)
+#if defined(_OMNIA_ENGINE_EXPORTS)
+#define  OMNIA_ENGINE_API __declspec(dllexport)
 #else
-#define  OMNIFIC_ENGINE_API __declspec(dllimport)
+#define  OMNIA_ENGINE_API __declspec(dllimport)
 #endif
 #else
-#define OMNIFIC_ENGINE_API
+#define OMNIA_ENGINE_API
 #endif
 
-namespace Omnific
+namespace Omnia
 {
 	/* The main class responsible for engine runtime 
 	   that supports the application built on it. */
-	class OMNIFIC_ENGINE_API Engine
+	class OMNIA_ENGINE_API Engine
 	{
 	public:
 		Engine(

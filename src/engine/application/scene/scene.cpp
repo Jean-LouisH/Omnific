@@ -24,35 +24,35 @@
 #include "component.hpp"
 #include "application/scripting/python_vm/script_call_batch.hpp"
 
-Omnific::Scene::Scene()
+Omnia::Scene::Scene()
 {
 	this->id = UIDGenerator::getNewUID();
 }
 
-void Omnific::Scene::addSceneTree(SceneTree sceneTree)
+void Omnia::Scene::addSceneTree(SceneTree sceneTree)
 {
 	this->sceneTrees.emplace(sceneTree.getID(), sceneTree);
 	this->lastSceneTreeID = sceneTree.getID();
 }
 
-void Omnific::Scene::addEmptySceneTree()
+void Omnia::Scene::addEmptySceneTree()
 {
 	SceneTree sceneTree;
 	this->addSceneTree(sceneTree);
 }
 
-void Omnific::Scene::removeSceneTree(SceneTreeID sceneTreeID)
+void Omnia::Scene::removeSceneTree(SceneTreeID sceneTreeID)
 {
 	if (this->sceneTrees.count(sceneTreeID))
 		this->sceneTrees.erase(sceneTreeID);
 }
 
-Omnific::SceneTree& Omnific::Scene::getSceneTree(SceneTreeID sceneTree)
+Omnia::SceneTree& Omnia::Scene::getSceneTree(SceneTreeID sceneTree)
 {
 	return this->sceneTrees.at(sceneTree);
 }
 
-Omnific::SceneTree& Omnific::Scene::getSceneTreeByName(std::string name)
+Omnia::SceneTree& Omnia::Scene::getSceneTreeByName(std::string name)
 {
 	SceneTree* sceneTree = nullptr;
 
@@ -63,17 +63,17 @@ Omnific::SceneTree& Omnific::Scene::getSceneTreeByName(std::string name)
 	return *sceneTree;
 }
 
-Omnific::SceneTree& Omnific::Scene::getLastSceneTree()
+Omnia::SceneTree& Omnia::Scene::getLastSceneTree()
 {
 	return this->sceneTrees.at(this->lastSceneTreeID);
 }
 
-std::unordered_map<Omnific::SceneTreeID, Omnific::SceneTree>& Omnific::Scene::getSceneTrees()
+std::unordered_map<Omnia::SceneTreeID, Omnia::SceneTree>& Omnia::Scene::getSceneTrees()
 {
 	return this->sceneTrees;
 }
 
-Omnific::SceneID Omnific::Scene::getID()
+Omnia::SceneID Omnia::Scene::getID()
 {
 	return this->id;
 }

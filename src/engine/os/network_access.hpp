@@ -24,7 +24,7 @@
 
 #include <string>
 
-namespace Omnific
+namespace Omnia
 {
 	class NetworkAccess
 	{

@@ -22,22 +22,22 @@
 
 #include "ui_viewport.hpp"
 
-Omnific::EntityID Omnific::UIViewport::getCameraEntityID()
+Omnia::EntityID Omnia::UIViewport::getCameraEntityID()
 {
 	return this->cameraEntityID;
 }
 
-void Omnific::UIViewport::setCameraEntity(EntityID cameraEntityID)
+void Omnia::UIViewport::setCameraEntity(EntityID cameraEntityID)
 {
 	this->cameraEntityID = cameraEntityID;
 }
 
-Omnific::Rectangle Omnific::UIViewport::getDimensions()
+Omnia::Rectangle Omnia::UIViewport::getDimensions()
 {
 	return  this->dimensions;
 }
 
-void Omnific::UIViewport::setDimensions(uint32_t width, uint32_t height)
+void Omnia::UIViewport::setDimensions(uint32_t width, uint32_t height)
 {
 	this->dimensions.width = width;
 	this->dimensions.height = height;

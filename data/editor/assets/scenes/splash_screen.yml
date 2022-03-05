@@ -1,18 +1,17 @@
-Scene:
+SceneTree:
+  name: "main"
+  spatial_dimension: 3
   Entity:
     name: "Camera"
-    spatial_dimension: 2
     Transform:
       translation: [0, 0, 1]
     Camera: "default"
   Entity:
     name: "SplashScreenSprite"
-    spatial_dimension: 2
     SpriteContainer:
       image: "assets/images/lilliputian_wordmark.png"
   Entity:
     name: "Text"
-    spatial_dimension: 2
     Transform:
       translation: [0, -200, 0]
     UITextLabel: 
@@ -21,6 +20,5 @@ Scene:
       colour: [255, 0, 0, 255]
   Entity:
     name: "Viewport"
-    spatial_dimension: 2
     UIViewport:
       camera_entity: "Camera"

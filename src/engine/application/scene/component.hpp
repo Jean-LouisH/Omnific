@@ -31,7 +31,7 @@
 #include "component_property_pool.hpp"
 #include <memory>
 
-namespace Omnific
+namespace Omnia
 {
 	/* Base class for objects that store and manipulate 
 	   data relevant to individual Entities in a Scene.

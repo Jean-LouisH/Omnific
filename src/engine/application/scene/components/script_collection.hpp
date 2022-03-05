@@ -27,7 +27,7 @@
 
 #include <vector>
 
-namespace Omnific
+namespace Omnia
 {
 	class ScriptCollection : public Component
 	{

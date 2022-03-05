@@ -31,7 +31,7 @@
 
 int main(int argc, char* argv[])
 {
-	Omnific::Engine omnific(argc, argv);
-	omnific.run();
+	Omnia::Engine omnia(argc, argv);
+	omnia.run();
 	return 0;
 }

@@ -33,7 +33,7 @@
 #include <memory>
 
 
-namespace Omnific
+namespace Omnia
 {
 	/* Identifier for buffers bound to a draw call. */
 	class VertexArray

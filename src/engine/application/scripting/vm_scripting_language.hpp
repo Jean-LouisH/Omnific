@@ -24,7 +24,7 @@
 
 #include "scripting_language.hpp"
 
-namespace Omnific
+namespace Omnia
 {
     class VMScriptingLanguage : ScriptingLanguage
     {

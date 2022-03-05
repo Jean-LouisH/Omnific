@@ -28,7 +28,7 @@
 #include <string>
 #include <application/scene/assets/shader.hpp>
 
-namespace Omnific
+namespace Omnia
 {
 	/* The objects that facilitate GPU computation with settable uniform values. */
 	class ShaderProgram

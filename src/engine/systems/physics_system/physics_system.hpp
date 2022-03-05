@@ -25,7 +25,7 @@
 #include "application/scene/scene.hpp"
 #include "system.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes Components related to time and classical mechanics physics simulations. */
 	class PhysicsSystem : public System

@@ -30,7 +30,7 @@
 
 #include "freetype/freetype.h"
 
-namespace Omnific
+namespace Omnia
 {
 	class Font : public Asset
 	{

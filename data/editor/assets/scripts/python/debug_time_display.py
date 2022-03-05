@@ -1,8 +1,8 @@
-import omnific_engine as oe
+import omnia
 import time
 
 def on_frame():
-    scene_api = oe.get_scene_api()
+    scene_api = omnia.get_scene_api()
     
     if scene_api.has_component("UITextLabel"):
         current_time_string = time.strftime("%H:%M:%S", time.localtime())

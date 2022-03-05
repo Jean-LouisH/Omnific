@@ -23,7 +23,7 @@
 #include "event_bus.hpp"
 #include <os/os.hpp>
 
-void Omnific::EventBus::publish(
+void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, float> floats,
 	std::unordered_map<std::string, std::string> strings)
@@ -32,7 +32,7 @@ void Omnific::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Omnific::EventBus::publish(
+void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, float> floats)
 {
@@ -41,7 +41,7 @@ void Omnific::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Omnific::EventBus::publish(
+void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, std::string> strings)
 {
@@ -50,7 +50,7 @@ void Omnific::EventBus::publish(
 	this->publishWithParameters(name, parameters);
 }
 
-void Omnific::EventBus::publish(
+void Omnia::EventBus::publish(
 	std::string name)
 {
 	std::vector<Event> eventsList;
@@ -67,12 +67,12 @@ void Omnific::EventBus::publish(
 	this->events.emplace(name, eventsList);
 }
 
-void Omnific::EventBus::clear()
+void Omnia::EventBus::clear()
 {
 	this->events.clear();
 }
 
-std::vector<Omnific::Event> Omnific::EventBus::query(std::string name)
+std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 {
 	std::vector<Event> queryResults;
 
@@ -82,7 +82,7 @@ std::vector<Omnific::Event> Omnific::EventBus::query(std::string name)
 	return queryResults;
 }
 
-void Omnific::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
+void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	std::vector<Event> eventsList;
 

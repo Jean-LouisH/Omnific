@@ -23,7 +23,7 @@
 #include "haptic_signal_buffer.hpp"
 
 
-void Omnific::HapticSignalBuffer::publish(PlayerID playerID, float strength_pct, uint16_t duration_ms)
+void Omnia::HapticSignalBuffer::publish(PlayerID playerID, float strength_pct, uint16_t duration_ms)
 {
 	std::queue<HapticSignal> hapticSignalQueue;
 	HapticSignal newHapticSignal = HapticSignal(playerID, strength_pct, duration_ms);
@@ -42,17 +42,17 @@ void Omnific::HapticSignalBuffer::publish(PlayerID playerID, float strength_pct,
 
 }
 
-void Omnific::HapticSignalBuffer::clear()
+void Omnia::HapticSignalBuffer::clear()
 {
 	this->hapticSignals.clear();
 }
 
-std::unordered_map<Omnific::PlayerID, std::queue<Omnific::HapticSignal>>& Omnific::HapticSignalBuffer::getHapticSignals()
+std::unordered_map<Omnia::PlayerID, std::queue<Omnia::HapticSignal>>& Omnia::HapticSignalBuffer::getHapticSignals()
 {
 	return this->hapticSignals;
 }
 
-std::queue<Omnific::HapticSignal>& Omnific::HapticSignalBuffer::query(PlayerID playerID)
+std::queue<Omnia::HapticSignal>& Omnia::HapticSignalBuffer::query(PlayerID playerID)
 {
 	return this->hapticSignals.at(playerID);
 }

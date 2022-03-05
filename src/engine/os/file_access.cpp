@@ -25,37 +25,37 @@
 #include <fstream>
 #include <algorithm>
 
-Omnific::FileAccess::FileAccess(std::string executableFilepath)
+Omnia::FileAccess::FileAccess(std::string executableFilepath)
 {
 	this->executableFilepath = executableFilepath;
 }
 
-void Omnific::FileAccess::setDataDirectory(std::string assetDirectory)
+void Omnia::FileAccess::setDataDirectory(std::string assetDirectory)
 {
 	this->dataDirectory = assetDirectory;
 }
 
-std::string Omnific::FileAccess::getExecutableFilePath()
+std::string Omnia::FileAccess::getExecutableFilePath()
 {
 	return this->executableFilepath;
 }
 
-std::string Omnific::FileAccess::getExecutableName()
+std::string Omnia::FileAccess::getExecutableName()
 {
 	return this->getFileNameWithoutExtension(this->executableFilepath);
 }
 
-std::string Omnific::FileAccess::getExecutableDirectoryPath()
+std::string Omnia::FileAccess::getExecutableDirectoryPath()
 {
 	return this->getPathBeforeFile(this->executableFilepath);
 }
 
-std::string Omnific::FileAccess::getDataDirectoryPath()
+std::string Omnia::FileAccess::getDataDirectoryPath()
 {
 	return this->dataDirectory;
 }
 
-std::string Omnific::FileAccess::getFileNameWithoutExtension(std::string filepath)
+std::string Omnia::FileAccess::getFileNameWithoutExtension(std::string filepath)
 {
 	std::string fileName;
 	int nameIndexStart = 0;
@@ -73,7 +73,7 @@ std::string Omnific::FileAccess::getFileNameWithoutExtension(std::string filepat
 	return fileName;
 }
 
-std::string Omnific::FileAccess::getPathBeforeFile(std::string filepath)
+std::string Omnia::FileAccess::getPathBeforeFile(std::string filepath)
 {
 	std::string path;
 	int nameEndIndex = 0;
@@ -91,7 +91,7 @@ std::string Omnific::FileAccess::getPathBeforeFile(std::string filepath)
 	return path;
 }
 
-bool Omnific::FileAccess::exists(std::string filepath)
+bool Omnia::FileAccess::exists(std::string filepath)
 {
 	std::ifstream inputFile(filepath);
 	return inputFile.good();

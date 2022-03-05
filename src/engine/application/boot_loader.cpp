@@ -23,7 +23,7 @@
 #include "boot_loader.hpp"
 #include <yaml-cpp/yaml.h>
 
-Omnific::Configuration* Omnific::BootLoader::loadFromFile(std::string bootFilepath)
+Omnia::Configuration* Omnia::BootLoader::loadFromFile(std::string bootFilepath)
 {
 	Configuration* configuration = new Configuration();
 
@@ -79,9 +79,9 @@ Omnific::Configuration* Omnific::BootLoader::loadFromFile(std::string bootFilepa
 					{
 						configuration->windowSettings.isStartingMaximized = it1->second.as<bool>();
 					}
-					else if (it1->first.as<std::string>() == "romnificzable")
+					else if (it1->first.as<std::string>() == "romniazable")
 					{
-						configuration->windowSettings.isRomnificzable = it1->second.as<bool>();
+						configuration->windowSettings.isRomniazable = it1->second.as<bool>();
 					}
 				}
 			}

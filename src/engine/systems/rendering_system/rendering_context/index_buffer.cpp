@@ -22,12 +22,12 @@
 
 #include "index_buffer.hpp"
 
-Omnific::IndexBuffer::IndexBuffer()
+Omnia::IndexBuffer::IndexBuffer()
 {
 
 }
 
-Omnific::IndexBuffer::IndexBuffer(std::shared_ptr<Mesh> mesh)
+Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<Mesh> mesh)
 {
 	if (mesh != nullptr)
 	{
@@ -41,7 +41,7 @@ Omnific::IndexBuffer::IndexBuffer(std::shared_ptr<Mesh> mesh)
 	}
 }
 
-Omnific::IndexBuffer::IndexBuffer(std::shared_ptr<Image> image)
+Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<Image> image)
 {
 	if (image != nullptr)
 	{
@@ -59,22 +59,22 @@ Omnific::IndexBuffer::IndexBuffer(std::shared_ptr<Image> image)
 	}
 }
 
-Omnific::IndexBuffer::~IndexBuffer()
+Omnia::IndexBuffer::~IndexBuffer()
 {
 	this->deleteIndexBuffer();
 }
 
-void Omnific::IndexBuffer::bind()
+void Omnia::IndexBuffer::bind()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
 }
 
-void Omnific::IndexBuffer::deleteIndexBuffer()
+void Omnia::IndexBuffer::deleteIndexBuffer()
 {
 	glDeleteBuffers(1, &this->indexBufferID);
 }
 
-unsigned int Omnific::IndexBuffer::getIndexCount()
+unsigned int Omnia::IndexBuffer::getIndexCount()
 {
 	return this->indexCount;
 }

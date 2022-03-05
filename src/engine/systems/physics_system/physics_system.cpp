@@ -25,22 +25,22 @@
 #include <utilities/constants.hpp>
 #include <os/os.hpp>
 
-Omnific::PhysicsSystem::~PhysicsSystem()
+Omnia::PhysicsSystem::~PhysicsSystem()
 {
 	this->deinitialize();
 }
 
-void Omnific::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
+void Omnia::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
 {
 	this->secondsPerComputeUpdate = msPerComputeUpdate * (1.0 / MS_IN_S);
 }
 
-void Omnific::PhysicsSystem::initialize()
+void Omnia::PhysicsSystem::initialize()
 {
 	this->isInitialized = true;
 }
 
-void Omnific::PhysicsSystem::process(Scene& scene)
+void Omnia::PhysicsSystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
@@ -57,12 +57,12 @@ void Omnific::PhysicsSystem::process(Scene& scene)
 	}
 }
 
-void Omnific::PhysicsSystem::deinitialize()
+void Omnia::PhysicsSystem::deinitialize()
 {
 	this->isInitialized = false;
 }
 
-void Omnific::PhysicsSystem::updateTimers(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::updateTimers(SceneTree& sceneTree)
 {
 	std::vector<std::shared_ptr<CountdownTimer>> countdownTimers = sceneTree.getComponentsByType<CountdownTimer>();
 
@@ -72,7 +72,7 @@ void Omnific::PhysicsSystem::updateTimers(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::displace(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::displace(SceneTree& sceneTree)
 {
 	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
 	std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree.getComponentsByType<CharacterBody>();
@@ -93,7 +93,7 @@ void Omnific::PhysicsSystem::displace(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::gravitate(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::gravitate(SceneTree& sceneTree)
 {
 	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
 
@@ -104,7 +104,7 @@ void Omnific::PhysicsSystem::gravitate(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::decelerate(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::decelerate(SceneTree& sceneTree)
 {
 	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
 
@@ -117,7 +117,7 @@ void Omnific::PhysicsSystem::decelerate(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::applyForces(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::applyForces(SceneTree& sceneTree)
 {
 	std::vector<std::shared_ptr<ConstantForce>> constantForces = sceneTree.getComponentsByType<ConstantForce>();
 
@@ -130,7 +130,7 @@ void Omnific::PhysicsSystem::applyForces(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 {
 	/* Very basic collision detection on boxes for now. */
 	std::vector<std::shared_ptr<Collider>> colliders = sceneTree.getComponentsByType<Collider>();
@@ -229,7 +229,7 @@ void Omnific::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 {
 	std::vector<Event> collisionEvents = sceneTree.getEventBus().query(this->collisionEventString);
 	size_t collisionEventCount = collisionEvents.size();
@@ -261,7 +261,7 @@ void Omnific::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 	}
 }
 
-void Omnific::PhysicsSystem::onComputeEnd(Scene& scene)
+void Omnia::PhysicsSystem::onComputeEnd(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree> sceneTrees = scene.getSceneTrees();
 

@@ -28,7 +28,7 @@
 #include "application/scene/scene.hpp"
 #include "system.hpp"
 
-namespace Omnific
+namespace Omnia
 {
 	/* Processes Components that enable playback of audio and outputs its waveforms. */
 	class AudioSystem : System
