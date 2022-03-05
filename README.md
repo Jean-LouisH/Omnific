@@ -22,12 +22,12 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It's loosely b
 ## Notable Planned Features
 
 - UI Framework built with UI Components and the UI System
-- An Editor Application built with the Engine, C++ and Python scripting
-- Data-oriented Component property access using a ComponentPropertyPool for Systems
-- Multithreaded Systems
 - Physically Based Rendering
-- Vulkan Rendering Context with SPIR-V
+- An Editor Application built with the Engine, C++ and Python scripting
 - Acoustic Audio Simulation
+- Multithreaded Systems
+- Data-oriented Component property access using a ComponentPropertyPool for Systems
+- Vulkan Rendering Context with SPIR-V
 - Network Access for peer-to-peer gameplay
 
 ## Compilation Instructions
