@@ -59,29 +59,6 @@ void Omnia::SpriteContainer::clearFrameSequences()
 	this->image = this->getCurrentFrame();
 }
 
-void Omnia::SpriteContainer::setAlpha(uint8_t value)
-{
-	this->alpha = value;
-	//apply to all frames...
-}
-
-uint8_t Omnia::SpriteContainer::getAlpha()
-{
-	return this->alpha;
-}
-
-void Omnia::SpriteContainer::hide()
-{
-	this->alpha = 0;
-	//apply to all frames...
-}
-
-void Omnia::SpriteContainer::show()
-{
-	this->alpha = 255;
-	//apply to all frames...
-}
-
 void Omnia::SpriteContainer::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)

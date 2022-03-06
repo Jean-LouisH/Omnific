@@ -40,6 +40,31 @@ void Omnia::RenderableComponent::addShader(std::shared_ptr<Omnia::Shader> shader
 	this->shaders.push_back(shader);
 }
 
+void Omnia::RenderableComponent::setAlpha(uint8_t value)
+{
+	this->alpha = value;
+}
+
+uint8_t Omnia::RenderableComponent::getAlpha()
+{
+	return this->alpha;
+}
+
+float Omnia::RenderableComponent::getAlphaInPercentage()
+{
+	return (this->alpha / 255.0);
+}
+
+void Omnia::RenderableComponent::hide()
+{
+	this->alpha = 0;
+}
+
+void Omnia::RenderableComponent::show()
+{
+	this->alpha = 255;
+}
+
 std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::getImage()
 {
 	return this->image;

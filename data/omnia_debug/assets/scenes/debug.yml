@@ -1,25 +1,48 @@
 SceneTree:
+  name: "background"
   spatial_dimension: 3
   Entity:
     name: "Camera"
     Transform:
-      translation: [0, 0, 2]
+      translation: [0, 0, 30]
     Camera: "default"
   Entity:
-    name: "Text"
+    name: "BackgroundShade"
+    SpriteContainer:
+      image: "assets/images/black.jpg"
+      dimensions: [50.0, 50.0, 0.1]
+  Entity:
+    name: "Background"
+    SpriteContainer:
+      image: "assets/images/orange_to_brown.jpg"
+      dimensions: [50.0, 50.0, 0.1]
+      alpha: 0.4
     Transform:
-      translation: [0, 0, 0]
-    UITextLabel: 
-      text: "Time: "
-      font: ["assets/fonts/Lato-Regular.ttf", 90]
-      colour: [0, 0, 255, 255]
-    ScriptCollection:
-      python: ["assets/scripts/python/debug_time_display.py", "assets/scripts/python/debug_input_logging.py"]
+      translation: [0, 0, 1]
+  Entity:
+    name: "Viewport"
+    UIViewport:
+      camera_entity: "Camera"	
+SceneTree:
+  name: "foreground"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 30, 80]
+      rotation: [-10, 0, 0]
+    Camera: "default"
+  Entity:
+    name: "Floor"
+    Transform:
+      translation: [0, 0, -5]
+      rotation: [-90, 0, 0]
+    SpriteContainer:
+      image: "assets/images/brown_wooden_planks.jpg"
+      dimensions: [50.0, 50.0, 0.1]
+    Collider:
+      dimensions: [50.0, 50.0, 0.1]
   Entity:
     name: "Viewport"
     UIViewport:
       camera_entity: "Camera"
-  Entity:
-    name: "Model"
-    ModelContainer:
-      model: "assets/models/default_cube.glb"

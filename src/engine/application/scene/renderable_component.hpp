@@ -36,14 +36,20 @@ namespace Omnia
 		void setDimensions(float width, float height);
 		void setDimensions(float width, float height, float depth);
 		void addShader(std::shared_ptr<Shader> shader);
+		void setAlpha(uint8_t value);
+		uint8_t getAlpha();
+		float getAlphaInPercentage();
+		void hide();
+		void show();
 		std::shared_ptr<Image> getImage();
 		std::vector<std::shared_ptr<Shader>> getShaders();
 		glm::vec3 getDimensions();
 		bool isRenderable() override;
 	protected:
+		glm::vec3 dimensions;
+		uint8_t alpha = 255;
 		std::shared_ptr<Image> image;
 		std::vector<std::shared_ptr<Shader>> shaders;
-		glm::vec3 dimensions;
 	private:
 	};
 }

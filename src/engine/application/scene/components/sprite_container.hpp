@@ -53,11 +53,6 @@ namespace Omnia
 		void addImageToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame);
 		void clearFrameSequences();
 
-		void setAlpha(uint8_t value);
-		uint8_t getAlpha();
-		void hide();
-		void show();
-
 		void setAnimationSpeed(float value_fps);
 		float getAnimationSpeed();
 
@@ -80,7 +75,6 @@ namespace Omnia
 		std::vector<std::shared_ptr<Image>> getCurrentFrameSequence();
 	private:
 		std::unordered_map<std::string, std::vector<std::shared_ptr<Image>>> frameSequences;
-		uint8_t alpha = 255;
 		float animationSpeedInFPS = 12.0;
 		float frameTime = 0.0;
 		uint16_t currentFrameIndex = 0;

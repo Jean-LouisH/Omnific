@@ -1,14 +1,11 @@
 SceneTree:
+  name: "main"
   spatial_dimension: 3
   Entity:
     name: "Camera"
     Transform:
-      translation: [0, 0, 1]
+      translation: [0, 0, 2]
     Camera: "default"
-  Entity:
-    name: "SplashScreenSprite"
-    SpriteContainer:
-      image: "assets/images/lilliputian_wordmark.png"
   Entity:
     name: "Text"
     Transform:

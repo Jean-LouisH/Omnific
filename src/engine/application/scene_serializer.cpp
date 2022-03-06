@@ -412,6 +412,10 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 												it3->second[1].as<double>(),
 												it3->second[2].as<double>());
 										}
+										else if (it3->first.as<std::string>() == "alpha")
+										{
+											sprite->setAlpha((uint8_t)(it3->second.as<double>() * 255.0));
+										}
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);

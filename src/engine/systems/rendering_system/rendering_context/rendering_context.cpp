@@ -53,6 +53,8 @@ void Omnia::RenderingContext::initialize()
 		OS::getLogger().write((std::string)("Rendering System initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 	}
 }
@@ -98,6 +100,7 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 
 					glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
 					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
+					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
 					AssetID assetID = 0;
 
 					if (entityRenderable.renderableComponent->isType(ModelContainer::TYPE_STRING))
@@ -147,6 +150,7 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 						shaderProgram->use();
 						shaderProgram->setInt("textureSampler", 0);
 						shaderProgram->setMat4("mvp", mvp);
+						shaderProgram->setFloat("alpha", alpha);
 						glDrawElements(GL_TRIANGLES, (GLsizei)this->vertexArrays.at(assetID)->getIndexCount(), GL_UNSIGNED_INT, 0);
 					}
 
