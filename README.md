@@ -1,6 +1,6 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
-![In Progress](sprite_in_arena.png)
+![In Progress](debug.png)
 
 **This project is still a work in progress**
 
