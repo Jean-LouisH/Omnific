@@ -166,7 +166,7 @@ void Omnia::Engine::update()
 	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 	this->application->executeOnInputMethods();
 	this->application->executeOnStartMethods();
-	this->application->executeOnFrameMethods();
+	this->application->executeOnLogicFrameMethods();
 	this->uiSystem->process(activeScene);
 	this->aiSystem->process(activeScene);
 
@@ -176,7 +176,7 @@ void Omnia::Engine::update()
 
 	while (profiler.getLagCount() >= msPerComputeUpdate)
 	{
-		this->application->executeOnComputeMethods();
+		this->application->executeOnComputeFrameMethods();
 		this->animationSystem->process(activeScene);
 		this->physicsSystem->process(activeScene);
 		profiler.decrementLagCount(msPerComputeUpdate);

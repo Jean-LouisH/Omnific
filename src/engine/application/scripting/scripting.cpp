@@ -52,21 +52,21 @@ void Omnia::Scripting::executeOnInputMethods(Scene& scene)
 		this->pythonVM->executeOnInputMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
-void Omnia::Scripting::executeOnFrameMethods(Scene& scene)
+void Omnia::Scripting::executeOnLogicFrameMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnFrameMethods(it->second.generateCallBatches(CallType::UPDATE));
+		this->pythonVM->executeOnLogicFrameMethods(it->second.generateCallBatches(CallType::UPDATE));
 	this->cppNative->executeOnFrameMethods();
 }
 
-void Omnia::Scripting::executeOnComputeMethods(Scene& scene)
+void Omnia::Scripting::executeOnComputeFrameMethods(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnComputeMethods(it->second.generateCallBatches(CallType::UPDATE));
+		this->pythonVM->executeOnComputeFrameMethods(it->second.generateCallBatches(CallType::UPDATE));
 }
 
 void Omnia::Scripting::executeOnOutputMethods(Scene& scene)

@@ -30,7 +30,7 @@ namespace Omnia
 	{
 	public:
 		virtual void onStart() override;
-		virtual void onFrame() override;
+		virtual void onLogicFrame() override;
 	private:
 		int countdown_value = 5.0;
 		const char* next_scene = "project_list";

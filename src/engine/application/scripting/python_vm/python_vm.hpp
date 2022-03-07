@@ -42,8 +42,8 @@ namespace Omnia
 		void onModifiedScriptInstance(Scene scene);
 		void executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnLogicFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnComputeFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 	private:

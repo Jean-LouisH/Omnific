@@ -29,8 +29,8 @@ namespace Omnia
 	public:
 		virtual void executeOnStartMethods();
 		virtual void executeOnInputMethods();
-		virtual void executeOnFrameMethods();
-		virtual void executeOnComputeMethods();
+		virtual void executeOnLogicFrameMethods();
+		virtual void executeOnComputeFrameMethods();
 		virtual void executeOnOutputMethods();
 		virtual void executeOnFinishMethods();
 	private:

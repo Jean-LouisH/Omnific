@@ -40,8 +40,8 @@ namespace Omnia
 		void onModifiedScriptInstance(Scene scene);
 		void executeOnStartMethods(Scene& scene);
 		void executeOnInputMethods(Scene& scene);
-		void executeOnFrameMethods(Scene& scene);
-		void executeOnComputeMethods(Scene& scene);
+		void executeOnLogicFrameMethods(Scene& scene);
+		void executeOnComputeFrameMethods(Scene& scene);
 		void executeOnOutputMethods(Scene& scene);
 		void executeOnFinishMethods(Scene& scene);
 		void setSceneStorage(SceneStorage* sceneStorage);

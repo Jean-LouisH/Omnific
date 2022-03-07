@@ -1,7 +1,7 @@
 import omnia
 import time
 
-def on_frame():
+def on_logic_frame():
     scene_api = omnia.get_scene_api()
     
     if scene_api.has_component("UITextLabel"):

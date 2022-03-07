@@ -32,12 +32,12 @@ void Omnia::ScriptingLanguage::executeOnInputMethods()
 
 }
 
-void Omnia::ScriptingLanguage::executeOnFrameMethods()
+void Omnia::ScriptingLanguage::executeOnLogicFrameMethods()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnComputeMethods()
+void Omnia::ScriptingLanguage::executeOnComputeFrameMethods()
 {
 
 }

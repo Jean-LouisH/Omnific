@@ -110,18 +110,18 @@ void Omnia::Application::executeOnInputMethods()
 		this->scripting->executeOnInputMethods(this->getActiveScene());	
 }
 
-void Omnia::Application::executeOnFrameMethods()
+void Omnia::Application::executeOnLogicFrameMethods()
 {
 	if (!this->sceneStorage->isEmpty())
-		this->scripting->executeOnFrameMethods(this->getActiveScene());
+		this->scripting->executeOnLogicFrameMethods(this->getActiveScene());
 }
 
-void Omnia::Application::executeOnComputeMethods()
+void Omnia::Application::executeOnComputeFrameMethods()
 {
 	uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
 
 	if (!this->sceneStorage->isEmpty())
-		this->scripting->executeOnComputeMethods(this->getActiveScene());
+		this->scripting->executeOnComputeFrameMethods(this->getActiveScene());
 }
 
 void Omnia::Application::executeOnOutputMethods()

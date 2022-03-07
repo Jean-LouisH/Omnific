@@ -93,7 +93,7 @@ void Omnia::PythonVM::onModifiedScriptInstance(Scene scene)
 				}
 
 				Module newModule;
-				std::vector<std::string> methodNames = { "on_start", "on_input", "on_frame", "on_compute", "on_output", "on_finish" };
+				std::vector<std::string> methodNames = { "on_start", "on_input", "on_logic_frame", "on_compute_frame", "on_output", "on_finish" };
 				std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
 				pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
@@ -135,14 +135,14 @@ void Omnia::PythonVM::executeOnInputMethods(std::vector<ScriptCallBatch> scriptC
 	this->executeMethods(scriptCallBatches, "on_input");
 }
 
-void Omnia::PythonVM::executeOnFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnLogicFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
-	this->executeMethods(scriptCallBatches, "on_frame");
+	this->executeMethods(scriptCallBatches, "on_logic_frame");
 }
 
-void Omnia::PythonVM::executeOnComputeMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnComputeFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
 {
-	this->executeMethods(scriptCallBatches, "on_compute");
+	this->executeMethods(scriptCallBatches, "on_compute_frame");
 }
 
 void Omnia::PythonVM::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
