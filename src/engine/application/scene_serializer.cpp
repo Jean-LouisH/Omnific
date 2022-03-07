@@ -107,7 +107,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 								//Entity attributes
 								if (it2->first.as<std::string>() == "name")
 								{
-									sceneTree.getLastEntity().name = it2->second.as<std::string>();
+									sceneTree.setEntityName(sceneTree.getLastEntity().id, it2->second.as<std::string>());
 								}
 								else if (it2->first.as<std::string>() == "parent")
 								{

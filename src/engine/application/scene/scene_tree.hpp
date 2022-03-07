@@ -111,6 +111,8 @@ namespace Omnia
 
 		void addEntity(Entity entity);
 		void addEmptyEntity();
+		void setEntityName(EntityID entityID, std::string name);
+		void addEntityTag(EntityID entityID, std::string tag);
 		void addComponent(EntityID entityID, std::shared_ptr<Component> component);
 		void addComponentToLastEntity(std::shared_ptr<Component> component);
 
@@ -134,6 +136,21 @@ namespace Omnia
 		bool getHasScriptsChanged();
 		SceneTreeID getID();
 		std::string getName();
+
+		template <class T>
+		std::shared_ptr<T> getComponent(EntityID entityID)
+		{
+			std::shared_ptr<T> typedComponent = std::shared_ptr<T>(new T());
+			Entity& entity = this->getEntity(entityID);
+
+			if (entity.componentIDs.count(T::TYPE_STRING) > 0)
+			{
+				std::shared_ptr<Component> component = this->getComponent(entity.componentIDs.at(T::TYPE_STRING));
+				typedComponent = std::dynamic_pointer_cast<T>(component);
+			}
+
+			return typedComponent;
+		}
 
 		template <class T>
 		std::vector<std::shared_ptr<T>> getComponentsByType()
@@ -160,6 +177,8 @@ namespace Omnia
 		when Components invoke changes in other Components
 		attached to the Entity.*/
 		std::unordered_map<EntityID, Entity> entities;
+		std::unordered_map<std::string, EntityID> entityNames;
+		std::unordered_map<std::string, EntityID> entityTags;
 
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/

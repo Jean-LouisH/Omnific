@@ -41,6 +41,7 @@ void Omnia::SceneTree::addEntity(Entity entity)
 
 	this->startEntitiesQueue.emplace(entity.id);
 	this->entities.emplace(entity.id, entity);
+	this->entityNames.emplace(entity.name, entity.id);
 	this->lastEntityID = entity.id;
 }
 
@@ -48,6 +49,18 @@ void Omnia::SceneTree::addEmptyEntity()
 {
 	Entity emptyEntity;
 	this->addEntity(emptyEntity);
+}
+
+void Omnia::SceneTree::setEntityName(EntityID entityID, std::string name)
+{
+	this->getEntity(entityID).name = name;
+	this->entityNames.emplace(name, entityID);
+}
+
+void Omnia::SceneTree::addEntityTag(EntityID entityID, std::string tag)
+{
+	this->getEntity(entityID).tags.push_back(tag);
+	this->entityTags.emplace(tag, entityID);
 }
 
 void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component> component)
@@ -234,17 +247,7 @@ std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponents()
 
 std::shared_ptr<Omnia::Transform> Omnia::SceneTree::getEntityTransform(EntityID entityID)
 {
-	/* Uses a new Transform by default. */
-	std::shared_ptr<Transform> transform = std::shared_ptr<Transform>(new Transform());
-	Entity& entity = this->getEntity(entityID);
-
-	if (entity.componentIDs.count(Transform::TYPE_STRING) > 0)
-	{
-		std::shared_ptr<Component> transformComponent = this->getComponent(entity.componentIDs.at(Transform::TYPE_STRING));
-		transform = std::dynamic_pointer_cast<Transform>(transformComponent);
-	}
-
-	return transform;
+	return this->getComponent<Transform>(entityID);
 }
 
 Omnia::Entity& Omnia::SceneTree::getEntity(EntityID entityID)
@@ -254,13 +257,13 @@ Omnia::Entity& Omnia::SceneTree::getEntity(EntityID entityID)
 
 Omnia::Entity& Omnia::SceneTree::getEntityByName(std::string name)
 {
-	Entity* Entity = nullptr;
+	Entity* entity = nullptr;
 
 	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 		if (it->second.name == name)
 			return it->second;
 
-	return *Entity;
+	return *entity;
 }
 
 Omnia::Entity& Omnia::SceneTree::getLastEntity()
