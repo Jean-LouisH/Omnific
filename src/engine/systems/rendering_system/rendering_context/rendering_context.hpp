@@ -55,6 +55,14 @@ namespace Omnia
 		std::unordered_map<AssetID, std::shared_ptr<VertexArray>> vertexArrays;
 		std::unordered_map<AssetID, std::shared_ptr<ShaderProgram>> shaderPrograms;
 		std::shared_ptr<ShaderProgram> builtInShaderProgram;
+
+		uint8_t allowableMissedFrames = 0;
+		std::unordered_map<AssetID, uint8_t> missedFrameCounts;
+
+		std::shared_ptr<Texture> getTexture(std::shared_ptr<Image> image);
+		std::shared_ptr<VertexArray> getVertexArray(std::shared_ptr<Mesh> mesh);
+		std::shared_ptr<VertexArray> getVertexArray(std::shared_ptr<Image> image, glm::vec3 dimensions);
+		void collectGarbage();
 	};
 }
 

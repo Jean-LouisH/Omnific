@@ -109,9 +109,7 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 							std::dynamic_pointer_cast<ModelContainer>(entityRenderable.renderableComponent);
 						std::shared_ptr<Model> model = modelContainer->getCurrentModel();
 						assetID = model->getID();
-						if (this->vertexArrays.count(assetID) == 0)
-							this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(model->mesh)));
-						this->vertexArrays.at(assetID)->bind();
+						this->getVertexArray(model->mesh)->bind();
 					}
 					else
 					{
@@ -128,14 +126,9 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 
 						std::shared_ptr<Image> image = entityRenderable.renderableComponent->getImage();
 						assetID = image->getID();
-						if (this->textures.count(assetID) == 0)
-							this->textures.emplace(assetID, std::shared_ptr<Texture>(new Texture(image)));
-						if (this->vertexArrays.count(assetID) == 0)
-							this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(image, entityRenderable.renderableComponent->getDimensions())));
-						this->textures.at(assetID)->bind();
+						this->getTexture(image)->bind();
+						this->getVertexArray(image, entityRenderable.renderableComponent->getDimensions())->bind();
 					}
-
-					this->vertexArrays.at(assetID)->bind();
 
 					/* Render for each ShaderProgram. Starting with the built in one. */
 					for (int k = -1; k < (int)shaderCount; k++)
@@ -157,11 +150,13 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 					this->vertexArrays.at(assetID)->unbind();
 					if (this->textures.count(assetID) > 0)
 						this->textures.at(assetID)->activateDefaultTextureUnit();
+
 				}
 			}
 		}
 	}
 
+	this->collectGarbage();
 }
 
 void Omnia::RenderingContext::setViewport(uint32_t width, uint32_t height)
@@ -177,4 +172,70 @@ void Omnia::RenderingContext::swapBuffers()
 std::string Omnia::RenderingContext::getRenderingContextName()
 {
 	return "opengl";
+}
+
+std::shared_ptr<Omnia::Texture> Omnia::RenderingContext::getTexture(std::shared_ptr<Image> image)
+{
+	AssetID assetID = image->getID();
+	if (this->textures.count(assetID) == 0)
+	{
+		this->textures.emplace(assetID, std::shared_ptr<Texture>(new Texture(image)));
+		this->missedFrameCounts.emplace(assetID, 0);
+	}
+	else
+	{
+		this->missedFrameCounts.at(assetID) = 0;
+	}
+	return this->textures.at(assetID);
+}
+
+std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std::shared_ptr<Mesh> mesh)
+{
+	AssetID assetID = mesh->getID();
+	if (this->vertexArrays.count(assetID) == 0)
+	{
+		this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(mesh)));
+		this->missedFrameCounts.emplace(assetID, 0);
+	}
+	else
+	{
+		this->missedFrameCounts.at(assetID) = 0;
+	}
+	return this->vertexArrays.at(assetID);
+}
+
+std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std::shared_ptr<Image> image, glm::vec3 dimensions)
+{
+	AssetID assetID = image->getID();
+	if (this->vertexArrays.count(assetID) == 0)
+	{
+		this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(image, dimensions)));
+		this->missedFrameCounts.emplace(assetID, 0);
+	}
+	else
+	{
+		this->missedFrameCounts.at(assetID) = 0;
+	}
+	return this->vertexArrays.at(assetID);
+}
+
+void Omnia::RenderingContext::collectGarbage()
+{
+	for (auto it = this->missedFrameCounts.cbegin(); it != this->missedFrameCounts.cend(); it++)
+	{
+		if (this->missedFrameCounts.at(it->first) > this->allowableMissedFrames)
+		{
+			if (this->textures.count(it->first) > 0)
+				this->textures.erase(it->first);
+			else if (this->vertexArrays.count(it->first) > 0)
+				this->vertexArrays.erase(it->first);
+
+			this->missedFrameCounts.erase(it);
+		}
+	}
+
+	for (auto it = this->missedFrameCounts.cbegin(); it != this->missedFrameCounts.cend(); it++)
+	{
+		this->missedFrameCounts.at(it->first)++;
+	}
 }
