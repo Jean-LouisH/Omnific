@@ -104,16 +104,6 @@ Omnia::Font::Style Omnia::UITextLabel::getFontStyle()
 	return this->style;
 }
 
-void Omnia::UITextLabel::setAlpha(uint8_t value)
-{
-	this->image->setAlpha(value);
-}
-
-uint8_t Omnia::UITextLabel::getAlpha()
-{
-	return this->image->getAlpha();
-}
-
 void Omnia::UITextLabel::generateImage()
 {
 	if (this->font != nullptr)

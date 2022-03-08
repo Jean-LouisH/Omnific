@@ -51,9 +51,6 @@ namespace Omnia
 		void setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 		Font::Style getFontStyle();
 
-		void setAlpha(uint8_t value);
-		uint8_t getAlpha();
-
 		UITextLabel()
 		{
 			this->type = TYPE_STRING;
