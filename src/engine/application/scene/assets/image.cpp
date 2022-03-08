@@ -49,7 +49,11 @@ Omnia::Image::Image(std::string filepath)
 {
 	Image();
 	this->setName(filepath);
-	this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
+
+	if (filepath == "Image::default")
+		this->setToDefault();
+	else
+		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
 }
 
 void* Omnia::Image::getData()
@@ -94,17 +98,42 @@ Omnia::Rectangle Omnia::Image::getDimensions()
 	return dimensions;
 }
 
-void Omnia::Image::setAlpha(uint8_t value)
-{
-	this->alpha = value;
-}
-
-uint8_t Omnia::Image::getAlpha()
-{
-	return this->alpha;
-}
-
 uint8_t Omnia::Image::getBytesPerPixel()
 {
 	return this->channels;
+}
+
+void Omnia::Image::setToDefault()
+{
+	const uint32_t lighterGrey = 0x333333;
+	const uint32_t darkerGrey = 0x2d2d2d;
+	const uint16_t size = 64;
+	const uint8_t divisions = 4;
+
+	this->data = std::shared_ptr<uint8_t>(new uint8_t[size * size]);
+	uint32_t fillColour = 0;
+	bool darker = true;
+
+	for (uint16_t i = 0; i < size; i++)
+	{
+		for (uint16_t j = 0; j < size; j++)
+		{
+			if (darker)
+				fillColour = darkerGrey;
+			else
+				fillColour = lighterGrey;
+
+			this->data.get()[i * size + j] = fillColour;
+
+			if (j == (size % divisions))
+				darker = !darker;
+		}
+
+		if (i == (size % divisions))
+			darker = !darker;
+	}
+
+	this->height = size;
+	this->width = size;
+	this->channels = 3;
 }

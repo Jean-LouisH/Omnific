@@ -57,14 +57,13 @@ namespace Omnia
 		uint32_t getDepth();
 		uint32_t getPitch();
 		Rectangle getDimensions();
-		void setAlpha(uint8_t value);
-		uint8_t getAlpha();
 		uint8_t getBytesPerPixel();
 	private:
 		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
 		int width = 0;
 		int height = 0;
 		int channels = 0;
-		uint8_t alpha = 255;
+
+		void setToDefault();
 	};
 }
