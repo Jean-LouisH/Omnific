@@ -22,6 +22,14 @@
 
 #include "model_container.hpp"
 
+void Omnia::ModelContainer::addCube()
+{
+	std::shared_ptr<Model> model = std::shared_ptr<Model>(new Model());
+	model->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
+	model->image = std::shared_ptr<Image>(new Image("Image::default"));
+	this->models.push_back(model);
+}
+
 std::shared_ptr<Omnia::Model> Omnia::ModelContainer::getCurrentModel()
 {
 	std::shared_ptr<Model> model = std::shared_ptr<Model>(new Model());

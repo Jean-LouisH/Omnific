@@ -25,6 +25,7 @@
 #include "application/scene/asset.hpp"
 #include <glm/glm.hpp>
 #include <vector>
+#include <string>
 
 namespace Omnia
 {
@@ -37,6 +38,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Mesh";
 
+		Mesh(std::string filepath);
 		struct Vertex 
 		{
 			glm::vec3 position;
@@ -50,5 +52,6 @@ namespace Omnia
 		std::vector<unsigned int> indices;
 
 	private:
+		void setToCube();
 	};
 }

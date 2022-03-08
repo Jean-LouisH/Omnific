@@ -21,3 +21,14 @@
 // SOFTWARE.
 
 #include "mesh.hpp"
+
+Omnia::Mesh::Mesh(std::string filepath)
+{
+	if (filepath == "Mesh::cube")
+		this->setToCube();
+}
+
+void Omnia::Mesh::setToCube()
+{
+
+}
