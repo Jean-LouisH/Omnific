@@ -34,7 +34,7 @@ Omnia::Texture::~Texture()
 
 Omnia::Texture::Texture(std::shared_ptr<Image> image)
 {
-	float borderColour[] = { 1.0, 1.0, 0.0, 0.0 };
+	float borderColour[] = { 0.0, 0.0, 0.0, 0.0 };
 	glGenTextures(1, &this->textureID);
 	this->type = "image";
 	this->textureUnit = 0;
