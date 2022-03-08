@@ -41,6 +41,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "ModelContainer";
 
+		void addModel(std::shared_ptr<Model> model);
 		void addCube();
 		std::shared_ptr<Model> getCurrentModel();
 	private:

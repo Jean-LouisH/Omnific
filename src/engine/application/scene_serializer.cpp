@@ -285,9 +285,17 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									{
 										if (it3->first.as<std::string>() == "model")
 										{
-											std::shared_ptr<Omnia::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
-											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
-											AssetCache::store(asset);
+											if (it3->second.as<std::string>() == "Model::cube")
+											{
+												modelContainer->addCube();
+											}
+											else
+											{
+												std::shared_ptr<Omnia::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
+												std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
+												AssetCache::store(asset);
+												modelContainer->addModel(model);
+											}
 										}
 									}
 

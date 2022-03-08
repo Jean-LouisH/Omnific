@@ -31,26 +31,33 @@
 
 Omnia::Model::Model(std::string filepath)
 {
-	tinygltf::Model model;
-	tinygltf::TinyGLTF tinyGLTF;
-	std::string err;
-	std::string warn;
-
-	//bool ret = tinyGLTF.LoadASCIIFromFile(&model, &err, &warn, filepath);
-	bool ret = tinyGLTF.LoadBinaryFromFile(&model, &err, &warn, filepath);
-
-	if (!warn.empty()) {
-		printf("Warn: %s\n", warn.c_str());
+	if (filepath == "Model::cube")
+	{
+		this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
+		this->image = std::shared_ptr<Image>(new Image("Image::default"));
 	}
+	else
+	{
+		tinygltf::Model model;
+		tinygltf::TinyGLTF tinyGLTF;
+		std::string err;
+		std::string warn;
 
-	if (!err.empty()) {
-		printf("Err: %s\n", err.c_str());
+		//bool ret = tinyGLTF.LoadASCIIFromFile(&model, &err, &warn, filepath);
+		bool ret = tinyGLTF.LoadBinaryFromFile(&model, &err, &warn, filepath);
+
+		if (!warn.empty()) {
+			printf("Warn: %s\n", warn.c_str());
+		}
+
+		if (!err.empty()) {
+			printf("Err: %s\n", err.c_str());
+		}
+
+		if (!ret) {
+			printf("Failed to parse glTF\n");
+		}
+
+		//Parse...
 	}
-
-	if (!ret) {
-		printf("Failed to parse glTF\n");
-	}
-
-	//Parse...
-
 }

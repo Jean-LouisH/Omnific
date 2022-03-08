@@ -26,6 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <stdint.h>
 
 namespace Omnia
 {
@@ -49,9 +50,16 @@ namespace Omnia
 		};
 
 		std::vector<Vertex> vertices;
-		std::vector<unsigned int> indices;
+		std::vector<uint32_t> indices;
 
 	private:
 		void setToCube();
+		void setToQuad();
+		void setToPlane();
+
+		void populateData(
+			std::vector<float> vertices,
+			std::vector<uint32_t> textureCoords,
+			std::vector<uint32_t> indices);
 	};
 }

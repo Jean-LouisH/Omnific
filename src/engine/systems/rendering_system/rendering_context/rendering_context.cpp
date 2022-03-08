@@ -101,15 +101,18 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 					glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
 					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
 					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
-					AssetID assetID = 0;
+					AssetID vertexArrayAssetID = 0;
+					AssetID textureAssetID = 0;
 
 					if (entityRenderable.renderableComponent->isType(ModelContainer::TYPE_STRING))
 					{
 						std::shared_ptr<ModelContainer> modelContainer =
 							std::dynamic_pointer_cast<ModelContainer>(entityRenderable.renderableComponent);
 						std::shared_ptr<Model> model = modelContainer->getCurrentModel();
-						assetID = model->getID();
+						vertexArrayAssetID = model->mesh->getID();
+						textureAssetID = model->image->getID();
 						this->getVertexArray(model->mesh)->bind();
+						this->getTexture(model->image)->bind();
 					}
 					else
 					{
@@ -125,10 +128,15 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 						}
 
 						std::shared_ptr<Image> image = entityRenderable.renderableComponent->getImage();
-						assetID = image->getID();
+						vertexArrayAssetID = image->getID();
+						textureAssetID = image->getID();
 						this->getTexture(image)->bind();
 						this->getVertexArray(image, entityRenderable.renderableComponent->getDimensions())->bind();
 					}
+
+					/* Temporary debug rotation*/
+					if (entityRenderable.renderableComponent->isType(ModelContainer::TYPE_STRING))
+						entityRenderable.entityTransform->rotation.y += 1;
 
 					/* Render for each ShaderProgram. Starting with the built in one. */
 					for (int k = -1; k < (int)shaderCount; k++)
@@ -144,12 +152,12 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 						shaderProgram->setInt("textureSampler", 0);
 						shaderProgram->setMat4("mvp", mvp);
 						shaderProgram->setFloat("alpha", alpha);
-						glDrawElements(GL_TRIANGLES, (GLsizei)this->vertexArrays.at(assetID)->getIndexCount(), GL_UNSIGNED_INT, 0);
+						glDrawElements(GL_TRIANGLES, (GLsizei)this->vertexArrays.at(vertexArrayAssetID)->getIndexCount(), GL_UNSIGNED_INT, 0);
 					}
 
-					this->vertexArrays.at(assetID)->unbind();
-					if (this->textures.count(assetID) > 0)
-						this->textures.at(assetID)->activateDefaultTextureUnit();
+					this->vertexArrays.at(vertexArrayAssetID)->unbind();
+					if (this->textures.count(textureAssetID) > 0)
+						this->textures.at(textureAssetID)->activateDefaultTextureUnit();
 
 				}
 			}
@@ -227,7 +235,7 @@ void Omnia::RenderingContext::collectGarbage()
 		{
 			if (this->textures.count(it->first) > 0)
 				this->textures.erase(it->first);
-			else if (this->vertexArrays.count(it->first) > 0)
+			if (this->vertexArrays.count(it->first) > 0)
 				this->vertexArrays.erase(it->first);
 
 			this->missedFrameCounts.erase(it);

@@ -33,6 +33,13 @@ SceneTree:
       rotation: [-10, 0, 0]
     Camera: "default"
   Entity:
+    name: "Cube"
+    Transform:
+      translation: [0, 15, -5]
+      scale: [25, 25, 25]
+    ModelContainer:
+      model: "Model::cube"
+  Entity:
     name: "Floor"
     Transform:
       translation: [0, 0, -5]
