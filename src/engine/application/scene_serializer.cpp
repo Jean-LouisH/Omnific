@@ -288,6 +288,8 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 											if (it3->second.as<std::string>() == "Model::cube")
 											{
 												modelContainer->addCube();
+												/* debug */
+												modelContainer->getCurrentModel()->image = std::shared_ptr<Image>(new Image(this->dataDirectory + "assets/images/scraped_from_the_black.jpg"));
 											}
 											else
 											{
