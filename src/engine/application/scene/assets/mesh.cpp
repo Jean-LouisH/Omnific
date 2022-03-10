@@ -141,17 +141,25 @@ void Omnia::Mesh::populateData(
     std::vector<uint32_t> textureCoords,
     std::vector<uint32_t> indices)
 {
-    if ((positions.size() / 3) == (textureCoords.size() / 2))
+    unsigned int positionsStride = 3;
+    unsigned int textureCoordsStride = 2;
+
+    if ((positions.size() / positionsStride) == (textureCoords.size() / textureCoordsStride))
     {
-        size_t vertexCount = positions.size() / 3;
+        size_t vertexCount = positions.size() / positionsStride;
         float* positionsData = positions.data();
         uint32_t* textureCoordsData = textureCoords.data();
 
         for (size_t i = 0; i < vertexCount; i++)
         {
             Vertex vertex;
-            vertex.position = { positionsData[i + 0], positionsData[i + 1], positionsData[i + 2] };
-            vertex.uv = { textureCoordsData[i + 0], textureCoordsData[i + 1] };
+            vertex.position = { 
+                positionsData[i * positionsStride + 0], 
+                positionsData[i * positionsStride + 1],
+                positionsData[i * positionsStride + 2] };
+            vertex.uv = { 
+                textureCoordsData[i * textureCoordsStride + 0], 
+                textureCoordsData[i * textureCoordsStride + 1] };
             this->vertices.push_back(vertex);
         }
 
