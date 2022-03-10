@@ -28,6 +28,7 @@
 #include <string>
 #include "vertex_buffer.hpp"
 #include "index_buffer.hpp"
+#include <application/scene/renderable_component.hpp>
 #include <application/scene/assets/image.hpp>
 #include <application/scene/assets/mesh.hpp>
 #include <memory>
@@ -40,8 +41,7 @@ namespace Omnia
 	{
 	public:
 		VertexArray();
-		VertexArray(std::shared_ptr<Mesh> mesh);
-		VertexArray(std::shared_ptr<Image> image, glm::vec3 dimensions);
+		VertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
 		~VertexArray();
 		void bind();
 		void unbind();

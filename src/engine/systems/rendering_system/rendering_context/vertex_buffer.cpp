@@ -21,60 +21,48 @@
 // SOFTWARE.
 
 #include "vertex_buffer.hpp"
+#include <application/scene/components/model_container.hpp>
 
 Omnia::VertexBuffer::VertexBuffer()
 {
 
 }
 
-Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<Mesh> mesh)
+Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<RenderableComponent> renderableComponent)
 {
-	if (mesh != nullptr)
-	{
-		glGenBuffers(1, &this->vertexBufferID);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
-		glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), &mesh->vertices[0], GL_STATIC_DRAW);
-	}
-}
+	std::shared_ptr<Mesh> mesh;
 
-Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions)
-{
-	if (image != nullptr)
+	if (renderableComponent->isType(ModelContainer::TYPE_STRING))
 	{
-		float meshVertices[] =
+		std::shared_ptr<Model> model = std::dynamic_pointer_cast<ModelContainer>(renderableComponent)->getCurrentModel();
+		if (model != nullptr)
 		{
-			// positions         // texture coords
-			0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // top right
-			0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // bottom right
-		   -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, // bottom left
-		   -0.5f,  0.5f, 0.0f,  0.0f, 1.0f  // top left 
-		};
-
-		int stride = 5;
-		int width = dimensions.x;
-		int height = dimensions.y;
-		int xCentre = width / 2;
-		int yCentre = height / 2;
-
-		/* This stretches the dimensions to the image. */
-
-		//top right
-		meshVertices[(stride * 0) + 0] = width - xCentre;
-		meshVertices[(stride * 0) + 1] = height - yCentre;
-		//bottom right
-		meshVertices[(stride * 1) + 0] = width - xCentre;
-		meshVertices[(stride * 1) + 1] = 0 - yCentre;
-		//bottom left
-		meshVertices[(stride * 2) + 0] = 0 - xCentre;
-		meshVertices[(stride * 2) + 1] = 0 - yCentre;
-		//top left
-		meshVertices[(stride * 3) + 0] = 0 - xCentre;
-		meshVertices[(stride * 3) + 1] = height - yCentre;
-
-		glGenBuffers(1, &this->vertexBufferID);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(meshVertices), meshVertices, GL_STATIC_DRAW);
+			mesh = model->mesh;
+		}
 	}
+	else
+	{
+		std::shared_ptr<Image> image = renderableComponent->getImage();
+		glm::vec3 dimensions = renderableComponent->getDimensions();
+		if (image != nullptr)
+		{
+			mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
+			int width = dimensions.x;
+			int height = dimensions.y;
+			int xCentre = width / 2;
+			int yCentre = height / 2;
+
+			/* This stretches the mesh dimensions to the renderable component. */
+			mesh->vertices[0].position = glm::vec3(width - xCentre, height - yCentre, 0.0); //top right
+			mesh->vertices[1].position = glm::vec3(width - xCentre, 0 - yCentre, 0.0); //bottom right
+			mesh->vertices[2].position = glm::vec3(0 - xCentre, 0 - yCentre, 0.0); //bottom left
+			mesh->vertices[3].position = glm::vec3(0 - xCentre, height - yCentre, 0.0); //top left
+		}
+	}
+
+	glGenBuffers(1, &this->vertexBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
+	glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
 }
 
 Omnia::VertexBuffer::~VertexBuffer()

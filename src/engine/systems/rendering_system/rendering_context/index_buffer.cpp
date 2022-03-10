@@ -21,41 +21,41 @@
 // SOFTWARE.
 
 #include "index_buffer.hpp"
+#include <application/scene/components/model_container.hpp>
 
 Omnia::IndexBuffer::IndexBuffer()
 {
 
 }
 
-Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<Mesh> mesh)
+Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent)
 {
+	std::shared_ptr<Mesh> mesh;
+
+	if (renderableComponent->isType(ModelContainer::TYPE_STRING))
+	{
+		std::shared_ptr<Model> model = std::dynamic_pointer_cast<ModelContainer>(renderableComponent)->getCurrentModel();
+		if (model != nullptr)
+		{
+			mesh = model->mesh;
+		}
+	}
+	else
+	{
+		std::shared_ptr<Image> image = renderableComponent->getImage();
+		if (image != nullptr)
+		{
+			mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
+		}
+	}
+
 	if (mesh != nullptr)
 	{
 		this->indexCount = mesh->indices.size();
-
 		glGenBuffers(1, &this->indexBufferID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(unsigned int),
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
 			&mesh->indices[0], GL_STATIC_DRAW);
-
-	}
-}
-
-Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<Image> image)
-{
-	if (image != nullptr)
-	{
-		unsigned int indices[] =
-		{
-			0, 1, 3, // first triangle
-			1, 2, 3  // second triangle
-		};
-
-		this->indexCount = sizeof(indices) / sizeof(unsigned int);
-
-		glGenBuffers(1, &this->indexBufferID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	}
 }
 

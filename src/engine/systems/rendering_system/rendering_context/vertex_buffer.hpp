@@ -26,6 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <application/scene/renderable_component.hpp>
 #include <application/scene/assets/image.hpp>
 #include <application/scene/assets/mesh.hpp>
 #include <memory>
@@ -37,8 +38,7 @@ namespace Omnia
 	{
 	public:
 		VertexBuffer();
-		VertexBuffer(std::shared_ptr<Mesh> mesh);
-		VertexBuffer(std::shared_ptr<Image> image, glm::vec3 dimensions);
+		VertexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
 		~VertexBuffer();
 		void bind();
 		void deleteVertexBuffer();

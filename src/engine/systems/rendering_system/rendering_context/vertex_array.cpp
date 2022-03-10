@@ -27,51 +27,28 @@ Omnia::VertexArray::VertexArray()
 	glGenVertexArrays(1, &this->vertexArrayID);
 }
 
-Omnia::VertexArray::VertexArray(std::shared_ptr<Omnia::Mesh> mesh)
+Omnia::VertexArray::VertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
 {
-	glGenVertexArrays(1, &this->vertexArrayID);
-
-	if (mesh != nullptr)
-	{
-		this->bind();
-		this->vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(mesh));
-		this->indexBuffer = std::shared_ptr<IndexBuffer>(new IndexBuffer(mesh));
-
-		// vertex positions
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)0);
-		// vertex normals
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::normal));
-		// vertex uvs
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::uv));
-		// vertex tangent
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::tangent));
-		// vertex bitangent
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::bitangent));
-
-		this->unbind();
-	}
-}
-
-Omnia::VertexArray::VertexArray(std::shared_ptr<Omnia::Image> image, glm::vec3 dimensions)
-{
-	int stride = 5;
-
 	glGenVertexArrays(1, &this->vertexArrayID);
 	this->bind();
-	this->vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(image, dimensions));
-	this->indexBuffer = std::shared_ptr<IndexBuffer>(new IndexBuffer(image));
+	this->vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(renderableComponent));
+	this->indexBuffer = std::shared_ptr<IndexBuffer>(new IndexBuffer(renderableComponent));
 
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0);
+	// vertex positions
 	glEnableVertexAttribArray(0);
-	// uv attribute
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)0);
+	// vertex normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::normal));
+	// vertex uvs
 	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::uv));
+	// vertex tangent
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::tangent));
+	// vertex bitangent
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Vertex), (void*)offsetof(Mesh::Vertex, Mesh::Vertex::bitangent));
 
 	this->unbind();
 }

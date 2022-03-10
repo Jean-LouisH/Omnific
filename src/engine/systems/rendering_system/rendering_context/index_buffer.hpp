@@ -26,6 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <application/scene/renderable_component.hpp>
 #include <application/scene/assets/image.hpp>
 #include <application/scene/assets/mesh.hpp>
 #include <memory>
@@ -37,8 +38,7 @@ namespace Omnia
 	{
 	public:
 		IndexBuffer();
-		IndexBuffer(std::shared_ptr<Mesh> mesh);
-		IndexBuffer(std::shared_ptr<Image> image);
+		IndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
 		~IndexBuffer();
 		void bind();
 		void deleteIndexBuffer();
