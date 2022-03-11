@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "image.hpp"
+#include <vector>
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
@@ -105,35 +106,45 @@ uint8_t Omnia::Image::getBytesPerPixel()
 
 void Omnia::Image::setToDefault()
 {
-	const uint32_t lighterGrey = 0x333333;
-	const uint32_t darkerGrey = 0x2d2d2d;
-	const uint16_t size = 64;
+	const uint32_t lighterGrey = 0x333335;
+	const uint32_t darkerGrey = 0x2d2d2f;
+	const uint16_t size = 32;
 	const uint8_t divisions = 4;
+	this->height = size;
+	this->width = size;
+	this->channels = 3;
+	size_t dataSize = this->width * this->height * this->channels;
 
-	this->data = std::shared_ptr<uint8_t>(new uint8_t[size * size]);
+	this->data = std::shared_ptr<uint8_t>(new uint8_t[dataSize]);
 	uint32_t fillColour = 0;
 	bool darker = true;
 
-	for (uint16_t i = 0; i < size; i++)
+	for (int i = 0; i < this->height; i++)
 	{
-		for (uint16_t j = 0; j < size; j++)
+		for (int j = 0; j < (this->width * this->channels); j++)
 		{
 			if (darker)
 				fillColour = darkerGrey;
 			else
 				fillColour = lighterGrey;
 
-			this->data.get()[i * size + j] = fillColour;
+			for (int k = 0; k < this->channels; k++)
+			{
+				this->data.get()[(i * this->height) + (j * this->channels) + k] = (fillColour & (0xFF0000 >> (k * 8))) >> (16 - (k * 8));
+			}
 
-			if (j == (size % divisions))
+			if ((j % (size / divisions)) == 0)
 				darker = !darker;
 		}
 
-		if (i == (size % divisions))
+		if ((i % (size / divisions)) == 0)
 			darker = !darker;
 	}
 
-	this->height = size;
-	this->width = size;
-	this->channels = 3;
+	//std::vector<uint8_t> debugData;
+
+	//for (int i = 0; i < dataSize + 1000; i++)
+	//{
+	//	debugData.push_back(this->data.get()[i]);
+	//}
 }
