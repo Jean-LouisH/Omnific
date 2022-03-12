@@ -62,7 +62,7 @@ namespace Omnia
 		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
 		int width = 0;
 		int height = 0;
-		int channels = 0;
+		int colourChannels = 0;
 
 		void setToDefault();
 	};

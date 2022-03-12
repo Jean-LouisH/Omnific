@@ -54,7 +54,7 @@ Omnia::Image::Image(std::string filepath)
 	if (filepath == "Image::default")
 		this->setToDefault();
 	else
-		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->channels, 0), stbi_image_free);
+		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->colourChannels, 0), stbi_image_free);
 }
 
 void* Omnia::Image::getData()
@@ -101,50 +101,47 @@ Omnia::Rectangle Omnia::Image::getDimensions()
 
 uint8_t Omnia::Image::getBytesPerPixel()
 {
-	return this->channels;
+	return this->colourChannels;
 }
 
 void Omnia::Image::setToDefault()
 {
-	const uint32_t lighterGrey = 0x333335;
-	const uint32_t darkerGrey = 0x2d2d2f;
-	const uint16_t size = 32;
+	const uint32_t lighterGrey = 0x333333;
+	const uint32_t darkerGrey = 0x2d2d2d;
+	const uint16_t size = 256;
 	const uint8_t divisions = 4;
 	this->height = size;
 	this->width = size;
-	this->channels = 3;
-	size_t dataSize = this->width * this->height * this->channels;
+	this->colourChannels = 3;
+	size_t dataSize = this->width * this->height * this->colourChannels;
 
 	this->data = std::shared_ptr<uint8_t>(new uint8_t[dataSize]);
 	uint32_t fillColour = 0;
-	bool darker = true;
+	bool darker = false;
 
-	for (int i = 0; i < this->height; i++)
+	for (int y = 0; y < this->height; y++)
 	{
-		for (int j = 0; j < (this->width * this->channels); j++)
+		for (int x = 0; x < this->width; x++)
 		{
 			if (darker)
 				fillColour = darkerGrey;
 			else
 				fillColour = lighterGrey;
 
-			for (int k = 0; k < this->channels; k++)
+			for (int colourChannel = 0; colourChannel < this->colourChannels; colourChannel++)
 			{
-				this->data.get()[(i * this->height) + (j * this->channels) + k] = (fillColour & (0xFF0000 >> (k * 8))) >> (16 - (k * 8));
+				const int colourChannelByteLength = 8;
+				int imageIndex = (y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel;
+				int maskByteShift = (this->colourChannels * colourChannelByteLength) - colourChannelByteLength;
+				int colourChannelByteOffset = colourChannel * colourChannelByteLength;
+				this->data.get()[imageIndex] = (fillColour & (0xFF0000 >> colourChannelByteOffset)) >> (maskByteShift - colourChannelByteOffset);
 			}
 
-			if ((j % (size / divisions)) == 0)
+			if ((x % (size / divisions)) == 0)
 				darker = !darker;
 		}
 
-		if ((i % (size / divisions)) == 0)
+		if ((y % (size / divisions)) == 0)
 			darker = !darker;
 	}
-
-	//std::vector<uint8_t> debugData;
-
-	//for (int i = 0; i < dataSize + 1000; i++)
-	//{
-	//	debugData.push_back(this->data.get()[i]);
-	//}
 }
