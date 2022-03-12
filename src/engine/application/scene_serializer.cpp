@@ -408,10 +408,17 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									{
 										if (it3->first.as<std::string>() == "image")
 										{
-											std::shared_ptr<Omnia::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
-											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
-											AssetCache::store(asset);
-											sprite->addImage(image);
+											if (it3->second.as<std::string>() == "Image::default")
+											{
+												sprite->addImage(std::shared_ptr<Image>(new Image(it3->second.as<std::string>())));
+											}
+											else
+											{
+												std::shared_ptr<Omnia::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
+												std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
+												AssetCache::store(asset);
+												sprite->addImage(image);
+											}
 										}
 										else if (it3->first.as<std::string>() == "dimensions")
 										{
