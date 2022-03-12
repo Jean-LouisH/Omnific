@@ -52,7 +52,11 @@ namespace Omnia
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
 
+		bool getIsIndexed();
+
 	private:
+		bool isIndexed = true;
+
 		void setToCube();
 		void setToQuad();
 		void setToPlane();
@@ -61,5 +65,8 @@ namespace Omnia
 			std::vector<float> vertices,
 			std::vector<uint32_t> textureCoords,
 			std::vector<uint32_t> indices);
+		void populateData(
+			std::vector<float> positions,
+			std::vector<uint32_t> textureCoords);
 	};
 }

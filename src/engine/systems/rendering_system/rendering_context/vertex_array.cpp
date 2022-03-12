@@ -77,3 +77,8 @@ unsigned int Omnia::VertexArray::getIndexCount()
 {
 	return this->indexBuffer->getIndexCount();
 }
+
+unsigned int Omnia::VertexArray::getVertexCount()
+{
+	return this->vertexBuffer->getVertexCount();
+}

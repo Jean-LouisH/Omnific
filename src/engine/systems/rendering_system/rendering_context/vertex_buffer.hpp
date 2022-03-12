@@ -42,8 +42,10 @@ namespace Omnia
 		~VertexBuffer();
 		void bind();
 		void deleteVertexBuffer();
+		unsigned int getVertexCount();
 	private:
 		GLuint vertexBufferID = 0;
+		GLsizei vertexCount = 0;
 	};
 }
 

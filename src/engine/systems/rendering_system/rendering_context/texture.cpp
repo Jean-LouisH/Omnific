@@ -46,39 +46,43 @@ Omnia::Texture::Texture(std::shared_ptr<Image> image)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	if (image != nullptr)
+	std::shared_ptr<Image> textureImage;
+
+	if (image == nullptr)
+		textureImage = std::shared_ptr<Image>(new Image("Image::default"));
+	else
+		textureImage = image;
+
+	uint64_t format = 0;
+	uint64_t internalFormat = 0;
+
+	switch (textureImage->getBytesPerPixel())
 	{
-		uint64_t format = 0;
-		uint64_t internalFormat = 0;
-
-		switch (image->getBytesPerPixel())
-		{
-			case 1: 
-				format = GL_RED; 
-				internalFormat = GL_RED;
-				break;
-			case 3: 
-				format = GL_RGB; 
-				internalFormat = GL_RGBA;
-				break;
-			case 4: 
-				format = GL_RGBA; 
-				internalFormat = GL_RGBA;
-				break;
-		}
-
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			internalFormat,
-			image->getWidth(),
-			image->getHeight(),
-			0,
-			format,
-			GL_UNSIGNED_BYTE,
-			image->getData());
-		glGenerateMipmap(GL_TEXTURE_2D);
+		case 1: 
+			format = GL_RED; 
+			internalFormat = GL_RED;
+			break;
+		case 3: 
+			format = GL_RGB; 
+			internalFormat = GL_RGBA;
+			break;
+		case 4: 
+			format = GL_RGBA; 
+			internalFormat = GL_RGBA;
+			break;
 	}
+
+	glTexImage2D(
+		GL_TEXTURE_2D,
+		0,
+		internalFormat,
+		textureImage->getWidth(),
+		textureImage->getHeight(),
+		0,
+		format,
+		GL_UNSIGNED_BYTE,
+		textureImage->getData());
+	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 void Omnia::Texture::activateDefaultTextureUnit()

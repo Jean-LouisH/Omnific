@@ -47,6 +47,7 @@ namespace Omnia
 		void unbind();
 		void deleteVertexArray();
 		unsigned int getIndexCount();
+		unsigned int getVertexCount();
 	private:
 		GLuint vertexArrayID;
 		std::shared_ptr<VertexBuffer> vertexBuffer;

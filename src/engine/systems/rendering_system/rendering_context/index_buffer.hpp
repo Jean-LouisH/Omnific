@@ -45,7 +45,7 @@ namespace Omnia
 		unsigned int getIndexCount();
 	private:
 		GLuint indexBufferID = 0;
-		GLsizei indexCount;
+		GLsizei indexCount = 0;
 	};
 }
 

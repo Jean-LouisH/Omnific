@@ -33,60 +33,58 @@ Omnia::Mesh::Mesh(std::string filepath)
         this->setToPlane();
 }
 
+bool Omnia::Mesh::getIsIndexed()
+{
+    return this->isIndexed;
+}
+
 void Omnia::Mesh::setToCube()
 {
-    const std::vector<float> cubeVertices =
+    this->isIndexed = false;
+
+    const std::vector<float> cubeVertices = 
     {
-        -0.5, -0.5,  0.5, //0
-         0.5, -0.5,  0.5, //1
-        -0.5,  0.5,  0.5, //2
-         0.5,  0.5,  0.5, //3
-        -0.5, -0.5, -0.5, //4
-         0.5, -0.5, -0.5, //5
-        -0.5,  0.5, -0.5, //6
-         0.5,  0.5, -0.5  //7
+      -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5,
+      -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
+
+      0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5,
+      0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5,
+
+      0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5,
+      0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5,
+
+      -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5,
+      -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5,
+
+      -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5,
+      -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
+
+      -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5,
+      -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5
     };
 
     const std::vector<uint32_t> cubeTextureCoords =
     {
-            0,0,
-            0,1,
-            1,1,
-            1,0,
-            0,0,
-            0,1,
-            1,1,
-            1,0
+      0, 0, 1, 0, 1, 1,
+      0, 0, 1, 1, 0, 1,
+
+      0, 0, 1, 0, 1, 1,
+      0, 0, 1, 1, 0, 1,
+
+      0, 0, 1, 0, 1, 1,
+      0, 0, 1, 1, 0, 1,
+
+      0, 0, 1, 0, 1, 1,
+      0, 0, 1, 1, 0, 1,
+
+      0, 0, 1, 0, 1, 1,
+      0, 0, 1, 1, 0, 1,
+
+      0, 0, 1, 0, 1, 1,
+      0, 0, 1, 1, 0, 1
     };
 
-    const std::vector<uint32_t> cubeIndices =
-    {
-        //Top
-        2, 6, 7,
-        2, 3, 7,
-
-        //Front
-        0, 2, 3,
-        0, 1, 3,
-
-        //Left
-        0, 2, 6,
-        0, 4, 6,
-
-        //Back
-        4, 6, 7,
-        4, 5, 7,
-
-        //Right
-        1, 3, 7,
-        1, 5, 7,
-
-        //Bottom
-        0, 4, 5,
-        0, 1, 5,
-    };
-
-    this->populateData(cubeVertices, cubeTextureCoords, cubeIndices);
+    this->populateData(cubeVertices, cubeTextureCoords);
 }
 
 void Omnia::Mesh::setToQuad()
@@ -141,6 +139,14 @@ void Omnia::Mesh::populateData(
     std::vector<uint32_t> textureCoords,
     std::vector<uint32_t> indices)
 {
+    this->populateData(positions, textureCoords);
+    this->indices = indices;
+}
+
+void Omnia::Mesh::populateData(
+    std::vector<float> positions,
+    std::vector<uint32_t> textureCoords)
+{
     unsigned int positionsStride = 3;
     unsigned int textureCoordsStride = 2;
 
@@ -153,16 +159,15 @@ void Omnia::Mesh::populateData(
         for (size_t i = 0; i < vertexCount; i++)
         {
             Vertex vertex;
-            vertex.position = { 
-                positionsData[i * positionsStride + 0], 
+            vertex.position = {
+                positionsData[i * positionsStride + 0],
                 positionsData[i * positionsStride + 1],
                 positionsData[i * positionsStride + 2] };
-            vertex.uv = { 
-                textureCoordsData[i * textureCoordsStride + 0], 
+            vertex.uv = {
+                textureCoordsData[i * textureCoordsStride + 0],
                 textureCoordsData[i * textureCoordsStride + 1] };
             this->vertices.push_back(vertex);
         }
 
-        this->indices = indices;
     }
 }

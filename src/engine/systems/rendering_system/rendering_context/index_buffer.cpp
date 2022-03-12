@@ -51,11 +51,14 @@ Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<RenderableComponent> renderableC
 
 	if (mesh != nullptr)
 	{
-		this->indexCount = mesh->indices.size();
-		glGenBuffers(1, &this->indexBufferID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
-			&mesh->indices[0], GL_STATIC_DRAW);
+		if (mesh->getIsIndexed())
+		{
+			this->indexCount = mesh->indices.size();
+			glGenBuffers(1, &this->indexBufferID);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
+				&mesh->indices[0], GL_STATIC_DRAW);
+		}
 	}
 }
 

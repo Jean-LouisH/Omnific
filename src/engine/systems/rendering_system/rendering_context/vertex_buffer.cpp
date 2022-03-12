@@ -60,9 +60,13 @@ Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<RenderableComponent> renderabl
 		}
 	}
 
-	glGenBuffers(1, &this->vertexBufferID);
-	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
-	glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
+	if (mesh != nullptr)
+	{
+		this->vertexCount = mesh->vertices.size();
+		glGenBuffers(1, &this->vertexBufferID);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
+		glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
+	}
 }
 
 Omnia::VertexBuffer::~VertexBuffer()
@@ -78,4 +82,9 @@ void Omnia::VertexBuffer::bind()
 void Omnia::VertexBuffer::deleteVertexBuffer()
 {
 	glDeleteBuffers(1, &this->vertexBufferID);
+}
+
+unsigned int Omnia::VertexBuffer::getVertexCount()
+{
+	return this->vertexCount;
 }

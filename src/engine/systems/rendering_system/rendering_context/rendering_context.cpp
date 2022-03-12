@@ -128,7 +128,11 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 						shaderProgram->setInt("textureSampler", 0);
 						shaderProgram->setMat4("mvp", mvp);
 						shaderProgram->setFloat("alpha", alpha);
-						glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
+
+						if (vertexArray->getIndexCount() > 0)
+							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
+						else
+							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
 					}
 
 					vertexArray->unbind();
