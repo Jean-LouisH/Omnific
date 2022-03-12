@@ -14,7 +14,7 @@ SceneTree:
   Entity:
     name: "Background"
     SpriteContainer:
-      image: "assets/images/orange_to_brown.jpg"
+      image: "assets/images/sky.png"
       dimensions: [50.0, 50.0, 0.1]
       alpha: 0.4
     Transform:
