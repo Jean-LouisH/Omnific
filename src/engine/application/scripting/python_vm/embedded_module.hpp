@@ -34,7 +34,7 @@
 #include <utilities/aabb_2d.hpp>
 #include <utilities/aliases.hpp>
 
-PYBIND11_EMBEDDED_MODULE(omnia_engine, m) 
+PYBIND11_EMBEDDED_MODULE(omnia, m) 
 {
 	/*API classes*/
 	pybind11::class_<Omnia::CommandLineAPI>(m, "CommandLineAPI")
@@ -195,7 +195,13 @@ PYBIND11_EMBEDDED_MODULE(omnia_engine, m)
 	pybind11::class_<Omnia::RigidBody, Omnia::Component>(m, Omnia::RigidBody::TYPE_STRING);
 	pybind11::class_<Omnia::SpriteContainer, Omnia::Component>(m, Omnia::SpriteContainer::TYPE_STRING);
 	pybind11::class_<Omnia::StaticFluid, Omnia::Component>(m, Omnia::StaticFluid::TYPE_STRING);
-	pybind11::class_<Omnia::Transform, Omnia::Component>(m, Omnia::Transform::TYPE_STRING);
+	pybind11::class_<Omnia::Transform, Omnia::Component>(m, Omnia::Transform::TYPE_STRING)
+		.def("globally_translate_x", &Omnia::Transform::globallyTranslateX)
+		.def("globally_translate_y", &Omnia::Transform::globallyTranslateY)
+		.def("globally_translate_z", &Omnia::Transform::globallyTranslateZ)
+		.def("rotate_x", &Omnia::Transform::rotateX)
+		.def("rotate_y", &Omnia::Transform::rotateY)
+		.def("rotate_z", &Omnia::Transform::rotateZ);
 	pybind11::class_<Omnia::UIButton, Omnia::Component>(m, Omnia::UIButton::TYPE_STRING);
 	pybind11::class_<Omnia::UIGraphEdit, Omnia::Component>(m, Omnia::UIGraphEdit::TYPE_STRING);
 	pybind11::class_<Omnia::UIGraphNode, Omnia::Component>(m, Omnia::UIGraphNode::TYPE_STRING);
