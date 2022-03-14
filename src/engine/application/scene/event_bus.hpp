@@ -32,6 +32,12 @@ namespace Omnia
 	class EventBus
 	{
 	public:
+		EventBus()
+		{
+			/* Reserve some event space to prevent initial frame lag */
+			events.reserve(32);
+		}
+
 		void publish(
 			std::string name,
 			std::unordered_map<std::string, float> floats,
