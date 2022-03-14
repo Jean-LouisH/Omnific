@@ -63,9 +63,7 @@ SceneTree:
       translation: [0, 0, -5]
       rotation: [-90, 0, 0]
     SpriteContainer:
-      image: "assets/images/brown_wooden_planks.jpg"
-      dimensions: [50.0, 50.0, 0.1]
-    Collider:
+      image: "Image::default"
       dimensions: [50.0, 50.0, 0.1]
   Entity:
     name: "Viewport"
