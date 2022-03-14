@@ -11,12 +11,15 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 ## Notable Features
 
 - Project-based, data-driven Applications
+
 ![omnia_project](omnia_project.png)
 
 - Scenes of multiple SceneTree layers (2D and 3D)
+
 ![scene_tree_layers](scene_tree_layers.png)
 
 - SceneTree EventBus for a publish/subscribe architecture
+
 ![event_bus](event_bus.png)
 
 - C++ scripting via Native shared library builds
