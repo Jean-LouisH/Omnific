@@ -2,6 +2,35 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+void Omnia::Transform::globallyTranslateX(float offset)
+{
+	this->translation.x += offset;
+}
+
+void Omnia::Transform::globallyTranslateY(float offset)
+{
+	this->translation.y += offset;
+}
+
+void Omnia::Transform::globallyTranslateZ(float offset)
+{
+	this->translation.z += offset;
+}
+
+void Omnia::Transform::rotateX(float angle)
+{
+	this->rotation.x += angle;
+}
+
+void Omnia::Transform::rotateY(float angle)
+{
+	this->rotation.y += angle;
+}
+
+void Omnia::Transform::rotateZ(float angle)
+{
+	this->rotation.z += angle;
+}
 
 glm::mat4 Omnia::Transform::getGlobalTransformMatrix()
 {

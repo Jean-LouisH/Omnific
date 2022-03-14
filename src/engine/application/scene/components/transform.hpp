@@ -46,6 +46,12 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "Transform";
 
+		void globallyTranslateX(float offset);
+		void globallyTranslateY(float offset);
+		void globallyTranslateZ(float offset);
+		void rotateX(float angle);
+		void rotateY(float angle);
+		void rotateZ(float angle);
 		glm::mat4 getGlobalTransformMatrix();
 	private:
 	};
