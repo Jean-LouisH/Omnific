@@ -34,6 +34,7 @@
 #include "../scene_tree_renderable.hpp"
 #include "utilities/aliases.hpp"
 #include <string>
+#include <map>
 
 namespace Omnia
 {
@@ -44,8 +45,10 @@ namespace Omnia
 		void initialize();
 		void clearColourBuffer();
 		void clearDepthBuffer();
+		void enableDepthTest();
+		void disableDepthTest();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists);
+		void submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists);
 		void swapBuffers();
 		std::string getRenderingContextName();
 	private:

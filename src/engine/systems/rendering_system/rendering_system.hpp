@@ -49,7 +49,7 @@ namespace Omnia
 		std::string getRenderingContextName();
 	private:
 		std::unique_ptr<RenderingContext> context;
-		std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
+		std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
 
 		void onWindowResize();
 		void buildRenderablesOnModifiedComponents(Scene& scene);

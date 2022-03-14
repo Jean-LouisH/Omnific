@@ -52,9 +52,6 @@ void Omnia::RenderingContext::initialize()
 		this->setViewport(windowDimensions.width, windowDimensions.height);
 		OS::getLogger().write((std::string)("Rendering System initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
-
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
 	}
 }
 
@@ -69,8 +66,18 @@ void Omnia::RenderingContext::clearDepthBuffer()
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
+void Omnia::RenderingContext::enableDepthTest()
+{
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+}
 
-void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
+void Omnia::RenderingContext::disableDepthTest()
+{
+	glDisable(GL_DEPTH_TEST);
+}
+
+void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
 {
 
 	for (auto it = sceneTreeRenderableLists.begin(); it != sceneTreeRenderableLists.end(); it++)
@@ -92,7 +99,15 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 				glm::mat4 worldToViewMatrix = glm::inverse(sceneTreeRenderable.cameraTransform->getGlobalTransformMatrix());
 				glm::mat4 viewToProjectionMatrix = sceneTreeRenderable.camera->getViewToProjectionMatrix();
 
-				this->clearDepthBuffer();
+				if (sceneTreeRenderable.is2D)
+				{
+					this->disableDepthTest();
+				}
+				else
+				{
+					this->clearDepthBuffer();
+					this->enableDepthTest();
+				}
 
 				for (size_t j = 0; j < entityRenderablesCount; j++)
 				{
