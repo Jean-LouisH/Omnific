@@ -1,0 +1,59 @@
+SceneTree:
+  name: "background"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 30]
+    Camera: "default"
+  Entity:
+    name: "Background"
+    SpriteContainer:
+      image: "scene_tree_layers/images/grey.jpg"
+      dimensions: [40.0, 30.0, 0.1]
+    Transform:
+      translation: [0, 0, 1]
+  Entity:
+    name: "Viewport"
+    UIViewport:
+      camera_entity: "Camera"	
+SceneTree:
+  name: "foreground"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [20, 30, 100]
+      rotation: [-10, 0, 0]
+    Camera: "default"
+  Entity:
+    name: "CollidingCube"
+    Transform:
+      translation: [-30, 15, -5]
+      scale: [25, 25, 25]
+    ModelContainer:
+      model: "Model::cube"
+    ScriptCollection:
+      python: ["event_bus/scripts/python/move_with_input.py"]
+  Entity:
+    name: "RespondingCube"
+    Transform:
+      translation: [30, 15, -5]
+      scale: [25, 25, 25]
+    ModelContainer:
+      model: "Model::cube"
+    ScriptCollection:
+      python: ["event_bus/scripts/python/change_texture_on_collision.py"]
+  Entity:
+    name: "RespondingCube"
+    Transform:
+      translation: [70, 15, -5]
+      scale: [25, 25, 25]
+    ModelContainer:
+      model: "Model::cube"
+    ScriptCollection:
+      python: ["scene_tree_layers/scripts/python/change_texture_on_collision.py"]
+  Entity:
+    name: "Viewport"
+    UIViewport:
+      camera_entity: "Camera"

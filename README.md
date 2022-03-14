@@ -11,11 +11,17 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 ## Notable Features
 
 - Project-based, data-driven Applications
-- Entity-Component-System (ECS) architecture
+[omnia_project](omnia_project.png)
+
 - Scenes of multiple SceneTree layers (2D and 3D)
+[scene_tree_layers](scene_tree_layers.png)
+
 - SceneTree EventBus for a publish/subscribe architecture
+[event_bus](event_bus.png)
+
 - C++ scripting via Native shared library builds
 - Python scripting via a Virtual Machine
+- Entity-Component-System (ECS) architecture
 - OpenGL Rendering Context with GLSL
 - Game Controller and Haptic Feedback support
 
