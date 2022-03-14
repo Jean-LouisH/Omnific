@@ -110,10 +110,6 @@ void Omnia::RenderingContext::submit(std::unordered_map<SceneTreeID, std::vector
 					vertexArray->bind();
 					texture->bind();
 
-					/* Temporary debug rotation*/
-					if (entityRenderable.renderableComponent->isType(ModelContainer::TYPE_STRING))
-						entityRenderable.entityTransform->rotation.y += 1;
-
 					/* Render for each ShaderProgram. Starting with the built in one. */
 					for (int k = -1; k < (int)shaderCount; k++)
 					{
