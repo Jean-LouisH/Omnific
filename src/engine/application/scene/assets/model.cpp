@@ -31,10 +31,20 @@
 
 Omnia::Model::Model(std::string filepath)
 {
+	this->load(filepath, std::shared_ptr<Image>(new Image("Image::default")));
+}
+
+Omnia::Model::Model(std::string filepath, std::shared_ptr<Image> image)
+{
+	this->load(filepath, image);
+}
+
+void Omnia::Model::load(std::string filepath, std::shared_ptr<Image> image)
+{
 	if (filepath == "Model::cube")
 	{
 		this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
-		this->image = std::shared_ptr<Image>(new Image("Image::default"));
+		this->image = image;
 	}
 	else
 	{

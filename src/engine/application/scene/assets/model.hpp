@@ -43,6 +43,7 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		Model(std::string filepath);
+		Model(std::string filepath, std::shared_ptr<Image> image);
 		static constexpr const char* TYPE_STRING = "Model";
 
 		std::shared_ptr<Mesh> mesh;
@@ -52,5 +53,6 @@ namespace Omnia
 		std::shared_ptr<Rig> rig;
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 	private:
+		void load(std::string filepath, std::shared_ptr<Image> image);
 	};
 }
