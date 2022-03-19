@@ -23,6 +23,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include <application/scene/component.hpp>
 #include <application/scene/scene.hpp>
 #include <application/scene_serializer.hpp>
@@ -44,6 +45,8 @@ namespace Omnia
 		void loadScene(std::string sceneFilename);
 		void unloadScene(std::string sceneFilename);
 		void changeToScene(std::string sceneFilename);
+
+		std::shared_ptr<Asset> loadAsset(std::string type, std::string filepath);
 
 		Entity& getEntity();
 		Scene& getScene();

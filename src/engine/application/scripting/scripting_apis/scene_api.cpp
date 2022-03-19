@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "scene_api.hpp"
+#include <application/asset_cache.hpp>
 
 void Omnia::SceneAPI::setSceneStorage(SceneStorage* sceneStorage)
 {
@@ -72,6 +73,29 @@ void Omnia::SceneAPI::changeToScene(std::string sceneFilename)
 	{
 		this->sceneStorage->changeToScene(sceneFilename);
 	}
+}
+
+std::shared_ptr<Omnia::Asset> Omnia::SceneAPI::loadAsset(std::string type, std::string filepath)
+{
+	std::shared_ptr<Asset> asset;
+	std::shared_ptr<Image> image;
+
+	if (type == Image::TYPE_STRING)
+	{
+		std::string absoluteFilepath = OS::getFileAccess().getDataDirectoryPath() + filepath;
+		if (AssetCache::exists(absoluteFilepath))
+		{
+			asset = AssetCache::fetch(absoluteFilepath);
+		}
+		else
+		{
+			image = std::shared_ptr<Image>(new Image(absoluteFilepath));
+			asset = std::static_pointer_cast<Asset>(image);
+			AssetCache::store(asset);
+		}
+	}
+
+	return image;
 }
 
 Omnia::Entity& Omnia::SceneAPI::getEntity()
