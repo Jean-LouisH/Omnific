@@ -43,9 +43,11 @@ namespace Omnia
 
 		void addModel(std::shared_ptr<Model> model);
 		void addCube();
+		void addTexturedCube(std::shared_ptr<Image> image);
+		void setModelIndex(uint64_t index);
 		std::shared_ptr<Model> getCurrentModel();
 	private:
 		std::vector<std::shared_ptr<Model>> models;
-		uint64_t currentModelIndex = 0;
+		uint64_t currentModelIndex = -1;
 	};
 }
