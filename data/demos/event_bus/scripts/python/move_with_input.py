@@ -1,7 +1,7 @@
 import omnia
 
 def on_logic_frame():
-    movement_speed = 1.0
+    movement_speed = 5.0
     scene_api = omnia.get_scene_api()
     input_api = omnia.get_input_api()
     transform = scene_api.get_component("Transform")

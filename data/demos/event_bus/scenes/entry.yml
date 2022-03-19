@@ -27,32 +27,43 @@ SceneTree:
       rotation: [-10, 0, 0]
     Camera: "default"
   Entity:
+    name: "Floor"
+    Transform:
+      translation: [-30, -10, -5]
+      scale: [50, 10, 50]
+    ModelContainer:
+      models: ["Model::cube"]
+    Collider:
+      dimensions: [50.0, 10.0, 50.0]
+  Entity:
     name: "CollidingCube"
     Transform:
       translation: [-30, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
-      model: "Model::cube"
+      models: ["Model::cube"]
     ScriptCollection:
       python: ["event_bus/scripts/python/move_with_input.py"]
+    Collider:
+      dimensions: [25.0, 25.0, 25.0]
   Entity:
-    name: "RespondingCube"
+    name: "RespondingCube1"
     Transform:
       translation: [30, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
-      model: "Model::cube"
+      models: ["Model::cube"]
     ScriptCollection:
       python: ["event_bus/scripts/python/change_texture_on_collision.py"]
   Entity:
-    name: "RespondingCube"
+    name: "RespondingCube2"
     Transform:
       translation: [70, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
-      model: "Model::cube"
+      models: ["Model::cube"]
     ScriptCollection:
-      python: ["scene_tree_layers/scripts/python/change_texture_on_collision.py"]
+      python: ["event_bus/scripts/python/change_texture_on_collision.py"]
   Entity:
     name: "Viewport"
     UIViewport:

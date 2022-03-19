@@ -32,7 +32,7 @@ SceneTree:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
-      model: "Model::cube"
+      models: ["Model::cube"]
     ScriptCollection:
       python: ["scene_tree_layers/scripts/python/middleground_cube_rotate.py"]
   Entity:
@@ -54,7 +54,7 @@ SceneTree:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
-      model: "Model::cube"
+      models: ["Model::cube"]
     ScriptCollection:
       python: ["scene_tree_layers/scripts/python/foreground_cube_rotate.py"]
   Entity:

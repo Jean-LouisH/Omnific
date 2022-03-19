@@ -38,7 +38,7 @@ SceneTree:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
-      model: "Model::cube"
+      models: ["Model::cube"]
   Entity:
     name: "Floor"
     Transform:
