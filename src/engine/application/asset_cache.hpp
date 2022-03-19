@@ -32,7 +32,9 @@ namespace Omnia
 	class AssetCache
 	{
 	public:
+		static bool exists(std::string name);
 		static void store(std::shared_ptr<Omnia::Asset>);
+		static std::shared_ptr<Omnia::Asset> fetch(std::string name);
 		static void deleteAsset(std::string filepath);
 		static void deleteAllAssets();
 		static std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> getAssets();

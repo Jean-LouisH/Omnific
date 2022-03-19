@@ -24,12 +24,28 @@
 
 Omnia::AssetCache* Omnia::AssetCache::instance = nullptr;
 
+bool Omnia::AssetCache::exists(std::string name)
+{
+	return getInstance()->assets.count(name) > 0;
+}
+
 void Omnia::AssetCache::store(std::shared_ptr<Omnia::Asset> asset)
 {
 	AssetCache* instance = getInstance();
 
 	if (!instance->assets.count(asset->getName()))
 		instance->assets.emplace(asset->getName(), asset);
+}
+
+std::shared_ptr<Omnia::Asset> Omnia::AssetCache::fetch(std::string name)
+{
+	AssetCache* instance = getInstance();
+	std::shared_ptr<Asset> asset;
+
+	if (instance->assets.count(name) != 0)
+		asset = instance->assets.at(name);
+
+	return asset;
 }
 
 void Omnia::AssetCache::deleteAsset(std::string filepath)
