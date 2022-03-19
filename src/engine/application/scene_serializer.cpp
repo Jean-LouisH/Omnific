@@ -283,18 +283,21 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										if (it3->first.as<std::string>() == "model")
+										if (it3->first.as<std::string>() == "models")
 										{
-											if (it3->second.as<std::string>() == "Model::cube")
+											for (int i = 0; i < it3->second.size(); i++)
 											{
-												modelContainer->addCube();
-											}
-											else
-											{
-												std::shared_ptr<Omnia::Model> model(new Model(this->dataDirectory + it3->second.as<std::string>()));
-												std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
-												AssetCache::store(asset);
-												modelContainer->addModel(model);
+												if (it3->second[i].as<std::string>() == "Model::cube")
+												{
+													modelContainer->addCube();
+												}
+												else
+												{
+													std::shared_ptr<Omnia::Model> model(new Model(this->dataDirectory + it3->second[i].as<std::string>()));
+													std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
+													AssetCache::store(asset);
+													modelContainer->addModel(model);
+												}
 											}
 										}
 									}
