@@ -55,7 +55,7 @@ namespace Omnia
 		float aspect = defaultAspect;
 		float fieldOfView = 45.0;
 		float nearPlane = 0.1;
-		float farPlane = 100.0;
+		float farPlane = 1000.0;
 		AABB2D limits;
 		Rectangle viewport;
 		bool keepAspect = true;
