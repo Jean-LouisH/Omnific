@@ -176,9 +176,12 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 					bool hasRigidBody1 = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
 					bool hasRigidBody2 = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
 					std::unordered_map<std::string, float> eventNumbers;
+					std::unordered_map<std::string, std::string> eventStrings;
 
 					eventNumbers.emplace("first_entity_id", collider1->getEntityID());
+					eventStrings.emplace("first_entity_name", entity1.name);
 					eventNumbers.emplace("second_entity_id", collider2->getEntityID());
+					eventStrings.emplace("second_entity_name", entity2.name);
 					eventNumbers.emplace("attack_angle", 0.0); //ToDo: 3D attack angle
 
 					if (hasRigidBody1)
@@ -222,7 +225,7 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 						eventNumbers.emplace("second_rotation_z", transform2->rotation.z);
 					}
 
-					sceneTree.getEventBus().publish(this->collisionEventString, eventNumbers);
+					sceneTree.getEventBus().publish(this->collisionEventString, eventNumbers, eventStrings);
 				}
 			}
 		}
