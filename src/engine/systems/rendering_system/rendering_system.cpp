@@ -98,7 +98,6 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(Scene& scene)
 				SceneTreeRenderable sceneTreeRenderable;
 				std::shared_ptr<Transform> cameraTransform = sceneTree.getEntityTransform(camera->getEntityID());
 
-				sceneTreeRenderable.name = sceneTree.getName();
 				sceneTreeRenderable.is2D = sceneTree.is2D;
 				sceneTreeRenderable.camera = camera;
 				sceneTreeRenderable.cameraTransform = cameraTransform;
