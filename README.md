@@ -20,7 +20,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 - SceneTree EventBus for a publish/subscribe architecture
 
-![event_bus](event_bus.png)
+![event_bus](event_bus.gif)
 
 - C++ scripting via Native shared library builds
 - Python scripting via a Virtual Machine
