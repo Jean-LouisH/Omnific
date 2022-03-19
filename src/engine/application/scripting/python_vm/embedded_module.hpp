@@ -85,7 +85,9 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("change_to_scene", &Omnia::SceneAPI::changeToScene)
 		.def("get_entity", &Omnia::SceneAPI::getEntity, pybind11::return_value_policy::reference)
 		.def("get_component", &Omnia::SceneAPI::getComponent, pybind11::return_value_policy::reference)
-		.def("get_scene", &Omnia::SceneAPI::getScene, pybind11::return_value_policy::reference);
+		.def("get_scene", &Omnia::SceneAPI::getScene, pybind11::return_value_policy::reference)
+		.def("get_scene_tree", &Omnia::SceneAPI::getSceneTree, pybind11::return_value_policy::reference)
+		.def("load_asset", &Omnia::SceneAPI::loadAsset, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Omnia::TimeAPI>(m, "TimeAPI")
 		.def("set_ms_per_compute_update", &Omnia::TimeAPI::setMsPerComputeUpdate)
@@ -186,12 +188,17 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("is_finished", &Omnia::CountdownTimer::isFinished);
 	pybind11::class_<Omnia::CharacterBody, Omnia::Component>(m, Omnia::CharacterBody::TYPE_STRING);
 	pybind11::class_<Omnia::Light, Omnia::Component>(m, Omnia::Light::TYPE_STRING);
+	pybind11::class_<Omnia::ModelContainer, Omnia::Component>(m, Omnia::ModelContainer::TYPE_STRING)
+		.def("add_model", &Omnia::ModelContainer::addModel)
+		.def("add_cube", &Omnia::ModelContainer::addCube)
+		.def("add_textured_cube", &Omnia::ModelContainer::addTexturedCube)
+		.def("set_model_index", &Omnia::ModelContainer::setModelIndex)
+		.def("get_current_model", &Omnia::ModelContainer::getCurrentModel, pybind11::return_value_policy::reference);
 	pybind11::class_<Omnia::NavigationMeshAgent, Omnia::Component>(m, Omnia::NavigationMeshAgent::TYPE_STRING);
 	pybind11::class_<Omnia::NavigationMeshBoxObstacle, Omnia::Component>(m, Omnia::NavigationMeshBoxObstacle::TYPE_STRING);
 	pybind11::class_<Omnia::NavigationPath, Omnia::Component>(m, Omnia::NavigationPath::TYPE_STRING);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component>(m, Omnia::Collider::TYPE_STRING);
-	pybind11::class_<Omnia::ModelContainer, Omnia::Component>(m, Omnia::ModelContainer::TYPE_STRING);
 	pybind11::class_<Omnia::RigidBody, Omnia::Component>(m, Omnia::RigidBody::TYPE_STRING);
 	pybind11::class_<Omnia::SpriteContainer, Omnia::Component>(m, Omnia::SpriteContainer::TYPE_STRING);
 	pybind11::class_<Omnia::StaticFluid, Omnia::Component>(m, Omnia::StaticFluid::TYPE_STRING);
