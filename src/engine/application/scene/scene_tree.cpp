@@ -190,27 +190,20 @@ std::vector<Omnia::ScriptCallBatch> Omnia::SceneTree::generateCallBatches(CallTy
 		else if (callType == CallType::FINISH)
 			entityQueue = &this->finishEntitiesQueue;
 
-		for (size_t i = 0; i < scriptCollectionsCount; i++)
+		while (!entityQueue->empty())
 		{
-			std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
-
-			if (!entityQueue->empty())
+			Entity& entity = this->getEntity(entityQueue->front());
+			std::shared_ptr<ScriptCollection> scriptCollection = this->getComponent<ScriptCollection>(entity.id);
+			if (scriptCollection != nullptr)
 			{
-				if (scriptCollection->getEntityID() == entityQueue->front())
-				{
-					std::vector<std::string> scriptNames;
-					
-					for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
-						scriptNames.push_back(scriptCollection->scripts.at(j)->getName());
+				std::vector<std::string> scriptNames;
 
-					scriptCallBatches.push_back({ scriptNames, this->id, scriptCollection->getEntityID()});
-					entityQueue->pop();
-				}
+				for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
+					scriptNames.push_back(scriptCollection->scripts.at(j)->getName());
+
+				scriptCallBatches.push_back({ scriptNames, this->id, scriptCollection->getEntityID() });
 			}
-			else
-			{
-				break;
-			}
+			entityQueue->pop();
 		}
 	}
 	else if (callType == CallType::UPDATE)
