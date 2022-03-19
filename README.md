@@ -16,7 +16,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 - Scenes of multiple SceneTree layers (2D and 3D)
 
-![scene_tree_layers](scene_tree_layers.png)
+![scene_tree_layers](scene_tree_layers.gif)
 
 - SceneTree EventBus for a publish/subscribe architecture
 
