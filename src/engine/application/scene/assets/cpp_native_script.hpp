@@ -39,8 +39,8 @@ namespace Omnia
         ~CPPNativeScript();
         virtual void onStart();
         virtual void onInput();
-        virtual void onFrame();
-        virtual void onCompute();
+        virtual void onLogicFrame();
+        virtual void onComputeFrame();
         virtual void onOutput();
         virtual void onFinish();
     private:

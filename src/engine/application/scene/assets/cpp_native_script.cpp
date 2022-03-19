@@ -43,12 +43,12 @@ void Omnia::CPPNativeScript::onInput()
 
 }
 
-void Omnia::CPPNativeScript::onFrame()
+void Omnia::CPPNativeScript::onLogicFrame()
 {
 
 }
 
-void Omnia::CPPNativeScript::onCompute()
+void Omnia::CPPNativeScript::onComputeFrame()
 {
 
 }
