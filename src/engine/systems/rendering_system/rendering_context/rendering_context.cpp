@@ -229,7 +229,9 @@ std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std:
 
 void Omnia::RenderingContext::collectGarbage()
 {
-	for (auto it = this->missedFrameCounts.cbegin(); it != this->missedFrameCounts.cend(); it++)
+	std::vector<AssetID> assetsToDelete;
+
+	for (auto it = this->missedFrameCounts.begin(); it != this->missedFrameCounts.end(); it++)
 	{
 		if (this->missedFrameCounts.at(it->first) > this->allowableMissedFrames)
 		{
@@ -238,12 +240,13 @@ void Omnia::RenderingContext::collectGarbage()
 			if (this->vertexArrays.count(it->first) > 0)
 				this->vertexArrays.erase(it->first);
 
-			this->missedFrameCounts.erase(it);
+			assetsToDelete.push_back(it->first);
 		}
 	}
 
-	for (auto it = this->missedFrameCounts.cbegin(); it != this->missedFrameCounts.cend(); it++)
-	{
+	for (size_t i = 0; i < assetsToDelete.size(); i++)
+		this->missedFrameCounts.erase(assetsToDelete.at(i));
+
+	for (auto it = this->missedFrameCounts.begin(); it != this->missedFrameCounts.end(); it++)
 		this->missedFrameCounts.at(it->first)++;
-	}
 }
