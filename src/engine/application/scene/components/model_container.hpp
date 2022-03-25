@@ -48,6 +48,6 @@ namespace Omnia
 		std::shared_ptr<Model> getCurrentModel();
 	private:
 		std::vector<std::shared_ptr<Model>> models;
-		uint64_t currentModelIndex = -1;
+		uint64_t currentModelIndex = 0;
 	};
 }
