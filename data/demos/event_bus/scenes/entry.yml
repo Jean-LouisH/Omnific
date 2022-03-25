@@ -50,16 +50,7 @@ SceneTree:
     name: "RespondingCube1"
     Transform:
       translation: [30, 15, -5]
-      scale: [25, 25, 25]
-    ModelContainer:
-      models: ["Model::cube"]
-    ScriptCollection:
-      python: ["event_bus/scripts/python/change_texture_on_collision.py"]
-  Entity:
-    name: "RespondingCube2"
-    Transform:
-      translation: [70, 15, -5]
-      scale: [25, 25, 25]
+      scale: [20, 20, 20]
     ModelContainer:
       models: ["Model::cube"]
     ScriptCollection:
