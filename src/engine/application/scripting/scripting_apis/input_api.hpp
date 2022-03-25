@@ -26,6 +26,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <set>
 #include "os/human_interface_devices.hpp"
 #include <glm/glm.hpp>
 #include <utilities/aliases.hpp>
@@ -73,5 +74,7 @@ namespace Omnia
 		std::unordered_map<std::string, SDL_Keycode> keyboardEventsByString;
 		std::unordered_map<std::string, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
 		std::unordered_map<std::string, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
+
+		std::set<std::string> heldInputs;
 	};
 }

@@ -226,7 +226,7 @@ bool Omnia::InputAPI::isPressed(std::string inputCode)
 
 bool Omnia::InputAPI::isPressed(std::vector<std::string> inputCodes)
 {
-	return this->isPressed(inputCodes, 0);
+	return isPressed(inputCodes, 0);
 }
 
 bool Omnia::InputAPI::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
@@ -235,6 +235,13 @@ bool Omnia::InputAPI::isPressed(std::vector<std::string> inputCodes, PlayerID pl
 	{
 		std::string inputCode = inputCodes.at(i);
 
+		if (this->isOnPress(inputCode))
+			this->heldInputs.insert(inputCode);
+		if (this->isOnRelease(inputCode))
+			this->heldInputs.erase(inputCode);
+
+		if (this->heldInputs.count(inputCode) > 0)
+			return true;
 	}
 
 	return false;
