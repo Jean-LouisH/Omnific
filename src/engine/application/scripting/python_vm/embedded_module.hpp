@@ -265,12 +265,12 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("min", &Omnia::AABB2D::min);
 
 	/*API getters*/
-	m.def("get_command_line_api", &Omnia::ScriptingAPIs::getCommandLineAPI);
-	m.def("get_input_api", &Omnia::ScriptingAPIs::getInputAPI);
-	m.def("get_log_api", &Omnia::ScriptingAPIs::getLogAPI);
-    m.def("get_scene_api", &Omnia::ScriptingAPIs::getSceneAPI);
-	m.def("get_time_api", &Omnia::ScriptingAPIs::getTimeAPI);
-	m.def("get_window_api", &Omnia::ScriptingAPIs::getWindowAPI);
+	m.def("get_command_line_api", &Omnia::ScriptingAPIs::getCommandLineAPI, pybind11::return_value_policy::reference);
+	m.def("get_input_api", &Omnia::ScriptingAPIs::getInputAPI, pybind11::return_value_policy::reference);
+	m.def("get_log_api", &Omnia::ScriptingAPIs::getLogAPI, pybind11::return_value_policy::reference);
+    m.def("get_scene_api", &Omnia::ScriptingAPIs::getSceneAPI, pybind11::return_value_policy::reference);
+	m.def("get_time_api", &Omnia::ScriptingAPIs::getTimeAPI, pybind11::return_value_policy::reference);
+	m.def("get_window_api", &Omnia::ScriptingAPIs::getWindowAPI, pybind11::return_value_policy::reference);
 	m.def("get_data_directory_path", &Omnia::ScriptingAPIs::getDataDirectoryPath);
 	m.def("get_executable_directory_path", &Omnia::ScriptingAPIs::getExecutableDirectoryPath);
 }
