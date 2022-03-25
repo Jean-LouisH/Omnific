@@ -47,6 +47,7 @@ namespace Omnia
 		void changeToScene(std::string sceneFilename);
 
 		std::shared_ptr<Asset> loadAsset(std::string type, std::string filepath);
+		std::shared_ptr<Image> loadImage(std::string filepath);
 
 		Entity& getEntity();
 		Scene& getScene();

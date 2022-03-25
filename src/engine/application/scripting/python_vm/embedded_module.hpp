@@ -87,7 +87,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_component", &Omnia::SceneAPI::getComponent, pybind11::return_value_policy::reference)
 		.def("get_scene", &Omnia::SceneAPI::getScene, pybind11::return_value_policy::reference)
 		.def("get_scene_tree", &Omnia::SceneAPI::getSceneTree, pybind11::return_value_policy::reference)
-		.def("load_asset", &Omnia::SceneAPI::loadAsset, pybind11::return_value_policy::reference);
+		.def("load_image", &Omnia::SceneAPI::loadImage, pybind11::return_value_policy::reference);
 
 	pybind11::class_<Omnia::TimeAPI>(m, "TimeAPI")
 		.def("set_ms_per_compute_update", &Omnia::TimeAPI::setMsPerComputeUpdate)
@@ -230,16 +230,16 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	/*Asset classes*/
 
-	pybind11::class_<Omnia::Asset>(m, "Asset")
+	pybind11::class_<Omnia::Asset, std::shared_ptr<Omnia::Asset>>(m, "Asset")
 		.def("get_id", &Omnia::Asset::getID)
 		.def("set_name", &Omnia::Asset::setName)
 		.def("get_name", &Omnia::Asset::getName)
 		.def("get_type", &Omnia::Asset::getType);
 
-	pybind11::class_<Omnia::AudioStream, Omnia::Asset>(m, Omnia::AudioStream::TYPE_STRING);
-	pybind11::class_<Omnia::Font, Omnia::Asset>(m, Omnia::Font::TYPE_STRING);
-	pybind11::class_<Omnia::Image, Omnia::Asset>(m, Omnia::Image::TYPE_STRING);
-	pybind11::class_<Omnia::Text, Omnia::Asset>(m, Omnia::Text::TYPE_STRING);
+	pybind11::class_<Omnia::AudioStream, Omnia::Asset, std::shared_ptr<Omnia::AudioStream>>(m, Omnia::AudioStream::TYPE_STRING);
+	pybind11::class_<Omnia::Font, Omnia::Asset, std::shared_ptr<Omnia::Font>>(m, Omnia::Font::TYPE_STRING);
+	pybind11::class_<Omnia::Image, Omnia::Asset, std::shared_ptr<Omnia::Image>>(m, Omnia::Image::TYPE_STRING);
+	pybind11::class_<Omnia::Text, Omnia::Asset, std::shared_ptr<Omnia::Text>>(m, Omnia::Text::TYPE_STRING);
 
 	/*Utility classes*/
 	pybind11::class_<glm::vec2>(m, "Vector2")

@@ -95,7 +95,12 @@ std::shared_ptr<Omnia::Asset> Omnia::SceneAPI::loadAsset(std::string type, std::
 		}
 	}
 
-	return image;
+	return asset;
+}
+
+std::shared_ptr<Omnia::Image> Omnia::SceneAPI::loadImage(std::string filepath)
+{
+	return std::dynamic_pointer_cast<Image>(this->loadAsset(Image::TYPE_STRING, filepath));
 }
 
 Omnia::Entity& Omnia::SceneAPI::getEntity()
