@@ -1,14 +1,27 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
-![In Progress](debug.png)
+![Intro Screenshot](debug.png)
 
-**This project is still a work in progress**
+**This project is still in pre-alpha phase**
 
 [Omnia](https://github.com/Jean-LouisH/Omnia) is a game engine I'm developing for fun, study and technical demonstrations. It doubles as a real-time software framework for interactive applications. It is designed to be general purpose, data-driven, and lightweight.
 
 The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely based on the term "Omnific" which means ["all-creating"](https://www.merriam-webster.com/dictionary/omnific).
 
-## Notable Features
+# Table of Content
+
+* [Notable Features](#notable-features)
+* [Notable Planned Features](#notable-planned-features)
+* [Compilation Instructions](#compilation-instructions)
+* [Documentation](#documentation)
+  * [Objectives](#objectives)
+  * [Design](#design)
+  * [End User Manual](#end-user-manual)
+  * [Scripting API](#scripting-api)
+* [Demos](#demos)
+* [License](#license)
+
+# Notable Features
 
 - Project-based, data-driven Applications
 
@@ -28,7 +41,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 - OpenGL Rendering Context with GLSL
 - Game Controller and Haptic Feedback support
 
-## Notable Planned Features
+# Notable Planned Features
 
 - UI Framework built with UI Components and the UI System
 - Physically Based Rendering
@@ -39,19 +52,30 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 - Vulkan Rendering Context with SPIR-V
 - Network Access for peer-to-peer gameplay
 
-## Compilation Instructions
+# Compilation Instructions
 
-* Requires the [SDL2](https://www.libsdl.org/), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and Python 3.7 libraries for your development platform.
+* Requires the [SDL2](https://www.libsdl.org/), [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/) and [Python 3.7](https://www.python.org/downloads/release/python-370/) libraries for your development platform.
 * Include this source directory in CMake to generate a project from the top level CMakeLists.txt. 
 * Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want. 
-* Use your C++ IDE or compiler of choice to build Esi and Tests from the project.
+* Use your C++ IDE or compiler of choice to build Omnia and Tests from the project.
 
-## Documentation
+# Documentation
 
-* [Objectives](Documentation/Objectives/Objectives.md)
-* [Design](Documentation/Design/Design.md)
-* [End User Manual](Documentation/End_User_Manual/End_User_Manual.md)
-* [Scripting API](Documentation/End_User_Manual/Scripting_API/Scripting_API.md)
+## Objectives
+
+.
+
+## Design
+
+[Design](Documentation/Design/Design.md)
+
+## End User Manual
+
+[End User Manual](Documentation/End_User_Manual/End_User_Manual.md)
+
+## Scripting API
+
+[Scripting API](Documentation/End_User_Manual/Scripting_API/Scripting_API.md)
 
 ## Demos
 
