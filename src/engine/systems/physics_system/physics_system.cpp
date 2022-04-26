@@ -80,16 +80,13 @@ void Omnia::PhysicsSystem::displace(SceneTree& sceneTree)
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
 		std::shared_ptr<RigidBody> rigidBody = rigidBodies.at(i);
-		std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(rigidBody->getEntityID());
-		transform->translation += rigidBody->linearVelocity * this->secondsPerComputeUpdate;
+		this->displaceEntityTree(sceneTree, rigidBody->getEntityID(), rigidBody->linearVelocity * this->secondsPerComputeUpdate);
 	}
 
 	for (int i = 0; i < characterBodies.size(); i++)
 	{
 		std::shared_ptr<CharacterBody> characterBody = characterBodies.at(i);
-		std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(characterBody->getEntityID());
-		//ToDo: translating according to the snap and up vectors.
-		transform->translation += characterBody->linearVelocity * this->secondsPerComputeUpdate;
+		this->displaceEntityTree(sceneTree, characterBody->getEntityID(), characterBody->linearVelocity * this->secondsPerComputeUpdate);
 	}
 }
 
@@ -300,4 +297,14 @@ void Omnia::PhysicsSystem::onComputeEnd(Scene& scene)
 			characterBodies.at(i)->reload();
 		}
 	}
+}
+
+void Omnia::PhysicsSystem::displaceEntityTree(SceneTree& sceneTree, EntityID entityID, glm::vec3 value)
+{
+	std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(entityID);
+	Entity& entity = sceneTree.getEntity(entityID);
+	transform->translation += value;
+
+	for (size_t i = 0; i < entity.childIDs.size(); i++)
+		this->displaceEntityTree(sceneTree, entity.childIDs.at(i), value);
 }

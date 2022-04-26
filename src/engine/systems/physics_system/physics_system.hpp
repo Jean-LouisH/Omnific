@@ -47,6 +47,8 @@ namespace Omnia
 		void applyForces(SceneTree& scene);
 		void detectCollisions(SceneTree& scene);
 		void handleCollisions(SceneTree& scene);
+
+		void displaceEntityTree(SceneTree& sceneTree, EntityID entityID, glm::vec3 value);
 	};
 }
 
