@@ -39,6 +39,8 @@ namespace Omnia
 
 	class Collider : public Component
 	{
+		friend class PhysicsSystem;
+
 	public:
 		std::set<EntityID> enteringEntityIDs;
 		std::set<std::string> enteringEntityTags;
@@ -73,5 +75,6 @@ namespace Omnia
 		bool hasEntityEntered(EntityID entityID);
 		bool hasEntityWithTagEntered(std::string entityTag);
 	private:
+		bool isColliding = false;
 	};
 }

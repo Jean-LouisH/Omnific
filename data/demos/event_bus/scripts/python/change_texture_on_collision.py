@@ -11,9 +11,7 @@ def on_output():
     scene_api = omnia.get_scene_api()
     event_bus = scene_api.get_scene_tree().get_event_bus()
     model_container = scene_api.get_component("ModelContainer")
-    collision_events = event_bus.query("collision_detected")
-
-    omnia.get_log_api().write(str(collision_events))
+    collision_events = event_bus.query("collision_ongoing")
 
     model_container.set_model_index(0)
 

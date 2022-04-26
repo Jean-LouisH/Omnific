@@ -39,7 +39,6 @@ namespace Omnia
 		void onComputeEnd(Scene& scene);
 	private:
 		float secondsPerComputeUpdate = 0.008;
-		std::string collisionEventString = "collision_detected";
 
 		void updateTimers(SceneTree& scene);
 		void displace(SceneTree& scene);

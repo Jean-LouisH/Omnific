@@ -135,6 +135,7 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 	/* Very basic collision detection on boxes for now. */
 	std::vector<std::shared_ptr<Collider>> colliders = sceneTree.getComponentsByType<Collider>();
 	size_t collidersCount = colliders.size();
+	std::string collisionEventString;
 
 	for (size_t i = 0; i < collidersCount; i++)
 	{
@@ -225,7 +226,21 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 						eventNumbers.emplace("second_rotation_z", transform2->rotation.z);
 					}
 
-					sceneTree.getEventBus().publish(this->collisionEventString, eventNumbers, eventStrings);
+					if (!collider1->isColliding)
+						collisionEventString = "collision_just_started";
+					else
+						collisionEventString = "collision_ongoing";
+
+					collider1->isColliding = true;
+					sceneTree.getEventBus().publish(collisionEventString, eventNumbers, eventStrings);
+				}
+				else
+				{
+					if (collider1->isColliding)
+						collisionEventString = "collision_just_ended";
+
+					collider1->isColliding = false;
+					sceneTree.getEventBus().publish(collisionEventString);
 				}
 			}
 		}
@@ -234,7 +249,12 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 
 void Omnia::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 {
-	std::vector<Event> collisionEvents = sceneTree.getEventBus().query(this->collisionEventString);
+	EventBus& eventBus = sceneTree.getEventBus();
+	std::vector<Event> justStartedCollisionEvents = eventBus.query("collision_just_started");
+	std::vector<Event> onGoingCollisionEvents = eventBus.query("collision_ongoing");
+	std::vector<Event> collisionEvents;
+	collisionEvents.insert(collisionEvents.end(), justStartedCollisionEvents.begin(), justStartedCollisionEvents.end());
+	collisionEvents.insert(collisionEvents.end(), onGoingCollisionEvents.begin(), onGoingCollisionEvents.end());
 	size_t collisionEventCount = collisionEvents.size();
 
 	/* Basic collision response on boxes */
