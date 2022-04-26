@@ -2,13 +2,13 @@
 
 ![Intro Screenshot](debug.png)
 
-**This project is still in pre-alpha phase**
+**This project is in pre-alpha**
 
 [Omnia](https://github.com/Jean-LouisH/Omnia) is a game engine I'm developing for fun, study and technical demonstrations. It doubles as a real-time software framework for interactive applications. It is designed to be general purpose, data-driven, and lightweight.
 
 The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely based on the term "Omnific" which means ["all-creating"](https://www.merriam-webster.com/dictionary/omnific).
 
-# Table of Content
+# Table of Contents
 
 * [Notable Features](#notable-features)
 * [Notable Planned Features](#notable-planned-features)
