@@ -96,5 +96,8 @@ void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters 
 		OS::getRunTimer().getDeltaInNanoseconds(),
 		parameters));
 
-	this->events.emplace(name, eventsList);
+	if (this->events.count(name))
+		this->events.at(name) = eventsList;
+	else
+		this->events.emplace(name, eventsList);
 }
