@@ -77,6 +77,16 @@ void Omnia::RenderingContext::disableDepthTest()
 	glDisable(GL_DEPTH_TEST);
 }
 
+void Omnia::RenderingContext::enableWireframeMode()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+}
+
+void Omnia::RenderingContext::disableWireframeMode()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
 void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
 {
 
