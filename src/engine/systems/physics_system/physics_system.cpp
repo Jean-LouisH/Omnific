@@ -142,6 +142,7 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
 		std::shared_ptr<Transform> transform1 = sceneTree.getEntityTransform(collider1->getEntityID());
 		glm::vec3 translation1 = transform1->translation;
+		glm::vec3 scale1 = transform1->scale;
 		AABB3D aabb1 = collider1->box.aabb;
 
 		for (size_t j = 0; j < collidersCount; j++)
@@ -151,21 +152,22 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 				std::shared_ptr<Collider> collider2 = colliders.at(j);
 				std::shared_ptr<Transform> transform2 = sceneTree.getEntityTransform(collider2->getEntityID());
 				glm::vec3 translation2 = transform2->translation;
+				glm::vec3 scale2 = transform2->scale;
 				AABB3D aabb2 = collider2->box.aabb;
 
-				float box1left = translation1.x + aabb1.min.x;
-				float box1right = translation1.x + aabb1.max.x;
-				float box1top = translation1.y + aabb1.max.y;
-				float box1bottom = translation1.y + aabb1.min.y;
-				float box1front = translation1.z + aabb1.max.z;
-				float box1back = translation1.z + aabb1.min.z;
+				float box1left = translation1.x + aabb1.min.x * scale1.x;
+				float box1right = translation1.x + aabb1.max.x * scale1.x;
+				float box1top = translation1.y + aabb1.max.y * scale1.y;
+				float box1bottom = translation1.y + aabb1.min.y * scale1.y;
+				float box1front = translation1.z + aabb1.max.z * scale1.z;
+				float box1back = translation1.z + aabb1.min.z * scale1.z;
 
-				float box2left = translation2.x + aabb2.min.x;
-				float box2right = translation2.x + aabb2.max.x;
-				float box2top = translation2.y + aabb2.max.y;
-				float box2bottom = translation2.y + aabb2.min.y;
-				float box2front = translation2.z + aabb2.max.z;
-				float box2back = translation2.z + aabb2.min.z;
+				float box2left = translation2.x + aabb2.min.x * scale2.x;
+				float box2right = translation2.x + aabb2.max.x * scale2.x;
+				float box2top = translation2.y + aabb2.max.y * scale2.y;
+				float box2bottom = translation2.y + aabb2.min.y * scale2.y;
+				float box2front = translation2.z + aabb2.max.z * scale2.z;
+				float box2back = translation2.z + aabb2.min.z * scale2.z;
 
 				/* Collision Detected */
 				if ((box1left <= box2right && box1right >= box2left) &&
