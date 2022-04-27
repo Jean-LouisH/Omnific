@@ -21,3 +21,40 @@
 // SOFTWARE.
 
 #include "ui_button.hpp"
+
+void Omnia::UIButton::enableOverlayToParent()
+{
+	this->isOverlayedToParent = true;
+}
+void Omnia::UIButton::disableOverlayToParent()
+{
+	this->isOverlayedToParent = false;
+}
+
+void Omnia::UIButton::setToTextured()
+{
+	this->isTextured = true;
+}
+
+void Omnia::UIButton::setToColoured()
+{
+	this->isTextured = false;
+}
+
+void Omnia::UIButton::setImage(std::shared_ptr<Image> image)
+{
+	this->image = image;
+	this->isTextured = true;
+}
+
+void Omnia::UIButton::setDefaultColour(std::shared_ptr<Colour> colour)
+{
+	this->defaultColour = colour;
+	this->generateImage();
+}
+
+void Omnia::UIButton::generateImage()
+{
+	if (!isTextured)
+		this->image = std::shared_ptr<Image>(new Image(this->defaultColour));
+}

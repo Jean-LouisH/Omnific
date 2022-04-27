@@ -25,19 +25,38 @@
 #include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
 #include "application/scene/component.hpp"
+#include "utilities/colour.hpp"
 
 namespace Omnia
 {
+	/* A clickable region that is either 
+	textured or overlayed to a parent Entity */
+
 	class UIButton : public RenderableComponent
 	{
+		friend class UISystem;
 	public:
 		UIButton()
 		{
 			this->type = TYPE_STRING;
+			this->defaultDimensions = { 20, 10 };
+			this->setDefaultColour(std::shared_ptr<Colour>(new Colour(200, 200, 200, 255)));
 		};
 		static constexpr const char* TYPE_STRING = "UIButton";
+
+		void enableOverlayToParent();
+		void disableOverlayToParent();
+		void setToTextured();
+		void setToColoured();
+		void setImage(std::shared_ptr<Image> image);
+		void setDefaultColour(std::shared_ptr<Colour> colour);
 	private:
-		bool isLink = false;
+		bool isPressed = false;
 		bool isTextured = false;
+		bool isOverlayedToParent = false;
+		glm::vec2 defaultDimensions;
+		std::shared_ptr<Colour> defaultColour;
+
+		void generateImage();
 	};
 }
