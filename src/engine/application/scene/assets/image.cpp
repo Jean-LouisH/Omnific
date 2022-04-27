@@ -28,7 +28,8 @@
 
 Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
-	Image();
+	this->type = TYPE_STRING;
+
 	//SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
 	//SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
 
@@ -46,9 +47,25 @@ Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour,
 	//}
 }
 
+Omnia::Image::Image(std::shared_ptr<Colour> colour)
+{
+	this->type = TYPE_STRING;
+	const uint16_t size = 256;
+	this->height = size;
+	this->width = size;
+	this->colourChannels = 3;
+	size_t dataSize = this->width * this->height * this->colourChannels;
+	uint32_t fillColour = colour->get24BitValue();
+
+	for (int y = 0; y < this->height; y++)
+		for (int x = 0; x < this->width; x++)
+			this->fillColourChannels(fillColour, x, y);
+
+}
+
 Omnia::Image::Image(std::string filepath)
 {
-	Image();
+	this->type = TYPE_STRING;
 	this->setName(filepath);
 
 	if (filepath == "Image::default")
@@ -104,6 +121,18 @@ uint8_t Omnia::Image::getBytesPerPixel()
 	return this->colourChannels;
 }
 
+void Omnia::Image::fillColourChannels(uint32_t fillColour, int x, int y)
+{
+	for (int colourChannel = 0; colourChannel < this->colourChannels; colourChannel++)
+	{
+		const int colourChannelByteLength = 8;
+		int imageIndex = (y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel;
+		int maskByteShift = (this->colourChannels * colourChannelByteLength) - colourChannelByteLength;
+		int colourChannelByteOffset = colourChannel * colourChannelByteLength;
+		this->data.get()[imageIndex] = (fillColour & (0xFF0000 >> colourChannelByteOffset)) >> (maskByteShift - colourChannelByteOffset);
+	}
+}
+
 void Omnia::Image::setToDefault()
 {
 	const uint32_t lighterGrey = 0x333333;
@@ -128,14 +157,7 @@ void Omnia::Image::setToDefault()
 			else
 				fillColour = lighterGrey;
 
-			for (int colourChannel = 0; colourChannel < this->colourChannels; colourChannel++)
-			{
-				const int colourChannelByteLength = 8;
-				int imageIndex = (y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel;
-				int maskByteShift = (this->colourChannels * colourChannelByteLength) - colourChannelByteLength;
-				int colourChannelByteOffset = colourChannel * colourChannelByteLength;
-				this->data.get()[imageIndex] = (fillColour & (0xFF0000 >> colourChannelByteOffset)) >> (maskByteShift - colourChannelByteOffset);
-			}
+			this->fillColourChannels(fillColour, x, y);
 
 			if ((x % (size / divisions)) == 0)
 				darker = !darker;
