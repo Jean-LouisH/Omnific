@@ -226,9 +226,9 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 					}
 
 					if (!collider1->isColliding)
-						collisionEventString = "collision_just_started";
+						collisionEventString = "entity_is_on_collision";
 					else
-						collisionEventString = "collision_ongoing";
+						collisionEventString = "entity_is_colliding";
 
 					collider1->isColliding = true;
 					sceneTree.getEventBus().publish(collisionEventString, eventNumbers, eventStrings);
@@ -236,7 +236,7 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 				else
 				{
 					if (collider1->isColliding)
-						collisionEventString = "collision_just_ended";
+						collisionEventString = "entity_is_off_collision";
 
 					collider1->isColliding = false;
 					sceneTree.getEventBus().publish(collisionEventString);
@@ -249,8 +249,8 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 void Omnia::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 {
 	EventBus& eventBus = sceneTree.getEventBus();
-	std::vector<Event> justStartedCollisionEvents = eventBus.query("collision_just_started");
-	std::vector<Event> onGoingCollisionEvents = eventBus.query("collision_ongoing");
+	std::vector<Event> justStartedCollisionEvents = eventBus.query("entity_is_on_collision");
+	std::vector<Event> onGoingCollisionEvents = eventBus.query("entity_is_colliding");
 	std::vector<Event> collisionEvents;
 	collisionEvents.insert(collisionEvents.end(), justStartedCollisionEvents.begin(), justStartedCollisionEvents.end());
 	collisionEvents.insert(collisionEvents.end(), onGoingCollisionEvents.begin(), onGoingCollisionEvents.end());
