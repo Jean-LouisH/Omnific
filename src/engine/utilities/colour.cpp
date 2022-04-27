@@ -63,3 +63,8 @@ uint8_t Omnia::Colour::getAlpha()
 {
 	return (uint8_t)(this->alpha * 255.0);
 }
+
+uint32_t Omnia::Colour::get24BitValue()
+{
+	return (uint32_t)((this->getRed() << 16) + (this->getGreen() << 8) + (this->getBlue() << 0));
+}
