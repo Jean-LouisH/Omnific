@@ -210,14 +210,11 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("rotate_y", &Omnia::Transform::rotateY)
 		.def("rotate_z", &Omnia::Transform::rotateZ);
 	pybind11::class_<Omnia::UIButton, Omnia::Component>(m, Omnia::UIButton::TYPE_STRING);
-	pybind11::class_<Omnia::UIGraphEdit, Omnia::Component>(m, Omnia::UIGraphEdit::TYPE_STRING);
-	pybind11::class_<Omnia::UIGraphNode, Omnia::Component>(m, Omnia::UIGraphNode::TYPE_STRING);
+	pybind11::class_<Omnia::UIGraph, Omnia::Component>(m, Omnia::UIGraph::TYPE_STRING);
 	pybind11::class_<Omnia::UIHoverCard, Omnia::Component>(m, Omnia::UIHoverCard::TYPE_STRING);
 	pybind11::class_<Omnia::UIItemList, Omnia::Component>(m, Omnia::UIItemList::TYPE_STRING);
 	pybind11::class_<Omnia::UIPanel, Omnia::Component>(m, Omnia::UIPanel::TYPE_STRING);
 	pybind11::class_<Omnia::UIProgressBar, Omnia::Component>(m, Omnia::UIProgressBar::TYPE_STRING);
-	pybind11::class_<Omnia::UIRectangle, Omnia::Component>(m, Omnia::UIRectangle::TYPE_STRING);
-	pybind11::class_<Omnia::UIScrollbar, Omnia::Component>(m, Omnia::UIScrollbar::TYPE_STRING);
 	pybind11::class_<Omnia::UISeparator, Omnia::Component>(m, Omnia::UISeparator::TYPE_STRING);
 	pybind11::class_<Omnia::UISlider, Omnia::Component>(m, Omnia::UISlider::TYPE_STRING);
 	pybind11::class_<Omnia::UISpinBox, Omnia::Component>(m, Omnia::UISpinBox::TYPE_STRING);

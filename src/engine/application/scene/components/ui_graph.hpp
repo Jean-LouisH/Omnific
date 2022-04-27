@@ -27,14 +27,14 @@
 
 namespace Omnia
 {
-	class UIGraphNode : public RenderableComponent
+	class UIGraph : public RenderableComponent
 	{
 	public:
-		UIGraphNode()
+		UIGraph()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "UIGraphNode";
+		static constexpr const char* TYPE_STRING = "UIGraph";
 	private:
 	};
 }

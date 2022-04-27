@@ -496,35 +496,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 										}
 									}
 								}
-								else if (it2->first.as<std::string>() == UIGraphEdit::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIGraphNode::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIScrollbar::TYPE_STRING)
+								else if (it2->first.as<std::string>() == UIGraph::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
@@ -609,20 +581,6 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 								}
 								else if (it2->first.as<std::string>() == UIProgressBar::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIRectangle::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{

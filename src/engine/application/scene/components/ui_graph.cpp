@@ -20,22 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "application/scene/assets/image.hpp"
-#include "application/scene/renderable_component.hpp"
-
-namespace Omnia
-{
-	class UIScrollbar : public RenderableComponent
-	{
-	public:
-		UIScrollbar()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "UIScrollbar";
-	private:
-		bool isVertical = false;
-	};
-}
+#include "ui_graph.hpp"
