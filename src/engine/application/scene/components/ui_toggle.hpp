@@ -20,51 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "ui_item_list.hpp"
+#pragma once
 
-void Omnia::UIItemList::setLowerBound(uint32_t lowerBound)
+#include "application/scene/renderable_component.hpp"
+
+namespace Omnia
 {
-	this->lowerBound = lowerBound;
-
-	if (this->index < lowerBound)
-		this->index = lowerBound;
-}
-
-void Omnia::UIItemList::setUpperBound(uint32_t upperBound)
-{
-	this->upperBound = upperBound;
-
-	if (this->index > upperBound)
-		this->index = upperBound;
-}
-
-void Omnia::UIItemList::increment()
-{
-	this->index++;
-
-	if (this->index > upperBound)
-		this->index = lowerBound;
-}
-
-void Omnia::UIItemList::decrement()
-{
-	this->index--;
-
-	if (this->index < lowerBound)
-		this->index = upperBound;
-}
-
-void Omnia::UIItemList::setIndex(uint32_t index)
-{
-	this->index = index;
-
-	if (this->index < lowerBound)
-		this->index = lowerBound;
-	else if (this->index > upperBound)
-		this->index = upperBound;
-}
-
-uint32_t Omnia::UIItemList::getIndex()
-{
-	return this->index;
+	class UIToggle : public RenderableComponent
+	{
+	public:
+		UIToggle()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "UIToggle";
+	private:
+	};
 }

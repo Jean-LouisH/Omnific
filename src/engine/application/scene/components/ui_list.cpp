@@ -20,4 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "ui_text_edit.hpp"
+#include "ui_list.hpp"
+
+void Omnia::UIList::setLowerBound(uint32_t lowerBound)
+{
+	this->lowerBound = lowerBound;
+
+	if (this->index < lowerBound)
+		this->index = lowerBound;
+}
+
+void Omnia::UIList::setUpperBound(uint32_t upperBound)
+{
+	this->upperBound = upperBound;
+
+	if (this->index > upperBound)
+		this->index = upperBound;
+}
+
+void Omnia::UIList::increment()
+{
+	this->index++;
+
+	if (this->index > upperBound)
+		this->index = lowerBound;
+}
+
+void Omnia::UIList::decrement()
+{
+	this->index--;
+
+	if (this->index < lowerBound)
+		this->index = upperBound;
+}
+
+void Omnia::UIList::setIndex(uint32_t index)
+{
+	this->index = index;
+
+	if (this->index < lowerBound)
+		this->index = lowerBound;
+	else if (this->index > upperBound)
+		this->index = upperBound;
+}
+
+uint32_t Omnia::UIList::getIndex()
+{
+	return this->index;
+}

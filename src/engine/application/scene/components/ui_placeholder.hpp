@@ -22,19 +22,18 @@
 
 #pragma once
 
-#include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
 
 namespace Omnia
 {
-	class UITree : public RenderableComponent
+	class UIPlaceholder : public RenderableComponent
 	{
 	public:
-		UITree()
+		UIPlaceholder()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "UITree";		
+		static constexpr const char* TYPE_STRING = "UIPlaceholder";
 	private:
 	};
 }

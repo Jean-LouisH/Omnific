@@ -552,7 +552,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 										}
 									}
 								}
-								else if (it2->first.as<std::string>() == UIItemList::TYPE_STRING)
+								else if (it2->first.as<std::string>() == UIList::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
@@ -622,7 +622,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 										}
 									}
 								}
-								else if (it2->first.as<std::string>() == UITextEdit::TYPE_STRING)
+								else if (it2->first.as<std::string>() == UITextField::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
@@ -669,7 +669,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
 									sceneTree.addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == UITree::TYPE_STRING)
+								else if (it2->first.as<std::string>() == UITreeView::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{

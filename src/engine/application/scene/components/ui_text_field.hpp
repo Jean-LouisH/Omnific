@@ -27,14 +27,14 @@
 
 namespace Omnia
 {
-	class UITextEdit : public RenderableComponent
+	class UITextField : public RenderableComponent
 	{
 	public:
-		UITextEdit()
+		UITextField()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "UITextEdit";
+		static constexpr const char* TYPE_STRING = "UITextField";
 	private:
 	};
 }

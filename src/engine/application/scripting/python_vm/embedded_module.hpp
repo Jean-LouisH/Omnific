@@ -167,6 +167,19 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_haptic_signals", &Omnia::HapticSignalBuffer::getHapticSignals)
 		.def("clear", &Omnia::HapticSignalBuffer::clear);
 
+	/*Asset classes*/
+
+	pybind11::class_<Omnia::Asset, std::shared_ptr<Omnia::Asset>>(m, "Asset")
+		.def("get_id", &Omnia::Asset::getID)
+		.def("set_name", &Omnia::Asset::setName)
+		.def("get_name", &Omnia::Asset::getName)
+		.def("get_type", &Omnia::Asset::getType);
+
+	pybind11::class_<Omnia::AudioStream, Omnia::Asset, std::shared_ptr<Omnia::AudioStream>>(m, Omnia::AudioStream::TYPE_STRING);
+	pybind11::class_<Omnia::Font, Omnia::Asset, std::shared_ptr<Omnia::Font>>(m, Omnia::Font::TYPE_STRING);
+	pybind11::class_<Omnia::Image, Omnia::Asset, std::shared_ptr<Omnia::Image>>(m, Omnia::Image::TYPE_STRING);
+	pybind11::class_<Omnia::Text, Omnia::Asset, std::shared_ptr<Omnia::Text>>(m, Omnia::Text::TYPE_STRING);
+
 	/*Component classes*/
 	pybind11::class_<Omnia::Component>(m, "Component")
 		.def("set_entity_id", &Omnia::Component::setEntityID)
@@ -209,34 +222,32 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("rotate_x", &Omnia::Transform::rotateX)
 		.def("rotate_y", &Omnia::Transform::rotateY)
 		.def("rotate_z", &Omnia::Transform::rotateZ);
+	pybind11::class_<Omnia::UIAccordion, Omnia::Component>(m, Omnia::UIAccordion::TYPE_STRING);
+	pybind11::class_<Omnia::UIBreadcrumbs, Omnia::Component>(m, Omnia::UIBreadcrumbs::TYPE_STRING);
 	pybind11::class_<Omnia::UIButton, Omnia::Component>(m, Omnia::UIButton::TYPE_STRING);
+	pybind11::class_<Omnia::UIDropdown, Omnia::Component>(m, Omnia::UIDropdown::TYPE_STRING);
 	pybind11::class_<Omnia::UIGraph, Omnia::Component>(m, Omnia::UIGraph::TYPE_STRING);
+	pybind11::class_<Omnia::UIGridView, Omnia::Component>(m, Omnia::UIGridView::TYPE_STRING);
 	pybind11::class_<Omnia::UIHoverCard, Omnia::Component>(m, Omnia::UIHoverCard::TYPE_STRING);
-	pybind11::class_<Omnia::UIItemList, Omnia::Component>(m, Omnia::UIItemList::TYPE_STRING);
+	pybind11::class_<Omnia::UIList, Omnia::Component>(m, Omnia::UIList::TYPE_STRING);
+	pybind11::class_<Omnia::UILoader, Omnia::Component>(m, Omnia::UILoader::TYPE_STRING);
 	pybind11::class_<Omnia::UIPanel, Omnia::Component>(m, Omnia::UIPanel::TYPE_STRING);
+	pybind11::class_<Omnia::UIPlaceholder, Omnia::Component>(m, Omnia::UIPlaceholder::TYPE_STRING);
 	pybind11::class_<Omnia::UIProgressBar, Omnia::Component>(m, Omnia::UIProgressBar::TYPE_STRING);
+	pybind11::class_<Omnia::UIReveal, Omnia::Component>(m, Omnia::UIReveal::TYPE_STRING);
+	pybind11::class_<Omnia::UISearchField, Omnia::Component>(m, Omnia::UISearchField::TYPE_STRING);
 	pybind11::class_<Omnia::UISeparator, Omnia::Component>(m, Omnia::UISeparator::TYPE_STRING);
 	pybind11::class_<Omnia::UISlider, Omnia::Component>(m, Omnia::UISlider::TYPE_STRING);
 	pybind11::class_<Omnia::UISpinBox, Omnia::Component>(m, Omnia::UISpinBox::TYPE_STRING);
+	pybind11::class_<Omnia::UIStep, Omnia::Component>(m, Omnia::UIStep::TYPE_STRING);
 	pybind11::class_<Omnia::UITab, Omnia::Component>(m, Omnia::UITab::TYPE_STRING);
-	pybind11::class_<Omnia::UITextEdit, Omnia::Component>(m, Omnia::UITextEdit::TYPE_STRING);
+	pybind11::class_<Omnia::UITextField, Omnia::Component>(m, Omnia::UITextField::TYPE_STRING);
 	pybind11::class_<Omnia::UITextLabel, Omnia::Component>(m, Omnia::UITextLabel::TYPE_STRING)
 		.def("set_text", &Omnia::UITextLabel::setText);
-	pybind11::class_<Omnia::UITree, Omnia::Component>(m, Omnia::UITree::TYPE_STRING);
+	pybind11::class_<Omnia::UIToggle, Omnia::Component>(m, Omnia::UIToggle::TYPE_STRING);
+	pybind11::class_<Omnia::UIToggleGroup, Omnia::Component>(m, Omnia::UIToggleGroup::TYPE_STRING);
+	pybind11::class_<Omnia::UITreeView, Omnia::Component>(m, Omnia::UITreeView::TYPE_STRING);
 	pybind11::class_<Omnia::UIViewport, Omnia::Component>(m, Omnia::UIViewport::TYPE_STRING);
-
-	/*Asset classes*/
-
-	pybind11::class_<Omnia::Asset, std::shared_ptr<Omnia::Asset>>(m, "Asset")
-		.def("get_id", &Omnia::Asset::getID)
-		.def("set_name", &Omnia::Asset::setName)
-		.def("get_name", &Omnia::Asset::getName)
-		.def("get_type", &Omnia::Asset::getType);
-
-	pybind11::class_<Omnia::AudioStream, Omnia::Asset, std::shared_ptr<Omnia::AudioStream>>(m, Omnia::AudioStream::TYPE_STRING);
-	pybind11::class_<Omnia::Font, Omnia::Asset, std::shared_ptr<Omnia::Font>>(m, Omnia::Font::TYPE_STRING);
-	pybind11::class_<Omnia::Image, Omnia::Asset, std::shared_ptr<Omnia::Image>>(m, Omnia::Image::TYPE_STRING);
-	pybind11::class_<Omnia::Text, Omnia::Asset, std::shared_ptr<Omnia::Text>>(m, Omnia::Text::TYPE_STRING);
 
 	/*Utility classes*/
 	pybind11::class_<glm::vec2>(m, "Vector2")

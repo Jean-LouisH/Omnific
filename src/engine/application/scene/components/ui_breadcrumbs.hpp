@@ -22,32 +22,18 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
-
 
 namespace Omnia
 {
-	class UIItemList : public RenderableComponent
+	class UIBreadcrumbs : public RenderableComponent
 	{
 	public:
-		void setLowerBound(uint32_t lowerBound);
-		void setUpperBound(uint32_t upperBound);
-		void increment();
-		void decrement();
-		void setIndex(uint32_t index);
-		uint32_t getIndex();
-
-		UIItemList()
+		UIBreadcrumbs()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "UIItemList";
+		static constexpr const char* TYPE_STRING = "UIBreadcrumbs";
 	private:
-		uint32_t lowerBound = 0;
-		uint32_t upperBound;
-		uint32_t index = 0;
 	};
 }

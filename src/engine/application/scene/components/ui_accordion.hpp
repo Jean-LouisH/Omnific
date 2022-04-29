@@ -20,41 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "command_line_api.hpp"
-#include "scripting_apis.hpp"
-#include <application/scene/component.hpp>
+#pragma once
 
-void Omnia::CommandLineAPI::openWindow()
+#include "application/scene/renderable_component.hpp"
+
+namespace Omnia
 {
-	Entity panelEntity;
-	Entity textEditEntity;
-
-	std::shared_ptr<UIPanel> uiPanel(new UIPanel());
-	std::shared_ptr<UITextField> uiTextEdit(new UITextField());
-	std::shared_ptr<Component> textEditComponent = std::static_pointer_cast<Component>(uiTextEdit);
-	std::shared_ptr<Component> uiPanelComponent = std::static_pointer_cast<Component>(uiPanel);
-
-	//Fill data
-	//...
-	//...
-
-	SceneTree& sceneTree = ScriptingAPIs::getSceneAPI().getSceneTree();
-
-	sceneTree.addEntity(panelEntity);
-	sceneTree.addComponentToLastEntity(uiPanelComponent);
-	this->entityIDs.push_back(panelEntity.id);
-
-	sceneTree.addEntity(textEditEntity);
-	sceneTree.addComponentToLastEntity(textEditComponent);
-	this->entityIDs.push_back(textEditEntity.id);
-}
-
-void Omnia::CommandLineAPI::closeWindow()
-{
-	SceneTree& sceneTree = ScriptingAPIs::getSceneAPI().getSceneTree();
-
-	for (int i = 0; i < this->entityIDs.size(); i++)
-		sceneTree.removeEntity(this->entityIDs.at(i));
-
-	this->entityIDs.clear();
+	class UIAccordion : public RenderableComponent
+	{
+	public:
+		UIAccordion()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "UIAccordion";
+	private:
+	};
 }

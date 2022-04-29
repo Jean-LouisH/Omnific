@@ -20,4 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "ui_tree.hpp"
+#pragma once
+
+#include "application/scene/renderable_component.hpp"
+
+namespace Omnia
+{
+	class UILoader : public RenderableComponent
+	{
+	public:
+		UILoader()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "UILoader";
+	private:
+	};
+}
