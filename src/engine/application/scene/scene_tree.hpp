@@ -35,6 +35,7 @@
 #include <unordered_map>
 #include "utilities/aliases.hpp"
 #include <string>
+#include "collision_registry.hpp"
 #include "event_bus.hpp"
 #include "component_property_pool.hpp"
 
@@ -138,6 +139,7 @@ namespace Omnia
 		Entity& getLastEntity();
 		std::unordered_map<EntityID, Entity>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
+		CollisionRegistry& getCollisionRegistry();
 		EventBus& getEventBus();
 		HapticSignalBuffer& getHapticSignalBuffer();
 		bool getHasShadersChanged();
@@ -199,6 +201,7 @@ namespace Omnia
 
 		EntityID lastEntityID = 0;
 
+		std::shared_ptr<CollisionRegistry> collisionRegistry;
 		std::shared_ptr<EventBus> eventBus;
 		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer;
 

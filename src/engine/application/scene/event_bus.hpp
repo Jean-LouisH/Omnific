@@ -40,12 +40,12 @@ namespace Omnia
 
 		void publish(
 			std::string name,
-			std::unordered_map<std::string, float> floats,
+			std::unordered_map<std::string, double> numbers,
 			std::unordered_map<std::string, std::string> strings);
 
 		void publish(
 			std::string name,
-			std::unordered_map<std::string, float> floats);
+			std::unordered_map<std::string, double> numbers);
 
 		void publish(
 			std::string name,

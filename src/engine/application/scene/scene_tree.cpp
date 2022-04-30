@@ -26,6 +26,7 @@
 
 Omnia::SceneTree::SceneTree()
 {
+	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 	this->componentPropertyPool = std::shared_ptr<ComponentPropertyPool>(new ComponentPropertyPool());
@@ -281,6 +282,11 @@ std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID com
 	}
 
 	return component;
+}
+
+Omnia::CollisionRegistry& Omnia::SceneTree::getCollisionRegistry()
+{
+	return *this->collisionRegistry;
 }
 
 Omnia::EventBus& Omnia::SceneTree::getEventBus()

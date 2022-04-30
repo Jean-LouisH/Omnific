@@ -132,12 +132,36 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_entity_by_name", &Omnia::SceneTree::getEntityByName, pybind11::return_value_policy::reference)
 		.def("get_last_entity", &Omnia::SceneTree::getLastEntity, pybind11::return_value_policy::reference)
 		.def("get_entities", &Omnia::SceneTree::getEntities, pybind11::return_value_policy::reference)
+		.def("get_collision_registry", &Omnia::SceneTree::getCollisionRegistry, pybind11::return_value_policy::reference)
 		.def("get_event_bus", &Omnia::SceneTree::getEventBus, pybind11::return_value_policy::reference)
 		.def("get_haptic_signal_buffer", &Omnia::SceneTree::getHapticSignalBuffer, pybind11::return_value_policy::reference)
 		.def("get_id", &Omnia::SceneTree::getID);
 
+	pybind11::class_<Omnia::Collision>(m, "Collision")
+		.def_readwrite("collider_entity_id", &Omnia::Collision::colliderEntityID)
+		.def_readwrite("collider_name", &Omnia::Collision::colliderName)
+		.def_readwrite("other_collider_entity_id", &Omnia::Collision::otherColliderEntityID)
+		.def_readwrite("other_collider_name", &Omnia::Collision::otherColliderName)
+		.def_readwrite("attack_angle", &Omnia::Collision::attackAngle)
+		.def_readwrite("elasticity_ratio", &Omnia::Collision::elasticityRatio)
+		.def_readwrite("mass", &Omnia::Collision::mass)
+		.def_readwrite("linear_velocity", &Omnia::Collision::linearVelocity)
+		.def_readwrite("rotation", &Omnia::Collision::rotation)
+		.def_readwrite("other_elasticity_ratio", &Omnia::Collision::otherElasticityRatio)
+		.def_readwrite("other_mass", &Omnia::Collision::otherMass)
+		.def_readwrite("other_linear_velocity", &Omnia::Collision::otherLinearVelocity)
+		.def_readwrite("other_rotation", &Omnia::Collision::otherRotation);
+
+	pybind11::class_<Omnia::CollisionRegistry>(m, "CollisionRegistry")
+		.def("add_or_update", &Omnia::CollisionRegistry::addOrUpdate)
+		.def("remove", &Omnia::CollisionRegistry::remove)
+		.def("query", &Omnia::CollisionRegistry::query)
+		.def("query_all", &Omnia::CollisionRegistry::queryAll)
+		.def("is_colliding", &Omnia::CollisionRegistry::isColliding)
+		.def("get_collision_count", &Omnia::CollisionRegistry::getCollisionCount);
+
 	pybind11::class_<Omnia::Event::Parameters>(m, "EventParameters")
-		.def_readwrite("floats", &Omnia::Event::Parameters::floats)
+		.def_readwrite("numbers", &Omnia::Event::Parameters::numbers)
 		.def_readwrite("strings", &Omnia::Event::Parameters::strings);
 
 	pybind11::class_<Omnia::Event>(m, "Event")
@@ -151,9 +175,9 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("clear", &Omnia::EventBus::clear)
 		.def("query", &Omnia::EventBus::query)
 		.def("publish", pybind11::overload_cast<std::string>(&Omnia::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
 		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, float>>(&Omnia::EventBus::publish));
+		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>>(&Omnia::EventBus::publish));
 
 	pybind11::class_<Omnia::HapticSignal>(m, "HapticSignal")
 		.def(pybind11::init<Omnia::PlayerID, float, uint16_t>())

@@ -166,80 +166,68 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 				float box2front = translation2.z + aabb2.max.z * scale2.z;
 				float box2back = translation2.z + aabb2.min.z * scale2.z;
 
+				Entity& entity1 = sceneTree.getEntity(collider1->getEntityID());
+				Entity& entity2 = sceneTree.getEntity(collider2->getEntityID());
+				CollisionRegistry& collisionRegistry = sceneTree.getCollisionRegistry();
+
 				/* Collision Detected */
 				if ((box1left <= box2right && box1right >= box2left) &&
 					(box1bottom <= box2top && box1top >= box2bottom) &&
 					(box1back <= box2front && box1front >= box2back))
 				{
-					Entity& entity1 = sceneTree.getEntity(collider1->getEntityID());
-					Entity& entity2 = sceneTree.getEntity(collider2->getEntityID());
-					bool hasRigidBody1 = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
-					bool hasRigidBody2 = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
-					std::unordered_map<std::string, float> eventNumbers;
+					std::shared_ptr<Collision> collision(new Collision());
 					std::unordered_map<std::string, std::string> eventStrings;
 
-					eventNumbers.emplace("first_entity_id", collider1->getEntityID());
-					eventStrings.emplace("first_entity_name", entity1.name);
-					eventNumbers.emplace("second_entity_id", collider2->getEntityID());
-					eventStrings.emplace("second_entity_name", entity2.name);
-					eventNumbers.emplace("attack_angle", 0.0); //ToDo: 3D attack angle
+					collision->colliderEntityID = collider1->getEntityID();
+					collision->colliderName = entity1.name;
+					eventStrings.emplace("collider_name", entity1.name);
+					collision->otherColliderEntityID = collider2->getEntityID();
+					collision->otherColliderName = entity2.name;
+					eventStrings.emplace("other_collider_name", entity2.name);
 
-					if (hasRigidBody1)
+					collision->hasRigidbody = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
+					collision->hasOtherRigidbody = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
+
+					if (collision->hasRigidbody)
 					{
 						std::shared_ptr<Component> rigidBodyComponent1 = sceneTree.getComponent(entity1.componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody1 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent1);
 
-						eventNumbers.emplace("first_elasticity_ratio", rigidBody1->elasticityRatio);
-						eventNumbers.emplace("first_mass", rigidBody1->mass);
-						eventNumbers.emplace("first_linear_velocity_x", rigidBody1->linearVelocity.x);
-						eventNumbers.emplace("first_linear_velocity_y", rigidBody1->linearVelocity.y);
-						eventNumbers.emplace("first_linear_velocity_z", rigidBody1->linearVelocity.z);
-						eventNumbers.emplace("first_rotation_x", transform1->rotation.x);
-						eventNumbers.emplace("first_rotation_y", transform1->rotation.y);
-						eventNumbers.emplace("first_rotation_z", transform1->rotation.z);
+						collision->elasticityRatio = rigidBody1->elasticityRatio;
+						collision->mass = rigidBody1->mass;
+						collision->linearVelocity = rigidBody1->linearVelocity;
+						collision->rotation = transform1->rotation;
 					}
 
-					if (hasRigidBody2)
+					if (collision->hasOtherRigidbody)
 					{
 						std::shared_ptr<Component> rigidBodyComponent2 = sceneTree.getComponent(entity2.componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody2 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent2);
 
-						eventNumbers.emplace("second_elasticity_ratio", rigidBody2->elasticityRatio);
-						eventNumbers.emplace("second_mass", rigidBody2->mass);
-						eventNumbers.emplace("second_linear_velocity_x", rigidBody2->linearVelocity.x);
-						eventNumbers.emplace("second_linear_velocity_y", rigidBody2->linearVelocity.y);
-						eventNumbers.emplace("second_linear_velocity_z", rigidBody2->linearVelocity.z);
-						eventNumbers.emplace("second_rotation_x", transform2->rotation.x);
-						eventNumbers.emplace("second_rotation_y", transform2->rotation.y);
-						eventNumbers.emplace("second_rotation_z", transform2->rotation.z);
+						collision->otherElasticityRatio = rigidBody2->elasticityRatio;
+						collision->otherMass = rigidBody2->mass;
+						collision->otherLinearVelocity = rigidBody2->linearVelocity;
+						collision->otherRotation = transform2->rotation;
 					}
 					else if (!collider2->isTrigger)
 					{
-						eventNumbers.emplace("second_elasticity_ratio", 1.0);
-						eventNumbers.emplace("second_mass", EARTH_MASS);
-						eventNumbers.emplace("second_linear_velocity_x", 0.0);
-						eventNumbers.emplace("second_linear_velocity_y", 0.0);
-						eventNumbers.emplace("second_linear_velocity_z", 0.0);
-						eventNumbers.emplace("second_rotation_x", transform2->rotation.x);
-						eventNumbers.emplace("second_rotation_y", transform2->rotation.y);
-						eventNumbers.emplace("second_rotation_z", transform2->rotation.z);
+						collision->otherElasticityRatio = 1.0;
+						collision->otherMass = EARTH_MASS;
+						collision->otherRotation = transform2->rotation;
 					}
 
-					if (!collider1->isColliding)
-						collisionEventString = "entity_is_on_collision";
-					else
-						collisionEventString = "entity_is_colliding";
+					if (!collisionRegistry.isColliding(entity1.name, entity2.name))
+						sceneTree.getEventBus().publish("entity_is_on_collision", eventStrings);
 
-					collider1->isColliding = true;
-					sceneTree.getEventBus().publish(collisionEventString, eventNumbers, eventStrings);
+					collisionRegistry.addOrUpdate(collision);
 				}
-				else
+				else if (collisionRegistry.isColliding(entity1.name, entity2.name))
 				{
-					if (collider1->isColliding)
-						collisionEventString = "entity_is_off_collision";
-
-					collider1->isColliding = false;
-					sceneTree.getEventBus().publish(collisionEventString);
+					std::unordered_map<std::string, std::string> eventStrings;
+					eventStrings.emplace("collider_name", entity1.name);
+					eventStrings.emplace("other_collider_name", entity2.name);
+					collisionRegistry.remove(entity1.name, entity2.name);
+					sceneTree.getEventBus().publish("entity_is_off_collision", eventStrings);
 				}
 			}
 		}
@@ -248,39 +236,35 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 
 void Omnia::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 {
-	EventBus& eventBus = sceneTree.getEventBus();
-	std::vector<Event> justStartedCollisionEvents = eventBus.query("entity_is_on_collision");
-	std::vector<Event> onGoingCollisionEvents = eventBus.query("entity_is_colliding");
-	std::vector<Event> collisionEvents;
-	collisionEvents.insert(collisionEvents.end(), justStartedCollisionEvents.begin(), justStartedCollisionEvents.end());
-	collisionEvents.insert(collisionEvents.end(), onGoingCollisionEvents.begin(), onGoingCollisionEvents.end());
-	size_t collisionEventCount = collisionEvents.size();
+	//EventBus& eventBus = sceneTree.getEventBus();
+	//std::vector<Event> collisionEvents = eventBus.query("entity_is_on_collision");
+	//size_t collisionEventCount = collisionEvents.size();
 
-	/* Basic collision response on boxes */
-	for (size_t i = 0; i < collisionEventCount; i++)
-	{
-		Event& collisionEvent = collisionEvents.at(i);
-		std::unordered_map<std::string, float> floats = collisionEvent.getParameters().floats;
-		Entity& entity = sceneTree.getEntity(floats.at("first_entity_id"));
+	///* Basic collision response on boxes */
+	//for (size_t i = 0; i < collisionEventCount; i++)
+	//{
+	//	Event& collisionEvent = collisionEvents.at(i);
+	//	std::unordered_map<std::string, double> numbers = collisionEvent.getParameters().numbers;
+	//	Entity& entity = sceneTree.getEntity(numbers.at("first_entity_id"));
 
-		/* Collision response for RigidBodies and CharacterBodies */
-		if (entity.componentIDs.count(RigidBody::TYPE_STRING))
-		{
-			std::shared_ptr<Component> rigidBodyComponent = sceneTree.getComponent(entity.componentIDs.at(RigidBody::TYPE_STRING));
-			std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent);
-			rigidBody->linearVelocity.x = floats.at("second_linear_velocity_x");
-			rigidBody->linearVelocity.y = floats.at("second_linear_velocity_y");
-			rigidBody->linearVelocity.z = floats.at("second_linear_velocity_z");
-		}
-		else if (entity.componentIDs.count(CharacterBody::TYPE_STRING))
-		{
-			std::shared_ptr<Component> characterBodyComponent = sceneTree.getComponent(entity.componentIDs.at(CharacterBody::TYPE_STRING));
-			std::shared_ptr<CharacterBody> characterBody = std::dynamic_pointer_cast<CharacterBody>(characterBodyComponent);
-			characterBody->linearVelocity.x = floats.at("second_linear_velocity_x");
-			characterBody->linearVelocity.y = floats.at("second_linear_velocity_y");
-			characterBody->linearVelocity.z = floats.at("second_linear_velocity_z");
-		}
-	}
+	//	/* Collision response for RigidBodies and CharacterBodies */
+	//	if (entity.componentIDs.count(RigidBody::TYPE_STRING))
+	//	{
+	//		std::shared_ptr<Component> rigidBodyComponent = sceneTree.getComponent(entity.componentIDs.at(RigidBody::TYPE_STRING));
+	//		std::shared_ptr<RigidBody> rigidBody = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent);
+	//		rigidBody->linearVelocity.x = numbers.at("second_linear_velocity_x");
+	//		rigidBody->linearVelocity.y = numbers.at("second_linear_velocity_y");
+	//		rigidBody->linearVelocity.z = numbers.at("second_linear_velocity_z");
+	//	}
+	//	else if (entity.componentIDs.count(CharacterBody::TYPE_STRING))
+	//	{
+	//		std::shared_ptr<Component> characterBodyComponent = sceneTree.getComponent(entity.componentIDs.at(CharacterBody::TYPE_STRING));
+	//		std::shared_ptr<CharacterBody> characterBody = std::dynamic_pointer_cast<CharacterBody>(characterBodyComponent);
+	//		characterBody->linearVelocity.x = numbers.at("second_linear_velocity_x");
+	//		characterBody->linearVelocity.y = numbers.at("second_linear_velocity_y");
+	//		characterBody->linearVelocity.z = numbers.at("second_linear_velocity_z");
+	//	}
+	//}
 }
 
 void Omnia::PhysicsSystem::onComputeEnd(Scene& scene)

@@ -25,19 +25,19 @@
 
 void Omnia::EventBus::publish(
 	std::string name,
-	std::unordered_map<std::string, float> floats,
+	std::unordered_map<std::string, double> numbers,
 	std::unordered_map<std::string, std::string> strings)
 {
-	Event::Parameters parameters = {floats, strings};
+	Event::Parameters parameters = {numbers, strings};
 	this->publishWithParameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name,
-	std::unordered_map<std::string, float> floats)
+	std::unordered_map<std::string, double> numbers)
 {
 	Event::Parameters parameters;
-	parameters.floats = floats;
+	parameters.numbers = numbers;
 	this->publishWithParameters(name, parameters);
 }
 

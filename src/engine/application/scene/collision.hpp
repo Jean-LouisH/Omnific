@@ -22,34 +22,29 @@
 
 #pragma once
 
-#include <vector>
+#include <utilities/aliases.hpp>
+#include <glm/glm.hpp>
 #include <string>
-#include <unordered_map>
+
 
 namespace Omnia
 {
-	class Event
+	typedef struct Collision
 	{
-	public:
-		typedef struct Parameters
-		{
-			std::unordered_map<std::string, double> numbers;
-			std::unordered_map<std::string, std::string> strings;
-		};
-
-		Event(std::string name, uint64_t timestamp, Parameters parameters);
-		Event(std::string name, uint64_t timestamp);
-
-		/*Event data is read only to prevent multiple Systems or Scripts
-		from overwriting it directly from reference from the EventQueue.*/
-
-		std::string getName();
-		uint64_t getTimestamp();
-		Parameters getParameters();
-
-	private:
-		std::string name;
-		uint64_t timestamp;
-		Parameters parameters;
+		EntityID colliderEntityID = 0;
+		std::string colliderName;
+		EntityID otherColliderEntityID = 0;
+		std::string otherColliderName;
+		glm::vec3 attackAngle;
+		bool hasRigidbody = false;
+		bool hasOtherRigidbody = false;
+		double elasticityRatio = 0.0;
+		double mass = 0.0;
+		glm::vec3 linearVelocity;
+		glm::vec3 rotation;
+		double otherElasticityRatio = 0.0;
+		double otherMass = 0.0;
+		glm::vec3 otherLinearVelocity;
+		glm::vec3 otherRotation;
 	};
 }

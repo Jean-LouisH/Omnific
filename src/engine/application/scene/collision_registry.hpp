@@ -22,34 +22,30 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
+#include "collision.hpp"
 #include <unordered_map>
+#include <memory>
+#include <stdint.h>
 
 namespace Omnia
 {
-	class Event
+	class CollisionRegistry
 	{
+		using ColliderName = std::string;
+		using OtherColliderName = std::string;
+
 	public:
-		typedef struct Parameters
+		CollisionRegistry()
 		{
-			std::unordered_map<std::string, double> numbers;
-			std::unordered_map<std::string, std::string> strings;
-		};
-
-		Event(std::string name, uint64_t timestamp, Parameters parameters);
-		Event(std::string name, uint64_t timestamp);
-
-		/*Event data is read only to prevent multiple Systems or Scripts
-		from overwriting it directly from reference from the EventQueue.*/
-
-		std::string getName();
-		uint64_t getTimestamp();
-		Parameters getParameters();
-
+			collisions.reserve(32);
+		}
+		void addOrUpdate(std::shared_ptr<Collision> collision);
+		void remove(std::string colliderName, std::string otherColliderName);
+		std::shared_ptr<Collision> query(std::string colliderName, std::string otherColliderName);
+		std::unordered_map<std::string, std::shared_ptr<Collision>> queryAll(std::string colliderName);
+		bool isColliding(std::string colliderName, std::string otherColliderName);
+		uint64_t getCollisionCount(std::string colliderName);
 	private:
-		std::string name;
-		uint64_t timestamp;
-		Parameters parameters;
+		std::unordered_map<ColliderName, std::unordered_map<OtherColliderName, std::shared_ptr<Collision>>> collisions;
 	};
 }
