@@ -59,7 +59,7 @@ Omnia::Image::Image(std::shared_ptr<Colour> colour)
 
 	for (int y = 0; y < this->height; y++)
 		for (int x = 0; x < this->width; x++)
-			this->fillColourChannels(fillColour, x, y);
+			this->colourPixel(fillColour, x, y);
 
 }
 
@@ -121,7 +121,7 @@ uint8_t Omnia::Image::getBytesPerPixel()
 	return this->colourChannels;
 }
 
-void Omnia::Image::fillColourChannels(uint32_t fillColour, int x, int y)
+void Omnia::Image::colourPixel(uint32_t fillColour, int x, int y)
 {
 	for (int colourChannel = 0; colourChannel < this->colourChannels; colourChannel++)
 	{
@@ -157,7 +157,7 @@ void Omnia::Image::setToDefault()
 			else
 				fillColour = lighterGrey;
 
-			this->fillColourChannels(fillColour, x, y);
+			this->colourPixel(fillColour, x, y);
 
 			if ((x % (size / divisions)) == 0)
 				darker = !darker;

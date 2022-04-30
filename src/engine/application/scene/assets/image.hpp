@@ -65,7 +65,7 @@ namespace Omnia
 		int height = 0;
 		int colourChannels = 0;
 
-		void fillColourChannels(uint32_t fillColour, int x, int y);
+		void colourPixel(uint32_t fillColour, int x, int y);
 		void setToDefault();
 	};
 }
