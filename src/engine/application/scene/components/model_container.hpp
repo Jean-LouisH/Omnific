@@ -29,6 +29,8 @@
 #include "application/scene/assets/model.hpp"
 #include <memory>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 namespace Omnia
 {
@@ -44,10 +46,12 @@ namespace Omnia
 		void addModel(std::shared_ptr<Model> model);
 		void addCube();
 		void addTexturedCube(std::shared_ptr<Image> image);
-		void setModelIndex(uint64_t index);
+		void changeToModel(uint64_t index);
+		void changeToModel(std::string name);
 		std::shared_ptr<Model> getCurrentModel();
 	private:
 		std::vector<std::shared_ptr<Model>> models;
+		std::unordered_map<std::string, size_t> modelIndicesByName;
 		uint64_t currentModelIndex = 0;
 	};
 }

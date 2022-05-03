@@ -229,7 +229,8 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("add_model", &Omnia::ModelContainer::addModel)
 		.def("add_cube", &Omnia::ModelContainer::addCube)
 		.def("add_textured_cube", &Omnia::ModelContainer::addTexturedCube)
-		.def("set_model_index", &Omnia::ModelContainer::setModelIndex)
+		.def("change_to_model", pybind11::overload_cast<std::string>(&Omnia::ModelContainer::changeToModel))
+		.def("change_to_model", pybind11::overload_cast<uint64_t>(&Omnia::ModelContainer::changeToModel))
 		.def("get_current_model", &Omnia::ModelContainer::getCurrentModel, pybind11::return_value_policy::reference);
 	pybind11::class_<Omnia::NavigationMeshAgent, Omnia::Component>(m, Omnia::NavigationMeshAgent::TYPE_STRING);
 	pybind11::class_<Omnia::NavigationMeshBoxObstacle, Omnia::Component>(m, Omnia::NavigationMeshBoxObstacle::TYPE_STRING);

@@ -26,6 +26,7 @@ void Omnia::ModelContainer::addModel(std::shared_ptr<Model> model)
 {
 	this->models.push_back(model);
 	this->currentModelIndex = this->models.size() - 1;
+	this->modelIndicesByName.emplace(model->getName(), this->models.size() - 1);
 }
 
 void Omnia::ModelContainer::addCube()
@@ -40,10 +41,20 @@ void Omnia::ModelContainer::addTexturedCube(std::shared_ptr<Image> image)
 	this->addModel(texturedCubeModel);
 }
 
-void Omnia::ModelContainer::setModelIndex(uint64_t index)
+void Omnia::ModelContainer::changeToModel(uint64_t index)
 {
 	if (index < this->models.size() && index >= 0)
 		this->currentModelIndex = index;
+}
+
+void Omnia::ModelContainer::changeToModel(std::string name)
+{
+	uint64_t index = -1;
+
+	if (this->modelIndicesByName.count(name))
+		index = this->modelIndicesByName.at(name);
+
+	this->changeToModel(index);
 }
 
 std::shared_ptr<Omnia::Model> Omnia::ModelContainer::getCurrentModel()
