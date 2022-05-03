@@ -48,7 +48,7 @@ Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour,
 	}
 
 	if (sdlSurface != nullptr)
-		this->setToParameters(sdlSurface->format->BytesPerPixel, sdlSurface->w, sdlSurface->h, (uint32_t*)sdlSurface->pixels);
+		this->setToParameters(sdlSurface->format->BytesPerPixel, sdlSurface->w, sdlSurface->h, (uint8_t*)sdlSurface->pixels);
 }
 
 Omnia::Image::Image(std::shared_ptr<Colour> colour)
@@ -172,7 +172,7 @@ void Omnia::Image::setToDefault()
 	}
 }
 
-void Omnia::Image::setToParameters(int colourChannels, int width, int height, uint32_t* data)
+void Omnia::Image::setToParameters(int colourChannels, int width, int height, uint8_t* data)
 {
 	this->height = height;
 	this->width = width;
@@ -186,7 +186,9 @@ void Omnia::Image::setToParameters(int colourChannels, int width, int height, ui
 	{
 		for (int x = 0; x < this->width; x++)
 		{
-			fillColour = data[(y * this->width)+ x];
+			for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
+				fillColour |= data[(y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel];
+
 			this->colourPixel(fillColour, x, y);
 		}
 	}
