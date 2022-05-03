@@ -42,11 +42,11 @@ void Omnia::CommandLineAPI::openWindow()
 
 	sceneTree.addEntity(panelEntity);
 	sceneTree.addComponentToLastEntity(uiPanelComponent);
-	this->entityIDs.push_back(panelEntity.id);
+	this->entityIDs.push_back(panelEntity.getID());
 
 	sceneTree.addEntity(textEditEntity);
 	sceneTree.addComponentToLastEntity(textEditComponent);
-	this->entityIDs.push_back(textEditEntity.id);
+	this->entityIDs.push_back(textEditEntity.getID());
 }
 
 void Omnia::CommandLineAPI::closeWindow()

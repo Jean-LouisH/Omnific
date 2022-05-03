@@ -42,8 +42,8 @@ void Omnia::SceneTree::addEntity(Entity entity)
 
 	this->startEntitiesQueue.emplace(entity.id);
 	this->entities.emplace(entity.id, entity);
-	this->entityNames.emplace(entity.name, entity.id);
 	this->lastEntityID = entity.id;
+	this->setEntityName(entity.id, entity.name);
 }
 
 void Omnia::SceneTree::addEmptyEntity()
@@ -54,6 +54,9 @@ void Omnia::SceneTree::addEmptyEntity()
 
 void Omnia::SceneTree::setEntityName(EntityID entityID, std::string name)
 {
+	if (this->entityNames.count(name))
+		name += "(Copy)";
+
 	this->getEntity(entityID).name = name;
 	this->entityNames.emplace(name, entityID);
 }

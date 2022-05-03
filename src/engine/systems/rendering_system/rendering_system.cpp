@@ -94,7 +94,7 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(Scene& scene)
 			{
 				std::shared_ptr<UIViewport> uiViewport = uiViewports.at(i);
 				Entity& cameraEntity = sceneTree.getEntity(uiViewport->getCameraEntityID());
-				std::shared_ptr<Camera> camera = sceneTree.getComponent<Camera>(cameraEntity.id);
+				std::shared_ptr<Camera> camera = sceneTree.getComponent<Camera>(cameraEntity.getID());
 				SceneTreeRenderable sceneTreeRenderable;
 				std::shared_ptr<Transform> cameraTransform = sceneTree.getEntityTransform(camera->getEntityID());
 

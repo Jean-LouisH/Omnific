@@ -107,11 +107,11 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 								//Entity attributes
 								if (it2->first.as<std::string>() == "name")
 								{
-									sceneTree.setEntityName(sceneTree.getLastEntity().id, it2->second.as<std::string>());
+									sceneTree.setEntityName(sceneTree.getLastEntity().getID(), it2->second.as<std::string>());
 								}
 								else if (it2->first.as<std::string>() == "parent")
 								{
-									sceneTree.getLastEntity().parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).id;
+									sceneTree.getLastEntity().parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).getID();
 								}
 								//Components
 								else if (it2->first.as<std::string>() == BehaviourTree::TYPE_STRING)
@@ -691,7 +691,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									{
 										if (it3->first.as<std::string>() == "camera_entity")
 										{
-											uiViewport->setCameraEntity(sceneTree.getEntityByName(it3->second.as<std::string>()).id);
+											uiViewport->setCameraEntity(sceneTree.getEntityByName(it3->second.as<std::string>()).getID());
 										}
 									}
 
@@ -710,7 +710,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 							{
 								if (it2->first.as<std::string>() == "parent")
 								{
-									parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).id;
+									parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).getID();
 								}
 								else if (it2->first.as<std::string>() == "name")
 								{
@@ -726,7 +726,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 										{
 											/* Transfer Entities and their Components */
 											Entity newRootEntity;
-											newRootEntity.name = subSceneFilepath;
+											newRootEntity.setName(subSceneFilepath);
 											newRootEntity.parentID = parentID;
 											sceneTree.addEntity(newRootEntity);
 											std::unordered_map<EntityID, Entity>& subSceneEntities = subSceneTree.getEntities();
@@ -736,7 +736,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 												Entity subSceneEntity = it->second;
 
 												if (subSceneEntity.parentID == 0)
-													subSceneEntity.parentID = newRootEntity.id;
+													subSceneEntity.parentID = newRootEntity.getID();
 
 												sceneTree.addEntity(subSceneEntity);
 

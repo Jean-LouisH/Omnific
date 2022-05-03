@@ -113,8 +113,8 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	/*Scene classes*/
 
 	pybind11::class_<Omnia::Entity>(m, "Entity")
-		.def_readonly("ID", &Omnia::Entity::id)
-		.def_readwrite("name", &Omnia::Entity::name)
+		.def("get_id", &Omnia::Entity::getID)
+		.def("get_name", &Omnia::Entity::getName)
 		.def_readwrite("parentID", &Omnia::Entity::parentID)
 		.def_readwrite("childIDs", &Omnia::Entity::childIDs)
 		.def_readwrite("tags", &Omnia::Entity::tags);

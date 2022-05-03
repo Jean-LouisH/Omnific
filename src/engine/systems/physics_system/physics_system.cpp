@@ -179,11 +179,11 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 					std::unordered_map<std::string, std::string> eventStrings;
 
 					collision->colliderEntityID = collider1->getEntityID();
-					collision->colliderName = entity1.name;
-					eventStrings.emplace("collider_name", entity1.name);
+					collision->colliderName = entity1.getName();
+					eventStrings.emplace("collider_name", entity1.getName());
 					collision->otherColliderEntityID = collider2->getEntityID();
-					collision->otherColliderName = entity2.name;
-					eventStrings.emplace("other_collider_name", entity2.name);
+					collision->otherColliderName = entity2.getName();
+					eventStrings.emplace("other_collider_name", entity2.getName());
 
 					collision->hasRigidbody = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
 					collision->hasOtherRigidbody = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
@@ -216,17 +216,17 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 						collision->otherRotation = transform2->rotation;
 					}
 
-					if (!collisionRegistry.isColliding(entity1.name, entity2.name))
+					if (!collisionRegistry.isColliding(entity1.getName(), entity2.getName()))
 						sceneTree.getEventBus().publish("entity_is_on_collision", eventStrings);
 
 					collisionRegistry.addOrUpdate(collision);
 				}
-				else if (collisionRegistry.isColliding(entity1.name, entity2.name))
+				else if (collisionRegistry.isColliding(entity1.getName(), entity2.getName()))
 				{
 					std::unordered_map<std::string, std::string> eventStrings;
-					eventStrings.emplace("collider_name", entity1.name);
-					eventStrings.emplace("other_collider_name", entity2.name);
-					collisionRegistry.remove(entity1.name, entity2.name);
+					eventStrings.emplace("collider_name", entity1.getName());
+					eventStrings.emplace("other_collider_name", entity2.getName());
+					collisionRegistry.remove(entity1.getName(), entity2.getName());
 					sceneTree.getEventBus().publish("entity_is_off_collision", eventStrings);
 				}
 			}

@@ -20,44 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "entity.hpp"
 
-#include <application/scene/assets/shader.hpp>
-#include "component.hpp"
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include <vector>
-#include <unordered_map>
-#include <string>
-#include <application/uid_generator.hpp>
-
-namespace Omnia
+void Omnia::Entity::setName(std::string name)
 {
-	/* An object that exists within the Scene with its own
-	   identity, components and  hierarchy with other Entities. */
-	class Entity
-	{
-		friend class SceneTree;
-	public:
-		EntityID parentID = 0;
-		std::vector<EntityID> childIDs;
-		std::vector<std::string> tags;
-		std::unordered_map<std::string, ComponentID> componentIDs;
+	if (!this->isAttachedToSceneTree)
+		this->name = name;
+}
 
-		Entity()
-		{
-			this->id = UIDGenerator::getNewUID();
-			this->name = "Entity (ID:" + std::to_string(this->id) + ")";
-		}
+std::string Omnia::Entity::getName()
+{
+	return this->name;
+}
 
-		/*Sets name publicly only when it is not attached to a SceneTree.*/
-		void setName(std::string name);
-		std::string getName();
-		EntityID getID();
-	private:
-		std::string name;
-		EntityID id = 0;
-
-		bool isAttachedToSceneTree = false;
-	};
+Omnia::EntityID Omnia::Entity::getID()
+{
+	return this->id;
 }
