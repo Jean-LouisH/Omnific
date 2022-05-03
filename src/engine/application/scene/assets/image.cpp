@@ -30,21 +30,25 @@ Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour,
 {
 	this->type = TYPE_STRING;
 
-	//SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
-	//SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
+	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
+	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
+	std::shared_ptr<SDL_Surface> sdlSurface;
 
-	//switch (mode)
-	//{
-	//case Font::RenderMode::SOLID:
-	//	this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
-	//	break;
-	//case Font::RenderMode::SHADED:
-	//	this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor), SDL_FreeSurface);
-	//	break;
-	//case Font::RenderMode::BLENDED:
-	//	this->surface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
-	//	break;
-	//}
+	switch (mode)
+	{
+	case Font::RenderMode::SOLID:
+		sdlSurface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
+		break;
+	case Font::RenderMode::SHADED:
+		sdlSurface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor), SDL_FreeSurface);
+		break;
+	case Font::RenderMode::BLENDED:
+		sdlSurface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
+		break;
+	}
+
+	if (sdlSurface != nullptr)
+		this->setToParameters(sdlSurface->format->BytesPerPixel, sdlSurface->w, sdlSurface->h, (uint32_t*)sdlSurface->pixels);
 }
 
 Omnia::Image::Image(std::shared_ptr<Colour> colour)
@@ -165,5 +169,25 @@ void Omnia::Image::setToDefault()
 
 		if ((y % (size / divisions)) == 0)
 			darker = !darker;
+	}
+}
+
+void Omnia::Image::setToParameters(int colourChannels, int width, int height, uint32_t* data)
+{
+	this->height = height;
+	this->width = width;
+	this->colourChannels = colourChannels;
+	size_t dataSize = this->width * this->height * this->colourChannels;
+
+	this->data = std::shared_ptr<uint8_t>(new uint8_t[dataSize]);
+	uint32_t fillColour = 0;
+
+	for (int y = 0; y < this->height; y++)
+	{
+		for (int x = 0; x < this->width; x++)
+		{
+			fillColour = data[(y * this->width)+ x];
+			this->colourPixel(fillColour, x, y);
+		}
 	}
 }

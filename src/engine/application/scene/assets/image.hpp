@@ -67,5 +67,15 @@ namespace Omnia
 
 		void colourPixel(uint32_t fillColour, int x, int y);
 		void setToDefault();
+		void setToParameters(int colourChannels, int width, int height, uint32_t* data);
+
+		/*
+			const uint16_t size = 256;
+	this->height = size;
+	this->width = size;
+	this->colourChannels = 3;
+	size_t dataSize = this->width * this->height * this->colourChannels;
+	uint32_t fillColour = colour->get24BitValue();
+		*/
 	};
 }

@@ -22,6 +22,7 @@
 
 #include "ui_system.hpp"
 #include "os/os.hpp"
+#include <SDL_ttf.h>
 
 Omnia::UISystem::~UISystem()
 {
@@ -30,10 +31,10 @@ Omnia::UISystem::~UISystem()
 
 void Omnia::UISystem::initialize()
 {
-	//if (TTF_Init() == -1)
-	//	printf("TTF_Init: %s\n", TTF_GetError());
-	//else
-	//	this->isInitialized = true;
+	if (TTF_Init() == -1)
+		printf("TTF_Init: %s\n", TTF_GetError());
+	else
+		this->isInitialized = true;
 }
 
 void Omnia::UISystem::process(Scene& scene)
@@ -48,8 +49,8 @@ void Omnia::UISystem::process(Scene& scene)
 
 void Omnia::UISystem::deinitialize()
 {
-	//if (this->isInitialized)
-	//	TTF_Quit();
+	if (this->isInitialized)
+		TTF_Quit();
 
 	this->isInitialized = false;
 }
