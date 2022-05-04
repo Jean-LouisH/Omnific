@@ -298,6 +298,27 @@ bool Omnia::HumanInterfaceDevices::isReleased(std::string inputCode, PlayerID pl
 	return false;
 }
 
+float Omnia::HumanInterfaceDevices::getAxis(std::string inputCode)
+{
+	return this->getAxis(inputCode, 0);
+}
+
+float Omnia::HumanInterfaceDevices::getAxis(std::string inputCode, PlayerID playerID)
+{
+	float axis = 0.0;
+
+	if (this->controllerAxisEventsByString.count(inputCode))
+	{
+		Omnia::HumanInterfaceDevices::ControllerAxisCode controllerAxisCode = this->controllerAxisEventsByString.at(inputCode);
+		if (controllerAxisEvents.count(controllerAxisCode))
+			if (this->getControllerPlayerMap().count(playerID))
+				if (controllerAxisEvents.at(controllerAxisCode).which == this->getControllerPlayerMap().at(playerID))
+					axis = (double)(controllerAxisEvents.at(controllerAxisCode).value) / pow(2.0, 15.0);
+	}
+
+	return axis;
+}
+
 bool Omnia::HumanInterfaceDevices::isLeftMouseButtonOnPress()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&

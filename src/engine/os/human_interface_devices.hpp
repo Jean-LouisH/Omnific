@@ -56,6 +56,9 @@ namespace Omnia
 		bool isReleased(std::string inputCode);
 		bool isReleased(std::string inputCode, PlayerID playerID);
 
+		float getAxis(std::string inputCode);
+		float getAxis(std::string inputCode, PlayerID playerID);
+
 		bool isLeftMouseButtonOnPress();
 		bool isLeftMouseButtonOnRelease();
 		bool isLeftMouseButtonDoubleClicked();
