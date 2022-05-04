@@ -26,11 +26,11 @@
 
 #include "script_call_batch.hpp"
 #include <unordered_map>
-#include "application/scripting/scripting_apis/scripting_apis.hpp"
 #include "../vm_scripting_language.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
 #include "module.hpp"
+#include <application/scene/scene.hpp>
 
 namespace Omnia
 {

@@ -22,8 +22,9 @@
 
 #pragma once
 
-#include <application/scripting/scripting_apis/scripting_apis.hpp>
+#include <application/application.hpp>
 #include <application/scene/component.hpp>
+#include <application/scripting/script_context.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
@@ -36,79 +37,77 @@
 
 PYBIND11_EMBEDDED_MODULE(omnia, m) 
 {
-	/*API classes*/
-	pybind11::class_<Omnia::CommandLineAPI>(m, "CommandLineAPI")
-		.def("open_window", &Omnia::CommandLineAPI::openWindow)
-		.def("close_window", &Omnia::CommandLineAPI::closeWindow);
+	pybind11::class_<Omnia::Application>(m, "Application")
+		.def("preload_scene", &Omnia::Application::preloadScene)
+		.def("load_scene", &Omnia::Application::loadScene)
+		.def("unload_scene", &Omnia::Application::unloadScene)
+		.def("change_to_scene", &Omnia::Application::changeToScene)
+		.def("get_active_scene", &Omnia::Application::getActiveScene, pybind11::return_value_policy::reference)
+		.def("get_configuration", &Omnia::Application::getConfiguration, pybind11::return_value_policy::reference);
 
-	pybind11::class_<Omnia::InputAPI>(m, "InputAPI")
-		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnia::InputAPI::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::InputAPI::isOnPress))
-		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnia::InputAPI::isOnDoublePress))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::InputAPI::isOnDoublePress))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::InputAPI::isOnDoublePress))
-		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnia::InputAPI::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::InputAPI::isPressed))
-		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnia::InputAPI::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::InputAPI::isOnRelease))
-		.def("is_released", pybind11::overload_cast<std::string>(&Omnia::InputAPI::isReleased))
-		.def("is_released", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::InputAPI::isReleased))
-		.def("is_left_mouse_button_on_press", &Omnia::InputAPI::isLeftMouseButtonOnPress)
-		.def("is_left_mouse_button_on_release", &Omnia::InputAPI::isLeftMouseButtonOnRelease)
-		.def("is_left_mouse_button_double_clicked", &Omnia::InputAPI::isLeftMouseButtonDoubleClicked)
-		.def("is_middle_mouse_button_on_press", &Omnia::InputAPI::isMiddleMouseButtonOnPress)
-		.def("is_middle_mouse_button_on_release", &Omnia::InputAPI::isMiddleMouseButtonOnRelease)
-		.def("is_middle_mouse_button_double_clicked", &Omnia::InputAPI::isMiddleMouseButtonDoubleClicked)
-		.def("is_right_mouse_button_on_press", &Omnia::InputAPI::isRightMouseButtonOnPress)
-		.def("is_right_mouse_button_on_release", &Omnia::InputAPI::isRightMouseButtonOnRelease)
-		.def("is_right_mouse_button_double_clicked", &Omnia::InputAPI::isRightMouseButtonDoubleClicked)
-		.def("get_mouse_position", &Omnia::InputAPI::getMousePosition)
-		.def("get_mouse_wheel_velocity", &Omnia::InputAPI::getMouseWheelVelocity)
-		.def("get_mouse_motion_velocity", &Omnia::InputAPI::getMouseMotionVelocity)
-		.def("force_shutdown", &Omnia::InputAPI::forceShutdown)
-		.def("force_restart", &Omnia::InputAPI::forceRestart);
+	/*OS Classes*/
 
-	pybind11::class_<Omnia::LogAPI>(m, "LogAPI")
-		.def("write", &Omnia::LogAPI::write)
-		.def("write_to_file", &Omnia::LogAPI::writeToFile)
-		.def("get_last_message", &Omnia::LogAPI::getLastMessage)
-		.def("get_logs", &Omnia::LogAPI::getLogs);
+	pybind11::class_<Omnia::DynamicLinkLibraryAccess>(m, "DynamicLinkLibraryAccess");
 
-	pybind11::class_<Omnia::SceneAPI>(m, "SceneAPI")
-		.def("has_component", &Omnia::SceneAPI::hasComponent)
-		.def("preload_scene", &Omnia::SceneAPI::preloadScene)
-		.def("load_scene", &Omnia::SceneAPI::loadScene)
-		.def("unload_scene", &Omnia::SceneAPI::unloadScene)
-		.def("change_to_scene", &Omnia::SceneAPI::changeToScene)
-		.def("get_entity", &Omnia::SceneAPI::getEntity, pybind11::return_value_policy::reference)
-		.def("get_component", &Omnia::SceneAPI::getComponent, pybind11::return_value_policy::reference)
-		.def("get_scene", &Omnia::SceneAPI::getScene, pybind11::return_value_policy::reference)
-		.def("get_scene_tree", &Omnia::SceneAPI::getSceneTree, pybind11::return_value_policy::reference)
-		.def("load_image", &Omnia::SceneAPI::loadImage, pybind11::return_value_policy::reference);
+	pybind11::class_<Omnia::FileAccess>(m, "FileAccess");
 
-	pybind11::class_<Omnia::TimeAPI>(m, "TimeAPI")
-		.def("set_ms_per_compute_update", &Omnia::TimeAPI::setMsPerComputeUpdate)
-		.def("set_target_fps", &Omnia::TimeAPI::setTargetFPS)
-		.def("get_ms_per_compute_update", &Omnia::TimeAPI::setMsPerComputeUpdate)
-		.def("get_target_fps", &Omnia::TimeAPI::setTargetFPS)
-		.def("get_frame_time_delta", &Omnia::TimeAPI::getFrameTimeDelta);
+	pybind11::class_<Omnia::HumanInterfaceDevices>(m, "HumanInterfaceDevices")
+		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnia::HumanInterfaceDevices::isOnPress))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnia::HumanInterfaceDevices::isOnPress))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::HumanInterfaceDevices::isOnPress))
+		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnia::HumanInterfaceDevices::isOnDoublePress))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::HumanInterfaceDevices::isOnDoublePress))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::HumanInterfaceDevices::isOnDoublePress))
+		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnia::HumanInterfaceDevices::isPressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnia::HumanInterfaceDevices::isPressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::HumanInterfaceDevices::isPressed))
+		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnia::HumanInterfaceDevices::isOnRelease))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnia::HumanInterfaceDevices::isOnRelease))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::HumanInterfaceDevices::isOnRelease))
+		.def("is_released", pybind11::overload_cast<std::string>(&Omnia::HumanInterfaceDevices::isReleased))
+		.def("is_released", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::HumanInterfaceDevices::isReleased))
+		.def("is_left_mouse_button_on_press", &Omnia::HumanInterfaceDevices::isLeftMouseButtonOnPress)
+		.def("is_left_mouse_button_on_release", &Omnia::HumanInterfaceDevices::isLeftMouseButtonOnRelease)
+		.def("is_left_mouse_button_double_clicked", &Omnia::HumanInterfaceDevices::isLeftMouseButtonDoubleClicked)
+		.def("is_middle_mouse_button_on_press", &Omnia::HumanInterfaceDevices::isMiddleMouseButtonOnPress)
+		.def("is_middle_mouse_button_on_release", &Omnia::HumanInterfaceDevices::isMiddleMouseButtonOnRelease)
+		.def("is_middle_mouse_button_double_clicked", &Omnia::HumanInterfaceDevices::isMiddleMouseButtonDoubleClicked)
+		.def("is_right_mouse_button_on_press", &Omnia::HumanInterfaceDevices::isRightMouseButtonOnPress)
+		.def("is_right_mouse_button_on_release", &Omnia::HumanInterfaceDevices::isRightMouseButtonOnRelease)
+		.def("is_right_mouse_button_double_clicked", &Omnia::HumanInterfaceDevices::isRightMouseButtonDoubleClicked)
+		.def("get_mouse_position", &Omnia::HumanInterfaceDevices::getMousePosition)
+		.def("get_mouse_wheel_velocity", &Omnia::HumanInterfaceDevices::getMouseWheelVelocity)
+		.def("get_mouse_motion_velocity", &Omnia::HumanInterfaceDevices::getMouseMotionVelocity)
+		.def("force_shutdown", &Omnia::HumanInterfaceDevices::forceShutdownRequest)
+		.def("force_restart", &Omnia::HumanInterfaceDevices::forceRestartRequest);
 
-    pybind11::class_<Omnia::WindowAPI>(m, "WindowAPI")
-		.def("set_to_windowed", &Omnia::WindowAPI::setToWindowed)
-		.def("set_to_fullscreen", &Omnia::WindowAPI::setToFullscreen)
-        .def("toggle_windowed_fullscreen", &Omnia::WindowAPI::toggleWindowedFullscreen)
-		.def("resize", &Omnia::WindowAPI::resize)
-		.def("change_title", &Omnia::WindowAPI::changeTitle)
-		.def("change_icon", &Omnia::WindowAPI::changeIcon)
-		.def("maximize", &Omnia::WindowAPI::maximize)
-		.def("minimize", &Omnia::WindowAPI::minimize)
-		.def("raise", &Omnia::WindowAPI::raise)
-		.def("restore", &Omnia::WindowAPI::restore)
-		.def("hide", &Omnia::WindowAPI::hide)
-		.def("show", &Omnia::WindowAPI::show);
+	pybind11::class_<Omnia::Logger>(m, "Logger")
+		.def("write", &Omnia::Logger::write)
+		.def("write_to_file", &Omnia::Logger::writeToFile)
+		.def("get_last_message", &Omnia::Logger::getLastMessage)
+		.def("get_logs", &Omnia::Logger::getLogs);
+
+	pybind11::class_<Omnia::NetworkAccess>(m, "NetworkAccess");
+
+	pybind11::class_<Omnia::Platform>(m, "Platform");
+
+	pybind11::class_<Omnia::Profiler>(m, "Profiler");
+
+	pybind11::class_<Omnia::ThreadPool>(m, "ThreadPool");
+
+	pybind11::class_<Omnia::Window>(m, "Window")
+		.def("set_to_windowed", &Omnia::Window::setToWindowed)
+		.def("set_to_fullscreen", &Omnia::Window::setToFullscreen)
+		.def("toggle_windowed_fullscreen", &Omnia::Window::toggleWindowedFullscreen)
+		.def("resize", &Omnia::Window::resize)
+		.def("change_title", &Omnia::Window::changeTitle)
+		.def("change_icon", &Omnia::Window::changeIcon)
+		.def("maximize", &Omnia::Window::maximize)
+		.def("minimize", &Omnia::Window::minimize)
+		.def("raise", &Omnia::Window::raise)
+		.def("restore", &Omnia::Window::restore)
+		.def("hide", &Omnia::Window::hide)
+		.def("show", &Omnia::Window::show);
 
 	/*Scene classes*/
 
@@ -282,10 +281,12 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::Rectangle>(m, "Rectangle")
 		.def_readwrite("height", &Omnia::Rectangle::height)
 		.def_readwrite("width", &Omnia::Rectangle::width);
+
 	pybind11::class_<Omnia::HiResTimer>(m, "HiResTimer")
 		.def("set_start", &Omnia::HiResTimer::setStart)
 		.def("set_end", &Omnia::HiResTimer::setEnd)
 		.def("get_delta_in_nanoseconds", &Omnia::HiResTimer::getDeltaInNanoseconds);
+
 	pybind11::class_<Omnia::Colour>(m, "Colour")
 		.def(pybind11::init<std::string>())
 		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
@@ -293,17 +294,27 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_green", &Omnia::Colour::getGreen)
 		.def("get_blue", &Omnia::Colour::getBlue)
 		.def("get_alpha", &Omnia::Colour::getAlpha);
+
 	pybind11::class_<Omnia::AABB2D>(m, "AABB2D")
 		.def_readwrite("max", &Omnia::AABB2D::max)
 		.def_readwrite("min", &Omnia::AABB2D::min);
 
-	/*API getters*/
-	m.def("get_command_line_api", &Omnia::ScriptingAPIs::getCommandLineAPI, pybind11::return_value_policy::reference);
-	m.def("get_input_api", &Omnia::ScriptingAPIs::getInputAPI, pybind11::return_value_policy::reference);
-	m.def("get_log_api", &Omnia::ScriptingAPIs::getLogAPI, pybind11::return_value_policy::reference);
-    m.def("get_scene_api", &Omnia::ScriptingAPIs::getSceneAPI, pybind11::return_value_policy::reference);
-	m.def("get_time_api", &Omnia::ScriptingAPIs::getTimeAPI, pybind11::return_value_policy::reference);
-	m.def("get_window_api", &Omnia::ScriptingAPIs::getWindowAPI, pybind11::return_value_policy::reference);
-	m.def("get_data_directory_path", &Omnia::ScriptingAPIs::getDataDirectoryPath);
-	m.def("get_executable_directory_path", &Omnia::ScriptingAPIs::getExecutableDirectoryPath);
+	/*Script Context and OS getters*/
+
+	m.def("has_component", &Omnia::ScriptContext::hasComponent);
+	m.def("get_entity", &Omnia::ScriptContext::getEntity, pybind11::return_value_policy::reference);
+	m.def("get_component", &Omnia::ScriptContext::getComponent, pybind11::return_value_policy::reference);
+	m.def("get_scene", &Omnia::ScriptContext::getScene, pybind11::return_value_policy::reference);
+	m.def("get_scene_tree", &Omnia::ScriptContext::getSceneTree, pybind11::return_value_policy::reference);
+	m.def("load_image", &Omnia::ScriptContext::loadImage, pybind11::return_value_policy::reference);
+
+	m.def("get_dll_access", &Omnia::OS::getDLLAccess, pybind11::return_value_policy::reference);
+	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);
+	m.def("get_hid", &Omnia::OS::getHid, pybind11::return_value_policy::reference);
+	m.def("get_logger", &Omnia::OS::getLogger, pybind11::return_value_policy::reference);
+	m.def("get_network_access", &Omnia::OS::getNetworkAccess, pybind11::return_value_policy::reference);
+	m.def("get_platform", &Omnia::OS::getPlatform, pybind11::return_value_policy::reference);
+	m.def("get_profiler", &Omnia::OS::getProfiler, pybind11::return_value_policy::reference);
+	m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
+	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
 }

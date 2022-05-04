@@ -22,6 +22,7 @@
 
 #include "python_vm.hpp"
 #include "embedded_module.hpp"
+#include <application/scripting/script_context.hpp>
 #include <iostream>
 #include <set>
 
@@ -170,7 +171,7 @@ void Omnia::PythonVM::executeMethods(std::vector<ScriptCallBatch> scriptCallBatc
 			{
 				if (this->modules.at(scriptName).hasCallable(methodName))
 				{
-					ScriptingAPIs::bindEntity(
+					ScriptContext::bindEntity(
 						scriptCallBatch.sceneTreeID,
 						scriptCallBatch.entityID);
 

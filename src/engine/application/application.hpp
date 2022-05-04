@@ -27,7 +27,6 @@
 #include "os/os.hpp"
 #include "os/file_access.hpp"
 #include "os/profiler.hpp"
-#include "application/scripting/scripting_apis/scripting_apis.hpp"
 #include "scene_serializer.hpp"
 #include "configuration.hpp"
 #include "command_line.hpp"
@@ -43,16 +42,13 @@ namespace Omnia
 {
 	class Application
 	{
+		friend class Engine;
 	public:
 		Application();
-		void initialize();
-		void executeOnStartMethods();
-		void executeOnInputMethods();
-		void executeOnLogicFrameMethods();
-		void executeOnComputeFrameMethods();
-		void executeOnOutputMethods();
-		void executeOnFinishMethods();
-		void deinitialize();
+		void preloadScene(std::string sceneFilename);
+		void loadScene(std::string sceneFilename);
+		void unloadScene(std::string sceneFilename);
+		void changeToScene(std::string sceneFilename);
 		Scene& getActiveScene();
 		Configuration& getConfiguration();
 	private:
@@ -61,5 +57,14 @@ namespace Omnia
 		std::shared_ptr<CommandLine> commandLine;
 		std::shared_ptr<Scripting> scripting;
 		std::shared_ptr<SceneStorage> sceneStorage;
+
+		void initialize();
+		void executeOnStartMethods();
+		void executeOnInputMethods();
+		void executeOnLogicFrameMethods();
+		void executeOnComputeFrameMethods();
+		void executeOnOutputMethods();
+		void executeOnFinishMethods();
+		void deinitialize();
 	};
 }

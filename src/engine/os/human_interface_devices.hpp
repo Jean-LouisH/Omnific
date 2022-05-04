@@ -27,34 +27,68 @@
 #include <unordered_map>
 #include <queue>
 #include <utilities/aliases.hpp>
+#include <glm/glm.hpp>
+#include <set>
 
 namespace Omnia
 {
 	class HumanInterfaceDevices
 	{
+		friend class Engine;
 	public:
 		using ControllerButtonCode = Uint8;
 		using ControllerAxisCode = Uint8;
 
-		void detectGameControllers();
-		void pollInputEvents();
+		HumanInterfaceDevices();
+
+		bool isOnPress(std::string inputCode);
+		bool isOnPress(std::vector<std::string> inputCodes);
+		bool isOnPress(std::vector<std::string> inputCodes, PlayerID playerID);
+		bool isOnDoublePress(std::string inputCode, unsigned int timeInterval);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval);
+		bool isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval, PlayerID playerID);
+		bool isPressed(std::string inputCode);
+		bool isPressed(std::vector<std::string> inputCodes);
+		bool isPressed(std::vector<std::string> inputCodes, PlayerID playerID);
+		bool isOnRelease(std::string inputCode);
+		bool isOnRelease(std::vector<std::string> inputCodes);
+		bool isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID);
+		bool isReleased(std::string inputCode);
+		bool isReleased(std::string inputCode, PlayerID playerID);
+
+		bool isLeftMouseButtonOnPress();
+		bool isLeftMouseButtonOnRelease();
+		bool isLeftMouseButtonDoubleClicked();
+		bool isMiddleMouseButtonOnPress();
+		bool isMiddleMouseButtonOnRelease();
+		bool isMiddleMouseButtonDoubleClicked();
+		bool isRightMouseButtonOnPress();
+		bool isRightMouseButtonOnRelease();
+		bool isRightMouseButtonDoubleClicked();
+		glm::vec2 getMousePosition();
+		glm::vec2 getMouseWheelVelocity();
+		glm::vec2 getMouseMotionVelocity();
+
+		void forceShutdownRequest();
+		void forceRestartRequest();
+
 		bool hasRequestedShutdown();
 		bool hasRequestedRestart();
 		bool hasRequestedCommandLine();
-		void forceShutdownRequest();
-		void forceRestartRequest();
 		bool getHasDetectedInputChanges();
 
 		std::vector<SDL_Haptic*> getHaptics();
-		std::unordered_map<ControllerButtonCode, SDL_ControllerButtonEvent> getControllerButtonEvents();
-		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> getKeyboardEvents();
-		std::unordered_map<ControllerAxisCode, SDL_ControllerAxisEvent> getControllerAxisEvents();
-		SDL_MouseButtonEvent getMouseButtonEvent();
-		SDL_MouseMotionEvent getMouseMotionEvent();
-		SDL_MouseWheelEvent  getMouseWheelEvent();
 		std::unordered_map<PlayerID, SDL_JoystickID> getControllerPlayerMap();
 		std::queue<PlayerID>& getNewlyLoadedPlayerIDs();
 	private:
+		void detectGameControllers();
+		void pollInputEvents();
+
+		std::unordered_map<std::string, SDL_Keycode> keyboardEventsByString;
+		std::unordered_map<std::string, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
+		std::unordered_map<std::string, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
+
+		std::set<std::string> heldInputs;
 
 		std::unordered_map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
 		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;

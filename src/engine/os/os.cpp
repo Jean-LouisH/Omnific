@@ -42,6 +42,7 @@ void Omnia::OS::initialize(
 	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
 	newInstance->hid = std::unique_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
 	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
+	newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
 	newInstance->platform = std::unique_ptr<Platform>(new Platform());
 	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
@@ -78,6 +79,11 @@ Omnia::Logger& Omnia::OS::getLogger()
 Omnia::FileAccess& Omnia::OS::getFileAccess()
 {
 	return *getInstance()->fileAccess;
+}
+
+Omnia::NetworkAccess& Omnia::OS::getNetworkAccess()
+{
+	return *getInstance()->networkAccess;
 }
 
 Omnia::Profiler& Omnia::OS::getProfiler()

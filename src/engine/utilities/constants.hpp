@@ -37,6 +37,6 @@
 	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
 #endif
 
-#if _DEBUG
+#ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED
 #endif

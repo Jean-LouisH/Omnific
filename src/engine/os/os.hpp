@@ -30,6 +30,7 @@
 #include "window.hpp"
 #include "profiler.hpp"
 #include "file_access.hpp"
+#include "network_access.hpp"
 #include "platform.hpp"
 #include "thread_pool.hpp"
 #include <string>
@@ -55,6 +56,7 @@ namespace Omnia
 		static HumanInterfaceDevices& getHid();
 		static Logger& getLogger();
 		static FileAccess& getFileAccess();
+		static NetworkAccess& getNetworkAccess();
 		static Profiler& getProfiler();
 		static Platform& getPlatform();
 		static ThreadPool& getThreadPool();
@@ -70,6 +72,7 @@ namespace Omnia
 		std::unique_ptr<HumanInterfaceDevices> hid;
 		std::unique_ptr<Logger> logger;
 		std::unique_ptr<FileAccess> fileAccess;
+		std::unique_ptr<NetworkAccess> networkAccess;
 		std::unique_ptr<Profiler> profiler;
 		std::unique_ptr<Platform> platform;
 		std::unique_ptr<ThreadPool> threadPool;

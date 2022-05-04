@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "scripting.hpp"
-#include "scripting_apis/scripting_apis.hpp"
+#include "script_context.hpp"
 
 Omnia::Scripting::Scripting()
 {
@@ -87,5 +87,5 @@ void Omnia::Scripting::executeOnFinishMethods(Scene& scene)
 
 void Omnia::Scripting::setSceneStorage(SceneStorage* sceneStorage)
 {
-	ScriptingAPIs::setSceneStorage(sceneStorage);
+	ScriptContext::setSceneStorage(sceneStorage);
 }

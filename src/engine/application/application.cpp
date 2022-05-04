@@ -23,6 +23,7 @@
 #include "application.hpp"
 #include "boot_loader.hpp"
 #include "utilities/constants.hpp"
+#include <application/scripting/script_context.hpp>
 #include <iostream>
 
 Omnia::Application::Application()
@@ -30,8 +31,37 @@ Omnia::Application::Application()
 	this->scripting = std::shared_ptr<Scripting>(new Scripting());
 	this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
 	this->commandLine = std::shared_ptr<CommandLine>(new CommandLine(this->sceneSerializer, this->sceneStorage));
+}
 
-	ScriptingAPIs::initialize();
+void Omnia::Application::preloadScene(std::string sceneFilename)
+{
+	if (this->sceneSerializer->doesSceneExist(sceneFilename))
+	{
+		Scene newScene = this->sceneSerializer->deserialize(sceneFilename);
+		this->sceneStorage->addScene(sceneFilename, newScene);
+	}
+}
+
+void Omnia::Application::loadScene(std::string sceneFilename)
+{
+	if (this->sceneSerializer->doesSceneExist(sceneFilename))
+	{
+		Scene newScene = this->sceneSerializer->deserialize(sceneFilename);
+		this->sceneStorage->replaceActiveScene(sceneFilename, newScene);
+	}
+}
+
+void Omnia::Application::unloadScene(std::string sceneFilename)
+{
+	this->sceneStorage->removeScene(sceneFilename);
+}
+
+void Omnia::Application::changeToScene(std::string sceneFilename)
+{
+	if (this->sceneSerializer->doesSceneExist(sceneFilename))
+	{
+		this->sceneStorage->changeToScene(sceneFilename);
+	}
 }
 
 void Omnia::Application::initialize()
@@ -56,7 +86,6 @@ void Omnia::Application::initialize()
 #endif
 		OS::getFileAccess().setDataDirectory(dataDirectory);
 		this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
-		ScriptingAPIs::getSceneAPI().setSceneSerializer(this->sceneSerializer.get());
 
 		Image image = Image(dataDirectory + this->configuration->metadata.iconFilepath);
 		OS::getWindow().changeIcon(image);
