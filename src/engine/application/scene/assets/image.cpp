@@ -178,6 +178,7 @@ void Omnia::Image::setToParameters(int colourChannels, int width, int height, ui
 	this->width = width;
 	this->colourChannels = colourChannels;
 	size_t dataSize = this->width * this->height * this->colourChannels;
+	const int colourChannelByteLength = 8;
 
 	this->data = std::shared_ptr<uint8_t>(new uint8_t[dataSize]);
 	uint32_t fillColour = 0;
@@ -187,7 +188,8 @@ void Omnia::Image::setToParameters(int colourChannels, int width, int height, ui
 		for (int x = 0; x < this->width; x++)
 		{
 			for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
-				fillColour |= data[(y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel];
+				fillColour |= data[(y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel] <<
+								(colourChannelByteLength * colourChannel);
 
 			this->colourPixel(fillColour, x, y);
 		}
