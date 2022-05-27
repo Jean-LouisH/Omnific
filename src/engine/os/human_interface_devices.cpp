@@ -400,6 +400,26 @@ glm::vec2 Omnia::HumanInterfaceDevices::getMouseMotionVelocity()
 	return vector2;
 }
 
+bool Omnia::HumanInterfaceDevices::isDropFileDetected()
+{
+	return this->dropEvent.type == SDL_DROPFILE;
+}
+
+std::string Omnia::HumanInterfaceDevices::getDropFilePath()
+{
+	return this->dropEvent.file;
+}
+
+uint32_t Omnia::HumanInterfaceDevices::getDropFileWindowID()
+{
+	uint32_t dropFileWindowID = -1;
+
+	if (this->isDropFileDetected())
+		dropFileWindowID = this->dropEvent.windowID;
+
+	return dropFileWindowID;
+}
+
 void Omnia::HumanInterfaceDevices::clear()
 {
 	this->controllerAxisEvents.clear();

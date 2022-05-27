@@ -40,10 +40,20 @@ void Omnia::UISystem::initialize()
 void Omnia::UISystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	HumanInterfaceDevices& hid = OS::getHid();
+	std::unordered_map<std::string, double> numbers;
+	std::unordered_map<std::string, std::string> strings;
+
+	if (hid.isDropFileDetected())
+	{
+		numbers.emplace((std::string)"drop_file_window_id", (double)hid.getDropFileWindowID());
+		strings.emplace((std::string)"drop_file_path", hid.getDropFilePath());
+	}
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-
+		if (hid.isDropFileDetected())
+			it->second.getEventBus().publish("file dropped on window", numbers, strings);
 	}
 }
 

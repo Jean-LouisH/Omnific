@@ -72,6 +72,10 @@ namespace Omnia
 		glm::vec2 getMouseWheelVelocity();
 		glm::vec2 getMouseMotionVelocity();
 
+		bool isDropFileDetected();
+		std::string getDropFilePath();
+		uint32_t getDropFileWindowID();
+
 		void forceShutdownRequest();
 		void forceRestartRequest();
 
