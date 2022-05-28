@@ -1,0 +1,43 @@
+SceneTree:
+  name: "background"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 30]
+    Camera: "default"
+  Entity:
+    name: "Background"
+    SpriteContainer:
+      image: "loading_models/images/sky.png"
+      dimensions: [40.0, 30.0, 0.1]
+    Transform:
+      translation: [0, 0, 1]
+  Entity:
+    name: "Viewport"
+    UIViewport:
+      camera_entity: "Camera"	
+SceneTree:
+  name: "foreground"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 1, 200]
+      rotation: [0, 0, 0]
+    Camera: "default"
+    ScriptCollection:
+      python: ["loading_models/scripts/python/zoom_camera.py"]
+  Entity:
+    name: "Model"
+    Transform:
+      translation: [0, 0, 0]
+      scale: [25, 25, 25]
+    ModelContainer:
+      models: ["loading_models/models/Suzanne.glb"]
+    ScriptCollection:
+      python: ["loading_models/scripts/python/constantly_rotate.py"]
+  Entity:
+    name: "Viewport"
+    UIViewport:
+      camera_entity: "Camera"

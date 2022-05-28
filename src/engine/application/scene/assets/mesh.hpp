@@ -40,6 +40,12 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "Mesh";
 
 		Mesh(std::string filepath);
+		Mesh(std::vector<float> positions,
+			std::vector<uint32_t> textureCoords);
+		Mesh(std::vector<float> positions,
+			std::vector<uint32_t> textureCoords,
+			std::vector<uint32_t> indices);
+
 		struct Vertex 
 		{
 			glm::vec3 position;

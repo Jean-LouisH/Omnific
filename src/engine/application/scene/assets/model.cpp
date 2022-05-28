@@ -68,6 +68,52 @@ void Omnia::Model::load(std::string filepath, std::shared_ptr<Image> image)
 			printf("Failed to parse glTF\n");
 		}
 
-		//Parse...
+		/*In progress...*/
+
+		this->image = std::shared_ptr<Image>(new Image("Image::default"));
+
+		if (model.meshes.size() == 1)
+		{
+			tinygltf::Primitive primitive = model.meshes.at(0).primitives.at(0);
+			std::vector<unsigned char> bufferData = model.buffers.at(0).data;
+			tinygltf::BufferView positionBufferView = model.bufferViews.at(primitive.attributes.at("POSITION"));
+			tinygltf::BufferView texCoord0BufferView = model.bufferViews.at(primitive.attributes.at("TEXCOORD_0"));
+			tinygltf::BufferView normalsBufferView = model.bufferViews.at(primitive.attributes.at("NORMAL"));
+			tinygltf::BufferView indexBufferView = model.bufferViews.at(primitive.indices);
+
+			std::vector<uint8_t> positionBytes(
+				bufferData.begin() + positionBufferView.byteOffset,
+				bufferData.begin() + positionBufferView.byteOffset + positionBufferView.byteLength);
+			std::vector<uint8_t> textureCoordBytes(
+				bufferData.begin() + texCoord0BufferView.byteOffset,
+				bufferData.begin() + texCoord0BufferView.byteOffset + texCoord0BufferView.byteLength);
+			std::vector<uint8_t> indexBytes(
+				bufferData.begin() + indexBufferView.byteOffset,
+				bufferData.begin() + indexBufferView.byteOffset + indexBufferView.byteLength);
+
+			std::vector<float> positions;
+			std::vector<uint32_t> textureCoords;
+			std::vector<uint32_t> indices;
+			float* floatPositionByteData = (float*)positionBytes.data();
+			float* floatTextureCoordByteData = (float*)textureCoordBytes.data();
+			uint16_t* shortIndexByteData = (uint16_t*)indexBytes.data();
+			size_t floatPositionByteSize = positionBytes.size() / sizeof(float);
+			size_t floatTextureCoordByteSize = textureCoordBytes.size() / sizeof(float);
+			size_t shortIndexByteSize = indexBytes.size() / sizeof(uint16_t);
+
+			for (size_t i = 0; i < floatPositionByteSize; i++)
+				positions.push_back(floatPositionByteData[i]);
+
+			for (size_t i = 0; i < floatTextureCoordByteSize; i++)
+				textureCoords.push_back((uint32_t)floatTextureCoordByteData[i]);
+
+			for (size_t i = 0; i < shortIndexByteSize; i++)
+				indices.push_back((uint32_t)shortIndexByteData[i]);
+
+			this->mesh = std::shared_ptr<Mesh>(new Mesh(positions, textureCoords, indices));
+
+			if (model.images.size() > 0)
+				;
+		}
 	}
 }

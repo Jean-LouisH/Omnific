@@ -33,6 +33,21 @@ Omnia::Mesh::Mesh(std::string filepath)
         this->setToPlane();
 }
 
+Omnia::Mesh::Mesh(std::vector<float> positions,
+    std::vector<uint32_t> textureCoords)
+{
+    this->isIndexed = false;
+    this->populateData(positions, textureCoords);
+}
+
+Omnia::Mesh::Mesh(std::vector<float> positions,
+    std::vector<uint32_t> textureCoords,
+    std::vector<uint32_t> indices)
+{
+    this->isIndexed = true;
+    this->populateData(positions, textureCoords, indices);
+}
+
 bool Omnia::Mesh::getIsIndexed()
 {
     return this->isIndexed;
