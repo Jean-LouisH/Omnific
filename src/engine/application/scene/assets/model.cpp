@@ -92,7 +92,7 @@ void Omnia::Model::load(std::string filepath, std::shared_ptr<Image> image)
 				bufferData.begin() + indexBufferView.byteOffset + indexBufferView.byteLength);
 
 			std::vector<float> positions;
-			std::vector<uint32_t> textureCoords;
+			std::vector<float> textureCoords;
 			std::vector<uint32_t> indices;
 			float* floatPositionByteData = (float*)positionBytes.data();
 			float* floatTextureCoordByteData = (float*)textureCoordBytes.data();
@@ -105,7 +105,7 @@ void Omnia::Model::load(std::string filepath, std::shared_ptr<Image> image)
 				positions.push_back(floatPositionByteData[i]);
 
 			for (size_t i = 0; i < floatTextureCoordByteSize; i++)
-				textureCoords.push_back((uint32_t)floatTextureCoordByteData[i]);
+				textureCoords.push_back(floatTextureCoordByteData[i]);
 
 			for (size_t i = 0; i < shortIndexByteSize; i++)
 				indices.push_back((uint32_t)shortIndexByteData[i]);

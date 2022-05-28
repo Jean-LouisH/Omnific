@@ -41,9 +41,9 @@ namespace Omnia
 
 		Mesh(std::string filepath);
 		Mesh(std::vector<float> positions,
-			std::vector<uint32_t> textureCoords);
+			std::vector<float> textureCoords);
 		Mesh(std::vector<float> positions,
-			std::vector<uint32_t> textureCoords,
+			std::vector<float> textureCoords,
 			std::vector<uint32_t> indices);
 
 		struct Vertex 
@@ -69,10 +69,10 @@ namespace Omnia
 
 		void populateData(
 			std::vector<float> vertices,
-			std::vector<uint32_t> textureCoords,
+			std::vector<float> textureCoords,
 			std::vector<uint32_t> indices);
 		void populateData(
 			std::vector<float> positions,
-			std::vector<uint32_t> textureCoords);
+			std::vector<float> textureCoords);
 	};
 }

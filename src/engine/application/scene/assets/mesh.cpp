@@ -34,14 +34,14 @@ Omnia::Mesh::Mesh(std::string filepath)
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<uint32_t> textureCoords)
+    std::vector<float> textureCoords)
 {
     this->isIndexed = false;
     this->populateData(positions, textureCoords);
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<uint32_t> textureCoords,
+    std::vector<float> textureCoords,
     std::vector<uint32_t> indices)
 {
     this->isIndexed = true;
@@ -78,7 +78,7 @@ void Omnia::Mesh::setToCube()
       -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5
     };
 
-    const std::vector<uint32_t> cubeTextureCoords =
+    const std::vector<float> cubeTextureCoords =
     {
       0, 0, 1, 0, 1, 1,
       0, 0, 1, 1, 0, 1,
@@ -112,7 +112,7 @@ void Omnia::Mesh::setToQuad()
        -0.5f,  0.5f, 0.0f,
     };
 
-    const std::vector<uint32_t> quadTextureCoords =
+    const std::vector<float> quadTextureCoords =
     {
         1, 1,
         1, 0,
@@ -136,7 +136,7 @@ void Omnia::Mesh::setToPlane()
 
     };
 
-    const std::vector<uint32_t> planeTextureCoords =
+    const std::vector<float> planeTextureCoords =
     {
 
     };
@@ -151,7 +151,7 @@ void Omnia::Mesh::setToPlane()
 
 void Omnia::Mesh::populateData(
     std::vector<float> positions,
-    std::vector<uint32_t> textureCoords,
+    std::vector<float> textureCoords,
     std::vector<uint32_t> indices)
 {
     this->populateData(positions, textureCoords);
@@ -160,7 +160,7 @@ void Omnia::Mesh::populateData(
 
 void Omnia::Mesh::populateData(
     std::vector<float> positions,
-    std::vector<uint32_t> textureCoords)
+    std::vector<float> textureCoords)
 {
     unsigned int positionsStride = 3;
     unsigned int textureCoordsStride = 2;
@@ -169,7 +169,7 @@ void Omnia::Mesh::populateData(
     {
         size_t vertexCount = positions.size() / positionsStride;
         float* positionsData = positions.data();
-        uint32_t* textureCoordsData = textureCoords.data();
+        float* textureCoordsData = textureCoords.data();
 
         for (size_t i = 0; i < vertexCount; i++)
         {
