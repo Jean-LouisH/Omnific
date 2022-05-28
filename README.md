@@ -79,9 +79,9 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ## Demos
 
-Simple Clock
+Loading Models
 
-![screenshot](SimpleClock.png)
+![screenshot](loading_models.png)
 
 ## License
 
