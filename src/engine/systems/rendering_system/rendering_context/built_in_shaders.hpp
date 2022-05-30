@@ -47,8 +47,8 @@ namespace Omnia
 			const char texture[] = R"(
 				#version 330 core
 				in vec2 uv;
-				in float alpha;
 				out vec4 colour;
+				uniform float alpha;
 				uniform sampler2D textureSampler;
 				void main()
 				{    
