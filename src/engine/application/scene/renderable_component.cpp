@@ -45,6 +45,26 @@ void Omnia::RenderableComponent::setAlpha(uint8_t value)
 	this->alpha = value;
 }
 
+void Omnia::RenderableComponent::setToNoFaceCulling()
+{
+	this->cullMode = CullMode::NONE;
+}
+
+void Omnia::RenderableComponent::setToFrontFaceCulling()
+{
+	this->cullMode = CullMode::FRONT;
+}
+
+void Omnia::RenderableComponent::setToBackFaceCulling()
+{
+	this->cullMode = CullMode::BACK;
+}
+
+void Omnia::RenderableComponent::setToFrontAndBackFaceCulling()
+{
+	this->cullMode = CullMode::FRONT_AND_BACK;
+}
+
 uint8_t Omnia::RenderableComponent::getAlpha()
 {
 	return this->alpha;
@@ -55,6 +75,26 @@ float Omnia::RenderableComponent::getAlphaInPercentage()
 	return (this->alpha / 255.0);
 }
 
+bool Omnia::RenderableComponent::isNoFaceCulling()
+{
+	return this->cullMode == CullMode::NONE;
+}
+
+bool Omnia::RenderableComponent::isFrontFaceCulling()
+{
+	return this->cullMode == CullMode::FRONT;
+}
+
+bool Omnia::RenderableComponent::isBackFaceCulling()
+{
+	return this->cullMode == CullMode::BACK;
+}
+
+bool Omnia::RenderableComponent::isFrontAndBackFaceCulling()
+{
+	return this->cullMode == CullMode::FRONT_AND_BACK;
+}
+
 void Omnia::RenderableComponent::hide()
 {
 	this->alpha = 0;
@@ -63,6 +103,11 @@ void Omnia::RenderableComponent::hide()
 void Omnia::RenderableComponent::show()
 {
 	this->alpha = 255;
+}
+
+Omnia::CullMode Omnia::RenderableComponent::getCullMode()
+{
+	return this->cullMode;
 }
 
 std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::getImage()

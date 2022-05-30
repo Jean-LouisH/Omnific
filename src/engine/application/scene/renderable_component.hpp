@@ -30,6 +30,14 @@
 
 namespace Omnia
 {
+	enum class CullMode
+	{
+		NONE,
+		BACK,
+		FRONT,
+		FRONT_AND_BACK
+	};
+
 	class RenderableComponent : public Component
 	{
 	public:
@@ -37,10 +45,19 @@ namespace Omnia
 		void setDimensions(float width, float height, float depth);
 		void addShader(std::shared_ptr<Shader> shader);
 		void setAlpha(uint8_t value);
+		void setToNoFaceCulling();
+		void setToFrontFaceCulling();
+		void setToBackFaceCulling();
+		void setToFrontAndBackFaceCulling();
 		uint8_t getAlpha();
 		float getAlphaInPercentage();
+		bool isNoFaceCulling();
+		bool isFrontFaceCulling();
+		bool isBackFaceCulling();
+		bool isFrontAndBackFaceCulling();
 		void hide();
 		void show();
+		CullMode getCullMode();
 		std::shared_ptr<Image> getImage();
 		std::vector<std::shared_ptr<Shader>> getShaders();
 		glm::vec3 getDimensions();
@@ -48,6 +65,7 @@ namespace Omnia
 	protected:
 		glm::vec3 dimensions;
 		uint8_t alpha = 255;
+		CullMode cullMode = CullMode::NONE;
 		std::shared_ptr<Image> image;
 		std::vector<std::shared_ptr<Shader>> shaders;
 	private:
