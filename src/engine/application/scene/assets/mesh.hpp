@@ -44,6 +44,19 @@ namespace Omnia
 			std::vector<float> textureCoords);
 		Mesh(std::vector<float> positions,
 			std::vector<float> textureCoords,
+			std::vector<float> normals);
+		Mesh(std::vector<float> positions,
+			std::vector<float> textureCoords,
+			std::vector<uint32_t> indices);
+		Mesh(std::vector<float> positions,
+			std::vector<float> textureCoords,
+			std::vector<float> normals,
+			std::vector<uint32_t> indices);
+		Mesh(std::vector<float> positions,
+			std::vector<float> textureCoords,
+			std::vector<float> normals,
+			std::vector<float> tangents,
+			std::vector<float> bitangents,
 			std::vector<uint32_t> indices);
 
 		struct Vertex 
@@ -68,11 +81,11 @@ namespace Omnia
 		void setToPlane();
 
 		void populateData(
-			std::vector<float> vertices,
-			std::vector<float> textureCoords,
-			std::vector<uint32_t> indices);
-		void populateData(
 			std::vector<float> positions,
-			std::vector<float> textureCoords);
+			std::vector<float> textureCoords,
+			std::vector<float> normals,
+			std::vector<float> tangents,
+			std::vector<float> bitangents,
+			std::vector<uint32_t> indices);
 	};
 }

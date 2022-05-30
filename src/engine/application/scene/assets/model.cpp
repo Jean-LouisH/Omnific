@@ -74,46 +74,56 @@ void Omnia::Model::load(std::string filepath, std::shared_ptr<Image> image)
 
 		if (model.meshes.size() == 1)
 		{
-			tinygltf::Primitive primitive = model.meshes.at(0).primitives.at(0);
-			std::vector<unsigned char> bufferData = model.buffers.at(0).data;
-			tinygltf::BufferView positionBufferView = model.bufferViews.at(primitive.attributes.at("POSITION"));
-			tinygltf::BufferView texCoord0BufferView = model.bufferViews.at(primitive.attributes.at("TEXCOORD_0"));
-			tinygltf::BufferView normalsBufferView = model.bufferViews.at(primitive.attributes.at("NORMAL"));
-			tinygltf::BufferView indexBufferView = model.bufferViews.at(primitive.indices);
+			std::vector<float> positions = this->readGLTFPrimitiveAttribute(model, "POSITION");
+			std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(model, "TEXCOORD_0");
+			std::vector<float> normals = this->readGLTFPrimitiveAttribute(model, "NORMAL");
+			std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(model);
 
-			std::vector<uint8_t> positionBytes(
-				bufferData.begin() + positionBufferView.byteOffset,
-				bufferData.begin() + positionBufferView.byteOffset + positionBufferView.byteLength);
-			std::vector<uint8_t> textureCoordBytes(
-				bufferData.begin() + texCoord0BufferView.byteOffset,
-				bufferData.begin() + texCoord0BufferView.byteOffset + texCoord0BufferView.byteLength);
-			std::vector<uint8_t> indexBytes(
-				bufferData.begin() + indexBufferView.byteOffset,
-				bufferData.begin() + indexBufferView.byteOffset + indexBufferView.byteLength);
-
-			std::vector<float> positions;
-			std::vector<float> textureCoords;
-			std::vector<uint32_t> indices;
-			float* floatPositionByteData = (float*)positionBytes.data();
-			float* floatTextureCoordByteData = (float*)textureCoordBytes.data();
-			uint16_t* shortIndexByteData = (uint16_t*)indexBytes.data();
-			size_t floatPositionByteSize = positionBytes.size() / sizeof(float);
-			size_t floatTextureCoordByteSize = textureCoordBytes.size() / sizeof(float);
-			size_t shortIndexByteSize = indexBytes.size() / sizeof(uint16_t);
-
-			for (size_t i = 0; i < floatPositionByteSize; i++)
-				positions.push_back(floatPositionByteData[i]);
-
-			for (size_t i = 0; i < floatTextureCoordByteSize; i++)
-				textureCoords.push_back(floatTextureCoordByteData[i]);
-
-			for (size_t i = 0; i < shortIndexByteSize; i++)
-				indices.push_back((uint32_t)shortIndexByteData[i]);
-
-			this->mesh = std::shared_ptr<Mesh>(new Mesh(positions, textureCoords, indices));
+			this->mesh = std::shared_ptr<Mesh>(new Mesh(positions, textureCoords, normals, indices));
 
 			if (model.images.size() > 0)
 				;
 		}
 	}
+}
+
+std::vector<uint8_t> Omnia::Model::readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView)
+{
+	std::vector<uint8_t> bytes(
+		bufferData.begin() + bufferView.byteOffset,
+		bufferData.begin() + bufferView.byteOffset + bufferView.byteLength);
+
+	return bytes;
+}
+
+std::vector<float> Omnia::Model::readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName)
+{
+	tinygltf::Primitive primitive = model.meshes.at(0).primitives.at(0);
+	std::vector<unsigned char> buffer = model.buffers.at(0).data;
+	std::vector<uint8_t> bytes = this->readGLTFBuffer(buffer, model.bufferViews.at(primitive.attributes.at(attributeName)));
+	std::vector<float> attribute;
+	float* floatByteData = (float*)bytes.data();
+	size_t floatByteSize = bytes.size() / sizeof(float);
+
+	for (size_t i = 0; i < floatByteSize; i++)
+		attribute.push_back(floatByteData[i]);
+
+	return attribute;
+
+}
+
+std::vector<uint32_t> Omnia::Model::readGLTFPrimitiveIndices(tinygltf::Model model)
+{
+	tinygltf::Primitive primitive = model.meshes.at(0).primitives.at(0);
+	std::vector<unsigned char> buffer = model.buffers.at(0).data;
+	std::vector<uint8_t> indexBytes = this->readGLTFBuffer(buffer, model.bufferViews.at(primitive.indices));
+	std::vector<uint32_t> indices;
+
+	uint16_t* shortIndexByteData = (uint16_t*)indexBytes.data();
+	size_t shortIndexByteSize = indexBytes.size() / sizeof(uint16_t);
+
+	for (size_t i = 0; i < shortIndexByteSize; i++)
+		indices.push_back((uint32_t)shortIndexByteData[i]);
+
+	return indices;
 }

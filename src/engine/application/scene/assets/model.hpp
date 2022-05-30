@@ -29,6 +29,7 @@
 #include "skeletal_animation.hpp"
 #include "rig.hpp"
 
+#include <tiny_gltf.h>
 #include <string>
 #include <memory>
 #include <vector>
@@ -49,10 +50,12 @@ namespace Omnia
 		std::shared_ptr<Mesh> mesh;
 		std::shared_ptr<Image> image;
 		std::shared_ptr<Material> material;
-
 		std::shared_ptr<Rig> rig;
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 	private:
 		void load(std::string filepath, std::shared_ptr<Image> image);
+		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
+		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName);
+		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
 	};
 }
