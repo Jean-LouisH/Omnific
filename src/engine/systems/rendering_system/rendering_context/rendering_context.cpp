@@ -87,6 +87,17 @@ void Omnia::RenderingContext::disableWireframeMode()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
+void Omnia::RenderingContext::enableBlending()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void Omnia::RenderingContext::disableBlending()
+{
+	glDisable(GL_BLEND);
+}
+
 void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
 {
 
@@ -134,6 +145,28 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
 					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
 					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
+					const float cullAlphaThreshold = 1.0 - 0.001;
+					CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
+
+					switch (cullMode)
+					{
+						case CullMode::NONE:
+						case CullMode::BACK: glCullFace(GL_BACK); break;
+						case CullMode::FRONT: glCullFace(GL_FRONT); break;
+						case CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
+					}
+
+					if (alpha < cullAlphaThreshold || cullMode == CullMode::NONE)
+					{
+						glDisable(GL_CULL_FACE);
+						if (alpha < cullAlphaThreshold)
+							this->enableBlending();
+					}
+					else
+					{
+						glEnable(GL_CULL_FACE);
+						this->disableBlending();
+					}
 
 					std::shared_ptr<VertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
 					std::shared_ptr<Texture> texture = this->getTexture(entityRenderable.renderableComponent);

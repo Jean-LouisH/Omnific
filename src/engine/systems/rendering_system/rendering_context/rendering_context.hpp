@@ -49,6 +49,8 @@ namespace Omnia
 		void disableDepthTest();
 		void enableWireframeMode();
 		void disableWireframeMode();
+		void enableBlending();
+		void disableBlending();
 		void setViewport(uint32_t width, uint32_t height);
 		void submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists);
 		void swapBuffers();
