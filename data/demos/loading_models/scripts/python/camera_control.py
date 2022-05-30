@@ -10,3 +10,5 @@ def on_logic_frame():
     elif hid.is_pressed(["w", "dpad_up"]):
         transform.globally_translate_z(-movement_speed)
     
+    if hid.is_on_release("p"):
+        omnia.get_component("Camera").toggle_wireframe_mode()

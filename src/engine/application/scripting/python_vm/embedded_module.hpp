@@ -218,7 +218,8 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::SoundPerception, Omnia::Component>(m, Omnia::SoundPerception::TYPE_STRING);
 	pybind11::class_<Omnia::AudioListener, Omnia::Component>(m, Omnia::AudioListener::TYPE_STRING);
 	pybind11::class_<Omnia::AudioSource, Omnia::Component>(m, Omnia::AudioSource::TYPE_STRING);
-	pybind11::class_<Omnia::Camera, Omnia::Component>(m, Omnia::Camera::TYPE_STRING);
+	pybind11::class_<Omnia::Camera, Omnia::Component>(m, Omnia::Camera::TYPE_STRING)
+		.def("toggle_wireframe_mode", &Omnia::Camera::toggleWireframeMode);
 	pybind11::class_<Omnia::ConstantForce, Omnia::Component>(m, Omnia::ConstantForce::TYPE_STRING);
 	pybind11::class_<Omnia::CountdownTimer, Omnia::Component>(m, Omnia::CountdownTimer::TYPE_STRING)
 		.def("start", &Omnia::CountdownTimer::start)

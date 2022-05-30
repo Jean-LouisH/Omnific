@@ -27,7 +27,7 @@ SceneTree:
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
-      python: ["loading_models/scripts/python/zoom_camera.py"]
+      python: ["loading_models/scripts/python/camera_control.py"]
   Entity:
     name: "Model"
     Transform:

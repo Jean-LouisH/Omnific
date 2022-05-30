@@ -119,6 +119,11 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					this->enableDepthTest();
 				}
 
+				if (sceneTreeRenderable.camera->getIsWireframeMode())
+					this->enableWireframeMode();
+				else
+					this->disableWireframeMode();
+
 				for (size_t j = 0; j < entityRenderablesCount; j++)
 				{
 

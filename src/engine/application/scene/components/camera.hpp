@@ -42,13 +42,16 @@ namespace Omnia
 			this->setViewportWidth(300);
 		};
 		void resetAspect();
+		void toggleWireframeMode();
 		Rectangle getViewportDimensions();
 		bool getIsStreaming();
+		bool getIsWireframeMode();
 		void setViewportWidth(uint32_t width);
 		void setViewportHeight(uint32_t height);
 		void setLimits(float left, float bottom, float top, float right);
 		void setKeepAspect(bool value);
 		void setIsStreaming(bool value);
+		void setWireframeMode(bool value);
 		glm::mat4 getViewToProjectionMatrix();
 	private:
 		const float defaultAspect = 1920.0 / 1080.0;
@@ -60,5 +63,6 @@ namespace Omnia
 		Rectangle viewport;
 		bool keepAspect = true;
 		bool isStreaming = true;
+		bool isWireFrame = false;
 	};
 }

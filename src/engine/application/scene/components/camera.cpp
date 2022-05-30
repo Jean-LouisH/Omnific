@@ -30,6 +30,14 @@ void Omnia::Camera::resetAspect()
 	this->aspect = defaultAspect;
 }
 
+void Omnia::Camera::toggleWireframeMode()
+{
+	if (this->getIsWireframeMode())
+		this->setWireframeMode(false);
+	else
+		this->setWireframeMode(true);
+}
+
 Omnia::Rectangle Omnia::Camera::getViewportDimensions()
 {
 	return this->viewport;
@@ -38,6 +46,11 @@ Omnia::Rectangle Omnia::Camera::getViewportDimensions()
 bool Omnia::Camera::getIsStreaming()
 {
 	return this->isStreaming;
+}
+
+bool Omnia::Camera::getIsWireframeMode()
+{
+	return this->isWireFrame;
 }
 
 void Omnia::Camera::setViewportWidth(uint32_t width_px)
@@ -70,6 +83,11 @@ void Omnia::Camera::setKeepAspect(bool value)
 void Omnia::Camera::setIsStreaming(bool value)
 {
 	this->isStreaming = value;
+}
+
+void Omnia::Camera::setWireframeMode(bool value)
+{
+	this->isWireFrame = value;
 }
 
 glm::mat4 Omnia::Camera::getViewToProjectionMatrix()
