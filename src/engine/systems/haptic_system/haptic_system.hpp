@@ -27,7 +27,7 @@
 #include <vector>
 #include <unordered_map>
 #include "system.hpp"
-#include "os/human_interface_devices.hpp"
+#include "os/input.hpp"
 #include <application/scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
 #include <memory>

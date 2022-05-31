@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "human_interface_devices.hpp"
+#include "input.hpp"
 
-Omnia::HumanInterfaceDevices::HumanInterfaceDevices()
+Omnia::Input::Input()
 {
 	this->controllerButtonsByString.emplace("dpad_left", SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 	this->controllerButtonsByString.emplace("dpad_right", SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
@@ -148,22 +148,22 @@ Omnia::HumanInterfaceDevices::HumanInterfaceDevices()
 	this->keyboardEventsByString.emplace("down", SDLK_DOWN);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnPress(std::string inputCode)
+bool Omnia::Input::isOnPress(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isOnPress(inputCodes);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnPress(std::vector<std::string> inputCodes)
+bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes)
 {
 	return this->isOnPress(inputCodes, 0);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->keyboardEvents;
-	std::unordered_map<Omnia::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::unordered_map<Omnia::Input::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->controllerButtonEvents;
 
 	for (int i = 0; i < inputCodes.size(); i++)
@@ -180,7 +180,7 @@ bool Omnia::HumanInterfaceDevices::isOnPress(std::vector<std::string> inputCodes
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
-			Omnia::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			Omnia::Input::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (controllerButtonEvents.count(controllerButtonCode))
 				if (this->getControllerPlayerMap().count(playerID))
 					if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
@@ -192,19 +192,19 @@ bool Omnia::HumanInterfaceDevices::isOnPress(std::vector<std::string> inputCodes
 	return false;
 }
 
-bool Omnia::HumanInterfaceDevices::isOnDoublePress(std::string inputCode, unsigned int timeInterval)
+bool Omnia::Input::isOnDoublePress(std::string inputCode, unsigned int timeInterval)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isOnDoublePress(inputCodes, timeInterval);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval)
+bool Omnia::Input::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval)
 {
 	return this->isOnDoublePress(inputCodes, timeInterval, 0);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval, PlayerID playerID)
+bool Omnia::Input::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -214,19 +214,19 @@ bool Omnia::HumanInterfaceDevices::isOnDoublePress(std::vector<std::string> inpu
 	return false;
 }
 
-bool Omnia::HumanInterfaceDevices::isPressed(std::string inputCode)
+bool Omnia::Input::isPressed(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isPressed(inputCodes);
 }
 
-bool Omnia::HumanInterfaceDevices::isPressed(std::vector<std::string> inputCodes)
+bool Omnia::Input::isPressed(std::vector<std::string> inputCodes)
 {
 	return isPressed(inputCodes, 0);
 }
 
-bool Omnia::HumanInterfaceDevices::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnia::Input::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
@@ -244,22 +244,22 @@ bool Omnia::HumanInterfaceDevices::isPressed(std::vector<std::string> inputCodes
 	return false;
 }
 
-bool Omnia::HumanInterfaceDevices::isOnRelease(std::string inputCode)
+bool Omnia::Input::isOnRelease(std::string inputCode)
 {
 	std::vector<std::string> inputCodes;
 	inputCodes.push_back(inputCode);
 	return this->isOnRelease(inputCodes);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnRelease(std::vector<std::string> inputCodes)
+bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes)
 {
 	return this->isOnRelease(inputCodes, 0);
 }
 
-bool Omnia::HumanInterfaceDevices::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
 {
 	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->keyboardEvents;
-	std::unordered_map<Omnia::HumanInterfaceDevices::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
+	std::unordered_map<Omnia::Input::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
 		this->controllerButtonEvents;
 
 	for (int i = 0; i < inputCodes.size(); i++)
@@ -276,7 +276,7 @@ bool Omnia::HumanInterfaceDevices::isOnRelease(std::vector<std::string> inputCod
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
-			Omnia::HumanInterfaceDevices::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			Omnia::Input::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (controllerButtonEvents.count(controllerButtonCode))
 				if (this->getControllerPlayerMap().count(playerID))
 					if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
@@ -288,28 +288,28 @@ bool Omnia::HumanInterfaceDevices::isOnRelease(std::vector<std::string> inputCod
 	return false;
 }
 
-bool Omnia::HumanInterfaceDevices::isReleased(std::string inputCode)
+bool Omnia::Input::isReleased(std::string inputCode)
 {
 	return false;
 }
 
-bool Omnia::HumanInterfaceDevices::isReleased(std::string inputCode, PlayerID playerID)
+bool Omnia::Input::isReleased(std::string inputCode, PlayerID playerID)
 {
 	return false;
 }
 
-float Omnia::HumanInterfaceDevices::getAxis(std::string inputCode)
+float Omnia::Input::getAxis(std::string inputCode)
 {
 	return this->getAxis(inputCode, 0);
 }
 
-float Omnia::HumanInterfaceDevices::getAxis(std::string inputCode, PlayerID playerID)
+float Omnia::Input::getAxis(std::string inputCode, PlayerID playerID)
 {
 	float axis = 0.0;
 
 	if (this->controllerAxisEventsByString.count(inputCode))
 	{
-		Omnia::HumanInterfaceDevices::ControllerAxisCode controllerAxisCode = this->controllerAxisEventsByString.at(inputCode);
+		Omnia::Input::ControllerAxisCode controllerAxisCode = this->controllerAxisEventsByString.at(inputCode);
 		if (controllerAxisEvents.count(controllerAxisCode))
 			if (this->getControllerPlayerMap().count(playerID))
 				if (controllerAxisEvents.at(controllerAxisCode).which == this->getControllerPlayerMap().at(playerID))
@@ -319,64 +319,64 @@ float Omnia::HumanInterfaceDevices::getAxis(std::string inputCode, PlayerID play
 	return axis;
 }
 
-bool Omnia::HumanInterfaceDevices::isLeftMouseButtonOnPress()
+bool Omnia::Input::isLeftMouseButtonOnPress()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::HumanInterfaceDevices::isLeftMouseButtonOnRelease()
+bool Omnia::Input::isLeftMouseButtonOnRelease()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::HumanInterfaceDevices::isLeftMouseButtonDoubleClicked()
+bool Omnia::Input::isLeftMouseButtonDoubleClicked()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
 		this->mouseButtonEvent.clicks == 2;
 }
 
-bool Omnia::HumanInterfaceDevices::isMiddleMouseButtonOnPress()
+bool Omnia::Input::isMiddleMouseButtonOnPress()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::HumanInterfaceDevices::isMiddleMouseButtonOnRelease()
+bool Omnia::Input::isMiddleMouseButtonOnRelease()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::HumanInterfaceDevices::isMiddleMouseButtonDoubleClicked()
+bool Omnia::Input::isMiddleMouseButtonDoubleClicked()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
 		this->mouseButtonEvent.clicks == 2;
 }
 
-bool Omnia::HumanInterfaceDevices::isRightMouseButtonOnPress()
+bool Omnia::Input::isRightMouseButtonOnPress()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::HumanInterfaceDevices::isRightMouseButtonOnRelease()
+bool Omnia::Input::isRightMouseButtonOnRelease()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::HumanInterfaceDevices::isRightMouseButtonDoubleClicked()
+bool Omnia::Input::isRightMouseButtonDoubleClicked()
 {
 	return this->mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
 		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
 		this->mouseButtonEvent.clicks == 2;
 }
 
-glm::vec2 Omnia::HumanInterfaceDevices::getMousePosition()
+glm::vec2 Omnia::Input::getMousePosition()
 {
 	glm::vec2 vector2;
 	vector2.x = this->mouseMotionEvent.x;
@@ -384,7 +384,7 @@ glm::vec2 Omnia::HumanInterfaceDevices::getMousePosition()
 	return vector2;
 }
 
-glm::vec2 Omnia::HumanInterfaceDevices::getMouseWheelVelocity()
+glm::vec2 Omnia::Input::getMouseWheelVelocity()
 {
 	glm::vec2 vector2;
 	vector2.x = this->mouseWheelEvent.x;
@@ -392,7 +392,7 @@ glm::vec2 Omnia::HumanInterfaceDevices::getMouseWheelVelocity()
 	return vector2;
 }
 
-glm::vec2 Omnia::HumanInterfaceDevices::getMouseMotionVelocity()
+glm::vec2 Omnia::Input::getMouseMotionVelocity()
 {
 	glm::vec2 vector2;
 	vector2.x = this->mouseMotionEvent.xrel;
@@ -400,17 +400,17 @@ glm::vec2 Omnia::HumanInterfaceDevices::getMouseMotionVelocity()
 	return vector2;
 }
 
-bool Omnia::HumanInterfaceDevices::isDropFileDetected()
+bool Omnia::Input::isDropFileDetected()
 {
 	return this->dropEvent.type == SDL_DROPFILE;
 }
 
-std::string Omnia::HumanInterfaceDevices::getDropFilePath()
+std::string Omnia::Input::getDropFilePath()
 {
 	return this->dropEvent.file;
 }
 
-uint32_t Omnia::HumanInterfaceDevices::getDropFileWindowID()
+uint32_t Omnia::Input::getDropFileWindowID()
 {
 	uint32_t dropFileWindowID = -1;
 
@@ -420,7 +420,7 @@ uint32_t Omnia::HumanInterfaceDevices::getDropFileWindowID()
 	return dropFileWindowID;
 }
 
-void Omnia::HumanInterfaceDevices::clear()
+void Omnia::Input::clear()
 {
 	this->controllerAxisEvents.clear();
 	this->controllerButtonEvents.clear();
@@ -435,7 +435,7 @@ void Omnia::HumanInterfaceDevices::clear()
 	this->hasDetectedInputChanges = false;
 }
 
-void Omnia::HumanInterfaceDevices::detectGameControllers()
+void Omnia::Input::detectGameControllers()
 {
 	if (SDL_NumJoysticks() != this->gameControllers.size())
 	{
@@ -467,7 +467,7 @@ void Omnia::HumanInterfaceDevices::detectGameControllers()
 	}
 }
 
-void Omnia::HumanInterfaceDevices::pollInputEvents()
+void Omnia::Input::pollInputEvents()
 {
 	SDL_Event SDLEvents;
 
@@ -521,32 +521,32 @@ void Omnia::HumanInterfaceDevices::pollInputEvents()
 	}
 }
 
-bool Omnia::HumanInterfaceDevices::hasRequestedShutdown()
+bool Omnia::Input::hasRequestedShutdown()
 {
 	return this->shutdownRequest;
 }
 
-bool Omnia::HumanInterfaceDevices::hasRequestedRestart()
+bool Omnia::Input::hasRequestedRestart()
 {
 	return this->restartRequest;
 }
 
-void Omnia::HumanInterfaceDevices::forceShutdownRequest()
+void Omnia::Input::forceShutdownRequest()
 {
 	this->shutdownRequest = true;
 }
 
-void Omnia::HumanInterfaceDevices::forceRestartRequest()
+void Omnia::Input::forceRestartRequest()
 {
 	this->restartRequest = true;
 }
 
-bool Omnia::HumanInterfaceDevices::getHasDetectedInputChanges()
+bool Omnia::Input::getHasDetectedInputChanges()
 {
 	return this->hasDetectedInputChanges;
 }
 
-bool Omnia::HumanInterfaceDevices::hasRequestedCommandLine()
+bool Omnia::Input::hasRequestedCommandLine()
 {
 	bool backquoteReleased = false;
 
@@ -556,17 +556,17 @@ bool Omnia::HumanInterfaceDevices::hasRequestedCommandLine()
 	return backquoteReleased;	 
 }
 
-std::vector<SDL_Haptic*> Omnia::HumanInterfaceDevices::getHaptics()
+std::vector<SDL_Haptic*> Omnia::Input::getHaptics()
 {
 	return this->haptics;
 }
 
-std::unordered_map<Omnia::PlayerID, SDL_JoystickID> Omnia::HumanInterfaceDevices::getControllerPlayerMap()
+std::unordered_map<Omnia::PlayerID, SDL_JoystickID> Omnia::Input::getControllerPlayerMap()
 {
 	return this->controllerPlayerMap;
 }
 
-std::queue<Omnia::PlayerID>& Omnia::HumanInterfaceDevices::getNewlyLoadedPlayerIDs()
+std::queue<Omnia::PlayerID>& Omnia::Input::getNewlyLoadedPlayerIDs()
 {
 	return this->newlyLoadedPlayerIDs;
 }

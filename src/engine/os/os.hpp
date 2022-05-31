@@ -25,7 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include "dynamic_link_library_access.hpp"
-#include "human_interface_devices.hpp"
+#include "input.hpp"
 #include "logger.hpp"
 #include "window.hpp"
 #include "profiler.hpp"
@@ -53,7 +53,7 @@ namespace Omnia
 
 		static DynamicLinkLibraryAccess& getDLLAccess();
 		static Window& getWindow();
-		static HumanInterfaceDevices& getHid();
+		static Input& getInput();
 		static Logger& getLogger();
 		static FileAccess& getFileAccess();
 		static NetworkAccess& getNetworkAccess();
@@ -69,7 +69,7 @@ namespace Omnia
 		std::unique_ptr<DynamicLinkLibraryAccess> dllAccess;
 		std::unique_ptr<HiResTimer> runTimer;
 		std::unique_ptr<Window> window;
-		std::unique_ptr<HumanInterfaceDevices> hid;
+		std::unique_ptr<Input> input;
 		std::unique_ptr<Logger> logger;
 		std::unique_ptr<FileAccess> fileAccess;
 		std::unique_ptr<NetworkAccess> networkAccess;

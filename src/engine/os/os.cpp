@@ -40,7 +40,7 @@ void Omnia::OS::initialize(
 	newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
 	newInstance->logger = std::unique_ptr<Logger>(new Logger());
 	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
-	newInstance->hid = std::unique_ptr<HumanInterfaceDevices>(new HumanInterfaceDevices());
+	newInstance->input = std::unique_ptr<Input>(new Input());
 	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
 	newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
@@ -66,9 +66,9 @@ Omnia::Window& Omnia::OS::getWindow()
 	return *getInstance()->window;
 }
 
-Omnia::HumanInterfaceDevices& Omnia::OS::getHid()
+Omnia::Input& Omnia::OS::getInput()
 {
-	return *getInstance()->hid;
+	return *getInstance()->input;
 }
 
 Omnia::Logger& Omnia::OS::getLogger()

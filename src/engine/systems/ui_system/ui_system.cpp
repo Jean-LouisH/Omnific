@@ -40,7 +40,7 @@ void Omnia::UISystem::initialize()
 void Omnia::UISystem::process(Scene& scene)
 {
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
-	HumanInterfaceDevices& hid = OS::getHid();
+	Input& hid = OS::getInput();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
 

@@ -2,11 +2,11 @@ import omnia
 
 def on_logic_frame():
     movement_speed = 1.0
-    hid = omnia.get_hid()
+    input = omnia.get_input()
     transform = omnia.get_component("Transform")
 
-    if hid.is_pressed(["s", "dpad_down"]):
+    if input.is_pressed(["s", "dpad_down"]):
         transform.globally_translate_y(-movement_speed)
-    elif hid.is_pressed(["w", "dpad_up"]):
+    elif input.is_pressed(["w", "dpad_up"]):
         transform.globally_translate_y(movement_speed)
     

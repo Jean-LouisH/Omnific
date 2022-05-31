@@ -55,7 +55,7 @@ void Omnia::HapticSystem::initialize()
 
 void Omnia::HapticSystem::process(Scene& scene)
 {
-	HumanInterfaceDevices& hid = OS::getHid();
+	Input& hid = OS::getInput();
 	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)

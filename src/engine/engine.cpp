@@ -143,7 +143,7 @@ void Omnia::Engine::input()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getInputTimer().setStart();
-	HumanInterfaceDevices& hid = OS::getHid();
+	Input& hid = OS::getInput();
 
 	hid.detectGameControllers();
 	hid.pollInputEvents();

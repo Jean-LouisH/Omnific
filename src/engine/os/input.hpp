@@ -32,14 +32,14 @@
 
 namespace Omnia
 {
-	class HumanInterfaceDevices
+	class Input
 	{
 		friend class Engine;
 	public:
 		using ControllerButtonCode = Uint8;
 		using ControllerAxisCode = Uint8;
 
-		HumanInterfaceDevices();
+		Input();
 
 		bool isOnPress(std::string inputCode);
 		bool isOnPress(std::vector<std::string> inputCodes);
@@ -92,8 +92,8 @@ namespace Omnia
 		void pollInputEvents();
 
 		std::unordered_map<std::string, SDL_Keycode> keyboardEventsByString;
-		std::unordered_map<std::string, HumanInterfaceDevices::ControllerButtonCode> controllerButtonsByString;
-		std::unordered_map<std::string, HumanInterfaceDevices::ControllerAxisCode> controllerAxisEventsByString;
+		std::unordered_map<std::string, Input::ControllerButtonCode> controllerButtonsByString;
+		std::unordered_map<std::string, Input::ControllerAxisCode> controllerAxisEventsByString;
 
 		std::set<std::string> heldInputs;
 

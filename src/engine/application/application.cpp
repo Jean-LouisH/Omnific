@@ -123,7 +123,7 @@ void Omnia::Application::executeOnStartMethods()
 void Omnia::Application::executeOnInputMethods()
 {
 #ifdef DEBUG_CONSOLE_ENABLED
-	if (OS::getHid().hasRequestedCommandLine())
+	if (OS::getInput().hasRequestedCommandLine())
 	{
 		std::string command;
 
@@ -135,7 +135,7 @@ void Omnia::Application::executeOnInputMethods()
 	}
 #endif
 
-	if (!this->sceneStorage->isEmpty() && OS::getHid().getHasDetectedInputChanges())
+	if (!this->sceneStorage->isEmpty() && OS::getInput().getHasDetectedInputChanges())
 		this->scripting->executeOnInputMethods(this->getActiveScene());	
 }
 
