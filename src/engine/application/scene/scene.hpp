@@ -40,19 +40,19 @@ namespace Omnia
 	public:
 		Scene();
 
-		void addSceneTree(SceneTree sceneTree);
+		void addSceneTree(std::shared_ptr<SceneTree> sceneTree);
 		void addEmptySceneTree();
 		void removeSceneTree(SceneTreeID sceneTreeID);
 
-		SceneTree& getSceneTree(SceneTreeID sceneTree);
-		SceneTree& getSceneTreeByName(std::string name);
-		SceneTree& getLastSceneTree();
-		std::unordered_map<SceneTreeID, SceneTree>& getSceneTrees();
+		std::shared_ptr<SceneTree> getSceneTree(SceneTreeID sceneTree);
+		std::shared_ptr<SceneTree> getSceneTreeByName(std::string name);
+		std::shared_ptr<SceneTree> getLastSceneTree();
+		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& getSceneTrees();
 
 		SceneID getID();
 	private:
 		SceneID id = 0;
-		std::unordered_map<SceneTreeID, SceneTree> sceneTrees;
+		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees;
 		SceneTreeID lastSceneTreeID = 0;
 	};
 }

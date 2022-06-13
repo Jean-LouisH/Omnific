@@ -30,6 +30,7 @@
 #include <unordered_map>
 #include <string>
 #include <application/uid_generator.hpp>
+#include <memory>
 
 namespace Omnia
 {

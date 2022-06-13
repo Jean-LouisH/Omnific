@@ -49,8 +49,8 @@ namespace Omnia
 		void loadScene(std::string sceneFilename);
 		void unloadScene(std::string sceneFilename);
 		void changeToScene(std::string sceneFilename);
-		Scene& getActiveScene();
-		Configuration& getConfiguration();
+		std::shared_ptr<Scene> getActiveScene();
+		std::shared_ptr<Configuration> getConfiguration();
 	private:
 		std::shared_ptr<Configuration> configuration;
 		std::shared_ptr<SceneSerializer> sceneSerializer;

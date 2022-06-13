@@ -24,6 +24,7 @@
 
 #include <utilities/aliases.hpp>
 #include <string>
+#include <memory>
 
 namespace Omnia
 {

@@ -44,7 +44,7 @@ namespace Omnia
 		RenderingSystem();
 		~RenderingSystem();
 		virtual void initialize() override;
-		void process(Scene& scene) override;
+		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 		std::string getRenderingContextName();
 	private:
@@ -52,7 +52,7 @@ namespace Omnia
 		std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
 
 		void onWindowResize();
-		void buildRenderablesOnModifiedComponents(Scene& scene);
+		void buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene);
 	};
 }
 

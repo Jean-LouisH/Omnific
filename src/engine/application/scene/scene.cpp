@@ -29,15 +29,15 @@ Omnia::Scene::Scene()
 	this->id = UIDGenerator::getNewUID();
 }
 
-void Omnia::Scene::addSceneTree(SceneTree sceneTree)
+void Omnia::Scene::addSceneTree(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->sceneTrees.emplace(sceneTree.getID(), sceneTree);
-	this->lastSceneTreeID = sceneTree.getID();
+	this->sceneTrees.emplace(sceneTree->getID(), sceneTree);
+	this->lastSceneTreeID = sceneTree->getID();
 }
 
 void Omnia::Scene::addEmptySceneTree()
 {
-	SceneTree sceneTree;
+	std::shared_ptr<SceneTree> sceneTree = std::shared_ptr<SceneTree>(new SceneTree());
 	this->addSceneTree(sceneTree);
 }
 
@@ -47,28 +47,28 @@ void Omnia::Scene::removeSceneTree(SceneTreeID sceneTreeID)
 		this->sceneTrees.erase(sceneTreeID);
 }
 
-Omnia::SceneTree& Omnia::Scene::getSceneTree(SceneTreeID sceneTree)
+std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getSceneTree(SceneTreeID sceneTree)
 {
 	return this->sceneTrees.at(sceneTree);
 }
 
-Omnia::SceneTree& Omnia::Scene::getSceneTreeByName(std::string name)
+std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getSceneTreeByName(std::string name)
 {
-	SceneTree* sceneTree = nullptr;
+	std::shared_ptr<SceneTree> sceneTree = nullptr;
 
 	for (auto it = this->sceneTrees.begin(); it != this->sceneTrees.end(); it++)
-		if (it->second.getName() == name)
+		if (it->second->getName() == name)
 			return it->second;
 
-	return *sceneTree;
+	return sceneTree;
 }
 
-Omnia::SceneTree& Omnia::Scene::getLastSceneTree()
+std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getLastSceneTree()
 {
 	return this->sceneTrees.at(this->lastSceneTreeID);
 }
 
-std::unordered_map<Omnia::SceneTreeID, Omnia::SceneTree>& Omnia::Scene::getSceneTrees()
+std::unordered_map<Omnia::SceneTreeID, std::shared_ptr<Omnia::SceneTree>>& Omnia::Scene::getSceneTrees()
 {
 	return this->sceneTrees;
 }

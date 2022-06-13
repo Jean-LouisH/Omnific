@@ -34,7 +34,7 @@ namespace Omnia
 	public:
 		~AcousticSystem();
 		virtual void initialize() override;
-		void process(Scene& scene) override;
+		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 	};

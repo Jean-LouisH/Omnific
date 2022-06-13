@@ -36,7 +36,7 @@ Omnia::PythonVM::~PythonVM()
 
 }
 
-void Omnia::PythonVM::onModifiedScriptInstance(Scene scene)
+void Omnia::PythonVM::onModifiedScriptInstance(std::shared_ptr<Scene> scene)
 {
 	this->modules.clear();
 
@@ -45,11 +45,11 @@ void Omnia::PythonVM::onModifiedScriptInstance(Scene scene)
 	std::set<std::string> addedPaths;
 	std::set<std::string> scripts;
 
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = it->second.getComponentsByType<ScriptCollection>();
+		std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = it->second->getComponentsByType<ScriptCollection>();
 		size_t scriptCollectionsCount = scriptCollections.size();
 
 		for (size_t i = 0; i < scriptCollectionsCount; i++)

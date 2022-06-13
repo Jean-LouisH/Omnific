@@ -37,9 +37,9 @@ void Omnia::UISystem::initialize()
 		this->isInitialized = true;
 }
 
-void Omnia::UISystem::process(Scene& scene)
+void Omnia::UISystem::process(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 	Input& hid = OS::getInput();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
@@ -53,7 +53,7 @@ void Omnia::UISystem::process(Scene& scene)
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
 		if (hid.isDropFileDetected())
-			it->second.getEventBus().publish("file dropped on window", numbers, strings);
+			it->second->getEventBus()->publish("file dropped on window", numbers, strings);
 	}
 }
 

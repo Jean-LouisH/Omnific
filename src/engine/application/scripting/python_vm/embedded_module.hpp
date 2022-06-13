@@ -34,6 +34,7 @@
 #include <utilities/colour.hpp>
 #include <utilities/aabb_2d.hpp>
 #include <utilities/aliases.hpp>
+#include <memory>
 
 PYBIND11_EMBEDDED_MODULE(omnia, m) 
 {
@@ -304,7 +305,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	/*Script Context and OS getters*/
 
-	m.def("has_component", &Omnia::ScriptContext::hasComponent);
+	m.def("has_component", &Omnia::ScriptContext::hasComponent, pybind11::return_value_policy::reference);
 	m.def("get_entity", &Omnia::ScriptContext::getEntity, pybind11::return_value_policy::reference);
 	m.def("get_component", &Omnia::ScriptContext::getComponent, pybind11::return_value_policy::reference);
 	m.def("get_scene", &Omnia::ScriptContext::getScene, pybind11::return_value_policy::reference);

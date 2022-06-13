@@ -29,63 +29,63 @@ Omnia::Scripting::Scripting()
 	this->cppNative = std::unique_ptr<CPPNative>(new CPPNative());
 }
 
-void Omnia::Scripting::onModifiedScriptInstance(Scene scene)
+void Omnia::Scripting::onModifiedScriptInstance(std::shared_ptr<Scene> scene)
 {
 	this->pythonVM->onModifiedScriptInstance(scene);
 	this->cppNative->onModifiedScriptInstance();
 }
 
-void Omnia::Scripting::executeOnStartMethods(Scene& scene)
+void Omnia::Scripting::executeOnStartMethods(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnStartMethods(it->second.generateCallBatches(CallType::START));
+		this->pythonVM->executeOnStartMethods(it->second->generateCallBatches(CallType::START));
 
 }
 
-void Omnia::Scripting::executeOnInputMethods(Scene& scene)
+void Omnia::Scripting::executeOnInputMethods(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnInputMethods(it->second.generateCallBatches(CallType::UPDATE));
+		this->pythonVM->executeOnInputMethods(it->second->generateCallBatches(CallType::UPDATE));
 }
 
-void Omnia::Scripting::executeOnLogicFrameMethods(Scene& scene)
+void Omnia::Scripting::executeOnLogicFrameMethods(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnLogicFrameMethods(it->second.generateCallBatches(CallType::UPDATE));
+		this->pythonVM->executeOnLogicFrameMethods(it->second->generateCallBatches(CallType::UPDATE));
 	this->cppNative->executeOnFrameMethods();
 }
 
-void Omnia::Scripting::executeOnComputeFrameMethods(Scene& scene)
+void Omnia::Scripting::executeOnComputeFrameMethods(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnComputeFrameMethods(it->second.generateCallBatches(CallType::UPDATE));
+		this->pythonVM->executeOnComputeFrameMethods(it->second->generateCallBatches(CallType::UPDATE));
 }
 
-void Omnia::Scripting::executeOnOutputMethods(Scene& scene)
+void Omnia::Scripting::executeOnOutputMethods(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnOutputMethods(it->second.generateCallBatches(CallType::UPDATE));
+		this->pythonVM->executeOnOutputMethods(it->second->generateCallBatches(CallType::UPDATE));
 }
 
-void Omnia::Scripting::executeOnFinishMethods(Scene& scene)
+void Omnia::Scripting::executeOnFinishMethods(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		this->pythonVM->executeOnFinishMethods(it->second.generateCallBatches(CallType::FINISH));
+		this->pythonVM->executeOnFinishMethods(it->second->generateCallBatches(CallType::FINISH));
 }
 
-void Omnia::Scripting::setSceneStorage(SceneStorage* sceneStorage)
+void Omnia::Scripting::setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage)
 {
 	ScriptContext::setSceneStorage(sceneStorage);
 }

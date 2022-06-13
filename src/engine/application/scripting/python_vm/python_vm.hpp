@@ -31,6 +31,7 @@
 #include "pybind11/embed.h"
 #include "module.hpp"
 #include <application/scene/scene.hpp>
+#include <memory>
 
 namespace Omnia
 {
@@ -39,7 +40,7 @@ namespace Omnia
 	public:
 		PythonVM();
 		~PythonVM();
-		void onModifiedScriptInstance(Scene scene);
+		void onModifiedScriptInstance(std::shared_ptr<Scene> scene);
 		void executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnLogicFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);

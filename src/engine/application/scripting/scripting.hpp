@@ -37,14 +37,14 @@ namespace Omnia
 	{
 	public:
 		Scripting();
-		void onModifiedScriptInstance(Scene scene);
-		void executeOnStartMethods(Scene& scene);
-		void executeOnInputMethods(Scene& scene);
-		void executeOnLogicFrameMethods(Scene& scene);
-		void executeOnComputeFrameMethods(Scene& scene);
-		void executeOnOutputMethods(Scene& scene);
-		void executeOnFinishMethods(Scene& scene);
-		void setSceneStorage(SceneStorage* sceneStorage);
+		void onModifiedScriptInstance(std::shared_ptr<Scene> scene);
+		void executeOnStartMethods(std::shared_ptr<Scene> scene);
+		void executeOnInputMethods(std::shared_ptr<Scene> scene);
+		void executeOnLogicFrameMethods(std::shared_ptr<Scene> scene);
+		void executeOnComputeFrameMethods(std::shared_ptr<Scene> scene);
+		void executeOnOutputMethods(std::shared_ptr<Scene> scene);
+		void executeOnFinishMethods(std::shared_ptr<Scene> scene);
+		void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 	private:
 		std::vector<std::unique_ptr<ScriptingLanguage>> scriptingLanguages;
 

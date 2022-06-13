@@ -23,6 +23,7 @@
 #pragma once
 
 #include "application/scene/scene.hpp"
+#include <memory>
 
 namespace Omnia
 {
@@ -33,7 +34,7 @@ namespace Omnia
     public:
         ~System();
         virtual void initialize() = 0;
-		virtual void process(Scene& scene) = 0;
+		virtual void process(std::shared_ptr<Scene> scene) = 0;
         virtual void deinitialize() = 0;
         bool getIsInitialized();
     protected:

@@ -32,9 +32,9 @@ void Omnia::AISystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::AISystem::process(Scene& scene)
+void Omnia::AISystem::process(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{

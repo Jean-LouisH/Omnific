@@ -34,21 +34,21 @@ namespace Omnia
 		~PhysicsSystem();
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		virtual void initialize() override;
-		void process(Scene& scene) override;
+		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
-		void onComputeEnd(Scene& scene);
+		void onComputeEnd(std::shared_ptr<Scene> scene);
 	private:
 		float secondsPerComputeUpdate = 0.008;
 
-		void updateTimers(SceneTree& scene);
-		void displace(SceneTree& scene);
-		void gravitate(SceneTree& scene);
-		void decelerate(SceneTree& scene);
-		void applyForces(SceneTree& scene);
-		void detectCollisions(SceneTree& scene);
-		void handleCollisions(SceneTree& scene);
+		void updateTimers(std::shared_ptr<SceneTree> scene);
+		void displace(std::shared_ptr<SceneTree> scene);
+		void gravitate(std::shared_ptr<SceneTree> scene);
+		void decelerate(std::shared_ptr<SceneTree> scene);
+		void applyForces(std::shared_ptr<SceneTree> scene);
+		void detectCollisions(std::shared_ptr<SceneTree> scene);
+		void handleCollisions(std::shared_ptr<SceneTree> scene);
 
-		void displaceEntityTree(SceneTree& sceneTree, EntityID entityID, glm::vec3 value);
+		void displaceEntityTree(std::shared_ptr<SceneTree> sceneTree, EntityID entityID, glm::vec3 value);
 	};
 }
 

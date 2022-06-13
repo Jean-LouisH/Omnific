@@ -118,7 +118,7 @@ namespace Omnia
 
 		SceneTree();
 
-		void addEntity(Entity entity);
+		void addEntity(std::shared_ptr<Entity> entity);
 		void addEmptyEntity();
 		void setEntityName(EntityID entityID, std::string name);
 		void addEntityTag(EntityID entityID, std::string tag);
@@ -134,14 +134,14 @@ namespace Omnia
 		std::vector<size_t> getRenderOrderIndexCache();
 		std::unordered_map<std::string, std::vector<size_t>> getComponentIndexCaches();
 		std::shared_ptr<Transform> getEntityTransform(EntityID entityID);
-		Entity& getEntity(EntityID entityID);
-		Entity& getEntityByName(std::string name);
-		Entity& getLastEntity();
-		std::unordered_map<EntityID, Entity>& getEntities();
+		std::shared_ptr<Entity> getEntity(EntityID entityID);
+		std::shared_ptr<Entity> getEntityByName(std::string name);
+		std::shared_ptr<Entity> getLastEntity();
+		std::unordered_map<EntityID, std::shared_ptr<Entity>>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
-		CollisionRegistry& getCollisionRegistry();
-		EventBus& getEventBus();
-		HapticSignalBuffer& getHapticSignalBuffer();
+		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
+		std::shared_ptr<EventBus> getEventBus();
+		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
 		bool getHasShadersChanged();
 		bool getHasScriptsChanged();
 		SceneTreeID getID();
@@ -151,11 +151,11 @@ namespace Omnia
 		std::shared_ptr<T> getComponent(EntityID entityID)
 		{
 			std::shared_ptr<T> typedComponent = std::shared_ptr<T>(new T());
-			Entity& entity = this->getEntity(entityID);
+			std::shared_ptr<Entity> entity = this->getEntity(entityID);
 
-			if (entity.componentIDs.count(T::TYPE_STRING) > 0)
+			if (entity->componentIDs.count(T::TYPE_STRING) > 0)
 			{
-				std::shared_ptr<Component> component = this->getComponent(entity.componentIDs.at(T::TYPE_STRING));
+				std::shared_ptr<Component> component = this->getComponent(entity->componentIDs.at(T::TYPE_STRING));
 				typedComponent = std::dynamic_pointer_cast<T>(component);
 			}
 
@@ -186,7 +186,7 @@ namespace Omnia
 		/*Entities are stored in maps for fast random access
 		when Components invoke changes in other Components
 		attached to the Entity.*/
-		std::unordered_map<EntityID, Entity> entities;
+		std::unordered_map<EntityID, std::shared_ptr<Entity>> entities;
 		std::unordered_map<std::string, EntityID> entityNames;
 		std::unordered_map<std::string, EntityID> entityTags;
 

@@ -53,15 +53,15 @@ void Omnia::HapticSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::HapticSystem::process(Scene& scene)
+void Omnia::HapticSystem::process(std::shared_ptr<Scene> scene)
 {
 	Input& hid = OS::getInput();
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		HapticSignalBuffer& hapticSignalBuffer = it->second.getHapticSignalBuffer();
-		std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer.getHapticSignals();
+		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer = it->second->getHapticSignalBuffer();
+		std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer->getHapticSignals();
 
 		for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
 		{

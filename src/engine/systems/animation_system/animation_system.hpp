@@ -34,11 +34,11 @@ namespace Omnia
 		~AnimationSystem();
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		virtual void initialize() override;
-		void process(Scene& scene) override;
+		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 		uint32_t msPerComputeUpdate = 8;
-		void updateSpriteContainers(SceneTree& sceneTree);
+		void updateSpriteContainers(std::shared_ptr<SceneTree> sceneTree);
 	};
 }
 

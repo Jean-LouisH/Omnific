@@ -37,7 +37,7 @@ void Omnia::Application::preloadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		Scene newScene = this->sceneSerializer->deserialize(sceneFilename);
+		std::shared_ptr<Scene> newScene = this->sceneSerializer->deserialize(sceneFilename);
 		this->sceneStorage->addScene(sceneFilename, newScene);
 	}
 }
@@ -46,7 +46,7 @@ void Omnia::Application::loadScene(std::string sceneFilename)
 {
 	if (this->sceneSerializer->doesSceneExist(sceneFilename))
 	{
-		Scene newScene = this->sceneSerializer->deserialize(sceneFilename);
+		std::shared_ptr<Scene> newScene = this->sceneSerializer->deserialize(sceneFilename);
 		this->sceneStorage->replaceActiveScene(sceneFilename, newScene);
 	}
 }
@@ -67,7 +67,7 @@ void Omnia::Application::changeToScene(std::string sceneFilename)
 void Omnia::Application::initialize()
 {
 	BootLoader bootLoader;
-	Scene entryScene;
+	std::shared_ptr<Scene> entryScene;
 	std::string dataDirectory = "data/";
 #ifdef _DEBUG
 	dataDirectory = DEBUG_DATA_FILEPATH;
@@ -94,7 +94,7 @@ void Omnia::Application::initialize()
 		{
 			entryScene = this->sceneSerializer->deserialize(this->configuration->metadata.entrySceneFilepath);
 			this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
-			this->scripting->setSceneStorage(this->sceneStorage.get());
+			this->scripting->setSceneStorage(this->sceneStorage);
 		}
 	}
 	else
@@ -164,10 +164,10 @@ void Omnia::Application::executeOnFinishMethods()
 	if (!this->sceneStorage->isEmpty())
 		this->scripting->executeOnFinishMethods(this->getActiveScene());
 
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = this->getActiveScene().getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = this->getActiveScene()->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		it->second.getEventBus().clear();
+		it->second->getEventBus()->clear();
 }
 
 void Omnia::Application::deinitialize()
@@ -175,12 +175,12 @@ void Omnia::Application::deinitialize()
 
 }
 
-Omnia::Scene& Omnia::Application::getActiveScene()
+std::shared_ptr<Omnia::Scene> Omnia::Application::getActiveScene()
 {
 	return this->sceneStorage->getActiveScene();
 }
 
-Omnia::Configuration& Omnia::Application::getConfiguration()
+std::shared_ptr<Omnia::Configuration> Omnia::Application::getConfiguration()
 {
-	return *this->configuration;
+	return this->configuration;
 }

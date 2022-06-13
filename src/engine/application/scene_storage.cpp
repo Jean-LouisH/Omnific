@@ -23,7 +23,7 @@
 #include "scene_storage.hpp"
 #include "os/os.hpp"
 
-void Omnia::SceneStorage::addScene(std::string sceneName, Scene scene)
+void Omnia::SceneStorage::addScene(std::string sceneName, std::shared_ptr<Scene> scene)
 {
 	if (this->activeSceneName == "")
 	{
@@ -45,7 +45,7 @@ void Omnia::SceneStorage::removeScene(std::string sceneName)
 		}
 	}
 }
-void Omnia::SceneStorage::replaceActiveScene(std::string sceneName, Scene scene)
+void Omnia::SceneStorage::replaceActiveScene(std::string sceneName, std::shared_ptr<Scene> scene)
 {
 	if (sceneName != this->activeSceneName)
 	{
@@ -68,7 +68,7 @@ void Omnia::SceneStorage::changeToScene(std::string sceneName)
 	this->activeSceneChanged = true;
 }
 
-Omnia::Scene& Omnia::SceneStorage::getActiveScene()
+std::shared_ptr<Omnia::Scene> Omnia::SceneStorage::getActiveScene()
 {
 	return this->scenes.at(this->activeSceneName);
 }

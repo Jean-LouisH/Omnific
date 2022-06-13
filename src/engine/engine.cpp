@@ -38,9 +38,9 @@ void Omnia::Engine::run()
 		if (this->initialize())
 		{
 			this->application->initialize();
-			Configuration& configuration = this->application->getConfiguration();
+			std::shared_ptr<Configuration> configuration = this->application->getConfiguration();
 
-			if (configuration.isLoaded)
+			if (configuration->isLoaded)
 			{
 				std::string dataDirectory = "data/";
 #ifdef _DEBUG
@@ -48,10 +48,10 @@ void Omnia::Engine::run()
 #endif
 				OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
 				Window& window = OS::getWindow();
-				window.resize(configuration.windowSettings.width, configuration.windowSettings.height);
-				window.changeTitle(configuration.metadata.title.c_str());
+				window.resize(configuration->windowSettings.width, configuration->windowSettings.height);
+				window.changeTitle(configuration->metadata.title.c_str());
 				this->state->setRunningApplicationWindowed();
-				OS::getLogger().write("Loaded application project \"" + configuration.metadata.title + "\" at: " + dataDirectory);
+				OS::getLogger().write("Loaded application project \"" + configuration->metadata.title + "\" at: " + dataDirectory);
 			}
 			else
 			{
@@ -159,8 +159,8 @@ void Omnia::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
 	profiler.getUpdateTimer().setStart();
-	Scene& activeScene = this->application->getActiveScene();
-	const uint32_t msPerComputeUpdate = this->application->getConfiguration().timeSettings.msPerComputeUpdate;
+	std::shared_ptr<Scene> activeScene = this->application->getActiveScene();
+	const uint32_t msPerComputeUpdate = this->application->getConfiguration()->timeSettings.msPerComputeUpdate;
 
 	this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
@@ -213,7 +213,7 @@ void Omnia::Engine::benchmark()
 		std::string FPSString = std::to_string(profiler.getFPS());
 		std::string frameUtilizationString =
 			std::to_string((int)(((double)profiler.getProcessTimer().getDeltaInNanoseconds() / (double)profiler.getFrameTimer().getDeltaInNanoseconds()) * 100));
-		OS::getWindow().changeTitle((this->application->getConfiguration().metadata.title + " (DEBUG) ->" +
+		OS::getWindow().changeTitle((this->application->getConfiguration()->metadata.title + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
 	}
@@ -224,7 +224,7 @@ void Omnia::Engine::benchmark()
 void Omnia::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
-	float targetFrameTime = 1000.0 / this->application->getConfiguration().timeSettings.targetFPS;
+	float targetFrameTime = 1000.0 / this->application->getConfiguration()->timeSettings.targetFPS;
 	float processTime = profiler.getProcessTimer().getDelta();
 	OS::getWindow().sleep(targetFrameTime - processTime);
 }

@@ -26,7 +26,7 @@
 
 Omnia::ScriptContext* Omnia::ScriptContext::instance = nullptr;
 
-void Omnia::ScriptContext::setSceneStorage(SceneStorage* sceneStorage)
+void Omnia::ScriptContext::setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage)
 {
 	getInstance()->sceneStorage = sceneStorage;
 }
@@ -39,7 +39,7 @@ void Omnia::ScriptContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID
 
 bool Omnia::ScriptContext::hasComponent(std::string type)
 {
-	return getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID).componentIDs.count(type) > 0;
+	return getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
 }
 
 std::shared_ptr<Omnia::Asset> Omnia::ScriptContext::loadAsset(std::string type, std::string filepath)
@@ -72,28 +72,28 @@ std::shared_ptr<Omnia::Image> Omnia::ScriptContext::loadImage(std::string filepa
 
 Omnia::Entity& Omnia::ScriptContext::getEntity()
 {
-	return getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID);
+	return *getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID);
 }
 
 Omnia::Scene& Omnia::ScriptContext::getScene()
 {
-	return getInstance()->sceneStorage->getActiveScene();
+	return *getInstance()->sceneStorage->getActiveScene();
 }
 
 Omnia::SceneTree& Omnia::ScriptContext::getSceneTree()
 {
-	return getInstance()->getScene().getSceneTrees().at(getInstance()->boundSceneTreeID);
+	return *getInstance()->getScene().getSceneTrees().at(getInstance()->boundSceneTreeID);
 }
 
 Omnia::Component& Omnia::ScriptContext::getComponent(std::string type)
 {
-	std::shared_ptr<Component> component = std::make_shared<Component>();
+	std::shared_ptr<Component> component(new Component());
 
-	Entity& entity = getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID);
+	std::shared_ptr<Entity> entity = getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID);
 	std::vector<std::shared_ptr<Component>>& components = getInstance()->getSceneTree().getComponents();
 
 	for (int i = 0; i < components.size(); i++)
-		if (components.at(i)->getID() == entity.componentIDs.at(type))
+		if (components.at(i)->getID() == entity->componentIDs.at(type))
 			component = components.at(i);
 
 	return *component;

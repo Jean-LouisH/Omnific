@@ -36,7 +36,7 @@ namespace Omnia
 	public:
 		~AudioSystem();
 		virtual void initialize() override;
-		void process(Scene& scene) override;
+		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 		std::queue<std::shared_ptr<Mix_Chunk>> soundFXQueue;

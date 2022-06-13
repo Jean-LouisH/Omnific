@@ -39,19 +39,19 @@ bool Omnia::SceneSerializer::doesSceneExist(std::string filepath)
 	return OS::getFileAccess().exists(this->dataDirectory + filepath);
 }
 
-void Omnia::SceneSerializer::serialize(std::string filepath, Scene scene)
+void Omnia::SceneSerializer::serialize(std::string filepath, std::shared_ptr<Scene> scene)
 {
 
 }
 
-Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath)
+std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string filepath)
 {
 	return this->deserialize(filepath, "");
 }
 
-Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::string name)
+std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string filepath, std::string name)
 {
-	Scene scene;
+	std::shared_ptr<Scene> scene = std::shared_ptr<Scene>(new Scene());
 	const std::string fullFilepath = this->dataDirectory + filepath;
 
 	try
@@ -62,7 +62,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 		{
 			if (it0->first.as<std::string>() == "SceneTree")
 			{
-				SceneTree sceneTree;
+				std::shared_ptr<SceneTree> sceneTree(new SceneTree());
 				bool loadThisSceneTree = true;
 
 				/* If the name is an empty string, load all, otherwise search for the name */
@@ -86,32 +86,32 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 					{
 						if (it1->first.as<std::string>() == "name")
 						{
-							sceneTree.name = it1->second.as<std::string>();
+							sceneTree->name = it1->second.as<std::string>();
 						}
 						else if (it1->first.as<std::string>() == "spatial_dimension")
 						{
 							int value = it1->second.as<int>();
 
 							if (value == 2)
-								sceneTree.is2D = true;
+								sceneTree->is2D = true;
 							else if (value == 3)
-								sceneTree.is2D = false;
+								sceneTree->is2D = false;
 						}
 						else if (it1->first.as<std::string>() == "Entity")
 						{
-							Entity entity;
-							sceneTree.addEntity(entity);
+							std::shared_ptr<Entity> entity(new Entity());
+							sceneTree->addEntity(entity);
 
 							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 							{
 								//Entity attributes
 								if (it2->first.as<std::string>() == "name")
 								{
-									sceneTree.setEntityName(sceneTree.getLastEntity().getID(), it2->second.as<std::string>());
+									sceneTree->setEntityName(sceneTree->getLastEntity()->getID(), it2->second.as<std::string>());
 								}
 								else if (it2->first.as<std::string>() == "parent")
 								{
-									sceneTree.getLastEntity().parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).getID();
+									sceneTree->getLastEntity()->parentID = sceneTree->getEntityByName(it2->second.as<std::string>())->getID();
 								}
 								//Components
 								else if (it2->first.as<std::string>() == BehaviourTree::TYPE_STRING)
@@ -131,7 +131,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(behaviourTree);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == SightPerception::TYPE_STRING)
 								{
@@ -209,7 +209,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == CharacterBody::TYPE_STRING)
 								{
@@ -224,7 +224,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(characterBody);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == Collider::TYPE_STRING)
 								{
@@ -246,7 +246,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == ConstantForce::TYPE_STRING)
 								{
@@ -275,7 +275,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == ModelContainer::TYPE_STRING)
 								{
@@ -303,7 +303,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == NavigationMeshAgent::TYPE_STRING)
 								{
@@ -401,7 +401,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 											}
 										}
 
-									sceneTree.addComponentToLastEntity(std::static_pointer_cast<Component>(scriptCollection));
+									sceneTree->addComponentToLastEntity(std::static_pointer_cast<Component>(scriptCollection));
 								}
 								else if (it2->first.as<std::string>() == SpriteContainer::TYPE_STRING)
 								{
@@ -437,7 +437,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == StaticFluid::TYPE_STRING)
 								{
@@ -480,7 +480,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == UIButton::TYPE_STRING)
 								{
@@ -667,7 +667,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 								else if (it2->first.as<std::string>() == UITreeView::TYPE_STRING)
 								{
@@ -691,12 +691,12 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 									{
 										if (it3->first.as<std::string>() == "camera_entity")
 										{
-											uiViewport->setCameraEntity(sceneTree.getEntityByName(it3->second.as<std::string>()).getID());
+											uiViewport->setCameraEntity(sceneTree->getEntityByName(it3->second.as<std::string>())->getID());
 										}
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiViewport);
-									sceneTree.addComponentToLastEntity(component);
+									sceneTree->addComponentToLastEntity(component);
 								}
 							}
 						}
@@ -710,7 +710,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 							{
 								if (it2->first.as<std::string>() == "parent")
 								{
-									parentID = sceneTree.getEntityByName(it2->second.as<std::string>()).getID();
+									parentID = sceneTree->getEntityByName(it2->second.as<std::string>())->getID();
 								}
 								else if (it2->first.as<std::string>() == "name")
 								{
@@ -719,31 +719,31 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 
 									if (subSceneFilepath != filepath)
 									{
-										SceneTree subSceneTree = this->deserialize(subSceneFilepath, subSceneTreeName).getLastSceneTree();
+										std::shared_ptr<SceneTree> subSceneTree = this->deserialize(subSceneFilepath, subSceneTreeName)->getLastSceneTree();
 
 										/* Only load the SceneTree if it is the same spatial dimension. */
-										if (subSceneTree.is2D == sceneTree.is2D)
+										if (subSceneTree->is2D == sceneTree->is2D)
 										{
 											/* Transfer Entities and their Components */
-											Entity newRootEntity;
-											newRootEntity.setName(subSceneFilepath);
-											newRootEntity.parentID = parentID;
-											sceneTree.addEntity(newRootEntity);
-											std::unordered_map<EntityID, Entity>& subSceneEntities = subSceneTree.getEntities();
+											std::shared_ptr<Entity> newRootEntity;
+											newRootEntity->setName(subSceneFilepath);
+											newRootEntity->parentID = parentID;
+											sceneTree->addEntity(newRootEntity);
+											std::unordered_map<EntityID, std::shared_ptr<Entity>>& subSceneEntities = subSceneTree->getEntities();
 
 											for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
 											{
-												Entity subSceneEntity = it->second;
+												std::shared_ptr<Entity> subSceneEntity = it->second;
 
-												if (subSceneEntity.parentID == 0)
-													subSceneEntity.parentID = newRootEntity.getID();
+												if (subSceneEntity->parentID == 0)
+													subSceneEntity->parentID = newRootEntity->getID();
 
-												sceneTree.addEntity(subSceneEntity);
+												sceneTree->addEntity(subSceneEntity);
 
-												std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity.componentIDs;
+												std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity->componentIDs;
 
 												for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
-													sceneTree.addComponentToLastEntity(subSceneTree.getComponent(it2->second));
+													sceneTree->addComponentToLastEntity(subSceneTree->getComponent(it2->second));
 											}
 										}
 									}
@@ -753,7 +753,7 @@ Omnia::Scene Omnia::SceneSerializer::deserialize(std::string filepath, std::stri
 					}
 				}
 
-				scene.addSceneTree(sceneTree);
+				scene->addSceneTree(sceneTree);
 			}
 		}
 	}

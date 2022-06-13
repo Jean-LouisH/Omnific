@@ -40,13 +40,13 @@ void Omnia::PhysicsSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::PhysicsSystem::process(Scene& scene)
+void Omnia::PhysicsSystem::process(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		SceneTree& sceneTree = it->second;
+		std::shared_ptr<SceneTree> sceneTree = it->second;
 		this->updateTimers(sceneTree);
 		this->gravitate(sceneTree);
 		this->applyForces(sceneTree);
@@ -62,9 +62,9 @@ void Omnia::PhysicsSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnia::PhysicsSystem::updateTimers(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::updateTimers(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::vector<std::shared_ptr<CountdownTimer>> countdownTimers = sceneTree.getComponentsByType<CountdownTimer>();
+	std::vector<std::shared_ptr<CountdownTimer>> countdownTimers = sceneTree->getComponentsByType<CountdownTimer>();
 
 	for (size_t i = 0; i < countdownTimers.size(); i++)
 	{
@@ -72,10 +72,10 @@ void Omnia::PhysicsSystem::updateTimers(SceneTree& sceneTree)
 	}
 }
 
-void Omnia::PhysicsSystem::displace(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::displace(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
-	std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree.getComponentsByType<CharacterBody>();
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree->getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree->getComponentsByType<CharacterBody>();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
@@ -90,9 +90,9 @@ void Omnia::PhysicsSystem::displace(SceneTree& sceneTree)
 	}
 }
 
-void Omnia::PhysicsSystem::gravitate(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::gravitate(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree->getComponentsByType<RigidBody>();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
@@ -101,9 +101,9 @@ void Omnia::PhysicsSystem::gravitate(SceneTree& sceneTree)
 	}
 }
 
-void Omnia::PhysicsSystem::decelerate(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::decelerate(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree.getComponentsByType<RigidBody>();
+	std::vector<std::shared_ptr<RigidBody>> rigidBodies = sceneTree->getComponentsByType<RigidBody>();
 
 	for (size_t i = 0; i < rigidBodies.size(); i++)
 	{
@@ -114,30 +114,30 @@ void Omnia::PhysicsSystem::decelerate(SceneTree& sceneTree)
 	}
 }
 
-void Omnia::PhysicsSystem::applyForces(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::applyForces(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::vector<std::shared_ptr<ConstantForce>> constantForces = sceneTree.getComponentsByType<ConstantForce>();
+	std::vector<std::shared_ptr<ConstantForce>> constantForces = sceneTree->getComponentsByType<ConstantForce>();
 
 	for (size_t i = 0; i < constantForces.size(); i++)
 	{
 		std::shared_ptr<ConstantForce> constantForce = constantForces.at(i);
-		std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(constantForce->getEntityID());
+		std::shared_ptr<Transform> transform = sceneTree->getEntityTransform(constantForce->getEntityID());
 
 		//Todo: Apply force on entities
 	}
 }
 
-void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneTree> sceneTree)
 {
 	/* Very basic collision detection on boxes for now. */
-	std::vector<std::shared_ptr<Collider>> colliders = sceneTree.getComponentsByType<Collider>();
+	std::vector<std::shared_ptr<Collider>> colliders = sceneTree->getComponentsByType<Collider>();
 	size_t collidersCount = colliders.size();
 	std::string collisionEventString;
 
 	for (size_t i = 0; i < collidersCount; i++)
 	{
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
-		std::shared_ptr<Transform> transform1 = sceneTree.getEntityTransform(collider1->getEntityID());
+		std::shared_ptr<Transform> transform1 = sceneTree->getEntityTransform(collider1->getEntityID());
 		glm::vec3 translation1 = transform1->translation;
 		glm::vec3 scale1 = transform1->scale;
 		AABB3D aabb1 = collider1->box.aabb;
@@ -147,7 +147,7 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 			if (i != j)
 			{
 				std::shared_ptr<Collider> collider2 = colliders.at(j);
-				std::shared_ptr<Transform> transform2 = sceneTree.getEntityTransform(collider2->getEntityID());
+				std::shared_ptr<Transform> transform2 = sceneTree->getEntityTransform(collider2->getEntityID());
 				glm::vec3 translation2 = transform2->translation;
 				glm::vec3 scale2 = transform2->scale;
 				AABB3D aabb2 = collider2->box.aabb;
@@ -166,9 +166,9 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 				float box2front = translation2.z + aabb2.max.z * scale2.z;
 				float box2back = translation2.z + aabb2.min.z * scale2.z;
 
-				Entity& entity1 = sceneTree.getEntity(collider1->getEntityID());
-				Entity& entity2 = sceneTree.getEntity(collider2->getEntityID());
-				CollisionRegistry& collisionRegistry = sceneTree.getCollisionRegistry();
+				std::shared_ptr<Entity> entity1 = sceneTree->getEntity(collider1->getEntityID());
+				std::shared_ptr<Entity> entity2 = sceneTree->getEntity(collider2->getEntityID());
+				std::shared_ptr<CollisionRegistry> collisionRegistry = sceneTree->getCollisionRegistry();
 
 				/* Collision Detected */
 				if ((box1left <= box2right && box1right >= box2left) &&
@@ -179,18 +179,18 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 					std::unordered_map<std::string, std::string> eventStrings;
 
 					collision->colliderEntityID = collider1->getEntityID();
-					collision->colliderName = entity1.getName();
-					eventStrings.emplace("collider_name", entity1.getName());
+					collision->colliderName = entity1->getName();
+					eventStrings.emplace("collider_name", entity1->getName());
 					collision->otherColliderEntityID = collider2->getEntityID();
-					collision->otherColliderName = entity2.getName();
-					eventStrings.emplace("other_collider_name", entity2.getName());
+					collision->otherColliderName = entity2->getName();
+					eventStrings.emplace("other_collider_name", entity2->getName());
 
-					collision->hasRigidbody = entity1.componentIDs.count(RigidBody::TYPE_STRING) > 0;
-					collision->hasOtherRigidbody = entity2.componentIDs.count(RigidBody::TYPE_STRING) > 0;
+					collision->hasRigidbody = entity1->componentIDs.count(RigidBody::TYPE_STRING) > 0;
+					collision->hasOtherRigidbody = entity2->componentIDs.count(RigidBody::TYPE_STRING) > 0;
 
 					if (collision->hasRigidbody)
 					{
-						std::shared_ptr<Component> rigidBodyComponent1 = sceneTree.getComponent(entity1.componentIDs.at(RigidBody::TYPE_STRING));
+						std::shared_ptr<Component> rigidBodyComponent1 = sceneTree->getComponent(entity1->componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody1 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent1);
 
 						collision->elasticityRatio = rigidBody1->elasticityRatio;
@@ -201,7 +201,7 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 
 					if (collision->hasOtherRigidbody)
 					{
-						std::shared_ptr<Component> rigidBodyComponent2 = sceneTree.getComponent(entity2.componentIDs.at(RigidBody::TYPE_STRING));
+						std::shared_ptr<Component> rigidBodyComponent2 = sceneTree->getComponent(entity2->componentIDs.at(RigidBody::TYPE_STRING));
 						std::shared_ptr<RigidBody> rigidBody2 = std::dynamic_pointer_cast<RigidBody>(rigidBodyComponent2);
 
 						collision->otherElasticityRatio = rigidBody2->elasticityRatio;
@@ -216,25 +216,25 @@ void Omnia::PhysicsSystem::detectCollisions(SceneTree& sceneTree)
 						collision->otherRotation = transform2->rotation;
 					}
 
-					if (!collisionRegistry.isColliding(entity1.getName(), entity2.getName()))
-						sceneTree.getEventBus().publish("entity_is_on_collision", eventStrings);
+					if (!collisionRegistry->isColliding(entity1->getName(), entity2->getName()))
+						sceneTree->getEventBus()->publish("entity_is_on_collision", eventStrings);
 
-					collisionRegistry.addOrUpdate(collision);
+					collisionRegistry->addOrUpdate(collision);
 				}
-				else if (collisionRegistry.isColliding(entity1.getName(), entity2.getName()))
+				else if (collisionRegistry->isColliding(entity1->getName(), entity2->getName()))
 				{
 					std::unordered_map<std::string, std::string> eventStrings;
-					eventStrings.emplace("collider_name", entity1.getName());
-					eventStrings.emplace("other_collider_name", entity2.getName());
-					collisionRegistry.remove(entity1.getName(), entity2.getName());
-					sceneTree.getEventBus().publish("entity_is_off_collision", eventStrings);
+					eventStrings.emplace("collider_name", entity1->getName());
+					eventStrings.emplace("other_collider_name", entity2->getName());
+					collisionRegistry->remove(entity1->getName(), entity2->getName());
+					sceneTree->getEventBus()->publish("entity_is_off_collision", eventStrings);
 				}
 			}
 		}
 	}
 }
 
-void Omnia::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
+void Omnia::PhysicsSystem::handleCollisions(std::shared_ptr<SceneTree> sceneTree)
 {
 	//EventBus& eventBus = sceneTree.getEventBus();
 	//std::vector<Event> collisionEvents = eventBus.query("entity_is_on_collision");
@@ -267,14 +267,14 @@ void Omnia::PhysicsSystem::handleCollisions(SceneTree& sceneTree)
 	//}
 }
 
-void Omnia::PhysicsSystem::onComputeEnd(Scene& scene)
+void Omnia::PhysicsSystem::onComputeEnd(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree> sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
-		SceneTree& sceneTree = it->second;
-		std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree.getComponentsByType<CharacterBody>();
+		std::shared_ptr<SceneTree> sceneTree = it->second;
+		std::vector<std::shared_ptr<CharacterBody>> characterBodies = sceneTree->getComponentsByType<CharacterBody>();
 
 		for (int i = 0; i < characterBodies.size(); i++)
 		{
@@ -283,12 +283,12 @@ void Omnia::PhysicsSystem::onComputeEnd(Scene& scene)
 	}
 }
 
-void Omnia::PhysicsSystem::displaceEntityTree(SceneTree& sceneTree, EntityID entityID, glm::vec3 value)
+void Omnia::PhysicsSystem::displaceEntityTree(std::shared_ptr<SceneTree> sceneTree, EntityID entityID, glm::vec3 value)
 {
-	std::shared_ptr<Transform> transform = sceneTree.getEntityTransform(entityID);
-	Entity& entity = sceneTree.getEntity(entityID);
+	std::shared_ptr<Transform> transform = sceneTree->getEntityTransform(entityID);
+	std::shared_ptr<Entity> entity = sceneTree->getEntity(entityID);
 	transform->translation += value;
 
-	for (size_t i = 0; i < entity.childIDs.size(); i++)
-		this->displaceEntityTree(sceneTree, entity.childIDs.at(i), value);
+	for (size_t i = 0; i < entity->childIDs.size(); i++)
+		this->displaceEntityTree(sceneTree, entity->childIDs.at(i), value);
 }

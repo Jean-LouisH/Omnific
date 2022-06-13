@@ -35,20 +35,20 @@ Omnia::SceneTree::SceneTree()
 	this->name = "SceneTree (ID:" + std::to_string(this->id) + ")";
 }
 
-void Omnia::SceneTree::addEntity(Entity entity)
+void Omnia::SceneTree::addEntity(std::shared_ptr<Entity> entity)
 {
-	if (entity.parentID != 0)
-		this->entities.at(entity.parentID).childIDs.push_back(entity.id);
+	if (entity->parentID != 0)
+		this->entities.at(entity->parentID)->childIDs.push_back(entity->id);
 
-	this->startEntitiesQueue.emplace(entity.id);
-	this->entities.emplace(entity.id, entity);
-	this->lastEntityID = entity.id;
-	this->setEntityName(entity.id, entity.name);
+	this->startEntitiesQueue.emplace(entity->id);
+	this->entities.emplace(entity->id, entity);
+	this->lastEntityID = entity->id;
+	this->setEntityName(entity->id, entity->name);
 }
 
 void Omnia::SceneTree::addEmptyEntity()
 {
-	Entity emptyEntity;
+	std::shared_ptr<Entity> emptyEntity(new Entity());
 	this->addEntity(emptyEntity);
 }
 
@@ -57,13 +57,13 @@ void Omnia::SceneTree::setEntityName(EntityID entityID, std::string name)
 	if (this->entityNames.count(name))
 		name += "(Copy)";
 
-	this->getEntity(entityID).name = name;
+	this->getEntity(entityID)->name = name;
 	this->entityNames.emplace(name, entityID);
 }
 
 void Omnia::SceneTree::addEntityTag(EntityID entityID, std::string tag)
 {
-	this->getEntity(entityID).tags.push_back(tag);
+	this->getEntity(entityID)->tags.push_back(tag);
 	this->entityTags.emplace(tag, entityID);
 }
 
@@ -73,7 +73,7 @@ void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component
 	component->setComponentPropertyPool(this->componentPropertyPool);
 	this->components.push_back(component);
 	std::string type = component->getType();
-	this->entities.at(entityID).componentIDs.emplace(type, component->getID());
+	this->entities.at(entityID)->componentIDs.emplace(type, component->getID());
 	size_t lastIndex = this->components.size() - 1;
 
 	if (this->componentIndexCaches.count(type) > 0)
@@ -103,25 +103,25 @@ void Omnia::SceneTree::removeEntity(EntityID entityID)
 {
 	if (this->entities.count(entityID) > 0)
 	{
-		std::unordered_map<std::string, ComponentID> entityComponentIDs = this->getEntity(entityID).componentIDs;
+		std::unordered_map<std::string, ComponentID> entityComponentIDs = this->getEntity(entityID)->componentIDs;
 
 		for (auto it = entityComponentIDs.begin(); it != entityComponentIDs.end(); it++)
 			this->removeComponent(entityID, it->first);
 
 		/* Remove the children */
-		std::vector<EntityID> childIDs = this->getEntity(entityID).childIDs;
+		std::vector<EntityID> childIDs = this->getEntity(entityID)->childIDs;
 
 		for (int i = 0; i < childIDs.size(); i++)
 			this->removeEntity(childIDs.at(i));
 
 		/* Remove the ID from the parent children list */
-		Entity& parentEntity = this->getEntity(this->getEntity(entityID).parentID);
+		std::shared_ptr<Entity> parentEntity = this->getEntity(this->getEntity(entityID)->parentID);
 
-		for (auto it = parentEntity.childIDs.begin(); it != parentEntity.childIDs.end();)
+		for (auto it = parentEntity->childIDs.begin(); it != parentEntity->childIDs.end();)
 		{
 			if ((*it) == entityID)
 			{
-				it = parentEntity.childIDs.erase(it);
+				it = parentEntity->childIDs.erase(it);
 				break;
 			}
 			else
@@ -140,12 +140,12 @@ void Omnia::SceneTree::removeComponent(EntityID entityID, std::string type)
 {
 	if (this->entities.count(entityID) > 0)
 	{
-		Entity& entity = this->getEntity(entityID);
+		std::shared_ptr<Entity> entity = this->getEntity(entityID);
 
-		if (entity.componentIDs.count(type) > 0)
+		if (entity->componentIDs.count(type) > 0)
 		{
-			ComponentID componentID = entity.componentIDs.at(type);
-			entity.componentIDs.erase(type);
+			ComponentID componentID = entity->componentIDs.at(type);
+			entity->componentIDs.erase(type);
 
 			/* Remove the component from the list. */
 
@@ -196,8 +196,8 @@ std::vector<Omnia::ScriptCallBatch> Omnia::SceneTree::generateCallBatches(CallTy
 
 		while (!entityQueue->empty())
 		{
-			Entity& entity = this->getEntity(entityQueue->front());
-			std::shared_ptr<ScriptCollection> scriptCollection = this->getComponent<ScriptCollection>(entity.id);
+			std::shared_ptr<Entity> entity = this->getEntity(entityQueue->front());
+			std::shared_ptr<ScriptCollection> scriptCollection = this->getComponent<ScriptCollection>(entity->id);
 			if (scriptCollection != nullptr)
 			{
 				std::vector<std::string> scriptNames;
@@ -247,35 +247,35 @@ std::shared_ptr<Omnia::Transform> Omnia::SceneTree::getEntityTransform(EntityID 
 	return this->getComponent<Transform>(entityID);
 }
 
-Omnia::Entity& Omnia::SceneTree::getEntity(EntityID entityID)
+std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getEntity(EntityID entityID)
 {
 	return this->entities.at(entityID);
 }
 
-Omnia::Entity& Omnia::SceneTree::getEntityByName(std::string name)
+std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getEntityByName(std::string name)
 {
-	Entity* entity = nullptr;
+	std::shared_ptr<Entity> entity(new Entity());
 
 	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
-		if (it->second.name == name)
+		if (it->second->name == name)
 			return it->second;
 
-	return *entity;
+	return entity;
 }
 
-Omnia::Entity& Omnia::SceneTree::getLastEntity()
+std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
 }
 
-std::unordered_map<Omnia::EntityID, Omnia::Entity>& Omnia::SceneTree::getEntities()
+std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::SceneTree::getEntities()
 {
 	return this->entities;
 }
 
 std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID componentID)
 {
-	std::shared_ptr<Component> component = std::make_shared<Component>();
+	std::shared_ptr<Component> component(new Component());
 
 	for (int i = 0; i < this->components.size(); i++)
 	{
@@ -287,14 +287,14 @@ std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID com
 	return component;
 }
 
-Omnia::CollisionRegistry& Omnia::SceneTree::getCollisionRegistry()
+std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneTree::getCollisionRegistry()
 {
-	return *this->collisionRegistry;
+	return this->collisionRegistry;
 }
 
-Omnia::EventBus& Omnia::SceneTree::getEventBus()
+std::shared_ptr<Omnia::EventBus> Omnia::SceneTree::getEventBus()
 {
-	return *this->eventBus;
+	return this->eventBus;
 }
 
 bool Omnia::SceneTree::getHasShadersChanged()
@@ -317,7 +317,7 @@ std::string Omnia::SceneTree::getName()
 	return this->name;
 }
 
-Omnia::HapticSignalBuffer& Omnia::SceneTree::getHapticSignalBuffer()
+std::shared_ptr<Omnia::HapticSignalBuffer> Omnia::SceneTree::getHapticSignalBuffer()
 {
-	return *this->hapticSignalBuffer;
+	return this->hapticSignalBuffer;
 }

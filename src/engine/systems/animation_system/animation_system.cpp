@@ -38,9 +38,9 @@ void Omnia::AnimationSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::AnimationSystem::process(Scene& scene)
+void Omnia::AnimationSystem::process(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, SceneTree>& sceneTrees = scene.getSceneTrees();
+	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 	{
@@ -53,9 +53,9 @@ void Omnia::AnimationSystem::deinitialize()
 	this->isInitialized = false;
 }
 
-void Omnia::AnimationSystem::updateSpriteContainers(SceneTree& sceneTree)
+void Omnia::AnimationSystem::updateSpriteContainers(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = sceneTree.getComponentsByType<SpriteContainer>();
+	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = sceneTree->getComponentsByType<SpriteContainer>();
 
 	for (size_t i = 0; i < spriteContainers.size(); i++)
 	{

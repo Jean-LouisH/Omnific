@@ -42,7 +42,7 @@ namespace Omnia
 	class ScriptContext
 	{
 	public:
-		static void setSceneStorage(SceneStorage* sceneStorage);
+		static void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		static std::shared_ptr<Asset> loadAsset(std::string type, std::string filepath);
@@ -60,7 +60,7 @@ namespace Omnia
 
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
-		SceneStorage* sceneStorage = nullptr;
+		std::shared_ptr<SceneStorage> sceneStorage;
 	};
 }
 

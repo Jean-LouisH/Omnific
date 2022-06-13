@@ -25,6 +25,7 @@
 #include "scene/scene.hpp"
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 namespace Omnia
 {
@@ -33,9 +34,9 @@ namespace Omnia
 	{
 	public:
 		SceneSerializer(std::string assetsDirectory);
-		void serialize(std::string filepath, Scene scene);
-		Scene deserialize(std::string filepath);
-		Scene deserialize(std::string filepath, std::string name);
+		void serialize(std::string filepath, std::shared_ptr<Scene> scene);
+		std::shared_ptr<Scene> deserialize(std::string filepath);
+		std::shared_ptr<Scene> deserialize(std::string filepath, std::string name);
 		bool doesSceneExist(std::string filepath);
 	private:
 		std::string dataDirectory;

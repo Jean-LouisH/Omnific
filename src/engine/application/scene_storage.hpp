@@ -25,6 +25,7 @@
 #include "scene/scene.hpp"
 #include <string>
 #include "utilities/aliases.hpp"
+#include <memory>
 
 namespace Omnia
 {
@@ -32,16 +33,16 @@ namespace Omnia
 	class SceneStorage
 	{
 	public:
-		void addScene(std::string sceneName, Scene scene);
+		void addScene(std::string sceneName, std::shared_ptr<Scene> scene);
 		void removeScene(std::string sceneName);
-		void replaceActiveScene(std::string sceneName, Scene scene);
+		void replaceActiveScene(std::string sceneName, std::shared_ptr<Scene> scene);
 		void changeToScene(std::string sceneName);
-		Scene& getActiveScene();
+		std::shared_ptr<Scene> getActiveScene();
 		std::string getActiveSceneName();
 		bool isEmpty();
 		bool hasActiveSceneChanged();
 	private:
-		std::unordered_map<std::string, Scene> scenes;
+		std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
 		std::string activeSceneName;
 		bool activeSceneChanged = false;
 	};
