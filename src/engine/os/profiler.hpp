@@ -24,19 +24,17 @@
 
 #include <stdint.h>
 #include "utilities/hi_res_timer.hpp"
+#include <unordered_map>
+#include <memory>
 
 namespace Omnia
 {
 	class Profiler
 	{
 	public:
-		HiResTimer& getProcessTimer();
-		HiResTimer& getFrameTimer();
-		HiResTimer& getInputTimer();
-		HiResTimer& getUpdateTimer();
-		HiResTimer& getOutputTimer();
-		HiResTimer& getBenchmarkTimer();
-		HiResTimer& getDebugTimer();
+		void addTimer(std::string timerName);
+		std::shared_ptr<HiResTimer> getTimer(std::string timerName);
+
 		void incrementFrameCount();
 		void incrementLagCount(uint64_t deltaTime);
 		void decrementLagCount(uint64_t deltaTime);
@@ -44,13 +42,7 @@ namespace Omnia
 		uint64_t getLagCount();
 		uint16_t getFPS();
 	private:
-		HiResTimer process;
-		HiResTimer frame;
-		HiResTimer input;
-		HiResTimer update;
-		HiResTimer output;
-		HiResTimer FPS;
-		HiResTimer debug;
+		std::unordered_map<std::string, std::shared_ptr<HiResTimer>> timers;
 		/* In milliseconds */
 		uint64_t lag = 0;
 		uint64_t frameCount = 0;

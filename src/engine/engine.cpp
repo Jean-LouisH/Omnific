@@ -70,15 +70,15 @@ void Omnia::Engine::run()
 		/* Main engine loop */
 		while (this->state->isRunning())
 		{
-			profiler.getFrameTimer().setStart();
-			profiler.getProcessTimer().setStart();
+			profiler.getTimer("frame")->setStart();
+			profiler.getTimer("process")->setStart();
 			this->input();
 			this->update();
 			this->output();
 			this->benchmark();
-			profiler.getProcessTimer().setEnd();
+			profiler.getTimer("process")->setEnd();
 			this->sleep();
-			profiler.getFrameTimer().setEnd();
+			profiler.getTimer("frame")->setEnd();
 			profiler.incrementFrameCount();
 		}
 
@@ -113,6 +113,18 @@ bool Omnia::Engine::initialize()
 	{
 		OS::initialize("", 640, 480, false, this->argv[0], this->renderingSystem->getRenderingContextName());
 
+		Profiler& profiler = OS::getProfiler();
+
+		profiler.addTimer("process");
+		profiler.addTimer("frame");
+		profiler.addTimer("input");
+		profiler.addTimer("update");
+		profiler.addTimer("output");
+		profiler.addTimer("benchmark");
+		profiler.addTimer("debug");
+
+		profiler.getTimer("benchmark")->setStart();
+
 		this->aiSystem->initialize();
 		this->animationSystem->initialize();
 		this->audioSystem->initialize();
@@ -129,9 +141,6 @@ bool Omnia::Engine::initialize()
 		logger.write("Retrieved OS Name: " + platform.getOSName());
 		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
 
-		Profiler& profiler = OS::getProfiler();
-		profiler.getBenchmarkTimer().setStart();
-
 		this->application = std::unique_ptr<Application>(new Application());
 		isInitializedOK = true;
 	}
@@ -142,7 +151,7 @@ bool Omnia::Engine::initialize()
 void Omnia::Engine::input()
 {
 	Profiler& profiler = OS::getProfiler();
-	profiler.getInputTimer().setStart();
+	profiler.getTimer("input")->setStart();
 	Input& hid = OS::getInput();
 
 	hid.detectGameControllers();
@@ -152,13 +161,13 @@ void Omnia::Engine::input()
 	if (hid.hasRequestedRestart())
 		this->state->setRestarting();
 
-	profiler.getInputTimer().setEnd();
+	profiler.getTimer("input")->setEnd();
 }
 
 void Omnia::Engine::update()
 {
 	Profiler& profiler = OS::getProfiler();
-	profiler.getUpdateTimer().setStart();
+	profiler.getTimer("update")->setStart();
 	std::shared_ptr<Scene> activeScene = this->application->getActiveScene();
 	const uint32_t msPerComputeUpdate = this->application->getConfiguration()->timeSettings.msPerComputeUpdate;
 
@@ -185,20 +194,20 @@ void Omnia::Engine::update()
 	this->physicsSystem->onComputeEnd(activeScene);
 	this->application->executeOnOutputMethods();
 	this->application->executeOnFinishMethods();
-	profiler.incrementLagCount(profiler.getFrameTimer().getDelta());
-	profiler.getUpdateTimer().setEnd();
+	profiler.incrementLagCount(profiler.getTimer("frame")->getDelta());
+	profiler.getTimer("update")->setEnd();
 }
 
 void Omnia::Engine::output()
 {
 	Profiler& profiler = OS::getProfiler();
-	profiler.getOutputTimer().setStart();
+	profiler.getTimer("output")->setStart();
 
 	this->renderingSystem->process(this->application->getActiveScene());
 	this->audioSystem->process(this->application->getActiveScene());
 	this->hapticSystem->process(this->application->getActiveScene());
 
-	profiler.getOutputTimer().setEnd();
+	profiler.getTimer("output")->setEnd();
 }
 
 void Omnia::Engine::benchmark()
@@ -207,25 +216,25 @@ void Omnia::Engine::benchmark()
 #ifdef _DEBUG
 	uint32_t FPSUpdateSeconds = 1;
 
-	if (profiler.getBenchmarkTimer().getDeltaInNanoseconds() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
+	if (profiler.getTimer("benchmark")->getDeltaInNanoseconds() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
 	{
-		profiler.getBenchmarkTimer().setStart();
+		profiler.getTimer("benchmark")->setStart();
 		std::string FPSString = std::to_string(profiler.getFPS());
 		std::string frameUtilizationString =
-			std::to_string((int)(((double)profiler.getProcessTimer().getDeltaInNanoseconds() / (double)profiler.getFrameTimer().getDeltaInNanoseconds()) * 100));
+			std::to_string((int)(((double)profiler.getTimer("process")->getDeltaInNanoseconds() / (double)profiler.getTimer("frame")->getDeltaInNanoseconds()) * 100));
 		OS::getWindow().changeTitle((this->application->getConfiguration()->metadata.title + " (DEBUG) ->" +
 			" FPS: " + FPSString).c_str()
 		);
 	}
 #endif
-	profiler.getBenchmarkTimer().setEnd();
+	profiler.getTimer("benchmark")->setEnd();
 }
 
 void Omnia::Engine::sleep()
 {
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime = 1000.0 / this->application->getConfiguration()->timeSettings.targetFPS;
-	float processTime = profiler.getProcessTimer().getDelta();
+	float processTime = profiler.getTimer("process")->getDelta();
 	OS::getWindow().sleep(targetFrameTime - processTime);
 }
 

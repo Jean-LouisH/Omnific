@@ -23,39 +23,19 @@
 #include "profiler.hpp"
 #include "utilities/constants.hpp"
 
-Omnia::HiResTimer& Omnia::Profiler::getProcessTimer()
+void Omnia::Profiler::addTimer(std::string timerName)
 {
-	return this->process;
+	this->timers.emplace(timerName, std::shared_ptr<HiResTimer>(new HiResTimer()));
 }
 
-Omnia::HiResTimer& Omnia::Profiler::getFrameTimer()
+std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::getTimer(std::string timerName)
 {
-	return this->frame;
-}
+	std::shared_ptr<HiResTimer> timer;
 
-Omnia::HiResTimer& Omnia::Profiler::getInputTimer()
-{
-	return this->input;
-}
+	if (this->timers.count(timerName) > 0)
+		timer = this->timers.at(timerName);
 
-Omnia::HiResTimer& Omnia::Profiler::getUpdateTimer()
-{
-	return this->update;
-}
-
-Omnia::HiResTimer& Omnia::Profiler::getOutputTimer()
-{
-	return this->output;
-}
-
-Omnia::HiResTimer& Omnia::Profiler::getBenchmarkTimer()
-{
-	return this->FPS;
-}
-
-Omnia::HiResTimer& Omnia::Profiler::getDebugTimer()
-{
-	return this->debug;
+	return timer;
 }
 
 void Omnia::Profiler::incrementFrameCount()
@@ -80,5 +60,5 @@ uint64_t Omnia::Profiler::getLagCount()
 
 uint16_t Omnia::Profiler::getFPS()
 {
-	return (1.0 / (this->getFrameTimer().getDeltaInNanoseconds() / NS_IN_S));
+	return (1.0 / (this->getTimer("frame")->getDeltaInNanoseconds() / NS_IN_S));
 }
