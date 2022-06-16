@@ -59,11 +59,9 @@ void Omnia::Engine::run()
 			}
 			else
 			{
-				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-					"Could not load game data",
-					"The game data is either missing or corrupted. Reinstall and try again",
-					NULL
-				);
+				OS::showErrorBox(
+					"Could not load game data", 
+					"The game data is either missing or corrupted. Reinstall and try again");
 				this->state->setShuttingDown();
 			}
 
@@ -108,20 +106,19 @@ bool Omnia::Engine::initialize()
 		this->state->setInitializing();
 
 	/* Hardware abstraction layer initialization. */
-	if (SDL_Init(SDL_INIT_EVERYTHING))
-	{
-		SDL_Log(
-			"SDL could not initialize because: %s",
-			SDL_GetError);
-		this->state->setShuttingDown();
-	}
-	else
-	{
-		OS::initialize("", 640, 480, false, this->argv[0], this->renderingSystem->getRenderingContextName());
+	isInitializedOK = OS::initialize(
+		"", 
+		640, 
+		480, 
+		false, 
+		this->argv[0], 
+		this->renderingSystem->getRenderingContextName());
 
+	if (isInitializedOK)
+	{
 		Profiler& profiler = OS::getProfiler();
 
-		/* These timers persist throughout Engine runtime and 
+		/* These timers persist throughout Engine runtime and
 		   keep track of elapsed times in nanoseconds. */
 		profiler.addTimer("process");
 		profiler.addTimer("frame");
@@ -133,7 +130,7 @@ bool Omnia::Engine::initialize()
 
 		profiler.getTimer("benchmark")->setStart();
 
-		/* System initializations are delayed until 
+		/* System initializations are delayed until
 		   the hardware abstraction layer is loaded. */
 		this->aiSystem->initialize();
 		this->animationSystem->initialize();
@@ -152,7 +149,10 @@ bool Omnia::Engine::initialize()
 		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
 
 		this->application = std::unique_ptr<Application>(new Application());
-		isInitializedOK = true;
+	}
+	else
+	{
+		this->state->setShuttingDown();
 	}
 
 	return isInitializedOK;
@@ -259,5 +259,4 @@ void Omnia::Engine::shutdown()
 	this->renderingSystem.reset();
 	this->uiSystem.reset();
 	OS::deinitialize();
-	SDL_Quit();
 }

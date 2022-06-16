@@ -41,13 +41,15 @@ namespace Omnia
 	class OS
 	{
 	public:
-		static void initialize(
+		static bool initialize(
 			std::string title, 
 			uint16_t width, 
 			uint16_t height, 
 			bool isFullscreen, 
 			std::string executableFilepath,
 			std::string renderingContext);
+
+		static void showErrorBox(std::string title, std::string message);
 
 		static void deinitialize();
 

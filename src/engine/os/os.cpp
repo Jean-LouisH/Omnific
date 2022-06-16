@@ -27,7 +27,7 @@
 
 Omnia::OS* Omnia::OS::instance = nullptr;
 
-void Omnia::OS::initialize(
+bool Omnia::OS::initialize(
 	std::string title, 
 	uint16_t width, 
 	uint16_t height, 
@@ -36,22 +36,46 @@ void Omnia::OS::initialize(
 	std::string renderingContext)
 {
 	OS* newInstance = getInstance();
+	bool isSuccessful = false;
 
-	newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
-	newInstance->logger = std::unique_ptr<Logger>(new Logger());
-	newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
-	newInstance->input = std::unique_ptr<Input>(new Input());
-	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
-	newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
-	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
-	newInstance->platform = std::unique_ptr<Platform>(new Platform());
-	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
-	newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
-	newInstance->runTimer->setStart();
+	isSuccessful = !(bool)SDL_Init(SDL_INIT_EVERYTHING);
+
+	if (isSuccessful)
+	{
+		newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
+		newInstance->logger = std::unique_ptr<Logger>(new Logger());
+		newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
+		newInstance->input = std::unique_ptr<Input>(new Input());
+		newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
+		newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
+		newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
+		newInstance->platform = std::unique_ptr<Platform>(new Platform());
+		newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
+		newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
+		newInstance->runTimer->setStart();
+	}
+	else
+	{
+		SDL_Log(
+			"SDL could not initialize because: %s",
+			SDL_GetError);
+	}
+
+	return isSuccessful;
+}
+
+void Omnia::OS::showErrorBox(std::string title, std::string message)
+{
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+		title.c_str(),
+		message.c_str(),
+		NULL
+	);
 }
 
 void Omnia::OS::deinitialize()
 {
+	SDL_Quit();
 	delete getInstance();
 	instance = nullptr;
 }
