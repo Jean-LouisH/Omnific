@@ -35,9 +35,13 @@ void Omnia::Engine::run()
 {
 	do
 	{
+		/* On successful initialization */
 		if (this->initialize())
 		{
 			this->application->initialize();
+
+			/* Configuration data is loaded and applied 
+			   to the Window at boot. */
 			std::shared_ptr<Configuration> configuration = this->application->getConfiguration();
 
 			if (configuration->isLoaded)
@@ -68,6 +72,7 @@ void Omnia::Engine::run()
 		Profiler& profiler = OS::getProfiler();
 
 		/* Main engine loop */
+		/* Single-threaded for now. */
 		while (this->state->isRunning())
 		{
 			profiler.getTimer("frame")->setStart();
@@ -102,6 +107,7 @@ bool Omnia::Engine::initialize()
 	if (!this->state->isRestarting())
 		this->state->setInitializing();
 
+	/* Hardware abstraction layer initialization. */
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 	{
 		SDL_Log(
@@ -115,6 +121,8 @@ bool Omnia::Engine::initialize()
 
 		Profiler& profiler = OS::getProfiler();
 
+		/* These timers persist throughout Engine runtime and 
+		   keep track of elapsed times in nanoseconds. */
 		profiler.addTimer("process");
 		profiler.addTimer("frame");
 		profiler.addTimer("input");
@@ -125,6 +133,8 @@ bool Omnia::Engine::initialize()
 
 		profiler.getTimer("benchmark")->setStart();
 
+		/* System initializations are delayed until 
+		   the hardware abstraction layer is loaded. */
 		this->aiSystem->initialize();
 		this->animationSystem->initialize();
 		this->audioSystem->initialize();

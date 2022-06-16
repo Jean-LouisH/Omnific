@@ -73,11 +73,14 @@ namespace Omnia
 		int argc = 0;
 		char** argv = nullptr;
 
+		/* Returns "true" if initialization is successful */
 		bool initialize();
 		void input();
 		void update();
 		void output();
 		void benchmark();
+		/* For the current single-threaded engine 
+		   loop implementation*/
 		void sleep();
 		void shutdown();
 	};
