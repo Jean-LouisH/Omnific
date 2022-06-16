@@ -44,7 +44,7 @@ namespace Omnia
 			uint16_t width;
 			bool isStartingFullscreen;
 			bool isStartingMaximized;
-			bool isRomniazable;
+			bool isResizable;
 		} windowSettings;
 
 		struct TimeSettings

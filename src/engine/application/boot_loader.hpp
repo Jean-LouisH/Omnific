@@ -24,12 +24,13 @@
 
 #include "configuration.hpp"
 #include <string>
+#include <memory>
 
 namespace Omnia
 {
 	class BootLoader
 	{
 	public:
-		Configuration* loadFromFile(std::string bootFilepath);
+		std::shared_ptr<Configuration> loadFromFile(std::string bootFilepath);
 	};
 }

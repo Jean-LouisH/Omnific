@@ -23,9 +23,9 @@
 #include "boot_loader.hpp"
 #include <yaml-cpp/yaml.h>
 
-Omnia::Configuration* Omnia::BootLoader::loadFromFile(std::string bootFilepath)
+std::shared_ptr<Omnia::Configuration> Omnia::BootLoader::loadFromFile(std::string bootFilepath)
 {
-	Configuration* configuration = new Configuration();
+	std::shared_ptr<Configuration> configuration(new Configuration());
 
 	try
 	{
@@ -79,9 +79,9 @@ Omnia::Configuration* Omnia::BootLoader::loadFromFile(std::string bootFilepath)
 					{
 						configuration->windowSettings.isStartingMaximized = it1->second.as<bool>();
 					}
-					else if (it1->first.as<std::string>() == "romniazable")
+					else if (it1->first.as<std::string>() == "resizable")
 					{
-						configuration->windowSettings.isRomniazable = it1->second.as<bool>();
+						configuration->windowSettings.isResizable = it1->second.as<bool>();
 					}
 				}
 			}

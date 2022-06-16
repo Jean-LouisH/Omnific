@@ -77,7 +77,7 @@ void Omnia::Application::initialize()
 
 	if (OS::getFileAccess().exists(bootFilepath))
 	{
-		this->configuration = std::shared_ptr<Configuration>(bootLoader.loadFromFile(bootFilepath));
+		this->configuration = bootLoader.loadFromFile(bootFilepath);
 #ifdef _DEBUG
 		std::string debugDataFilepath = DEBUG_DATA_FILEPATH;
 		std::string debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
