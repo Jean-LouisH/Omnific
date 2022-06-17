@@ -31,30 +31,14 @@ void Omnia::UIButton::disableOverlayToParent()
 	this->isOverlayedToParent = false;
 }
 
-void Omnia::UIButton::setToTextured()
+void Omnia::UIButton::setToColour(std::shared_ptr<Colour> colour)
 {
-	this->isTextured = true;
+	if (colour != nullptr)
+		this->image = std::shared_ptr<Image>(new Image(colour));
 }
 
-void Omnia::UIButton::setToColoured()
+void Omnia::UIButton::setToImage(std::shared_ptr<Image> image)
 {
-	this->isTextured = false;
-}
-
-void Omnia::UIButton::setImage(std::shared_ptr<Image> image)
-{
-	this->image = image;
-	this->isTextured = true;
-}
-
-void Omnia::UIButton::setDefaultColour(std::shared_ptr<Colour> colour)
-{
-	this->defaultColour = colour;
-	this->generateImage();
-}
-
-void Omnia::UIButton::generateImage()
-{
-	if (!isTextured)
-		this->image = std::shared_ptr<Image>(new Image(this->defaultColour));
+	if (image != nullptr)
+		this->image = image;
 }

@@ -21,3 +21,15 @@
 // SOFTWARE.
 
 #include "ui_panel.hpp"
+
+void Omnia::UIPanel::setToColour(std::shared_ptr<Colour> colour)
+{
+	if (colour != nullptr)
+		this->image = std::shared_ptr<Image>(new Image(colour));
+}
+
+void Omnia::UIPanel::setToImage(std::shared_ptr<Image> image)
+{
+	if (image != nullptr)
+		this->image = image;
+}

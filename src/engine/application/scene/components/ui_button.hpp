@@ -40,23 +40,16 @@ namespace Omnia
 		{
 			this->type = TYPE_STRING;
 			this->defaultDimensions = { 20, 10 };
-			this->setDefaultColour(std::shared_ptr<Colour>(new Colour(200, 200, 200, 255)));
 		};
 		static constexpr const char* TYPE_STRING = "UIButton";
 
 		void enableOverlayToParent();
 		void disableOverlayToParent();
-		void setToTextured();
-		void setToColoured();
-		void setImage(std::shared_ptr<Image> image);
-		void setDefaultColour(std::shared_ptr<Colour> colour);
+		void setToColour(std::shared_ptr<Colour> colour);
+		void setToImage(std::shared_ptr<Image> image);
 	private:
 		bool isPressed = false;
-		bool isTextured = false;
 		bool isOverlayedToParent = false;
 		glm::vec2 defaultDimensions;
-		std::shared_ptr<Colour> defaultColour;
-
-		void generateImage();
 	};
 }

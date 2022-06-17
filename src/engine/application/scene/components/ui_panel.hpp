@@ -22,6 +22,8 @@
 
 #pragma once
 
+#include <memory>
+#include "utilities/colour.hpp"
 #include "application/scene/assets/image.hpp"
 #include "application/scene/renderable_component.hpp"
 
@@ -35,6 +37,9 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "UIPanel";
+
+		void setToColour(std::shared_ptr<Colour> colour);
+		void setToImage(std::shared_ptr<Image> image);
 	private:
 	};
 }
