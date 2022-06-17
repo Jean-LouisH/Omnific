@@ -47,7 +47,6 @@ namespace Omnia
 		void restore();
 		void hide();
 		void show();
-		void sleep(int time);
 		Rectangle getWindowSize();
 
 		SDL_Window* getSDLWindow();

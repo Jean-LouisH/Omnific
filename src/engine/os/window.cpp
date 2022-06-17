@@ -138,12 +138,6 @@ void Omnia::Window::show()
 	SDL_ShowWindow(this->sdlWindow.get());
 }
 
-void Omnia::Window::sleep(int time_ms)
-{
-	if (time_ms > 0)
-		SDL_Delay(time_ms);
-}
-
 Omnia::Rectangle Omnia::Window::getWindowSize()
 {
 	Rectangle rectangle;

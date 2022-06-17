@@ -49,6 +49,10 @@ namespace Omnia
 			std::string executableFilepath,
 			std::string renderingContext);
 
+		static void yieldThisThread();
+		/* Duration in milliseconds */
+		static void sleepThisThreadFor(int duration);
+
 		static void showErrorBox(std::string title, std::string message);
 
 		static void deinitialize();

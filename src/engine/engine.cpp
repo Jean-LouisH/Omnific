@@ -181,8 +181,6 @@ void Omnia::Engine::update()
 	std::shared_ptr<Scene> activeScene = this->application->getActiveScene();
 	const uint32_t msPerComputeUpdate = this->application->getConfiguration()->timeSettings.msPerComputeUpdate;
 
-	this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
-	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 	this->application->executeOnInputMethods();
 	this->application->executeOnStartMethods();
 	this->application->executeOnLogicFrameMethods();
@@ -192,6 +190,9 @@ void Omnia::Engine::update()
 	/* This calls the compute based Systems repeatedly until the accumulated
 	   lag milliseconds are depleted. This ensures compute operations
 	   are accurate to real-time, even when frames drop. */
+
+	this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 
 	while (profiler.getLagCount() >= msPerComputeUpdate)
 	{
@@ -245,7 +246,7 @@ void Omnia::Engine::sleep()
 	Profiler& profiler = OS::getProfiler();
 	float targetFrameTime = 1000.0 / this->application->getConfiguration()->timeSettings.targetFPS;
 	float processTime = profiler.getTimer("process")->getDelta();
-	OS::getWindow().sleep(targetFrameTime - processTime);
+	OS::sleepThisThreadFor(targetFrameTime - processTime);
 }
 
 void Omnia::Engine::shutdown()

@@ -24,6 +24,7 @@
 #include <string>
 #include "SDL.h"
 #include "utilities/constants.hpp"
+#include <thread>
 
 Omnia::OS* Omnia::OS::instance = nullptr;
 
@@ -62,6 +63,17 @@ bool Omnia::OS::initialize(
 	}
 
 	return isSuccessful;
+}
+
+void Omnia::OS::yieldThisThread()
+{
+	std::this_thread::yield();
+}
+
+void Omnia::OS::sleepThisThreadFor(int duration)
+{
+	if (duration > 0)
+		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
 }
 
 void Omnia::OS::showErrorBox(std::string title, std::string message)
