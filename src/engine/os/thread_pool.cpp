@@ -40,3 +40,15 @@ void Omnia::ThreadPool::initialize(int threadCount)
 		));
 	}
 }
+
+void Omnia::ThreadPool::deinitialize()
+{
+	for (std::thread* thread : this->threads)
+	{
+		if (thread != nullptr)
+		{
+			thread->join();
+			delete thread;
+		}
+	}
+}
