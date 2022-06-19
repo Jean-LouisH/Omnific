@@ -91,6 +91,9 @@ void Omnia::Engine::run()
 		   after the main and dedicated ones. */
 		OS::getThreadPool().initialize(OS::getPlatform().getLogicalCoreCount() - dedicatedThreads.size() - 1);
 
+		this->audioSystem->initialize();
+		this->hapticSystem->initialize();
+
 		std::shared_ptr<HiResTimer> mainLoopTimer = profiler.getTimer("main_loop");
 		uint32_t mainLoopTargetFPS = 60;
 
@@ -107,6 +110,8 @@ void Omnia::Engine::run()
 
 		for (std::thread& thread : dedicatedThreads)
 			thread.join();
+
+		OS::getThreadPool().deinitialize();
 
 		this->application->deinitialize();
 		this->shutdown();
@@ -139,16 +144,6 @@ bool Omnia::Engine::initialize()
 
 	if (isInitializedOK)
 	{
-		/* System initializations are delayed until
-		   the hardware abstraction layer is loaded. */
-		this->aiSystem->initialize();
-		this->animationSystem->initialize();
-		this->audioSystem->initialize();
-		this->hapticSystem->initialize();
-		this->physicsSystem->initialize();
-		this->renderingSystem->initialize();
-		this->uiSystem->initialize();
-
 		Platform& platform = OS::getPlatform();
 		Logger& logger = OS::getLogger();
 
@@ -184,7 +179,12 @@ void Omnia::Engine::runInput(std::shared_ptr<HiResTimer> inputTimer)
 
 void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateTimer)
 {
-	while (1)
+	this->aiSystem->initialize();
+	this->animationSystem->initialize();
+	this->physicsSystem->initialize();
+	this->uiSystem->initialize();
+
+	while (this->state->isRunning())
 	{
 		updateTimer->setStart();
 
@@ -227,12 +227,15 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateTimer)
 
 void Omnia::Engine::runRendering(std::shared_ptr<HiResTimer> renderingTimer)
 {
-	while (1)
+	/* Initializes RenderingContext on the same
+	   thread as object generators, as required. */
+	this->renderingSystem->initialize();
+
+	/* The RenderingSystem only reads Scene data. */
+	while (this->state->isRunning())
 	{
 		renderingTimer->setStart();
-		/* Placeholder until mutexes are added. */
-
-		//this->renderingSystem->process(this->application->getActiveScene());
+		this->renderingSystem->process(this->application->getActiveScene());
 		renderingTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			this->application->getConfiguration()->timeSettings.targetFPS,
