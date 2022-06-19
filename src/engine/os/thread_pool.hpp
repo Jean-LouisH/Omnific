@@ -37,5 +37,6 @@ namespace Omnia
 		void deinitialize();
 	private:
 		std::vector<std::thread*> threads;
+		bool isFinished = false;
 	};
 }

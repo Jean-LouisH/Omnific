@@ -29,9 +29,9 @@ void Omnia::ThreadPool::initialize(int threadCount)
 	if (threadCount > 0)
 	{
 		for (int i = 0; i < (threadCount); i++)
-			this->threads.push_back(new std::thread([]() 
+			this->threads.push_back(new std::thread([this]() 
 				{
-					while (1)
+					while (!this->isFinished)
 					{
 						/* Placeholder */
 						OS::sleepThisThreadFor(1000);
@@ -43,6 +43,8 @@ void Omnia::ThreadPool::initialize(int threadCount)
 
 void Omnia::ThreadPool::deinitialize()
 {
+	this->isFinished = true;
+
 	for (std::thread* thread : this->threads)
 	{
 		if (thread != nullptr)
