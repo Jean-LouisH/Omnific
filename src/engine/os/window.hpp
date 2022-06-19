@@ -25,7 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
-#include <application/scene/assets/image.hpp>
+#include <scene/assets/image.hpp>
 #include <utilities/rectangle.hpp>
 #include <memory>
 

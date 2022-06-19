@@ -32,7 +32,7 @@
 #define _OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS
 #endif
 
-#include <application/scene/assets/cpp_native_script.hpp>
+#include <scene/assets/cpp_native_script.hpp>
 #include <unordered_map>
 #include <memory>
 

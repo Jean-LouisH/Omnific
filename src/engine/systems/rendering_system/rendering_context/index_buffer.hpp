@@ -26,9 +26,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <application/scene/renderable_component.hpp>
-#include <application/scene/assets/image.hpp>
-#include <application/scene/assets/mesh.hpp>
+#include <scene/renderable_component.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/mesh.hpp>
 #include <memory>
 
 namespace Omnia

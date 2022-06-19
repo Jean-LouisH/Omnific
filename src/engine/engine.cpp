@@ -22,6 +22,10 @@
 
 #include "engine.hpp"
 #include <thread>
+#include "boot_loader.hpp"
+#include "utilities/constants.hpp"
+#include "scene/assets/image.hpp"
+#include <iostream>
 
 Omnia::Engine::Engine(
 	int argc, 
@@ -39,13 +43,53 @@ void Omnia::Engine::run()
 		/* On successful initialization */
 		if (this->initialize())
 		{
-			this->application->initialize();
+			BootLoader bootLoader;
+			std::shared_ptr<Scene> entryScene;
+			std::string dataDirectory = "data/";
+#ifdef _DEBUG
+			dataDirectory = DEBUG_DATA_FILEPATH;
+#endif
+			std::string bootFilename = "boot.yml";
+			std::string bootFilepath = dataDirectory + bootFilename;
 
-			/* Configuration data is loaded and applied 
-			   to the Window at boot. */
-			std::shared_ptr<Configuration> configuration = this->application->getConfiguration();
+			if (OS::getFileAccess().exists(bootFilepath))
+			{
+				this->configuration = bootLoader.loadFromFile(bootFilepath);
+#ifdef _DEBUG
+				std::string debugDataFilepath = DEBUG_DATA_FILEPATH;
+				std::string debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
+				if (debugDataFilepath == debugEditorDataFilepath)
+					this->configuration->metadata.entrySceneFilepath = "assets/scenes/debug.yml";
+#endif
+				OS::getFileAccess().setDataDirectory(dataDirectory);
+				this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
+				this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
+				this->commandLine = std::shared_ptr<CommandLine>(new CommandLine(this->sceneSerializer, this->sceneStorage));
 
-			if (configuration->isLoaded)
+				Image image = Image(dataDirectory + this->configuration->metadata.iconFilepath);
+				OS::getWindow().changeIcon(image);
+
+				if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
+				{
+					entryScene = this->sceneSerializer->deserialize(this->configuration->metadata.entrySceneFilepath);
+					this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
+					this->scriptingSystem->setSceneStorage(this->sceneStorage);
+				}
+			}
+			else
+			{
+				this->configuration = std::shared_ptr<Configuration>(new Configuration());
+				this->configuration->isLoaded = false;
+			}
+
+#ifdef DEBUG_CONSOLE_ENABLED
+			std::cout << "\n\n\tOmnia Debug Console Enabled";
+			std::cout << "\n\nPress '`' in-application to write to command line via console.";
+			std::cout << "\n\nTo see the list of commands, enter 'commands'.";
+			std::cout << "\n\n";
+#endif
+
+			if (this->configuration->isLoaded)
 			{
 				std::string dataDirectory = "data/";
 #ifdef _DEBUG
@@ -72,48 +116,37 @@ void Omnia::Engine::run()
 
 		/* These timers persist throughout Engine runtime and
 		   keep track of elapsed times in nanoseconds. */
-		profiler.addTimer("main_loop");
-		profiler.addTimer("input");
-		profiler.addTimer("update");
-		profiler.addTimer("rendering");
-		profiler.addTimer("audio");
-		profiler.addTimer("haptic");
+		profiler.addTimer("main_thread");
+		profiler.addTimer("update_thread");
+		profiler.addTimer("output_thread");
 
 		/* Engine threading uses a hybrid of dedicated threads
 		   for deadline sensitive tasks and a thread pool for 
 		   general parallelizable tasks. */
 
 		std::vector<std::thread> dedicatedThreads;
-		dedicatedThreads.push_back(std::thread(&Engine::runUpdate, this, profiler.getTimer("update")));
-		dedicatedThreads.push_back(std::thread(&Engine::runRendering, this, profiler.getTimer("rendering")));
+		dedicatedThreads.push_back(std::thread(&Engine::runUpdate, this, profiler.getTimer("update_thread")));
+		dedicatedThreads.push_back(std::thread(&Engine::runOutput, this, profiler.getTimer("output_thread")));
 
 		/* Make the remaining CPU threads generalized workers
 		   after the main and dedicated ones. */
 		OS::getThreadPool().initialize(OS::getPlatform().getLogicalCoreCount() - dedicatedThreads.size() - 1);
 
-		this->audioSystem->initialize();
-		this->hapticSystem->initialize();
+		std::shared_ptr<HiResTimer> mainThreadTimer = profiler.getTimer("main_thread");
+		uint32_t mainThreadTargetFPS = 60;
 
-		std::shared_ptr<HiResTimer> mainLoopTimer = profiler.getTimer("main_loop");
-		uint32_t mainLoopTargetFPS = 60;
-
-		/* Main loop thread for Input, AudioSystem and HapticSystem. */
+		/* Main loop thread for Input. */
 		while (this->state->isRunning())
 		{
-			mainLoopTimer->setStart();
-			this->runInput(profiler.getTimer("input"));
-			this->runAudio(profiler.getTimer("audio"));
-			this->runHaptic(profiler.getTimer("haptic"));
-			mainLoopTimer->setEnd();
-			this->sleepThisThreadForRemainingTime(mainLoopTargetFPS, mainLoopTimer);
+			mainThreadTimer->setStart();
+			this->runInput();
+			mainThreadTimer->setEnd();
+			this->sleepThisThreadForRemainingTime(mainThreadTargetFPS, mainThreadTimer);
 		}
 
 		for (std::thread& thread : dedicatedThreads)
 			thread.join();
 
-		OS::getThreadPool().deinitialize();
-
-		this->application->deinitialize();
 		this->shutdown();
 	} while (this->state->isRestarting());
 }
@@ -128,6 +161,7 @@ bool Omnia::Engine::initialize()
 	this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
 	this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
 	this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
+	this->scriptingSystem = std::unique_ptr<ScriptingSystem>(new ScriptingSystem());
 	this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
 
 	if (!this->state->isRestarting())
@@ -151,8 +185,6 @@ bool Omnia::Engine::initialize()
 		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize()) + " B");
 		logger.write("Retrieved OS Name: " + platform.getOSName());
 		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
-
-		this->application = std::unique_ptr<Application>(new Application());
 	}
 	else
 	{
@@ -162,99 +194,107 @@ bool Omnia::Engine::initialize()
 	return isInitializedOK;
 }
 
-void Omnia::Engine::runInput(std::shared_ptr<HiResTimer> inputTimer)
+void Omnia::Engine::runInput()
 {
-	inputTimer->setStart();
 	Input& input = OS::getInput();
-
 	input.detectGameControllers();
 	input.pollInputEvents();
 	if (input.hasRequestedShutdown())
 		this->state->setShuttingDown();
 	if (input.hasRequestedRestart())
 		this->state->setRestarting();
-
-	inputTimer->setEnd();
 }
 
-void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateTimer)
+void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer)
 {
 	this->aiSystem->initialize();
 	this->animationSystem->initialize();
 	this->physicsSystem->initialize();
+	this->scriptingSystem->initialize();
 	this->uiSystem->initialize();
 
 	while (this->state->isRunning())
 	{
-		updateTimer->setStart();
+		updateThreadTimer->setStart();
 
-		/* Placeholder until mutexes are added. */
+		std::shared_ptr<Scene> activeScene = this->sceneStorage->getActiveScene();
+		const uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
 
-		//std::shared_ptr<Scene> activeScene = this->application->getActiveScene();
-		//const uint32_t msPerComputeUpdate = this->application->getConfiguration()->timeSettings.msPerComputeUpdate;
+#ifdef DEBUG_CONSOLE_ENABLED
+		if (OS::getInput().hasRequestedCommandLine())
+		{
+			std::string command;
 
-		//this->application->executeOnInputMethods();
-		//this->application->executeOnStartMethods();
-		//this->application->executeOnLogicFrameMethods();
-		//this->uiSystem->process(activeScene);
-		//this->aiSystem->process(activeScene);
+			OS::getWindow().hide();
+			std::cout << std::endl << ">";
+			std::getline(std::cin, command);
+			this->commandLine->execute(command);
+			OS::getWindow().show();
+		}
+#endif
 
-		///* This calls the compute based Systems repeatedly until the accumulated
-		//   lag milliseconds are depleted. This ensures compute operations
-		//   are accurate to real-time, even when frames drop. */
+		if (OS::getInput().getHasDetectedInputChanges())
+			this->scriptingSystem->executeOnInputMethods(activeScene);
 
-		//this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
-		//this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+		if (this->sceneStorage->hasActiveSceneChanged())
+			this->scriptingSystem->onModifiedScriptInstance(this->sceneStorage->getActiveScene());
 
-		////while (profiler.getLagCount() >= msPerComputeUpdate)
-		////{
-		////	this->application->executeOnComputeFrameMethods();
-		////	this->animationSystem->process(activeScene);
-		////	this->physicsSystem->process(activeScene);
-		////	profiler.decrementLagCount(msPerComputeUpdate);
-		////}
+		this->scriptingSystem->executeOnStartMethods(activeScene);
+		this->scriptingSystem->executeOnLogicFrameMethods(activeScene);
+		this->uiSystem->process(activeScene);
+		this->aiSystem->process(activeScene);
 
-		//this->physicsSystem->onComputeEnd(activeScene);
-		//this->application->executeOnOutputMethods();
-		//this->application->executeOnFinishMethods();
-		////profiler.incrementLagCount(profiler.getTimer("frame")->getDelta());
-		updateTimer->setEnd();
+		/* This calls the compute based Systems repeatedly until the accumulated
+		   lag milliseconds are depleted. This ensures compute operations
+		   are accurate to real-time, even when frames drop. */
+
+		this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+		this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+
+		//while (profiler.getLagCount() >= msPerComputeUpdate)
+		//{
+		//	this->scriptingSystem->executeOnComputeFrameMethods(activeScene);
+		//	this->animationSystem->process(activeScene);
+		//	this->physicsSystem->process(activeScene);
+		//	profiler.decrementLagCount(msPerComputeUpdate);
+		//}
+
+		this->physicsSystem->onComputeEnd(activeScene);
+		this->scriptingSystem->executeOnOutputMethods(activeScene);
+		this->scriptingSystem->executeOnFinishMethods(activeScene);
+
+		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = activeScene->getSceneTrees();
+		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+			it->second->getEventBus()->clear();
+
+		//profiler.incrementLagCount(profiler.getTimer("frame")->getDelta());
+		updateThreadTimer->setEnd();
 
 		//this->sleepThisThreadForRemainingTime(msPerComputeUpdate * 2, updateTimer);
-		this->sleepThisThreadForRemainingTime((1.0 / 0.008) / 2.0, updateTimer);
+		this->sleepThisThreadForRemainingTime((1.0 / 0.008) / 2.0, updateThreadTimer);
 	}
 }
 
-void Omnia::Engine::runRendering(std::shared_ptr<HiResTimer> renderingTimer)
+void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputThreadTimer)
 {
 	/* Initializes RenderingContext on the same
 	   thread as object generators, as required. */
 	this->renderingSystem->initialize();
+	this->audioSystem->initialize();
+	this->hapticSystem->initialize();
 
 	/* The RenderingSystem only reads Scene data. */
 	while (this->state->isRunning())
 	{
-		renderingTimer->setStart();
-		this->renderingSystem->process(this->application->getActiveScene());
-		renderingTimer->setEnd();
+		outputThreadTimer->setStart();
+		this->renderingSystem->process(this->sceneStorage->getActiveScene());
+		this->audioSystem->process(this->sceneStorage->getActiveScene());
+		this->hapticSystem->process(this->sceneStorage->getActiveScene());
+		outputThreadTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
-			this->application->getConfiguration()->timeSettings.targetFPS,
-			renderingTimer);
+			this->configuration->timeSettings.targetFPS,
+			outputThreadTimer);
 	}
-}
-
-void Omnia::Engine::runAudio(std::shared_ptr<HiResTimer> audioTimer)
-{
-	audioTimer->setStart();
-	this->audioSystem->process(this->application->getActiveScene());
-	audioTimer->setEnd();
-}
-
-void Omnia::Engine::runHaptic(std::shared_ptr<HiResTimer> hapticTimer)
-{
-	hapticTimer->setStart();
-	this->hapticSystem->process(this->application->getActiveScene());
-	hapticTimer->setEnd();
 }
 
 void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer)
@@ -266,13 +306,13 @@ void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::sha
 
 void Omnia::Engine::shutdown()
 {
-	this->application.reset();
+	OS::deinitialize();
 	this->aiSystem.reset();
 	this->animationSystem.reset();
 	this->audioSystem.reset();
 	this->hapticSystem.reset();
 	this->physicsSystem.reset();
 	this->renderingSystem.reset();
+	this->scriptingSystem.reset();
 	this->uiSystem.reset();
-	OS::deinitialize();
 }

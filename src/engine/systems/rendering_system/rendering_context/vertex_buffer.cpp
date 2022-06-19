@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "vertex_buffer.hpp"
-#include <application/scene/components/model_container.hpp>
+#include <scene/components/model_container.hpp>
 
 Omnia::VertexBuffer::VertexBuffer()
 {

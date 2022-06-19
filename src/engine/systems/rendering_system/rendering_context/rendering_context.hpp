@@ -28,9 +28,9 @@
 #include "shader_program.hpp"
 #include "texture.hpp"
 #include "vertex_array.hpp"
-#include <application/scene/assets/image.hpp>
-#include <application/scene/assets/shader.hpp>
-#include <application/scene/scene.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/shader.hpp>
+#include <scene/scene.hpp>
 #include "../scene_tree_renderable.hpp"
 #include "utilities/aliases.hpp"
 #include <string>

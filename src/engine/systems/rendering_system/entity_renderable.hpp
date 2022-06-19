@@ -23,14 +23,14 @@
 #pragma once
 
 #include <vector>
-#include <application/scene/components/transform.hpp>
-#include "application/scene/renderable_component.hpp"
+#include <scene/components/transform.hpp>
+#include "scene/renderable_component.hpp"
 
-#include <application/scene/components/camera.hpp>
-#include <application/scene/assets/image.hpp>
-#include <application/scene/assets/material.hpp>
-#include <application/scene/assets/mesh.hpp>
-#include <application/scene/assets/shader.hpp>
+#include <scene/components/camera.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/material.hpp>
+#include <scene/assets/mesh.hpp>
+#include <scene/assets/shader.hpp>
 #include <glm/glm.hpp>
 #include <memory>
 
