@@ -75,13 +75,14 @@ namespace Omnia
 
 		/* Returns "true" if initialization is successful */
 		bool initialize();
-		void input();
-		void update();
-		void output();
-		void benchmark();
+		void runInput(std::shared_ptr<HiResTimer> inputTimer);
+		void runUpdate(std::shared_ptr<HiResTimer> updateTimer);
+		void runRendering(std::shared_ptr<HiResTimer> renderingTimer);
+		void runAudio(std::shared_ptr<HiResTimer> audioTimer);
+		void runHaptic(std::shared_ptr<HiResTimer> hapticTimer);
 		/* For the current single-threaded engine 
 		   loop implementation*/
-		void sleep();
+		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
 		void shutdown();
 	};
 }

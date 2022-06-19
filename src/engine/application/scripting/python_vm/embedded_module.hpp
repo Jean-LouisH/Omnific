@@ -96,7 +96,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	pybind11::class_<Omnia::Profiler>(m, "Profiler");
 
-	pybind11::class_<Omnia::ThreadPool>(m, "ThreadPool");
+	//pybind11::class_<Omnia::ThreadPool>(m, "ThreadPool");
 
 	pybind11::class_<Omnia::Window>(m, "Window")
 		.def("set_to_windowed", &Omnia::Window::setToWindowed)
@@ -319,6 +319,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_network_access", &Omnia::OS::getNetworkAccess, pybind11::return_value_policy::reference);
 	m.def("get_platform", &Omnia::OS::getPlatform, pybind11::return_value_policy::reference);
 	m.def("get_profiler", &Omnia::OS::getProfiler, pybind11::return_value_policy::reference);
-	m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
+	//m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
 	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
 }

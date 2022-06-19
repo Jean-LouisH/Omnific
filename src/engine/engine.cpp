@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "engine.hpp"
+#include <thread>
 
 Omnia::Engine::Engine(
 	int argc, 
@@ -69,21 +70,43 @@ void Omnia::Engine::run()
 
 		Profiler& profiler = OS::getProfiler();
 
-		/* Main engine loop */
-		/* Single-threaded for now. */
+		/* These timers persist throughout Engine runtime and
+		   keep track of elapsed times in nanoseconds. */
+		profiler.addTimer("main_loop");
+		profiler.addTimer("input");
+		profiler.addTimer("update");
+		profiler.addTimer("rendering");
+		profiler.addTimer("audio");
+		profiler.addTimer("haptic");
+
+		/* Engine threading uses a hybrid of dedicated threads
+		   for deadline sensitive tasks and a thread pool for 
+		   general parallelizable tasks. */
+
+		std::vector<std::thread> dedicatedThreads;
+		dedicatedThreads.push_back(std::thread(&Engine::runUpdate, this, profiler.getTimer("update")));
+		dedicatedThreads.push_back(std::thread(&Engine::runRendering, this, profiler.getTimer("rendering")));
+
+		/* Make the remaining CPU threads generalized workers
+		   after the main and dedicated ones. */
+		OS::getThreadPool().initialize(OS::getPlatform().getLogicalCoreCount() - dedicatedThreads.size() - 1);
+
+		std::shared_ptr<HiResTimer> mainLoopTimer = profiler.getTimer("main_loop");
+		uint32_t mainLoopTargetFPS = 60;
+
+		/* Main loop thread for Input, AudioSystem and HapticSystem. */
 		while (this->state->isRunning())
 		{
-			profiler.getTimer("frame")->setStart();
-			profiler.getTimer("process")->setStart();
-			this->input();
-			this->update();
-			this->output();
-			this->benchmark();
-			profiler.getTimer("process")->setEnd();
-			this->sleep();
-			profiler.getTimer("frame")->setEnd();
-			profiler.incrementFrameCount();
+			mainLoopTimer->setStart();
+			this->runInput(profiler.getTimer("input"));
+			this->runAudio(profiler.getTimer("audio"));
+			this->runHaptic(profiler.getTimer("haptic"));
+			mainLoopTimer->setEnd();
+			this->sleepThisThreadForRemainingTime(mainLoopTargetFPS, mainLoopTimer);
 		}
+
+		for (std::thread& thread : dedicatedThreads)
+			thread.join();
 
 		this->application->deinitialize();
 		this->shutdown();
@@ -116,20 +139,6 @@ bool Omnia::Engine::initialize()
 
 	if (isInitializedOK)
 	{
-		Profiler& profiler = OS::getProfiler();
-
-		/* These timers persist throughout Engine runtime and
-		   keep track of elapsed times in nanoseconds. */
-		profiler.addTimer("process");
-		profiler.addTimer("frame");
-		profiler.addTimer("input");
-		profiler.addTimer("update");
-		profiler.addTimer("output");
-		profiler.addTimer("benchmark");
-		profiler.addTimer("debug");
-
-		profiler.getTimer("benchmark")->setStart();
-
 		/* System initializations are delayed until
 		   the hardware abstraction layer is loaded. */
 		this->aiSystem->initialize();
@@ -158,95 +167,98 @@ bool Omnia::Engine::initialize()
 	return isInitializedOK;
 }
 
-void Omnia::Engine::input()
+void Omnia::Engine::runInput(std::shared_ptr<HiResTimer> inputTimer)
 {
-	Profiler& profiler = OS::getProfiler();
-	profiler.getTimer("input")->setStart();
-	Input& hid = OS::getInput();
+	inputTimer->setStart();
+	Input& input = OS::getInput();
 
-	hid.detectGameControllers();
-	hid.pollInputEvents();
-	if (hid.hasRequestedShutdown())
+	input.detectGameControllers();
+	input.pollInputEvents();
+	if (input.hasRequestedShutdown())
 		this->state->setShuttingDown();
-	if (hid.hasRequestedRestart())
+	if (input.hasRequestedRestart())
 		this->state->setRestarting();
 
-	profiler.getTimer("input")->setEnd();
+	inputTimer->setEnd();
 }
 
-void Omnia::Engine::update()
+void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateTimer)
 {
-	Profiler& profiler = OS::getProfiler();
-	profiler.getTimer("update")->setStart();
-	std::shared_ptr<Scene> activeScene = this->application->getActiveScene();
-	const uint32_t msPerComputeUpdate = this->application->getConfiguration()->timeSettings.msPerComputeUpdate;
-
-	this->application->executeOnInputMethods();
-	this->application->executeOnStartMethods();
-	this->application->executeOnLogicFrameMethods();
-	this->uiSystem->process(activeScene);
-	this->aiSystem->process(activeScene);
-
-	/* This calls the compute based Systems repeatedly until the accumulated
-	   lag milliseconds are depleted. This ensures compute operations
-	   are accurate to real-time, even when frames drop. */
-
-	this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
-	this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
-
-	while (profiler.getLagCount() >= msPerComputeUpdate)
+	while (1)
 	{
-		this->application->executeOnComputeFrameMethods();
-		this->animationSystem->process(activeScene);
-		this->physicsSystem->process(activeScene);
-		profiler.decrementLagCount(msPerComputeUpdate);
-	}
+		updateTimer->setStart();
 
-	this->physicsSystem->onComputeEnd(activeScene);
-	this->application->executeOnOutputMethods();
-	this->application->executeOnFinishMethods();
-	profiler.incrementLagCount(profiler.getTimer("frame")->getDelta());
-	profiler.getTimer("update")->setEnd();
+		/* Placeholder until mutexes are added. */
+
+		//std::shared_ptr<Scene> activeScene = this->application->getActiveScene();
+		//const uint32_t msPerComputeUpdate = this->application->getConfiguration()->timeSettings.msPerComputeUpdate;
+
+		//this->application->executeOnInputMethods();
+		//this->application->executeOnStartMethods();
+		//this->application->executeOnLogicFrameMethods();
+		//this->uiSystem->process(activeScene);
+		//this->aiSystem->process(activeScene);
+
+		///* This calls the compute based Systems repeatedly until the accumulated
+		//   lag milliseconds are depleted. This ensures compute operations
+		//   are accurate to real-time, even when frames drop. */
+
+		//this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+		//this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+
+		////while (profiler.getLagCount() >= msPerComputeUpdate)
+		////{
+		////	this->application->executeOnComputeFrameMethods();
+		////	this->animationSystem->process(activeScene);
+		////	this->physicsSystem->process(activeScene);
+		////	profiler.decrementLagCount(msPerComputeUpdate);
+		////}
+
+		//this->physicsSystem->onComputeEnd(activeScene);
+		//this->application->executeOnOutputMethods();
+		//this->application->executeOnFinishMethods();
+		////profiler.incrementLagCount(profiler.getTimer("frame")->getDelta());
+		updateTimer->setEnd();
+
+		//this->sleepThisThreadForRemainingTime(msPerComputeUpdate * 2, updateTimer);
+		this->sleepThisThreadForRemainingTime((1.0 / 0.008) / 2.0, updateTimer);
+	}
 }
 
-void Omnia::Engine::output()
+void Omnia::Engine::runRendering(std::shared_ptr<HiResTimer> renderingTimer)
 {
-	Profiler& profiler = OS::getProfiler();
-	profiler.getTimer("output")->setStart();
+	while (1)
+	{
+		renderingTimer->setStart();
+		/* Placeholder until mutexes are added. */
 
-	this->renderingSystem->process(this->application->getActiveScene());
+		//this->renderingSystem->process(this->application->getActiveScene());
+		renderingTimer->setEnd();
+		this->sleepThisThreadForRemainingTime(
+			this->application->getConfiguration()->timeSettings.targetFPS,
+			renderingTimer);
+	}
+}
+
+void Omnia::Engine::runAudio(std::shared_ptr<HiResTimer> audioTimer)
+{
+	audioTimer->setStart();
 	this->audioSystem->process(this->application->getActiveScene());
+	audioTimer->setEnd();
+}
+
+void Omnia::Engine::runHaptic(std::shared_ptr<HiResTimer> hapticTimer)
+{
+	hapticTimer->setStart();
 	this->hapticSystem->process(this->application->getActiveScene());
-
-	profiler.getTimer("output")->setEnd();
+	hapticTimer->setEnd();
 }
 
-void Omnia::Engine::benchmark()
+void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer)
 {
-	Profiler& profiler = OS::getProfiler();
-#ifdef _DEBUG
-	uint32_t FPSUpdateSeconds = 1;
-
-	if (profiler.getTimer("benchmark")->getDeltaInNanoseconds() / NS_IN_MS >= (FPSUpdateSeconds * MS_IN_S))
-	{
-		profiler.getTimer("benchmark")->setStart();
-		std::string FPSString = std::to_string(profiler.getFPS());
-		std::string frameUtilizationString =
-			std::to_string((int)(((double)profiler.getTimer("process")->getDeltaInNanoseconds() / (double)profiler.getTimer("frame")->getDeltaInNanoseconds()) * 100));
-		OS::getWindow().changeTitle((this->application->getConfiguration()->metadata.title + " (DEBUG) ->" +
-			" FPS: " + FPSString).c_str()
-		);
-	}
-#endif
-	profiler.getTimer("benchmark")->setEnd();
-}
-
-void Omnia::Engine::sleep()
-{
-	Profiler& profiler = OS::getProfiler();
-	float targetFrameTime = 1000.0 / this->application->getConfiguration()->timeSettings.targetFPS;
-	float processTime = profiler.getTimer("process")->getDelta();
-	OS::sleepThisThreadFor(targetFrameTime - processTime);
+	float targetFrameTime = 1000.0 / targetFPS;
+	float runTime = runTimer->getDelta();
+	OS::sleepThisThreadFor(targetFrameTime - runTime);
 }
 
 void Omnia::Engine::shutdown()

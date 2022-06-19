@@ -23,12 +23,18 @@
 #pragma once
 
 #include <thread>
+#include <vector>
+#include <string>
+#include <stdint.h>
+#include <memory>
 
 namespace Omnia
 {
 	class ThreadPool
 	{
 	public:
+		void initialize(int threadCount);
 	private:
+		std::vector<std::thread*> threads;
 	};
 }
