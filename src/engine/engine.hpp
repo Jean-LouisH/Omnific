@@ -24,17 +24,31 @@
 
 #include <vector>
 #include <string>
-#include "application/application.hpp"
+#include "scene_serializer.hpp"
+#include "configuration.hpp"
+#include "command_line.hpp"
+#include "scene_storage.hpp"
 #include "systems/ai_system/ai_system.hpp"
 #include "systems/animation_system/animation_system.hpp"
 #include "systems/audio_system/audio_system.hpp"
 #include "systems/haptic_system/haptic_system.hpp"
 #include "systems/physics_system/physics_system.hpp"
 #include "systems/rendering_system/rendering_system.hpp"
+#include "systems/scripting_system/scripting_system.hpp"
 #include "systems/ui_system/ui_system.hpp"
 #include "os/os.hpp"
 #include "engine_state.hpp"
 #include "os/profiler.hpp"
+#include <memory>
+
+#include <stdint.h>
+#include "scene/scene.hpp"
+#include "os/os.hpp"
+#include "os/file_access.hpp"
+#include "os/profiler.hpp"
+#include <vector>
+#include <stack>
+#include <string>
 #include <memory>
 
 #if defined (_WIN32)
@@ -60,13 +74,18 @@ namespace Omnia
 
 		void run();
 	private:
-		std::unique_ptr<Application> application;
+		std::shared_ptr<Configuration> configuration;
+		std::shared_ptr<SceneSerializer> sceneSerializer;
+		std::shared_ptr<CommandLine> commandLine;
+		std::shared_ptr<SceneStorage> sceneStorage;
+
 		std::unique_ptr<AISystem> aiSystem;
 		std::unique_ptr<AnimationSystem> animationSystem;
 		std::unique_ptr<AudioSystem> audioSystem;
 		std::unique_ptr<HapticSystem> hapticSystem;
 		std::unique_ptr<PhysicsSystem> physicsSystem;
 		std::unique_ptr<RenderingSystem> renderingSystem;
+		std::unique_ptr<ScriptingSystem> scriptingSystem;
 		std::unique_ptr<UISystem> uiSystem;
 		std::unique_ptr<EngineState> state;
 
@@ -75,13 +94,12 @@ namespace Omnia
 
 		/* Returns "true" if initialization is successful */
 		bool initialize();
-		void input();
-		void update();
-		void output();
-		void benchmark();
+		void runInput();
+		void runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer);
+		void runOutput(std::shared_ptr<HiResTimer> outputThreadTimer);
 		/* For the current single-threaded engine 
 		   loop implementation*/
-		void sleep();
+		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
 		void shutdown();
 	};
 }

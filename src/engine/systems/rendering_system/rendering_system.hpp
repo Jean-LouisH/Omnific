@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL.h>
-#include "application/scene/scene.hpp"
+#include "scene/scene.hpp"
 #include "system.hpp"
 #include <set>
 #include <vector>

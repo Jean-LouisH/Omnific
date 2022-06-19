@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "animation_system.hpp"
-#include "application/scene/scene.hpp"
+#include "scene/scene.hpp"
 
 Omnia::AnimationSystem::~AnimationSystem()
 {

@@ -21,3 +21,36 @@
 // SOFTWARE.
 
 #include "thread_pool.hpp"
+#include <os/os.hpp>
+#include <chrono>
+
+void Omnia::ThreadPool::initialize(int threadCount)
+{
+	if (threadCount > 0)
+	{
+		for (int i = 0; i < (threadCount); i++)
+			this->threads.push_back(new std::thread([this]() 
+				{
+					while (!this->isFinished)
+					{
+						/* Placeholder */
+						OS::sleepThisThreadFor(1000);
+					}
+				}
+		));
+	}
+}
+
+void Omnia::ThreadPool::deinitialize()
+{
+	this->isFinished = true;
+
+	for (std::thread* thread : this->threads)
+	{
+		if (thread != nullptr)
+		{
+			thread->join();
+			delete thread;
+		}
+	}
+}
