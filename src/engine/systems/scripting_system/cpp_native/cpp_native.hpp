@@ -31,7 +31,7 @@ namespace Omnia
     {
     public:
         ~CPPNative();
-        void onModifiedScriptInstance();
+        void loadScriptModules();
         void executeOnStartMethods();
         void executeOnInputMethods();
         void executeOnFrameMethods();

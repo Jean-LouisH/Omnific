@@ -41,7 +41,7 @@ void Omnia::PythonVM::initialize()
 	pybind11::initialize_interpreter();
 }
 
-void Omnia::PythonVM::onModifiedScriptInstance(std::shared_ptr<Scene> scene)
+void Omnia::PythonVM::loadScriptModules(std::shared_ptr<Scene> scene)
 {
 	this->modules.clear();
 

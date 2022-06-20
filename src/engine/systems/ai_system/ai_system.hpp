@@ -23,13 +23,13 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "update_system.hpp"
 
 namespace Omnia
 {
 	/* Processes components with data for traditional AI algorithms
 	   like navigational path finding. */
-	class AISystem : System
+	class AISystem : UpdateSystem
 	{
 	public:
 		~AISystem();

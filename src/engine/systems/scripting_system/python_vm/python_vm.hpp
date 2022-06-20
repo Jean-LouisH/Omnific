@@ -41,7 +41,7 @@ namespace Omnia
 		PythonVM();
 		~PythonVM();
 		void initialize();
-		void onModifiedScriptInstance(std::shared_ptr<Scene> scene);
+		void loadScriptModules(std::shared_ptr<Scene> scene);
 		void executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
 		void executeOnLogicFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);

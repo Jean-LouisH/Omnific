@@ -39,12 +39,12 @@ void Omnia::ScriptingSystem::process(std::shared_ptr<Scene> scene)
 
 }
 
-void Omnia::ScriptingSystem::onModifiedScriptInstance(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
-		this->pythonVM->onModifiedScriptInstance(scene);
-		this->cppNative->onModifiedScriptInstance();
+		this->pythonVM->loadScriptModules(scene);
+		this->cppNative->loadScriptModules();
 	}
 }
 

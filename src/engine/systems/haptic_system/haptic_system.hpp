@@ -26,7 +26,7 @@
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
-#include "system.hpp"
+#include "output_system.hpp"
 #include "os/input.hpp"
 #include <scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
@@ -35,7 +35,7 @@
 namespace Omnia
 {
 	/* Processes HapticSignals from the HapticSignalBuffer in the Scene.*/
-	class HapticSystem : public System
+	class HapticSystem : public OutputSystem
 	{
 	public:
 		~HapticSystem();

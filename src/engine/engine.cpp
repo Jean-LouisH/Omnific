@@ -139,7 +139,7 @@ void Omnia::Engine::run()
 		while (this->state->isRunning())
 		{
 			mainThreadTimer->setStart();
-			this->runInput();
+			this->queryInput();
 			mainThreadTimer->setEnd();
 			this->sleepThisThreadForRemainingTime(mainThreadTargetFPS, mainThreadTimer);
 		}
@@ -194,7 +194,7 @@ bool Omnia::Engine::initialize()
 	return isInitializedOK;
 }
 
-void Omnia::Engine::runInput()
+void Omnia::Engine::queryInput()
 {
 	Input& input = OS::getInput();
 	input.detectGameControllers();
@@ -237,7 +237,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer)
 			this->scriptingSystem->executeOnInputMethods(activeScene);
 
 		if (this->sceneStorage->hasActiveSceneChanged())
-			this->scriptingSystem->onModifiedScriptInstance(this->sceneStorage->getActiveScene());
+			this->scriptingSystem->loadScriptModules(this->sceneStorage->getActiveScene());
 
 		this->scriptingSystem->executeOnStartMethods(activeScene);
 		this->scriptingSystem->executeOnLogicFrameMethods(activeScene);

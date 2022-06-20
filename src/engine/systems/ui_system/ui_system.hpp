@@ -23,13 +23,13 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "update_system.hpp"
 #include <memory>
 
 namespace Omnia
 {
 	/* Processes Components with data related to HID interaction.*/
-	class UISystem : public System
+	class UISystem : public UpdateSystem
 	{
 	public:
 		~UISystem();

@@ -22,38 +22,13 @@
 
 #pragma once
 
-#include "python_vm/python_vm.hpp"
-#include "cpp_native/cpp_native.hpp"
-#include "scene/scene.hpp"
-#include <scene_storage.hpp>
-#include "utilities/aliases.hpp"
-#include "scripting_language.hpp"
-#include "update_system.hpp"
-#include <memory>
-#include <vector>
+#include "system.hpp"
 
 namespace Omnia
 {
-	class ScriptingSystem : public UpdateSystem
-	{
-	public:
-		ScriptingSystem();
-		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
-		virtual void deinitialize() override;
-		void loadScriptModules(std::shared_ptr<Scene> scene);
-		void executeOnStartMethods(std::shared_ptr<Scene> scene);
-		void executeOnInputMethods(std::shared_ptr<Scene> scene);
-		void executeOnLogicFrameMethods(std::shared_ptr<Scene> scene);
-		void executeOnComputeFrameMethods(std::shared_ptr<Scene> scene);
-		void executeOnOutputMethods(std::shared_ptr<Scene> scene);
-		void executeOnFinishMethods(std::shared_ptr<Scene> scene);
-		void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
-	private:
-		std::vector<std::unique_ptr<ScriptingLanguage>> scriptingLanguages;
-
-		std::unique_ptr<PythonVM> pythonVM;
-		std::unique_ptr<CPPNative> cppNative;
-	};
+    class OutputSystem : public System
+    {
+    public:
+    private:
+    };
 }
-

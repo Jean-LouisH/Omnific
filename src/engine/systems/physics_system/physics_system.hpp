@@ -23,12 +23,12 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "update_system.hpp"
 
 namespace Omnia
 {
 	/* Processes Components related to time and classical mechanics physics simulations. */
-	class PhysicsSystem : public System
+	class PhysicsSystem : public UpdateSystem
 	{
 	public:
 		~PhysicsSystem();

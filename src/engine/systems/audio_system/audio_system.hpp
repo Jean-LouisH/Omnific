@@ -26,12 +26,12 @@
 #include <queue>
 #include <memory>
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "output_system.hpp"
 
 namespace Omnia
 {
 	/* Processes Components that enable playback of audio and outputs its waveforms. */
-	class AudioSystem : System
+	class AudioSystem : OutputSystem
 	{
 	public:
 		~AudioSystem();

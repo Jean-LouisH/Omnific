@@ -23,13 +23,13 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "update_system.hpp"
 
 namespace Omnia
 {
 	/* Processes audio acoustic simulations based on 
 	   Components that provide material properties in the Scene.*/
-	class AcousticSystem : System
+	class AcousticSystem : UpdateSystem
 	{
 	public:
 		~AcousticSystem();
