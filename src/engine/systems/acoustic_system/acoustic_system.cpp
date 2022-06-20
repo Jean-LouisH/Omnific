@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "acoustic_system.hpp"
-#include "application/scene/scene.hpp"
+#include "scene/scene.hpp"
 
 Omnia::AcousticSystem::~AcousticSystem()
 {

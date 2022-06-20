@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "physics_system.hpp"
-#include "application/scene/scene.hpp"
+#include "scene/scene.hpp"
 #include <utilities/constants.hpp>
 #include <os/os.hpp>
 

@@ -28,9 +28,9 @@
 #include <string>
 #include "vertex_buffer.hpp"
 #include "index_buffer.hpp"
-#include <application/scene/renderable_component.hpp>
-#include <application/scene/assets/image.hpp>
-#include <application/scene/assets/mesh.hpp>
+#include <scene/renderable_component.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/mesh.hpp>
 #include <memory>
 
 

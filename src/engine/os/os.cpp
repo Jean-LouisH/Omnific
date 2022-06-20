@@ -88,6 +88,7 @@ void Omnia::OS::showErrorBox(std::string title, std::string message)
 void Omnia::OS::deinitialize()
 {
 	SDL_Quit();
+	getInstance()->getThreadPool().deinitialize();
 	delete getInstance();
 	instance = nullptr;
 }

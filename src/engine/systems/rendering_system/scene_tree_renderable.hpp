@@ -23,9 +23,9 @@
 #pragma once
 
 #include <vector>
-#include <application/scene/components/transform.hpp>
-#include <application/scene/components/camera.hpp>
-#include <application/scene/components/light.hpp>
+#include <scene/components/transform.hpp>
+#include <scene/components/camera.hpp>
+#include <scene/components/light.hpp>
 #include <memory>
 #include "entity_renderable.hpp"
 
