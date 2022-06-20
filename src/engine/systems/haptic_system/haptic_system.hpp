@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "application/scene/scene.hpp"
+#include "scene/scene.hpp"
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
 #include "system.hpp"
 #include "os/input.hpp"
-#include <application/scene/haptic_signal_buffer.hpp>
+#include <scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>
 #include <memory>
 
