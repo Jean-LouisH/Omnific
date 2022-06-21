@@ -37,10 +37,12 @@ namespace Omnia
 {
 	class Scene
 	{
-		friend class UpdateSystem;
-		friend class SceneSerializer;
 	public:
 		Scene();
+
+		void addSceneTree(std::shared_ptr<SceneTree> sceneTree);
+		void addEmptySceneTree();
+		void removeSceneTree(SceneTreeID sceneTreeID);
 
 		std::shared_ptr<SceneTree> getSceneTree(SceneTreeID sceneTree);
 		std::shared_ptr<SceneTree> getSceneTreeByName(std::string name);
@@ -52,9 +54,5 @@ namespace Omnia
 		SceneID id = 0;
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees;
 		SceneTreeID lastSceneTreeID = 0;
-
-		void addSceneTree(std::shared_ptr<SceneTree> sceneTree);
-		void addEmptySceneTree();
-		void removeSceneTree(SceneTreeID sceneTreeID);
 	};
 }
