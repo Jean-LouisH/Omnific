@@ -29,15 +29,7 @@ void Omnia::ThreadPool::initialize(int threadCount)
 	if (threadCount > 0)
 	{
 		for (int i = 0; i < (threadCount); i++)
-			this->threads.push_back(new std::thread([this]() 
-				{
-					while (!this->isFinished)
-					{
-						/* Placeholder */
-						OS::sleepThisThreadFor(1000);
-					}
-				}
-		));
+			this->threads.push_back(new std::thread(&ThreadPool::runWorkerThread, this));
 	}
 }
 
@@ -52,5 +44,14 @@ void Omnia::ThreadPool::deinitialize()
 			thread->join();
 			delete thread;
 		}
+	}
+}
+
+void Omnia::ThreadPool::runWorkerThread()
+{
+	while (!this->isFinished)
+	{
+		/* Placeholder */
+		OS::sleepThisThreadFor(1000);
 	}
 }

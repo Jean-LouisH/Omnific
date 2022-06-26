@@ -38,5 +38,7 @@ namespace Omnia
 	private:
 		std::vector<std::thread*> threads;
 		bool isFinished = false;
+
+		void runWorkerThread();
 	};
 }
