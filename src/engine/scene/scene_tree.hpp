@@ -28,7 +28,6 @@
 #include <queue>
 #include <unordered_map>
 #include "component.hpp"
-#include "systems/scripting_system/python_vm/script_call_batch.hpp"
 #include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
 #include "utilities/rectangle.hpp"
@@ -128,7 +127,8 @@ namespace Omnia
 		void removeEntity(EntityID entityID);
 		void removeComponent(EntityID entityID, std::string type);
 
-		std::vector<ScriptCallBatch> generateCallBatches(CallType callType);
+		std::queue<EntityID>& getStartEntityQueue();
+		std::queue<EntityID>& getFinishEntityQueue();
 
 		std::vector<std::shared_ptr<Component>> getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();

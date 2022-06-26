@@ -34,8 +34,8 @@ namespace Omnia
         void loadScriptModules();
         void executeOnStartMethods();
         void executeOnInputMethods();
-        void executeOnFrameMethods();
-        void executeOnComputeMethods();
+        void executeOnLogicFrameMethods();
+        void executeOnComputeFrameMethods();
         void executeOnOutputMethods();
         void executeOnFinishMethods();
     private:

@@ -24,7 +24,6 @@
 
 #define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
 
-#include "script_call_batch.hpp"
 #include <unordered_map>
 #include "../vm_scripting_language.hpp"
 #include "pybind11/pybind11.h"
@@ -42,16 +41,26 @@ namespace Omnia
 		~PythonVM();
 		void initialize();
 		void loadScriptModules(std::shared_ptr<Scene> scene);
-		void executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnLogicFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnComputeFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches);
-		void executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches);
+		void executeOnStartMethods(std::shared_ptr<SceneTree> sceneTree);
+		void executeOnInputMethods(std::shared_ptr<SceneTree> sceneTree);
+		void executeOnLogicFrameMethods(std::shared_ptr<SceneTree> sceneTree);
+		void executeOnComputeFrameMethods(std::shared_ptr<SceneTree> sceneTree);
+		void executeOnOutputMethods(std::shared_ptr<SceneTree> sceneTree);
+		void executeOnFinishMethods(std::shared_ptr<SceneTree> sceneTree);
 		void deinitialize();
 	private:
 		std::unordered_map<std::string, Module> modules;
 
-		void executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName);
+		void executeQueuedMethods(
+			std::queue<EntityID>& entityQueue, 
+			std::shared_ptr<SceneTree> sceneTree, 
+			const char* methodName);
+		void executeUpdateMethods(
+			std::shared_ptr<SceneTree> sceneTree, 
+			const char* methodName);
+		void bindAndCall(std::shared_ptr<ScriptCollection> scriptCollection,
+			SceneTreeID sceneTreeID,
+			EntityID entityID,
+			const char* methodName);
 	};
 }

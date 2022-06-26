@@ -22,7 +22,6 @@
 
 #include "scene_tree.hpp"
 #include "component.hpp"
-#include "systems/scripting_system/python_vm/script_call_batch.hpp"
 
 Omnia::SceneTree::SceneTree()
 {
@@ -180,53 +179,6 @@ void Omnia::SceneTree::removeComponent(EntityID entityID, std::string type)
 	}
 }
 
-std::vector<Omnia::ScriptCallBatch> Omnia::SceneTree::generateCallBatches(CallType callType)
-{
-	std::vector<ScriptCallBatch> scriptCallBatches;
-	std::queue<EntityID>* entityQueue = nullptr;
-	std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = this->getComponentsByType<ScriptCollection>();
-	size_t scriptCollectionsCount = scriptCollections.size();
-
-	if (callType == CallType::START || callType == CallType::FINISH)
-	{
-		if (callType == CallType::START)
-			entityQueue = &this->startEntitiesQueue;
-		else if (callType == CallType::FINISH)
-			entityQueue = &this->finishEntitiesQueue;
-
-		while (!entityQueue->empty())
-		{
-			std::shared_ptr<Entity> entity = this->getEntity(entityQueue->front());
-			std::shared_ptr<ScriptCollection> scriptCollection = this->getComponent<ScriptCollection>(entity->id);
-			if (scriptCollection != nullptr)
-			{
-				std::vector<std::string> scriptNames;
-
-				for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
-					scriptNames.push_back(scriptCollection->scripts.at(j)->getName());
-
-				scriptCallBatches.push_back({ scriptNames, this->id, scriptCollection->getEntityID() });
-			}
-			entityQueue->pop();
-		}
-	}
-	else if (callType == CallType::UPDATE)
-	{
-		for (size_t i = 0; i < scriptCollectionsCount; i++)
-		{
-			std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
-			std::vector<std::string> scriptNames;
-
-			for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
-				scriptNames.push_back(scriptCollection->scripts.at(j)->getName());
-
-			scriptCallBatches.push_back({ scriptNames, this->id, scriptCollection->getEntityID() });
-		}
-	}
-
-	return scriptCallBatches;
-}
-
 std::vector<size_t> Omnia::SceneTree::getRenderOrderIndexCache()
 {
 	return this->renderOrderIndexCache;
@@ -235,6 +187,16 @@ std::vector<size_t> Omnia::SceneTree::getRenderOrderIndexCache()
 std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneTree::getComponentIndexCaches()
 {
 	return this->componentIndexCaches;
+}
+
+std::queue<Omnia::EntityID>& Omnia::SceneTree::getStartEntityQueue()
+{
+	return this->startEntitiesQueue;
+}
+
+std::queue<Omnia::EntityID>& Omnia::SceneTree::getFinishEntityQueue()
+{
+	return this->finishEntitiesQueue;
 }
 
 std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponents()

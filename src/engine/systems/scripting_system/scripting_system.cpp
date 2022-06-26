@@ -55,7 +55,7 @@ void Omnia::ScriptingSystem::executeOnStartMethods(std::shared_ptr<Scene> scene)
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnStartMethods(it->second->generateCallBatches(CallType::START));
+			this->pythonVM->executeOnStartMethods(it->second);
 	}
 
 }
@@ -67,7 +67,7 @@ void Omnia::ScriptingSystem::executeOnInputMethods(std::shared_ptr<Scene> scene)
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnInputMethods(it->second->generateCallBatches(CallType::UPDATE));
+			this->pythonVM->executeOnInputMethods(it->second);
 	}
 }
 
@@ -78,8 +78,8 @@ void Omnia::ScriptingSystem::executeOnLogicFrameMethods(std::shared_ptr<Scene> s
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnLogicFrameMethods(it->second->generateCallBatches(CallType::UPDATE));
-		this->cppNative->executeOnFrameMethods();
+			this->pythonVM->executeOnLogicFrameMethods(it->second);
+		this->cppNative->executeOnLogicFrameMethods();
 	}
 }
 
@@ -90,7 +90,7 @@ void Omnia::ScriptingSystem::executeOnComputeFrameMethods(std::shared_ptr<Scene>
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnComputeFrameMethods(it->second->generateCallBatches(CallType::UPDATE));
+			this->pythonVM->executeOnComputeFrameMethods(it->second);
 	}
 }
 
@@ -101,7 +101,7 @@ void Omnia::ScriptingSystem::executeOnOutputMethods(std::shared_ptr<Scene> scene
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnOutputMethods(it->second->generateCallBatches(CallType::UPDATE));
+			this->pythonVM->executeOnOutputMethods(it->second);
 	}
 }
 
@@ -112,7 +112,7 @@ void Omnia::ScriptingSystem::executeOnFinishMethods(std::shared_ptr<Scene> scene
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnFinishMethods(it->second->generateCallBatches(CallType::FINISH));
+			this->pythonVM->executeOnFinishMethods(it->second);
 	}
 }
 

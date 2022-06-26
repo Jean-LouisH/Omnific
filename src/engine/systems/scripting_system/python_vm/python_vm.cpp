@@ -131,34 +131,36 @@ void Omnia::PythonVM::loadScriptModules(std::shared_ptr<Scene> scene)
 	
 }
 
-void Omnia::PythonVM::executeOnStartMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnStartMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->executeMethods(scriptCallBatches, "on_start");
+	std::queue<EntityID>& startEntityQueue = sceneTree->getStartEntityQueue();
+	this->executeQueuedMethods(startEntityQueue, sceneTree, "on_start");
 }
 
-void Omnia::PythonVM::executeOnInputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnInputMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->executeMethods(scriptCallBatches, "on_input");
+	this->executeUpdateMethods(sceneTree, "on_input");
 }
 
-void Omnia::PythonVM::executeOnLogicFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnLogicFrameMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->executeMethods(scriptCallBatches, "on_logic_frame");
+	this->executeUpdateMethods(sceneTree, "on_logic_frame");
 }
 
-void Omnia::PythonVM::executeOnComputeFrameMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnComputeFrameMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->executeMethods(scriptCallBatches, "on_compute_frame");
+	this->executeUpdateMethods(sceneTree, "on_compute_frame");
 }
 
-void Omnia::PythonVM::executeOnOutputMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnOutputMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->executeMethods(scriptCallBatches, "on_output");
+	this->executeUpdateMethods(sceneTree, "on_output");
 }
 
-void Omnia::PythonVM::executeOnFinishMethods(std::vector<ScriptCallBatch> scriptCallBatches)
+void Omnia::PythonVM::executeOnFinishMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	this->executeMethods(scriptCallBatches, "on_finish");
+	std::queue<EntityID>& finishEntityQueue = sceneTree->getFinishEntityQueue();
+	this->executeQueuedMethods(finishEntityQueue, sceneTree, "on_finish");
 }
 
 void Omnia::PythonVM::deinitialize()
@@ -166,33 +168,61 @@ void Omnia::PythonVM::deinitialize()
 	pybind11::finalize_interpreter();
 }
 
-void Omnia::PythonVM::executeMethods(std::vector<ScriptCallBatch> scriptCallBatches, const char* methodName)
+void Omnia::PythonVM::executeQueuedMethods(
+	std::queue<EntityID>& entityQueue, 
+	std::shared_ptr<SceneTree> sceneTree, 
+	const char* methodName)
 {
-	for (int i = 0; i < scriptCallBatches.size(); i++)
+	while (!entityQueue.empty())
 	{
-		ScriptCallBatch scriptCallBatch = scriptCallBatches.at(i);
-
-		for (int j = 0; j < scriptCallBatch.scripts.size(); j++)
+		std::shared_ptr<Entity> entity = sceneTree->getEntity(entityQueue.front());
+		std::shared_ptr<ScriptCollection> scriptCollection = sceneTree->getComponent<ScriptCollection>(entity->getID());
+		if (scriptCollection != nullptr)
 		{
-			std::string scriptPath = scriptCallBatch.scripts.at(j);
-			std::string scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
+			this->bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
+		}
+		entityQueue.pop();
+	}
+}
 
-			if (this->modules.count(scriptName))
+void Omnia::PythonVM::executeUpdateMethods(std::shared_ptr<SceneTree> sceneTree, const char* methodName)
+{
+	std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = sceneTree->getComponentsByType<ScriptCollection>();
+	size_t scriptCollectionsCount = scriptCollections.size();
+
+	for (size_t i = 0; i < scriptCollectionsCount; i++)
+	{
+		std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
+		this->bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
+	}
+}
+
+void Omnia::PythonVM::bindAndCall(
+	std::shared_ptr<ScriptCollection> scriptCollection,
+	SceneTreeID sceneTreeID,
+	EntityID entityID,
+	const char* methodName)
+{
+	for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
+	{
+		std::string scriptPath = scriptCollection->scripts.at(j)->getName();
+		std::string scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
+
+		if (this->modules.count(scriptName))
+		{
+			if (this->modules.at(scriptName).hasCallable(methodName))
 			{
-				if (this->modules.at(scriptName).hasCallable(methodName))
-				{
-					ScriptContext::bindEntity(
-						scriptCallBatch.sceneTreeID,
-						scriptCallBatch.entityID);
+				ScriptContext::bindEntity(
+					sceneTreeID,
+					entityID);
 
-					try
-					{
-						this->modules.at(scriptName).call(methodName);
-					}
-					catch (const pybind11::error_already_set& e)
-					{
-						std::cout << e.what() << std::endl;
-					}
+				try
+				{
+					this->modules.at(scriptName).call(methodName);
+				}
+				catch (const pybind11::error_already_set& e)
+				{
+					std::cout << e.what() << std::endl;
 				}
 			}
 		}

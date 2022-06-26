@@ -22,7 +22,6 @@
 
 #include "scene.hpp"
 #include "component.hpp"
-#include "systems/scripting_system/python_vm/script_call_batch.hpp"
 
 Omnia::Scene::Scene()
 {

@@ -45,12 +45,12 @@ void Omnia::CPPNative::executeOnInputMethods()
 	this->executeMethods("executeOnInputMethods");
 }
 
-void Omnia::CPPNative::executeOnFrameMethods()
+void Omnia::CPPNative::executeOnLogicFrameMethods()
 {
 	this->executeMethods("executeOnFrameMethods");
 }
 
-void Omnia::CPPNative::executeOnComputeMethods()
+void Omnia::CPPNative::executeOnComputeFrameMethods()
 {
 	this->executeMethods("executeOnComputeMethods");
 }
