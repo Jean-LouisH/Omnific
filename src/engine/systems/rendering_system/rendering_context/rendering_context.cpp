@@ -55,9 +55,13 @@ void Omnia::RenderingContext::initialize()
 	}
 }
 
-void Omnia::RenderingContext::clearColourBuffer()
+void Omnia::RenderingContext::clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(
+		(float)(red) / 255.0, 
+		(float)(green) / 255.0, 
+		(float)(blue) / 255.0, 
+		(float)(alpha) / 255.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 

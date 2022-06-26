@@ -56,7 +56,7 @@ void Omnia::RenderingSystem::process(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
 	this->buildRenderablesOnModifiedComponents(scene);
-	this->context->clearColourBuffer();
+	this->context->clearColourBuffer(0, 0, 0, 255);
 	this->context->submit(this->sceneTreeRenderableLists);
 	this->context->swapBuffers();
 }
