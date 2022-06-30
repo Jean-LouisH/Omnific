@@ -76,8 +76,8 @@ namespace Omnia
 		std::string getDropFilePath();
 		uint32_t getDropFileWindowID();
 
-		void forceShutdownRequest();
-		void forceRestartRequest();
+		void requestShutdown();
+		void requestRestart();
 
 		bool hasRequestedShutdown();
 		bool hasRequestedRestart();

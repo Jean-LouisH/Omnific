@@ -531,12 +531,12 @@ bool Omnia::Input::hasRequestedRestart()
 	return this->restartRequest;
 }
 
-void Omnia::Input::forceShutdownRequest()
+void Omnia::Input::requestShutdown()
 {
 	this->shutdownRequest = true;
 }
 
-void Omnia::Input::forceRestartRequest()
+void Omnia::Input::requestRestart()
 {
 	this->restartRequest = true;
 }

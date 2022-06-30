@@ -72,8 +72,8 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_mouse_position", &Omnia::Input::getMousePosition)
 		.def("get_mouse_wheel_velocity", &Omnia::Input::getMouseWheelVelocity)
 		.def("get_mouse_motion_velocity", &Omnia::Input::getMouseMotionVelocity)
-		.def("force_shutdown", &Omnia::Input::forceShutdownRequest)
-		.def("force_restart", &Omnia::Input::forceRestartRequest);
+		.def("request_shutdown", &Omnia::Input::requestShutdown)
+		.def("request_restart", &Omnia::Input::requestRestart);
 
 	pybind11::class_<Omnia::Logger>(m, "Logger")
 		.def("write", &Omnia::Logger::write)

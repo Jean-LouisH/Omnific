@@ -34,5 +34,5 @@ Omnia::CommandLine::CommandLine(
 void Omnia::CommandLine::execute(std::string command)
 {
 	if (command == "shutdown" || command == "exit")
-		OS::getInput().forceShutdownRequest();
+		OS::getInput().requestShutdown();
 }
