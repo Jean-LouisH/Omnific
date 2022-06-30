@@ -127,8 +127,11 @@ namespace Omnia
 		void removeEntity(EntityID entityID);
 		void removeComponent(EntityID entityID, std::string type);
 
-		std::queue<EntityID>& getStartEntityQueue();
-		std::queue<EntityID>& getFinishEntityQueue();
+		void clearStartEntityQueue();
+		void clearFinishEntityQueue();
+
+		std::queue<EntityID> getStartEntityQueue();
+		std::queue<EntityID> getFinishEntityQueue();
 
 		std::vector<std::shared_ptr<Component>> getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();

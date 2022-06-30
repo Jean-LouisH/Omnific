@@ -52,7 +52,7 @@ namespace Omnia
 		std::unordered_map<std::string, Module> modules;
 
 		void executeQueuedMethods(
-			std::queue<EntityID>& entityQueue, 
+			std::queue<EntityID> entityQueue, 
 			std::shared_ptr<SceneTree> sceneTree, 
 			const char* methodName);
 		void executeUpdateMethods(

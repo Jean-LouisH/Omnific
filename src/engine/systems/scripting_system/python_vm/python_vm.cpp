@@ -133,8 +133,7 @@ void Omnia::PythonVM::loadScriptModules(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonVM::executeOnStartMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::queue<EntityID>& startEntityQueue = sceneTree->getStartEntityQueue();
-	this->executeQueuedMethods(startEntityQueue, sceneTree, "on_start");
+	this->executeQueuedMethods(sceneTree->getStartEntityQueue(), sceneTree, "on_start");
 }
 
 void Omnia::PythonVM::executeOnInputMethods(std::shared_ptr<SceneTree> sceneTree)
@@ -159,8 +158,7 @@ void Omnia::PythonVM::executeOnOutputMethods(std::shared_ptr<SceneTree> sceneTre
 
 void Omnia::PythonVM::executeOnFinishMethods(std::shared_ptr<SceneTree> sceneTree)
 {
-	std::queue<EntityID>& finishEntityQueue = sceneTree->getFinishEntityQueue();
-	this->executeQueuedMethods(finishEntityQueue, sceneTree, "on_finish");
+	this->executeQueuedMethods(sceneTree->getFinishEntityQueue(), sceneTree, "on_finish");
 }
 
 void Omnia::PythonVM::deinitialize()
@@ -169,7 +167,7 @@ void Omnia::PythonVM::deinitialize()
 }
 
 void Omnia::PythonVM::executeQueuedMethods(
-	std::queue<EntityID>& entityQueue, 
+	std::queue<EntityID> entityQueue, 
 	std::shared_ptr<SceneTree> sceneTree, 
 	const char* methodName)
 {

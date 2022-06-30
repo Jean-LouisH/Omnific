@@ -55,9 +55,11 @@ void Omnia::ScriptingSystem::executeOnStartMethods(std::shared_ptr<Scene> scene)
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		{
 			this->pythonVM->executeOnStartMethods(it->second);
+			it->second->clearStartEntityQueue();
+		}
 	}
-
 }
 
 void Omnia::ScriptingSystem::executeOnInputMethods(std::shared_ptr<Scene> scene)
@@ -112,7 +114,10 @@ void Omnia::ScriptingSystem::executeOnFinishMethods(std::shared_ptr<Scene> scene
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+		{
 			this->pythonVM->executeOnFinishMethods(it->second);
+			it->second->clearFinishEntityQueue();
+		}
 	}
 }
 

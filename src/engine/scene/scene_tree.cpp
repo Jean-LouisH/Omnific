@@ -189,12 +189,24 @@ std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneTree::getCompon
 	return this->componentIndexCaches;
 }
 
-std::queue<Omnia::EntityID>& Omnia::SceneTree::getStartEntityQueue()
+void Omnia::SceneTree::clearStartEntityQueue()
+{
+	while (!this->startEntitiesQueue.empty())
+		this->startEntitiesQueue.pop();
+}
+
+void Omnia::SceneTree::clearFinishEntityQueue()
+{
+	while (!this->finishEntitiesQueue.empty())
+		this->finishEntitiesQueue.pop();
+}
+
+std::queue<Omnia::EntityID> Omnia::SceneTree::getStartEntityQueue()
 {
 	return this->startEntitiesQueue;
 }
 
-std::queue<Omnia::EntityID>& Omnia::SceneTree::getFinishEntityQueue()
+std::queue<Omnia::EntityID> Omnia::SceneTree::getFinishEntityQueue()
 {
 	return this->finishEntitiesQueue;
 }
