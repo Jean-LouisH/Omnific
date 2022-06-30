@@ -83,11 +83,18 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	pybind11::class_<Omnia::NetworkAccess>(m, "NetworkAccess");
 
-	pybind11::class_<Omnia::Platform>(m, "Platform");
+	pybind11::class_<Omnia::Platform>(m, "Platform")
+		.def("get_logical_core_count", &Omnia::Platform::getLogicalCoreCount)
+		.def("get_l1_cache_line_size", &Omnia::Platform::getL1CacheLineSize)
+		.def("get_system_ram", &Omnia::Platform::getSystemRAM)
+		.def("get_os_name", &Omnia::Platform::getOSName);
 
-	pybind11::class_<Omnia::Profiler>(m, "Profiler");
+	pybind11::class_<Omnia::Profiler>(m, "Profiler")
+		.def("add_timer", &Omnia::Profiler::addTimer)
+		.def("get_timer", &Omnia::Profiler::getTimer)
+		.def("get_fps", &Omnia::Profiler::getFPS);
 
-	//pybind11::class_<Omnia::ThreadPool>(m, "ThreadPool");
+	pybind11::class_<Omnia::ThreadPool>(m, "ThreadPool");
 
 	pybind11::class_<Omnia::Window>(m, "Window")
 		.def("set_to_windowed", &Omnia::Window::setToWindowed)
@@ -119,7 +126,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("add_component_to_last_entity", &Omnia::SceneTree::addComponentToLastEntity)
 		.def("remove_entity", &Omnia::SceneTree::removeEntity)
 		.def("remove_component", &Omnia::SceneTree::removeComponent)
-		.def("get_component_variants", &Omnia::SceneTree::getComponents, pybind11::return_value_policy::reference)
+		.def("get_components", &Omnia::SceneTree::getComponents, pybind11::return_value_policy::reference)
 		.def("get_entity_transform", &Omnia::SceneTree::getEntityTransform, pybind11::return_value_policy::reference)
 		.def("get_entity", &Omnia::SceneTree::getEntity, pybind11::return_value_policy::reference)
 		.def("get_entity_by_name", &Omnia::SceneTree::getEntityByName, pybind11::return_value_policy::reference)
@@ -310,6 +317,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_network_access", &Omnia::OS::getNetworkAccess, pybind11::return_value_policy::reference);
 	m.def("get_platform", &Omnia::OS::getPlatform, pybind11::return_value_policy::reference);
 	m.def("get_profiler", &Omnia::OS::getProfiler, pybind11::return_value_policy::reference);
-	//m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
+	m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
 	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
 }
