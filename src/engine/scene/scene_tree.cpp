@@ -68,6 +68,22 @@ void Omnia::SceneTree::addEntityTag(EntityID entityID, std::string tag)
 
 void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
+	if (component->isType(DirectionalLight::TYPE_STRING))
+	{
+		if (this->directionalLightCount >= this->allowableDirectionalLights)
+			return;
+		else
+			this->directionalLightCount++;
+	}
+	else if (component->isType(OmnidirectionalLight::TYPE_STRING) ||
+		component->isType(SpotLight::TYPE_STRING))
+	{
+		if (this->localLightCount >= this->allowableLocalLights)
+			return;
+		else
+			this->localLightCount++;
+	}
+
 	component->setEntityID(entityID);
 	component->setComponentPropertyPool(this->componentPropertyPool);
 	this->components.push_back(component);

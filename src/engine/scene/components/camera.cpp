@@ -25,6 +25,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <os/os.hpp>
 
+void Omnia::Camera::addShader(std::shared_ptr<Omnia::Shader> shader)
+{
+	this->shaders.push_back(shader);
+}
+
 void Omnia::Camera::resetAspect()
 {
 	this->aspect = defaultAspect;
@@ -94,4 +99,9 @@ glm::mat4 Omnia::Camera::getViewToProjectionMatrix()
 {
 	Rectangle rectangle = OS::getWindow().getWindowSize();
 	return glm::perspective(glm::radians(this->fieldOfView), (float)rectangle.width / (float)rectangle.height, this->nearPlane, this->farPlane);
+}
+
+std::vector<std::shared_ptr<Omnia::Shader>> Omnia::Camera::getShaders()
+{
+	return this->shaders;
 }

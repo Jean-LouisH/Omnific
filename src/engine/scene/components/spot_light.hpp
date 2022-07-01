@@ -26,14 +26,14 @@
 
 namespace Omnia
 {
-	class Light : public Component
+	class SpotLight : public Component
 	{
 	public:
-		Light()
+		SpotLight()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Light";
+		static constexpr const char* TYPE_STRING = "SpotLight";
 	private:
 	};
 }

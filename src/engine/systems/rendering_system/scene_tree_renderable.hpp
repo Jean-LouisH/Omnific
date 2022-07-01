@@ -25,7 +25,9 @@
 #include <vector>
 #include <scene/components/transform.hpp>
 #include <scene/components/camera.hpp>
-#include <scene/components/light.hpp>
+#include <scene/components/directional_light.hpp>
+#include <scene/components/omnidirectional_light.hpp>
+#include <scene/components/spot_light.hpp>
 #include <memory>
 #include "entity_renderable.hpp"
 
@@ -39,7 +41,9 @@ namespace Omnia
 		bool is2D = false;
 		std::shared_ptr<Camera> camera;
 		std::shared_ptr<Transform> cameraTransform;
-		std::vector<std::shared_ptr<Light>> lights;
+		std::vector<std::shared_ptr<DirectionalLight>> directionalLights;
+		std::vector<std::shared_ptr<OmnidirectionalLight>> omnidirectionalLights;
+		std::vector<std::shared_ptr<SpotLight>> spotLights;
 		std::vector<EntityRenderable> entityRenderables;
 	private:
 	};

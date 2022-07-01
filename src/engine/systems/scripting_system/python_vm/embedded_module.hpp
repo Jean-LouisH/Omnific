@@ -212,6 +212,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_type", &Omnia::Component::getType)
 		.def("is_renderable", &Omnia::Component::isRenderable);
 
+	pybind11::class_<Omnia::AcousticModelContainer, Omnia::Component>(m, Omnia::AcousticModelContainer::TYPE_STRING);
 	pybind11::class_<Omnia::BehaviourTree, Omnia::Component>(m, Omnia::BehaviourTree::TYPE_STRING);
 	pybind11::class_<Omnia::SightPerception, Omnia::Component>(m, Omnia::SightPerception::TYPE_STRING);
 	pybind11::class_<Omnia::SoundPerception, Omnia::Component>(m, Omnia::SoundPerception::TYPE_STRING);
@@ -225,7 +226,9 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("stop", &Omnia::CountdownTimer::stop)
 		.def("is_finished", &Omnia::CountdownTimer::isFinished);
 	pybind11::class_<Omnia::CharacterBody, Omnia::Component>(m, Omnia::CharacterBody::TYPE_STRING);
-	pybind11::class_<Omnia::Light, Omnia::Component>(m, Omnia::Light::TYPE_STRING);
+	pybind11::class_<Omnia::CPUParticles, Omnia::Component>(m, Omnia::CPUParticles::TYPE_STRING);
+	pybind11::class_<Omnia::GPUParticles, Omnia::Component>(m, Omnia::GPUParticles::TYPE_STRING);
+	pybind11::class_<Omnia::DirectionalLight, Omnia::Component>(m, Omnia::DirectionalLight::TYPE_STRING);
 	pybind11::class_<Omnia::ModelContainer, Omnia::Component>(m, Omnia::ModelContainer::TYPE_STRING)
 		.def("add_model", &Omnia::ModelContainer::addModel)
 		.def("add_cube", &Omnia::ModelContainer::addCube)
@@ -236,9 +239,12 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::NavigationMeshAgent, Omnia::Component>(m, Omnia::NavigationMeshAgent::TYPE_STRING);
 	pybind11::class_<Omnia::NavigationMeshBoxObstacle, Omnia::Component>(m, Omnia::NavigationMeshBoxObstacle::TYPE_STRING);
 	pybind11::class_<Omnia::NavigationPath, Omnia::Component>(m, Omnia::NavigationPath::TYPE_STRING);
+	pybind11::class_<Omnia::OmnidirectionalLight, Omnia::Component>(m, Omnia::OmnidirectionalLight::TYPE_STRING);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component>(m, Omnia::Collider::TYPE_STRING);
 	pybind11::class_<Omnia::RigidBody, Omnia::Component>(m, Omnia::RigidBody::TYPE_STRING);
+	pybind11::class_<Omnia::SoftBody, Omnia::Component>(m, Omnia::SoftBody::TYPE_STRING);
+	pybind11::class_<Omnia::SpotLight, Omnia::Component>(m, Omnia::SpotLight::TYPE_STRING);
 	pybind11::class_<Omnia::SpriteContainer, Omnia::Component>(m, Omnia::SpriteContainer::TYPE_STRING);
 	pybind11::class_<Omnia::StaticFluid, Omnia::Component>(m, Omnia::StaticFluid::TYPE_STRING);
 	pybind11::class_<Omnia::Transform, Omnia::Component>(m, Omnia::Transform::TYPE_STRING)

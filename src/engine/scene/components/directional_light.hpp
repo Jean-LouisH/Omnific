@@ -20,4 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "light.hpp"
+#pragma once
+
+#include "scene/component.hpp"
+
+namespace Omnia
+{
+	class DirectionalLight : public Component
+	{
+	public:
+		DirectionalLight()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "DirectionalLight";
+	private:
+	};
+}
