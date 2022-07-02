@@ -82,10 +82,8 @@ void Omnia::PythonVM::loadScriptModules(std::shared_ptr<Scene> scene)
 #ifdef _DEBUG
 					newPath = OS::getFileAccess().getExecutableDirectoryPath();
 					newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
-					std::string dataFolder = "data//editor//";
-#if (DEBUG_DEMO_MODE)
-					dataFolder = "data//demos//";
-#endif
+					std::string dataFolder = OS::getFileAccess().getDataDirectoryPath();
+					dataFolder = dataFolder.substr(dataFolder.find("data/"), dataFolder.size() - 1);
 					newPath += dataFolder + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #endif
 

@@ -26,15 +26,9 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
-#define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor/"
-#define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demos/"
-#define DEBUG_DATA_FILEPATH DEBUG_EDITOR_DATA_FILEPATH
-
-#define DEBUG_DEMO_MODE true
-
-#if (DEBUG_DEMO_MODE)
-	#define DEBUG_DATA_FILEPATH DEBUG_DEMO_DATA_FILEPATH
-#endif
+#define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor_data/"
+#define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demo_data/"
+#define DEBUG_DEBUG_DATA_FILEPATH "../../../../../data/debug_data/"
 
 #ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED

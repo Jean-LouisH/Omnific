@@ -1,0 +1,8 @@
+Scene:
+  Entity:
+    name: "Camera"
+    Camera:
+      viewport_px: [0, 0]
+  Entity:
+    name: "System"
+    Scripts: ["return_to_main_menu", "quit_on_escape_key"]

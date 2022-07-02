@@ -1,0 +1,15 @@
+metadata:
+  title: Omnia Demos
+  version: 1.0.0
+  developer: Jean-LouisH
+  icon_filepath: icon.png
+  entry_scene_filepath: loading_models/scenes/entry.yml
+window_settings:
+  width: 853
+  height: 480
+  fullscreen: false
+  maximized: false
+  resizable: false
+time_settings:
+  target_fps: 60
+  ms_per_compute_update: 8

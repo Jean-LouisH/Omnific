@@ -40,14 +40,31 @@ void Omnia::Engine::run()
 {
 	do
 	{
+		std::string dataDirectory = "data/";
+
 		/* On successful initialization */
 		if (this->initialize())
 		{
 			BootLoader bootLoader;
 			std::shared_ptr<Scene> entryScene;
-			std::string dataDirectory = "data/";
 #ifdef _DEBUG
-			dataDirectory = DEBUG_DATA_FILEPATH;
+			OS::getWindow().hide();
+			std::cout << "\n\nChoose data project to load:" << std::endl;
+			std::cout << "1. Demos" << std::endl;
+			std::cout << "2. Editor" << std::endl;
+			std::cout << "3. Debug" << std::endl;
+			std::cout << "\n-> #";
+
+			std::string inputString;
+			std::cin >> inputString;
+			OS::getWindow().show();
+
+			if (inputString == "1")
+				dataDirectory = DEBUG_DEMO_DATA_FILEPATH;
+			else if (inputString == "2")
+				dataDirectory = DEBUG_EDITOR_DATA_FILEPATH;
+			else if (inputString == "3")
+				dataDirectory = DEBUG_DEBUG_DATA_FILEPATH;
 #endif
 			std::string bootFilename = "boot.yml";
 			std::string bootFilepath = dataDirectory + bootFilename;
@@ -55,12 +72,6 @@ void Omnia::Engine::run()
 			if (OS::getFileAccess().exists(bootFilepath))
 			{
 				this->configuration = bootLoader.loadFromFile(bootFilepath);
-#ifdef _DEBUG
-				std::string debugDataFilepath = DEBUG_DATA_FILEPATH;
-				std::string debugEditorDataFilepath = DEBUG_EDITOR_DATA_FILEPATH;
-				if (debugDataFilepath == debugEditorDataFilepath)
-					this->configuration->metadata.entrySceneFilepath = "assets/scenes/debug.yml";
-#endif
 				OS::getFileAccess().setDataDirectory(dataDirectory);
 				this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
 				this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
@@ -91,10 +102,6 @@ void Omnia::Engine::run()
 
 			if (this->configuration->isLoaded)
 			{
-				std::string dataDirectory = "data/";
-#ifdef _DEBUG
-				dataDirectory = DEBUG_DATA_FILEPATH;
-#endif
 				OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
 				Window& window = OS::getWindow();
 				window.resize(configuration->windowSettings.width, configuration->windowSettings.height);

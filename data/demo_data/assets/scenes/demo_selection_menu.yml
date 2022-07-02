@@ -1,0 +1,11 @@
+SceneTree:
+  name: "main"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Camera:
+      viewport_px: [0, 0]
+  Entity:
+    name: "Quit"
+    ScriptCollection: 
+      python: ["quit_on_escape_key.py"]

@@ -1,0 +1,43 @@
+SceneTree:
+  name: "entry"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Scripts: ["PongShakeCamera"]
+    Camera:
+      viewport_px: [0, 0]
+  Entity:
+    name: "System"
+    Scripts: ["ReturnToMainMenu"]
+  Entity:
+    name: "GameMechanics"
+    Scripts: ["PongGenerateBall", "PongManageScore"]
+  Entity:
+    name: "Paddle1"
+    position_px: [0, 0]
+    Scripts: ["PongControlPlayer"]
+    Entity:
+      name: "ScoreCount1"
+      position_px: [0, 0]
+      UITextLabel:
+        text: ""
+  Entity:
+    name: "Paddle2"
+    position_px: [0, 0]
+    Scripts: ["PongControlAI"]
+    Entity:
+      name: "ScoreCount2"
+      position_px: [0, 0]
+      UITextLabel:
+        text: ""
+  Entity:
+    name: "UpperBoundary"
+    position_px: [0, 0]
+    BoxCollider:
+      aabb: [[0.0, 0.0],[0.0, 0.0]]
+  Entity:
+    name: "LowerBoundary"
+    position_px: [0, 0]
+    scale: [1.0, 1.0]
+    BoxCollider:
+      aabb: [[0.0, 0.0],[0.0, 0.0]]
