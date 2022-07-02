@@ -96,9 +96,9 @@ namespace Omnia
 		bool initialize();
 		void queryInput();
 		/* Runs on a dedicated update thread. */
-		void runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer);
+		void runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer);
 		/* Runs on a dedicated output thread. */
-		void runOutput(std::shared_ptr<HiResTimer> outputThreadTimer);
+		void runOutput(std::shared_ptr<HiResTimer> outputProcessTimer);
 		/* For the current single-threaded engine 
 		   loop implementation*/
 		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);

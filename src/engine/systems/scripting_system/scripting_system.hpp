@@ -26,6 +26,7 @@
 #include "cpp_native/cpp_native.hpp"
 #include "scene/scene.hpp"
 #include <scene_storage.hpp>
+#include <scene_serializer.hpp>
 #include "utilities/aliases.hpp"
 #include "scripting_language.hpp"
 #include "update_system.hpp"
@@ -48,6 +49,7 @@ namespace Omnia
 		void executeOnComputeFrameMethods(std::shared_ptr<Scene> scene);
 		void executeOnOutputMethods(std::shared_ptr<Scene> scene);
 		void executeOnFinishMethods(std::shared_ptr<Scene> scene);
+		void setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer);
 		void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 	private:
 		std::vector<std::unique_ptr<ScriptingLanguage>> scriptingLanguages;

@@ -121,6 +121,11 @@ void Omnia::ScriptingSystem::executeOnFinishMethods(std::shared_ptr<Scene> scene
 	}
 }
 
+void Omnia::ScriptingSystem::setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer)
+{
+	ScriptContext::setSceneSerializer(sceneSerializer);
+}
+
 void Omnia::ScriptingSystem::setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage)
 {
 	ScriptContext::setSceneStorage(sceneStorage);

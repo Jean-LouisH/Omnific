@@ -42,11 +42,14 @@ namespace Omnia
 	class ScriptContext
 	{
 	public:
+		static void setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer);
 		static void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
 		static std::shared_ptr<Asset> loadAsset(std::string type, std::string filepath);
 		static std::shared_ptr<Image> loadImage(std::string filepath);
+
+		static void loadScene(std::string scenepath);
 
 		static bool hasComponent(std::string type);
 		static Entity& getEntity();
@@ -60,6 +63,7 @@ namespace Omnia
 
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
+		std::shared_ptr<SceneSerializer> sceneSerializer;
 		std::shared_ptr<SceneStorage> sceneStorage;
 	};
 }

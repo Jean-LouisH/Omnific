@@ -26,6 +26,11 @@
 
 Omnia::ScriptContext* Omnia::ScriptContext::instance = nullptr;
 
+void Omnia::ScriptContext::setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer)
+{
+	getInstance()->sceneSerializer = sceneSerializer;
+}
+
 void Omnia::ScriptContext::setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage)
 {
 	getInstance()->sceneStorage = sceneStorage;
@@ -68,6 +73,12 @@ std::shared_ptr<Omnia::Asset> Omnia::ScriptContext::loadAsset(std::string type, 
 std::shared_ptr<Omnia::Image> Omnia::ScriptContext::loadImage(std::string filepath)
 {
 	return std::dynamic_pointer_cast<Image>(getInstance()->loadAsset(Image::TYPE_STRING, filepath));
+}
+
+void Omnia::ScriptContext::loadScene(std::string scenepath)
+{
+	std::shared_ptr<Scene> scene = getInstance()->sceneSerializer->deserialize(scenepath);
+	getInstance()->sceneStorage->replaceActiveScene(scenepath, scene);
 }
 
 Omnia::Entity& Omnia::ScriptContext::getEntity()

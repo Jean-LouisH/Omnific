@@ -315,6 +315,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_scene", &Omnia::ScriptContext::getScene, pybind11::return_value_policy::reference);
 	m.def("get_scene_tree", &Omnia::ScriptContext::getSceneTree, pybind11::return_value_policy::reference);
 	m.def("load_image", &Omnia::ScriptContext::loadImage, pybind11::return_value_policy::reference);
+	m.def("load_scene", &Omnia::ScriptContext::loadScene);
 
 	m.def("get_dll_access", &Omnia::OS::getDLLAccess, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);

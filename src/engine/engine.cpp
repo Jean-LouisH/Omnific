@@ -84,6 +84,7 @@ void Omnia::Engine::run()
 				{
 					entryScene = this->sceneSerializer->deserialize(this->configuration->metadata.entrySceneFilepath);
 					this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
+					this->scriptingSystem->setSceneSerializer(this->sceneSerializer);
 					this->scriptingSystem->setSceneStorage(this->sceneStorage);
 				}
 			}
@@ -212,7 +213,7 @@ void Omnia::Engine::queryInput()
 		this->state->setRestarting();
 }
 
-void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer)
+void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
 	this->aiSystem->initialize();
 	this->animationSystem->initialize();
@@ -220,9 +221,13 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer)
 	this->scriptingSystem->initialize();
 	this->uiSystem->initialize();
 
+	Profiler& profiler = OS::getProfiler();
+	HiResTimer updateFrameTimer;
+
 	while (this->state->isRunning())
 	{
-		updateThreadTimer->setStart();
+		updateProcessTimer->setStart();
+		updateFrameTimer.setStart();
 
 		std::shared_ptr<Scene> activeScene = this->sceneStorage->getActiveScene();
 		const uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
@@ -258,13 +263,13 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer)
 		this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 		this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 
-		//while (profiler.getLagCount() >= msPerComputeUpdate)
-		//{
-		//	this->scriptingSystem->executeOnComputeFrameMethods(activeScene);
-		//	this->animationSystem->process(activeScene);
-		//	this->physicsSystem->process(activeScene);
-		//	profiler.decrementLagCount(msPerComputeUpdate);
-		//}
+		while (profiler.getLagCount() >= msPerComputeUpdate)
+		{
+			this->scriptingSystem->executeOnComputeFrameMethods(activeScene);
+			this->animationSystem->process(activeScene);
+			this->physicsSystem->process(activeScene);
+			profiler.decrementLagCount(msPerComputeUpdate);
+		}
 
 		this->physicsSystem->onComputeEnd(activeScene);
 		this->scriptingSystem->executeOnOutputMethods(activeScene);
@@ -274,15 +279,16 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateThreadTimer)
 		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
 			it->second->getEventBus()->clear();
 
-		//profiler.incrementLagCount(profiler.getTimer("frame")->getDelta());
-		updateThreadTimer->setEnd();
+		profiler.incrementLagCount(updateFrameTimer.getDelta());
+		updateProcessTimer->setEnd();
 
 		//this->sleepThisThreadForRemainingTime(msPerComputeUpdate * 2, updateTimer);
-		this->sleepThisThreadForRemainingTime((1.0 / 0.008) / 2.0, updateThreadTimer);
+		this->sleepThisThreadForRemainingTime((1.0 / 0.008) / 2.0, updateProcessTimer);
+		updateFrameTimer.setEnd();
 	}
 }
 
-void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputThreadTimer)
+void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 {
 	/* Initializes RenderingContext on the same
 	   thread as object generators, as required. */
@@ -293,14 +299,14 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputThreadTimer)
 	/* The RenderingSystem only reads Scene data. */
 	while (this->state->isRunning())
 	{
-		outputThreadTimer->setStart();
+		outputProcessTimer->setStart();
 		this->renderingSystem->process(this->sceneStorage->getActiveScene());
 		this->audioSystem->process(this->sceneStorage->getActiveScene());
 		this->hapticSystem->process(this->sceneStorage->getActiveScene());
-		outputThreadTimer->setEnd();
+		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			this->configuration->timeSettings.targetFPS,
-			outputThreadTimer);
+			outputProcessTimer);
 	}
 }
 
