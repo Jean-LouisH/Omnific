@@ -6,4 +6,4 @@ def on_start():
 def on_logic_frame():
     countdown_timer =  omnia.get_component("CountdownTimer")
     if (countdown_timer.is_finished()):
-        omnia.load_scene("loading_models/scenes/entry.yml")
+        omnia.load_scene("selection_menu/scenes/entry.yml")
