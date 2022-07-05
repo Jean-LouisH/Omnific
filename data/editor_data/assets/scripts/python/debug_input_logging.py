@@ -5,28 +5,28 @@ def on_input():
     shutdown_inputs = ["z"]
     restart_inputs = ["x"]
     playerID = 0
-    input_api = omnia.get_input_api()
-    log_api = omnia.get_log_api()
+    inputs = omnia.get_input()
+    logger = omnia.get_logger()
     
-    if input_api.is_on_release(log_inputs, playerID):
-        log_api.write("one of " + str(log_inputs) + " was pressed.")
-    if input_api.is_on_release("z"):
-        log_api.write("shutting down on input request...\n")
-        input_api.force_shutdown()
-    if input_api.is_on_release("x"):
-        log_api.write("restarting on input request...")
-        input_api.force_restart()
-    if input_api.is_on_release("button_b"):
+    if inputs.is_on_release(log_inputs, playerID):
+        logger.write("one of " + str(log_inputs) + " was pressed.")
+    if inputs.is_on_release("z"):
+        logger.write("shutting down on input request...\n")
+        inputs.force_shutdown()
+    if inputs.is_on_release("x"):
+        logger.write("restarting on input request...")
+        inputs.force_restart()
+    if inputs.is_on_release("button_b"):
         haptic_playerID = 0
         haptic_strength = 1.0
         haptic_duration_ms = 1000
         
-        scene = omnia.get_scene_api().get_scene()    
+        scene = omnia.get_scene()    
         scene.get_haptic_signal_buffer().publish(
             haptic_playerID,
             haptic_strength,
             haptic_duration_ms)
-        log_api.write("Sent haptic signal; playerID: " +
+        logger.write("Sent haptic signal; playerID: " +
                                str(haptic_playerID) + ", strength: " +
                                str(haptic_strength) + ", duration: " +
                                str(haptic_duration_ms) + "ms")
