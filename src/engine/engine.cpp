@@ -218,8 +218,8 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 	this->aiSystem->initialize();
 	this->animationSystem->initialize();
 	this->physicsSystem->initialize();
-	this->scriptingSystem->initialize();
 	this->uiSystem->initialize();
+	this->scriptingSystem->initialize();
 
 	Profiler& profiler = OS::getProfiler();
 	HiResTimer updateFrameTimer;

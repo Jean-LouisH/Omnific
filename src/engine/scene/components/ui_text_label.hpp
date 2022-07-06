@@ -36,7 +36,6 @@ namespace Omnia
 	class UITextLabel : public RenderableComponent
 	{
 	public:
-
 		void setText(std::string text);
 		void setFont(std::shared_ptr<Omnia::Font> font, uint16_t size_px);
 		void setFontStyleNormal();
@@ -54,6 +53,7 @@ namespace Omnia
 		UITextLabel()
 		{
 			this->type = TYPE_STRING;
+			this->image = std::shared_ptr<Image>(new Image());
 		};
 		static constexpr const char* TYPE_STRING = "UITextLabel";
 		

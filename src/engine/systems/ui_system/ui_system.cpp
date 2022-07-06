@@ -31,10 +31,7 @@ Omnia::UISystem::~UISystem()
 
 void Omnia::UISystem::initialize()
 {
-	if (TTF_Init() == -1)
-		printf("TTF_Init: %s\n", TTF_GetError());
-	else
-		this->isInitialized = true;
+	this->isInitialized = true;
 }
 
 void Omnia::UISystem::process(std::shared_ptr<Scene> scene)
@@ -59,9 +56,6 @@ void Omnia::UISystem::process(std::shared_ptr<Scene> scene)
 
 void Omnia::UISystem::deinitialize()
 {
-	if (this->isInitialized)
-		TTF_Quit();
-
 	this->isInitialized = false;
 }
 

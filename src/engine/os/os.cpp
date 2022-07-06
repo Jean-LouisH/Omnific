@@ -54,6 +54,9 @@ bool Omnia::OS::initialize(
 		newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
 		newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
 		newInstance->runTimer->setStart();
+
+		if (TTF_Init() == -1)
+			printf("TTF_Init: %s\n", TTF_GetError());
 	}
 	else
 	{
@@ -87,6 +90,7 @@ void Omnia::OS::showErrorBox(std::string title, std::string message)
 
 void Omnia::OS::deinitialize()
 {
+	TTF_Quit();
 	SDL_Quit();
 	getInstance()->getThreadPool().deinitialize();
 	delete getInstance();

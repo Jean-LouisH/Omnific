@@ -22,7 +22,6 @@
 
 #include "ui_text_label.hpp"
 
-
 void Omnia::UITextLabel::setText(std::string text)
 {
 	if (text != this->text)
@@ -108,9 +107,9 @@ void Omnia::UITextLabel::generateImage()
 {
 	if (this->font != nullptr)
 	{
-		//if (this->font->getSDLTTFFont() != nullptr)
-		//{
-		//	this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->mode));
-		//}
+		if (this->font->getSDLTTFFont() != nullptr)
+		{
+			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->mode));
+		}
 	}
 }
