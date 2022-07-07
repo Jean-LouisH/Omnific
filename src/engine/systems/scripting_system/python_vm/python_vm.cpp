@@ -41,14 +41,19 @@ void Omnia::PythonVM::initialize()
 	pybind11::initialize_interpreter();
 }
 
+void Omnia::PythonVM::executeCommand(std::string command)
+{
+	pybind11::exec("from omnia import *");
+	pybind11::exec(command);
+}
+
 void Omnia::PythonVM::loadScriptModules(std::shared_ptr<Scene> scene)
 {
-	this->modules.clear();
+	this->scriptInstances.clear();
 
 	pybind11::module_ sys = pybind11::module_::import("sys");
 	pybind11::object path = sys.attr("path");
 	std::set<std::string> addedPaths;
-	std::set<std::string> scripts;
 
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
@@ -60,73 +65,64 @@ void Omnia::PythonVM::loadScriptModules(std::shared_ptr<Scene> scene)
 		for (size_t i = 0; i < scriptCollectionsCount; i++)
 		{
 			std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
-			std::vector<std::string> entityScripts;
+			EntityID entityID = scriptCollection->getEntityID();
 
 			for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
-				entityScripts.push_back(scriptCollection->scripts.at(j)->getName());
-
-			for (int j = 0; j < entityScripts.size(); j++)
-				scripts.emplace(entityScripts.at(j));
-		}
-
-		for (auto it = scripts.begin(); it != scripts.end(); it++)
-		{
-			try
 			{
-				std::string scriptFilepath = *it;
+				std::string scriptFilepath = scriptCollection->scripts.at(j)->getName();
 
-				if (addedPaths.count(scriptFilepath) == 0)
+				try
 				{
-					std::string newPath = OS::getFileAccess().getExecutableDirectoryPath() +
-						"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
+					if (addedPaths.count(scriptFilepath) == 0)
+					{
+						std::string newPath = OS::getFileAccess().getExecutableDirectoryPath() +
+							"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #ifdef _DEBUG
-					newPath = OS::getFileAccess().getExecutableDirectoryPath();
-					newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
-					std::string dataFolder = OS::getFileAccess().getDataDirectoryPath();
-					dataFolder = dataFolder.substr(dataFolder.find("data/"), dataFolder.size() - 1);
-					newPath += dataFolder + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
+						newPath = OS::getFileAccess().getExecutableDirectoryPath();
+						newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
+						std::string dataFolder = OS::getFileAccess().getDataDirectoryPath();
+						dataFolder = dataFolder.substr(dataFolder.find("data/"), dataFolder.size() - 1);
+						newPath += dataFolder + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #endif
+						pybind11::str newPathObj = pybind11::str(newPath);
+						newPathObj = newPathObj.attr("replace")("//", "/");
+						newPathObj = newPathObj.attr("replace")("/", "\\");
+						newPath = newPathObj.cast<std::string>();
 
-					pybind11::str newPathObj = pybind11::str(newPath);
-					newPathObj = newPathObj.attr("replace")("//", "/");
-					newPathObj = newPathObj.attr("replace")("/", "\\");
-					newPath = newPathObj.cast<std::string>();
+						path.attr("insert")(0, newPath);
+						addedPaths.emplace(newPath);
+					}
 
-					path.attr("insert")(0, newPath);
-					addedPaths.emplace(newPath);
+					std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
+					pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
+
+					ScriptInstance scriptInstance;
+					std::vector<std::string> methodNames = { "on_start", "on_input", "on_logic_frame", "on_compute_frame", "on_output", "on_finish" };
+					scriptInstance.setData(newPybind11Module.attr("omnia_script")());
+
+					for (int i = 0; i < methodNames.size(); i++)
+					{
+						try
+						{
+							std::string methodName = methodNames.at(i);
+							pybind11::object test = scriptInstance.test(methodName.c_str());
+							scriptInstance.setCallable(methodName);
+						}
+						catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
+						{
+
+						}
+					}
+
+					this->scriptInstances.emplace(scriptFilepath + std::to_string(entityID), scriptInstance);
 				}
-
-				Module newModule;
-				std::vector<std::string> methodNames = { "on_start", "on_input", "on_logic_frame", "on_compute_frame", "on_output", "on_finish" };
-				std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
-				pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
-
-				newModule.setData(newPybind11Module);
-
-				for (int i = 0; i < methodNames.size(); i++)
+				catch (const pybind11::error_already_set& e)
 				{
-					try
-					{
-						std::string methodName = methodNames.at(i);
-						pybind11::object test = newPybind11Module.attr(methodName.c_str());
-						newModule.setCallable(methodName);
-					}
-					catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
-					{
-
-					}
+					std::cout << e.what() << std::endl;
 				}
-
-				this->modules.emplace(moduleName, newModule);
-			}
-			catch (const pybind11::error_already_set& e)
-			{
-				std::cout << e.what() << std::endl;
 			}
 		}
 	}
-
-	
 }
 
 void Omnia::PythonVM::executeOnStartMethods(std::shared_ptr<SceneTree> sceneTree)
@@ -201,12 +197,11 @@ void Omnia::PythonVM::bindAndCall(
 {
 	for (size_t j = 0; j < scriptCollection->scripts.size(); j++)
 	{
-		std::string scriptPath = scriptCollection->scripts.at(j)->getName();
-		std::string scriptName = OS::getFileAccess().getFileNameWithoutExtension(scriptPath);
+		std::string scriptPath = scriptCollection->scripts.at(j)->getName() + std::to_string(entityID);
 
-		if (this->modules.count(scriptName))
+		if (this->scriptInstances.count(scriptPath))
 		{
-			if (this->modules.at(scriptName).hasCallable(methodName))
+			if (this->scriptInstances.at(scriptPath).hasCallable(methodName))
 			{
 				ScriptContext::bindEntity(
 					sceneTreeID,
@@ -214,7 +209,7 @@ void Omnia::PythonVM::bindAndCall(
 
 				try
 				{
-					this->modules.at(scriptName).call(methodName);
+					this->scriptInstances.at(scriptPath).call(methodName);
 				}
 				catch (const pybind11::error_already_set& e)
 				{

@@ -1,4 +1,9 @@
 import omnia
 
-def on_logic_frame():
-    omnia.get_component("Transform").rotate_y(1.0)
+class omnia_script:
+
+    def __init__(self):
+        pass
+
+    def on_logic_frame(self):
+        omnia.get_component("Transform").rotate_y(1.0)

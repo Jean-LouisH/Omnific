@@ -30,15 +30,16 @@
 
 namespace Omnia
 {
-	class Module
+	class ScriptInstance
 	{
 	public:
-		void setData(pybind11::module_ newModule);
+		void setData(pybind11::object newObject);
 		void setCallable(std::string methodName);
+		pybind11::object test(std::string methodName);
 		void call(std::string methodName);
 		bool hasCallable(std::string methodName);
 	private:
-		pybind11::module_ data;
+		pybind11::object data;
 		std::set<std::string> callableMethods;
 	};
 }

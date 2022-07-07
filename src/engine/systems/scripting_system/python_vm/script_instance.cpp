@@ -20,24 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "module.hpp"
+#include "script_instance.hpp"
 
-void Omnia::Module::setData(pybind11::module_ newModule)
+void Omnia::ScriptInstance::setData(pybind11::object newObject)
 {
-	this->data = newModule;
+	this->data = newObject;
 }
 
-void Omnia::Module::setCallable(std::string methodName)
+void Omnia::ScriptInstance::setCallable(std::string methodName)
 {
 	this->callableMethods.emplace(methodName);
 }
 
-void Omnia::Module::call(std::string methodName)
+pybind11::object Omnia::ScriptInstance::test(std::string methodName)
 {
-	this->data.attr(methodName.c_str())();
+	return this->data.attr(methodName.c_str());
 }
 
-bool Omnia::Module::hasCallable(std::string methodName)
+void Omnia::ScriptInstance::call(std::string methodName)
+{
+	this->test(methodName)();
+}
+
+bool Omnia::ScriptInstance::hasCallable(std::string methodName)
 {
 	return this->callableMethods.count(methodName) > 0;
 }

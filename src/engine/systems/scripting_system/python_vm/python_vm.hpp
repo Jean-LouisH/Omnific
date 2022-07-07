@@ -28,7 +28,7 @@
 #include "../vm_scripting_language.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
-#include "module.hpp"
+#include "script_instance.hpp"
 #include <scene/scene.hpp>
 #include <memory>
 
@@ -40,6 +40,7 @@ namespace Omnia
 		PythonVM();
 		~PythonVM();
 		void initialize();
+		void executeCommand(std::string command);
 		void loadScriptModules(std::shared_ptr<Scene> scene);
 		void executeOnStartMethods(std::shared_ptr<SceneTree> sceneTree);
 		void executeOnInputMethods(std::shared_ptr<SceneTree> sceneTree);
@@ -49,7 +50,7 @@ namespace Omnia
 		void executeOnFinishMethods(std::shared_ptr<SceneTree> sceneTree);
 		void deinitialize();
 	private:
-		std::unordered_map<std::string, Module> modules;
+		std::unordered_map<std::string, ScriptInstance> scriptInstances;
 
 		void executeQueuedMethods(
 			std::queue<EntityID> entityQueue, 

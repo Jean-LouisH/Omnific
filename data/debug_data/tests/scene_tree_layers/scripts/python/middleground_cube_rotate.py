@@ -1,7 +1,11 @@
 import omnia
 
+class omnia_script:
 
-def on_logic_frame():
-    transform = omnia.get_component("Transform")
-    transform.rotate_x(1.0)
-    transform.rotate_y(2.0)
+    def __init__(self):
+        pass
+
+    def on_logic_frame(self):
+        transform = omnia.get_component("Transform")
+        transform.rotate_x(1.0)
+        transform.rotate_y(2.0)
