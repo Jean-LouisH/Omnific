@@ -75,7 +75,6 @@ void Omnia::Engine::run()
 				OS::getFileAccess().setDataDirectory(dataDirectory);
 				this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
 				this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
-				this->commandLine = std::shared_ptr<CommandLine>(new CommandLine(this->sceneSerializer, this->sceneStorage));
 
 				Image image = Image(dataDirectory + this->configuration->metadata.iconFilepath);
 				OS::getWindow().changeIcon(image);
@@ -239,8 +238,9 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 
 			OS::getWindow().hide();
 			std::cout << std::endl << ">";
+			std::cin.ignore(1, '\n');
 			std::getline(std::cin, command);
-			this->commandLine->execute(command);
+			this->scriptingSystem->executeCommand(command);
 			OS::getWindow().show();
 		}
 #endif

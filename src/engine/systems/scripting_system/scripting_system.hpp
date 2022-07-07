@@ -42,6 +42,7 @@ namespace Omnia
 		virtual void initialize() override;
 		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
+		void executeCommand(std::string command);
 		void loadScriptModules(std::shared_ptr<Scene> scene);
 		void executeOnStartMethods(std::shared_ptr<Scene> scene);
 		void executeOnInputMethods(std::shared_ptr<Scene> scene);

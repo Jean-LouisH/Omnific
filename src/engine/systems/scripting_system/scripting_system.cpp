@@ -39,6 +39,11 @@ void Omnia::ScriptingSystem::process(std::shared_ptr<Scene> scene)
 
 }
 
+void Omnia::ScriptingSystem::executeCommand(std::string command)
+{
+	this->pythonVM->executeCommand(command);
+}
+
 void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)

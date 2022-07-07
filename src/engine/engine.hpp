@@ -26,7 +26,6 @@
 #include <string>
 #include "scene_serializer.hpp"
 #include "configuration.hpp"
-#include "command_line.hpp"
 #include "scene_storage.hpp"
 #include "systems/ai_system/ai_system.hpp"
 #include "systems/animation_system/animation_system.hpp"
@@ -76,7 +75,6 @@ namespace Omnia
 	private:
 		std::shared_ptr<Configuration> configuration;
 		std::shared_ptr<SceneSerializer> sceneSerializer;
-		std::shared_ptr<CommandLine> commandLine;
 		std::shared_ptr<SceneStorage> sceneStorage;
 
 		std::unique_ptr<AISystem> aiSystem;

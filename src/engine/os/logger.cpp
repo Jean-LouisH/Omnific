@@ -29,7 +29,7 @@
 void Omnia::Logger::write(std::string message)
 {
 	std::string timeStampedMessage = this->timeStamp(message);
-	std::cout << std::endl << timeStampedMessage;
+	std::cout << timeStampedMessage << std::endl;
 	this->logs.push_back(timeStampedMessage);
 }
 
