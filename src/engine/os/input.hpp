@@ -36,9 +36,6 @@ namespace Omnia
 	{
 		friend class Engine;
 	public:
-		using ControllerButtonCode = Uint8;
-		using ControllerAxisCode = Uint8;
-
 		Input();
 
 		bool isOnPress(std::string inputCode);
@@ -92,14 +89,17 @@ namespace Omnia
 		void pollInputEvents();
 
 		std::unordered_map<std::string, SDL_Keycode> keyboardEventsByString;
-		std::unordered_map<std::string, Input::ControllerButtonCode> controllerButtonsByString;
-		std::unordered_map<std::string, Input::ControllerAxisCode> controllerAxisEventsByString;
+		std::unordered_map<std::string, SDL_GameControllerButton> controllerButtonsByString;
+		std::unordered_map<std::string, SDL_GameControllerAxis> controllerAxisEventsByString;
 
 		std::set<std::string> heldInputs;
 
-		std::unordered_map<ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents;
+		std::set<SDL_Keycode> heldKeys;
+		std::unordered_map<SDL_GameControllerButton, SDL_JoystickID> heldControllerButtons;
+
+		std::unordered_map<SDL_GameControllerButton, SDL_ControllerButtonEvent> controllerButtonEvents;
 		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents;
-		std::unordered_map<ControllerAxisCode, SDL_ControllerAxisEvent> controllerAxisEvents;
+		std::unordered_map<SDL_GameControllerAxis, SDL_ControllerAxisEvent> controllerAxisEvents;
 		SDL_MouseButtonEvent mouseButtonEvent = { 0 };
 		SDL_MouseMotionEvent mouseMotionEvent = { 0 };
 		SDL_MouseWheelEvent  mouseWheelEvent = { 0 };

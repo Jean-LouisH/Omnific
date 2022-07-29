@@ -176,7 +176,7 @@ bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes, PlayerID playe
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
-			Omnia::Input::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			SDL_GameControllerButton controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (this->controllerButtonEvents.count(controllerButtonCode))
 				if (this->getControllerPlayerMap().count(playerID))
 					if (this->controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
@@ -228,13 +228,21 @@ bool Omnia::Input::isPressed(std::vector<std::string> inputCodes, PlayerID playe
 	{
 		std::string inputCode = inputCodes.at(i);
 
-		if (this->isOnPress(inputCode))
-			this->heldInputs.insert(inputCode);
-		if (this->isOnRelease(inputCode))
-			this->heldInputs.erase(inputCode);
+		if (this->keyboardEventsByString.count(inputCode))
+		{
+			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
+			if (this->heldKeys.count(sdlKeyCode))
+				return true;
+		}
 
-		if (this->heldInputs.count(inputCode) > 0)
-			return true;
+		if (this->controllerButtonsByString.count(inputCode))
+		{
+			SDL_GameControllerButton controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			if (this->heldControllerButtons.count(controllerButtonCode))
+				if (this->getControllerPlayerMap().count(playerID))
+					if (this->heldControllerButtons.at(controllerButtonCode) == this->getControllerPlayerMap().at(playerID))
+						return true;
+		}
 	}
 
 	return false;
@@ -268,7 +276,7 @@ bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID pla
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
-			Omnia::Input::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
+			SDL_GameControllerButton controllerButtonCode = this->controllerButtonsByString.at(inputCode);
 			if (this->controllerButtonEvents.count(controllerButtonCode))
 				if (this->getControllerPlayerMap().count(playerID))
 					if (this->controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
@@ -282,12 +290,14 @@ bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID pla
 
 bool Omnia::Input::isReleased(std::string inputCode)
 {
-	return false;
+	return !this->isPressed(inputCode);
 }
 
 bool Omnia::Input::isReleased(std::string inputCode, PlayerID playerID)
 {
-	return false;
+	std::vector<std::string> inputCodes;
+	inputCodes.push_back(inputCode);
+	return !this->isPressed(inputCodes, playerID);
 }
 
 float Omnia::Input::getAxis(std::string inputCode)
@@ -301,7 +311,7 @@ float Omnia::Input::getAxis(std::string inputCode, PlayerID playerID)
 
 	if (this->controllerAxisEventsByString.count(inputCode))
 	{
-		Omnia::Input::ControllerAxisCode controllerAxisCode = this->controllerAxisEventsByString.at(inputCode);
+		SDL_GameControllerAxis controllerAxisCode = this->controllerAxisEventsByString.at(inputCode);
 		if (controllerAxisEvents.count(controllerAxisCode))
 			if (this->getControllerPlayerMap().count(playerID))
 				if (controllerAxisEvents.at(controllerAxisCode).which == this->getControllerPlayerMap().at(playerID))
@@ -475,7 +485,12 @@ void Omnia::Input::pollInputEvents()
 			break;
 
 		case SDL_KEYDOWN:
+			this->heldKeys.insert(SDLEvents.key.keysym.sym);
+			this->keyboardEvents.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
+			this->hasDetectedInputChanges = true;
+			break;
 		case SDL_KEYUP:
+			this->heldKeys.erase(SDLEvents.key.keysym.sym);
 			this->keyboardEvents.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
 			this->hasDetectedInputChanges = true;
 			break;
@@ -496,13 +511,18 @@ void Omnia::Input::pollInputEvents()
 			break;
 
 		case SDL_CONTROLLERBUTTONDOWN:
+			this->heldControllerButtons.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton.which);
+			this->controllerButtonEvents.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
+			this->hasDetectedInputChanges = true;
+			break;
 		case SDL_CONTROLLERBUTTONUP:
-			this->controllerButtonEvents.emplace(SDLEvents.cbutton.button, SDLEvents.cbutton);
+			this->heldControllerButtons.erase((SDL_GameControllerButton)SDLEvents.cbutton.button);
+			this->controllerButtonEvents.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
 			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
-			this->controllerAxisEvents.emplace(SDLEvents.caxis.axis, SDLEvents.caxis);
+			this->controllerAxisEvents.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
 			this->hasDetectedInputChanges = true;
 			break;
 
