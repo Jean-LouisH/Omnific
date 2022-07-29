@@ -503,6 +503,7 @@ void Omnia::Input::pollInputEvents()
 
 		case SDL_MOUSEMOTION:
 			this->mouseMotionEvent = SDLEvents.motion;
+			this->hasDetectedInputChanges = true;
 			break;
 
 		case SDL_MOUSEWHEEL:
@@ -528,6 +529,7 @@ void Omnia::Input::pollInputEvents()
 
 		case SDL_DROPFILE:
 			this->dropEvent = SDLEvents.drop;
+			this->hasDetectedInputChanges = true;
 			break;
 		}
 	}
