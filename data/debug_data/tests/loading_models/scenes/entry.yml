@@ -9,7 +9,7 @@ SceneTree:
   Entity:
     name: "Background"
     SpriteContainer:
-      image: "loading_models/images/sky.png"
+      image: "tests/loading_models/images/sky.png"
       dimensions: [40.0, 30.0, 0.1]
     Transform:
       translation: [0, 0, 1]
@@ -27,16 +27,16 @@ SceneTree:
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
-      python: ["loading_models/scripts/python/camera_control.py"]
+      python: ["tests/loading_models/scripts/python/camera_control.py"]
   Entity:
     name: "Model"
     Transform:
       translation: [0, 0, 0]
       scale: [25, 25, 25]
     ModelContainer:
-      models: ["loading_models/models/snail_idle.glb"]
+      models: ["tests/loading_models/models/snail_idle.glb"]
     ScriptCollection:
-      python: ["loading_models/scripts/python/constantly_rotate.py"]
+      python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
   Entity:
     name: "Viewport"
     UIViewport:
