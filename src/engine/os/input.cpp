@@ -162,10 +162,6 @@ bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes)
 
 bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
 {
-	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->keyboardEvents;
-	std::unordered_map<Omnia::Input::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
-		this->controllerButtonEvents;
-
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
 		std::string inputCode = inputCodes.at(i);
@@ -173,18 +169,18 @@ bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes, PlayerID playe
 		if (this->keyboardEventsByString.count(inputCode))
 		{
 			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
-			if (keyboardEvents.count(sdlKeyCode))
-				if (keyboardEvents.at(sdlKeyCode).type == SDL_KEYDOWN)
+			if (this->keyboardEvents.count(sdlKeyCode))
+				if (this->keyboardEvents.at(sdlKeyCode).type == SDL_KEYDOWN)
 					return true;
 		}
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
 			Omnia::Input::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
-			if (controllerButtonEvents.count(controllerButtonCode))
+			if (this->controllerButtonEvents.count(controllerButtonCode))
 				if (this->getControllerPlayerMap().count(playerID))
-					if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
-						controllerButtonEvents.at(controllerButtonCode).which == this->getControllerPlayerMap().at(playerID))
+					if (this->controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
+						this->controllerButtonEvents.at(controllerButtonCode).which == this->getControllerPlayerMap().at(playerID))
 						return true;
 		}
 	}
@@ -258,10 +254,6 @@ bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes)
 
 bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
 {
-	std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboardEvents = this->keyboardEvents;
-	std::unordered_map<Omnia::Input::ControllerButtonCode, SDL_ControllerButtonEvent> controllerButtonEvents =
-		this->controllerButtonEvents;
-
 	for (int i = 0; i < inputCodes.size(); i++)
 	{
 		std::string inputCode = inputCodes.at(i);
@@ -269,18 +261,18 @@ bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID pla
 		if (this->keyboardEventsByString.count(inputCode))
 		{
 			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
-			if (keyboardEvents.count(sdlKeyCode))
-				if (keyboardEvents.at(sdlKeyCode).type == SDL_KEYUP)
+			if (this->keyboardEvents.count(sdlKeyCode))
+				if (this->keyboardEvents.at(sdlKeyCode).type == SDL_KEYUP)
 					return true;
 		}
 
 		if (this->controllerButtonsByString.count(inputCode))
 		{
 			Omnia::Input::ControllerButtonCode controllerButtonCode = this->controllerButtonsByString.at(inputCode);
-			if (controllerButtonEvents.count(controllerButtonCode))
+			if (this->controllerButtonEvents.count(controllerButtonCode))
 				if (this->getControllerPlayerMap().count(playerID))
-					if (controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
-						controllerButtonEvents.at(controllerButtonCode).which == this->getControllerPlayerMap().at(playerID))
+					if (this->controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
+						this->controllerButtonEvents.at(controllerButtonCode).which == this->getControllerPlayerMap().at(playerID))
 						return true;
 		}
 	}
