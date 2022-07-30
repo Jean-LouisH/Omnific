@@ -24,13 +24,18 @@
 
 Omnia::CPPNativeScript::CPPNativeScript(std::string filepath)
 {
-	CPPNativeScript();
+	this->type = this->TYPE_STRING;
 	this->setName(filepath);
 }
 
 Omnia::CPPNativeScript::~CPPNativeScript()
 {
 
+}
+
+Omnia::CPPNativeScript* Omnia::CPPNativeScript::copy()
+{
+	return new CPPNativeScript(*this);
 }
 
 void Omnia::CPPNativeScript::onStart()

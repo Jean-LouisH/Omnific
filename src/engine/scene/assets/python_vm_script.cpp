@@ -25,6 +25,6 @@
 
 Omnia::PythonVMScript::PythonVMScript(std::string filepath)
 {
-	PythonVMScript();
+	this->type = this->TYPE_STRING;
 	this->setName(filepath);
 }

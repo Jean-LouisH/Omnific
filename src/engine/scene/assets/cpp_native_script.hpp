@@ -37,6 +37,8 @@ namespace Omnia
 
         CPPNativeScript(std::string filepath);
         ~CPPNativeScript();
+
+        virtual CPPNativeScript* copy();
         virtual void onStart();
         virtual void onInput();
         virtual void onLogicFrame();
