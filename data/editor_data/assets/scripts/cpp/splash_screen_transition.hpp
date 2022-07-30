@@ -29,10 +29,28 @@ namespace Omnia
 	class SplashScreenTransition : CPPNativeScript
 	{
 	public:
+		/* Custom classes should derive their own type string
+		and update the base type name.*/
+		SplashScreenTransition()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "SplashScreenTransition";
+
+		/* Custom classes should have their own clone method 
+		for the CPPNativeAssembly instance derivation. */
+		virtual CPPNativeScript* copy() override;
+
+		/* Add all the methods from CPPNativeScript to override. */
 		virtual void onStart() override;
 		virtual void onLogicFrame() override;
+
+		/* Custom public methods. */
+
 	private:
 		int countdown_value = 5.0;
 		const char* next_scene = "project_list";
+
+		/* Custom private methods. */
 	};
 }

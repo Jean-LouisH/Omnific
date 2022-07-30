@@ -22,6 +22,12 @@
 
 #include "splash_screen_transition.hpp"
 
+Omnia::CPPNativeScript* Omnia::SplashScreenTransition::copy()
+{
+	return new SplashScreenTransition(*this);
+}
+
+
 void Omnia::SplashScreenTransition::onStart()
 {
 
