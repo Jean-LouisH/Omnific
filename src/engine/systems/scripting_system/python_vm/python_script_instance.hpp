@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class ScriptInstance
+	class PythonScriptInstance
 	{
 	public:
 		void setData(pybind11::object newObject);
