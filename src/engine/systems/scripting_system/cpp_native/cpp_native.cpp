@@ -30,42 +30,48 @@ Omnia::CPPNative::~CPPNative()
 	OS::getDLLAccess().close(this->dynamicLibraryHandle);
 }
 
+void Omnia::CPPNative::initialize()
+{
+
+}
+
 void Omnia::CPPNative::loadScriptModules()
 {
 	this->dynamicLibraryHandle = OS::getDLLAccess().open(this->nativeAssemblyFilename);
+	this->execute("loadScriptModules");
 }
 
 void Omnia::CPPNative::executeOnStartMethods()
 {
-	this->executeMethods("executeOnStartMethods");
+	this->execute("executeOnStartMethods");
 }
 
 void Omnia::CPPNative::executeOnInputMethods()
 {
-	this->executeMethods("executeOnInputMethods");
+	this->execute("executeOnInputMethods");
 }
 
 void Omnia::CPPNative::executeOnLogicFrameMethods()
 {
-	this->executeMethods("executeOnFrameMethods");
+	this->execute("executeOnFrameMethods");
 }
 
 void Omnia::CPPNative::executeOnComputeFrameMethods()
 {
-	this->executeMethods("executeOnComputeMethods");
+	this->execute("executeOnComputeMethods");
 }
 
 void Omnia::CPPNative::executeOnOutputMethods()
 {
-	this->executeMethods("executeOnOutputMethods");
+	this->execute("executeOnOutputMethods");
 }
 
 void Omnia::CPPNative::executeOnFinishMethods()
 {
-	this->executeMethods("executeOnFinishMethods");
+	this->execute("executeOnFinishMethods");
 }
 
-void Omnia::CPPNative::executeMethods(std::string methodName)
+void Omnia::CPPNative::execute(std::string methodName)
 {
 	if (this->dynamicLibraryHandle != nullptr)
 	{
@@ -75,4 +81,9 @@ void Omnia::CPPNative::executeMethods(std::string methodName)
 		if (procedure != nullptr)
 			procedure();
 	}
+}
+
+void Omnia::CPPNative::deinitialize()
+{
+
 }

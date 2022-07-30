@@ -29,13 +29,13 @@
 #include <scene_serializer.hpp>
 #include "utilities/aliases.hpp"
 #include "scripting_language.hpp"
-#include "update_system.hpp"
+#include "system.hpp"
 #include <memory>
 #include <vector>
 
 namespace Omnia
 {
-	class ScriptingSystem : public UpdateSystem
+	class ScriptingSystem : public System
 	{
 	public:
 		ScriptingSystem();
@@ -53,10 +53,7 @@ namespace Omnia
 		void setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer);
 		void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 	private:
-		std::vector<std::unique_ptr<ScriptingLanguage>> scriptingLanguages;
-
-		std::unique_ptr<PythonVM> pythonVM;
-		std::unique_ptr<CPPNative> cppNative;
+		std::unordered_map<std::string, std::shared_ptr<ScriptingLanguage>> scriptingLanguages;
 	};
 }
 

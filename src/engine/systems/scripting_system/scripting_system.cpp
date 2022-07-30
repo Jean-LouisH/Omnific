@@ -25,13 +25,14 @@
 
 Omnia::ScriptingSystem::ScriptingSystem()
 {
-	this->pythonVM = std::unique_ptr<PythonVM>(new PythonVM());
-	this->cppNative = std::unique_ptr<CPPNative>(new CPPNative());
+	this->scriptingLanguages.emplace("PythonVM", std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<PythonVM>(new PythonVM())));
+	this->scriptingLanguages.emplace("CPPNative", std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<CPPNative>(new CPPNative())));
 }
 
 void Omnia::ScriptingSystem::initialize()
 {
-	this->pythonVM->initialize();
+	for (auto scriptingLanguage : this->scriptingLanguages)
+		scriptingLanguage.second->initialize();
 }
 
 void Omnia::ScriptingSystem::process(std::shared_ptr<Scene> scene)
@@ -41,15 +42,17 @@ void Omnia::ScriptingSystem::process(std::shared_ptr<Scene> scene)
 
 void Omnia::ScriptingSystem::executeCommand(std::string command)
 {
-	this->pythonVM->executeCommand(command);
+	std::shared_ptr<PythonVM> pythonVM = std::dynamic_pointer_cast<PythonVM>(this->scriptingLanguages.at("PythonVM"));
+	if (pythonVM != nullptr)
+		pythonVM->executeCommand(command);
 }
 
 void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
-		this->pythonVM->loadScriptModules(scene);
-		this->cppNative->loadScriptModules();
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->loadScriptModules();
 	}
 }
 
@@ -57,13 +60,11 @@ void Omnia::ScriptingSystem::executeOnStartMethods(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->executeOnStartMethods();
 
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		{
-			this->pythonVM->executeOnStartMethods(it->second);
-			it->second->clearStartEntityQueue();
-		}
+		for (auto it : scene->getSceneTrees())
+			it.second->clearStartEntityQueue();
 	}
 }
 
@@ -71,10 +72,8 @@ void Omnia::ScriptingSystem::executeOnInputMethods(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
-
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnInputMethods(it->second);
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->executeOnInputMethods();
 	}
 }
 
@@ -82,11 +81,8 @@ void Omnia::ScriptingSystem::executeOnLogicFrameMethods(std::shared_ptr<Scene> s
 {
 	if (scene != nullptr)
 	{
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
-
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnLogicFrameMethods(it->second);
-		this->cppNative->executeOnLogicFrameMethods();
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->executeOnLogicFrameMethods();
 	}
 }
 
@@ -94,10 +90,8 @@ void Omnia::ScriptingSystem::executeOnComputeFrameMethods(std::shared_ptr<Scene>
 {
 	if (scene != nullptr)
 	{
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
-
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnComputeFrameMethods(it->second);
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->executeOnComputeFrameMethods();
 	}
 }
 
@@ -105,10 +99,8 @@ void Omnia::ScriptingSystem::executeOnOutputMethods(std::shared_ptr<Scene> scene
 {
 	if (scene != nullptr)
 	{
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
-
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			this->pythonVM->executeOnOutputMethods(it->second);
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->executeOnOutputMethods();
 	}
 }
 
@@ -116,13 +108,11 @@ void Omnia::ScriptingSystem::executeOnFinishMethods(std::shared_ptr<Scene> scene
 {
 	if (scene != nullptr)
 	{
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->executeOnFinishMethods();
 
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-		{
-			this->pythonVM->executeOnFinishMethods(it->second);
-			it->second->clearFinishEntityQueue();
-		}
+		for (auto it : scene->getSceneTrees())
+			it.second->clearFinishEntityQueue();
 	}
 }
 
@@ -138,5 +128,6 @@ void Omnia::ScriptingSystem::setSceneStorage(std::shared_ptr<SceneStorage> scene
 
 void Omnia::ScriptingSystem::deinitialize()
 {
-	this->pythonVM->deinitialize();
+	for (auto scriptingLanguage : this->scriptingLanguages)
+		scriptingLanguage.second->deinitialize();
 }

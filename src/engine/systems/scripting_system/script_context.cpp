@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "script_context.hpp"
-#include <asset_cache.hpp>
+#include <scene/asset_cache.hpp>
 #include <os/os.hpp>
 
 Omnia::ScriptContext* Omnia::ScriptContext::instance = nullptr;

@@ -22,6 +22,16 @@
 
 #include "scripting_language.hpp"
 
+void Omnia::ScriptingLanguage::initialize()
+{
+
+}
+
+void Omnia::ScriptingLanguage::loadScriptModules()
+{
+
+}
+
 void Omnia::ScriptingLanguage::executeOnStartMethods()
 {
 
@@ -48,6 +58,11 @@ void Omnia::ScriptingLanguage::executeOnOutputMethods()
 }
 
 void Omnia::ScriptingLanguage::executeOnFinishMethods()
+{
+
+}
+
+void Omnia::ScriptingLanguage::deinitialize()
 {
 
 }

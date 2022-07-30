@@ -27,12 +27,15 @@ namespace Omnia
 	class ScriptingLanguage
 	{
 	public:
+		virtual void initialize();
+		virtual void loadScriptModules();
 		virtual void executeOnStartMethods();
 		virtual void executeOnInputMethods();
 		virtual void executeOnLogicFrameMethods();
 		virtual void executeOnComputeFrameMethods();
 		virtual void executeOnOutputMethods();
 		virtual void executeOnFinishMethods();
+		virtual void deinitialize();
 	private:
 	};
 }

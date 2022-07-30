@@ -23,25 +23,28 @@
 #pragma once
 
 #include <string>
-#include "../native_scripting_language.hpp"
+#include "systems/scripting_system/scripting_language.hpp"
 
 namespace Omnia
 {
-    class CPPNative : NativeScriptingLanguage
+    class CPPNative : public ScriptingLanguage
     {
     public:
         ~CPPNative();
-        void loadScriptModules();
-        void executeOnStartMethods();
-        void executeOnInputMethods();
-        void executeOnLogicFrameMethods();
-        void executeOnComputeFrameMethods();
-        void executeOnOutputMethods();
-        void executeOnFinishMethods();
+        virtual void initialize() override;
+        virtual void loadScriptModules() override;
+        virtual void executeOnStartMethods() override;
+        virtual void executeOnInputMethods() override;
+        virtual void executeOnLogicFrameMethods() override;
+        virtual void executeOnComputeFrameMethods() override;
+        virtual void executeOnOutputMethods() override;
+        virtual void executeOnFinishMethods() override;
+        virtual void deinitialize() override;
+
     private:
         void* dynamicLibraryHandle;
         std::string nativeAssemblyFilename = "omnia_cpp_native_assembly";
 
-        void executeMethods(std::string methodName);
+        void execute(std::string methodName);
     };
 }

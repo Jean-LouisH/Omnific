@@ -25,32 +25,32 @@
 #define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
 
 #include <unordered_map>
-#include "../vm_scripting_language.hpp"
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
-#include "script_instance.hpp"
+#include "python_script_instance.hpp"
 #include <scene/scene.hpp>
+#include "systems/scripting_system/scripting_language.hpp"
 #include <memory>
 
 namespace Omnia
 {
-	class PythonVM : VMScriptingLanguage
+	class PythonVM : public ScriptingLanguage
 	{
 	public:
 		PythonVM();
 		~PythonVM();
-		void initialize();
+		virtual void initialize() override;
 		void executeCommand(std::string command);
-		void loadScriptModules(std::shared_ptr<Scene> scene);
-		void executeOnStartMethods(std::shared_ptr<SceneTree> sceneTree);
-		void executeOnInputMethods(std::shared_ptr<SceneTree> sceneTree);
-		void executeOnLogicFrameMethods(std::shared_ptr<SceneTree> sceneTree);
-		void executeOnComputeFrameMethods(std::shared_ptr<SceneTree> sceneTree);
-		void executeOnOutputMethods(std::shared_ptr<SceneTree> sceneTree);
-		void executeOnFinishMethods(std::shared_ptr<SceneTree> sceneTree);
-		void deinitialize();
+		virtual void loadScriptModules() override;
+		virtual void executeOnStartMethods() override;
+		virtual void executeOnInputMethods() override;
+		virtual void executeOnLogicFrameMethods() override;
+		virtual void executeOnComputeFrameMethods() override;
+		virtual void executeOnOutputMethods() override;
+		virtual void executeOnFinishMethods() override;
+		virtual void deinitialize() override;
 	private:
-		std::unordered_map<std::string, ScriptInstance> scriptInstances;
+		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;
 
 		void executeQueuedMethods(
 			std::queue<EntityID> entityQueue, 
