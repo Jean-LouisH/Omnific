@@ -23,12 +23,12 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "update_system.hpp"
+#include "system.hpp"
 
 namespace Omnia
 {
 	/* Processes Components that enable playback of data with respect to time. */
-	class AnimationSystem : UpdateSystem
+	class AnimationSystem : System
 	{
 	public:
 		~AnimationSystem();

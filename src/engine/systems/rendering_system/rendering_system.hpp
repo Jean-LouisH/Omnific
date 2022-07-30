@@ -24,7 +24,7 @@
 
 #include <SDL.h>
 #include "scene/scene.hpp"
-#include "output_system.hpp"
+#include "system.hpp"
 #include <set>
 #include <vector>
 #include "os/window.hpp"
@@ -38,7 +38,7 @@
 namespace Omnia
 {
 	/* Processes RenderableComponents for output to graphics display. */
-	class RenderingSystem : public OutputSystem
+	class RenderingSystem : public System
 	{
 	public:
 		RenderingSystem();
