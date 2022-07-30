@@ -42,7 +42,23 @@ namespace Omnia
 	{
 	public:
 		CPPNativeAssembly();
+
+		void loadScriptModules();
+
+		void executeOnStartMethods();
+		void executeOnInputMethods();
+		void executeOnLogicFrameMethods();
+		void executeOnComputeFrameMethods();
+		void executeOnOutputMethods();
+		void executeOnFinishMethods();
 	private:
-		std::unordered_map<std::string, std::shared_ptr<CPPNativeScript>> nativeScripts;
+		std::unordered_map<std::string, std::shared_ptr<CPPNativeScript>> cppScriptDefinitions;
+		std::unordered_map<std::string, std::shared_ptr<CPPNativeScript>> cppScriptInstances;
+
+		template <class T>
+		void addScriptDefinition(T* t)
+		{
+			this->cppScriptDefinitions.emplace(T::TYPE_STRING, std::shared_ptr<T>(t));
+		}
 	};
 }

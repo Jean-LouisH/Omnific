@@ -21,8 +21,64 @@
 // SOFTWARE.
 
 #include "cpp_native_assembly.hpp"
+#include "systems/scripting_system/script_context.hpp"
+
+/// Include custom class headers below
+////////////////////////////////////////////////////
+
+#include "splash_screen_transition.hpp"
+
+
+/////////////////////////////////////////////////////
 
 Omnia::CPPNativeAssembly::CPPNativeAssembly()
+{
+	/* Custom script definitions should be added here. */
+
+	this->addScriptDefinition(new SplashScreenTransition());
+}
+
+void Omnia::CPPNativeAssembly::loadScriptModules()
+{
+	this->cppScriptInstances.clear();
+
+	for (auto it : ScriptContext::getScene().getSceneTrees())
+		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
+			for (std::shared_ptr<Script> script : scriptCollection->scripts)
+				if (script->getType() == Omnia::CPPNativeScript::TYPE_STRING)
+					if (this->cppScriptDefinitions.count(script->getName()))
+						this->cppScriptInstances.emplace(
+							script->getName() + std::to_string(scriptCollection->getEntityID()), 
+							std::shared_ptr<CPPNativeScript>(this->cppScriptDefinitions.at(script->getName())->copy())
+						);
+}
+
+void Omnia::CPPNativeAssembly::executeOnStartMethods()
+{
+
+}
+
+void Omnia::CPPNativeAssembly::executeOnInputMethods()
+{
+
+}
+
+void Omnia::CPPNativeAssembly::executeOnLogicFrameMethods()
+{
+
+}
+
+void Omnia::CPPNativeAssembly::executeOnComputeFrameMethods()
+{
+
+}
+
+void Omnia::CPPNativeAssembly::executeOnOutputMethods()
+{
+
+}
+
+void Omnia::CPPNativeAssembly::executeOnFinishMethods()
 {
 
 }
