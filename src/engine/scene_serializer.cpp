@@ -27,7 +27,7 @@
 #include "scene/scene.hpp"
 #include "scene/component.hpp"
 #include <os/os.hpp>
-#include "asset_cache.hpp"
+#include "scene/asset_cache.hpp"
 
 Omnia::SceneSerializer::SceneSerializer(std::string dataDirectory)
 {
