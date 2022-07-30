@@ -20,6 +20,7 @@ SceneTree:
       colour: [255, 0, 0, 255]
     ScriptCollection:
       python: ["assets/scripts/python/debug_time_display.py"]
+      cpp: ["SplashScreenTransition"]
   Entity:
     name: "Viewport"
     UIViewport:
