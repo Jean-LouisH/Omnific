@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include <scene/assets/cpp_native_script.hpp>
+#include <scene/assets/cpp_script.hpp>
 
 namespace Omnia
 {
-	class SplashScreenTransition : public CPPNativeScript
+	class SplashScreenTransition : public CPPScript
 	{
 	public:
 		/* Custom classes should derive their own type string
@@ -38,10 +38,13 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "SplashScreenTransition";
 
 		/* Custom classes should have their own clone method 
-		for the CPPNativeAssembly instance derivation. */
-		virtual CPPNativeScript* copy() override;
+		for the CPPScriptAssembly instance derivation. */
+		virtual CPPScript* copy() override
+		{
+			return new SplashScreenTransition(*this);
+		}
 
-		/* Add all the methods from CPPNativeScript to override. */
+		/* Add all the methods from CPPScript to override. */
 		virtual void onStart() override;
 		virtual void onLogicFrame() override;
 

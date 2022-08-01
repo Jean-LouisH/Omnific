@@ -52,7 +52,7 @@ void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->loadScriptModules();
+			scriptingLanguage.second->loadScriptInstances();
 	}
 }
 

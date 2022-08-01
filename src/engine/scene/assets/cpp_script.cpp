@@ -20,11 +20,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "python_vm_script.hpp"
+#include "cpp_script.hpp"
 
-
-Omnia::PythonVMScript::PythonVMScript(std::string filepath)
+Omnia::CPPScript::CPPScript(std::string filepath)
 {
 	this->type = this->TYPE_STRING;
 	this->setName(filepath);
+}
+
+Omnia::CPPScript::~CPPScript()
+{
+
+}
+
+Omnia::CPPScript* Omnia::CPPScript::copy()
+{
+	return new CPPScript(*this);
+}
+
+void Omnia::CPPScript::onStart()
+{
+
+}
+
+void Omnia::CPPScript::onInput()
+{
+
+}
+
+void Omnia::CPPScript::onLogicFrame()
+{
+
+}
+
+void Omnia::CPPScript::onComputeFrame()
+{
+
+}
+
+void Omnia::CPPScript::onOutput()
+{
+
+}
+
+void Omnia::CPPScript::onFinish()
+{
+
 }

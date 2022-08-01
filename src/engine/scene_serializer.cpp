@@ -385,7 +385,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 											{
 												for (int i = 0; i < it3->second.size(); i++)
 												{
-													std::shared_ptr<Omnia::PythonVMScript> pythonScript(new PythonVMScript(it3->second[i].as<std::string>()));
+													std::shared_ptr<Omnia::PythonScript> pythonScript(new PythonScript(it3->second[i].as<std::string>()));
 													AssetCache::store(std::static_pointer_cast<Asset>(pythonScript));
 													scriptCollection->scripts.push_back(pythonScript);
 												}
@@ -394,7 +394,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 											{
 												for (int i = 0; i < it3->second.size(); i++)
 												{
-													std::shared_ptr<Omnia::CPPNativeScript> cppScript(new CPPNativeScript(it3->second[i].as<std::string>()));
+													std::shared_ptr<Omnia::CPPScript> cppScript(new CPPScript(it3->second[i].as<std::string>()));
 													AssetCache::store(std::static_pointer_cast<Asset>(cppScript));
 													scriptCollection->scripts.push_back(cppScript);
 												}

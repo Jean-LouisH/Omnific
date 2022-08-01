@@ -20,49 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scripting_language.hpp"
+#pragma once
 
-void Omnia::ScriptingLanguage::initialize()
+#include "script.hpp"
+
+namespace Omnia
 {
+    class OMNIA_ENGINE_API PythonScript : public Script
+    {
+    public:
+        PythonScript()
+        {
+            this->type = TYPE_STRING;
+        };
+        static constexpr const char* TYPE_STRING = "PythonScript";
 
-}
-
-void Omnia::ScriptingLanguage::loadScriptInstances()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnStartMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnInputMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnLogicFrameMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnComputeFrameMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnOutputMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnFinishMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::deinitialize()
-{
-
+        PythonScript(std::string filepath);
+    private:
+    };
 }

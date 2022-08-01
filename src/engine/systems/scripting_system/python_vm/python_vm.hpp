@@ -41,7 +41,7 @@ namespace Omnia
 		~PythonVM();
 		virtual void initialize() override;
 		void executeCommand(std::string command);
-		virtual void loadScriptModules() override;
+		virtual void loadScriptInstances() override;
 		virtual void executeOnStartMethods() override;
 		virtual void executeOnInputMethods() override;
 		virtual void executeOnLogicFrameMethods() override;

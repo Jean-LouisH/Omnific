@@ -28,7 +28,7 @@ namespace Omnia
 	{
 	public:
 		virtual void initialize();
-		virtual void loadScriptModules();
+		virtual void loadScriptInstances();
 		virtual void executeOnStartMethods();
 		virtual void executeOnInputMethods();
 		virtual void executeOnLogicFrameMethods();

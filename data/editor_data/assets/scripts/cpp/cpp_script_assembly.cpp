@@ -20,49 +20,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scripting_language.hpp"
+#include "cpp_script_assembly.hpp"
+#include "cpp_script_registry.hpp"
+#include "systems/scripting_system/script_context.hpp"
+#include "os/os.hpp"
 
-void Omnia::ScriptingLanguage::initialize()
+void loadScriptInstances()
+{
+	Omnia::OS::getLogger().write("DLL Loaded.");
+	Omnia::CPPScriptRegistry::loadScriptInstances();
+	
+	int a = 0;
+	int b = a + 2;
+}
+
+void executeOnStartMethods()
 {
 
 }
 
-void Omnia::ScriptingLanguage::loadScriptInstances()
+void executeOnInputMethods()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnStartMethods()
+void executeOnLogicFrameMethods()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnInputMethods()
+void executeOnComputeFrameMethods()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnLogicFrameMethods()
+void executeOnOutputMethods()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnComputeFrameMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnOutputMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::executeOnFinishMethods()
-{
-
-}
-
-void Omnia::ScriptingLanguage::deinitialize()
+void executeOnFinishMethods()
 {
 
 }

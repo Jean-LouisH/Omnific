@@ -20,50 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "cpp_native_script.hpp"
+#pragma once
 
-Omnia::CPPNativeScript::CPPNativeScript(std::string filepath)
+#include "script.hpp"
+
+namespace Omnia
 {
-	this->type = this->TYPE_STRING;
-	this->setName(filepath);
-}
+    class OMNIA_ENGINE_API CPPScript : public Script
+    {
+    public:
+        CPPScript()
+        {
+            this->type = TYPE_STRING;
+        };
+        static constexpr const char* TYPE_STRING = "CPPScript";
 
-Omnia::CPPNativeScript::~CPPNativeScript()
-{
+        CPPScript(std::string filepath);
+        ~CPPScript();
 
-}
-
-Omnia::CPPNativeScript* Omnia::CPPNativeScript::copy()
-{
-	return new CPPNativeScript(*this);
-}
-
-void Omnia::CPPNativeScript::onStart()
-{
-
-}
-
-void Omnia::CPPNativeScript::onInput()
-{
-
-}
-
-void Omnia::CPPNativeScript::onLogicFrame()
-{
-
-}
-
-void Omnia::CPPNativeScript::onComputeFrame()
-{
-
-}
-
-void Omnia::CPPNativeScript::onOutput()
-{
-
-}
-
-void Omnia::CPPNativeScript::onFinish()
-{
-
+        virtual CPPScript* copy();
+        virtual void onStart();
+        virtual void onInput();
+        virtual void onLogicFrame();
+        virtual void onComputeFrame();
+        virtual void onOutput();
+        virtual void onFinish();
+    private:
+    };
 }

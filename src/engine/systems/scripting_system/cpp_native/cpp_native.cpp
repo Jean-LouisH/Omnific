@@ -35,10 +35,10 @@ void Omnia::CPPNative::initialize()
 
 }
 
-void Omnia::CPPNative::loadScriptModules()
+void Omnia::CPPNative::loadScriptInstances()
 {
 	this->dynamicLibraryHandle = OS::getDLLAccess().open(this->nativeAssemblyFilename);
-	this->execute("loadScriptModules");
+	this->execute("loadScriptInstances");
 }
 
 void Omnia::CPPNative::executeOnStartMethods()

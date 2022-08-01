@@ -8,7 +8,7 @@ project ("application")
 project ("steam_application")
 project ("dedicated_gpu_application")
 project ("dedicated_gpu_steam_application")
-project ("omnia_cpp_native_assembly")
+project ("omnia_cpp_script_assembly")
 
 # Include sub-projects.
 add_subdirectory("src")

@@ -20,31 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "python_script.hpp"
 
-#include "script.hpp"
 
-namespace Omnia
+Omnia::PythonScript::PythonScript(std::string filepath)
 {
-    class OMNIA_ENGINE_API CPPNativeScript : public Script
-    {
-    public:
-        CPPNativeScript()
-        {
-            this->type = TYPE_STRING;
-        };
-        static constexpr const char* TYPE_STRING = "CPPNativeScript";
-
-        CPPNativeScript(std::string filepath);
-        ~CPPNativeScript();
-
-        virtual CPPNativeScript* copy();
-        virtual void onStart();
-        virtual void onInput();
-        virtual void onLogicFrame();
-        virtual void onComputeFrame();
-        virtual void onOutput();
-        virtual void onFinish();
-    private:
-    };
+	this->type = this->TYPE_STRING;
+	this->setName(filepath);
 }

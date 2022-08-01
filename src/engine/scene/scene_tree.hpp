@@ -40,12 +40,12 @@
 
 #include <scene/assets/animation.hpp>
 #include <scene/assets/audio_stream.hpp>
-#include "scene/assets/cpp_native_script.hpp"
+#include "scene/assets/cpp_script.hpp"
 #include <scene/assets/font.hpp>
 #include <scene/assets/image.hpp>
 #include <scene/assets/material.hpp>
 #include <scene/assets/mesh.hpp>
-#include "scene/assets/python_vm_script.hpp"
+#include "scene/assets/python_script.hpp"
 #include <scene/assets/rig.hpp>
 #include <scene/assets/shader.hpp>
 #include <scene/assets/text.hpp>

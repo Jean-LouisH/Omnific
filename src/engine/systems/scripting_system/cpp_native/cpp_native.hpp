@@ -32,7 +32,7 @@ namespace Omnia
     public:
         ~CPPNative();
         virtual void initialize() override;
-        virtual void loadScriptModules() override;
+        virtual void loadScriptInstances() override;
         virtual void executeOnStartMethods() override;
         virtual void executeOnInputMethods() override;
         virtual void executeOnLogicFrameMethods() override;

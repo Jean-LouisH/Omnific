@@ -47,7 +47,7 @@ void Omnia::PythonVM::executeCommand(std::string command)
 	pybind11::exec(command);
 }
 
-void Omnia::PythonVM::loadScriptModules()
+void Omnia::PythonVM::loadScriptInstances()
 {
 	this->pythonScriptInstances.clear();
 
@@ -66,7 +66,7 @@ void Omnia::PythonVM::loadScriptModules()
 			{
 				std::string scriptFilepath = script->getName();
 
-				if (script->getType() == Omnia::PythonVMScript::TYPE_STRING)
+				if (script->getType() == Omnia::PythonScript::TYPE_STRING)
 				{
 					try
 					{

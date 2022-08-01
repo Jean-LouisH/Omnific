@@ -20,68 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "cpp_native_assembly.hpp"
+#include "cpp_script_registry.hpp"
 #include "systems/scripting_system/script_context.hpp"
 
-/// Include custom class headers below
-////////////////////////////////////////////////////
+Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::instance = nullptr;
 
-#include "splash_screen_transition.hpp"
-
-
-/////////////////////////////////////////////////////
-
-Omnia::CPPNativeAssembly::CPPNativeAssembly()
+void Omnia::CPPScriptRegistry::loadScriptInstances()
 {
-	/* Custom script definitions should be added here. */
+	CPPScriptRegistry* registry = getInstance();
 
-	this->addScriptDefinition(new SplashScreenTransition());
-}
-
-void Omnia::CPPNativeAssembly::loadScriptModules()
-{
-	this->cppScriptInstances.clear();
+	registry->initialize();
+	registry->cppScriptInstances.clear();
 
 	for (auto it : ScriptContext::getScene().getSceneTrees())
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
-				if (script->getType() == Omnia::CPPNativeScript::TYPE_STRING)
-					if (this->cppScriptDefinitions.count(script->getName()))
-						this->cppScriptInstances.emplace(
-							script->getName() + std::to_string(scriptCollection->getEntityID()), 
-							std::shared_ptr<CPPNativeScript>(this->cppScriptDefinitions.at(script->getName()))
+				if (script->getType() == Omnia::CPPScript::TYPE_STRING)
+					if (registry->cppScriptDefinitions.count(script->getName()))
+						registry->cppScriptInstances.emplace(
+							script->getName() + std::to_string(scriptCollection->getEntityID()),
+							std::shared_ptr<CPPScript>(registry->cppScriptDefinitions.at(script->getName())->copy())
 						);
-
-	int a = 0;
-	int b = a + 2;
 }
 
-void Omnia::CPPNativeAssembly::executeOnStartMethods()
+std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScript>> Omnia::CPPScriptRegistry::getScriptInstances()
+{
+	return getInstance()->cppScriptInstances;
+}
+
+void Omnia::CPPScriptRegistry::finalize()
 {
 
 }
 
-void Omnia::CPPNativeAssembly::executeOnInputMethods()
+Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::getInstance()
 {
-
-}
-
-void Omnia::CPPNativeAssembly::executeOnLogicFrameMethods()
-{
-
-}
-
-void Omnia::CPPNativeAssembly::executeOnComputeFrameMethods()
-{
-
-}
-
-void Omnia::CPPNativeAssembly::executeOnOutputMethods()
-{
-
-}
-
-void Omnia::CPPNativeAssembly::executeOnFinishMethods()
-{
-
+	if (instance == nullptr)
+		instance = new CPPScriptRegistry();
+	return instance;
 }

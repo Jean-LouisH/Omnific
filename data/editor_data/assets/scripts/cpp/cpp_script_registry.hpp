@@ -22,20 +22,49 @@
 
 #pragma once
 
-#include "script.hpp"
+#include <scene/assets/cpp_script.hpp>
+#include <unordered_map>
+#include <memory>
+
+/// Include custom class headers below
+////////////////////////////////////////////////////
+
+#include "splash_screen_transition.hpp"
+
+
+/////////////////////////////////////////////////////
 
 namespace Omnia
 {
-    class OMNIA_ENGINE_API PythonVMScript : public Script
-    {
-    public:
-        PythonVMScript()
-        {
-            this->type = TYPE_STRING;
-        };
-        static constexpr const char* TYPE_STRING = "PythonVMScript";
+	class CPPScriptRegistry
+	{
+	public:
+		static void initialize()
+		{
+			CPPScriptRegistry* registry = getInstance();
 
-        PythonVMScript(std::string filepath);
-    private:
-    };
+			// Add custom scripts here.
+			////////////////////////////////////////////
+
+			registry->add(new SplashScreenTransition());
+
+
+			////////////////////////////////////////////
+		}
+
+		static void loadScriptInstances();
+		static std::unordered_map<std::string, std::shared_ptr<CPPScript>> getScriptInstances();
+		static void finalize();
+
+		template <class T>
+		static void add(T* t)
+		{
+			getInstance()->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPScript>(std::shared_ptr<T>(t)));
+		}
+	private:
+		static CPPScriptRegistry* instance;
+		std::unordered_map<std::string, std::shared_ptr<CPPScript>> cppScriptDefinitions;
+		std::unordered_map<std::string, std::shared_ptr<CPPScript>> cppScriptInstances;
+		static CPPScriptRegistry* getInstance();
+	};
 }

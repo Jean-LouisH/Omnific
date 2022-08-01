@@ -23,42 +23,19 @@
 #pragma once
 
 #if defined (_WIN32)
-#if defined(_OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS)
-#define  OMNIA_CPP_NATIVE_ASSEMBLY_API extern "C" __declspec(dllexport)
+#if defined(_OMNIA_CPP_SCRIPT_ASSEMBLY_EXPORTS)
+#define  OMNIA_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllexport)
 #else
-#define  OMNIA_CPP_NATIVE_ASSEMBLY_API extern "C" __declspec(dllimport)
+#define  OMNIA_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllimport)
 #endif
 #else
-#define OMNIA_CPP_NATIVE_ASSEMBLY_API
+#define OMNIA_CPP_SCRIPT_ASSEMBLY_API
 #endif
 
-#include <scene/assets/cpp_native_script.hpp>
-#include <unordered_map>
-#include <memory>
-
-namespace Omnia
-{
-	class CPPNativeAssembly
-	{
-	public:
-		CPPNativeAssembly();
-
-		void loadScriptModules();
-
-		void executeOnStartMethods();
-		void executeOnInputMethods();
-		void executeOnLogicFrameMethods();
-		void executeOnComputeFrameMethods();
-		void executeOnOutputMethods();
-		void executeOnFinishMethods();
-	private:
-		std::unordered_map<std::string, std::shared_ptr<CPPNativeScript>> cppScriptDefinitions;
-		std::unordered_map<std::string, std::shared_ptr<CPPNativeScript>> cppScriptInstances;
-
-		template <class T>
-		void addScriptDefinition(T* t)
-		{
-			this->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPNativeScript>(std::shared_ptr<T>(t)));
-		}
-	};
-}
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void loadScriptInstances();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnStartMethods();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnInputMethods();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnLogicFrameMethods();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnComputeFrameMethods();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnOutputMethods();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnFinishMethods();
