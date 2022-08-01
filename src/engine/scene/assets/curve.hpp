@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class Curve : public Asset
+	class OMNIA_ENGINE_API Curve : public Asset
 	{
 	public:
 		Curve() 

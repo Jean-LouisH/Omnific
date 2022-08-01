@@ -28,10 +28,11 @@
 #include <scene/assets/image.hpp>
 #include <utilities/rectangle.hpp>
 #include <memory>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Window
+	class OMNIA_ENGINE_API Window
 	{
 	public:
 		Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);

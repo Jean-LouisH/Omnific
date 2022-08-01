@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class SoftBody : public Component
+	class OMNIA_ENGINE_API SoftBody : public Component
 	{
 	public:
 		SoftBody()

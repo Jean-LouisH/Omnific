@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UISpinBox : public RenderableComponent
+	class OMNIA_ENGINE_API UISpinBox : public RenderableComponent
 	{
 	public:
 		UISpinBox()

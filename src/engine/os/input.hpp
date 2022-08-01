@@ -29,10 +29,11 @@
 #include <utilities/aliases.hpp>
 #include <glm/glm.hpp>
 #include <set>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Input
+	class OMNIA_ENGINE_API Input
 	{
 		friend class Engine;
 	public:

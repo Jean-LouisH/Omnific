@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class AudioFilters : public Asset
+	class OMNIA_ENGINE_API AudioFilters : public Asset
 	{
 	public:
 		AudioFilters()

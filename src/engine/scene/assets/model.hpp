@@ -36,7 +36,7 @@
 
 namespace Omnia
 {
-	class Model : public Asset
+	class OMNIA_ENGINE_API Model : public Asset
 	{
 	public:
 		Model()

@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class Shader : public Asset
+	class OMNIA_ENGINE_API Shader : public Asset
 	{
 	public:
 		enum class ShaderType

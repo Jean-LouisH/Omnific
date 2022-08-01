@@ -23,10 +23,11 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class AABB2D
+	class OMNIA_ENGINE_API AABB2D
 	{
 	public:
 		glm::vec2 min;

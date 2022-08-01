@@ -24,12 +24,12 @@
 
 #if defined (_WIN32)
 #if defined(_OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS)
-#define  _OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllexport)
+#define  OMNIA_CPP_NATIVE_ASSEMBLY_API extern "C" __declspec(dllexport)
 #else
-#define  _OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS extern "C" __declspec(dllimport)
+#define  OMNIA_CPP_NATIVE_ASSEMBLY_API extern "C" __declspec(dllimport)
 #endif
 #else
-#define _OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS
+#define OMNIA_CPP_NATIVE_ASSEMBLY_API
 #endif
 
 #include <scene/assets/cpp_native_script.hpp>
@@ -58,7 +58,7 @@ namespace Omnia
 		template <class T>
 		void addScriptDefinition(T* t)
 		{
-			this->cppScriptDefinitions.emplace(T::TYPE_STRING, std::shared_ptr<T>(t));
+			this->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPNativeScript>(std::shared_ptr<T>(t)));
 		}
 	};
 }

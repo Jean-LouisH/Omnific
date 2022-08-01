@@ -41,7 +41,7 @@
 
 namespace Omnia
 {
-	class Image : public Asset
+	class OMNIA_ENGINE_API Image : public Asset
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Image";

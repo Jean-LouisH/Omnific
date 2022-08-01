@@ -23,10 +23,11 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class AABB3D
+	class OMNIA_ENGINE_API AABB3D
 	{
 	public:
 		glm::vec3 min;

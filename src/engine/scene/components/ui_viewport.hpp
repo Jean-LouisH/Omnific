@@ -31,7 +31,7 @@
 
 namespace Omnia
 {
-	class UIViewport : public Component
+	class OMNIA_ENGINE_API UIViewport : public Component
 	{
 	public:
 		UIViewport()

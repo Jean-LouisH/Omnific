@@ -25,11 +25,12 @@
 #include <utilities/aliases.hpp>
 #include <glm/glm.hpp>
 #include <string>
+#include <omnia_engine_api.hpp>
 
 
 namespace Omnia
 {
-	typedef struct Collision
+	typedef struct OMNIA_ENGINE_API Collision
 	{
 		EntityID colliderEntityID = 0;
 		std::string colliderName;

@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class BehaviourTree : public Component
+	class OMNIA_ENGINE_API BehaviourTree : public Component
 	{
 	public:
 		BehaviourTree()

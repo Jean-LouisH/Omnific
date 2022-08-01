@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UITextField : public RenderableComponent
+	class OMNIA_ENGINE_API UITextField : public RenderableComponent
 	{
 	public:
 		UITextField()

@@ -31,7 +31,7 @@
 
 namespace Omnia
 {
-	class NavigationPath : public Component
+	class OMNIA_ENGINE_API NavigationPath : public Component
 	{
 	public:
 		std::vector<glm::vec3> waypoints;

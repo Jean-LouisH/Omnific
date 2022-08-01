@@ -36,7 +36,7 @@
 
 namespace Omnia
 {
-	class AudioSource : public Component
+	class OMNIA_ENGINE_API AudioSource : public Component
 	{
 	public:
 		AudioSource()

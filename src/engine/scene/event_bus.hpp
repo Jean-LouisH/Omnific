@@ -26,10 +26,11 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class EventBus
+	class OMNIA_ENGINE_API EventBus
 	{
 	public:
 		EventBus()

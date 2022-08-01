@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-    class CPPNativeScript : public Script
+    class OMNIA_ENGINE_API CPPNativeScript : public Script
     {
     public:
         CPPNativeScript()

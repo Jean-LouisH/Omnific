@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UISearchField : public RenderableComponent
+	class OMNIA_ENGINE_API UISearchField : public RenderableComponent
 	{
 	public:
 		UISearchField()

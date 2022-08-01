@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class NavigationMeshBoxObstacle : public Component
+	class OMNIA_ENGINE_API NavigationMeshBoxObstacle : public Component
 	{
 	public:
 		AABB2D aabb;

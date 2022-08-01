@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UIProgressBar : public RenderableComponent
+	class OMNIA_ENGINE_API UIProgressBar : public RenderableComponent
 	{
 	public:
 		UIProgressBar()

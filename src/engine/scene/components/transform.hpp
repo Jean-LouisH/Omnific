@@ -28,7 +28,7 @@
 
 namespace Omnia
 {
-	class Transform : public Component
+	class OMNIA_ENGINE_API Transform : public Component
 	{
 	public:
 		glm::vec3 translation;

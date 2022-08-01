@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class ScriptCollection : public Component
+	class OMNIA_ENGINE_API ScriptCollection : public Component
 	{
 	public:
 		ScriptCollection()

@@ -33,7 +33,7 @@
 
 namespace Omnia
 {
-	class UITextLabel : public RenderableComponent
+	class OMNIA_ENGINE_API UITextLabel : public RenderableComponent
 	{
 	public:
 		void setText(std::string text);

@@ -36,10 +36,11 @@
 #include <scene_storage.hpp>
 #include <utilities/aliases.hpp>
 #include <scene/event_bus.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class ScriptContext
+	class OMNIA_ENGINE_API ScriptContext
 	{
 	public:
 		static void setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer);

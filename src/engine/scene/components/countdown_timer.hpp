@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class CountdownTimer : public Component
+	class OMNIA_ENGINE_API CountdownTimer : public Component
 	{
 	public:
 		CountdownTimer()

@@ -23,10 +23,11 @@
 #pragma once
 
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class FileAccess
+	class OMNIA_ENGINE_API FileAccess
 	{
 	public:
 		FileAccess(std::string executableFilepath);

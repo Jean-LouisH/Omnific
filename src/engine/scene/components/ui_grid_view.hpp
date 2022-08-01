@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIGridView : public RenderableComponent
+	class OMNIA_ENGINE_API UIGridView : public RenderableComponent
 	{
 	public:
 		UIGridView()

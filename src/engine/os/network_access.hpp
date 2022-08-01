@@ -23,10 +23,11 @@
 #pragma once
 
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class NetworkAccess
+	class OMNIA_ENGINE_API NetworkAccess
 	{
 	public:
 	private:

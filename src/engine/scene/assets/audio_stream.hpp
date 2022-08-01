@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class AudioStream : public Asset
+	class OMNIA_ENGINE_API AudioStream : public Asset
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "AudioStream";

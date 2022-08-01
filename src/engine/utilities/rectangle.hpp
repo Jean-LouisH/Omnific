@@ -23,10 +23,11 @@
 #pragma once
 
 #include <stdint.h>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Rectangle
+	class OMNIA_ENGINE_API Rectangle
 	{
 	public:
 		uint32_t width = 0;

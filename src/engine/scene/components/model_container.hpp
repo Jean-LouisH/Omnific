@@ -34,7 +34,7 @@
 
 namespace Omnia
 {
-	class ModelContainer : public RenderableComponent
+	class OMNIA_ENGINE_API ModelContainer : public RenderableComponent
 	{
 	public:
 		ModelContainer()

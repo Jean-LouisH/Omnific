@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UIHoverCard : public RenderableComponent
+	class OMNIA_ENGINE_API UIHoverCard : public RenderableComponent
 	{
 	public:
 		UIHoverCard()

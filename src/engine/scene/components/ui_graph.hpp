@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UIGraph : public RenderableComponent
+	class OMNIA_ENGINE_API UIGraph : public RenderableComponent
 	{
 	public:
 		UIGraph()

@@ -26,10 +26,11 @@
 #include <string>
 #include <memory>
 #include "scene/asset.hpp"
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class AssetCache
+	class OMNIA_ENGINE_API AssetCache
 	{
 	public:
 		static bool exists(std::string name);

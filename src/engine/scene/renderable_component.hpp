@@ -27,6 +27,7 @@
 #include <scene/assets/shader.hpp>
 #include <memory>
 #include <glm/glm.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
@@ -38,7 +39,7 @@ namespace Omnia
 		FRONT_AND_BACK
 	};
 
-	class RenderableComponent : public Component
+	class OMNIA_ENGINE_API RenderableComponent : public Component
 	{
 	public:
 		void setDimensions(float width, float height);

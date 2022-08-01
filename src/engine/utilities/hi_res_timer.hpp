@@ -24,10 +24,11 @@
 
 #include <stdint.h>
 #include <chrono>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class HiResTimer
+	class OMNIA_ENGINE_API HiResTimer
 	{
 	public:
 		uint64_t getDeltaInNanoseconds();

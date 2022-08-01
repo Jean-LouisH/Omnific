@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class Text : public Asset
+	class OMNIA_ENGINE_API Text : public Asset
 	{
 	public:
 		Text()

@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UILoader : public RenderableComponent
+	class OMNIA_ENGINE_API UILoader : public RenderableComponent
 	{
 	public:
 		UILoader()

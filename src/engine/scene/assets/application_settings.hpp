@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class ApplicationSettings : public Asset
+	class OMNIA_ENGINE_API ApplicationSettings : public Asset
 	{
 	public:
 		ApplicationSettings() 

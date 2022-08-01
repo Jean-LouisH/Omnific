@@ -30,13 +30,14 @@
 #include <unordered_map>
 #include "component_property_pool.hpp"
 #include <memory>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
 	/* Base class for objects that store and manipulate 
 	   data relevant to individual Entities in a Scene.
 	   These are attached to Entities when added to a Scene.*/
-    class Component
+    class OMNIA_ENGINE_API Component
     {
 	public:
 		Component();

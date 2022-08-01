@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UITab : public RenderableComponent
+	class OMNIA_ENGINE_API UITab : public RenderableComponent
 	{
 	public:
 		UITab()

@@ -25,10 +25,11 @@
 #include <vector>
 #include <string>
 #include <utilities/aliases.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class HapticSignal
+	class OMNIA_ENGINE_API HapticSignal
 	{
 	public:
 		HapticSignal(PlayerID playerID, float strength_pct, uint16_t duration_ms);

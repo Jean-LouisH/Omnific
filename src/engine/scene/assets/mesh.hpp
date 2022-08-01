@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class Mesh : public Asset
+	class OMNIA_ENGINE_API Mesh : public Asset
 	{
 	public:
 		Mesh() 

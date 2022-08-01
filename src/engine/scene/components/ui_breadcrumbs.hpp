@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIBreadcrumbs : public RenderableComponent
+	class OMNIA_ENGINE_API UIBreadcrumbs : public RenderableComponent
 	{
 	public:
 		UIBreadcrumbs()

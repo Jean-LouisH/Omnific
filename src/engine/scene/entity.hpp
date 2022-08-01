@@ -31,12 +31,13 @@
 #include <string>
 #include <uid_generator.hpp>
 #include <memory>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
 	/* An object that exists within the Scene with its own
 	   identity, components and  hierarchy with other Entities. */
-	class Entity
+	class OMNIA_ENGINE_API Entity
 	{
 		friend class SceneTree;
 	public:

@@ -22,19 +22,12 @@
 
 #pragma once
 
-#include "scene/component.hpp"
-
-
-namespace Omnia
-{
-	class OMNIA_ENGINE_API GPUParticles : public Component
-	{
-	public:
-		GPUParticles()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "GPUParticles";
-	private:
-	};
-}
+#if defined (_WIN32)
+#if defined(_OMNIA_ENGINE_EXPORTS)
+#define  OMNIA_ENGINE_API __declspec(dllexport)
+#else
+#define  OMNIA_ENGINE_API __declspec(dllimport)
+#endif
+#else
+#define OMNIA_ENGINE_API
+#endif

@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIToggle : public RenderableComponent
+	class OMNIA_ENGINE_API UIToggle : public RenderableComponent
 	{
 	public:
 		UIToggle()

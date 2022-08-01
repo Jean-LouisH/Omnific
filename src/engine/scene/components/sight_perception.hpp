@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class SightPerception : public Component
+	class OMNIA_ENGINE_API SightPerception : public Component
 	{
 	public:
 		SightPerception()

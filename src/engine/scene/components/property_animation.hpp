@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class PropertyAnimation : public Component
+	class OMNIA_ENGINE_API PropertyAnimation : public Component
 	{
 	public:
 		float* targetDoubleProperty = NULL;

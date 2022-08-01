@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class SoundPerception : public Component
+	class OMNIA_ENGINE_API SoundPerception : public Component
 	{
 	public:
 		SoundPerception()

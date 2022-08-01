@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class SpotLight : public Component
+	class OMNIA_ENGINE_API SpotLight : public Component
 	{
 	public:
 		SpotLight()

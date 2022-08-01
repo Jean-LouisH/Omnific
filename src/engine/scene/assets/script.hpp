@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-    class Script : public Asset
+    class OMNIA_ENGINE_API Script : public Asset
     {
     public:
         Script()

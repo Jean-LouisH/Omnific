@@ -24,10 +24,11 @@
 
 #include <stdint.h>
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Colour
+	class OMNIA_ENGINE_API Colour
 	{
 	public:
 		Colour();

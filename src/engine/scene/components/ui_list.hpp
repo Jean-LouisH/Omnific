@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class UIList : public RenderableComponent
+	class OMNIA_ENGINE_API UIList : public RenderableComponent
 	{
 	public:
 		void setLowerBound(uint32_t lowerBound);

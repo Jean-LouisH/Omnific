@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class AudioSynthesis : public Asset
+	class OMNIA_ENGINE_API AudioSynthesis : public Asset
 	{
 	public:
 		AudioSynthesis()

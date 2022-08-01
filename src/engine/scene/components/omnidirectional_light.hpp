@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class OmnidirectionalLight : public Component
+	class OMNIA_ENGINE_API OmnidirectionalLight : public Component
 	{
 	public:
 		OmnidirectionalLight()

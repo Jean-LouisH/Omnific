@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIPlaceholder : public RenderableComponent
+	class OMNIA_ENGINE_API UIPlaceholder : public RenderableComponent
 	{
 	public:
 		UIPlaceholder()

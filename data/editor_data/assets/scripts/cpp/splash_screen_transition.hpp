@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class SplashScreenTransition : CPPNativeScript
+	class SplashScreenTransition : public CPPNativeScript
 	{
 	public:
 		/* Custom classes should derive their own type string
@@ -45,12 +45,12 @@ namespace Omnia
 		virtual void onStart() override;
 		virtual void onLogicFrame() override;
 
-		/* Custom public methods. */
+		/* custom public methods. */
 
 	private:
 		int countdown_value = 5.0;
 		const char* next_scene = "project_list";
 
-		/* Custom private methods. */
+		/* custom private methods. */
 	};
 }

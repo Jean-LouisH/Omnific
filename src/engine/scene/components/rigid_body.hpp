@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class RigidBody : public Component
+	class OMNIA_ENGINE_API RigidBody : public Component
 	{
 	public:
 		float mass = 1.0;

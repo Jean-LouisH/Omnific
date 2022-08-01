@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class ConstantForce : public Component
+	class OMNIA_ENGINE_API ConstantForce : public Component
 	{
 	public:
 		glm::vec3 force;

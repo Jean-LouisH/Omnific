@@ -25,10 +25,11 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class ComponentPropertyPool
+	class OMNIA_ENGINE_API ComponentPropertyPool
 	{
 	public:
 	private:

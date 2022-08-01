@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIReveal : public RenderableComponent
+	class OMNIA_ENGINE_API UIReveal : public RenderableComponent
 	{
 	public:
 		UIReveal()

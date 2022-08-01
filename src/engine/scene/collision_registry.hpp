@@ -26,10 +26,11 @@
 #include <unordered_map>
 #include <memory>
 #include <stdint.h>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class CollisionRegistry
+	class OMNIA_ENGINE_API CollisionRegistry
 	{
 		using ColliderName = std::string;
 		using OtherColliderName = std::string;

@@ -37,7 +37,7 @@ namespace Omnia
 		BOX
 	};
 
-	class Collider : public Component
+	class OMNIA_ENGINE_API Collider : public Component
 	{
 		friend class PhysicsSystem;
 

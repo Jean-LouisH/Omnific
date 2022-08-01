@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIStep : public RenderableComponent
+	class OMNIA_ENGINE_API UIStep : public RenderableComponent
 	{
 	public:
 		UIStep()

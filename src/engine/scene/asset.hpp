@@ -25,10 +25,11 @@
 #include <utilities/aliases.hpp>
 #include <string>
 #include <memory>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Asset
+	class OMNIA_ENGINE_API Asset
 	{
 	public:
 		Asset();

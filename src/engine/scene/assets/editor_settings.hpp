@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class EditorSettings : public Asset
+	class OMNIA_ENGINE_API EditorSettings : public Asset
 	{
 	public:
 		EditorSettings() 

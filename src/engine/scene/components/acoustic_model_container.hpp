@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class AcousticModelContainer : public Component
+	class OMNIA_ENGINE_API AcousticModelContainer : public Component
 	{
 	public:
 		AcousticModelContainer()

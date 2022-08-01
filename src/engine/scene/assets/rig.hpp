@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class Rig : public Asset
+	class OMNIA_ENGINE_API Rig : public Asset
 	{
 	public:
 		Rig() 

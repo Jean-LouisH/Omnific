@@ -24,10 +24,11 @@
 
 #include <vector>
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Logger
+	class OMNIA_ENGINE_API Logger
 	{
 	public:
 		void write(std::string message);

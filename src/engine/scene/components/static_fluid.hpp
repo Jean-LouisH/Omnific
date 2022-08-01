@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class StaticFluid : public Component
+	class OMNIA_ENGINE_API StaticFluid : public Component
 	{
 	public:
 		StaticFluid()

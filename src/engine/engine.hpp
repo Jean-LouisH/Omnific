@@ -50,15 +50,7 @@
 #include <string>
 #include <memory>
 
-#if defined (_WIN32)
-#if defined(_OMNIA_ENGINE_EXPORTS)
-#define  OMNIA_ENGINE_API __declspec(dllexport)
-#else
-#define  OMNIA_ENGINE_API __declspec(dllimport)
-#endif
-#else
-#define OMNIA_ENGINE_API
-#endif
+#include "omnia_engine_api.hpp"
 
 namespace Omnia
 {

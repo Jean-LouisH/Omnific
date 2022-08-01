@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class UIPanel : public RenderableComponent
+	class OMNIA_ENGINE_API UIPanel : public RenderableComponent
 	{
 	public:
 		UIPanel()

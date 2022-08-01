@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class AcousticMaterial : public Asset
+	class OMNIA_ENGINE_API AcousticMaterial : public Asset
 	{
 	public:
 		AcousticMaterial()

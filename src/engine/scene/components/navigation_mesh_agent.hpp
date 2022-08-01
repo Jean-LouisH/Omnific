@@ -30,7 +30,7 @@
 
 namespace Omnia
 {
-	class NavigationMeshAgent : public Component
+	class OMNIA_ENGINE_API NavigationMeshAgent : public Component
 	{
 	public:
 		NavigationMeshAgent()

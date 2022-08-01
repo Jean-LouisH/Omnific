@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class PhysicsMaterial : public Asset
+	class OMNIA_ENGINE_API PhysicsMaterial : public Asset
 	{
 	public:
 		PhysicsMaterial() 

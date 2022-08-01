@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class CPUParticles : public Component
+	class OMNIA_ENGINE_API CPUParticles : public Component
 	{
 	public:
 		CPUParticles()

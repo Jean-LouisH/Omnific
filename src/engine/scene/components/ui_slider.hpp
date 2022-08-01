@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UISlider : public RenderableComponent
+	class OMNIA_ENGINE_API UISlider : public RenderableComponent
 	{
 	public:
 		UISlider()

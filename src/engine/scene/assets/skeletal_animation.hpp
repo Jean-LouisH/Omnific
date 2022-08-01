@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class SkeletalAnimation : public Asset
+	class OMNIA_ENGINE_API SkeletalAnimation : public Asset
 	{
 	public:
 		SkeletalAnimation() 

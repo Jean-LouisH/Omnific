@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class InputPresets : public Asset
+	class OMNIA_ENGINE_API InputPresets : public Asset
 	{
 	public:
 		InputPresets() 

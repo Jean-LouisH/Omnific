@@ -23,10 +23,11 @@
 #pragma once
 
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-    class DynamicLinkLibraryAccess
+    class OMNIA_ENGINE_API DynamicLinkLibraryAccess
     {
     public:
         void* open(std::string filename);

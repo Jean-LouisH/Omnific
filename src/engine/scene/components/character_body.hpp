@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class CharacterBody : public Component
+	class OMNIA_ENGINE_API CharacterBody : public Component
 	{
 	public:
 		CharacterBody()

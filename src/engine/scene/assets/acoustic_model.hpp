@@ -28,9 +28,10 @@
 #include "skeletal_animation.hpp"
 #include "rig.hpp"
 
+
 namespace Omnia
 {
-	class AcousticModel : public Asset
+	class OMNIA_ENGINE_API AcousticModel : public Asset
 	{
 	public:
 		AcousticModel()

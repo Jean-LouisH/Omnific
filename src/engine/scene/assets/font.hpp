@@ -31,7 +31,7 @@
 
 namespace Omnia
 {
-	class Font : public Asset
+	class OMNIA_ENGINE_API Font : public Asset
 	{
 	public:
 		enum class Style

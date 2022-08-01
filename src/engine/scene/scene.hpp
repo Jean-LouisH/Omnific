@@ -32,10 +32,11 @@
 #include "utilities/aliases.hpp"
 #include <string>
 #include "scene_tree.hpp"
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class Scene
+	class OMNIA_ENGINE_API Scene
 	{
 	public:
 		Scene();

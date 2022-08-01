@@ -102,6 +102,7 @@
 #include "components/ui_toggle.hpp"
 #include "components/ui_toggle_group.hpp"
 #include "components/ui_viewport.hpp"
+#include <omnia_engine_api.hpp>
 
 #include <memory>
 
@@ -114,7 +115,7 @@ namespace Omnia
 		FINISH
 	};
 
-	class SceneTree
+	class OMNIA_ENGINE_API SceneTree
 	{
 	public:
 		bool is2D = false;

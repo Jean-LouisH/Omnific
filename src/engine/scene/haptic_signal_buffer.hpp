@@ -29,10 +29,11 @@
 #include <vector>
 #include <queue>
 #include <utilities/aliases.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class HapticSignalBuffer
+	class OMNIA_ENGINE_API HapticSignalBuffer
 	{
 	public:
 		void publish(PlayerID playerID, float strength_pct, uint16_t duration_ms);

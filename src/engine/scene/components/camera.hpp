@@ -33,7 +33,7 @@
 
 namespace Omnia
 {
-	class Camera : public Component
+	class OMNIA_ENGINE_API Camera : public Component
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Camera";

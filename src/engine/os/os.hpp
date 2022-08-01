@@ -34,11 +34,12 @@
 #include "platform.hpp"
 #include "thread_pool.hpp"
 #include <string>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
 	/* Singleton for objects related to Operating System utilities. */
-	class OS
+	class OMNIA_ENGINE_API OS
 	{
 	public:
 		static bool initialize(

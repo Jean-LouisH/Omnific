@@ -49,8 +49,11 @@ void Omnia::CPPNativeAssembly::loadScriptModules()
 					if (this->cppScriptDefinitions.count(script->getName()))
 						this->cppScriptInstances.emplace(
 							script->getName() + std::to_string(scriptCollection->getEntityID()), 
-							std::shared_ptr<CPPNativeScript>(this->cppScriptDefinitions.at(script->getName())->copy())
+							std::shared_ptr<CPPNativeScript>(this->cppScriptDefinitions.at(script->getName()))
 						);
+
+	int a = 0;
+	int b = a + 2;
 }
 
 void Omnia::CPPNativeAssembly::executeOnStartMethods()

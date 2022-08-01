@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UITreeView : public RenderableComponent
+	class OMNIA_ENGINE_API UITreeView : public RenderableComponent
 	{
 	public:
 		UITreeView()

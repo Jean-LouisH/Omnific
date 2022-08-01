@@ -34,7 +34,7 @@
 
 namespace Omnia
 {
-	class SpriteContainer : public RenderableComponent
+	class OMNIA_ENGINE_API SpriteContainer : public RenderableComponent
 	{
 	public:
 		SpriteContainer()

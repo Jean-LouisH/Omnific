@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class TileSet : public Asset
+	class OMNIA_ENGINE_API TileSet : public Asset
 	{
 	public:
 		TileSet() 

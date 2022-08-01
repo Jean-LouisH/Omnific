@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class Translation : public Asset
+	class OMNIA_ENGINE_API Translation : public Asset
 	{
 	public:
 		Translation() 

@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class Animation : public Asset
+	class OMNIA_ENGINE_API Animation : public Asset
 	{
 	public:
 		Animation() 

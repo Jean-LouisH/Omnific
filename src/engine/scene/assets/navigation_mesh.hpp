@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class NavigationMesh : public Asset
+	class OMNIA_ENGINE_API NavigationMesh : public Asset
 	{
 	public:
 		NavigationMesh() 

@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-	class UISeparator : public RenderableComponent
+	class OMNIA_ENGINE_API UISeparator : public RenderableComponent
 	{
 	public:
 		UISeparator()

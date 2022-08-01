@@ -22,9 +22,11 @@
 
 #pragma once
 
+#include <omnia_engine_api.hpp>
+
 namespace Omnia
 {
-	class Quadtree
+	class OMNIA_ENGINE_API Quadtree
 	{
 	public:
 	private:

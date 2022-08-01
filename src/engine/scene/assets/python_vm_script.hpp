@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-    class PythonVMScript : public Script
+    class OMNIA_ENGINE_API PythonVMScript : public Script
     {
     public:
         PythonVMScript()

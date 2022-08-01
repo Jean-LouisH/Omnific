@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIDropdown : public RenderableComponent
+	class OMNIA_ENGINE_API UIDropdown : public RenderableComponent
 	{
 	public:
 		UIDropdown()

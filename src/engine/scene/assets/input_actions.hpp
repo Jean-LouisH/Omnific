@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class InputActions : public Asset
+	class OMNIA_ENGINE_API InputActions : public Asset
 	{
 	public:
 		InputActions()

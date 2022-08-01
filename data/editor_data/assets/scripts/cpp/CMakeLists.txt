@@ -11,15 +11,32 @@ add_library(omnia_cpp_native_assembly SHARED
 	  ${omnia_cpp_native_assembly_headers}
 )
 
+ add_dependencies(omnia_cpp_native_assembly
+	omnia_engine
+)
+
  add_definitions(/bigobj)
 
 include_directories(
+		../../../../../thirdparty/SDL2-2.0.12/include
+		../../../../../thirdparty/SDL2_mixer-2.0.4/include
+		../../../../../thirdparty/SDL2_ttf-2.0.18/include
+		../../../../../thirdparty/yaml-cpp-0.6.3/include
+		../../../../../thirdparty/python37/include
+		../../../../../thirdparty/pybind11-2.8.1/include
+		../../../../../thirdparty/glad/include
+		../../../../../thirdparty/glm-0.9.9.8/glm
+		../../../../../thirdparty/tinygltf-2.5.0/include
+		../../../../../thirdparty/zlib-1.2.11/include
+		../../../../../thirdparty/stb_image_write-1.16/include
+		../../../../../thirdparty/stb_image-2.27/include
+		../../../../../thirdparty/freetype-2.11.1/include
 		.
 		../../../../../src/engine
 )
 
 target_link_libraries (omnia_cpp_native_assembly
-
+	omnia_engine
 )
 
 add_definitions(-D_OMNIA_CPP_NATIVE_ASSEMBLY_EXPORTS)

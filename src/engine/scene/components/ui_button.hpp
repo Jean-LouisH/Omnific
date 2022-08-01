@@ -32,7 +32,7 @@ namespace Omnia
 	/* A clickable region that is either 
 	textured or overlayed to a parent Entity */
 
-	class UIButton : public RenderableComponent
+	class OMNIA_ENGINE_API UIButton : public RenderableComponent
 	{
 		friend class UISystem;
 	public:

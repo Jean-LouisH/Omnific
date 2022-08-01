@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIAccordion : public RenderableComponent
+	class OMNIA_ENGINE_API UIAccordion : public RenderableComponent
 	{
 	public:
 		UIAccordion()

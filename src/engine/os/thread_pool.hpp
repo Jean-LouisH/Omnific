@@ -27,10 +27,11 @@
 #include <string>
 #include <stdint.h>
 #include <memory>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class ThreadPool
+	class OMNIA_ENGINE_API ThreadPool
 	{
 	public:
 		void initialize(int threadCount);

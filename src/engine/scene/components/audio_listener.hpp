@@ -29,7 +29,7 @@
 
 namespace Omnia
 {
-	class AudioListener : public Component
+	class OMNIA_ENGINE_API AudioListener : public Component
 	{
 	public:
 		AudioListener()

@@ -26,7 +26,7 @@
 
 namespace Omnia
 {
-	class UIToggleGroup : public RenderableComponent
+	class OMNIA_ENGINE_API UIToggleGroup : public RenderableComponent
 	{
 	public:
 		UIToggleGroup()
