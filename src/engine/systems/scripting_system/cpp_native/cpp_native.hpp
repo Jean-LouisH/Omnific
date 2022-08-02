@@ -43,7 +43,7 @@ namespace Omnia
 
     private:
         void* dynamicLibraryHandle;
-        std::string nativeAssemblyFilename = "omnia_cpp_native_assembly";
+        std::string nativeAssemblyFilename = "omnia_cpp_script_assembly";
 
         void execute(std::string methodName);
     };

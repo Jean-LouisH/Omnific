@@ -27,39 +27,100 @@
 
 void loadScriptInstances()
 {
-	Omnia::OS::getLogger().write("DLL Loaded.");
 	Omnia::CPPScriptRegistry::loadScriptInstances();
-	
-	int a = 0;
-	int b = a + 2;
 }
 
 void executeOnStartMethods()
 {
-
+	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+		executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "onStart");
 }
 
 void executeOnInputMethods()
 {
-
+	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+		executeUpdateMethods(it.second, "onInput");
 }
 
 void executeOnLogicFrameMethods()
 {
-
+	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+		executeUpdateMethods(it.second, "onLogicFrame");
 }
 
 void executeOnComputeFrameMethods()
 {
-
+	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+		executeUpdateMethods(it.second, "onComputeFrame");
 }
 
 void executeOnOutputMethods()
 {
-
+	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+		executeUpdateMethods(it.second, "onOutput");
 }
 
 void executeOnFinishMethods()
 {
+	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+		executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "onFinish");
+}
 
+void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
+	Omnia::SceneTreeID sceneTreeID,
+	Omnia::EntityID entityID,
+	std::string methodName)
+{
+	for (auto script : scriptCollection->scripts)
+	{
+		std::string scriptInstanceName = script->getName() + std::to_string(entityID);
+		std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScript>> scriptInstances = Omnia::CPPScriptRegistry::getScriptInstances();
+
+		if (scriptInstances.count(scriptInstanceName))
+		{
+			std::shared_ptr<Omnia::CPPScript> scriptInstance = scriptInstances.at(scriptInstanceName);
+
+			Omnia::ScriptContext::bindEntity(
+				sceneTreeID,
+				entityID);
+
+			if (methodName == "onStart")
+				scriptInstance->onStart();
+			else if (methodName == "onInput")
+				scriptInstance->onInput();
+			else if (methodName == "onLogicFrame")
+				scriptInstance->onLogicFrame();
+			else if (methodName == "onComputeFrame")
+				scriptInstance->onComputeFrame();
+			else if (methodName == "onOutput")
+				scriptInstance->onOutput();
+			else if (methodName == "onFinish")
+				scriptInstance->onFinish();
+		}
+	}
+}
+
+void executeQueuedMethods(
+	std::queue<Omnia::EntityID> entityQueue,
+	std::shared_ptr<Omnia::SceneTree> sceneTree,
+	std::string methodName)
+{
+	while (!entityQueue.empty())
+	{
+		std::shared_ptr<Omnia::Entity> entity = sceneTree->getEntity(entityQueue.front());
+		std::shared_ptr<Omnia::ScriptCollection> scriptCollection = sceneTree->getComponent<Omnia::ScriptCollection>(entity->getID());
+		if (scriptCollection != nullptr)
+		{
+			bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
+		}
+		entityQueue.pop();
+	}
+}
+
+void executeUpdateMethods(
+	std::shared_ptr<Omnia::SceneTree> sceneTree,
+	std::string methodName)
+{
+	for (auto scriptCollection : sceneTree->getComponentsByType<Omnia::ScriptCollection>())
+		bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
 }

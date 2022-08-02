@@ -22,6 +22,9 @@
 
 #pragma once
 
+#include <scene/scene_tree.hpp>
+#include <queue>
+
 #if defined (_WIN32)
 #if defined(_OMNIA_CPP_SCRIPT_ASSEMBLY_EXPORTS)
 #define  OMNIA_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllexport)
@@ -39,3 +42,17 @@ OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnLogicFrameMethods();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnComputeFrameMethods();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnOutputMethods();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnFinishMethods();
+
+void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
+	Omnia::SceneTreeID sceneTreeID,
+	Omnia::EntityID entityID,
+	std::string methodName);
+
+void executeQueuedMethods(
+	std::queue<Omnia::EntityID> entityQueue,
+	std::shared_ptr<Omnia::SceneTree> sceneTree,
+	std::string methodName);
+
+void executeUpdateMethods(
+	std::shared_ptr<Omnia::SceneTree> sceneTree,
+	std::string methodName);
