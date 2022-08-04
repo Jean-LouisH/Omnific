@@ -12,7 +12,7 @@ SceneTree:
     Transform:
       translation: [0, 0, -7]
     SpriteContainer:
-      image: "sprite_in_arena/images/sky.jpg"
+      image: "games/sprite_in_arena/images/sky.jpg"
       dimensions: [200, 200, 0.1]
   Entity:
     name: "Viewport"
@@ -32,7 +32,7 @@ SceneTree:
     Transform:
       translation: [0, 2, -5]
     SpriteContainer:
-      image: "sprite_in_arena/images/1.png"
+      image: "games/sprite_in_arena/images/1.png"
       dimensions: [10.0, 10.0, 0.1]
     CharacterBody: "default"
     Collider: 
@@ -43,7 +43,7 @@ SceneTree:
       translation: [0, -25.0, 0]
       rotation: [91.0, 0, 0]
     SpriteContainer:
-      image: "sprite_in_arena/images/pebbles.jpg"
+      image: "games/sprite_in_arena/images/pebbles.jpg"
       dimensions: [50.0, 50.0, 0.1]
     Collider:
       dimensions: [50.0, 0.1, 50.0]
@@ -52,7 +52,7 @@ SceneTree:
     Transform:
       translation: [0, 0, -5]
     SpriteContainer:
-      image: "sprite_in_arena/images/stone-wall.jpg"
+      image: "games/sprite_in_arena/images/stone-wall.jpg"
       dimensions: [50.0, 50.0, 0.1]
     Collider:
       dimensions: [50.0, 50.0, 0.1]
