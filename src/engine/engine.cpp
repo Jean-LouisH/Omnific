@@ -263,7 +263,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 		this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
 
-		while (profiler.getLagCount() >= msPerComputeUpdate)
+		while (profiler.getLagCount() >= msPerComputeUpdate && this->state->isRunning())
 		{
 			this->scriptingSystem->executeOnComputeFrameMethods(activeScene);
 			this->animationSystem->process(activeScene);
