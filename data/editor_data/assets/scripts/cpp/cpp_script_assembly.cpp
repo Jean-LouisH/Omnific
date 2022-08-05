@@ -32,37 +32,37 @@ void loadScriptInstances()
 
 void executeOnStartMethods()
 {
-	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "onStart");
 }
 
 void executeOnInputMethods()
 {
-	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onInput");
 }
 
 void executeOnLogicFrameMethods()
 {
-	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onLogicFrame");
 }
 
 void executeOnComputeFrameMethods()
 {
-	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onComputeFrame");
 }
 
 void executeOnOutputMethods()
 {
-	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onOutput");
 }
 
 void executeOnFinishMethods()
 {
-	for (auto it : Omnia::ScriptContext::getScene().getSceneTrees())
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "onFinish");
 }
 
@@ -108,7 +108,7 @@ void executeQueuedMethods(
 	while (!entityQueue.empty())
 	{
 		std::shared_ptr<Omnia::Entity> entity = sceneTree->getEntity(entityQueue.front());
-		std::shared_ptr<Omnia::ScriptCollection> scriptCollection = sceneTree->getComponent<Omnia::ScriptCollection>(entity->getID());
+		std::shared_ptr<Omnia::ScriptCollection> scriptCollection = sceneTree->getComponentByType<Omnia::ScriptCollection>(entity->getID());
 		if (scriptCollection != nullptr)
 		{
 			bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);

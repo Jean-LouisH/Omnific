@@ -8,6 +8,7 @@ SceneTree:
     Camera: "default"
   Entity:
     name: "SplashScreenSprite"
+    Transform: default
     SpriteContainer:
       image: "icon.png"
   Entity:

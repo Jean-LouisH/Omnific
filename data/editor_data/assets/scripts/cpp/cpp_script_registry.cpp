@@ -32,7 +32,7 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 	registry->initialize();
 	registry->cppScriptInstances.clear();
 
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
 				if (script->getType() == Omnia::CPPScript::TYPE_STRING)

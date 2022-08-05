@@ -53,10 +53,10 @@ namespace Omnia
 		static void loadScene(std::string scenepath);
 
 		static bool hasComponent(std::string type);
-		static Entity& getEntity();
-		static Scene& getScene();
-		static SceneTree& getSceneTree();
-		static Component& getComponent(std::string type);
+		static std::shared_ptr<Entity> getEntity();
+		static std::shared_ptr<Scene> getScene();
+		static std::shared_ptr<SceneTree> getSceneTree();
+		static std::shared_ptr<Component> getComponent(std::string type);
 
 		static ScriptContext* getInstance();
 	private:

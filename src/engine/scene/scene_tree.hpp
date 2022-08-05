@@ -149,6 +149,7 @@ namespace Omnia
 		std::shared_ptr<Entity> getLastEntity();
 		std::unordered_map<EntityID, std::shared_ptr<Entity>>& getEntities();
 		std::shared_ptr<Component> getComponent(ComponentID componentID);
+		std::shared_ptr<Component> getComponent(std::string type, EntityID entityID);
 		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
 		std::shared_ptr<EventBus> getEventBus();
 		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
@@ -158,18 +159,9 @@ namespace Omnia
 		std::string getName();
 
 		template <class T>
-		std::shared_ptr<T> getComponent(EntityID entityID)
+		std::shared_ptr<T> getComponentByType(EntityID entityID)
 		{
-			std::shared_ptr<T> typedComponent = std::shared_ptr<T>(new T());
-			std::shared_ptr<Entity> entity = this->getEntity(entityID);
-
-			if (entity->componentIDs.count(T::TYPE_STRING) > 0)
-			{
-				std::shared_ptr<Component> component = this->getComponent(entity->componentIDs.at(T::TYPE_STRING));
-				typedComponent = std::dynamic_pointer_cast<T>(component);
-			}
-
-			return typedComponent;
+			return std::dynamic_pointer_cast<T>(this->getComponent(T::TYPE_STRING, entityID));
 		}
 
 		template <class T>

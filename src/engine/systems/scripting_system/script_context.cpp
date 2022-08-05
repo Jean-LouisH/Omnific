@@ -44,7 +44,7 @@ void Omnia::ScriptContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID
 
 bool Omnia::ScriptContext::hasComponent(std::string type)
 {
-	return getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
+	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
 }
 
 std::shared_ptr<Omnia::Asset> Omnia::ScriptContext::loadAsset(std::string type, std::string filepath)
@@ -81,33 +81,33 @@ void Omnia::ScriptContext::loadScene(std::string scenepath)
 	getInstance()->sceneStorage->replaceActiveScene(scenepath, scene);
 }
 
-Omnia::Entity& Omnia::ScriptContext::getEntity()
+std::shared_ptr<Omnia::Entity> Omnia::ScriptContext::getEntity()
 {
-	return *getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID);
+	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID);
 }
 
-Omnia::Scene& Omnia::ScriptContext::getScene()
+std::shared_ptr<Omnia::Scene> Omnia::ScriptContext::getScene()
 {
-	return *getInstance()->sceneStorage->getActiveScene();
+	return getInstance()->sceneStorage->getActiveScene();
 }
 
-Omnia::SceneTree& Omnia::ScriptContext::getSceneTree()
+std::shared_ptr<Omnia::SceneTree> Omnia::ScriptContext::getSceneTree()
 {
-	return *getInstance()->getScene().getSceneTrees().at(getInstance()->boundSceneTreeID);
+	return getInstance()->getScene()->getSceneTrees().at(getInstance()->boundSceneTreeID);
 }
 
-Omnia::Component& Omnia::ScriptContext::getComponent(std::string type)
+std::shared_ptr<Omnia::Component> Omnia::ScriptContext::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component(new Component());
 
-	std::shared_ptr<Entity> entity = getInstance()->getSceneTree().getEntity(getInstance()->boundEntityID);
-	std::vector<std::shared_ptr<Component>>& components = getInstance()->getSceneTree().getComponents();
+	std::shared_ptr<Entity> entity = getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID);
+	std::vector<std::shared_ptr<Component>>& components = getInstance()->getSceneTree()->getComponents();
 
 	for (int i = 0; i < components.size(); i++)
 		if (components.at(i)->getID() == entity->componentIDs.at(type))
 			component = components.at(i);
 
-	return *component;
+	return component;
 }
 
 Omnia::ScriptContext* Omnia::ScriptContext::getInstance()

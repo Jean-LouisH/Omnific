@@ -55,7 +55,7 @@ void Omnia::PythonVM::loadScriptInstances()
 	pybind11::object path = sys.attr("path");
 	std::set<std::string> addedPaths;
 
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 	{
 		std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = it.second->getComponentsByType<ScriptCollection>();
 		size_t scriptCollectionsCount = scriptCollections.size();
@@ -125,37 +125,37 @@ void Omnia::PythonVM::loadScriptInstances()
 
 void Omnia::PythonVM::executeOnStartMethods()
 {
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "on_start");
 }
 
 void Omnia::PythonVM::executeOnInputMethods()
 {
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_input");
 }
 
 void Omnia::PythonVM::executeOnLogicFrameMethods()
 {
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_logic_frame");
 }
 
 void Omnia::PythonVM::executeOnComputeFrameMethods()
 {
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_compute_frame");
 }
 
 void Omnia::PythonVM::executeOnOutputMethods()
 {
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_output");
 }
 
 void Omnia::PythonVM::executeOnFinishMethods()
 {
-	for (auto it : ScriptContext::getScene().getSceneTrees())
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
 }
 
@@ -172,7 +172,7 @@ void Omnia::PythonVM::executeQueuedMethods(
 	while (!entityQueue.empty())
 	{
 		std::shared_ptr<Entity> entity = sceneTree->getEntity(entityQueue.front());
-		std::shared_ptr<ScriptCollection> scriptCollection = sceneTree->getComponent<ScriptCollection>(entity->getID());
+		std::shared_ptr<ScriptCollection> scriptCollection = sceneTree->getComponentByType<ScriptCollection>(entity->getID());
 		if (scriptCollection != nullptr)
 		{
 			this->bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
