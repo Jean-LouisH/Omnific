@@ -27,14 +27,17 @@ void Omnia::CollisionRegistry::addOrUpdate(std::shared_ptr<Collision> collision)
 {
 	std::string collisionEntityName = collision->colliderName;
 	std::string otherCollisionEntityName = collision->otherColliderName;
-	std::unordered_map<OtherColliderName, std::shared_ptr<Collision>> collisionEntry;
-
-	collisionEntry.emplace(otherCollisionEntityName, collision);
 
 	if (!this->collisions.count(collisionEntityName))
+	{
+		std::unordered_map<OtherColliderName, std::shared_ptr<Collision>> collisionEntry;
+		collisionEntry.emplace(otherCollisionEntityName, collision);
 		this->collisions.emplace(collisionEntityName, collisionEntry);
+	}
 	else
-		this->collisions.at(collisionEntityName) = collisionEntry;
+	{
+		this->collisions.at(collisionEntityName).emplace(otherCollisionEntityName, collision);
+	}
 }
 
 void Omnia::CollisionRegistry::remove(std::string colliderName, std::string otherColliderName)
@@ -49,8 +52,19 @@ std::shared_ptr<Omnia::Collision> Omnia::CollisionRegistry::query(std::string co
 	std::shared_ptr<Collision> collision;
 
 	if (this->collisions.count(colliderName))
+	{
 		if (this->collisions.at(colliderName).count(otherColliderName))
+		{
 			collision = this->collisions.at(colliderName).at(otherColliderName);
+		}
+	}
+	else if (this->collisions.count(otherColliderName))
+	{
+		if (this->collisions.at(otherColliderName).count(colliderName))
+		{
+			collision = this->collisions.at(otherColliderName).at(colliderName);
+		}
+	}
 
 	return collision;
 }

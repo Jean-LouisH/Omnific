@@ -243,6 +243,10 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 												it3->second[1].as<double>(),
 												it3->second[2].as<double>());
 										}
+										else if (it3->first.as<std::string>() == "is_trigger")
+										{
+											collider->isTrigger = it3->second.as<bool>();
+										}
 									}
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);

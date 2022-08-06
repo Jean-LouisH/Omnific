@@ -39,6 +39,7 @@ SceneTree:
     name: "Paddle1"
     Transform:
       translation: [-2, 0, 0]
+    CharacterBody: default
     SpriteContainer:
       image: "Image::default"
       dimensions: [5, 10, 0]
@@ -50,10 +51,13 @@ SceneTree:
         text: ""
       ScriptCollection:
         python: ["games/pong/scripts/python/increment_score.py"]
+    Collider:
+      is_trigger: true
   Entity:
     name: "Paddle2"
     Transform:
       translation: [2, 0, 0]
+    CharacterBody: default
     SpriteContainer:
       image: "Image::default"
       dimensions: [5, 10, 0]
@@ -65,12 +69,18 @@ SceneTree:
         text: ""
       ScriptCollection:
         python: ["games/pong/scripts/python/increment_score.py"]
+    Collider:
+      is_trigger: true
   Entity:
-     name: "Ball"
-     SpriteContainer:
+    name: "Ball"
+    Transform: default
+    SpriteContainer:
       image: "Image::default"
-     ScriptCollection:
-       python: ["games/pong/scripts/python/ball_physics.py"]
+    CharacterBody: default
+    ScriptCollection:
+      python: ["games/pong/scripts/python/ball_physics.py"]
+    Collider:
+      is_trigger: true
   Entity:
     name: "Viewport"
     UIViewport:
@@ -81,9 +91,25 @@ SceneTree:
       translation: [0, 5, 0]
     Collider:
       dimensions: [50, 1, 0]
+      is_trigger: true
   Entity:
     name: "LowerBoundary"
     Transform:
       translation: [0, -5, 0]
     Collider:
       dimensions: [50, 1, 0]
+      is_trigger: true
+  Entity:
+    name: "LeftGoalPost"
+    Transform:
+      translation: [20, 0, 0]
+    Collider:
+      dimensions: [1, 50, 0]
+      is_trigger: true
+  Entity:
+    name: "RightGoalPost"
+    Transform:
+      translation: [-20, 0, 0]
+    Collider:
+      dimensions: [1, 50, 0]
+      is_trigger: true
