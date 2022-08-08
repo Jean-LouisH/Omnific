@@ -45,14 +45,15 @@ SceneTree:
       dimensions: [5, 10, 0]
     ScriptCollection:
       python: ["games/pong/scripts/python/player_control.py"]
-    Entity:
-      name: "ScoreCount1"
-      UITextLabel:
-        text: ""
-      ScriptCollection:
-        python: ["games/pong/scripts/python/increment_score.py"]
     Collider:
       is_trigger: true
+  Entity:
+    name: "ScoreCount1"
+    parent: "Paddle1"
+    UITextLabel:
+      text: ""
+    ScriptCollection:
+      python: ["games/pong/scripts/python/increment_score.py"]
   Entity:
     name: "Paddle2"
     Transform:
@@ -63,14 +64,15 @@ SceneTree:
       dimensions: [5, 10, 0]
     ScriptCollection:
       python: ["games/pong/scripts/python/ai_control.py"]
-    Entity:
-      name: "ScoreCount2"
-      UITextLabel:
-        text: ""
-      ScriptCollection:
-        python: ["games/pong/scripts/python/increment_score.py"]
     Collider:
       is_trigger: true
+  Entity:
+    name: "ScoreCount2"
+    parent: "Paddle2"
+    UITextLabel:
+      text: ""
+    ScriptCollection:
+      python: ["games/pong/scripts/python/increment_score.py"]
   Entity:
     name: "Ball"
     Transform: default
