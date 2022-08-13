@@ -58,10 +58,6 @@ namespace Omnia
 
 		void run();
 	private:
-		std::shared_ptr<Configuration> configuration;
-		std::shared_ptr<SceneSerializer> sceneSerializer;
-		std::shared_ptr<SceneStorage> sceneStorage;
-
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 		std::unique_ptr<EngineState> state;
 

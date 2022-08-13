@@ -33,15 +33,17 @@ namespace Omnia
 	class SceneStorage
 	{
 	public:
-		void addScene(std::string sceneName, std::shared_ptr<Scene> scene);
-		void removeScene(std::string sceneName);
-		void replaceActiveScene(std::string sceneName, std::shared_ptr<Scene> scene);
-		void changeToScene(std::string sceneName);
-		std::shared_ptr<Scene> getActiveScene();
-		std::string getActiveSceneName();
-		bool isEmpty();
-		bool hasActiveSceneChanged();
+		static void addScene(std::string sceneName, std::shared_ptr<Scene> scene);
+		static void removeScene(std::string sceneName);
+		static void replaceActiveScene(std::string sceneName, std::shared_ptr<Scene> scene);
+		static void changeToScene(std::string sceneName);
+		static std::shared_ptr<Scene> getActiveScene();
+		static std::string getActiveSceneName();
+		static bool isEmpty();
+		static bool hasActiveSceneChanged();
+		static SceneStorage* getInstance();
 	private:
+		static SceneStorage* instance;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
 		std::string activeSceneName;
 		bool activeSceneChanged = false;

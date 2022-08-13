@@ -23,7 +23,7 @@
 #pragma once
 
 #include <scene/component.hpp>
-#include <systems/scripting_system/script_context.hpp>
+#include <script_context.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>

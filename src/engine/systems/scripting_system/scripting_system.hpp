@@ -59,8 +59,6 @@ namespace Omnia
 
 		void executeCommand(std::string command);
 		void loadScriptModules(std::shared_ptr<Scene> scene);
-		void setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer);
-		void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<ScriptingLanguage>> scriptingLanguages;
 	};

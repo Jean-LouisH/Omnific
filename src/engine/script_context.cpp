@@ -26,16 +26,6 @@
 
 Omnia::ScriptContext* Omnia::ScriptContext::instance = nullptr;
 
-void Omnia::ScriptContext::setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer)
-{
-	getInstance()->sceneSerializer = sceneSerializer;
-}
-
-void Omnia::ScriptContext::setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage)
-{
-	getInstance()->sceneStorage = sceneStorage;
-}
-
 void Omnia::ScriptContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
 {
 	getInstance()->boundSceneTreeID = sceneTreeID;
@@ -77,8 +67,8 @@ std::shared_ptr<Omnia::Image> Omnia::ScriptContext::loadImage(std::string filepa
 
 void Omnia::ScriptContext::loadScene(std::string scenepath)
 {
-	std::shared_ptr<Scene> scene = getInstance()->sceneSerializer->deserialize(scenepath);
-	getInstance()->sceneStorage->replaceActiveScene(scenepath, scene);
+	std::shared_ptr<Scene> scene = SceneSerializer::deserialize(scenepath);
+	SceneStorage::replaceActiveScene(scenepath, scene);
 }
 
 std::shared_ptr<Omnia::Entity> Omnia::ScriptContext::getEntity()
@@ -88,7 +78,7 @@ std::shared_ptr<Omnia::Entity> Omnia::ScriptContext::getEntity()
 
 std::shared_ptr<Omnia::Scene> Omnia::ScriptContext::getScene()
 {
-	return getInstance()->sceneStorage->getActiveScene();
+	return SceneStorage::getActiveScene();
 }
 
 std::shared_ptr<Omnia::SceneTree> Omnia::ScriptContext::getSceneTree()

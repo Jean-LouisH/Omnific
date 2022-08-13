@@ -33,12 +33,14 @@ namespace Omnia
 	class SceneSerializer
 	{
 	public:
-		SceneSerializer(std::string assetsDirectory);
-		void serialize(std::string filepath, std::shared_ptr<Scene> scene);
-		std::shared_ptr<Scene> deserialize(std::string filepath);
-		std::shared_ptr<Scene> deserialize(std::string filepath, std::string name);
-		bool doesSceneExist(std::string filepath);
+		static void initialize(std::string assetsDirectory);
+		static void serialize(std::string filepath, std::shared_ptr<Scene> scene);
+		static std::shared_ptr<Scene> deserialize(std::string filepath);
+		static std::shared_ptr<Scene> deserialize(std::string filepath, std::string name);
+		static bool doesSceneExist(std::string filepath);
+		static SceneSerializer* getInstance();
 	private:
+		static SceneSerializer* instance;
 		std::string dataDirectory;
 	};
 }

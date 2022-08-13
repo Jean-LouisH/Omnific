@@ -54,7 +54,12 @@ namespace Omnia
 		} timeSettings;
 
 		//Status
-		bool isLoaded;
+		bool isLoaded = false;
+
+		static void loadFromFile(std::string bootFilepath);
+
+		static Configuration* getInstance();
 	private:
+		static Configuration* instance;
 	};
 }

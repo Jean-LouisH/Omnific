@@ -22,7 +22,6 @@
 
 #include "engine.hpp"
 #include <thread>
-#include "boot_loader.hpp"
 #include "utilities/constants.hpp"
 #include "scene/assets/image.hpp"
 #include <iostream>
@@ -53,7 +52,6 @@ void Omnia::Engine::run()
 		/* On successful initialization */
 		if (this->initialize())
 		{
-			BootLoader bootLoader;
 			std::shared_ptr<Scene> entryScene;
 #ifdef _DEBUG
 			OS::getWindow().hide();
@@ -79,26 +77,18 @@ void Omnia::Engine::run()
 
 			if (OS::getFileAccess().exists(bootFilepath))
 			{
-				this->configuration = bootLoader.loadFromFile(bootFilepath);
+				Configuration::loadFromFile(bootFilepath);
 				OS::getFileAccess().setDataDirectory(dataDirectory);
-				this->sceneSerializer = std::shared_ptr<SceneSerializer>(new SceneSerializer(dataDirectory));
-				this->sceneStorage = std::shared_ptr<SceneStorage>(new SceneStorage());
+				SceneSerializer::initialize(dataDirectory);
 
-				Image image = Image(dataDirectory + this->configuration->metadata.iconFilepath);
+				Image image = Image(dataDirectory + Configuration::getInstance()->metadata.iconFilepath);
 				OS::getWindow().changeIcon(image);
 
-				if (this->sceneSerializer->doesSceneExist(this->configuration->metadata.entrySceneFilepath))
+				if (SceneSerializer::doesSceneExist(Configuration::getInstance()->metadata.entrySceneFilepath))
 				{
-					entryScene = this->sceneSerializer->deserialize(this->configuration->metadata.entrySceneFilepath);
-					this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
-					this->getSystem<ScriptingSystem>()->setSceneSerializer(this->sceneSerializer);
-					this->getSystem<ScriptingSystem>()->setSceneStorage(this->sceneStorage);
+					entryScene = SceneSerializer::deserialize(Configuration::getInstance()->metadata.entrySceneFilepath);
+					SceneStorage::addScene(Configuration::getInstance()->metadata.entrySceneFilepath, entryScene);
 				}
-			}
-			else
-			{
-				this->configuration = std::shared_ptr<Configuration>(new Configuration());
-				this->configuration->isLoaded = false;
 			}
 
 #ifdef DEBUG_CONSOLE_ENABLED
@@ -108,14 +98,14 @@ void Omnia::Engine::run()
 			std::cout << "\n\n";
 #endif
 
-			if (this->configuration->isLoaded)
+			if (Configuration::getInstance()->isLoaded)
 			{
 				OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
 				Window& window = OS::getWindow();
-				window.resize(configuration->windowSettings.width, configuration->windowSettings.height);
-				window.changeTitle(configuration->metadata.title.c_str());
+				window.resize(Configuration::getInstance()->windowSettings.width, Configuration::getInstance()->windowSettings.height);
+				window.changeTitle(Configuration::getInstance()->metadata.title.c_str());
 				this->state->setRunningApplicationWindowed();
-				OS::getLogger().write("Loaded application project \"" + configuration->metadata.title + "\" at: " + dataDirectory);
+				OS::getLogger().write("Loaded application project \"" + Configuration::getInstance()->metadata.title + "\" at: " + dataDirectory);
 			}
 			else
 			{
@@ -233,8 +223,8 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		updateProcessTimer->setStart();
 		updateFrameTimer.setStart();
 
-		std::shared_ptr<Scene> activeScene = this->sceneStorage->getActiveScene();
-		const uint32_t msPerComputeUpdate = this->configuration->timeSettings.msPerComputeUpdate;
+		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
+		const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
 
 #ifdef DEBUG_CONSOLE_ENABLED
 		if (OS::getInput().hasRequestedCommandLine())
@@ -255,8 +245,8 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 				if (system.second->isThreadType(ThreadType::UPDATE))
 					system.second->onInput(activeScene);
 
-		if (this->sceneStorage->hasActiveSceneChanged())
-			this->getSystem<ScriptingSystem>()->loadScriptModules(this->sceneStorage->getActiveScene());
+		if (SceneStorage::hasActiveSceneChanged())
+			this->getSystem<ScriptingSystem>()->loadScriptModules(SceneStorage::getActiveScene());
 
 		for (auto system : this->systems)
 			if (system.second->isThreadType(ThreadType::UPDATE))
@@ -315,10 +305,10 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 		outputProcessTimer->setStart();
 		for (auto system : this->systems)
 			if (system.second->isThreadType(ThreadType::OUTPUT))
-				system.second->onOutput(this->sceneStorage->getActiveScene());
+				system.second->onOutput(SceneStorage::getActiveScene());
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
-			this->configuration->timeSettings.targetFPS,
+			Configuration::getInstance()->timeSettings.targetFPS,
 			outputProcessTimer);
 	}
 }

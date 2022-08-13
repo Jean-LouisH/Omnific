@@ -22,7 +22,7 @@
 
 #include "cpp_script_assembly.hpp"
 #include "cpp_script_registry.hpp"
-#include "systems/scripting_system/script_context.hpp"
+#include "script_context.hpp"
 #include "os/os.hpp"
 
 void loadScriptInstances()

@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "cpp_script_registry.hpp"
-#include "systems/scripting_system/script_context.hpp"
+#include "script_context.hpp"
 
 Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::instance = nullptr;
 

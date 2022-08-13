@@ -22,7 +22,7 @@
 
 #include "python_vm.hpp"
 #include "embedded_module.hpp"
-#include <systems/scripting_system/script_context.hpp>
+#include <script_context.hpp>
 #include <iostream>
 #include <set>
 

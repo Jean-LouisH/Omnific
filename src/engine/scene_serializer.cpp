@@ -29,14 +29,16 @@
 #include <os/os.hpp>
 #include "scene/asset_cache.hpp"
 
-Omnia::SceneSerializer::SceneSerializer(std::string dataDirectory)
+Omnia::SceneSerializer* Omnia::SceneSerializer::instance = nullptr;
+
+void Omnia::SceneSerializer::initialize(std::string dataDirectory)
 {
-	this->dataDirectory = dataDirectory;
+	SceneSerializer::getInstance()->dataDirectory = dataDirectory;
 }
 
 bool Omnia::SceneSerializer::doesSceneExist(std::string filepath)
 {
-	return OS::getFileAccess().exists(this->dataDirectory + filepath);
+	return OS::getFileAccess().exists(SceneSerializer::getInstance()->dataDirectory + filepath);
 }
 
 void Omnia::SceneSerializer::serialize(std::string filepath, std::shared_ptr<Scene> scene)
@@ -46,13 +48,13 @@ void Omnia::SceneSerializer::serialize(std::string filepath, std::shared_ptr<Sce
 
 std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string filepath)
 {
-	return this->deserialize(filepath, "");
+	return SceneSerializer::getInstance()->deserialize(filepath, "");
 }
 
 std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string filepath, std::string name)
 {
 	std::shared_ptr<Scene> scene = std::shared_ptr<Scene>(new Scene());
-	const std::string fullFilepath = this->dataDirectory + filepath;
+	const std::string fullFilepath = SceneSerializer::getInstance()->dataDirectory + filepath;
 
 	try
 	{
@@ -250,7 +252,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 												}
 												else
 												{
-													std::shared_ptr<Omnia::Model> model(new Model(this->dataDirectory + it3->second[i].as<std::string>()));
+													std::shared_ptr<Omnia::Model> model(new Model(SceneSerializer::getInstance()->dataDirectory + it3->second[i].as<std::string>()));
 													std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
 													AssetCache::store(asset);
 													modelContainer->addModel(model);
@@ -332,7 +334,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 											}
 											else
 											{
-												std::shared_ptr<Omnia::Image> image(new Image(this->dataDirectory + it3->second.as<std::string>()));
+												std::shared_ptr<Omnia::Image> image(new Image(SceneSerializer::getInstance()->dataDirectory + it3->second.as<std::string>()));
 												std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
 												AssetCache::store(asset);
 												sprite->addImage(image);
@@ -452,7 +454,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 
 									if (subSceneFilepath != filepath)
 									{
-										std::shared_ptr<SceneTree> subSceneTree = this->deserialize(subSceneFilepath, subSceneTreeName)->getLastSceneTree();
+										std::shared_ptr<SceneTree> subSceneTree = SceneSerializer::getInstance()->deserialize(subSceneFilepath, subSceneTreeName)->getLastSceneTree();
 
 										/* Only load the SceneTree if it is the same spatial dimension. */
 										if (subSceneTree->is2D == sceneTree->is2D)
@@ -496,4 +498,11 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 	}
 
 	return scene;
+}
+
+Omnia::SceneSerializer* Omnia::SceneSerializer::getInstance()
+{
+	if (instance == nullptr)
+		instance = new SceneSerializer();
+	return instance;
 }

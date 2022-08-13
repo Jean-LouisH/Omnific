@@ -22,15 +22,46 @@
 
 #pragma once
 
-#include "configuration.hpp"
+#include "scene/scene.hpp"
+#include <scene_storage.hpp>
+#include <configuration.hpp>
+#include "utilities/aliases.hpp"
+#include "os/os.hpp"
 #include <string>
+
 #include <memory>
+#include <scene/component.hpp>
+#include <scene/scene.hpp>
+#include <scene_serializer.hpp>
+#include <scene_storage.hpp>
+#include <utilities/aliases.hpp>
+#include <scene/event_bus.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class BootLoader
+	class OMNIA_ENGINE_API ScriptContext
 	{
 	public:
-		std::shared_ptr<Configuration> loadFromFile(std::string bootFilepath);
+		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
+
+		static std::shared_ptr<Asset> loadAsset(std::string type, std::string filepath);
+		static std::shared_ptr<Image> loadImage(std::string filepath);
+
+		static void loadScene(std::string scenepath);
+
+		static bool hasComponent(std::string type);
+		static std::shared_ptr<Entity> getEntity();
+		static std::shared_ptr<Scene> getScene();
+		static std::shared_ptr<SceneTree> getSceneTree();
+		static std::shared_ptr<Component> getComponent(std::string type);
+
+		static ScriptContext* getInstance();
+	private:
+		static ScriptContext* instance;
+
+		SceneTreeID boundSceneTreeID = 0;
+		EntityID boundEntityID = 0;
 	};
 }
+

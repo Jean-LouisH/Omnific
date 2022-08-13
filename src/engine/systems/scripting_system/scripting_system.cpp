@@ -106,16 +106,6 @@ void Omnia::ScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::ScriptingSystem::setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer)
-{
-	ScriptContext::setSceneSerializer(sceneSerializer);
-}
-
-void Omnia::ScriptingSystem::setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage)
-{
-	ScriptContext::setSceneStorage(sceneStorage);
-}
-
 void Omnia::ScriptingSystem::deinitialize()
 {
 	for (auto scriptingLanguage : this->scriptingLanguages)

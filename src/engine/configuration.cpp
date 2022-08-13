@@ -20,12 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "boot_loader.hpp"
+#include "configuration.hpp"
+
+Omnia::Configuration* Omnia::Configuration::instance = nullptr;
+
 #include <yaml-cpp/yaml.h>
 
-std::shared_ptr<Omnia::Configuration> Omnia::BootLoader::loadFromFile(std::string bootFilepath)
+void Omnia::Configuration::loadFromFile(std::string bootFilepath)
 {
-	std::shared_ptr<Configuration> configuration(new Configuration());
+	Configuration* configuration = Configuration::getInstance();
 
 	try
 	{
@@ -107,6 +110,11 @@ std::shared_ptr<Omnia::Configuration> Omnia::BootLoader::loadFromFile(std::strin
 	{
 		configuration->isLoaded = false;
 	}
+}
 
-	return configuration;
+Omnia::Configuration* Omnia::Configuration::getInstance()
+{
+	if (instance == nullptr)
+		instance = new Configuration();
+	return instance;
 }
