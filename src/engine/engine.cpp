@@ -162,14 +162,13 @@ bool Omnia::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
-	this->aiSystem = std::unique_ptr<AISystem>(new AISystem());
 	this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
 	this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
 	this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
 	this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
 	this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
 	this->scriptingSystem = std::unique_ptr<ScriptingSystem>(new ScriptingSystem());
-	this->uiSystem = std::unique_ptr<UISystem>(new UISystem());
+	this->guiSystem = std::unique_ptr<GUISystem>(new GUISystem());
 
 	if (!this->state->isRestarting())
 		this->state->setInitializing();
@@ -214,10 +213,9 @@ void Omnia::Engine::queryInput()
 
 void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
-	this->aiSystem->initialize();
 	this->animationSystem->initialize();
 	this->physicsSystem->initialize();
-	this->uiSystem->initialize();
+	this->guiSystem->initialize();
 	this->scriptingSystem->initialize();
 
 	Profiler& profiler = OS::getProfiler();
@@ -253,8 +251,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 
 		this->scriptingSystem->executeOnStartMethods(activeScene);
 		this->scriptingSystem->executeOnLogicFrameMethods(activeScene);
-		this->uiSystem->process(activeScene);
-		this->aiSystem->process(activeScene);
+		this->guiSystem->process(activeScene);
 
 		/* This calls the compute based Systems repeatedly until the accumulated
 		   lag milliseconds are depleted. This ensures compute operations
@@ -320,12 +317,11 @@ void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::sha
 void Omnia::Engine::shutdown()
 {
 	OS::deinitialize();
-	this->aiSystem.reset();
 	this->animationSystem.reset();
 	this->audioSystem.reset();
 	this->hapticSystem.reset();
 	this->physicsSystem.reset();
 	this->renderingSystem.reset();
 	this->scriptingSystem.reset();
-	this->uiSystem.reset();
+	this->guiSystem.reset();
 }

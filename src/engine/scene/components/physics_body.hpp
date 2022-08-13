@@ -20,45 +20,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
+#pragma once
 
-Omnia::Component::Component()
-{
-	this->id = UIDGenerator::getNewUID();
-}
+#include "utilities/aliases.hpp"
+#include <glm/glm.hpp>
+#include "utilities/constants.hpp"
+#include "scene/component.hpp"
 
-void Omnia::Component::setEntityID(EntityID entityID)
+namespace Omnia
 {
-	this->entityID = entityID;
-}
+	class OMNIA_ENGINE_API PhysicsBody : public Component
+	{
+	public:
+		PhysicsBody()
+		{
+			this->type = TYPE_STRING;
+			this->dragRatio = glm::vec3(0.0001, 1.0, 0.0001);
+			this->reload();
+		};
+		static constexpr const char* TYPE_STRING = "PhysicsBody";
 
-Omnia::ComponentID Omnia::Component::getID()
-{
-	return this->id;
-}
+		bool isRigidBody = false;
 
-Omnia::EntityID Omnia::Component::getEntityID()
-{
-	return this->entityID;
-}
+		float mass = 1.0;
+		float frictionRatio = 1.0;
+		float angularDragRatio = 1.0;
+		float angularVelocity = 0.0;
+		float gravityScale = 1.0;
+		float elasticityRatio = 0.01;
+		glm::vec3 dragRatio;
+		glm::vec3 linearVelocity;
+		glm::vec3 snapDirection;
+		glm::vec3 upDirection;
 
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
+		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);
+		void reload();
+	private:
+	};
 }

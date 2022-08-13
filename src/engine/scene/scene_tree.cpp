@@ -28,7 +28,6 @@ Omnia::SceneTree::SceneTree()
 	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
-	this->componentPropertyPool = std::shared_ptr<ComponentPropertyPool>(new ComponentPropertyPool());
 
 	this->id = UIDGenerator::getNewUID();
 	this->name = "SceneTree (ID:" + std::to_string(this->id) + ")";
@@ -68,24 +67,7 @@ void Omnia::SceneTree::addEntityTag(EntityID entityID, std::string tag)
 
 void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
-	if (component->isType(DirectionalLight::TYPE_STRING))
-	{
-		if (this->directionalLightCount >= this->allowableDirectionalLights)
-			return;
-		else
-			this->directionalLightCount++;
-	}
-	else if (component->isType(OmnidirectionalLight::TYPE_STRING) ||
-		component->isType(SpotLight::TYPE_STRING))
-	{
-		if (this->localLightCount >= this->allowableLocalLights)
-			return;
-		else
-			this->localLightCount++;
-	}
-
 	component->setEntityID(entityID);
-	component->setComponentPropertyPool(this->componentPropertyPool);
 	this->components.push_back(component);
 	std::string type = component->getType();
 	this->entities.at(entityID)->componentIDs.emplace(type, component->getID());

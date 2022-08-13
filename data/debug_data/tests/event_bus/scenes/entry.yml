@@ -15,7 +15,7 @@ SceneTree:
       translation: [0, 0, 1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"	
 SceneTree:
   name: "foreground"
@@ -57,5 +57,5 @@ SceneTree:
       python: ["event_bus/scripts/python/change_texture_on_collision.py"]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"

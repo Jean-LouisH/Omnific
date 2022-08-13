@@ -28,7 +28,6 @@
 #include <scene/assets/image.hpp>
 #include <string>
 #include <unordered_map>
-#include "component_property_pool.hpp"
 #include <memory>
 #include <omnia_engine_api.hpp>
 
@@ -43,7 +42,6 @@ namespace Omnia
 		Component();
 
 		void setEntityID(EntityID entityID);
-		void setComponentPropertyPool(std::shared_ptr<ComponentPropertyPool> componentPropertyPool);
 
 		ComponentID getID();
 		EntityID getEntityID();
@@ -53,15 +51,8 @@ namespace Omnia
 		virtual bool isRenderable();
 	protected:
 		std::string type;
-
-		void addProperty(std::string propertyName, float propertyValue);
-		void updateProperty(std::string propertyName, float propertyValue);
-		float getProperty(std::string propertyName);
-		std::vector<std::string> getPropertyNames();
 	private:
 		ComponentID id = 0;
 		EntityID entityID = 0;
-		std::unordered_map<std::string, size_t> propertyIndices;
-		std::shared_ptr<ComponentPropertyPool> componentPropertyPool = nullptr;
     };
 }

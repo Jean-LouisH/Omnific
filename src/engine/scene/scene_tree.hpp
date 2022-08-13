@@ -36,72 +36,32 @@
 #include <string>
 #include "collision_registry.hpp"
 #include "event_bus.hpp"
-#include "component_property_pool.hpp"
 
-#include <scene/assets/animation.hpp>
 #include <scene/assets/audio_stream.hpp>
-#include "scene/assets/cpp_script.hpp"
+#include "scene/assets/scripts/cpp_script.hpp"
 #include <scene/assets/font.hpp>
 #include <scene/assets/image.hpp>
 #include <scene/assets/material.hpp>
 #include <scene/assets/mesh.hpp>
-#include "scene/assets/python_script.hpp"
+#include "scene/assets/scripts/python_script.hpp"
 #include <scene/assets/rig.hpp>
 #include <scene/assets/shader.hpp>
 #include <scene/assets/text.hpp>
 
-#include "components/acoustic_model_container.hpp"
-#include "components/behaviour_tree.hpp"
-#include "components/sight_perception.hpp"
-#include "components/sound_perception.hpp"
 #include "components/sprite_container.hpp"
 #include "components/audio_listener.hpp"
 #include "components/audio_source.hpp"
 #include "components/camera.hpp"
 #include "components/collider.hpp"
-#include "components/constant_force.hpp"
-#include "components/countdown_timer.hpp"
-#include "components/cpu_particles.hpp"
-#include "components/gpu_particles.hpp"
-#include "components/character_body.hpp"
-#include "components/directional_light.hpp"
-#include "components/navigation_mesh_agent.hpp"
-#include "components/navigation_mesh_box_obstacle.hpp"
-#include "components/navigation_path.hpp"
-#include "components/omnidirectional_light.hpp"
+#include "components/timer.hpp"
+#include "components/physics_body.hpp"
+#include "components/light.hpp"
 #include "components/property_animation.hpp"
 #include "components/model_container.hpp"
-#include "components/rigid_body.hpp"
 #include "components/script_collection.hpp"
-#include "components/soft_body.hpp"
-#include "components/spot_light.hpp"
-#include "components/static_fluid.hpp"
 #include "components/transform.hpp"
-#include "components/ui_accordion.hpp"
-#include "components/ui_breadcrumbs.hpp"
-#include "components/ui_dropdown.hpp"
-#include "components/ui_button.hpp"
-#include "components/ui_graph.hpp"
-#include "components/ui_grid_view.hpp"
-#include "components/ui_separator.hpp"
-#include "components/ui_slider.hpp"
-#include "components/ui_hover_card.hpp"
-#include "components/ui_list.hpp"
-#include "components/ui_loader.hpp"
-#include "components/ui_panel.hpp"
-#include "components/ui_placeholder.hpp"
-#include "components/ui_progress_bar.hpp"
-#include "components/ui_reveal.hpp"
-#include "components/ui_search_field.hpp"
-#include "components/ui_spin_box.hpp"
-#include "components/ui_step.hpp"
-#include "components/ui_tab.hpp"
-#include "components/ui_text_field.hpp"
-#include "components/ui_text_label.hpp"
-#include "components/ui_tree_view.hpp"
-#include "components/ui_toggle.hpp"
-#include "components/ui_toggle_group.hpp"
-#include "components/ui_viewport.hpp"
+#include "components/gui.hpp"
+#include "components/viewport.hpp"
 #include <omnia_engine_api.hpp>
 
 #include <memory>
@@ -196,8 +156,6 @@ namespace Omnia
 		in engine system process loops.*/
 		std::vector<std::shared_ptr<Component>> components;
 
-		std::shared_ptr<ComponentPropertyPool> componentPropertyPool;
-
 		std::queue<EntityID> startEntitiesQueue;
 		std::queue<EntityID> finishEntitiesQueue;
 
@@ -209,11 +167,5 @@ namespace Omnia
 
 		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;
 		std::vector<size_t> renderOrderIndexCache;
-
-		uint8_t localLightCount = 0;
-		uint8_t directionalLightCount = 0;
-
-		const uint8_t allowableLocalLights = 8;
-		const uint8_t allowableDirectionalLights = 1;
 	};
 }

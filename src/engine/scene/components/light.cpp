@@ -20,45 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
-
-Omnia::Component::Component()
-{
-	this->id = UIDGenerator::getNewUID();
-}
-
-void Omnia::Component::setEntityID(EntityID entityID)
-{
-	this->entityID = entityID;
-}
-
-Omnia::ComponentID Omnia::Component::getID()
-{
-	return this->id;
-}
-
-Omnia::EntityID Omnia::Component::getEntityID()
-{
-	return this->entityID;
-}
-
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
-}
+#include "light.hpp"

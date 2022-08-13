@@ -20,45 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
+#pragma once
 
-Omnia::Component::Component()
-{
-	this->id = UIDGenerator::getNewUID();
-}
+#include <utilities/aabb_2d.hpp>
+#include <utilities/rectangle.hpp>
+#include <utilities/aliases.hpp>
+#include <utilities/constants.hpp>
+#include "scene/component.hpp"
+#include <os/os.hpp>
 
-void Omnia::Component::setEntityID(EntityID entityID)
+namespace Omnia
 {
-	this->entityID = entityID;
-}
-
-Omnia::ComponentID Omnia::Component::getID()
-{
-	return this->id;
-}
-
-Omnia::EntityID Omnia::Component::getEntityID()
-{
-	return this->entityID;
-}
-
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
+	class OMNIA_ENGINE_API Viewport : public Component
+	{
+	public:
+		Viewport()
+		{
+			this->type = TYPE_STRING;
+			this->dimensions = OS::getWindow().getWindowSize();
+		};
+		static constexpr const char* TYPE_STRING = "Viewport";
+		EntityID getCameraEntityID();
+		Rectangle getDimensions();
+		void setCameraEntity(EntityID cameraEntityID);
+		void setDimensions(uint32_t width, uint32_t height);
+	private:
+		Rectangle dimensions;
+		EntityID cameraEntityID = 0;
+	};
 }

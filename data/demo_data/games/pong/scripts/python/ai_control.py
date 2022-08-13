@@ -12,7 +12,7 @@ class omnia_script:
         collisions = scene_tree.get_collision_registry()
         ball_entity = scene_tree.get_entity_by_name("Ball")
         ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
-        ball_physics_body = scene_tree.get_component("CharacterBody", ball_entity.get_id())
+        ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
 
         #AI logic to determine where to move as the ball approaches
         
@@ -24,7 +24,7 @@ class omnia_script:
                                               ball_transform.translation.x- transform.translation.x)
 
         if (not collisions.is_colliding("Ball", "RightGoalPost") and ball_physics_body.linear_velocity.x > 0):
-            omnia.get_component("CharacterBody").linear_velocity.y = movement_speed * math.sin(position_angle_with_ball)
+            omnia.get_component("PhysicsBody").linear_velocity.y = movement_speed * math.sin(position_angle_with_ball)
             
         pass
     

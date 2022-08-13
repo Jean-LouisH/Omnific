@@ -20,45 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
+#include "timer.hpp"
 
-Omnia::Component::Component()
+void Omnia::Timer::start(float time)
 {
-	this->id = UIDGenerator::getNewUID();
+	this->startTime = time;
+	this->currentTime = startTime;
+	this->isActive = true;
 }
 
-void Omnia::Component::setEntityID(EntityID entityID)
+void Omnia::Timer::update(float deltaTime)
 {
-	this->entityID = entityID;
+	if (this->isActive && this->currentTime > 0.0)
+		this->currentTime -= deltaTime;
 }
 
-Omnia::ComponentID Omnia::Component::getID()
+void Omnia::Timer::stop()
 {
-	return this->id;
+	this->isActive = false;
 }
 
-Omnia::EntityID Omnia::Component::getEntityID()
+bool Omnia::Timer::isFinished()
 {
-	return this->entityID;
-}
-
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
+	return this->currentTime <= 0.0;
 }

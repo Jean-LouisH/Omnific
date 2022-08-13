@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <scene/assets/cpp_script.hpp>
+#include <scene/assets/scripts/cpp_script.hpp>
 #include <unordered_map>
 #include <memory>
 

@@ -15,7 +15,7 @@ SceneTree:
     name: "Text"
     Transform:
       translation: [0, 0, 1]
-    UITextLabel: 
+    GUI: 
       text: "This is a UITextLabel test"
       font: ["assets/fonts/Lato-Regular.ttf", 32]
       colour: [255, 0, 0, 255]
@@ -24,5 +24,5 @@ SceneTree:
       cpp: ["SplashScreenTransition"]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"

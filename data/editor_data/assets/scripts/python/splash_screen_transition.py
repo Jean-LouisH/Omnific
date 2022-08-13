@@ -6,10 +6,10 @@ class omnia_script:
         pass
 
     def on_start(self):
-        countdown_timer = omnia.get_component("CountdownTimer")
+        timer = omnia.get_component("Timer")
         countdown_value = 5.0
-        countdown_timer.start(countdown_value)
+        timer.start(countdown_value)
 
     def on_logic_frame(self):    
-        if omnia.get_component("CountdownTimer").is_finished():
+        if omnia.get_component("Timer").is_finished():
             omnia.load_scene("assets/scenes/debug.yml")

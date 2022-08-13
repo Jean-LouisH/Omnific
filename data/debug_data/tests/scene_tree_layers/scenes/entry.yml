@@ -15,7 +15,7 @@ SceneTree:
       translation: [0, 0, 1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"	
 SceneTree:
   name: "middleground"
@@ -37,7 +37,7 @@ SceneTree:
       python: ["scene_tree_layers/scripts/python/middleground_cube_rotate.py"]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"
 SceneTree:
   name: "foreground"
@@ -67,5 +67,5 @@ SceneTree:
       dimensions: [50.0, 50.0, 0.1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "ForegroundCamera"

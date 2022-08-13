@@ -10,28 +10,11 @@ add_executable(application
 	  "gpu.hpp"
  )
 
- add_executable(steam_application 
-	  "steam_application/main.cpp"
- )
-
- add_executable(dedicated_gpu_steam_application 
-	  "dedicated_gpu_steam_application/main.cpp"
-	  "gpu.hpp"
- )
-
 add_dependencies(application
 	omnia_engine
 )
 
 add_dependencies(dedicated_gpu_application
-	omnia_engine
-)
-
-add_dependencies(steam_application
-	omnia_engine
-)
-
-add_dependencies(dedicated_gpu_steam_application
 	omnia_engine
 )
 
@@ -61,16 +44,6 @@ target_link_libraries (application
 )
 
 target_link_libraries (dedicated_gpu_application
-		omnia_engine
-		${SDL2}
-)
-
-target_link_libraries (steam_application
-		omnia_engine
-		${SDL2}
-)
-
-target_link_libraries (dedicated_gpu_steam_application
 		omnia_engine
 		${SDL2}
 )

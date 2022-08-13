@@ -87,12 +87,12 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 		{
 			std::vector<SceneTreeRenderable> sceneTreeRenderableList;
 
-			std::vector<std::shared_ptr<UIViewport>> uiViewports = sceneTree->getComponentsByType<UIViewport>();
+			std::vector<std::shared_ptr<Viewport>> uiViewports = sceneTree->getComponentsByType<Viewport>();
 			std::vector<size_t> renderOrderIndexCache = sceneTree->getRenderOrderIndexCache();
 
 			for (int i = 0; i < uiViewports.size(); i++)
 			{
-				std::shared_ptr<UIViewport> uiViewport = uiViewports.at(i);
+				std::shared_ptr<Viewport> uiViewport = uiViewports.at(i);
 				std::shared_ptr<Entity> cameraEntity = sceneTree->getEntity(uiViewport->getCameraEntityID());
 				std::shared_ptr<Camera> camera = sceneTree->getComponentByType<Camera>(cameraEntity->getID());
 				SceneTreeRenderable sceneTreeRenderable;

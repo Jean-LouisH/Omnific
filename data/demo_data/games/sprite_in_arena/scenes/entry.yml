@@ -16,7 +16,7 @@ SceneTree:
       dimensions: [200, 200, 0.1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"
 SceneTree:
   name: "foreground"
@@ -34,7 +34,7 @@ SceneTree:
     SpriteContainer:
       image: "games/sprite_in_arena/images/1.png"
       dimensions: [10.0, 10.0, 0.1]
-    CharacterBody: "default"
+    PhysicsBody: "default"
     Collider: 
       dimensions: [10.0, 10.0, 0.1]
   Entity:
@@ -58,5 +58,5 @@ SceneTree:
       dimensions: [50.0, 50.0, 0.1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"

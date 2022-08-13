@@ -213,24 +213,17 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_type", &Omnia::Component::getType)
 		.def("is_renderable", &Omnia::Component::isRenderable);
 
-	pybind11::class_<Omnia::AcousticModelContainer, Omnia::Component, std::shared_ptr<Omnia::AcousticModelContainer>>(m, Omnia::AcousticModelContainer::TYPE_STRING);
-	pybind11::class_<Omnia::BehaviourTree, Omnia::Component, std::shared_ptr<Omnia::BehaviourTree>>(m, Omnia::BehaviourTree::TYPE_STRING);
-	pybind11::class_<Omnia::SightPerception, Omnia::Component, std::shared_ptr<Omnia::SightPerception>>(m, Omnia::SightPerception::TYPE_STRING);
-	pybind11::class_<Omnia::SoundPerception, Omnia::Component, std::shared_ptr<Omnia::SoundPerception>>(m, Omnia::SoundPerception::TYPE_STRING);
 	pybind11::class_<Omnia::AudioListener, Omnia::Component, std::shared_ptr<Omnia::AudioListener>>(m, Omnia::AudioListener::TYPE_STRING);
 	pybind11::class_<Omnia::AudioSource, Omnia::Component, std::shared_ptr<Omnia::AudioSource>>(m, Omnia::AudioSource::TYPE_STRING);
 	pybind11::class_<Omnia::Camera, Omnia::Component, std::shared_ptr<Omnia::Camera>>(m, Omnia::Camera::TYPE_STRING)
 		.def("toggle_wireframe_mode", &Omnia::Camera::toggleWireframeMode);
-	pybind11::class_<Omnia::ConstantForce, Omnia::Component, std::shared_ptr<Omnia::ConstantForce>>(m, Omnia::ConstantForce::TYPE_STRING);
-	pybind11::class_<Omnia::CountdownTimer, Omnia::Component, std::shared_ptr<Omnia::CountdownTimer>>(m, Omnia::CountdownTimer::TYPE_STRING)
-		.def("start", &Omnia::CountdownTimer::start)
-		.def("stop", &Omnia::CountdownTimer::stop)
-		.def("is_finished", &Omnia::CountdownTimer::isFinished);
-	pybind11::class_<Omnia::CharacterBody, Omnia::Component, std::shared_ptr<Omnia::CharacterBody>>(m, Omnia::CharacterBody::TYPE_STRING)
-		.def_readwrite("linear_velocity", &Omnia::CharacterBody::linearVelocity);
-	pybind11::class_<Omnia::CPUParticles, Omnia::Component, std::shared_ptr<Omnia::CPUParticles>>(m, Omnia::CPUParticles::TYPE_STRING);
-	pybind11::class_<Omnia::GPUParticles, Omnia::Component, std::shared_ptr<Omnia::GPUParticles>>(m, Omnia::GPUParticles::TYPE_STRING);
-	pybind11::class_<Omnia::DirectionalLight, Omnia::Component, std::shared_ptr<Omnia::DirectionalLight>>(m, Omnia::DirectionalLight::TYPE_STRING);
+	pybind11::class_<Omnia::Timer, Omnia::Component, std::shared_ptr<Omnia::Timer>>(m, Omnia::Timer::TYPE_STRING)
+		.def("start", &Omnia::Timer::start)
+		.def("stop", &Omnia::Timer::stop)
+		.def("is_finished", &Omnia::Timer::isFinished);
+	pybind11::class_<Omnia::PhysicsBody, Omnia::Component, std::shared_ptr<Omnia::PhysicsBody>>(m, Omnia::PhysicsBody::TYPE_STRING)
+		.def_readwrite("linear_velocity", &Omnia::PhysicsBody::linearVelocity);
+	pybind11::class_<Omnia::Light, Omnia::Component, std::shared_ptr<Omnia::Light>>(m, Omnia::Light::TYPE_STRING);
 	pybind11::class_<Omnia::ModelContainer, Omnia::Component, std::shared_ptr<Omnia::ModelContainer>>(m, Omnia::ModelContainer::TYPE_STRING)
 		.def("add_model", &Omnia::ModelContainer::addModel)
 		.def("add_cube", &Omnia::ModelContainer::addCube)
@@ -238,17 +231,9 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("change_to_model", pybind11::overload_cast<std::string>(&Omnia::ModelContainer::changeToModel))
 		.def("change_to_model", pybind11::overload_cast<uint64_t>(&Omnia::ModelContainer::changeToModel))
 		.def("get_current_model", &Omnia::ModelContainer::getCurrentModel, pybind11::return_value_policy::reference);
-	pybind11::class_<Omnia::NavigationMeshAgent, Omnia::Component, std::shared_ptr<Omnia::NavigationMeshAgent>>(m, Omnia::NavigationMeshAgent::TYPE_STRING);
-	pybind11::class_<Omnia::NavigationMeshBoxObstacle, Omnia::Component, std::shared_ptr<Omnia::NavigationMeshBoxObstacle>>(m, Omnia::NavigationMeshBoxObstacle::TYPE_STRING);
-	pybind11::class_<Omnia::NavigationPath, Omnia::Component, std::shared_ptr<Omnia::NavigationPath>>(m, Omnia::NavigationPath::TYPE_STRING);
-	pybind11::class_<Omnia::OmnidirectionalLight, Omnia::Component, std::shared_ptr<Omnia::OmnidirectionalLight>>(m, Omnia::OmnidirectionalLight::TYPE_STRING);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component, std::shared_ptr<Omnia::PropertyAnimation>>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component, std::shared_ptr<Omnia::Collider>>(m, Omnia::Collider::TYPE_STRING);
-	pybind11::class_<Omnia::RigidBody, Omnia::Component, std::shared_ptr<Omnia::RigidBody>>(m, Omnia::RigidBody::TYPE_STRING);
-	pybind11::class_<Omnia::SoftBody, Omnia::Component, std::shared_ptr<Omnia::SoftBody>>(m, Omnia::SoftBody::TYPE_STRING);
-	pybind11::class_<Omnia::SpotLight, Omnia::Component, std::shared_ptr<Omnia::SpotLight>>(m, Omnia::SpotLight::TYPE_STRING);
 	pybind11::class_<Omnia::SpriteContainer, Omnia::Component, std::shared_ptr<Omnia::SpriteContainer>>(m, Omnia::SpriteContainer::TYPE_STRING);
-	pybind11::class_<Omnia::StaticFluid, Omnia::Component, std::shared_ptr<Omnia::StaticFluid>>(m, Omnia::StaticFluid::TYPE_STRING);
 	pybind11::class_<Omnia::Transform, Omnia::Component, std::shared_ptr<Omnia::Transform>>(m, Omnia::Transform::TYPE_STRING)
 		.def_readwrite("translation", &Omnia::Transform::translation)
 		.def_readwrite("rotation", &Omnia::Transform::rotation)
@@ -259,32 +244,8 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("rotate_x", &Omnia::Transform::rotateX)
 		.def("rotate_y", &Omnia::Transform::rotateY)
 		.def("rotate_z", &Omnia::Transform::rotateZ);
-	pybind11::class_<Omnia::UIAccordion, Omnia::Component, std::shared_ptr<Omnia::UIAccordion>>(m, Omnia::UIAccordion::TYPE_STRING);
-	pybind11::class_<Omnia::UIBreadcrumbs, Omnia::Component, std::shared_ptr<Omnia::UIBreadcrumbs>>(m, Omnia::UIBreadcrumbs::TYPE_STRING);
-	pybind11::class_<Omnia::UIButton, Omnia::Component, std::shared_ptr<Omnia::UIButton>>(m, Omnia::UIButton::TYPE_STRING);
-	pybind11::class_<Omnia::UIDropdown, Omnia::Component, std::shared_ptr<Omnia::UIDropdown>>(m, Omnia::UIDropdown::TYPE_STRING);
-	pybind11::class_<Omnia::UIGraph, Omnia::Component, std::shared_ptr<Omnia::UIGraph>>(m, Omnia::UIGraph::TYPE_STRING);
-	pybind11::class_<Omnia::UIGridView, Omnia::Component, std::shared_ptr<Omnia::UIGridView>>(m, Omnia::UIGridView::TYPE_STRING);
-	pybind11::class_<Omnia::UIHoverCard, Omnia::Component, std::shared_ptr<Omnia::UIHoverCard>>(m, Omnia::UIHoverCard::TYPE_STRING);
-	pybind11::class_<Omnia::UIList, Omnia::Component, std::shared_ptr<Omnia::UIList>>(m, Omnia::UIList::TYPE_STRING);
-	pybind11::class_<Omnia::UILoader, Omnia::Component, std::shared_ptr<Omnia::UILoader>>(m, Omnia::UILoader::TYPE_STRING);
-	pybind11::class_<Omnia::UIPanel, Omnia::Component, std::shared_ptr<Omnia::UIPanel>>(m, Omnia::UIPanel::TYPE_STRING);
-	pybind11::class_<Omnia::UIPlaceholder, Omnia::Component, std::shared_ptr<Omnia::UIPlaceholder>>(m, Omnia::UIPlaceholder::TYPE_STRING);
-	pybind11::class_<Omnia::UIProgressBar, Omnia::Component, std::shared_ptr<Omnia::UIProgressBar>>(m, Omnia::UIProgressBar::TYPE_STRING);
-	pybind11::class_<Omnia::UIReveal, Omnia::Component, std::shared_ptr<Omnia::UIReveal>>(m, Omnia::UIReveal::TYPE_STRING);
-	pybind11::class_<Omnia::UISearchField, Omnia::Component, std::shared_ptr<Omnia::UISearchField>>(m, Omnia::UISearchField::TYPE_STRING);
-	pybind11::class_<Omnia::UISeparator, Omnia::Component, std::shared_ptr<Omnia::UISeparator>>(m, Omnia::UISeparator::TYPE_STRING);
-	pybind11::class_<Omnia::UISlider, Omnia::Component, std::shared_ptr<Omnia::UISlider>>(m, Omnia::UISlider::TYPE_STRING);
-	pybind11::class_<Omnia::UISpinBox, Omnia::Component, std::shared_ptr<Omnia::UISpinBox>>(m, Omnia::UISpinBox::TYPE_STRING);
-	pybind11::class_<Omnia::UIStep, Omnia::Component, std::shared_ptr<Omnia::UIStep>>(m, Omnia::UIStep::TYPE_STRING);
-	pybind11::class_<Omnia::UITab, Omnia::Component, std::shared_ptr<Omnia::UITab>>(m, Omnia::UITab::TYPE_STRING);
-	pybind11::class_<Omnia::UITextField, Omnia::Component, std::shared_ptr<Omnia::UITextField>>(m, Omnia::UITextField::TYPE_STRING);
-	pybind11::class_<Omnia::UITextLabel, Omnia::Component, std::shared_ptr<Omnia::UITextLabel>>(m, Omnia::UITextLabel::TYPE_STRING)
-		.def("set_text", &Omnia::UITextLabel::setText);
-	pybind11::class_<Omnia::UIToggle, Omnia::Component, std::shared_ptr<Omnia::UIToggle>>(m, Omnia::UIToggle::TYPE_STRING);
-	pybind11::class_<Omnia::UIToggleGroup, Omnia::Component, std::shared_ptr<Omnia::UIToggleGroup>>(m, Omnia::UIToggleGroup::TYPE_STRING);
-	pybind11::class_<Omnia::UITreeView, Omnia::Component, std::shared_ptr<Omnia::UITreeView>>(m, Omnia::UITreeView::TYPE_STRING);
-	pybind11::class_<Omnia::UIViewport, Omnia::Component, std::shared_ptr<Omnia::UIViewport>>(m, Omnia::UIViewport::TYPE_STRING);
+	pybind11::class_<Omnia::GUI, Omnia::Component, std::shared_ptr<Omnia::GUI>>(m, Omnia::GUI::TYPE_STRING);
+	pybind11::class_<Omnia::Viewport, Omnia::Component, std::shared_ptr<Omnia::Viewport>>(m, Omnia::Viewport::TYPE_STRING);
 
 	/*Utility classes*/
 	pybind11::class_<glm::vec2>(m, "Vector2")

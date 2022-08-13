@@ -20,45 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
+#include "viewport.hpp"
 
-Omnia::Component::Component()
+Omnia::EntityID Omnia::Viewport::getCameraEntityID()
 {
-	this->id = UIDGenerator::getNewUID();
+	return this->cameraEntityID;
 }
 
-void Omnia::Component::setEntityID(EntityID entityID)
+void Omnia::Viewport::setCameraEntity(EntityID cameraEntityID)
 {
-	this->entityID = entityID;
+	this->cameraEntityID = cameraEntityID;
 }
 
-Omnia::ComponentID Omnia::Component::getID()
+Omnia::Rectangle Omnia::Viewport::getDimensions()
 {
-	return this->id;
+	return  this->dimensions;
 }
 
-Omnia::EntityID Omnia::Component::getEntityID()
+void Omnia::Viewport::setDimensions(uint32_t width, uint32_t height)
 {
-	return this->entityID;
-}
-
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
+	this->dimensions.width = width;
+	this->dimensions.height = height;
 }

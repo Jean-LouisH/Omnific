@@ -6,9 +6,9 @@ class omnia_script:
         pass
 
     def on_start(self):
-        omnia.get_component("CountdownTimer").start(2.0)
+        omnia.get_component("Timer").start(2.0)
 
     def on_logic_frame(self):
-        countdown_timer =  omnia.get_component("CountdownTimer")
-        if (countdown_timer.is_finished()):
+        timer = omnia.get_component("Timer")
+        if (timer.is_finished()):
             omnia.load_scene("selection_menu/scenes/entry.yml")

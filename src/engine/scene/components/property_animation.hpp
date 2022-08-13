@@ -33,7 +33,7 @@ namespace Omnia
 	class OMNIA_ENGINE_API PropertyAnimation : public Component
 	{
 	public:
-		float* targetDoubleProperty = NULL;
+		float value = 0.0;
 		std::vector<float> keyFrames;
 		float duration = 0.0;
 		float playbackSpeedPercentage = 1.0;

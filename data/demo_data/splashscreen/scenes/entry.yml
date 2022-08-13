@@ -12,7 +12,7 @@ SceneTree:
       translation: [0, 0, 1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"	
 SceneTree:
   name: "foreground"
@@ -25,10 +25,10 @@ SceneTree:
     Camera: "default"
   Entity:
     name: "TimedTransition"
-    CountdownTimer: "default"
+    Timer: "default"
     ScriptCollection:
       python: ["splashscreen/scripts/python/scene_transition.py"]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"

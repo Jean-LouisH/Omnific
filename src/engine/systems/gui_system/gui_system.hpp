@@ -20,45 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
+#pragma once
 
-Omnia::Component::Component()
+#include "scene/scene.hpp"
+#include "system.hpp"
+#include <memory>
+
+namespace Omnia
 {
-	this->id = UIDGenerator::getNewUID();
+	/* Processes Components with data related to HID interaction.*/
+	class GUISystem : public System
+	{
+	public:
+		~GUISystem();
+		virtual void initialize() override;
+		void process(std::shared_ptr<Scene> scene) override;
+		virtual void deinitialize() override;
+	private:
+		void orderGUIComponentsByHierarchy();
+		void positionGUIComponentsByHierarchy();
+		bool isCursorHoveringOverGUIComponent(ComponentID componentID);
+		//bool isCursorInInputStateOnGUIComponent(
+		//	ComponentID componentID, 
+		//	InputCode inputCode, 
+		//	InputButtonMode inputButtonMode);
+	};
 }
 
-void Omnia::Component::setEntityID(EntityID entityID)
-{
-	this->entityID = entityID;
-}
-
-Omnia::ComponentID Omnia::Component::getID()
-{
-	return this->id;
-}
-
-Omnia::EntityID Omnia::Component::getEntityID()
-{
-	return this->entityID;
-}
-
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
-}

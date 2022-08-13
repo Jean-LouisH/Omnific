@@ -15,7 +15,7 @@ SceneTree:
       translation: [0, 0, 1]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"	
 SceneTree:
   name: "foreground"
@@ -39,5 +39,5 @@ SceneTree:
       python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"

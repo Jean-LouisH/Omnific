@@ -114,39 +114,6 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									sceneTree->getLastEntity()->parentID = sceneTree->getEntityByName(it2->second.as<std::string>())->getID();
 								}
 								//Components
-								else if (it2->first.as<std::string>() == BehaviourTree::TYPE_STRING)
-								{
-									std::shared_ptr<BehaviourTree> behaviourTree(new BehaviourTree());
-
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-
-									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(behaviourTree);
-									sceneTree->addComponentToLastEntity(component);
-								}
-								else if (it2->first.as<std::string>() == SightPerception::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
 								else if (it2->first.as<std::string>() == AudioListener::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
@@ -211,9 +178,9 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(camera);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == CharacterBody::TYPE_STRING)
+								else if (it2->first.as<std::string>() == PhysicsBody::TYPE_STRING)
 								{
-									std::shared_ptr<CharacterBody> characterBody(new CharacterBody());
+									std::shared_ptr<PhysicsBody> characterBody(new PhysicsBody());
 
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
@@ -252,23 +219,9 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(collider);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == ConstantForce::TYPE_STRING)
+								else if (it2->first.as<std::string>() == Timer::TYPE_STRING)
 								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == CountdownTimer::TYPE_STRING)
-								{
-									std::shared_ptr<CountdownTimer> countdownTimer(new CountdownTimer());
+									std::shared_ptr<Timer> countdownTimer(new Timer());
 
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
@@ -309,48 +262,6 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == NavigationMeshAgent::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == NavigationMeshBoxObstacle::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == NavigationPath::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
 								else if (it2->first.as<std::string>() == PropertyAnimation::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
@@ -365,7 +276,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 										}
 									}
 								}
-								else if (it2->first.as<std::string>() == RigidBody::TYPE_STRING)
+								else if (it2->first.as<std::string>() == PhysicsBody::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
@@ -443,20 +354,6 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(sprite);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == StaticFluid::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
 								else if (it2->first.as<std::string>() == Transform::TYPE_STRING)
 								{
 									std::shared_ptr<Transform> transform(new Transform());
@@ -486,210 +383,42 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(transform);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == UIButton::TYPE_STRING)
+								else if (it2->first.as<std::string>() == GUI::TYPE_STRING)
 								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIGraph::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UISeparator::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UISlider::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIHoverCard::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIList::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIPanel::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIProgressBar::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UISpinBox::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UITab::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UITextField::TYPE_STRING)
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UITextLabel::TYPE_STRING)
-								{
-									std::shared_ptr<UITextLabel> uiTextLabel(new UITextLabel());
+									std::shared_ptr<GUI> gui(new GUI());
 
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{
-										if (it3->first.as<std::string>() == "text")
-										{
-											uiTextLabel->setText(it3->second.as<std::string>());
-										}
-										else if (it3->first.as<std::string>() == "font")
-										{
-											std::shared_ptr<Omnia::Font> font(new Font(
-												this->dataDirectory + it3->second[0].as<std::string>(),
-												it3->second[1].as<int>()));
-											std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
-											AssetCache::store(asset);
-											uiTextLabel->setFont(font, it3->second[1].as<int>());
-										}
-										else if (it3->first.as<std::string>() == "colour")
-										{
-											uiTextLabel->setColour(
-												it3->second[0].as<int>(),
-												it3->second[1].as<int>(),
-												it3->second[2].as<int>(),
-												it3->second[3].as<int>()
-											);
-										}
+										//if (it3->first.as<std::string>() == "text")
+										//{
+										//	gui->setText(it3->second.as<std::string>());
+										//}
+										//else if (it3->first.as<std::string>() == "font")
+										//{
+										//	std::shared_ptr<Omnia::Font> font(new Font(
+										//		this->dataDirectory + it3->second[0].as<std::string>(),
+										//		it3->second[1].as<int>()));
+										//	std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
+										//	AssetCache::store(asset);
+										//	gui->setFont(font, it3->second[1].as<int>());
+										//}
+										//else if (it3->first.as<std::string>() == "colour")
+										//{
+										//	gui->setColour(
+										//		it3->second[0].as<int>(),
+										//		it3->second[1].as<int>(),
+										//		it3->second[2].as<int>(),
+										//		it3->second[3].as<int>()
+										//	);
+										//}
 									}
 
-									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(uiTextLabel);
+									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(gui);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == UITreeView::TYPE_STRING)
+								else if (it2->first.as<std::string>() == Viewport::TYPE_STRING)
 								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										if (it3->first.as<std::string>() == "default")
-										{
-
-										}
-										else if (it3->first.as<std::string>() == "")
-										{
-
-										}
-									}
-								}
-								else if (it2->first.as<std::string>() == UIViewport::TYPE_STRING)
-								{
-									std::shared_ptr<UIViewport> uiViewport(new UIViewport());
+									std::shared_ptr<Viewport> uiViewport(new Viewport());
 
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
 									{

@@ -8,7 +8,7 @@ class omnia_script:
 
     def on_logic_frame(self):
 
-        if omnia.has_component("UITextLabel"):
+        if omnia.has_component("GUI"):
             current_time_string = time.strftime("%H:%M:%S", time.localtime())
-            ui_text_label = omnia.get_component("UITextLabel")
-            ui_text_label.set_text("Time: " + current_time_string)
+            gui = omnia.get_component("GUI")
+            # ui_text_label.set_text("Time: " + current_time_string)

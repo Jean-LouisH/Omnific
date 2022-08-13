@@ -20,45 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "component.hpp"
-#include <uid_generator.hpp>
+#include "physics_body.hpp"
 
-Omnia::Component::Component()
+void Omnia::PhysicsBody::move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection)
 {
-	this->id = UIDGenerator::getNewUID();
+	this->linearVelocity = linearVelocity;
+	this->snapDirection = snapDirection;
+	this->upDirection = upDirection;
 }
 
-void Omnia::Component::setEntityID(EntityID entityID)
+void Omnia::PhysicsBody::reload()
 {
-	this->entityID = entityID;
-}
-
-Omnia::ComponentID Omnia::Component::getID()
-{
-	return this->id;
-}
-
-Omnia::EntityID Omnia::Component::getEntityID()
-{
-	return this->entityID;
-}
-
-bool Omnia::Component::isAttachedToEntity()
-{
-	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
-}
-
-bool Omnia::Component::isRenderable()
-{
-	return false;
+	this->linearVelocity = glm::vec3(0.0, 0.0, 0.0);
+	this->snapDirection = glm::vec3(0.0, 0.0, 0.0);
+	this->upDirection = glm::vec3(0.0, 1.0, 0.0);
 }

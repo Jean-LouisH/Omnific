@@ -37,8 +37,8 @@ namespace Omnia
 		EntityID otherColliderEntityID = 0;
 		std::string otherColliderName;
 		glm::vec3 attackAngle;
-		bool hasRigidbody = false;
-		bool hasOtherRigidbody = false;
+		bool hasPhysicsBody = false;
+		bool hasOtherPhysicsBody = false;
 		double elasticityRatio = 0.0;
 		double mass = 0.0;
 		glm::vec3 linearVelocity;

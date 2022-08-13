@@ -10,12 +10,13 @@ SceneTree:
     name: "Text"
     Transform:
       translation: [0, 0, 0]
-    UITextLabel: 
+    GUI: 
       text: "Time: "
       font: ["assets/fonts/Lato-Regular.ttf", 90]
       colour: [0, 0, 255, 255]
-    Scripts: ["assets/scripts/python/debug_time_display.py", "assets/scripts/python/debug_escape_to_splash_screen.py", "assets/scripts/python/debug_input_logging.py"]
+    ScriptCollection: 
+      python: ["assets/scripts/python/debug_time_display.py", "assets/scripts/python/debug_escape_to_splash_screen.py", "assets/scripts/python/debug_input_logging.py"]
   Entity:
     name: "Viewport"
-    UIViewport:
+    Viewport:
       camera_entity: "Camera"
