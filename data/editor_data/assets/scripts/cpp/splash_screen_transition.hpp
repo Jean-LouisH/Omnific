@@ -46,7 +46,7 @@ namespace Omnia
 
 		/* Add all the methods from CPPScript to override. */
 		virtual void onStart() override;
-		virtual void onLogicFrame() override;
+		virtual void onLogic() override;
 
 		/* custom public methods. */
 

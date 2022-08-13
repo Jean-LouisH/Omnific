@@ -23,21 +23,11 @@
 #include "scripting_system.hpp"
 #include "script_context.hpp"
 
-Omnia::ScriptingSystem::ScriptingSystem()
-{
-	this->scriptingLanguages.emplace("PythonVM", std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<PythonVM>(new PythonVM())));
-	this->scriptingLanguages.emplace("CPPNative", std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<CPPNative>(new CPPNative())));
-}
 
 void Omnia::ScriptingSystem::initialize()
 {
 	for (auto scriptingLanguage : this->scriptingLanguages)
 		scriptingLanguage.second->initialize();
-}
-
-void Omnia::ScriptingSystem::process(std::shared_ptr<Scene> scene)
-{
-
 }
 
 void Omnia::ScriptingSystem::executeCommand(std::string command)
@@ -56,60 +46,60 @@ void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::ScriptingSystem::executeOnStartMethods(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->executeOnStartMethods();
+			scriptingLanguage.second->onStart();
 
 		for (auto it : scene->getSceneTrees())
 			it.second->clearStartEntityQueue();
 	}
 }
 
-void Omnia::ScriptingSystem::executeOnInputMethods(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->executeOnInputMethods();
+			scriptingLanguage.second->onInput();
 	}
 }
 
-void Omnia::ScriptingSystem::executeOnLogicFrameMethods(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->executeOnLogicFrameMethods();
+			scriptingLanguage.second->onLogic();
 	}
 }
 
-void Omnia::ScriptingSystem::executeOnComputeFrameMethods(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->executeOnComputeFrameMethods();
+			scriptingLanguage.second->onCompute();
 	}
 }
 
-void Omnia::ScriptingSystem::executeOnOutputMethods(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->executeOnOutputMethods();
+			scriptingLanguage.second->onOutput();
 	}
 }
 
-void Omnia::ScriptingSystem::executeOnFinishMethods(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->executeOnFinishMethods();
+			scriptingLanguage.second->onFinish();
 
 		for (auto it : scene->getSceneTrees())
 			it.second->clearFinishEntityQueue();

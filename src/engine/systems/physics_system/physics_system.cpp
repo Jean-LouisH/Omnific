@@ -40,7 +40,7 @@ void Omnia::PhysicsSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::PhysicsSystem::process(std::shared_ptr<Scene> scene)
+void Omnia::PhysicsSystem::onCompute(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
@@ -229,20 +229,12 @@ void Omnia::PhysicsSystem::handleCollisions(std::shared_ptr<SceneTree> sceneTree
 	}
 }
 
-void Omnia::PhysicsSystem::onComputeEnd(std::shared_ptr<Scene> scene)
+void Omnia::PhysicsSystem::onOutput(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees = scene->getSceneTrees();
-
-	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-	{
-		std::shared_ptr<SceneTree> sceneTree = it->second;
-		std::vector<std::shared_ptr<PhysicsBody>> characterBodies = sceneTree->getComponentsByType<PhysicsBody>();
-
-		for (int i = 0; i < characterBodies.size(); i++)
-		{
-			characterBodies.at(i)->reload();
-		}
-	}
+	for (auto it : scene->getSceneTrees())
+		for (std::shared_ptr<PhysicsBody> physicsBody : it.second->getComponentsByType<PhysicsBody>())
+			if (!physicsBody->isRigidBody)
+				physicsBody->reload();
 }
 
 void Omnia::PhysicsSystem::displaceEntityTree(std::shared_ptr<SceneTree> sceneTree, EntityID entityID, glm::vec3 value)

@@ -27,13 +27,7 @@
 #include "scene_serializer.hpp"
 #include "configuration.hpp"
 #include "scene_storage.hpp"
-#include "systems/animation_system/animation_system.hpp"
-#include "systems/audio_system/audio_system.hpp"
-#include "systems/haptic_system/haptic_system.hpp"
-#include "systems/physics_system/physics_system.hpp"
-#include "systems/rendering_system/rendering_system.hpp"
-#include "systems/scripting_system/scripting_system.hpp"
-#include "systems/gui_system/gui_system.hpp"
+#include "system.hpp"
 #include "os/os.hpp"
 #include "engine_state.hpp"
 #include "os/profiler.hpp"
@@ -68,13 +62,7 @@ namespace Omnia
 		std::shared_ptr<SceneSerializer> sceneSerializer;
 		std::shared_ptr<SceneStorage> sceneStorage;
 
-		std::unique_ptr<AnimationSystem> animationSystem;
-		std::unique_ptr<AudioSystem> audioSystem;
-		std::unique_ptr<HapticSystem> hapticSystem;
-		std::unique_ptr<PhysicsSystem> physicsSystem;
-		std::unique_ptr<RenderingSystem> renderingSystem;
-		std::unique_ptr<ScriptingSystem> scriptingSystem;
-		std::unique_ptr<GUISystem> guiSystem;
+		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 		std::unique_ptr<EngineState> state;
 
 		int argc = 0;
@@ -91,6 +79,18 @@ namespace Omnia
 		   loop implementation*/
 		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
 		void shutdown();
+
+		template <class T>
+		void addSystem()
+		{
+			this->systems.emplace(T::TYPE_STRING, std::static_pointer_cast<System>(std::shared_ptr<T>(new T())));
+		}
+
+		template<class T>
+		std::shared_ptr<T> getSystem()
+		{
+			return std::dynamic_pointer_cast<T>(this->systems.at(T::TYPE_STRING));
+		}
 	};
 }
 

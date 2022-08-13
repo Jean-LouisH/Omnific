@@ -40,7 +40,7 @@ void Omnia::SplashScreenTransition::onStart()
 
 }
 
-void Omnia::SplashScreenTransition::onLogicFrame()
+void Omnia::SplashScreenTransition::onLogic()
 {
 
 }

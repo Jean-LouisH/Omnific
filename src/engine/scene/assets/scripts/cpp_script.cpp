@@ -48,12 +48,12 @@ void Omnia::CPPScript::onInput()
 
 }
 
-void Omnia::CPPScript::onLogicFrame()
+void Omnia::CPPScript::onLogic()
 {
 
 }
 
-void Omnia::CPPScript::onComputeFrame()
+void Omnia::CPPScript::onCompute()
 {
 
 }

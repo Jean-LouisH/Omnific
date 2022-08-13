@@ -30,37 +30,37 @@ void loadScriptInstances()
 	Omnia::CPPScriptRegistry::loadScriptInstances();
 }
 
-void executeOnStartMethods()
+void onStart()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "onStart");
 }
 
-void executeOnInputMethods()
+void onInput()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onInput");
 }
 
-void executeOnLogicFrameMethods()
+void onLogic()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onLogicFrame");
 }
 
-void executeOnComputeFrameMethods()
+void onCompute()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onComputeFrame");
 }
 
-void executeOnOutputMethods()
+void onOutput()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onOutput");
 }
 
-void executeOnFinishMethods()
+void onFinish()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
 		executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "onFinish");
@@ -89,9 +89,9 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 			else if (methodName == "onInput")
 				scriptInstance->onInput();
 			else if (methodName == "onLogicFrame")
-				scriptInstance->onLogicFrame();
+				scriptInstance->onLogic();
 			else if (methodName == "onComputeFrame")
-				scriptInstance->onComputeFrame();
+				scriptInstance->onCompute();
 			else if (methodName == "onOutput")
 				scriptInstance->onOutput();
 			else if (methodName == "onFinish")

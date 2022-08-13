@@ -24,23 +24,6 @@
 #include <scene/assets/shader.hpp>
 #include <scene/assets/image.hpp>
 
-Omnia::RenderingSystem::RenderingSystem()
-{
-	SDL_InitSubSystem(SDL_INIT_VIDEO);
-
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-	this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
-}
-
 Omnia::RenderingSystem::~RenderingSystem()
 {
 	this->deinitialize();
@@ -52,7 +35,7 @@ void Omnia::RenderingSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::RenderingSystem::process(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
 	this->buildRenderablesOnModifiedComponents(scene);

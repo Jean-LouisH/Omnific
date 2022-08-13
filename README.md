@@ -11,7 +11,6 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 # Table of Contents
 
 * [Notable Features](#notable-features)
-* [Notable Planned Features](#notable-planned-features)
 * [Compilation Instructions](#compilation-instructions)
 * [Manual](#manual)
 * [Demos](#demos)
@@ -37,16 +36,6 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 - OpenGL Rendering Context with GLSL
 - Game Controller and Haptic Feedback support
 - Multithreaded Systems
-
-# Notable Planned Features
-
-- UI Framework built with UI Components and the UI System
-- Physically Based Rendering
-- An Editor Application built with the Engine, C++ and Python scripting
-- Acoustic Audio Simulation
-- Data-oriented Component property access using a ComponentPropertyPool for Systems
-- Vulkan Rendering Context with SPIR-V
-- Network Access for peer-to-peer gameplay
 
 # Compilation Instructions
 

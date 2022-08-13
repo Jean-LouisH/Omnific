@@ -38,7 +38,7 @@ void Omnia::AnimationSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::AnimationSystem::process(std::shared_ptr<Scene> scene)
+void Omnia::AnimationSystem::onCompute(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 

@@ -28,13 +28,21 @@
 namespace Omnia
 {
 	/* Processes Components that enable playback of data with respect to time. */
-	class AnimationSystem : System
+	class AnimationSystem : public System
 	{
 	public:
+		AnimationSystem()
+		{
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::UPDATE;
+		};
 		~AnimationSystem();
+
+		static constexpr const char* TYPE_STRING = "AnimationSystem";
+
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
+		virtual void onCompute(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 		uint32_t msPerComputeUpdate = 8;

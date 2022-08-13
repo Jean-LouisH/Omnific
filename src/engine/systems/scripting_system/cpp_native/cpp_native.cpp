@@ -41,34 +41,34 @@ void Omnia::CPPNative::loadScriptInstances()
 	this->execute("loadScriptInstances");
 }
 
-void Omnia::CPPNative::executeOnStartMethods()
+void Omnia::CPPNative::onStart()
 {
-	this->execute("executeOnStartMethods");
+	this->execute("onStart");
 }
 
-void Omnia::CPPNative::executeOnInputMethods()
+void Omnia::CPPNative::onInput()
 {
-	this->execute("executeOnInputMethods");
+	this->execute("onInput");
 }
 
-void Omnia::CPPNative::executeOnLogicFrameMethods()
+void Omnia::CPPNative::onLogic()
 {
-	this->execute("executeOnLogicFrameMethods");
+	this->execute("onLogic");
 }
 
-void Omnia::CPPNative::executeOnComputeFrameMethods()
+void Omnia::CPPNative::onCompute()
 {
-	this->execute("executeOnComputeFrameMethods");
+	this->execute("onCompute");
 }
 
-void Omnia::CPPNative::executeOnOutputMethods()
+void Omnia::CPPNative::onOutput()
 {
-	this->execute("executeOnOutputMethods");
+	this->execute("onOutput");
 }
 
-void Omnia::CPPNative::executeOnFinishMethods()
+void Omnia::CPPNative::onFinish()
 {
-	this->execute("executeOnFinishMethods");
+	this->execute("onFinish");
 }
 
 void Omnia::CPPNative::execute(std::string methodName)

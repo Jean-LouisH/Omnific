@@ -6,7 +6,7 @@ class omnia_script:
     def __init__(self):
         pass
 
-    def on_logic_frame(self):
+    def on_logic(self):
 
         if omnia.has_component("GUI"):
             current_time_string = time.strftime("%H:%M:%S", time.localtime())

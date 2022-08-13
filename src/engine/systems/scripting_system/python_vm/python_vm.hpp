@@ -42,12 +42,12 @@ namespace Omnia
 		virtual void initialize() override;
 		void executeCommand(std::string command);
 		virtual void loadScriptInstances() override;
-		virtual void executeOnStartMethods() override;
-		virtual void executeOnInputMethods() override;
-		virtual void executeOnLogicFrameMethods() override;
-		virtual void executeOnComputeFrameMethods() override;
-		virtual void executeOnOutputMethods() override;
-		virtual void executeOnFinishMethods() override;
+		virtual void onStart() override;
+		virtual void onInput() override;
+		virtual void onLogic() override;
+		virtual void onCompute() override;
+		virtual void onOutput() override;
+		virtual void onFinish() override;
 		virtual void deinitialize() override;
 	private:
 		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;

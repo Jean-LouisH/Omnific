@@ -94,7 +94,7 @@ void Omnia::PythonVM::loadScriptInstances()
 						pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
 						PythonScriptInstance scriptInstance;
-						std::vector<std::string> methodNames = { "on_start", "on_input", "on_logic_frame", "on_compute_frame", "on_output", "on_finish" };
+						std::vector<std::string> methodNames = { "on_start", "on_input", "on_logic", "on_compute", "on_output", "on_finish" };
 						scriptInstance.setData(newPybind11Module.attr("omnia_script")());
 
 						for (int i = 0; i < methodNames.size(); i++)
@@ -123,37 +123,37 @@ void Omnia::PythonVM::loadScriptInstances()
 	}
 }
 
-void Omnia::PythonVM::executeOnStartMethods()
+void Omnia::PythonVM::onStart()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "on_start");
 }
 
-void Omnia::PythonVM::executeOnInputMethods()
+void Omnia::PythonVM::onInput()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_input");
 }
 
-void Omnia::PythonVM::executeOnLogicFrameMethods()
+void Omnia::PythonVM::onLogic()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
-		this->executeUpdateMethods(it.second, "on_logic_frame");
+		this->executeUpdateMethods(it.second, "on_logic");
 }
 
-void Omnia::PythonVM::executeOnComputeFrameMethods()
+void Omnia::PythonVM::onCompute()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
-		this->executeUpdateMethods(it.second, "on_compute_frame");
+		this->executeUpdateMethods(it.second, "on_compute");
 }
 
-void Omnia::PythonVM::executeOnOutputMethods()
+void Omnia::PythonVM::onOutput()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_output");
 }
 
-void Omnia::PythonVM::executeOnFinishMethods()
+void Omnia::PythonVM::onFinish()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");

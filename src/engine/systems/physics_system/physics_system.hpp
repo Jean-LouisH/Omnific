@@ -31,12 +31,20 @@ namespace Omnia
 	class PhysicsSystem : public System
 	{
 	public:
+		PhysicsSystem()
+		{
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::UPDATE;
+		};
+
 		~PhysicsSystem();
+		static constexpr const char* TYPE_STRING = "PhysicsSystem";
+
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
+		virtual void onCompute(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
-		void onComputeEnd(std::shared_ptr<Scene> scene);
+		virtual void onOutput(std::shared_ptr<Scene> scene);
 	private:
 		float secondsPerComputeUpdate = 0.008;
 
@@ -44,7 +52,6 @@ namespace Omnia
 		void displace(std::shared_ptr<SceneTree> scene);
 		void gravitate(std::shared_ptr<SceneTree> scene);
 		void decelerate(std::shared_ptr<SceneTree> scene);
-		void applyForces(std::shared_ptr<SceneTree> scene);
 		void detectCollisions(std::shared_ptr<SceneTree> scene);
 		void handleCollisions(std::shared_ptr<SceneTree> scene);
 

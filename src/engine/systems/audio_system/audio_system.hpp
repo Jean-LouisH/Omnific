@@ -31,12 +31,19 @@
 namespace Omnia
 {
 	/* Processes Components that enable playback of audio and outputs its waveforms. */
-	class AudioSystem : System
+	class AudioSystem : public System
 	{
 	public:
+		AudioSystem()
+		{
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::OUTPUT;
+		};
 		~AudioSystem();
+
+		static constexpr const char* TYPE_STRING = "AudioSystem";
 		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 		std::queue<std::shared_ptr<Mix_Chunk>> soundFXQueue;

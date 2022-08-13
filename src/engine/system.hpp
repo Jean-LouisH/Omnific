@@ -27,17 +27,42 @@
 
 namespace Omnia
 {
+    enum class ThreadType
+    {
+        UPDATE,
+        OUTPUT
+    };
+
     /* Base class for objects that process Scenes and
     their Component properties for updates or output.*/
     class System
     {
     public:
+        System()
+        {
+            this->type = TYPE_STRING;
+        };
         ~System();
-        virtual void initialize() = 0;
-		virtual void process(std::shared_ptr<Scene> scene) = 0;
-        virtual void deinitialize() = 0;
+
+        static constexpr const char* TYPE_STRING = "System";
+
+        virtual void initialize();
+        virtual void onStart(std::shared_ptr<Scene> scene);
+        virtual void onInput(std::shared_ptr<Scene> scene);
+        virtual void onLogic(std::shared_ptr<Scene> scene);
+        virtual void onCompute(std::shared_ptr<Scene> scene);
+        virtual void onOutput(std::shared_ptr<Scene> scene);
+        virtual void onFinish(std::shared_ptr<Scene> scene);
+        virtual void deinitialize();
         bool getIsInitialized();
+
+        std::string getType();
+        bool isThreadType(ThreadType threadType);
+        ThreadType getThreadType();
+
     protected:
+        std::string type;
+        ThreadType threadType;
         bool isInitialized = false;
     private:
     };

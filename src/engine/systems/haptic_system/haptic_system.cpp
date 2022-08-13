@@ -53,7 +53,7 @@ void Omnia::HapticSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::HapticSystem::process(std::shared_ptr<Scene> scene)
+void Omnia::HapticSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	Input& hid = OS::getInput();
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();

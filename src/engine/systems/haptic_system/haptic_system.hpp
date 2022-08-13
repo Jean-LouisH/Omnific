@@ -38,9 +38,18 @@ namespace Omnia
 	class HapticSystem : public System
 	{
 	public:
+		HapticSystem()
+		{
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::OUTPUT;
+		};
+
 		~HapticSystem();
+
+		static constexpr const char* TYPE_STRING = "HapticSystem";
+
 		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 		typedef struct HapticPlayback

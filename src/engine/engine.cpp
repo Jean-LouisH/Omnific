@@ -27,6 +27,14 @@
 #include "scene/assets/image.hpp"
 #include <iostream>
 
+#include "systems/animation_system/animation_system.hpp"
+#include "systems/audio_system/audio_system.hpp"
+#include "systems/haptic_system/haptic_system.hpp"
+#include "systems/physics_system/physics_system.hpp"
+#include "systems/rendering_system/rendering_system.hpp"
+#include "systems/scripting_system/scripting_system.hpp"
+#include "systems/gui_system/gui_system.hpp"
+
 Omnia::Engine::Engine(
 	int argc, 
 	char* argv[])
@@ -83,8 +91,8 @@ void Omnia::Engine::run()
 				{
 					entryScene = this->sceneSerializer->deserialize(this->configuration->metadata.entrySceneFilepath);
 					this->sceneStorage->addScene(this->configuration->metadata.entrySceneFilepath, entryScene);
-					this->scriptingSystem->setSceneSerializer(this->sceneSerializer);
-					this->scriptingSystem->setSceneStorage(this->sceneStorage);
+					this->getSystem<ScriptingSystem>()->setSceneSerializer(this->sceneSerializer);
+					this->getSystem<ScriptingSystem>()->setSceneStorage(this->sceneStorage);
 				}
 			}
 			else
@@ -162,13 +170,13 @@ bool Omnia::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
-	this->animationSystem = std::unique_ptr<AnimationSystem>(new AnimationSystem());
-	this->audioSystem = std::unique_ptr<AudioSystem>(new AudioSystem());
-	this->hapticSystem = std::unique_ptr<HapticSystem>(new HapticSystem());
-	this->physicsSystem = std::unique_ptr<PhysicsSystem>(new PhysicsSystem());
-	this->renderingSystem = std::unique_ptr<RenderingSystem>(new RenderingSystem());
-	this->scriptingSystem = std::unique_ptr<ScriptingSystem>(new ScriptingSystem());
-	this->guiSystem = std::unique_ptr<GUISystem>(new GUISystem());
+	this->addSystem<AnimationSystem>();
+	this->addSystem<AudioSystem>();
+	this->addSystem<HapticSystem>();
+	this->addSystem<PhysicsSystem>();
+	this->addSystem<RenderingSystem>();
+	this->addSystem<ScriptingSystem>();
+	this->addSystem<GUISystem>();
 
 	if (!this->state->isRestarting())
 		this->state->setInitializing();
@@ -180,7 +188,7 @@ bool Omnia::Engine::initialize()
 		480, 
 		false, 
 		this->argv[0], 
-		this->renderingSystem->getRenderingContextName());
+		this->getSystem<RenderingSystem>()->getRenderingContextName());
 
 	if (isInitializedOK)
 	{
@@ -213,10 +221,9 @@ void Omnia::Engine::queryInput()
 
 void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
-	this->animationSystem->initialize();
-	this->physicsSystem->initialize();
-	this->guiSystem->initialize();
-	this->scriptingSystem->initialize();
+	for (auto system : this->systems)
+		if (system.second->isThreadType(ThreadType::UPDATE))
+			system.second->initialize();
 
 	Profiler& profiler = OS::getProfiler();
 	HiResTimer updateFrameTimer;
@@ -238,43 +245,52 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 			std::cout << std::endl << ">";
 			std::cin.ignore(1, '\n');
 			std::getline(std::cin, command);
-			this->scriptingSystem->executeCommand(command);
+			this->getSystem<ScriptingSystem>()->executeCommand(command);
 			OS::getWindow().show();
 		}
 #endif
 
 		if (OS::getInput().getHasDetectedInputChanges())
-			this->scriptingSystem->executeOnInputMethods(activeScene);
+			for (auto system : this->systems)
+				if (system.second->isThreadType(ThreadType::UPDATE))
+					system.second->onInput(activeScene);
 
 		if (this->sceneStorage->hasActiveSceneChanged())
-			this->scriptingSystem->loadScriptModules(this->sceneStorage->getActiveScene());
+			this->getSystem<ScriptingSystem>()->loadScriptModules(this->sceneStorage->getActiveScene());
 
-		this->scriptingSystem->executeOnStartMethods(activeScene);
-		this->scriptingSystem->executeOnLogicFrameMethods(activeScene);
-		this->guiSystem->process(activeScene);
+		for (auto system : this->systems)
+			if (system.second->isThreadType(ThreadType::UPDATE))
+				system.second->onStart(activeScene);
+
+		for (auto system : this->systems)
+			if (system.second->isThreadType(ThreadType::UPDATE))
+				system.second->onLogic(activeScene);
 
 		/* This calls the compute based Systems repeatedly until the accumulated
 		   lag milliseconds are depleted. This ensures compute operations
 		   are accurate to real-time, even when frames drop. */
 
-		this->animationSystem->setMsPerComputeUpdate(msPerComputeUpdate);
-		this->physicsSystem->setMsPerComputeUpdate(msPerComputeUpdate);
+		this->getSystem<AnimationSystem>()->setMsPerComputeUpdate(msPerComputeUpdate);
+		this->getSystem<PhysicsSystem>()->setMsPerComputeUpdate(msPerComputeUpdate);
 
 		while (profiler.getLagCount() >= msPerComputeUpdate && this->state->isRunning())
 		{
-			this->scriptingSystem->executeOnComputeFrameMethods(activeScene);
-			this->animationSystem->process(activeScene);
-			this->physicsSystem->process(activeScene);
+			for (auto system : this->systems)
+				if (system.second->isThreadType(ThreadType::UPDATE))
+					system.second->onCompute(activeScene);
 			profiler.decrementLagCount(msPerComputeUpdate);
 		}
 
-		this->physicsSystem->onComputeEnd(activeScene);
-		this->scriptingSystem->executeOnOutputMethods(activeScene);
-		this->scriptingSystem->executeOnFinishMethods(activeScene);
+		for (auto system : this->systems)
+			if (system.second->isThreadType(ThreadType::UPDATE))
+				system.second->onOutput(activeScene);
 
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = activeScene->getSceneTrees();
-		for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
-			it->second->getEventBus()->clear();
+		for (auto system : this->systems)
+			if (system.second->isThreadType(ThreadType::UPDATE))
+				system.second->onFinish(activeScene);
+
+		for (auto it : activeScene->getSceneTrees())
+			it.second->getEventBus()->clear();
 
 		profiler.incrementLagCount(updateFrameTimer.getDelta());
 		updateProcessTimer->setEnd();
@@ -289,17 +305,17 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 {
 	/* Initializes RenderingContext on the same
 	   thread as object generators, as required. */
-	this->renderingSystem->initialize();
-	this->audioSystem->initialize();
-	this->hapticSystem->initialize();
+	for (auto system : this->systems)
+		if (system.second->isThreadType(ThreadType::OUTPUT))
+			system.second->initialize();
 
 	/* The RenderingSystem only reads Scene data. */
 	while (this->state->isRunning())
 	{
 		outputProcessTimer->setStart();
-		this->renderingSystem->process(this->sceneStorage->getActiveScene());
-		this->audioSystem->process(this->sceneStorage->getActiveScene());
-		this->hapticSystem->process(this->sceneStorage->getActiveScene());
+		for (auto system : this->systems)
+			if (system.second->isThreadType(ThreadType::OUTPUT))
+				system.second->onOutput(this->sceneStorage->getActiveScene());
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			this->configuration->timeSettings.targetFPS,
@@ -317,11 +333,7 @@ void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::sha
 void Omnia::Engine::shutdown()
 {
 	OS::deinitialize();
-	this->animationSystem.reset();
-	this->audioSystem.reset();
-	this->hapticSystem.reset();
-	this->physicsSystem.reset();
-	this->renderingSystem.reset();
-	this->scriptingSystem.reset();
-	this->guiSystem.reset();
+
+	for (auto system : this->systems)
+		system.second.reset();
 }

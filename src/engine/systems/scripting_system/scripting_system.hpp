@@ -38,18 +38,27 @@ namespace Omnia
 	class ScriptingSystem : public System
 	{
 	public:
-		ScriptingSystem();
+		ScriptingSystem()
+		{
+			this->scriptingLanguages.emplace("PythonVM", std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<PythonVM>(new PythonVM())));
+			this->scriptingLanguages.emplace("CPPNative", std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<CPPNative>(new CPPNative())));
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::UPDATE;
+		};
+
+		static constexpr const char* TYPE_STRING = "ScriptingSystem";
+
 		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
+		virtual void onStart(std::shared_ptr<Scene> scene) override;
+		virtual void onInput(std::shared_ptr<Scene> scene) override;
+		virtual void onLogic(std::shared_ptr<Scene> scene) override;
+		virtual void onCompute(std::shared_ptr<Scene> scene) override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
+		virtual void onFinish(std::shared_ptr<Scene> scene) override;
+
 		void executeCommand(std::string command);
 		void loadScriptModules(std::shared_ptr<Scene> scene);
-		void executeOnStartMethods(std::shared_ptr<Scene> scene);
-		void executeOnInputMethods(std::shared_ptr<Scene> scene);
-		void executeOnLogicFrameMethods(std::shared_ptr<Scene> scene);
-		void executeOnComputeFrameMethods(std::shared_ptr<Scene> scene);
-		void executeOnOutputMethods(std::shared_ptr<Scene> scene);
-		void executeOnFinishMethods(std::shared_ptr<Scene> scene);
 		void setSceneSerializer(std::shared_ptr<SceneSerializer> sceneSerializer);
 		void setSceneStorage(std::shared_ptr<SceneStorage> sceneStorage);
 	private:

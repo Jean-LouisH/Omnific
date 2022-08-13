@@ -5,7 +5,7 @@ class omnia_script:
     def __init__(self):
         pass
 
-    def on_logic_frame(self):
+    def on_logic(self):
         transform = omnia.get_component("Transform")
         inp = omnia.get_input()
         if inp.is_pressed("w"):

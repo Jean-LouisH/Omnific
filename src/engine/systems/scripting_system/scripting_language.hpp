@@ -29,12 +29,12 @@ namespace Omnia
 	public:
 		virtual void initialize();
 		virtual void loadScriptInstances();
-		virtual void executeOnStartMethods();
-		virtual void executeOnInputMethods();
-		virtual void executeOnLogicFrameMethods();
-		virtual void executeOnComputeFrameMethods();
-		virtual void executeOnOutputMethods();
-		virtual void executeOnFinishMethods();
+		virtual void onStart();
+		virtual void onInput();
+		virtual void onLogic();
+		virtual void onCompute();
+		virtual void onOutput();
+		virtual void onFinish();
 		virtual void deinitialize();
 	private:
 	};

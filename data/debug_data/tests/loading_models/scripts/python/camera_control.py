@@ -5,7 +5,7 @@ class omnia_script:
     def __init__(self):
         pass
 
-    def on_logic_frame(self):
+    def on_logic(self):
         movement_speed = 1.0
         input = omnia.get_input()
         transform = omnia.get_component("Transform")

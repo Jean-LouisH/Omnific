@@ -32,32 +32,32 @@ void Omnia::ScriptingLanguage::loadScriptInstances()
 
 }
 
-void Omnia::ScriptingLanguage::executeOnStartMethods()
+void Omnia::ScriptingLanguage::onStart()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnInputMethods()
+void Omnia::ScriptingLanguage::onInput()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnLogicFrameMethods()
+void Omnia::ScriptingLanguage::onLogic()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnComputeFrameMethods()
+void Omnia::ScriptingLanguage::onCompute()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnOutputMethods()
+void Omnia::ScriptingLanguage::onOutput()
 {
 
 }
 
-void Omnia::ScriptingLanguage::executeOnFinishMethods()
+void Omnia::ScriptingLanguage::onFinish()
 {
 
 }

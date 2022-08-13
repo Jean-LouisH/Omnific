@@ -34,7 +34,7 @@ void Omnia::GUISystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::GUISystem::process(std::shared_ptr<Scene> scene)
+void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 	Input& hid = OS::getInput();

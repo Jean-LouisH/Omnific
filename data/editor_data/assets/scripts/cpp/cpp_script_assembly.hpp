@@ -36,12 +36,12 @@
 #endif
 
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void loadScriptInstances();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnStartMethods();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnInputMethods();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnLogicFrameMethods();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnComputeFrameMethods();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnOutputMethods();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void executeOnFinishMethods();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onStart();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onInput();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onLogic();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onCompute();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onOutput();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onFinish();
 
 void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 	Omnia::SceneTreeID sceneTreeID,

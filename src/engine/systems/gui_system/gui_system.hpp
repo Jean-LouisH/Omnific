@@ -32,9 +32,17 @@ namespace Omnia
 	class GUISystem : public System
 	{
 	public:
+		GUISystem()
+		{
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::UPDATE;
+		};
 		~GUISystem();
+
+		static constexpr const char* TYPE_STRING = "GUISystem";
+
 		virtual void initialize() override;
-		void process(std::shared_ptr<Scene> scene) override;
+		virtual void onLogic(std::shared_ptr<Scene> scene) override;
 		virtual void deinitialize() override;
 	private:
 		void orderGUIComponentsByHierarchy();
