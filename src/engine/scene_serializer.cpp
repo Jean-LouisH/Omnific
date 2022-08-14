@@ -27,7 +27,7 @@
 #include "scene/scene.hpp"
 #include "scene/component.hpp"
 #include <os/os.hpp>
-#include "scene/asset_cache.hpp"
+#include "asset_pipeline/asset_pipeline.hpp"
 
 Omnia::SceneSerializer* Omnia::SceneSerializer::instance = nullptr;
 
@@ -252,10 +252,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 												}
 												else
 												{
-													std::shared_ptr<Omnia::Model> model(new Model(SceneSerializer::getInstance()->dataDirectory + it3->second[i].as<std::string>()));
-													std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(model);
-													AssetCache::store(asset);
-													modelContainer->addModel(model);
+													modelContainer->addModel(AssetPipeline::load<Model>(SceneSerializer::getInstance()->dataDirectory + it3->second[i].as<std::string>()));
 												}
 											}
 										}
@@ -302,18 +299,14 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 											{
 												for (int i = 0; i < it3->second.size(); i++)
 												{
-													std::shared_ptr<Omnia::PythonScript> pythonScript(new PythonScript(it3->second[i].as<std::string>()));
-													AssetCache::store(std::static_pointer_cast<Asset>(pythonScript));
-													scriptCollection->scripts.push_back(pythonScript);
+													scriptCollection->scripts.push_back(AssetPipeline::load<PythonScript>(it3->second[i].as<std::string>()));
 												}
 											}
 											else if (it3->first.as<std::string>() == "cpp")
 											{
 												for (int i = 0; i < it3->second.size(); i++)
 												{
-													std::shared_ptr<Omnia::CPPScript> cppScript(new CPPScript(it3->second[i].as<std::string>()));
-													AssetCache::store(std::static_pointer_cast<Asset>(cppScript));
-													scriptCollection->scripts.push_back(cppScript);
+													scriptCollection->scripts.push_back(AssetPipeline::load<CPPScript>(it3->second[i].as<std::string>()));
 												}
 											}
 										}
@@ -330,14 +323,11 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 										{
 											if (it3->second.as<std::string>() == "Image::default")
 											{
-												sprite->addImage(std::shared_ptr<Image>(new Image(it3->second.as<std::string>())));
+												sprite->addImage(AssetPipeline::load<Image>(it3->second.as<std::string>()));
 											}
 											else
 											{
-												std::shared_ptr<Omnia::Image> image(new Image(SceneSerializer::getInstance()->dataDirectory + it3->second.as<std::string>()));
-												std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(image);
-												AssetCache::store(asset);
-												sprite->addImage(image);
+												sprite->addImage(AssetPipeline::load<Image>(SceneSerializer::getInstance()->dataDirectory + it3->second.as<std::string>()));
 											}
 										}
 										else if (it3->first.as<std::string>() == "dimensions")

@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "script_context.hpp"
-#include <scene/asset_cache.hpp>
 #include <os/os.hpp>
 
 Omnia::ScriptContext* Omnia::ScriptContext::instance = nullptr;
@@ -35,34 +34,6 @@ void Omnia::ScriptContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID
 bool Omnia::ScriptContext::hasComponent(std::string type)
 {
 	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
-}
-
-std::shared_ptr<Omnia::Asset> Omnia::ScriptContext::loadAsset(std::string type, std::string filepath)
-{
-	std::shared_ptr<Asset> asset;
-	std::shared_ptr<Image> image;
-
-	if (type == Image::TYPE_STRING)
-	{
-		std::string absoluteFilepath = OS::getFileAccess().getDataDirectoryPath() + filepath;
-		if (AssetCache::exists(absoluteFilepath))
-		{
-			asset = AssetCache::fetch(absoluteFilepath);
-		}
-		else
-		{
-			image = std::shared_ptr<Image>(new Image(absoluteFilepath));
-			asset = std::static_pointer_cast<Asset>(image);
-			AssetCache::store(asset);
-		}
-	}
-
-	return asset;
-}
-
-std::shared_ptr<Omnia::Image> Omnia::ScriptContext::loadImage(std::string filepath)
-{
-	return std::dynamic_pointer_cast<Image>(getInstance()->loadAsset(Image::TYPE_STRING, filepath));
 }
 
 void Omnia::ScriptContext::loadScene(std::string scenepath)

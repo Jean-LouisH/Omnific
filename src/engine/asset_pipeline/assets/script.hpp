@@ -22,18 +22,18 @@
 
 #pragma once
 
-#include "scene/asset.hpp"
+#include "asset_pipeline/asset.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AudioSynthesis : public Asset
-	{
-	public:
-		AudioSynthesis()
-		{ 
-			this->type = TYPE_STRING; 
-		};
-		static constexpr const char* TYPE_STRING = "AudioSynthesis";
-	private:
-	};
+    class OMNIA_ENGINE_API Script : public Asset
+    {
+    public:
+        Script()
+        {
+            this->type = TYPE_STRING;
+        };
+        static constexpr const char* TYPE_STRING = "Script";
+    private:
+    };
 }

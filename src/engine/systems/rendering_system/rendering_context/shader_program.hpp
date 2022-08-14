@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <scene/assets/shader.hpp>
+#include <asset_pipeline/assets/shader.hpp>
 
 namespace Omnia
 {

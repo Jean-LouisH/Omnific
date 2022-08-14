@@ -22,37 +22,31 @@
 
 #pragma once
 
-
-#include <utilities/aliases.hpp>
-#include <utilities/constants.hpp>
-#include <asset_pipeline/assets/image.hpp>
 #include <string>
-#include <unordered_map>
-#include <memory>
-#include <omnia_engine_api.hpp>
+#include "asset_pipeline/asset.hpp"
 
 namespace Omnia
 {
-	/* Base class for objects that store and manipulate 
-	   data relevant to individual Entities in a Scene.
-	   These are attached to Entities when added to a Scene.*/
-    class OMNIA_ENGINE_API Component
-    {
+	class OMNIA_ENGINE_API Shader : public Asset
+	{
 	public:
-		Component();
+		enum class ShaderType
+		{
+			VERTEX,
+			FRAGMENT
+		};
 
-		void setEntityID(EntityID entityID);
-
-		ComponentID getID();
-		EntityID getEntityID();
-		bool isAttachedToEntity();
-		std::string getType() const;
-		bool isType(std::string typeString);
-		virtual bool isRenderable();
-	protected:
-		std::string type;
+		static constexpr const char* TYPE_STRING = "Shader";
+		Shader() 
+		{ 
+			this->type = TYPE_STRING;
+		};
+		Shader(std::string sourceFilepath, ShaderType type);
+		void setSource(std::string source, ShaderType type);
+		std::string getSource();
+		ShaderType getType();
 	private:
-		ComponentID id = 0;
-		EntityID entityID = 0;
-    };
+		std::string source;
+		ShaderType shaderType;
+	};
 }

@@ -22,37 +22,30 @@
 
 #pragma once
 
-
-#include <utilities/aliases.hpp>
-#include <utilities/constants.hpp>
-#include <asset_pipeline/assets/image.hpp>
-#include <string>
 #include <unordered_map>
+#include <string>
 #include <memory>
+#include "asset.hpp"
+#include "asset_cache.hpp"
 #include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	/* Base class for objects that store and manipulate 
-	   data relevant to individual Entities in a Scene.
-	   These are attached to Entities when added to a Scene.*/
-    class OMNIA_ENGINE_API Component
-    {
+	class OMNIA_ENGINE_API AssetPipeline
+	{
 	public:
-		Component();
+		static AssetPipeline* getInstance();
 
-		void setEntityID(EntityID entityID);
-
-		ComponentID getID();
-		EntityID getEntityID();
-		bool isAttachedToEntity();
-		std::string getType() const;
-		bool isType(std::string typeString);
-		virtual bool isRenderable();
-	protected:
-		std::string type;
+		template<class T>
+		static std::shared_ptr<T> load(std::string filepath)
+		{
+			std::shared_ptr<T> t(new T(filepath));
+			std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(t);
+			AssetPipeline::getInstance()->assetCache->store(asset);
+			return t;
+		}
 	private:
-		ComponentID id = 0;
-		EntityID entityID = 0;
-    };
+		static AssetPipeline* instance;
+		std::shared_ptr<AssetCache> assetCache;
+	};
 }

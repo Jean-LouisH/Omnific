@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <scene/assets/shader.hpp>
+#include <asset_pipeline/assets/shader.hpp>
 #include "component.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"

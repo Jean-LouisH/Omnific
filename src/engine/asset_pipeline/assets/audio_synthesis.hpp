@@ -20,52 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "asset_cache.hpp"
+#pragma once
 
-Omnia::AssetCache* Omnia::AssetCache::instance = nullptr;
+#include "asset_pipeline/asset.hpp"
 
-bool Omnia::AssetCache::exists(std::string name)
+namespace Omnia
 {
-	return getInstance()->assets.count(name) > 0;
-}
-
-void Omnia::AssetCache::store(std::shared_ptr<Omnia::Asset> asset)
-{
-	AssetCache* instance = getInstance();
-
-	if (!instance->assets.count(asset->getName()))
-		instance->assets.emplace(asset->getName(), asset);
-}
-
-std::shared_ptr<Omnia::Asset> Omnia::AssetCache::fetch(std::string name)
-{
-	AssetCache* instance = getInstance();
-	std::shared_ptr<Asset> asset;
-
-	if (instance->assets.count(name) != 0)
-		asset = instance->assets.at(name);
-
-	return asset;
-}
-
-void Omnia::AssetCache::deleteAsset(std::string filepath)
-{
-	getInstance()->assets.erase(filepath);
-}
-
-void Omnia::AssetCache::deleteAllAssets()
-{
-	getInstance()->assets.clear();
-}
-
-std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> Omnia::AssetCache::getAssets()
-{
-	return getInstance()->assets;
-}
-
-Omnia::AssetCache* Omnia::AssetCache::getInstance()
-{
-	if (instance == nullptr)
-		instance = new AssetCache();
-	return instance;
+	class OMNIA_ENGINE_API AudioSynthesis : public Asset
+	{
+	public:
+		AudioSynthesis()
+		{ 
+			this->type = TYPE_STRING; 
+		};
+		static constexpr const char* TYPE_STRING = "AudioSynthesis";
+	private:
+	};
 }

@@ -27,7 +27,7 @@
 #include <unordered_map>
 #include "utilities/constants.hpp"
 #include <string>
-#include "scene/assets/image.hpp"
+#include "asset_pipeline/assets/image.hpp"
 #include "scene/renderable_component.hpp"
 #include <glm/glm.hpp>
 #include <memory>

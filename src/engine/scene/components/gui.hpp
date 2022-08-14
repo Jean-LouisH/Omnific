@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "scene/assets/image.hpp"
+#include "asset_pipeline/assets/image.hpp"
 #include "scene/renderable_component.hpp"
 #include "scene/component.hpp"
 #include "utilities/colour.hpp"

@@ -22,23 +22,18 @@
 
 #pragma once
 
-#include "scene/asset.hpp"
-#include <utilities/aliases.hpp>
-#include <string>
-#include <memory>
+#include "asset_pipeline/asset.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Text : public Asset
+	class OMNIA_ENGINE_API SkeletalAnimation : public Asset
 	{
 	public:
-		Text()
-		{
+		SkeletalAnimation() 
+		{ 
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Text";
-		Text(std::string filepath);
+		static constexpr const char* TYPE_STRING = "SkeletalAnimation";
 	private:
-		std::string data;
 	};
 }

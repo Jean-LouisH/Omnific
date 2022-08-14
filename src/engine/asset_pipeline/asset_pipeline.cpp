@@ -20,20 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "asset_pipeline.hpp"
 
-#include "scene/asset.hpp"
+Omnia::AssetPipeline* Omnia::AssetPipeline::instance = nullptr;
 
-namespace Omnia
+Omnia::AssetPipeline* Omnia::AssetPipeline::getInstance()
 {
-	class OMNIA_ENGINE_API Rig : public Asset
+	if (instance == nullptr)
 	{
-	public:
-		Rig() 
-		{ 
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "Rig";
-	private:
-	};
+		instance = new AssetPipeline();
+		instance->assetCache = std::shared_ptr<AssetCache>(new AssetCache());
+	}
+	return instance;
 }

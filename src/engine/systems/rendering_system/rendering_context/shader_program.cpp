@@ -25,7 +25,7 @@
 #include <glm/glm.hpp>
 #include <os/os.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <scene/assets/shader.hpp>
+#include <asset_pipeline/assets/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 Omnia::ShaderProgram::ShaderProgram(std::vector<Shader> shaders)

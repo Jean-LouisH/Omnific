@@ -37,16 +37,16 @@
 #include "collision_registry.hpp"
 #include "event_bus.hpp"
 
-#include <scene/assets/audio_stream.hpp>
-#include "scene/assets/scripts/cpp_script.hpp"
-#include <scene/assets/font.hpp>
-#include <scene/assets/image.hpp>
-#include <scene/assets/material.hpp>
-#include <scene/assets/mesh.hpp>
-#include "scene/assets/scripts/python_script.hpp"
-#include <scene/assets/rig.hpp>
-#include <scene/assets/shader.hpp>
-#include <scene/assets/text.hpp>
+#include <asset_pipeline/assets/audio_stream.hpp>
+#include "asset_pipeline/assets/scripts/cpp_script.hpp"
+#include <asset_pipeline/assets/font.hpp>
+#include <asset_pipeline/assets/image.hpp>
+#include <asset_pipeline/assets/material.hpp>
+#include <asset_pipeline/assets/mesh.hpp>
+#include "asset_pipeline/assets/scripts/python_script.hpp"
+#include <asset_pipeline/assets/rig.hpp>
+#include <asset_pipeline/assets/shader.hpp>
+#include <asset_pipeline/assets/text.hpp>
 
 #include "components/sprite_container.hpp"
 #include "components/audio_listener.hpp"

@@ -28,7 +28,7 @@
 #include <glm/glm.hpp>
 #include "utilities/constants.hpp"
 #include "scene/component.hpp"
-#include "scene/assets/shader.hpp"
+#include "asset_pipeline/assets/shader.hpp"
 
 
 namespace Omnia

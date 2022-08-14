@@ -22,29 +22,44 @@
 
 #pragma once
 
-#include <SDL_mixer.h>
-#include "scene/asset.hpp"
+#include "asset_pipeline/asset.hpp"
+#include "stdint.h"
+#include <utilities/aliases.hpp>
 #include <string>
 #include <memory>
+#include <SDL_ttf.h>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AudioStream : public Asset
+	class OMNIA_ENGINE_API Font : public Asset
 	{
 	public:
-		static constexpr const char* TYPE_STRING = "AudioStream";
-		AudioStream() 
-		{ 
-			this->type = TYPE_STRING; 
+		enum class Style
+		{
+			NORMAL,
+			BOLD,
+			ITALIC,
+			UNDERLINE,
+			STRIKETHROUGH
 		};
-		~AudioStream();
-		AudioStream(std::string filepath, bool isMusic);
-		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
-		std::shared_ptr<Mix_Music> getSDLMixMusic();
-		bool getIsMusic();
+
+		enum class RenderMode
+		{
+			SOLID,
+			SHADED,
+			BLENDED
+		};
+
+		static constexpr const char* TYPE_STRING = "Font";
+
+		Font() 
+		{ 
+			this->type = TYPE_STRING;
+		};
+		Font(std::string filepath, uint16_t size_px);
+		Font(TTF_Font* font);
+		TTF_Font* getSDLTTFFont();
 	private:
-		bool isMusic = false;
-		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
-		std::shared_ptr<Mix_Chunk> soundFX = {nullptr, Mix_FreeChunk};
+		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
 	};
 }

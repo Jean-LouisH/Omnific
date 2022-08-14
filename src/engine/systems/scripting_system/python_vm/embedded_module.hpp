@@ -278,14 +278,27 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("max", &Omnia::AABB2D::max)
 		.def_readwrite("min", &Omnia::AABB2D::min);
 
-	/*Script Context and OS getters*/
+	/*Singletons*/
+
+	m.def("serialize", &Omnia::SceneSerializer::serialize);
+	m.def("deserialize", pybind11::overload_cast<std::string>(&Omnia::SceneSerializer::deserialize));
+	m.def("deserialize", pybind11::overload_cast<std::string, std::string>(&Omnia::SceneSerializer::deserialize));
+	m.def("does_scene_exist", &Omnia::SceneSerializer::doesSceneExist);
+
+	m.def("add_scene", &Omnia::SceneStorage::addScene);
+	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
+	m.def("replace_active_scene", &Omnia::SceneStorage::replaceActiveScene);
+	m.def("change_to_scene", &Omnia::SceneStorage::changeToScene);
+	m.def("get_active_scene", &Omnia::SceneStorage::getActiveScene);
+	m.def("get_active_scene_name", &Omnia::SceneStorage::getActiveSceneName);
+	m.def("is_empty", &Omnia::SceneStorage::isEmpty);
+	m.def("has_active_scene_changed", &Omnia::SceneStorage::hasActiveSceneChanged);
 
 	m.def("has_component", &Omnia::ScriptContext::hasComponent);
 	m.def("get_entity", &Omnia::ScriptContext::getEntity);
 	m.def("get_component", &Omnia::ScriptContext::getComponent);
 	m.def("get_scene", &Omnia::ScriptContext::getScene);
 	m.def("get_scene_tree", &Omnia::ScriptContext::getSceneTree);
-	m.def("load_image", &Omnia::ScriptContext::loadImage);
 	m.def("load_scene", &Omnia::ScriptContext::loadScene);
 
 	m.def("get_dll_access", &Omnia::OS::getDLLAccess, pybind11::return_value_policy::reference);

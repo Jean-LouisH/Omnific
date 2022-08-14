@@ -22,40 +22,24 @@
 
 #pragma once
 
-#include "scene/asset.hpp"
-#include "mesh.hpp"
-#include "material.hpp"
-#include "image.hpp"
-#include "skeletal_animation.hpp"
-#include "rig.hpp"
-
-#include <tiny_gltf.h>
+#include <unordered_map>
 #include <string>
 #include <memory>
-#include <vector>
+#include "asset.hpp"
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Model : public Asset
+	class AssetCache
 	{
 	public:
-		Model()
-		{ 
-			this->type = TYPE_STRING;
-		};
-		Model(std::string filepath);
-		Model(std::string filepath, std::shared_ptr<Image> image);
-		static constexpr const char* TYPE_STRING = "Model";
-
-		std::shared_ptr<Mesh> mesh;
-		std::shared_ptr<Image> image;
-		std::shared_ptr<Material> material;
-		std::shared_ptr<Rig> rig;
-		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
+		bool exists(std::string name);
+		void store(std::shared_ptr<Omnia::Asset>);
+		std::shared_ptr<Omnia::Asset> fetch(std::string name);
+		void deleteAsset(std::string filepath);
+		void deleteAllAssets();
+		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> getAssets();
 	private:
-		void load(std::string filepath, std::shared_ptr<Image> image);
-		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
-		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName);
-		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
+		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> assets;
 	};
 }

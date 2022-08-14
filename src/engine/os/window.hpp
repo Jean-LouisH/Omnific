@@ -25,7 +25,7 @@
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
-#include <scene/assets/image.hpp>
+#include <asset_pipeline/assets/image.hpp>
 #include <utilities/rectangle.hpp>
 #include <memory>
 #include <omnia_engine_api.hpp>

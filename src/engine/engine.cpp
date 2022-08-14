@@ -23,7 +23,7 @@
 #include "engine.hpp"
 #include <thread>
 #include "utilities/constants.hpp"
-#include "scene/assets/image.hpp"
+#include "asset_pipeline/assets/image.hpp"
 #include <iostream>
 
 #include "systems/animation_system/animation_system.hpp"

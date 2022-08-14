@@ -22,31 +22,29 @@
 
 #pragma once
 
+#include <SDL_mixer.h>
+#include "asset_pipeline/asset.hpp"
 #include <string>
-#include "scene/asset.hpp"
+#include <memory>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Shader : public Asset
+	class OMNIA_ENGINE_API AudioStream : public Asset
 	{
 	public:
-		enum class ShaderType
-		{
-			VERTEX,
-			FRAGMENT
-		};
-
-		static constexpr const char* TYPE_STRING = "Shader";
-		Shader() 
+		static constexpr const char* TYPE_STRING = "AudioStream";
+		AudioStream() 
 		{ 
-			this->type = TYPE_STRING;
+			this->type = TYPE_STRING; 
 		};
-		Shader(std::string sourceFilepath, ShaderType type);
-		void setSource(std::string source, ShaderType type);
-		std::string getSource();
-		ShaderType getType();
+		~AudioStream();
+		AudioStream(std::string filepath, bool isMusic);
+		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
+		std::shared_ptr<Mix_Music> getSDLMixMusic();
+		bool getIsMusic();
 	private:
-		std::string source;
-		ShaderType shaderType;
+		bool isMusic = false;
+		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
+		std::shared_ptr<Mix_Chunk> soundFX = {nullptr, Mix_FreeChunk};
 	};
 }

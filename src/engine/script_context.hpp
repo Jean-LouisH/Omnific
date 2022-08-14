@@ -45,9 +45,6 @@ namespace Omnia
 	public:
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
 
-		static std::shared_ptr<Asset> loadAsset(std::string type, std::string filepath);
-		static std::shared_ptr<Image> loadImage(std::string filepath);
-
 		static void loadScene(std::string scenepath);
 
 		static bool hasComponent(std::string type);

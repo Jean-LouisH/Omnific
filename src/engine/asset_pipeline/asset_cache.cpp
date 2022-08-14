@@ -20,46 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "asset_cache.hpp"
 
-#include "scene/asset.hpp"
-#include "stdint.h"
-#include <utilities/aliases.hpp>
-#include <string>
-#include <memory>
-#include <SDL_ttf.h>
-
-namespace Omnia
+bool Omnia::AssetCache::exists(std::string name)
 {
-	class OMNIA_ENGINE_API Font : public Asset
-	{
-	public:
-		enum class Style
-		{
-			NORMAL,
-			BOLD,
-			ITALIC,
-			UNDERLINE,
-			STRIKETHROUGH
-		};
+	return this->assets.count(name) > 0;
+}
 
-		enum class RenderMode
-		{
-			SOLID,
-			SHADED,
-			BLENDED
-		};
+void Omnia::AssetCache::store(std::shared_ptr<Omnia::Asset> asset)
+{
+	if (!this->assets.count(asset->getName()))
+		this->assets.emplace(asset->getName(), asset);
+}
 
-		static constexpr const char* TYPE_STRING = "Font";
+std::shared_ptr<Omnia::Asset> Omnia::AssetCache::fetch(std::string name)
+{
+	std::shared_ptr<Asset> asset;
 
-		Font() 
-		{ 
-			this->type = TYPE_STRING;
-		};
-		Font(std::string filepath, uint16_t size_px);
-		Font(TTF_Font* font);
-		TTF_Font* getSDLTTFFont();
-	private:
-		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
-	};
+	if (this->assets.count(name) != 0)
+		asset = this->assets.at(name);
+
+	return asset;
+}
+
+void Omnia::AssetCache::deleteAsset(std::string filepath)
+{
+	this->assets.erase(filepath);
+}
+
+void Omnia::AssetCache::deleteAllAssets()
+{
+	this->assets.clear();
+}
+
+std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> Omnia::AssetCache::getAssets()
+{
+	return this->assets;
 }

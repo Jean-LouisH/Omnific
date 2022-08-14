@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "rendering_system.hpp"
-#include <scene/assets/shader.hpp>
-#include <scene/assets/image.hpp>
+#include <asset_pipeline/assets/shader.hpp>
+#include <asset_pipeline/assets/image.hpp>
 
 Omnia::RenderingSystem::~RenderingSystem()
 {
