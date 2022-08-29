@@ -53,7 +53,7 @@ namespace Omnia
         virtual void onCompute(std::shared_ptr<Scene> scene);
         virtual void onOutput(std::shared_ptr<Scene> scene);
         virtual void onFinish(std::shared_ptr<Scene> scene);
-        virtual void deinitialize();
+        virtual void finalize();
         bool getIsInitialized();
 
         std::string getType();

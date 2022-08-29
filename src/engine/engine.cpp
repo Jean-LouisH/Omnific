@@ -151,7 +151,7 @@ void Omnia::Engine::run()
 		for (std::thread& thread : dedicatedThreads)
 			thread.join();
 
-		this->shutdown();
+		this->finalize();
 	} while (this->state == State::RESTARTING);
 }
 
@@ -326,9 +326,9 @@ void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::sha
 	OS::sleepThisThreadFor(targetFrameTime - runTime);
 }
 
-void Omnia::Engine::shutdown()
+void Omnia::Engine::finalize()
 {
-	OS::deinitialize();
+	OS::finalize();
 
 	for (auto system : this->systems)
 		system.second.reset();

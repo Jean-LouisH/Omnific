@@ -35,7 +35,7 @@ namespace Omnia
 	{
 	public:
 		void initialize(int threadCount);
-		void deinitialize();
+		void finalize();
 	private:
 		std::vector<std::thread*> threads;
 		bool isFinished = false;

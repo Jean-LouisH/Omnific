@@ -25,7 +25,7 @@
 
 Omnia::AnimationSystem::~AnimationSystem()
 {
-	this->deinitialize();
+	this->finalize();
 }
 
 void Omnia::AnimationSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
@@ -48,7 +48,7 @@ void Omnia::AnimationSystem::onCompute(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::AnimationSystem::deinitialize()
+void Omnia::AnimationSystem::finalize()
 {
 	this->isInitialized = false;
 }

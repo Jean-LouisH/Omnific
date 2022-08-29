@@ -26,7 +26,7 @@
 
 Omnia::RenderingSystem::~RenderingSystem()
 {
-	this->deinitialize();
+	this->finalize();
 }
 
 void Omnia::RenderingSystem::initialize()
@@ -44,7 +44,7 @@ void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
 	this->context->swapBuffers();
 }
 
-void Omnia::RenderingSystem::deinitialize()
+void Omnia::RenderingSystem::finalize()
 {
 	if (this->isInitialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);

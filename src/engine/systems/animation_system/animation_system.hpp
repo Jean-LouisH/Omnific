@@ -43,7 +43,7 @@ namespace Omnia
 		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
 		virtual void initialize() override;
 		virtual void onCompute(std::shared_ptr<Scene> scene) override;
-		virtual void deinitialize() override;
+		virtual void finalize() override;
 	private:
 		uint32_t msPerComputeUpdate = 8;
 		void updateSpriteContainers(std::shared_ptr<SceneTree> sceneTree);

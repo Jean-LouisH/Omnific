@@ -26,7 +26,7 @@
 
 Omnia::HapticSystem::~HapticSystem()
 {
-	this->deinitialize();
+	this->finalize();
 }
 
 void Omnia::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
@@ -105,7 +105,7 @@ void Omnia::HapticSystem::onOutput(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::HapticSystem::deinitialize()
+void Omnia::HapticSystem::finalize()
 {
 	if (this->isInitialized)
 		SDL_INIT_HAPTIC;

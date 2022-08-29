@@ -33,7 +33,7 @@ void Omnia::ThreadPool::initialize(int threadCount)
 	}
 }
 
-void Omnia::ThreadPool::deinitialize()
+void Omnia::ThreadPool::finalize()
 {
 	this->isFinished = true;
 

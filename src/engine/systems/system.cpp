@@ -61,7 +61,7 @@ void Omnia::System::onFinish(std::shared_ptr<Scene> scene)
 
 }
 
-void Omnia::System::deinitialize()
+void Omnia::System::finalize()
 {
 
 }

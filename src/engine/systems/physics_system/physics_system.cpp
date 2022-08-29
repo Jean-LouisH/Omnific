@@ -27,7 +27,7 @@
 
 Omnia::PhysicsSystem::~PhysicsSystem()
 {
-	this->deinitialize();
+	this->finalize();
 }
 
 void Omnia::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
@@ -56,7 +56,7 @@ void Omnia::PhysicsSystem::onCompute(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::PhysicsSystem::deinitialize()
+void Omnia::PhysicsSystem::finalize()
 {
 	this->isInitialized = false;
 }

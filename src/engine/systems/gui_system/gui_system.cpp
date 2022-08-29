@@ -26,7 +26,7 @@
 
 Omnia::GUISystem::~GUISystem()
 {
-	this->deinitialize();
+	this->finalize();
 }
 
 void Omnia::GUISystem::initialize()
@@ -54,7 +54,7 @@ void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::GUISystem::deinitialize()
+void Omnia::GUISystem::finalize()
 {
 	this->isInitialized = false;
 }

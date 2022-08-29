@@ -25,7 +25,7 @@
 
 Omnia::AudioSystem::~AudioSystem()
 {
-	this->deinitialize();
+	this->finalize();
 }
 
 void Omnia::AudioSystem::play()
@@ -72,7 +72,7 @@ void Omnia::AudioSystem::onOutput(std::shared_ptr<Scene> scene)
 	this->play();
 }
 
-void Omnia::AudioSystem::deinitialize()
+void Omnia::AudioSystem::finalize()
 {
 	if (this->isInitialized)
 	{

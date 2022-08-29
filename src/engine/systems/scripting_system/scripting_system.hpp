@@ -49,7 +49,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "ScriptingSystem";
 
 		virtual void initialize() override;
-		virtual void deinitialize() override;
+		virtual void finalize() override;
 		virtual void onStart(std::shared_ptr<Scene> scene) override;
 		virtual void onInput(std::shared_ptr<Scene> scene) override;
 		virtual void onLogic(std::shared_ptr<Scene> scene) override;

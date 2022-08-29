@@ -56,7 +56,7 @@ namespace Omnia
 
 		static void showErrorBox(std::string title, std::string message);
 
-		static void deinitialize();
+		static void finalize();
 
 		static DynamicLinkLibraryAccess& getDLLAccess();
 		static Window& getWindow();

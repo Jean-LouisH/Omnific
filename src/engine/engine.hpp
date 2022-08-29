@@ -84,7 +84,7 @@ namespace Omnia
 		/* For the current single-threaded engine 
 		   loop implementation*/
 		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
-		void shutdown();
+		void finalize();
 
 		template <class T>
 		void addSystem()

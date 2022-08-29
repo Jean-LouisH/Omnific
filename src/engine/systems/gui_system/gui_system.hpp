@@ -43,7 +43,7 @@ namespace Omnia
 
 		virtual void initialize() override;
 		virtual void onLogic(std::shared_ptr<Scene> scene) override;
-		virtual void deinitialize() override;
+		virtual void finalize() override;
 	private:
 		void orderGUIComponentsByHierarchy();
 		void positionGUIComponentsByHierarchy();
