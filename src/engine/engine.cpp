@@ -38,7 +38,6 @@ Omnia::Engine::Engine(
 	int argc, 
 	char* argv[])
 {
-	this->state = std::unique_ptr<EngineState>(new EngineState());
 	this->argc = argc;
 	this->argv = argv;
 }
@@ -104,7 +103,7 @@ void Omnia::Engine::run()
 				Window& window = OS::getWindow();
 				window.resize(Configuration::getInstance()->windowSettings.width, Configuration::getInstance()->windowSettings.height);
 				window.changeTitle(Configuration::getInstance()->metadata.title.c_str());
-				this->state->setRunningApplicationWindowed();
+				this->state = State::RUNNING_APPLICATION_WINDOWED;
 				OS::getLogger().write("Loaded application project \"" + Configuration::getInstance()->metadata.title + "\" at: " + dataDirectory);
 			}
 			else
@@ -112,7 +111,7 @@ void Omnia::Engine::run()
 				OS::showErrorBox(
 					"Could not load game data", 
 					"The game data is either missing or corrupted. Reinstall and try again");
-				this->state->setShuttingDown();
+				this->state = State::FINALIZING;
 			}
 
 		}
@@ -141,7 +140,7 @@ void Omnia::Engine::run()
 		uint32_t mainThreadTargetFPS = 60;
 
 		/* Main loop thread for Input. */
-		while (this->state->isRunning())
+		while (this->isRunning())
 		{
 			mainThreadTimer->setStart();
 			this->queryInput();
@@ -153,7 +152,14 @@ void Omnia::Engine::run()
 			thread.join();
 
 		this->shutdown();
-	} while (this->state->isRestarting());
+	} while (this->state == State::RESTARTING);
+}
+
+bool Omnia::Engine::isRunning()
+{
+	return  (this->state == State::RUNNING_APPLICATION_FULLSCREEN ||
+		this->state == State::RUNNING_APPLICATION_FULLSCREEN_DESKTOP ||
+		this->state == State::RUNNING_APPLICATION_WINDOWED);
 }
 
 bool Omnia::Engine::initialize()
@@ -168,8 +174,8 @@ bool Omnia::Engine::initialize()
 	this->addSystem<ScriptingSystem>();
 	this->addSystem<GUISystem>();
 
-	if (!this->state->isRestarting())
-		this->state->setInitializing();
+	if (this->state != State::RESTARTING)
+		this->state = State::INITIALIZING;
 
 	/* Hardware abstraction layer initialization. */
 	isInitializedOK = OS::initialize(
@@ -192,7 +198,7 @@ bool Omnia::Engine::initialize()
 	}
 	else
 	{
-		this->state->setShuttingDown();
+		this->state == State::FINALIZING;
 	}
 
 	return isInitializedOK;
@@ -204,9 +210,9 @@ void Omnia::Engine::queryInput()
 	input.detectGameControllers();
 	input.pollInputEvents();
 	if (input.hasRequestedShutdown())
-		this->state->setShuttingDown();
+		this->state == State::FINALIZING;
 	if (input.hasRequestedRestart())
-		this->state->setRestarting();
+		this->state == State::RESTARTING;
 }
 
 void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
@@ -218,7 +224,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 	Profiler& profiler = OS::getProfiler();
 	HiResTimer updateFrameTimer;
 
-	while (this->state->isRunning())
+	while (this->isRunning())
 	{
 		updateProcessTimer->setStart();
 		updateFrameTimer.setStart();
@@ -263,7 +269,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		this->getSystem<AnimationSystem>()->setMsPerComputeUpdate(msPerComputeUpdate);
 		this->getSystem<PhysicsSystem>()->setMsPerComputeUpdate(msPerComputeUpdate);
 
-		while (profiler.getLagCount() >= msPerComputeUpdate && this->state->isRunning())
+		while (profiler.getLagCount() >= msPerComputeUpdate && this->isRunning())
 		{
 			for (auto system : this->systems)
 				if (system.second->isThreadType(ThreadType::UPDATE))
@@ -300,7 +306,7 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 			system.second->initialize();
 
 	/* The RenderingSystem only reads Scene data. */
-	while (this->state->isRunning())
+	while (this->isRunning())
 	{
 		outputProcessTimer->setStart();
 		for (auto system : this->systems)

@@ -29,7 +29,6 @@
 #include "scene_storage.hpp"
 #include "system.hpp"
 #include "os/os.hpp"
-#include "engine_state.hpp"
 #include "os/profiler.hpp"
 #include <memory>
 
@@ -58,12 +57,23 @@ namespace Omnia
 
 		void run();
 	private:
+		enum class State
+		{
+			INITIALIZING,
+			RUNNING_APPLICATION_WINDOWED,
+			RUNNING_APPLICATION_FULLSCREEN,
+			RUNNING_APPLICATION_FULLSCREEN_DESKTOP,
+			RESTARTING,
+			FINALIZING
+		};
+
+		State state;
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
-		std::unique_ptr<EngineState> state;
 
 		int argc = 0;
 		char** argv = nullptr;
 
+		bool isRunning();
 		/* Returns "true" if initialization is successful */
 		bool initialize();
 		void queryInput();
