@@ -30,7 +30,7 @@
 #include <SDL_surface.h>
 #include <SDL_render.h>
 #include <stdint.h>
-#include "asset_pipeline/asset.hpp"
+#include "asset_pipeline/assets/asset.hpp"
 #include "font.hpp"
 #include "utilities/rectangle.hpp"
 #include <string>

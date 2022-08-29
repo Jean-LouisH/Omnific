@@ -22,20 +22,38 @@
 
 #pragma once
 
-#include "../script.hpp"
+#include <asset_pipeline/assets/cpp_script.hpp>
 
 namespace Omnia
 {
-    class OMNIA_ENGINE_API PythonScript : public Script
-    {
-    public:
-        PythonScript()
-        {
-            this->type = TYPE_STRING;
-        };
-        static constexpr const char* TYPE_STRING = "PythonScript";
+	class SplashScreenTransition : public CPPScript
+	{
+	public:
+		/* Custom classes should derive their own type string
+		and update the base type name.*/
+		SplashScreenTransition()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "SplashScreenTransition";
 
-        PythonScript(std::string filepath);
-    private:
-    };
+		/* Custom classes should have their own clone method 
+		for the CPPScriptAssembly instance derivation. */
+		virtual CPPScript* copy() override
+		{
+			return new SplashScreenTransition(*this);
+		}
+
+		/* Add all the methods from CPPScript to override. */
+		virtual void onStart() override;
+		virtual void onLogic() override;
+
+		/* custom public methods. */
+
+	private:
+		int countdown_value = 5.0;
+		const char* next_scene = "project_list";
+
+		/* custom private methods. */
+	};
 }

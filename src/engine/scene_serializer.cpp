@@ -25,7 +25,7 @@
 #include <string>
 #include <set>
 #include "scene/scene.hpp"
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 #include <os/os.hpp>
 #include "asset_pipeline/asset_pipeline.hpp"
 

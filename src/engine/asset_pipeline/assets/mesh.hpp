@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "asset_pipeline/asset.hpp"
+#include "asset_pipeline/assets/asset.hpp"
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>

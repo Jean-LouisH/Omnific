@@ -24,7 +24,7 @@
 
 
 #include <glm/glm.hpp>
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 
 namespace Omnia
 {

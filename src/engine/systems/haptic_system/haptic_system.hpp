@@ -26,7 +26,7 @@
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
-#include "system.hpp"
+#include "systems/system.hpp"
 #include "os/input.hpp"
 #include <scene/haptic_signal_buffer.hpp>
 #include <utilities/hi_res_timer.hpp>

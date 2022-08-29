@@ -24,7 +24,7 @@
 
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 
 #include "utilities/aabb_3d.hpp"
 #include <set>

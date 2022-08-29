@@ -23,7 +23,7 @@
 #pragma once
 
 #include <string>
-#include "systems/scripting_system/scripting_language.hpp"
+#include "systems/scripting_system/scripting_languages/scripting_language.hpp"
 
 namespace Omnia
 {

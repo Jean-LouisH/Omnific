@@ -26,7 +26,7 @@
 #include <utilities/rectangle.hpp>
 #include <utilities/aliases.hpp>
 #include <utilities/constants.hpp>
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 #include <os/os.hpp>
 
 namespace Omnia

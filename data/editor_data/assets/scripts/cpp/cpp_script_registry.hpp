@@ -22,14 +22,14 @@
 
 #pragma once
 
-#include <asset_pipeline/assets/scripts/cpp_script.hpp>
+#include <asset_pipeline/assets/cpp_script.hpp>
 #include <unordered_map>
 #include <memory>
 
 /// Include custom class headers below
 ////////////////////////////////////////////////////
 
-#include "splash_screen_transition.hpp"
+#include "custom_scripts/splash_screen_transition.hpp"
 
 
 /////////////////////////////////////////////////////

@@ -29,7 +29,7 @@
 #include "pybind11/embed.h"
 #include "python_script_instance.hpp"
 #include <scene/scene.hpp>
-#include "systems/scripting_system/scripting_language.hpp"
+#include "systems/scripting_system/scripting_languages/scripting_language.hpp"
 #include <memory>
 
 namespace Omnia

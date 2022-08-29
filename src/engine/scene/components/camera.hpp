@@ -27,7 +27,7 @@
 #include "utilities/aabb_2d.hpp"
 #include <glm/glm.hpp>
 #include "utilities/constants.hpp"
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 #include "asset_pipeline/assets/shader.hpp"
 
 

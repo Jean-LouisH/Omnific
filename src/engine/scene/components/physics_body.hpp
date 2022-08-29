@@ -25,7 +25,7 @@
 #include "utilities/aliases.hpp"
 #include <glm/glm.hpp>
 #include "utilities/constants.hpp"
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 
 namespace Omnia
 {

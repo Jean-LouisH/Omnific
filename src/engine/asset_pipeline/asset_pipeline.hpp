@@ -25,7 +25,7 @@
 #include <unordered_map>
 #include <string>
 #include <memory>
-#include "asset.hpp"
+#include "assets/asset.hpp"
 #include "asset_cache.hpp"
 #include <omnia_engine_api.hpp>
 

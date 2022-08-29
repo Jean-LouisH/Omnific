@@ -28,7 +28,7 @@
 #include "utilities/constants.hpp"
 #include <string>
 #include "asset_pipeline/assets/image.hpp"
-#include "scene/renderable_component.hpp"
+#include "scene/components/renderable_component.hpp"
 #include <glm/glm.hpp>
 #include <memory>
 

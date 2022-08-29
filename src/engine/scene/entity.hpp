@@ -23,7 +23,7 @@
 #pragma once
 
 #include <asset_pipeline/assets/shader.hpp>
-#include "component.hpp"
+#include "components/component.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>

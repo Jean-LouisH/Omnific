@@ -31,7 +31,7 @@
 #include <unordered_map>
 #include <memory>
 #include "asset_pipeline/assets/audio_stream.hpp"
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 
 
 namespace Omnia

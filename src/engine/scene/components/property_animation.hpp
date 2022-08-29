@@ -26,7 +26,7 @@
 #include <vector>
 #include "utilities/constants.hpp"
 #include <stdint.h>
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 
 namespace Omnia
 {

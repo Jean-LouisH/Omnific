@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "scene/component.hpp"
+#include "scene/components/component.hpp"
 #include "asset_pipeline/assets/script.hpp"
 
 #include <vector>

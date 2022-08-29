@@ -45,13 +45,13 @@ void onInput()
 void onLogic()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
-		executeUpdateMethods(it.second, "onLogicFrame");
+		executeUpdateMethods(it.second, "onLogic");
 }
 
 void onCompute()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
-		executeUpdateMethods(it.second, "onComputeFrame");
+		executeUpdateMethods(it.second, "onCompute");
 }
 
 void onOutput()
@@ -88,9 +88,9 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 				scriptInstance->onStart();
 			else if (methodName == "onInput")
 				scriptInstance->onInput();
-			else if (methodName == "onLogicFrame")
+			else if (methodName == "onLogic")
 				scriptInstance->onLogic();
-			else if (methodName == "onComputeFrame")
+			else if (methodName == "onCompute")
 				scriptInstance->onCompute();
 			else if (methodName == "onOutput")
 				scriptInstance->onOutput();

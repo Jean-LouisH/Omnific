@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "scene.hpp"
-#include "component.hpp"
+#include "components/component.hpp"
 
 Omnia::Scene::Scene()
 {

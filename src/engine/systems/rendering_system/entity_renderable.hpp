@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <scene/components/transform.hpp>
-#include "scene/renderable_component.hpp"
+#include "scene/components/renderable_component.hpp"
 
 #include <scene/components/camera.hpp>
 #include <asset_pipeline/assets/image.hpp>

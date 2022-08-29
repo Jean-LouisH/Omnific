@@ -22,29 +22,20 @@
 
 #pragma once
 
-#include "../script.hpp"
+#include "script.hpp"
 
 namespace Omnia
 {
-    class OMNIA_ENGINE_API CPPScript : public Script
+    class OMNIA_ENGINE_API PythonScript : public Script
     {
     public:
-        CPPScript()
+        PythonScript()
         {
             this->type = TYPE_STRING;
         };
-        static constexpr const char* TYPE_STRING = "CPPScript";
+        static constexpr const char* TYPE_STRING = "PythonScript";
 
-        CPPScript(std::string filepath);
-        ~CPPScript();
-
-        virtual CPPScript* copy();
-        virtual void onStart();
-        virtual void onInput();
-        virtual void onLogic();
-        virtual void onCompute();
-        virtual void onOutput();
-        virtual void onFinish();
+        PythonScript(std::string filepath);
     private:
     };
 }

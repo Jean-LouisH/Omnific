@@ -26,7 +26,7 @@
 #include <queue>
 #include <memory>
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "systems/system.hpp"
 
 namespace Omnia
 {

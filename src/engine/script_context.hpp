@@ -30,7 +30,7 @@
 #include <string>
 
 #include <memory>
-#include <scene/component.hpp>
+#include <scene/components/component.hpp>
 #include <scene/scene.hpp>
 #include <scene_serializer.hpp>
 #include <scene_storage.hpp>

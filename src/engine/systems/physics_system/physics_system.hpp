@@ -23,7 +23,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include "system.hpp"
+#include "systems/system.hpp"
 
 namespace Omnia
 {

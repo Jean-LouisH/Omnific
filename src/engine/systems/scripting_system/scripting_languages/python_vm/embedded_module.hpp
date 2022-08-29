@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <scene/component.hpp>
+#include <scene/components/component.hpp>
 #include <script_context.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>

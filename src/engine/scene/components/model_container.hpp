@@ -23,8 +23,8 @@
 #pragma once
 
 #include "asset_pipeline/assets/image.hpp"
-#include "scene/renderable_component.hpp"
-#include "scene/component.hpp"
+#include "scene/components/renderable_component.hpp"
+#include "scene/components/component.hpp"
 
 #include "asset_pipeline/assets/model.hpp"
 #include <memory>

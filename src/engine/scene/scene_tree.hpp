@@ -27,7 +27,7 @@
 #include <memory>
 #include <queue>
 #include <unordered_map>
-#include "component.hpp"
+#include "components/component.hpp"
 #include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
 #include "utilities/rectangle.hpp"
@@ -38,12 +38,12 @@
 #include "event_bus.hpp"
 
 #include <asset_pipeline/assets/audio_stream.hpp>
-#include "asset_pipeline/assets/scripts/cpp_script.hpp"
+#include "asset_pipeline/assets/cpp_script.hpp"
 #include <asset_pipeline/assets/font.hpp>
 #include <asset_pipeline/assets/image.hpp>
 #include <asset_pipeline/assets/material.hpp>
 #include <asset_pipeline/assets/mesh.hpp>
-#include "asset_pipeline/assets/scripts/python_script.hpp"
+#include "asset_pipeline/assets/python_script.hpp"
 #include <asset_pipeline/assets/rig.hpp>
 #include <asset_pipeline/assets/shader.hpp>
 #include <asset_pipeline/assets/text.hpp>

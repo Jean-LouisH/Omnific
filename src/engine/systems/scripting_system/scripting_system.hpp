@@ -22,14 +22,14 @@
 
 #pragma once
 
-#include "python_vm/python_vm.hpp"
-#include "cpp_native/cpp_native.hpp"
+#include "scripting_languages/python_vm/python_vm.hpp"
+#include "scripting_languages/cpp_native/cpp_native.hpp"
 #include "scene/scene.hpp"
 #include <scene_storage.hpp>
 #include <scene_serializer.hpp>
 #include "utilities/aliases.hpp"
-#include "scripting_language.hpp"
-#include "system.hpp"
+#include "scripting_languages/scripting_language.hpp"
+#include "systems/system.hpp"
 #include <memory>
 #include <vector>
 

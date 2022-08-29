@@ -27,7 +27,7 @@
 #include "scene_serializer.hpp"
 #include "configuration.hpp"
 #include "scene_storage.hpp"
-#include "system.hpp"
+#include "systems/system.hpp"
 #include "os/os.hpp"
 #include "os/profiler.hpp"
 #include <memory>
