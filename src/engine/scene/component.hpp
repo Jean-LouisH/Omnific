@@ -29,6 +29,7 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
+#include <vector>
 #include <omnia_engine_api.hpp>
 
 namespace Omnia
@@ -39,7 +40,22 @@ namespace Omnia
     class OMNIA_ENGINE_API Component
     {
 	public:
+		enum class PropertyType
+		{
+			NONE,
+			BOOL,
+			INT,
+			DOUBLE,
+			STRING
+		};
+
 		Component();
+
+		virtual PropertyType queryPropertyType(std::string propertyName);
+		virtual void loadBoolProperty(std::string propertyName, std::vector<bool> propertyValue);
+		virtual void loadIntProperty(std::string propertyName, std::vector<int> propertyValue);
+		virtual void loadDoubleProperty(std::string propertyName, std::vector<double> propertyValue);
+		virtual void loadStringProperty(std::string propertyName, std::vector<std::string> propertyValue);
 
 		void setEntityID(EntityID entityID);
 
