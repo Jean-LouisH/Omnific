@@ -64,7 +64,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "RenderingSystem";
 
 		virtual void initialize() override;
-		virtual void onOutput(std::shared_ptr<Scene> scene) override;
+		virtual void onLate(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 		std::string getRenderingContextName();
 	private:

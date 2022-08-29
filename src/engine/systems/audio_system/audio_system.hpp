@@ -43,7 +43,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "AudioSystem";
 		virtual void initialize() override;
-		virtual void onOutput(std::shared_ptr<Scene> scene) override;
+		virtual void onLate(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 		std::queue<std::shared_ptr<Mix_Chunk>> soundFXQueue;

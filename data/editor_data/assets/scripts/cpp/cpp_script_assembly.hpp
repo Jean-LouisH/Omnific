@@ -38,9 +38,10 @@
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void loadScriptInstances();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void onStart();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void onInput();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onEarly();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void onLogic();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void onCompute();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onOutput();
+OMNIA_CPP_SCRIPT_ASSEMBLY_API void onLate();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void onFinish();
 
 void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,

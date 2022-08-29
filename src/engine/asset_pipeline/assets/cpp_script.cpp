@@ -48,6 +48,11 @@ void Omnia::CPPScript::onInput()
 
 }
 
+void Omnia::CPPScript::onEarly()
+{
+
+}
+
 void Omnia::CPPScript::onLogic()
 {
 
@@ -58,7 +63,7 @@ void Omnia::CPPScript::onCompute()
 
 }
 
-void Omnia::CPPScript::onOutput()
+void Omnia::CPPScript::onLate()
 {
 
 }

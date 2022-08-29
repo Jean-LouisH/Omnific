@@ -42,6 +42,12 @@ void onInput()
 		executeUpdateMethods(it.second, "onInput");
 }
 
+void onEarly()
+{
+	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
+		executeUpdateMethods(it.second, "onEarly");
+}
+
 void onLogic()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
@@ -54,10 +60,10 @@ void onCompute()
 		executeUpdateMethods(it.second, "onCompute");
 }
 
-void onOutput()
+void onLate()
 {
 	for (auto it : Omnia::ScriptContext::getScene()->getSceneTrees())
-		executeUpdateMethods(it.second, "onOutput");
+		executeUpdateMethods(it.second, "onLate");
 }
 
 void onFinish()
@@ -92,8 +98,8 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 				scriptInstance->onLogic();
 			else if (methodName == "onCompute")
 				scriptInstance->onCompute();
-			else if (methodName == "onOutput")
-				scriptInstance->onOutput();
+			else if (methodName == "onLate")
+				scriptInstance->onLate();
 			else if (methodName == "onFinish")
 				scriptInstance->onFinish();
 		}

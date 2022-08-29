@@ -42,6 +42,11 @@ void Omnia::ScriptingLanguage::onInput()
 
 }
 
+void Omnia::ScriptingLanguage::onEarly()
+{
+
+}
+
 void Omnia::ScriptingLanguage::onLogic()
 {
 
@@ -52,7 +57,7 @@ void Omnia::ScriptingLanguage::onCompute()
 
 }
 
-void Omnia::ScriptingLanguage::onOutput()
+void Omnia::ScriptingLanguage::onLate()
 {
 
 }

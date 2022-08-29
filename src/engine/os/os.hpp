@@ -48,7 +48,9 @@ namespace Omnia
 			uint16_t height, 
 			bool isFullscreen, 
 			std::string executableFilepath,
-			std::string renderingContext);
+			std::string renderingContext,
+			std::vector<std::string> args
+		);
 
 		static void yieldThisThread();
 		/* Duration in milliseconds */
@@ -69,9 +71,12 @@ namespace Omnia
 		static ThreadPool& getThreadPool();
 
 		static HiResTimer& getRunTimer();
+		static std::vector<std::string> getArgs();
 		static void addGameControllerMappings(std::string mappingFilepath);
 	private:
 		static OS* instance;
+
+		std::vector<std::string> args;
 
 		std::unique_ptr<DynamicLinkLibraryAccess> dllAccess;
 		std::unique_ptr<HiResTimer> runTimer;

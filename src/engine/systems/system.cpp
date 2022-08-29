@@ -41,6 +41,11 @@ void Omnia::System::onInput(std::shared_ptr<Scene> scene)
 
 }
 
+void Omnia::System::onEarly(std::shared_ptr<Scene> scene)
+{
+
+}
+
 void Omnia::System::onLogic(std::shared_ptr<Scene> scene)
 {
 
@@ -51,7 +56,7 @@ void Omnia::System::onCompute(std::shared_ptr<Scene> scene)
 
 }
 
-void Omnia::System::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::System::onLate(std::shared_ptr<Scene> scene)
 {
 
 }

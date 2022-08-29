@@ -42,7 +42,7 @@ void Omnia::AudioSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::AudioSystem::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 

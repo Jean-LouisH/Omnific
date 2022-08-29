@@ -44,7 +44,7 @@ namespace Omnia
 		virtual void initialize() override;
 		virtual void onCompute(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
-		virtual void onOutput(std::shared_ptr<Scene> scene);
+		virtual void onLate(std::shared_ptr<Scene> scene);
 	private:
 		float secondsPerComputeUpdate = 0.008;
 

@@ -34,7 +34,8 @@ bool Omnia::OS::initialize(
 	uint16_t height, 
 	bool isFullscreen, 
 	std::string executableFilepath,
-	std::string renderingContext)
+	std::string renderingContext,
+	std::vector<std::string> args)
 {
 	OS* newInstance = getInstance();
 	bool isSuccessful = false;
@@ -57,6 +58,8 @@ bool Omnia::OS::initialize(
 
 		if (TTF_Init() == -1)
 			printf("TTF_Init: %s\n", TTF_GetError());
+
+		newInstance->args = args;
 	}
 	else
 	{
@@ -145,6 +148,11 @@ Omnia::ThreadPool& Omnia::OS::getThreadPool()
 Omnia::HiResTimer& Omnia::OS::getRunTimer()
 {
 	return *getInstance()->runTimer;
+}
+
+std::vector<std::string> Omnia::OS::getArgs()
+{
+	return getInstance()->args;
 }
 
 void Omnia::OS::addGameControllerMappings(std::string mappingFilepath)

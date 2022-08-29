@@ -41,9 +41,10 @@ namespace Omnia
         virtual CPPScript* copy();
         virtual void onStart();
         virtual void onInput();
+        virtual void onEarly();
         virtual void onLogic();
         virtual void onCompute();
-        virtual void onOutput();
+        virtual void onLate();
         virtual void onFinish();
     private:
     };

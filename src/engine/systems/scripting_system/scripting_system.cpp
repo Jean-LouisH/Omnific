@@ -67,6 +67,15 @@ void Omnia::ScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 	}
 }
 
+void Omnia::ScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
+{
+	if (scene != nullptr)
+	{
+		for (auto scriptingLanguage : this->scriptingLanguages)
+			scriptingLanguage.second->onEarly();
+	}
+}
+
 void Omnia::ScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
@@ -85,12 +94,12 @@ void Omnia::ScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::ScriptingSystem::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::ScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)
-			scriptingLanguage.second->onOutput();
+			scriptingLanguage.second->onLate();
 	}
 }
 

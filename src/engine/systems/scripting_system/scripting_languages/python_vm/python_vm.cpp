@@ -94,7 +94,7 @@ void Omnia::PythonVM::loadScriptInstances()
 						pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
 						PythonScriptInstance scriptInstance;
-						std::vector<std::string> methodNames = { "on_start", "on_input", "on_logic", "on_compute", "on_output", "on_finish" };
+						std::vector<std::string> methodNames = { "on_start", "on_input", "on_early", "on_logic", "on_compute", "on_late", "on_finish" };
 						scriptInstance.setData(newPybind11Module.attr("omnia_script")());
 
 						for (int i = 0; i < methodNames.size(); i++)
@@ -135,6 +135,12 @@ void Omnia::PythonVM::onInput()
 		this->executeUpdateMethods(it.second, "on_input");
 }
 
+void Omnia::PythonVM::onEarly()
+{
+	for (auto it : ScriptContext::getScene()->getSceneTrees())
+		this->executeUpdateMethods(it.second, "on_early");
+}
+
 void Omnia::PythonVM::onLogic()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
@@ -147,10 +153,10 @@ void Omnia::PythonVM::onCompute()
 		this->executeUpdateMethods(it.second, "on_compute");
 }
 
-void Omnia::PythonVM::onOutput()
+void Omnia::PythonVM::onLate()
 {
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
-		this->executeUpdateMethods(it.second, "on_output");
+		this->executeUpdateMethods(it.second, "on_late");
 }
 
 void Omnia::PythonVM::onFinish()

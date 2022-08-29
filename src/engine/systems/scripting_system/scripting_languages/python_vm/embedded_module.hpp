@@ -310,4 +310,5 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_profiler", &Omnia::OS::getProfiler, pybind11::return_value_policy::reference);
 	m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
 	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
+	m.def("get_args", &Omnia::OS::getArgs);
 }

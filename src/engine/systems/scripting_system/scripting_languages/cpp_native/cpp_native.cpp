@@ -51,6 +51,11 @@ void Omnia::CPPNative::onInput()
 	this->execute("onInput");
 }
 
+void Omnia::CPPNative::onEarly()
+{
+	this->execute("onEarly");
+}
+
 void Omnia::CPPNative::onLogic()
 {
 	this->execute("onLogic");
@@ -61,9 +66,9 @@ void Omnia::CPPNative::onCompute()
 	this->execute("onCompute");
 }
 
-void Omnia::CPPNative::onOutput()
+void Omnia::CPPNative::onLate()
 {
-	this->execute("onOutput");
+	this->execute("onLate");
 }
 
 void Omnia::CPPNative::onFinish()

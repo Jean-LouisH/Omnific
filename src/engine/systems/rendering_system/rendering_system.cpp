@@ -35,7 +35,7 @@ void Omnia::RenderingSystem::initialize()
 	this->isInitialized = true;
 }
 
-void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
 	this->buildRenderablesOnModifiedComponents(scene);

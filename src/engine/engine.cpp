@@ -177,6 +177,11 @@ bool Omnia::Engine::initialize()
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
 
+	std::vector<std::string> args;
+
+	for (int i = 0; i < this->argc; i++)
+		args.push_back(this->argv[i]);
+
 	/* Hardware abstraction layer initialization. */
 	isInitializedOK = OS::initialize(
 		"", 
@@ -184,7 +189,8 @@ bool Omnia::Engine::initialize()
 		480, 
 		false, 
 		this->argv[0], 
-		this->getSystem<RenderingSystem>()->getRenderingContextName());
+		this->getSystem<RenderingSystem>()->getRenderingContextName(),
+		args);
 
 	if (isInitializedOK)
 	{
@@ -260,6 +266,10 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 
 		for (auto system : this->systems)
 			if (system.second->isThreadType(ThreadType::UPDATE))
+				system.second->onEarly(activeScene);
+
+		for (auto system : this->systems)
+			if (system.second->isThreadType(ThreadType::UPDATE))
 				system.second->onLogic(activeScene);
 
 		/* This calls the compute based Systems repeatedly until the accumulated
@@ -279,7 +289,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 
 		for (auto system : this->systems)
 			if (system.second->isThreadType(ThreadType::UPDATE))
-				system.second->onOutput(activeScene);
+				system.second->onLate(activeScene);
 
 		for (auto system : this->systems)
 			if (system.second->isThreadType(ThreadType::UPDATE))
@@ -311,7 +321,7 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 		outputProcessTimer->setStart();
 		for (auto system : this->systems)
 			if (system.second->isThreadType(ThreadType::OUTPUT))
-				system.second->onOutput(SceneStorage::getActiveScene());
+				system.second->onLate(SceneStorage::getActiveScene());
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			Configuration::getInstance()->timeSettings.targetFPS,

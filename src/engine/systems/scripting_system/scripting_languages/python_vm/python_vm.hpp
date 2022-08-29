@@ -44,9 +44,10 @@ namespace Omnia
 		virtual void loadScriptInstances() override;
 		virtual void onStart() override;
 		virtual void onInput() override;
+		virtual void onEarly() override;
 		virtual void onLogic() override;
 		virtual void onCompute() override;
-		virtual void onOutput() override;
+		virtual void onLate() override;
 		virtual void onFinish() override;
 		virtual void deinitialize() override;
 	private:

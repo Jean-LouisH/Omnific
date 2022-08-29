@@ -31,9 +31,10 @@ namespace Omnia
 		virtual void loadScriptInstances();
 		virtual void onStart();
 		virtual void onInput();
+		virtual void onEarly();
 		virtual void onLogic();
 		virtual void onCompute();
-		virtual void onOutput();
+		virtual void onLate();
 		virtual void onFinish();
 		virtual void deinitialize();
 	private:
