@@ -118,5 +118,5 @@ void Omnia::ScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 void Omnia::ScriptingSystem::finalize()
 {
 	for (auto scriptingLanguage : this->scriptingLanguages)
-		scriptingLanguage.second->deinitialize();
+		scriptingLanguage.second->finalize();
 }

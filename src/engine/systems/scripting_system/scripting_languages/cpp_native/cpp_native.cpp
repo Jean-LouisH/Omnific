@@ -88,7 +88,7 @@ void Omnia::CPPNative::execute(std::string methodName)
 	}
 }
 
-void Omnia::CPPNative::deinitialize()
+void Omnia::CPPNative::finalize()
 {
 
 }

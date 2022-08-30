@@ -40,7 +40,7 @@ namespace Omnia
         virtual void onCompute() override;
         virtual void onLate() override;
         virtual void onFinish() override;
-        virtual void deinitialize() override;
+        virtual void finalize() override;
 
     private:
         void* dynamicLibraryHandle;

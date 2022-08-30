@@ -67,7 +67,7 @@ void Omnia::ScriptingLanguage::onFinish()
 
 }
 
-void Omnia::ScriptingLanguage::deinitialize()
+void Omnia::ScriptingLanguage::finalize()
 {
 
 }

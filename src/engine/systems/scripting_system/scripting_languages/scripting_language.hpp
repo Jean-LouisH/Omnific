@@ -36,7 +36,7 @@ namespace Omnia
 		virtual void onCompute();
 		virtual void onLate();
 		virtual void onFinish();
-		virtual void deinitialize();
+		virtual void finalize();
 	private:
 	};
 }

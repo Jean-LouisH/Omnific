@@ -57,9 +57,6 @@ void Omnia::PythonVM::loadScriptInstances()
 
 	for (auto it : ScriptContext::getScene()->getSceneTrees())
 	{
-		std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = it.second->getComponentsByType<ScriptCollection>();
-		size_t scriptCollectionsCount = scriptCollections.size();
-
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 		{
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
@@ -165,7 +162,7 @@ void Omnia::PythonVM::onFinish()
 		this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
 }
 
-void Omnia::PythonVM::deinitialize()
+void Omnia::PythonVM::finalize()
 {
 	pybind11::finalize_interpreter();
 }
