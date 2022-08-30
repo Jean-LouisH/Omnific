@@ -94,6 +94,8 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 				scriptInstance->onStart();
 			else if (methodName == "onInput")
 				scriptInstance->onInput();
+			else if (methodName == "onEarly")
+				scriptInstance->onEarly();
 			else if (methodName == "onLogic")
 				scriptInstance->onLogic();
 			else if (methodName == "onCompute")
