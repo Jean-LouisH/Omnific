@@ -46,7 +46,7 @@ namespace Omnia
 			// Add custom scripts here.
 			////////////////////////////////////////////
 
-			registry->add(new SplashScreenTransition());
+			registry->add<SplashScreenTransition>();
 
 
 			////////////////////////////////////////////
@@ -57,9 +57,9 @@ namespace Omnia
 		static void finalize();
 
 		template <class T>
-		static void add(T* t)
+		static void add()
 		{
-			getInstance()->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPScript>(std::shared_ptr<T>(t)));
+			getInstance()->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPScript>(std::shared_ptr<T>(new T())));
 		}
 	private:
 		static CPPScriptRegistry* instance;
