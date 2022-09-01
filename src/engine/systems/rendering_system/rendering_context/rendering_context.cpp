@@ -26,6 +26,8 @@
 #include <string>
 #include <SDL_video.h>
 
+#include <scene/components/model_container.hpp>
+
 void Omnia::RenderingContext::initialize()
 {
 	Window& window = OS::getWindow();

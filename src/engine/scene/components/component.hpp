@@ -31,13 +31,14 @@
 #include <memory>
 #include <vector>
 #include <omnia_engine_api.hpp>
+#include <class_registry/registerable.hpp>
 
 namespace Omnia
 {
 	/* Base class for objects that store and manipulate 
 	   data relevant to individual Entities in a Scene.
 	   These are attached to Entities when added to a Scene.*/
-    class OMNIA_ENGINE_API Component
+    class OMNIA_ENGINE_API Component : public Registerable
     {
 	public:
 		enum class PropertyType
@@ -48,6 +49,8 @@ namespace Omnia
 			DOUBLE,
 			STRING
 		};
+
+		static constexpr const char* TYPE_STRING = "Component";
 
 		Component();
 
@@ -62,11 +65,7 @@ namespace Omnia
 		ComponentID getID();
 		EntityID getEntityID();
 		bool isAttachedToEntity();
-		std::string getType() const;
-		bool isType(std::string typeString);
 		virtual bool isRenderable();
-	protected:
-		std::string type;
 	private:
 		ComponentID id = 0;
 		EntityID entityID = 0;

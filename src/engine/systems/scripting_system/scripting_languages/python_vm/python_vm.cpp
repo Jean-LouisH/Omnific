@@ -28,7 +28,7 @@
 
 Omnia::PythonVM::PythonVM()
 {
-
+	this->type = TYPE_STRING;
 }
 
 Omnia::PythonVM::~PythonVM()

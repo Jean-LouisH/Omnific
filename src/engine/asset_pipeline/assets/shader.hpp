@@ -42,6 +42,11 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		Shader(std::string sourceFilepath, ShaderType type);
+
+		virtual Registerable* copy() override
+		{
+			return new Shader(*this);
+		}
 		void setSource(std::string source, ShaderType type);
 		std::string getSource();
 		ShaderType getType();

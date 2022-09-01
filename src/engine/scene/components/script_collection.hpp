@@ -39,6 +39,11 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "ScriptCollection";
 
 		std::vector<std::shared_ptr<Script>> scripts;
+
+		virtual Registerable* copy() override
+		{
+			return new ScriptCollection(*this);
+		}
 	private:
 	};
 }

@@ -113,6 +113,11 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
+
+		virtual Registerable* copy() override
+		{
+			return new GUI(*this);
+		}
 	private:
 		std::unordered_map<std::string, GUIPanel> guiPanels;
 	};

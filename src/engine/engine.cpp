@@ -26,13 +26,7 @@
 #include "asset_pipeline/assets/image.hpp"
 #include <iostream>
 
-#include "systems/animation_system/animation_system.hpp"
-#include "systems/audio_system/audio_system.hpp"
-#include "systems/haptic_system/haptic_system.hpp"
-#include "systems/physics_system/physics_system.hpp"
-#include "systems/rendering_system/rendering_system.hpp"
-#include "systems/scripting_system/scripting_system.hpp"
-#include "systems/gui_system/gui_system.hpp"
+#include <class_registry/class_registry.hpp>
 
 Omnia::Engine::Engine(
 	int argc, 
@@ -166,13 +160,11 @@ bool Omnia::Engine::initialize()
 {
 	bool isInitializedOK = false;
 
-	this->addSystem<AnimationSystem>();
-	this->addSystem<AudioSystem>();
-	this->addSystem<HapticSystem>();
-	this->addSystem<PhysicsSystem>();
-	this->addSystem<RenderingSystem>();
-	this->addSystem<ScriptingSystem>();
-	this->addSystem<GUISystem>();
+	ClassRegistry::initialize();
+
+	/* Load Systems from the ClassRegistry */
+	for (auto it : ClassRegistry::query<System>())
+		this->systems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(it.second->copy())));
 
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
@@ -216,9 +208,9 @@ void Omnia::Engine::queryInput()
 	input.detectGameControllers();
 	input.pollInputEvents();
 	if (input.hasRequestedShutdown())
-		this->state == State::FINALIZING;
+		this->state = State::FINALIZING;
 	if (input.hasRequestedRestart())
-		this->state == State::RESTARTING;
+		this->state = State::RESTARTING;
 }
 
 void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
@@ -275,9 +267,6 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		/* This calls the compute based Systems repeatedly until the accumulated
 		   lag milliseconds are depleted. This ensures compute operations
 		   are accurate to real-time, even when frames drop. */
-
-		this->getSystem<AnimationSystem>()->setMsPerComputeUpdate(msPerComputeUpdate);
-		this->getSystem<PhysicsSystem>()->setMsPerComputeUpdate(msPerComputeUpdate);
 
 		while (profiler.getLagCount() >= msPerComputeUpdate && this->isRunning())
 		{

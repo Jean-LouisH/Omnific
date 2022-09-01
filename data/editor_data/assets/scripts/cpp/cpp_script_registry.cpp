@@ -22,6 +22,7 @@
 
 #include "cpp_script_registry.hpp"
 #include "script_context.hpp"
+#include <scene/components/script_collection.hpp>
 
 Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::instance = nullptr;
 
@@ -39,7 +40,7 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 					if (registry->cppScriptDefinitions.count(script->getName()))
 						registry->cppScriptInstances.emplace(
 							script->getName() + std::to_string(scriptCollection->getEntityID()),
-							std::shared_ptr<CPPScript>(registry->cppScriptDefinitions.at(script->getName())->copy())
+							std::dynamic_pointer_cast<CPPScript>(std::shared_ptr<Registerable>(registry->cppScriptDefinitions.at(script->getName())->copy()))
 						);
 }
 

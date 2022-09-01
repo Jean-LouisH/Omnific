@@ -58,6 +58,11 @@ namespace Omnia
 		};
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
+
+		virtual Registerable* copy() override
+		{
+			return new Font(*this);
+		}
 		TTF_Font* getSDLTTFFont();
 	private:
 		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };

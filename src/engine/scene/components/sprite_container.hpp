@@ -47,6 +47,10 @@ namespace Omnia
 		bool isXBillboarded = false;
 		bool isYBillboarded = false;
 
+		virtual Registerable* copy() override
+		{
+			return new SpriteContainer(*this);
+		}
 		void addImage(std::shared_ptr<Image> image);
 		void addEmptyFrameSequence(std::string frameSequenceName);
 		void addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence);

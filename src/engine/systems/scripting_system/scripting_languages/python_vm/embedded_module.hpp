@@ -35,6 +35,8 @@
 #include <utilities/aliases.hpp>
 #include <memory>
 
+#include <class_registry/class_registry.hpp>
+
 PYBIND11_EMBEDDED_MODULE(omnia, m) 
 {
 	/*OS Classes*/

@@ -53,6 +53,10 @@ namespace Omnia
 		glm::vec3 snapDirection;
 		glm::vec3 upDirection;
 
+		virtual Registerable* copy() override
+		{
+			return new PhysicsBody(*this);
+		}
 		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);
 		void reload();
 	private:

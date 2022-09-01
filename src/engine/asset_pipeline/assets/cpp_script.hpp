@@ -38,7 +38,11 @@ namespace Omnia
         CPPScript(std::string filepath);
         ~CPPScript();
 
-        virtual CPPScript* copy();
+        virtual Registerable* copy() override
+        {
+            return new CPPScript(*this);
+        }
+
         virtual void onStart();
         virtual void onInput();
         virtual void onEarly();

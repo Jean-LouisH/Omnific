@@ -29,6 +29,8 @@
 #include <os/os.hpp>
 #include "asset_pipeline/asset_pipeline.hpp"
 
+#include <class_registry/class_registry.hpp>
+
 Omnia::SceneSerializer* Omnia::SceneSerializer::instance = nullptr;
 
 void Omnia::SceneSerializer::initialize(std::string dataDirectory)

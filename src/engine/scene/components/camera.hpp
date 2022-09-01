@@ -42,6 +42,11 @@ namespace Omnia
 			this->type = TYPE_STRING;
 			this->setViewportWidth(300);
 		};
+
+		virtual Registerable* copy() override
+		{
+			return new Camera(*this);
+		}
 		void addShader(std::shared_ptr<Shader> shader);
 		void resetAspect();
 		void toggleWireframeMode();

@@ -22,11 +22,18 @@
 
 #pragma once
 
+#include <class_registry/registerable.hpp>
+
 namespace Omnia
 {
-	class ScriptingLanguage
+	class ScriptingLanguage : public Registerable
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "ScriptingLanguage";
+		ScriptingLanguage()
+		{
+			this->type = TYPE_STRING;
+		};
 		virtual void initialize();
 		virtual void loadScriptInstances();
 		virtual void onStart();

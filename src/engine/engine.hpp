@@ -86,12 +86,6 @@ namespace Omnia
 		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
 		void finalize();
 
-		template <class T>
-		void addSystem()
-		{
-			this->systems.emplace(T::TYPE_STRING, std::static_pointer_cast<System>(std::shared_ptr<T>(new T())));
-		}
-
 		template<class T>
 		std::shared_ptr<T> getSystem()
 		{

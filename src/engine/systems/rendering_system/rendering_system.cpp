@@ -24,6 +24,11 @@
 #include <asset_pipeline/assets/shader.hpp>
 #include <asset_pipeline/assets/image.hpp>
 
+#include <os/os.hpp>
+#include <scene/components/camera.hpp>
+#include <scene/components/viewport.hpp>
+#include <scene/components/transform.hpp>
+
 Omnia::RenderingSystem::~RenderingSystem()
 {
 	this->finalize();

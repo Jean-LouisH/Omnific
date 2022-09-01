@@ -43,6 +43,10 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "ModelContainer";
 
+		virtual Registerable* copy() override
+		{
+			return new ModelContainer(*this);
+		}
 		void addModel(std::shared_ptr<Model> model);
 		void addCube();
 		void addTexturedCube(std::shared_ptr<Image> image);

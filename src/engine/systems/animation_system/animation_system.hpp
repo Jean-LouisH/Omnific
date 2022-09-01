@@ -40,12 +40,15 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "AnimationSystem";
 
-		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
+		virtual Registerable* copy() override
+		{
+			return new AnimationSystem(*this);
+		}
+
 		virtual void initialize() override;
 		virtual void onCompute(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
-		uint32_t msPerComputeUpdate = 8;
 		void updateSpriteContainers(std::shared_ptr<SceneTree> sceneTree);
 	};
 }

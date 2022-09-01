@@ -20,53 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "class_registry.hpp"
 
-#include "scene/scene.hpp"
-#include <SDL.h>
-#include <vector>
-#include <unordered_map>
-#include "systems/system.hpp"
-#include "os/input.hpp"
-#include <scene/haptic_signal_buffer.hpp>
-#include <utilities/hi_res_timer.hpp>
-#include <memory>
+Omnia::ClassRegistry* Omnia::ClassRegistry::instance = nullptr;
 
-namespace Omnia
+void Omnia::ClassRegistry::initialize()
 {
-	/* Processes HapticSignals from the HapticSignalBuffer in the Scene.*/
-	class HapticSystem : public System
-	{
-	public:
-		HapticSystem()
-		{
-			this->type = TYPE_STRING;
-			this->threadType = ThreadType::OUTPUT;
-		};
-
-		~HapticSystem();
-
-		static constexpr const char* TYPE_STRING = "HapticSystem";
-
-		virtual Registerable* copy() override
-		{
-			return new HapticSystem(*this);
-		}
-
-		virtual void initialize() override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
-		virtual void finalize() override;
-	private:
-		typedef struct HapticPlayback
-		{
-			HiResTimer timer;
-			uint16_t duration_ms;
-			bool isPlaying;
-		};
-		std::unordered_map<PlayerID, HapticPlayback> hapticPlaybacks;
-
-		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);
-		void stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics);
-	};
+	getInstance()->addClassDefinitions();
 }
 
+void Omnia::ClassRegistry::finalize()
+{
+
+}
+
+Omnia::ClassRegistry* Omnia::ClassRegistry::getInstance()
+{
+	if (instance == nullptr)
+		instance = new ClassRegistry();
+	return instance;
+}

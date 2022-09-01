@@ -52,6 +52,11 @@ namespace Omnia
 		std::shared_ptr<Material> material;
 		std::shared_ptr<Rig> rig;
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
+
+		virtual Registerable* copy() override
+		{
+			return new Model(*this);
+		}
 	private:
 		void load(std::string filepath, std::shared_ptr<Image> image);
 		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);

@@ -26,6 +26,7 @@
 Omnia::Component::Component()
 {
 	this->id = UIDGenerator::getNewUID();
+	this->type = TYPE_STRING;
 }
 
 Omnia::Component::PropertyType Omnia::Component::queryPropertyType(std::string propertyName)
@@ -71,16 +72,6 @@ Omnia::EntityID Omnia::Component::getEntityID()
 bool Omnia::Component::isAttachedToEntity()
 {
 	return this->getEntityID() != 0;
-}
-
-std::string Omnia::Component::getType() const
-{
-	return this->type;
-}
-
-bool Omnia::Component::isType(std::string typeString)
-{
-	return this->type == typeString;
 }
 
 bool Omnia::Component::isRenderable()

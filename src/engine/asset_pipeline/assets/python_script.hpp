@@ -36,6 +36,11 @@ namespace Omnia
         static constexpr const char* TYPE_STRING = "PythonScript";
 
         PythonScript(std::string filepath);
+
+        virtual Registerable* copy() override
+        {
+            return new PythonScript(*this);
+        }
     private:
     };
 }

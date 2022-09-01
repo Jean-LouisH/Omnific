@@ -46,6 +46,10 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "Transform";
 
+		virtual Registerable* copy() override
+		{
+			return new Transform(*this);
+		}
 		void globallyTranslateX(float offset);
 		void globallyTranslateY(float offset);
 		void globallyTranslateZ(float offset);

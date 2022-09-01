@@ -44,6 +44,11 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "AudioSource";
+
+		virtual Registerable* copy() override
+		{
+			return new AudioSource(*this);
+		}
 		void addAudioStream(std::shared_ptr<AudioStream> audioStream);
 		void queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count);
 		void queueAudioToPlay(std::string audioStreamName);

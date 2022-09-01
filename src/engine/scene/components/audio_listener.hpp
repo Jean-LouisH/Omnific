@@ -37,6 +37,11 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "AudioListener";
+
+		virtual Registerable* copy() override
+		{
+			return new AudioListener(*this);
+		}
 	private:
 	};
 }

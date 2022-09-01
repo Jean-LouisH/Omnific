@@ -34,6 +34,11 @@ namespace Omnia
             this->type = TYPE_STRING;
         };
         static constexpr const char* TYPE_STRING = "Script";
+
+        virtual Registerable* copy() override
+        {
+            return new Script(*this);
+        }
     private:
     };
 }

@@ -42,6 +42,12 @@ namespace Omnia
 		~AudioSystem();
 
 		static constexpr const char* TYPE_STRING = "AudioSystem";
+
+		virtual Registerable* copy() override
+		{
+			return new AudioSystem(*this);
+		}
+
 		virtual void initialize() override;
 		virtual void onLate(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;

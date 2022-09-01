@@ -43,6 +43,11 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "Light";
 
 		LightMode mode;
+
+		virtual Registerable* copy() override
+		{
+			return new Light(*this);
+		}
 	private:
 	};
 }

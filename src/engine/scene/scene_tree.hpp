@@ -37,31 +37,8 @@
 #include "collision_registry.hpp"
 #include "event_bus.hpp"
 
-#include <asset_pipeline/assets/audio_stream.hpp>
-#include "asset_pipeline/assets/cpp_script.hpp"
-#include <asset_pipeline/assets/font.hpp>
-#include <asset_pipeline/assets/image.hpp>
-#include <asset_pipeline/assets/material.hpp>
-#include <asset_pipeline/assets/mesh.hpp>
-#include "asset_pipeline/assets/python_script.hpp"
-#include <asset_pipeline/assets/rig.hpp>
-#include <asset_pipeline/assets/shader.hpp>
-#include <asset_pipeline/assets/text.hpp>
+#include <scene/components/transform.hpp>
 
-#include "components/sprite_container.hpp"
-#include "components/audio_listener.hpp"
-#include "components/audio_source.hpp"
-#include "components/camera.hpp"
-#include "components/collider.hpp"
-#include "components/timer.hpp"
-#include "components/physics_body.hpp"
-#include "components/light.hpp"
-#include "components/property_animation.hpp"
-#include "components/model_container.hpp"
-#include "components/script_collection.hpp"
-#include "components/transform.hpp"
-#include "components/gui.hpp"
-#include "components/viewport.hpp"
 #include <omnia_engine_api.hpp>
 
 #include <memory>

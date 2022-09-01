@@ -76,11 +76,6 @@ bool Omnia::System::getIsInitialized()
 	return this->isInitialized;
 }
 
-std::string Omnia::System::getType()
-{
-	return this->type;
-}
-
 bool Omnia::System::isThreadType(ThreadType threadType)
 {
 	return this->getThreadType() == threadType;

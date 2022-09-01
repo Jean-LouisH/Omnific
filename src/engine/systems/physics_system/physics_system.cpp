@@ -24,15 +24,16 @@
 #include "scene/scene.hpp"
 #include <utilities/constants.hpp>
 #include <os/os.hpp>
+#include <configuration.hpp>
+
+#include <scene/components/collider.hpp>
+#include <scene/components/physics_body.hpp>
+#include <scene/components/timer.hpp>
+
 
 Omnia::PhysicsSystem::~PhysicsSystem()
 {
 	this->finalize();
-}
-
-void Omnia::PhysicsSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
-{
-	this->secondsPerComputeUpdate = msPerComputeUpdate * (1.0 / MS_IN_S);
 }
 
 void Omnia::PhysicsSystem::initialize()
@@ -63,32 +64,40 @@ void Omnia::PhysicsSystem::finalize()
 
 void Omnia::PhysicsSystem::updateTimers(std::shared_ptr<SceneTree> sceneTree)
 {
+	const float secondsPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate * (1.0 / MS_IN_S);
+
 	for (std::shared_ptr<Timer> timer : sceneTree->getComponentsByType<Timer>())
-		timer->update(this->secondsPerComputeUpdate);
+		timer->update(secondsPerComputeUpdate);
 }
 
 void Omnia::PhysicsSystem::displace(std::shared_ptr<SceneTree> sceneTree)
 {
+	const float secondsPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate * (1.0 / MS_IN_S);
+
 	for (std::shared_ptr<PhysicsBody> physicsBody : sceneTree->getComponentsByType<PhysicsBody>())
-		this->displaceEntityTree(sceneTree, physicsBody->getEntityID(), physicsBody->linearVelocity * this->secondsPerComputeUpdate);
+		this->displaceEntityTree(sceneTree, physicsBody->getEntityID(), physicsBody->linearVelocity * secondsPerComputeUpdate);
 }
 
 void Omnia::PhysicsSystem::gravitate(std::shared_ptr<SceneTree> sceneTree)
 {
+	const float secondsPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate * (1.0 / MS_IN_S);
+
 	for (std::shared_ptr<PhysicsBody> physicsBody : sceneTree->getComponentsByType<PhysicsBody>())
 		if (physicsBody->isRigidBody)
-			physicsBody->linearVelocity.y -= physicsBody->gravityScale * EARTH_GRAVITY * this->secondsPerComputeUpdate;
+			physicsBody->linearVelocity.y -= physicsBody->gravityScale * EARTH_GRAVITY * secondsPerComputeUpdate;
 }
 
 void Omnia::PhysicsSystem::decelerate(std::shared_ptr<SceneTree> sceneTree)
 {
+	const float secondsPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate * (1.0 / MS_IN_S);
+
 	for (std::shared_ptr<PhysicsBody> physicsBody : sceneTree->getComponentsByType<PhysicsBody>())
 	{
 		if (physicsBody->isRigidBody)
 		{
-			physicsBody->linearVelocity.x *= pow(physicsBody->dragRatio.x, this->secondsPerComputeUpdate);
-			physicsBody->linearVelocity.y *= pow(physicsBody->dragRatio.y, this->secondsPerComputeUpdate);
-			physicsBody->linearVelocity.z *= pow(physicsBody->dragRatio.z, this->secondsPerComputeUpdate);
+			physicsBody->linearVelocity.x *= pow(physicsBody->dragRatio.x, secondsPerComputeUpdate);
+			physicsBody->linearVelocity.y *= pow(physicsBody->dragRatio.y, secondsPerComputeUpdate);
+			physicsBody->linearVelocity.z *= pow(physicsBody->dragRatio.z, secondsPerComputeUpdate);
 		}
 	}
 }

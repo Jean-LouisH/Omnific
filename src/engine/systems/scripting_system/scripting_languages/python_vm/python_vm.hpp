@@ -32,11 +32,15 @@
 #include "systems/scripting_system/scripting_languages/scripting_language.hpp"
 #include <memory>
 
+#include <scene/components/script_collection.hpp>
+
 namespace Omnia
 {
 	class PythonVM : public ScriptingLanguage
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "PythonVM";
+
 		PythonVM();
 		~PythonVM();
 		virtual void initialize() override;

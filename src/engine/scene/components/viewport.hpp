@@ -37,9 +37,14 @@ namespace Omnia
 		Viewport()
 		{
 			this->type = TYPE_STRING;
-			this->dimensions = OS::getWindow().getWindowSize();
+			this->dimensions = {800, 640};
 		};
 		static constexpr const char* TYPE_STRING = "Viewport";
+
+		virtual Registerable* copy() override
+		{
+			return new Viewport(*this);
+		}
 		EntityID getCameraEntityID();
 		Rectangle getDimensions();
 		void setCameraEntity(EntityID cameraEntityID);

@@ -22,15 +22,13 @@
 
 #include "animation_system.hpp"
 #include "scene/scene.hpp"
+#include <configuration.hpp>
+
+#include <scene/components/sprite_container.hpp>
 
 Omnia::AnimationSystem::~AnimationSystem()
 {
 	this->finalize();
-}
-
-void Omnia::AnimationSystem::setMsPerComputeUpdate(uint32_t msPerComputeUpdate)
-{
-	this->msPerComputeUpdate = msPerComputeUpdate;
 }
 
 void Omnia::AnimationSystem::initialize()
@@ -55,10 +53,11 @@ void Omnia::AnimationSystem::finalize()
 
 void Omnia::AnimationSystem::updateSpriteContainers(std::shared_ptr<SceneTree> sceneTree)
 {
+	const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
 	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = sceneTree->getComponentsByType<SpriteContainer>();
 
 	for (size_t i = 0; i < spriteContainers.size(); i++)
 	{
-		spriteContainers.at(i)->update(this->msPerComputeUpdate * 1.0 / MS_IN_S);
+		spriteContainers.at(i)->update(msPerComputeUpdate * 1.0 / MS_IN_S);
 	}
 }

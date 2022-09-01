@@ -30,6 +30,11 @@ namespace Omnia
     class CPPNative : public ScriptingLanguage
     {
     public:
+        static constexpr const char* TYPE_STRING = "CPPNative";
+        CPPNative()
+        {
+            this->type = TYPE_STRING;
+        };
         ~CPPNative();
         virtual void initialize() override;
         virtual void loadScriptInstances() override;

@@ -24,6 +24,7 @@
 
 #include "scene/scene.hpp"
 #include <memory>
+#include <class_registry/registerable.hpp>
 
 namespace Omnia
 {
@@ -35,16 +36,15 @@ namespace Omnia
 
     /* Base class for objects that process Scenes and
     their Component properties for updates or output.*/
-    class System
+    class System : public Registerable
     {
     public:
+        static constexpr const char* TYPE_STRING = "System";
         System()
         {
             this->type = TYPE_STRING;
         };
         ~System();
-
-        static constexpr const char* TYPE_STRING = "System";
 
         virtual void initialize();
         virtual void onStart(std::shared_ptr<Scene> scene);
@@ -57,12 +57,10 @@ namespace Omnia
         virtual void finalize();
         bool getIsInitialized();
 
-        std::string getType();
         bool isThreadType(ThreadType threadType);
         ThreadType getThreadType();
 
     protected:
-        std::string type;
         ThreadType threadType;
         bool isInitialized = false;
     private:

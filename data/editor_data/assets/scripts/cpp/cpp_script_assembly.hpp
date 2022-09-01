@@ -24,6 +24,7 @@
 
 #include <scene/scene_tree.hpp>
 #include <queue>
+#include <scene/components/script_collection.hpp>
 
 #if defined (_WIN32)
 #if defined(_OMNIA_CPP_SCRIPT_ASSEMBLY_EXPORTS)

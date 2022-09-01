@@ -39,6 +39,11 @@ namespace Omnia
 		};
 		~AudioStream();
 		AudioStream(std::string filepath, bool isMusic);
+
+		virtual Registerable* copy() override
+		{
+			return new AudioStream(*this);
+		}
 		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
 		std::shared_ptr<Mix_Music> getSDLMixMusic();
 		bool getIsMusic();

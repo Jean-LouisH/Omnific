@@ -40,13 +40,16 @@ namespace Omnia
 		~PhysicsSystem();
 		static constexpr const char* TYPE_STRING = "PhysicsSystem";
 
-		void setMsPerComputeUpdate(uint32_t msPerComputeUpdate);
+		virtual Registerable* copy() override
+		{
+			return new PhysicsSystem(*this);
+		}
+
 		virtual void initialize() override;
 		virtual void onCompute(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 		virtual void onLate(std::shared_ptr<Scene> scene);
 	private:
-		float secondsPerComputeUpdate = 0.008;
 
 		void updateTimers(std::shared_ptr<SceneTree> scene);
 		void displace(std::shared_ptr<SceneTree> scene);

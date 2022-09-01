@@ -25,6 +25,8 @@
 #include "script_context.hpp"
 #include "os/os.hpp"
 
+#include <scene/components/script_collection.hpp>
+
 void loadScriptInstances()
 {
 	Omnia::CPPScriptRegistry::loadScriptInstances();

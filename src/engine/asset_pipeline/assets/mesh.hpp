@@ -71,6 +71,11 @@ namespace Omnia
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
 
+		virtual Registerable* copy() override
+		{
+			return new Mesh(*this);
+		}
+
 		bool getIsIndexed();
 
 	private:

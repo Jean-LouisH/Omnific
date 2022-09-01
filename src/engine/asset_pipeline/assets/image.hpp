@@ -53,6 +53,11 @@ namespace Omnia
 		Image(std::shared_ptr<Colour> colour);
 		Image(uint8_t* data, int width, int height, int colourChannels);
 		Image(std::string filepath);
+
+		virtual Registerable* copy() override
+		{
+			return new Image(*this);
+		}
 		void* getData();
 		uint32_t getWidth();
 		uint32_t getHeight();

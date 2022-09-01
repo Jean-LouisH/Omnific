@@ -55,7 +55,7 @@ namespace Omnia
 			SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-			this->context = std::unique_ptr<RenderingContext>(new RenderingContext());
+			this->context = std::shared_ptr<RenderingContext>(new RenderingContext());
 			this->type = TYPE_STRING;
 			this->threadType = ThreadType::OUTPUT;
 		}
@@ -63,12 +63,17 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "RenderingSystem";
 
+		virtual Registerable* copy() override
+		{
+			return new RenderingSystem(*this);
+		}
+
 		virtual void initialize() override;
 		virtual void onLate(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 		std::string getRenderingContextName();
 	private:
-		std::unique_ptr<RenderingContext> context;
+		std::shared_ptr<RenderingContext> context;
 		std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
 
 		void onWindowResize();

@@ -41,6 +41,11 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "GUISystem";
 
+		virtual Registerable* copy() override
+		{
+			return new GUISystem(*this);
+		}
+
 		virtual void initialize() override;
 		virtual void onLogic(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;

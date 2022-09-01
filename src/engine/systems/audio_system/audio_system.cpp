@@ -23,6 +23,8 @@
 #include "audio_system.hpp"
 #include "audio_sdl/audio_sdl.hpp"
 
+#include <scene/components/audio_source.hpp>
+
 Omnia::AudioSystem::~AudioSystem()
 {
 	this->finalize();

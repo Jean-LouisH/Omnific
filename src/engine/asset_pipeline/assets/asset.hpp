@@ -26,20 +26,20 @@
 #include <string>
 #include <memory>
 #include <omnia_engine_api.hpp>
+#include <class_registry/registerable.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Asset
+	class OMNIA_ENGINE_API Asset : public Registerable
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "Asset";
+
 		Asset();
 		virtual ~Asset() = default;
 		AssetID getID();
 		void setName(std::string name);
 		std::string getName();
-		std::string getType() const;
-	protected:
-		std::string type;
 	private:
 		AssetID id = 0;
 		std::string name = "";

@@ -33,11 +33,6 @@ Omnia::CPPScript::~CPPScript()
 
 }
 
-Omnia::CPPScript* Omnia::CPPScript::copy()
-{
-	return new CPPScript(*this);
-}
-
 void Omnia::CPPScript::onStart()
 {
 
