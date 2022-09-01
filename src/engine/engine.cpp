@@ -26,7 +26,7 @@
 #include "asset_pipeline/assets/image.hpp"
 #include <iostream>
 
-#include <class_registry/class_registry.hpp>
+#include <customization/class_registry/class_registry.hpp>
 
 Omnia::Engine::Engine(
 	int argc, 

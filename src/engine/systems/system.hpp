@@ -24,7 +24,7 @@
 
 #include "scene/scene.hpp"
 #include <memory>
-#include <class_registry/registerable.hpp>
+#include <customization/class_registry/registerable.hpp>
 
 namespace Omnia
 {

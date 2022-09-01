@@ -29,7 +29,7 @@
 #include <os/os.hpp>
 #include "asset_pipeline/asset_pipeline.hpp"
 
-#include <class_registry/class_registry.hpp>
+#include <customization/class_registry/class_registry.hpp>
 
 Omnia::SceneSerializer* Omnia::SceneSerializer::instance = nullptr;
 
