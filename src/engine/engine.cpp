@@ -163,7 +163,7 @@ bool Omnia::Engine::initialize()
 	ClassRegistry::initialize();
 
 	/* Load Systems from the ClassRegistry */
-	for (auto it : ClassRegistry::query<System>())
+	for (auto it : ClassRegistry::queryAll<System>())
 		this->systems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(it.second->copy())));
 
 	if (this->state != State::RESTARTING)

@@ -29,34 +29,14 @@ Omnia::Component::Component()
 	this->type = TYPE_STRING;
 }
 
-Omnia::Component::PropertyType Omnia::Component::queryPropertyType(std::string propertyName)
-{
-	return Omnia::Component::PropertyType::NONE;
-}
-
-void Omnia::Component::loadBoolProperty(std::string propertyName, std::vector<bool> propertyValue)
-{
-
-}
-
-void Omnia::Component::loadIntProperty(std::string propertyName, std::vector<int> propertyValue)
-{
-
-}
-
-void Omnia::Component::loadDoubleProperty(std::string propertyName, std::vector<double> propertyValue)
-{
-
-}
-
-void Omnia::Component::loadStringProperty(std::string propertyName, std::vector<std::string> propertyValue)
-{
-
-}
-
 void Omnia::Component::setEntityID(EntityID entityID)
 {
 	this->entityID = entityID;
+}
+
+void Omnia::Component::deserializeProperties(YAML::Node yamlNode)
+{
+
 }
 
 Omnia::ComponentID Omnia::Component::getID()

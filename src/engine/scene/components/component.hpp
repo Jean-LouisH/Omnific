@@ -31,6 +31,7 @@
 #include <memory>
 #include <vector>
 #include <omnia_engine_api.hpp>
+#include <yaml-cpp/yaml.h>
 #include <customization/class_registry/registerable.hpp>
 
 namespace Omnia
@@ -41,26 +42,12 @@ namespace Omnia
     class OMNIA_ENGINE_API Component : public Registerable
     {
 	public:
-		enum class PropertyType
-		{
-			NONE,
-			BOOL,
-			INT,
-			DOUBLE,
-			STRING
-		};
-
 		static constexpr const char* TYPE_STRING = "Component";
 
 		Component();
 
-		virtual PropertyType queryPropertyType(std::string propertyName);
-		virtual void loadBoolProperty(std::string propertyName, std::vector<bool> propertyValue);
-		virtual void loadIntProperty(std::string propertyName, std::vector<int> propertyValue);
-		virtual void loadDoubleProperty(std::string propertyName, std::vector<double> propertyValue);
-		virtual void loadStringProperty(std::string propertyName, std::vector<std::string> propertyValue);
-
 		void setEntityID(EntityID entityID);
+		virtual void deserializeProperties(YAML::Node yamlNode);
 
 		ComponentID getID();
 		EntityID getEntityID();

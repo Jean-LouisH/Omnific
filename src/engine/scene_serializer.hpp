@@ -38,6 +38,7 @@ namespace Omnia
 		static std::shared_ptr<Scene> deserialize(std::string filepath);
 		static std::shared_ptr<Scene> deserialize(std::string filepath, std::string name);
 		static bool doesSceneExist(std::string filepath);
+		static std::string getDataDirectory();
 		static SceneSerializer* getInstance();
 	private:
 		static SceneSerializer* instance;

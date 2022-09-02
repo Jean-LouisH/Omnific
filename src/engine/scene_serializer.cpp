@@ -238,7 +238,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(countdownTimer);
 									sceneTree->addComponentToLastEntity(component);
 								}
-								else if (it2->first.as<std::string>() == ModelContainer::TYPE_STRING)
+								/*else if (it2->first.as<std::string>() == ModelContainer::TYPE_STRING)
 								{
 									std::shared_ptr<ModelContainer> modelContainer(new ModelContainer());
 
@@ -262,7 +262,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 
 									std::shared_ptr<Component> component = std::static_pointer_cast<Component>(modelContainer);
 									sceneTree->addComponentToLastEntity(component);
-								}
+								}*/
 								else if (it2->first.as<std::string>() == PropertyAnimation::TYPE_STRING)
 								{
 									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
@@ -427,41 +427,10 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 								}
 								else
 								{
-									/*Todo: Unified component property loading*/
-									std::shared_ptr<Component> component;
-
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										std::vector<bool> boolProperties;
-										std::vector<int> intProperties;
-										std::vector<double> doubleProperties;
-										std::vector<std::string> stringProperties;
-										std::string propertyName = it3->first.as<std::string>();
-
-										switch (component->queryPropertyType(propertyName))
-										{
-											case Component::PropertyType::BOOL:
-												for (int i = 0; i < it3->second.size(); i++)
-													boolProperties.push_back(it3->second[i].as<bool>());
-												component->loadBoolProperty(propertyName, boolProperties);
-												break;
-											case Component::PropertyType::INT:
-												for (int i = 0; i < it3->second.size(); i++)
-													intProperties.push_back(it3->second[i].as<int>());
-												component->loadIntProperty(propertyName, intProperties);
-												break;
-											case Component::PropertyType::DOUBLE:
-												for (int i = 0; i < it3->second.size(); i++)
-													doubleProperties.push_back(it3->second[i].as<double>());
-												component->loadDoubleProperty(propertyName, doubleProperties);
-												break;
-											case Component::PropertyType::STRING:
-												for (int i = 0; i < it3->second.size(); i++)
-													stringProperties.push_back(it3->second[i].as<std::string>());
-												component->loadStringProperty(propertyName, stringProperties);
-												break;
-										}
-									}
+									std::shared_ptr<Component> component = std::dynamic_pointer_cast<Component>(
+										std::shared_ptr<Registerable>(ClassRegistry::query<Component>(it2->first.as<std::string>())->copy()));
+									component->deserializeProperties(it2->second);
+									sceneTree->addComponentToLastEntity(component);
 								}
 							}
 						}
@@ -528,6 +497,11 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneSerializer::deserialize(std::string fi
 	}
 
 	return scene;
+}
+
+std::string Omnia::SceneSerializer::getDataDirectory()
+{
+	return getInstance()->dataDirectory;
 }
 
 Omnia::SceneSerializer* Omnia::SceneSerializer::getInstance()
