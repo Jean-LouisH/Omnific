@@ -22,24 +22,23 @@
 
 #pragma once
 
-#include <unordered_map>
-#include <string>
-#include <memory>
-#include "assets/asset.hpp"
-#include <omnia_engine_api.hpp>
+#include "scene/assets/asset.hpp"
 
 namespace Omnia
 {
-	class AssetCache
+	class OMNIA_ENGINE_API Rig : public Asset
 	{
 	public:
-		bool exists(std::string name);
-		void store(std::shared_ptr<Omnia::Asset>);
-		std::shared_ptr<Omnia::Asset> fetch(std::string name);
-		void deleteAsset(std::string filepath);
-		void deleteAllAssets();
-		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> getAssets();
+		Rig() 
+		{ 
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "Rig";
+
+		virtual Registerable* clone() override
+		{
+			return new Rig(*this);
+		}
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> assets;
 	};
 }

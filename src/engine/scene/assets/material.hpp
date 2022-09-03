@@ -22,28 +22,23 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/asset.hpp"
-#include <utilities/aliases.hpp>
-#include <string>
-#include <memory>
+#include "scene/assets/asset.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Text : public Asset
+	class OMNIA_ENGINE_API Material : public Asset
 	{
 	public:
-		Text()
-		{
+		Material() 
+		{ 
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Text";
-		Text(std::string filepath);
+		static constexpr const char* TYPE_STRING = "Material";
 
 		virtual Registerable* clone() override
 		{
-			return new Text(*this);
+			return new Material(*this);
 		}
 	private:
-		std::string data;
 	};
 }

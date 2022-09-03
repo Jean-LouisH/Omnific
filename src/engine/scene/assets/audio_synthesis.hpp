@@ -22,30 +22,23 @@
 
 #pragma once
 
-#include <unordered_map>
-#include <string>
-#include <memory>
-#include "assets/asset.hpp"
-#include "asset_cache.hpp"
-#include <omnia_engine_api.hpp>
+#include "scene/assets/asset.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AssetPipeline
+	class OMNIA_ENGINE_API AudioSynthesis : public Asset
 	{
 	public:
-		static AssetPipeline* getInstance();
+		AudioSynthesis()
+		{ 
+			this->type = TYPE_STRING; 
+		};
+		static constexpr const char* TYPE_STRING = "AudioSynthesis";
 
-		template<class T>
-		static std::shared_ptr<T> load(std::string filepath)
+		virtual Registerable* clone() override
 		{
-			std::shared_ptr<T> t(new T(filepath));
-			std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(t);
-			AssetPipeline::getInstance()->assetCache->store(asset);
-			return t;
+			return new AudioSynthesis(*this);
 		}
 	private:
-		static AssetPipeline* instance;
-		std::shared_ptr<AssetCache> assetCache;
 	};
 }

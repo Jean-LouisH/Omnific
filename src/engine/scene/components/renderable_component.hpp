@@ -23,8 +23,8 @@
 #pragma once
 
 #include "component.hpp"
-#include <asset_pipeline/assets/image.hpp>
-#include <asset_pipeline/assets/shader.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/shader.hpp>
 #include <memory>
 #include <glm/glm.hpp>
 #include <omnia_engine_api.hpp>

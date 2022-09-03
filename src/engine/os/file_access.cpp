@@ -35,6 +35,12 @@ void Omnia::FileAccess::setDataDirectory(std::string assetDirectory)
 	this->dataDirectory = assetDirectory;
 }
 
+std::shared_ptr<Omnia::Scene> Omnia::FileAccess::loadScene(std::string filepath)
+{
+	std::shared_ptr<Scene> scene;
+	return scene;
+}
+
 std::string Omnia::FileAccess::getExecutableFilePath()
 {
 	return this->executableFilepath;

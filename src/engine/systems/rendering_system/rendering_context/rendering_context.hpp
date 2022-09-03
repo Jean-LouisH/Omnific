@@ -28,8 +28,8 @@
 #include "shader_program.hpp"
 #include "texture.hpp"
 #include "vertex_array.hpp"
-#include <asset_pipeline/assets/image.hpp>
-#include <asset_pipeline/assets/shader.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/shader.hpp>
 #include <scene/scene.hpp>
 #include "../scene_tree_renderable.hpp"
 #include "utilities/aliases.hpp"

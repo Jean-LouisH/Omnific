@@ -22,23 +22,36 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/asset.hpp"
+#include <string>
+#include "scene/assets/asset.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API SkeletalAnimation : public Asset
+	class OMNIA_ENGINE_API Shader : public Asset
 	{
 	public:
-		SkeletalAnimation() 
+		enum class ShaderType
+		{
+			VERTEX,
+			FRAGMENT
+		};
+
+		static constexpr const char* TYPE_STRING = "Shader";
+		Shader() 
 		{ 
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "SkeletalAnimation";
+		Shader(std::string sourceFilepath, ShaderType type);
 
 		virtual Registerable* clone() override
 		{
-			return new SkeletalAnimation(*this);
+			return new Shader(*this);
 		}
+		void setSource(std::string source, ShaderType type);
+		std::string getSource();
+		ShaderType getType();
 	private:
+		std::string source;
+		ShaderType shaderType;
 	};
 }

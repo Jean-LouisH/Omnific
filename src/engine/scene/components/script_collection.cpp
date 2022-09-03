@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 #include "script_collection.hpp"
-#include <asset_pipeline/asset_pipeline.hpp>
-#include <asset_pipeline/assets/python_script.hpp>
-#include <asset_pipeline/assets/cpp_script.hpp>
+#include <scene/scene.hpp>
+#include <scene/assets/python_script.hpp>
+#include <scene/assets/cpp_script.hpp>
 
 void Omnia::ScriptCollection::deserialize(YAML::Node yamlNode)
 {
@@ -33,14 +33,14 @@ void Omnia::ScriptCollection::deserialize(YAML::Node yamlNode)
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				this->scripts.push_back(AssetPipeline::load<PythonScript>(it3->second[i].as<std::string>()));
+				this->scripts.push_back(OS::getFileAccess().loadAssetByType<PythonScript>(it3->second[i].as<std::string>()));
 			}
 		}
 		else if (it3->first.as<std::string>() == "cpp")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				this->scripts.push_back(AssetPipeline::load<CPPScript>(it3->second[i].as<std::string>()));
+				this->scripts.push_back(OS::getFileAccess().loadAssetByType<CPPScript>(it3->second[i].as<std::string>()));
 			}
 		}
 	}

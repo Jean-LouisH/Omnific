@@ -27,8 +27,8 @@
 #include <vector>
 #include <string>
 #include <scene/components/renderable_component.hpp>
-#include <asset_pipeline/assets/image.hpp>
-#include <asset_pipeline/assets/mesh.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/mesh.hpp>
 #include <memory>
 
 namespace Omnia

@@ -30,7 +30,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "asset_pipeline/assets/audio_stream.hpp"
+#include "scene/assets/audio_stream.hpp"
 #include "scene/components/component.hpp"
 
 

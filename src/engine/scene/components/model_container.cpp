@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "model_container.hpp"
-#include <asset_pipeline/asset_pipeline.hpp>
+#include <scene/scene.hpp>
 #include <os/os.hpp>
 
 void Omnia::ModelContainer::deserialize(YAML::Node yamlNode)
@@ -32,7 +32,7 @@ void Omnia::ModelContainer::deserialize(YAML::Node yamlNode)
 				if (it3->second[i].as<std::string>() == "Model::cube")
 					this->addCube();
 				else
-					this->addModel(AssetPipeline::load<Model>(OS::getFileAccess().getDataDirectoryPath() + it3->second[i].as<std::string>()));
+					this->addModel(OS::getFileAccess().loadAssetByType<Model>(it3->second[i].as<std::string>()));
 }
 
 void Omnia::ModelContainer::addModel(std::shared_ptr<Model> model)

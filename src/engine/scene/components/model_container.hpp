@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/image.hpp"
+#include "scene/assets/image.hpp"
 #include "scene/components/renderable_component.hpp"
 #include "scene/components/component.hpp"
 
-#include "asset_pipeline/assets/model.hpp"
+#include "scene/assets/model.hpp"
 #include <memory>
 #include <vector>
 #include <unordered_map>

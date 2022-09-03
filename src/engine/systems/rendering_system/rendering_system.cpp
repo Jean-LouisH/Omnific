@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "rendering_system.hpp"
-#include <asset_pipeline/assets/shader.hpp>
-#include <asset_pipeline/assets/image.hpp>
+#include <scene/assets/shader.hpp>
+#include <scene/assets/image.hpp>
 
 #include <os/os.hpp>
 #include <scene/components/camera.hpp>

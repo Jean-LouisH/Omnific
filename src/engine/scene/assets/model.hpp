@@ -22,23 +22,45 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/asset.hpp"
+#include "scene/assets/asset.hpp"
+#include "mesh.hpp"
+#include "material.hpp"
+#include "image.hpp"
+#include "skeletal_animation.hpp"
+#include "rig.hpp"
+
+#include <tiny_gltf.h>
+#include <string>
+#include <memory>
+#include <vector>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Rig : public Asset
+	class OMNIA_ENGINE_API Model : public Asset
 	{
 	public:
-		Rig() 
+		Model()
 		{ 
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Rig";
+		Model(std::string filepath);
+		Model(std::string filepath, std::shared_ptr<Image> image);
+		static constexpr const char* TYPE_STRING = "Model";
+
+		std::shared_ptr<Mesh> mesh;
+		std::shared_ptr<Image> image;
+		std::shared_ptr<Material> material;
+		std::shared_ptr<Rig> rig;
+		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 
 		virtual Registerable* clone() override
 		{
-			return new Rig(*this);
+			return new Model(*this);
 		}
 	private:
+		void load(std::string filepath, std::shared_ptr<Image> image);
+		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
+		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName);
+		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
 	};
 }

@@ -20,40 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "asset_cache.hpp"
+#pragma once
 
-bool Omnia::AssetCache::exists(std::string name)
+#include "scene/assets/asset.hpp"
+#include <utilities/aliases.hpp>
+#include <string>
+#include <memory>
+
+namespace Omnia
 {
-	return this->assets.count(name) > 0;
-}
+	class OMNIA_ENGINE_API Text : public Asset
+	{
+	public:
+		Text()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "Text";
+		Text(std::string filepath);
 
-void Omnia::AssetCache::store(std::shared_ptr<Omnia::Asset> asset)
-{
-	if (!this->assets.count(asset->getName()))
-		this->assets.emplace(asset->getName(), asset);
-}
-
-std::shared_ptr<Omnia::Asset> Omnia::AssetCache::fetch(std::string name)
-{
-	std::shared_ptr<Asset> asset;
-
-	if (this->assets.count(name) != 0)
-		asset = this->assets.at(name);
-
-	return asset;
-}
-
-void Omnia::AssetCache::deleteAsset(std::string filepath)
-{
-	this->assets.erase(filepath);
-}
-
-void Omnia::AssetCache::deleteAllAssets()
-{
-	this->assets.clear();
-}
-
-std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> Omnia::AssetCache::getAssets()
-{
-	return this->assets;
+		virtual Registerable* clone() override
+		{
+			return new Text(*this);
+		}
+	private:
+		std::string data;
+	};
 }

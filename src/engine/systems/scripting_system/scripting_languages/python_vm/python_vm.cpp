@@ -61,7 +61,7 @@ void Omnia::PythonVM::loadScriptInstances()
 		{
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
 			{
-				std::string scriptFilepath = script->getName();
+				std::string scriptFilepath = OS::getFileAccess().getDataDirectoryPath() + script->getName();
 
 				if (script->getType() == Omnia::PythonScript::TYPE_STRING)
 				{

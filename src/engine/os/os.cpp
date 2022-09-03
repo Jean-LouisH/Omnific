@@ -34,7 +34,7 @@ bool Omnia::OS::initialize(
 	uint16_t height, 
 	bool isFullscreen, 
 	std::string renderingContext,
-	std::vector<std::string> args)
+	std::vector<std::string> commandLineArguments)
 {
 	OS* newInstance = getInstance();
 	bool isSuccessful = false;
@@ -47,7 +47,7 @@ bool Omnia::OS::initialize(
 		newInstance->logger = std::unique_ptr<Logger>(new Logger());
 		newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
 		newInstance->input = std::unique_ptr<Input>(new Input());
-		newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(args[0]));
+		newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(commandLineArguments[0]));
 		newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 		newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
 		newInstance->platform = std::unique_ptr<Platform>(new Platform());
@@ -58,7 +58,7 @@ bool Omnia::OS::initialize(
 		if (TTF_Init() == -1)
 			printf("TTF_Init: %s\n", TTF_GetError());
 
-		newInstance->args = args;
+		newInstance->commandLineArguments = commandLineArguments;
 	}
 	else
 	{
@@ -151,7 +151,7 @@ Omnia::HiResTimer& Omnia::OS::getRunTimer()
 
 std::vector<std::string> Omnia::OS::getArgs()
 {
-	return getInstance()->args;
+	return getInstance()->commandLineArguments;
 }
 
 void Omnia::OS::addGameControllerMappings(std::string mappingFilepath)

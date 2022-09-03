@@ -22,20 +22,20 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/asset.hpp"
+#include "scene/assets/asset.hpp"
 
 // Headers for derived scripts
 ///////////////////////////////////////////////////////////
 #include <script_context.hpp>
 
-#include <asset_pipeline/assets/audio_stream.hpp>
-#include <asset_pipeline/assets/font.hpp>
-#include <asset_pipeline/assets/image.hpp>
-#include <asset_pipeline/assets/material.hpp>
-#include <asset_pipeline/assets/mesh.hpp>
-#include <asset_pipeline/assets/rig.hpp>
-#include <asset_pipeline/assets/shader.hpp>
-#include <asset_pipeline/assets/text.hpp>
+#include <scene/assets/audio_stream.hpp>
+#include <scene/assets/font.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/material.hpp>
+#include <scene/assets/mesh.hpp>
+#include <scene/assets/rig.hpp>
+#include <scene/assets/shader.hpp>
+#include <scene/assets/text.hpp>
 
 #include "scene/components/audio_listener.hpp"
 #include "scene/components/audio_source.hpp"

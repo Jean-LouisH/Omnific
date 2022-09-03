@@ -22,23 +22,57 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/asset.hpp"
+#include "stb_image.h"
+#include "stb_image_write.h"
+
+#include "utilities/aliases.hpp"
+#include "utilities/rectangle.hpp"
+#include <SDL_surface.h>
+#include <SDL_render.h>
+#include <stdint.h>
+#include "scene/assets/asset.hpp"
+#include "font.hpp"
+#include "utilities/rectangle.hpp"
+#include <string>
+#include "utilities/colour.hpp"
+#include "font.hpp"
+#include <string>
+#include <memory>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AudioSynthesis : public Asset
+	class OMNIA_ENGINE_API Image : public Asset
 	{
 	public:
-		AudioSynthesis()
+		static constexpr const char* TYPE_STRING = "Image";
+		Image() 
 		{ 
-			this->type = TYPE_STRING; 
+			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AudioSynthesis";
+		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
+		Image(std::shared_ptr<Colour> colour);
+		Image(uint8_t* data, int width, int height, int colourChannels);
+		Image(std::string filepath);
 
 		virtual Registerable* clone() override
 		{
-			return new AudioSynthesis(*this);
+			return new Image(*this);
 		}
+		void* getData();
+		uint32_t getWidth();
+		uint32_t getHeight();
+		uint32_t getDepth();
+		uint32_t getPitch();
+		Rectangle getDimensions();
+		uint8_t getBytesPerPixel();
 	private:
+		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
+		int width = 0;
+		int height = 0;
+		int colourChannels = 0;
+
+		void colourPixel(uint32_t fillColour, int x, int y);
+		void setToDefault();
+		void setToParameters(int colourChannels, int width, int height, uint8_t* data);
 	};
 }

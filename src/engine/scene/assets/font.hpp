@@ -22,36 +22,49 @@
 
 #pragma once
 
+#include "scene/assets/asset.hpp"
+#include "stdint.h"
+#include <utilities/aliases.hpp>
 #include <string>
-#include "asset_pipeline/assets/asset.hpp"
+#include <memory>
+#include <SDL_ttf.h>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Shader : public Asset
+	class OMNIA_ENGINE_API Font : public Asset
 	{
 	public:
-		enum class ShaderType
+		enum class Style
 		{
-			VERTEX,
-			FRAGMENT
+			NORMAL,
+			BOLD,
+			ITALIC,
+			UNDERLINE,
+			STRIKETHROUGH
 		};
 
-		static constexpr const char* TYPE_STRING = "Shader";
-		Shader() 
+		enum class RenderMode
+		{
+			SOLID,
+			SHADED,
+			BLENDED
+		};
+
+		static constexpr const char* TYPE_STRING = "Font";
+
+		Font() 
 		{ 
 			this->type = TYPE_STRING;
 		};
-		Shader(std::string sourceFilepath, ShaderType type);
+		Font(std::string filepath, uint16_t size_px);
+		Font(TTF_Font* font);
 
 		virtual Registerable* clone() override
 		{
-			return new Shader(*this);
+			return new Font(*this);
 		}
-		void setSource(std::string source, ShaderType type);
-		std::string getSource();
-		ShaderType getType();
+		TTF_Font* getSDLTTFFont();
 	private:
-		std::string source;
-		ShaderType shaderType;
+		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
 	};
 }

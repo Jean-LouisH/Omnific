@@ -22,22 +22,22 @@
 
 #pragma once
 
-#include "asset_pipeline/assets/asset.hpp"
+#include "scene/assets/asset.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Material : public Asset
+	class OMNIA_ENGINE_API SkeletalAnimation : public Asset
 	{
 	public:
-		Material() 
+		SkeletalAnimation() 
 		{ 
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Material";
+		static constexpr const char* TYPE_STRING = "SkeletalAnimation";
 
 		virtual Registerable* clone() override
 		{
-			return new Material(*this);
+			return new SkeletalAnimation(*this);
 		}
 	private:
 	};

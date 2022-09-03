@@ -25,7 +25,7 @@
 
 #include <utilities/aliases.hpp>
 #include <utilities/constants.hpp>
-#include <asset_pipeline/assets/image.hpp>
+#include <scene/assets/image.hpp>
 #include <string>
 #include <unordered_map>
 #include <memory>

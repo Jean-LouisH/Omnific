@@ -75,7 +75,7 @@ namespace Omnia
 	private:
 		static OS* instance;
 
-		std::vector<std::string> args;
+		std::vector<std::string> commandLineArguments;
 
 		std::unique_ptr<DynamicLinkLibraryAccess> dllAccess;
 		std::unique_ptr<HiResTimer> runTimer;

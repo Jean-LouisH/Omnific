@@ -23,7 +23,7 @@
 #include "engine.hpp"
 #include <thread>
 #include "utilities/constants.hpp"
-#include "asset_pipeline/assets/image.hpp"
+#include "scene/assets/image.hpp"
 #include <iostream>
 
 #include <customization/class_registry/class_registry.hpp>
@@ -170,10 +170,10 @@ bool Omnia::Engine::initialize()
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
 
-	std::vector<std::string> args;
+	std::vector<std::string> commandLineArguments;
 
 	for (int i = 0; i < this->argc; i++)
-		args.push_back(this->argv[i]);
+		commandLineArguments.push_back(this->argv[i]);
 
 	/* Hardware abstraction layer initialization. */
 	isInitializedOK = OS::initialize(
@@ -182,7 +182,7 @@ bool Omnia::Engine::initialize()
 		480, 
 		false, 
 		this->getSystem<RenderingSystem>()->getRenderingContextName(),
-		args);
+		commandLineArguments);
 
 	if (isInitializedOK)
 	{

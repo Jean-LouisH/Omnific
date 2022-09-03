@@ -24,6 +24,9 @@
 
 #include <string>
 #include <omnia_engine_api.hpp>
+#include <scene/scene.hpp>
+#include <scene/assets/asset.hpp>
+#include <memory>
 
 namespace Omnia
 {
@@ -32,6 +35,7 @@ namespace Omnia
 	public:
 		FileAccess(std::string executableFilepath);
 		void setDataDirectory(std::string assetDirectory);
+		std::shared_ptr<Scene> loadScene(std::string filepath);
 		std::string getExecutableFilePath();
 		std::string getExecutableName();
 		std::string getExecutableDirectoryPath();
@@ -39,8 +43,29 @@ namespace Omnia
 		std::string getFileNameWithoutExtension(std::string filepath);
 		std::string getPathBeforeFile(std::string filepath);
 		bool exists(std::string filepath);
+
+		template <class DerivedAsset>
+		std::shared_ptr<DerivedAsset> loadAssetByType(std::string filepath)
+		{
+			std::shared_ptr<DerivedAsset> derivedAsset;
+
+			if (this->assets.count(filepath) != 0)
+			{
+				derivedAsset = std::dynamic_pointer_cast<DerivedAsset>(this->assets.at(filepath));
+			}
+			else
+			{
+				derivedAsset = std::shared_ptr<DerivedAsset>(new DerivedAsset(this->getDataDirectoryPath() + filepath));
+				std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(derivedAsset);
+				if (!this->assets.count(asset->getName()))
+					this->assets.emplace(asset->getName(), asset);
+			}
+
+			return derivedAsset;
+		}
 	private:
 		std::string executableFilepath;
 		std::string dataDirectory;
+		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> assets;
 	};
 }

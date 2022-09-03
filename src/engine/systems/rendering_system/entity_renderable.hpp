@@ -27,10 +27,10 @@
 #include "scene/components/renderable_component.hpp"
 
 #include <scene/components/camera.hpp>
-#include <asset_pipeline/assets/image.hpp>
-#include <asset_pipeline/assets/material.hpp>
-#include <asset_pipeline/assets/mesh.hpp>
-#include <asset_pipeline/assets/shader.hpp>
+#include <scene/assets/image.hpp>
+#include <scene/assets/material.hpp>
+#include <scene/assets/mesh.hpp>
+#include <scene/assets/shader.hpp>
 #include <glm/glm.hpp>
 #include <memory>
 
