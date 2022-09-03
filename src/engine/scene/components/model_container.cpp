@@ -24,7 +24,7 @@
 #include <asset_pipeline/asset_pipeline.hpp>
 #include <scene_serializer.hpp>
 
-void Omnia::ModelContainer::deserializeProperties(YAML::Node yamlNode)
+void Omnia::ModelContainer::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 		if (it3->first.as<std::string>() == "models")

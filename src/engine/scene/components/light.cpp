@@ -21,3 +21,8 @@
 // SOFTWARE.
 
 #include "light.hpp"
+
+void Omnia::Light::deserialize(YAML::Node yamlNode)
+{
+
+}

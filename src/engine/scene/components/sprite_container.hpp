@@ -51,6 +51,7 @@ namespace Omnia
 		{
 			return new SpriteContainer(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void addImage(std::shared_ptr<Image> image);
 		void addEmptyFrameSequence(std::string frameSequenceName);
 		void addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence);

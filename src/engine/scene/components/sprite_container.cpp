@@ -21,6 +21,37 @@
 // SOFTWARE.
 
 #include "sprite_container.hpp"
+#include <asset_pipeline/asset_pipeline.hpp>
+#include <scene_serializer.hpp>
+
+void Omnia::SpriteContainer::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "image")
+		{
+			if (it3->second.as<std::string>() == "Image::default")
+			{
+				this->addImage(AssetPipeline::load<Image>(it3->second.as<std::string>()));
+			}
+			else
+			{
+				this->addImage(AssetPipeline::load<Image>(SceneSerializer::getDataDirectory() + it3->second.as<std::string>()));
+			}
+		}
+		else if (it3->first.as<std::string>() == "dimensions")
+		{
+			this->setDimensions(
+				it3->second[0].as<double>(),
+				it3->second[1].as<double>(),
+				it3->second[2].as<double>());
+		}
+		else if (it3->first.as<std::string>() == "alpha")
+		{
+			this->setAlpha((uint8_t)(it3->second.as<double>() * 255.0));
+		}
+	}
+}
 
 void Omnia::SpriteContainer::addImage(std::shared_ptr<Image> image)
 {

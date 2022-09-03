@@ -22,6 +22,21 @@
 
 #include "physics_body.hpp"
 
+void Omnia::PhysicsBody::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "default")
+		{
+
+		}
+		else if (it3->first.as<std::string>() == "")
+		{
+
+		}
+	}
+}
+
 void Omnia::PhysicsBody::move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection)
 {
 	this->linearVelocity = linearVelocity;

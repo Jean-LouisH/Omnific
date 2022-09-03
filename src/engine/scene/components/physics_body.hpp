@@ -57,6 +57,7 @@ namespace Omnia
 		{
 			return new PhysicsBody(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);
 		void reload();
 	private:

@@ -45,12 +45,13 @@ namespace Omnia
 		{
 			return new Viewport(*this);
 		}
-		EntityID getCameraEntityID();
+		virtual void deserialize(YAML::Node yamlNode);
+		std::string getCameraEntityName();
 		Rectangle getDimensions();
-		void setCameraEntity(EntityID cameraEntityID);
+		void setCameraEntityName(std::string cameraEntityName);
 		void setDimensions(uint32_t width, uint32_t height);
 	private:
 		Rectangle dimensions;
-		EntityID cameraEntityID = 0;
+		std::string cameraEntityName;
 	};
 }

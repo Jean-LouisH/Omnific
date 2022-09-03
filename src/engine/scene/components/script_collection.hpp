@@ -44,6 +44,7 @@ namespace Omnia
 		{
 			return new ScriptCollection(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 	private:
 	};
 }

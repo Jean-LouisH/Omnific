@@ -25,6 +25,35 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <os/os.hpp>
 
+void Omnia::Camera::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "viewport_px")
+		{
+			this->setViewportHeight(it3->second[1].as<double>());
+			this->setViewportWidth(it3->second[0].as<double>());
+		}
+		else if (it3->first.as<std::string>() == "limits_px")
+		{
+			this->setLimits(
+				it3->second[0].as<double>(),
+				it3->second[1].as<double>(),
+				it3->second[2].as<double>(),
+				it3->second[3].as<double>()
+			);
+		}
+		else if (it3->first.as<std::string>() == "keepAspect")
+		{
+			this->setKeepAspect(it3->second.as<bool>());
+		}
+		else if (it3->first.as<std::string>() == "isStreaming")
+		{
+			this->setIsStreaming(it3->second.as<bool>());
+		}
+	}
+}
+
 void Omnia::Camera::addShader(std::shared_ptr<Omnia::Shader> shader)
 {
 	this->shaders.push_back(shader);

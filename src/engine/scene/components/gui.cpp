@@ -22,6 +22,7 @@
 
 #include "gui.hpp"
 
+
 void Omnia::GUIText::setText(std::string text)
 {
 	if (text != this->text)
@@ -111,5 +112,34 @@ void Omnia::GUIText::generateImage()
 		{
 			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->mode));
 		}
+	}
+}
+
+void Omnia::GUI::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		//if (it3->first.as<std::string>() == "text")
+		//{
+		//	this->setText(it3->second.as<std::string>());
+		//}
+		//else if (it3->first.as<std::string>() == "font")
+		//{
+		//	std::shared_ptr<Omnia::Font> font(new Font(
+		//		this->dataDirectory + it3->second[0].as<std::string>(),
+		//		it3->second[1].as<int>()));
+		//	std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
+		//	AssetCache::store(asset);
+		//	this->setFont(font, it3->second[1].as<int>());
+		//}
+		//else if (it3->first.as<std::string>() == "colour")
+		//{
+		//	this->setColour(
+		//		it3->second[0].as<int>(),
+		//		it3->second[1].as<int>(),
+		//		it3->second[2].as<int>(),
+		//		it3->second[3].as<int>()
+		//	);
+		//}
 	}
 }

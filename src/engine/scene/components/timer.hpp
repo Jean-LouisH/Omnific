@@ -42,6 +42,7 @@ namespace Omnia
 		{
 			return new Timer(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void start(float time);
 		void update(float deltaTime);
 		void stop();

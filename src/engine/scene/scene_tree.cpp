@@ -253,7 +253,10 @@ std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID com
 	{
 		std::shared_ptr<Component> currentComponent = this->components.at(i);
 		if (currentComponent->getID() == componentID)
+		{
 			component = currentComponent;
+			break;
+		}
 	}
 
 	return component;

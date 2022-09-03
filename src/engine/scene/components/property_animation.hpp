@@ -55,6 +55,7 @@ namespace Omnia
 		{
 			return new PropertyAnimation(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 	private:
 	};
 }

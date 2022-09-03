@@ -48,6 +48,7 @@ namespace Omnia
 		{
 			return new Light(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 	private:
 	};
 }

@@ -22,6 +22,17 @@
 
 #include "timer.hpp"
 
+void Omnia::Timer::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "")
+		{
+
+		}
+	}
+}
+
 void Omnia::Timer::start(float time)
 {
 	this->startTime = time;

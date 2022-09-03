@@ -22,6 +22,21 @@
 
 #include "audio_source.hpp"
 
+void Omnia::AudioSource::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "default")
+		{
+
+		}
+		else if (it3->first.as<std::string>() == "")
+		{
+
+		}
+	}
+}
+
 void Omnia::AudioSource::addAudioStream(std::shared_ptr<AudioStream> audioStream)
 {
 	this->audioStreams.emplace(audioStream->getName(), audioStream);

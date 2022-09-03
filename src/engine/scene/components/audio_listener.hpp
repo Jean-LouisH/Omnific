@@ -42,6 +42,7 @@ namespace Omnia
 		{
 			return new AudioListener(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 	private:
 	};
 }

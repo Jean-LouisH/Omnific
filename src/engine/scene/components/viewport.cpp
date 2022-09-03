@@ -22,14 +22,25 @@
 
 #include "viewport.hpp"
 
-Omnia::EntityID Omnia::Viewport::getCameraEntityID()
+void Omnia::Viewport::deserialize(YAML::Node yamlNode)
 {
-	return this->cameraEntityID;
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "camera_entity")
+		{
+			this->setCameraEntityName(it3->second.as<std::string>());
+		}
+	}
 }
 
-void Omnia::Viewport::setCameraEntity(EntityID cameraEntityID)
+std::string Omnia::Viewport::getCameraEntityName()
 {
-	this->cameraEntityID = cameraEntityID;
+	return this->cameraEntityName;
+}
+
+void Omnia::Viewport::setCameraEntityName(std::string cameraEntityName)
+{
+	this->cameraEntityName = cameraEntityName;
 }
 
 Omnia::Rectangle Omnia::Viewport::getDimensions()

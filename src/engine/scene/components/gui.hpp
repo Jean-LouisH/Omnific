@@ -118,6 +118,7 @@ namespace Omnia
 		{
 			return new GUI(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 	private:
 		std::unordered_map<std::string, GUIPanel> guiPanels;
 	};

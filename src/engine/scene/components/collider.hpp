@@ -74,6 +74,7 @@ namespace Omnia
 		{
 			return new Collider(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void setDimensions(float width, float height, float depth);
 		void setColliderType(ColliderType colliderType);
 		bool isColliderType(ColliderType colliderType);

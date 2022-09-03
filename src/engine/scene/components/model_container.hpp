@@ -47,7 +47,7 @@ namespace Omnia
 		{
 			return new ModelContainer(*this);
 		}
-		virtual void deserializeProperties(YAML::Node yamlNode);
+		virtual void deserialize(YAML::Node yamlNode);
 		void addModel(std::shared_ptr<Model> model);
 		void addCube();
 		void addTexturedCube(std::shared_ptr<Image> image);

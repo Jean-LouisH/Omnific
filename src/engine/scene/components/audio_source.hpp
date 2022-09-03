@@ -49,6 +49,7 @@ namespace Omnia
 		{
 			return new AudioSource(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void addAudioStream(std::shared_ptr<AudioStream> audioStream);
 		void queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count);
 		void queueAudioToPlay(std::string audioStreamName);

@@ -50,6 +50,7 @@ namespace Omnia
 		{
 			return new Transform(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void globallyTranslateX(float offset);
 		void globallyTranslateY(float offset);
 		void globallyTranslateZ(float offset);

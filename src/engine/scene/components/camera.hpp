@@ -40,13 +40,14 @@ namespace Omnia
 		Camera()
 		{
 			this->type = TYPE_STRING;
-			this->setViewportWidth(300);
+			this->setViewportHeight(480);
 		};
 
 		virtual Registerable* copy() override
 		{
 			return new Camera(*this);
 		}
+		virtual void deserialize(YAML::Node yamlNode);
 		void addShader(std::shared_ptr<Shader> shader);
 		void resetAspect();
 		void toggleWireframeMode();
