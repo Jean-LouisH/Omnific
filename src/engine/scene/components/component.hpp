@@ -47,14 +47,12 @@ namespace Omnia
 		Component();
 
 		void setEntityID(EntityID entityID);
-		virtual void deserializeProperties(YAML::Node yamlNode);
+		virtual void deserialize(YAML::Node yamlNode);
 
-		ComponentID getID();
 		EntityID getEntityID();
 		bool isAttachedToEntity();
 		virtual bool isRenderable();
 	private:
-		ComponentID id = 0;
 		EntityID entityID = 0;
     };
 }

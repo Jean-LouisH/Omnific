@@ -25,7 +25,6 @@
 
 Omnia::Component::Component()
 {
-	this->id = UIDGenerator::getNewUID();
 	this->type = TYPE_STRING;
 }
 
@@ -34,14 +33,9 @@ void Omnia::Component::setEntityID(EntityID entityID)
 	this->entityID = entityID;
 }
 
-void Omnia::Component::deserializeProperties(YAML::Node yamlNode)
+void Omnia::Component::deserialize(YAML::Node yamlNode)
 {
 
-}
-
-Omnia::ComponentID Omnia::Component::getID()
-{
-	return this->id;
 }
 
 Omnia::EntityID Omnia::Component::getEntityID()

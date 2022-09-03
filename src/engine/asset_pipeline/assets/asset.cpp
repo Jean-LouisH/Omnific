@@ -25,14 +25,8 @@
 
 Omnia::Asset::Asset()
 {
-	this->id = UIDGenerator::getNewUID();
 	this->name = "Asset (ID:" + std::to_string(this->id) + ")";
 	this->type = TYPE_STRING;
-}
-
-Omnia::AssetID Omnia::Asset::getID()
-{
-	return this->id;
 }
 
 void Omnia::Asset::setName(std::string name)

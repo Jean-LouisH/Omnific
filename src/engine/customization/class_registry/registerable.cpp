@@ -21,15 +21,28 @@
 // SOFTWARE.
 
 #include "registerable.hpp"
+#include <uid_generator.hpp>
+
+Omnia::Registerable::Registerable()
+{
+	this->id = UIDGenerator::getNewUID();
+}
 
 Omnia::Registerable* Omnia::Registerable::copy()
 {
-	return new Registerable(*this);
+	Registerable* clone = new Registerable(*this);
+	clone->id = UIDGenerator::getNewUID();
+	return clone;
 }
 
 std::string Omnia::Registerable::getType()
 {
 	return this->type;
+}
+
+Omnia::UID Omnia::Registerable::getID()
+{
+	return this->id;
 }
 
 bool Omnia::Registerable::isType(std::string typeString)

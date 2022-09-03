@@ -23,6 +23,7 @@
 #pragma once
 
 #include <string>
+#include <utilities/aliases.hpp>
 #include <omnia_engine_api.hpp>
 
 namespace Omnia
@@ -30,10 +31,13 @@ namespace Omnia
 	class OMNIA_ENGINE_API Registerable
 	{
 	public:
+		Registerable();
 		virtual Registerable* copy();
 		std::string getType();
+		UID getID();
 		bool isType(std::string typeString);
 	protected:
+		UID id = 0;
 		std::string type;
 	private:
 	};
