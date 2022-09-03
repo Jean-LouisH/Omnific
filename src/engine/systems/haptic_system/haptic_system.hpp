@@ -48,7 +48,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "HapticSystem";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new HapticSystem(*this);
 		}

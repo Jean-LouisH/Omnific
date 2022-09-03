@@ -37,7 +37,7 @@ namespace Omnia
 
         PythonScript(std::string filepath);
 
-        virtual Registerable* copy() override
+        virtual Registerable* clone() override
         {
             return new PythonScript(*this);
         }

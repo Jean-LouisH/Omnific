@@ -44,7 +44,7 @@ namespace Omnia
 
 		LightMode mode;
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Light(*this);
 		}

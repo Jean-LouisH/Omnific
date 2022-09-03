@@ -47,7 +47,7 @@ namespace Omnia
 		bool isXBillboarded = false;
 		bool isYBillboarded = false;
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new SpriteContainer(*this);
 		}

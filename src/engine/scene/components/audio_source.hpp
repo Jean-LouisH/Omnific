@@ -45,7 +45,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "AudioSource";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new AudioSource(*this);
 		}

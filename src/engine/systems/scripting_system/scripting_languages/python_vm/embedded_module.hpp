@@ -282,11 +282,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	/*Singletons*/
 
-	m.def("serialize", &Omnia::SceneSerializer::serialize);
-	m.def("deserialize", pybind11::overload_cast<std::string>(&Omnia::SceneSerializer::deserialize));
-	m.def("deserialize", pybind11::overload_cast<std::string, std::string>(&Omnia::SceneSerializer::deserialize));
-	m.def("does_scene_exist", &Omnia::SceneSerializer::doesSceneExist);
-
 	m.def("add_scene", &Omnia::SceneStorage::addScene);
 	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
 	m.def("replace_active_scene", &Omnia::SceneStorage::replaceActiveScene);

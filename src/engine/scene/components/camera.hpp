@@ -43,7 +43,7 @@ namespace Omnia
 			this->setViewportHeight(480);
 		};
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Camera(*this);
 		}

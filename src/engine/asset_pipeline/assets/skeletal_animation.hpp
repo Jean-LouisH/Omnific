@@ -35,7 +35,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "SkeletalAnimation";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new SkeletalAnimation(*this);
 		}

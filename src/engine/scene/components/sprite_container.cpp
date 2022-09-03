@@ -22,7 +22,7 @@
 
 #include "sprite_container.hpp"
 #include <asset_pipeline/asset_pipeline.hpp>
-#include <scene_serializer.hpp>
+#include <os/os.hpp>
 
 void Omnia::SpriteContainer::deserialize(YAML::Node yamlNode)
 {
@@ -36,7 +36,7 @@ void Omnia::SpriteContainer::deserialize(YAML::Node yamlNode)
 			}
 			else
 			{
-				this->addImage(AssetPipeline::load<Image>(SceneSerializer::getDataDirectory() + it3->second.as<std::string>()));
+				this->addImage(AssetPipeline::load<Image>(OS::getFileAccess().getDataDirectoryPath() + it3->second.as<std::string>()));
 			}
 		}
 		else if (it3->first.as<std::string>() == "dimensions")

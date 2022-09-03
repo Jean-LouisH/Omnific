@@ -24,7 +24,6 @@
 
 #include <vector>
 #include <string>
-#include "scene_serializer.hpp"
 #include "configuration.hpp"
 #include "scene_storage.hpp"
 #include "systems/system.hpp"

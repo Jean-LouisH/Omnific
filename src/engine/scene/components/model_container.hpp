@@ -43,7 +43,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "ModelContainer";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new ModelContainer(*this);
 		}

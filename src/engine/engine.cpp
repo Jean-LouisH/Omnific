@@ -45,7 +45,6 @@ void Omnia::Engine::run()
 		/* On successful initialization */
 		if (this->initialize())
 		{
-			std::shared_ptr<Scene> entryScene;
 #ifdef _DEBUG
 			OS::getWindow().hide();
 			std::cout << "\n\nChoose data project to load:" << std::endl;
@@ -68,18 +67,20 @@ void Omnia::Engine::run()
 			std::string bootFilename = "boot.yml";
 			std::string bootFilepath = dataDirectory + bootFilename;
 
-			if (OS::getFileAccess().exists(bootFilepath))
+			FileAccess& fileAccess = OS::getFileAccess();
+
+			if (fileAccess.exists(bootFilepath))
 			{
 				Configuration::loadFromFile(bootFilepath);
 				OS::getFileAccess().setDataDirectory(dataDirectory);
-				SceneSerializer::initialize(dataDirectory);
 
 				Image image = Image(dataDirectory + Configuration::getInstance()->metadata.iconFilepath);
 				OS::getWindow().changeIcon(image);
 
-				if (SceneSerializer::doesSceneExist(Configuration::getInstance()->metadata.entrySceneFilepath))
+				std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
+				if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
 				{
-					entryScene = SceneSerializer::deserialize(Configuration::getInstance()->metadata.entrySceneFilepath);
+					std::shared_ptr<Scene> entryScene(new Scene(entrySceneFilepath));
 					SceneStorage::addScene(Configuration::getInstance()->metadata.entrySceneFilepath, entryScene);
 				}
 			}
@@ -164,7 +165,7 @@ bool Omnia::Engine::initialize()
 
 	/* Load Systems from the ClassRegistry */
 	for (auto it : ClassRegistry::queryAll<System>())
-		this->systems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(it.second->copy())));
+		this->systems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(it.second->clone())));
 
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;

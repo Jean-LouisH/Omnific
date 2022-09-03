@@ -38,8 +38,7 @@ bool Omnia::ScriptContext::hasComponent(std::string type)
 
 void Omnia::ScriptContext::loadScene(std::string scenepath)
 {
-	std::shared_ptr<Scene> scene = SceneSerializer::deserialize(scenepath);
-	SceneStorage::replaceActiveScene(scenepath, scene);
+	SceneStorage::replaceActiveScene(scenepath, std::shared_ptr<Scene>(new Scene(scenepath)));
 }
 
 std::shared_ptr<Omnia::Entity> Omnia::ScriptContext::getEntity()

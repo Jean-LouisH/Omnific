@@ -51,7 +51,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "PropertyAnimation";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new PropertyAnimation(*this);
 		}

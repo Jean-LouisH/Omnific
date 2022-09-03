@@ -38,7 +38,7 @@ namespace Omnia
         CPPScript(std::string filepath);
         ~CPPScript();
 
-        virtual Registerable* copy() override
+        virtual Registerable* clone() override
         {
             return new CPPScript(*this);
         }

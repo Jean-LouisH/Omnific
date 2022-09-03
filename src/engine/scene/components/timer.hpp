@@ -38,7 +38,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Timer";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Timer(*this);
 		}

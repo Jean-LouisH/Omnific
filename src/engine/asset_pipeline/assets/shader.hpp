@@ -43,7 +43,7 @@ namespace Omnia
 		};
 		Shader(std::string sourceFilepath, ShaderType type);
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Shader(*this);
 		}

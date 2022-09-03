@@ -41,7 +41,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Viewport";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Viewport(*this);
 		}

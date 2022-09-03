@@ -39,7 +39,7 @@ namespace Omnia
 
 		/* Custom classes should have their own clone method 
 		for the CPPScriptAssembly instance derivation. */
-		virtual CPPScript* copy() override
+		virtual CPPScript* clone() override
 		{
 			return new SplashScreenTransition(*this);
 		}

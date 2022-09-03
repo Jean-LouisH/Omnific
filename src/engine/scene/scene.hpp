@@ -40,6 +40,12 @@ namespace Omnia
 	{
 	public:
 		Scene();
+		Scene(std::string filepath);
+		Scene(std::string filepath, std::string name);
+
+		void serialize(std::string filepath);
+		void deserialize(std::string filepath);
+		void deserialize(std::string filepath, std::string name);
 
 		void addSceneTree(std::shared_ptr<SceneTree> sceneTree);
 		void addEmptySceneTree();

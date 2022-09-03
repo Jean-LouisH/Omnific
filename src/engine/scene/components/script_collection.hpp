@@ -40,7 +40,7 @@ namespace Omnia
 
 		std::vector<std::shared_ptr<Script>> scripts;
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new ScriptCollection(*this);
 		}

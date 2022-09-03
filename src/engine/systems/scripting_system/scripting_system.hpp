@@ -26,7 +26,6 @@
 #include "scripting_languages/cpp_native/cpp_native.hpp"
 #include "scene/scene.hpp"
 #include <scene_storage.hpp>
-#include <scene_serializer.hpp>
 #include "utilities/aliases.hpp"
 #include "scripting_languages/scripting_language.hpp"
 #include "systems/system.hpp"
@@ -48,7 +47,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "ScriptingSystem";
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new ScriptingSystem(*this);
 		}

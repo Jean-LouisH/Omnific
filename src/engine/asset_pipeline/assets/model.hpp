@@ -53,7 +53,7 @@ namespace Omnia
 		std::shared_ptr<Rig> rig;
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Model(*this);
 		}

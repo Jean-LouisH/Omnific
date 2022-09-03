@@ -32,7 +32,6 @@
 #include <memory>
 #include <scene/components/component.hpp>
 #include <scene/scene.hpp>
-#include <scene_serializer.hpp>
 #include <scene_storage.hpp>
 #include <utilities/aliases.hpp>
 #include <scene/event_bus.hpp>

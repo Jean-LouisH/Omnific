@@ -54,7 +54,7 @@ namespace Omnia
 		Image(uint8_t* data, int width, int height, int colourChannels);
 		Image(std::string filepath);
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new Image(*this);
 		}

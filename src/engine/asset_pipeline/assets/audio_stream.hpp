@@ -40,7 +40,7 @@ namespace Omnia
 		~AudioStream();
 		AudioStream(std::string filepath, bool isMusic);
 
-		virtual Registerable* copy() override
+		virtual Registerable* clone() override
 		{
 			return new AudioStream(*this);
 		}
