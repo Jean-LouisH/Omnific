@@ -47,7 +47,6 @@ namespace Omnia
 			uint16_t width, 
 			uint16_t height, 
 			bool isFullscreen, 
-			std::string executableFilepath,
 			std::string renderingContext,
 			std::vector<std::string> args
 		);

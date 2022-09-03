@@ -33,7 +33,6 @@ bool Omnia::OS::initialize(
 	uint16_t width, 
 	uint16_t height, 
 	bool isFullscreen, 
-	std::string executableFilepath,
 	std::string renderingContext,
 	std::vector<std::string> args)
 {
@@ -48,7 +47,7 @@ bool Omnia::OS::initialize(
 		newInstance->logger = std::unique_ptr<Logger>(new Logger());
 		newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
 		newInstance->input = std::unique_ptr<Input>(new Input());
-		newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(executableFilepath));
+		newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(args[0]));
 		newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 		newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
 		newInstance->platform = std::unique_ptr<Platform>(new Platform());

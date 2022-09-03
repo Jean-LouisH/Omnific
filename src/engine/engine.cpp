@@ -180,7 +180,6 @@ bool Omnia::Engine::initialize()
 		640, 
 		480, 
 		false, 
-		this->argv[0], 
 		this->getSystem<RenderingSystem>()->getRenderingContextName(),
 		args);
 
