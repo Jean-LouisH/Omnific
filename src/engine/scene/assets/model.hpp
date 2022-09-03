@@ -55,7 +55,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Model(*this);
+			Model* clone = new Model(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 	private:
 		void load(std::string filepath, std::shared_ptr<Image> image);

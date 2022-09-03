@@ -47,7 +47,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new AudioSource(*this);
+			AudioSource* clone = new AudioSource(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void addAudioStream(std::shared_ptr<AudioStream> audioStream);

@@ -41,7 +41,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Text(*this);
+			Text* clone = new Text(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 	private:
 		std::string data;

@@ -46,7 +46,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Light(*this);
+			Light* clone = new Light(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 	private:

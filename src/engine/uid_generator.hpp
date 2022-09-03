@@ -23,10 +23,11 @@
 #pragma once
 
 #include <utilities/aliases.hpp>
+#include <omnia_engine_api.hpp>
 
 namespace Omnia
 {
-	class UIDGenerator
+	class OMNIA_ENGINE_API UIDGenerator
 	{
 	public:
 		static UID getNewUID();

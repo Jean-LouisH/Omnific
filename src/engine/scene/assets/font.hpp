@@ -61,7 +61,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Font(*this);
+			Font* clone = new Font(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		TTF_Font* getSDLTTFFont();
 	private:

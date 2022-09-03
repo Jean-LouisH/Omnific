@@ -56,7 +56,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Image(*this);
+			Image* clone = new Image(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		void* getData();
 		uint32_t getWidth();

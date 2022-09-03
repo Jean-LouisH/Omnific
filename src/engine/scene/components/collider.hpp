@@ -72,7 +72,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Collider(*this);
+			Collider* clone = new Collider(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void setDimensions(float width, float height, float depth);

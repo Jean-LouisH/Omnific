@@ -41,7 +41,9 @@ namespace Omnia
 		for the CPPScriptAssembly instance derivation. */
 		virtual CPPScript* clone() override
 		{
-			return new SplashScreenTransition(*this);
+			SplashScreenTransition* clone = new SplashScreenTransition(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 
 		/* Add all the methods from CPPScript to override. */

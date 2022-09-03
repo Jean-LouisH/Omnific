@@ -55,7 +55,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new PhysicsBody(*this);
+			PhysicsBody* clone = new PhysicsBody(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);

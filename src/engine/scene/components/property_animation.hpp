@@ -53,7 +53,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new PropertyAnimation(*this);
+			PropertyAnimation* clone = new PropertyAnimation(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 	private:

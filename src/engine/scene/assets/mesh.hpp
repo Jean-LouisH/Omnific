@@ -73,7 +73,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Mesh(*this);
+			Mesh* clone = new Mesh(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 
 		bool getIsIndexed();

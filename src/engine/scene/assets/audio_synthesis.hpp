@@ -37,7 +37,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new AudioSynthesis(*this);
+			AudioSynthesis* clone = new AudioSynthesis(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 	private:
 	};

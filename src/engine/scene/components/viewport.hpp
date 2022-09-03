@@ -43,7 +43,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Viewport(*this);
+			Viewport* clone = new Viewport(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		std::string getCameraEntityName();

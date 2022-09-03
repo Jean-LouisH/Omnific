@@ -48,7 +48,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Transform(*this);
+			Transform* clone = new Transform(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void globallyTranslateX(float offset);

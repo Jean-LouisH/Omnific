@@ -37,7 +37,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new SkeletalAnimation(*this);
+			SkeletalAnimation* clone = new SkeletalAnimation(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 	private:
 	};

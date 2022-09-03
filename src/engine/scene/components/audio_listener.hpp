@@ -40,7 +40,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new AudioListener(*this);
+			AudioListener* clone = new AudioListener(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 	private:

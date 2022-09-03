@@ -45,7 +45,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Camera(*this);
+			Camera* clone = new Camera(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void addShader(std::shared_ptr<Shader> shader);

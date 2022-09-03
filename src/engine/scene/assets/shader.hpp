@@ -45,7 +45,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new Shader(*this);
+			Shader* clone = new Shader(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		void setSource(std::string source, ShaderType type);
 		std::string getSource();

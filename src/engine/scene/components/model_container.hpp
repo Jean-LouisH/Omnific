@@ -45,7 +45,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new ModelContainer(*this);
+			ModelContainer* clone = new ModelContainer(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void addModel(std::shared_ptr<Model> model);

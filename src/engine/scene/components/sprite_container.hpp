@@ -49,7 +49,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new SpriteContainer(*this);
+			SpriteContainer* clone = new SpriteContainer(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		void addImage(std::shared_ptr<Image> image);

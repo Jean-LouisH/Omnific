@@ -42,7 +42,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new AudioStream(*this);
+			AudioStream* clone = new AudioStream(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
 		std::shared_ptr<Mix_Music> getSDLMixMusic();

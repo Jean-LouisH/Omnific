@@ -66,7 +66,9 @@ namespace Omnia
 
         virtual Registerable* clone() override
         {
-            return new Script(*this);
+            Script* clone = new Script(*this);
+            clone->id = UIDGenerator::getNewUID();
+            return clone;
         }
     private:
     };

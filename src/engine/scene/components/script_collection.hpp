@@ -42,7 +42,9 @@ namespace Omnia
 
 		virtual Registerable* clone() override
 		{
-			return new ScriptCollection(*this);
+			ScriptCollection* clone = new ScriptCollection(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 	private:

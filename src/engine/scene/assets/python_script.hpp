@@ -39,7 +39,9 @@ namespace Omnia
 
         virtual Registerable* clone() override
         {
-            return new PythonScript(*this);
+            PythonScript* clone = new PythonScript(*this);
+            clone->id = UIDGenerator::getNewUID();
+            return clone;
         }
     private:
     };

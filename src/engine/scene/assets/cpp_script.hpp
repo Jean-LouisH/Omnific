@@ -40,7 +40,9 @@ namespace Omnia
 
         virtual Registerable* clone() override
         {
-            return new CPPScript(*this);
+            CPPScript* clone = new CPPScript(*this);
+            clone->id = UIDGenerator::getNewUID();
+            return clone;
         }
 
         virtual void onStart();
