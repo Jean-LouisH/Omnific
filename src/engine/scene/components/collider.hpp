@@ -70,7 +70,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "Collider";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Collider* clone = new Collider(*this);
 			clone->id = UIDGenerator::getNewUID();

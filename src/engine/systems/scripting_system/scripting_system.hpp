@@ -47,7 +47,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "ScriptingSystem";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			return new ScriptingSystem(*this);
 		}

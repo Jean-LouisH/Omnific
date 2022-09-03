@@ -71,7 +71,7 @@ namespace Omnia
 		std::vector<Vertex> vertices;
 		std::vector<uint32_t> indices;
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Mesh* clone = new Mesh(*this);
 			clone->id = UIDGenerator::getNewUID();

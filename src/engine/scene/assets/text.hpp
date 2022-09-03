@@ -39,7 +39,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "Text";
 		Text(std::string filepath);
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Text* clone = new Text(*this);
 			clone->id = UIDGenerator::getNewUID();

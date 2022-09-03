@@ -51,7 +51,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "PropertyAnimation";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			PropertyAnimation* clone = new PropertyAnimation(*this);
 			clone->id = UIDGenerator::getNewUID();

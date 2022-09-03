@@ -59,7 +59,7 @@ namespace Omnia
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Font* clone = new Font(*this);
 			clone->id = UIDGenerator::getNewUID();

@@ -35,7 +35,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Rig";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Rig* clone = new Rig(*this);
 			clone->id = UIDGenerator::getNewUID();

@@ -40,7 +40,7 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 					if (registry->cppScriptDefinitions.count(script->getName()))
 						registry->cppScriptInstances.emplace(
 							script->getName() + std::to_string(scriptCollection->getEntityID()),
-							std::dynamic_pointer_cast<CPPScript>(std::shared_ptr<Registerable>(registry->cppScriptDefinitions.at(script->getName())->clone()))
+							std::dynamic_pointer_cast<CPPScript>(std::shared_ptr<Registerable>(registry->cppScriptDefinitions.at(script->getName())->instance()))
 						);
 }
 

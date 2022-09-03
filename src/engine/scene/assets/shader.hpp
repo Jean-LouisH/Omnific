@@ -43,7 +43,7 @@ namespace Omnia
 		};
 		Shader(std::string sourceFilepath, ShaderType type);
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Shader* clone = new Shader(*this);
 			clone->id = UIDGenerator::getNewUID();

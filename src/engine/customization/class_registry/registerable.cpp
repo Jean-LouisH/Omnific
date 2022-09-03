@@ -28,7 +28,7 @@ Omnia::Registerable::Registerable()
 	this->id = UIDGenerator::getNewUID();
 }
 
-Omnia::Registerable* Omnia::Registerable::clone()
+Omnia::Registerable* Omnia::Registerable::instance()
 {
 	Registerable* clone = new Registerable(*this);
 	clone->id = UIDGenerator::getNewUID();

@@ -54,7 +54,7 @@ namespace Omnia
 		Image(uint8_t* data, int width, int height, int colourChannels);
 		Image(std::string filepath);
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Image* clone = new Image(*this);
 			clone->id = UIDGenerator::getNewUID();

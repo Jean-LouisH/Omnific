@@ -40,7 +40,7 @@ namespace Omnia
 		~PhysicsSystem();
 		static constexpr const char* TYPE_STRING = "PhysicsSystem";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			return new PhysicsSystem(*this);
 		}

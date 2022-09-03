@@ -35,7 +35,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Material";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Material* clone = new Material(*this);
 			clone->id = UIDGenerator::getNewUID();

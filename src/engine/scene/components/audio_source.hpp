@@ -45,7 +45,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "AudioSource";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			AudioSource* clone = new AudioSource(*this);
 			clone->id = UIDGenerator::getNewUID();

@@ -53,7 +53,7 @@ namespace Omnia
 		glm::vec3 snapDirection;
 		glm::vec3 upDirection;
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			PhysicsBody* clone = new PhysicsBody(*this);
 			clone->id = UIDGenerator::getNewUID();

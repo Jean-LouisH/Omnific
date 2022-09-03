@@ -41,7 +41,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Viewport";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Viewport* clone = new Viewport(*this);
 			clone->id = UIDGenerator::getNewUID();

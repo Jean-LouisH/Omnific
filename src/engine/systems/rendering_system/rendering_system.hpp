@@ -63,7 +63,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "RenderingSystem";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			return new RenderingSystem(*this);
 		}

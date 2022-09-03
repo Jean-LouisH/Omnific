@@ -43,7 +43,7 @@ namespace Omnia
 			this->setViewportHeight(480);
 		};
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Camera* clone = new Camera(*this);
 			clone->id = UIDGenerator::getNewUID();

@@ -37,7 +37,7 @@ namespace Omnia
 
         PythonScript(std::string filepath);
 
-        virtual Registerable* clone() override
+        virtual Registerable* instance() override
         {
             PythonScript* clone = new PythonScript(*this);
             clone->id = UIDGenerator::getNewUID();

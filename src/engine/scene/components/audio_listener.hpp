@@ -38,7 +38,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "AudioListener";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			AudioListener* clone = new AudioListener(*this);
 			clone->id = UIDGenerator::getNewUID();

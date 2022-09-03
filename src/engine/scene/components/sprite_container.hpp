@@ -47,7 +47,7 @@ namespace Omnia
 		bool isXBillboarded = false;
 		bool isYBillboarded = false;
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			SpriteContainer* clone = new SpriteContainer(*this);
 			clone->id = UIDGenerator::getNewUID();

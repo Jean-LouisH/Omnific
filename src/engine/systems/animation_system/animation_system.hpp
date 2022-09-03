@@ -40,7 +40,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "AnimationSystem";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			return new AnimationSystem(*this);
 		}

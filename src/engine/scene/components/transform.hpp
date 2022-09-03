@@ -46,7 +46,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "Transform";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Transform* clone = new Transform(*this);
 			clone->id = UIDGenerator::getNewUID();

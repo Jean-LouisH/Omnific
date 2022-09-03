@@ -38,7 +38,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "Timer";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Timer* clone = new Timer(*this);
 			clone->id = UIDGenerator::getNewUID();

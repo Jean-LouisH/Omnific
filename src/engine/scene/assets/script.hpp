@@ -64,7 +64,7 @@ namespace Omnia
         };
         static constexpr const char* TYPE_STRING = "Script";
 
-        virtual Registerable* clone() override
+        virtual Registerable* instance() override
         {
             Script* clone = new Script(*this);
             clone->id = UIDGenerator::getNewUID();

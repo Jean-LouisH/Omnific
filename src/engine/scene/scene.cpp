@@ -118,7 +118,7 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 								else
 								{
 									std::shared_ptr<Component> component = std::dynamic_pointer_cast<Component>(
-										std::shared_ptr<Registerable>(ClassRegistry::query<Component>(it2->first.as<std::string>())->clone()));
+										std::shared_ptr<Registerable>(ClassRegistry::query<Component>(it2->first.as<std::string>())->instance()));
 									component->deserialize(it2->second);
 									sceneTree->addComponentToLastEntity(component);
 								}

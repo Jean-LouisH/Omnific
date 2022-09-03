@@ -43,7 +43,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "ModelContainer";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			ModelContainer* clone = new ModelContainer(*this);
 			clone->id = UIDGenerator::getNewUID();

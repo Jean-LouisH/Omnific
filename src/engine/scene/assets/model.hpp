@@ -53,7 +53,7 @@ namespace Omnia
 		std::shared_ptr<Rig> rig;
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Model* clone = new Model(*this);
 			clone->id = UIDGenerator::getNewUID();

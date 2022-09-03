@@ -38,7 +38,7 @@ namespace Omnia
         CPPScript(std::string filepath);
         ~CPPScript();
 
-        virtual Registerable* clone() override
+        virtual Registerable* instance() override
         {
             CPPScript* clone = new CPPScript(*this);
             clone->id = UIDGenerator::getNewUID();

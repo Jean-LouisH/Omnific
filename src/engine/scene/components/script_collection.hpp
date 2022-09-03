@@ -40,7 +40,7 @@ namespace Omnia
 
 		std::vector<std::shared_ptr<Script>> scripts;
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			ScriptCollection* clone = new ScriptCollection(*this);
 			clone->id = UIDGenerator::getNewUID();

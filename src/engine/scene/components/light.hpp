@@ -44,7 +44,7 @@ namespace Omnia
 
 		LightMode mode;
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			Light* clone = new Light(*this);
 			clone->id = UIDGenerator::getNewUID();

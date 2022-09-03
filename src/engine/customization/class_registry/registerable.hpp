@@ -33,7 +33,7 @@ namespace Omnia
 	{
 	public:
 		Registerable();
-		virtual Registerable* clone();
+		virtual Registerable* instance();
 		std::string getType();
 		UID getID();
 		bool isType(std::string typeString);

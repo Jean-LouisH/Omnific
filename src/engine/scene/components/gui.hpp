@@ -114,7 +114,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			GUI* clone = new GUI(*this);
 			clone->id = UIDGenerator::getNewUID();

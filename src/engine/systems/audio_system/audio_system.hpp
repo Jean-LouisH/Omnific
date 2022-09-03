@@ -43,7 +43,7 @@ namespace Omnia
 
 		static constexpr const char* TYPE_STRING = "AudioSystem";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			return new AudioSystem(*this);
 		}

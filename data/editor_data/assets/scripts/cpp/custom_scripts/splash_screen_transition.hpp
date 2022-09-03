@@ -39,7 +39,7 @@ namespace Omnia
 
 		/* Custom classes should have their own clone method 
 		for the CPPScriptAssembly instance derivation. */
-		virtual CPPScript* clone() override
+		virtual CPPScript* instance() override
 		{
 			SplashScreenTransition* clone = new SplashScreenTransition(*this);
 			clone->id = UIDGenerator::getNewUID();

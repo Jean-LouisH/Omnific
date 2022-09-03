@@ -35,7 +35,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "SkeletalAnimation";
 
-		virtual Registerable* clone() override
+		virtual Registerable* instance() override
 		{
 			SkeletalAnimation* clone = new SkeletalAnimation(*this);
 			clone->id = UIDGenerator::getNewUID();
