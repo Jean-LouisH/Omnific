@@ -45,9 +45,15 @@ namespace Omnia
 		bool exists(std::string filepath);
 
 		template <class DerivedAsset>
-		std::shared_ptr<DerivedAsset> loadAssetByType(std::string filepath)
+		std::shared_ptr<DerivedAsset> loadAssetByType(std::string filepath, bool applyDataDirectory = true)
 		{
 			std::shared_ptr<DerivedAsset> derivedAsset;
+			std::string fullFilepath;
+
+			if (applyDataDirectory)
+				fullFilepath = this->getDataDirectoryPath() + filepath;
+			else
+				fullFilepath = filepath;
 
 			if (this->assets.count(filepath) != 0)
 			{
@@ -55,7 +61,7 @@ namespace Omnia
 			}
 			else
 			{
-				derivedAsset = std::shared_ptr<DerivedAsset>(new DerivedAsset(this->getDataDirectoryPath() + filepath));
+				derivedAsset = std::shared_ptr<DerivedAsset>(new DerivedAsset(fullFilepath));
 				std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(derivedAsset);
 				if (!this->assets.count(asset->getName()))
 					this->assets.emplace(asset->getName(), asset);

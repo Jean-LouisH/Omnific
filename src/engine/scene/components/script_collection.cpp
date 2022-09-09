@@ -33,7 +33,7 @@ void Omnia::ScriptCollection::deserialize(YAML::Node yamlNode)
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				this->scripts.push_back(OS::getFileAccess().loadAssetByType<PythonScript>(it3->second[i].as<std::string>()));
+				this->scripts.push_back(OS::getFileAccess().loadAssetByType<PythonScript>(it3->second[i].as<std::string>(), false));
 			}
 		}
 		else if (it3->first.as<std::string>() == "cpp")
