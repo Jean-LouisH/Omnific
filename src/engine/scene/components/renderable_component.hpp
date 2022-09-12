@@ -31,17 +31,18 @@
 
 namespace Omnia
 {
-	enum class CullMode
-	{
-		NONE,
-		BACK,
-		FRONT,
-		FRONT_AND_BACK
-	};
 
 	class OMNIA_ENGINE_API RenderableComponent : public Component
 	{
 	public:
+		enum class CullMode
+		{
+			NONE,
+			BACK,
+			FRONT,
+			FRONT_AND_BACK
+		};
+
 		void setDimensions(float width, float height);
 		void setDimensions(float width, float height, float depth);
 		void addShader(std::shared_ptr<Shader> shader);

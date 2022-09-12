@@ -105,7 +105,7 @@ void Omnia::RenderableComponent::show()
 	this->alpha = 255;
 }
 
-Omnia::CullMode Omnia::RenderableComponent::getCullMode()
+Omnia::RenderableComponent::CullMode Omnia::RenderableComponent::getCullMode()
 {
 	return this->cullMode;
 }

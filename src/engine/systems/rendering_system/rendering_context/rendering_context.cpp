@@ -152,17 +152,17 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
 					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
 					const float cullAlphaThreshold = 1.0 - 0.001;
-					CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
+					RenderableComponent::CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
 
 					switch (cullMode)
 					{
-						case CullMode::NONE:
-						case CullMode::BACK: glCullFace(GL_BACK); break;
-						case CullMode::FRONT: glCullFace(GL_FRONT); break;
-						case CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
+						case RenderableComponent::CullMode::NONE:
+						case RenderableComponent::CullMode::BACK: glCullFace(GL_BACK); break;
+						case RenderableComponent::CullMode::FRONT: glCullFace(GL_FRONT); break;
+						case RenderableComponent::CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
 					}
 
-					if (alpha < cullAlphaThreshold || cullMode == CullMode::NONE)
+					if (alpha < cullAlphaThreshold || cullMode == RenderableComponent::CullMode::NONE)
 					{
 						glDisable(GL_CULL_FACE);
 						if (alpha < cullAlphaThreshold)
