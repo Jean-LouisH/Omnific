@@ -34,7 +34,7 @@ SceneTree:
       translation: [0, 0, 0]
       scale: [25, 25, 25]
     ModelContainer:
-      models: ["tests/loading_models/models/snail_idle.glb"]
+      models: ["tests/loading_models/models/suzanne.glb"]
     ScriptCollection:
       python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
   Entity:
