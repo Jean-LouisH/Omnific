@@ -26,6 +26,12 @@
 #include <yaml-cpp/yaml.h>
 #include <customization/class_registry/class_registry.hpp>
 
+#define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+
+#include <tiny_gltf.h>
+
 Omnia::Scene::Scene()
 {
 	this->id = UIDGenerator::getNewUID();
@@ -138,19 +144,23 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 								}
 								else if (it2->first.as<std::string>() == "name")
 								{
-									std::string subSceneFilepath = it1->second[0].as<std::string>();
-									std::string subSceneTreeName = it1->second[1].as<std::string>();
+									std::string subSceneFilepath = it2->second[0].as<std::string>();
+									std::string subSceneTreeName = it2->second[1].as<std::string>();
+									std::shared_ptr<SceneTree> subSceneTree;
 
 									if (subSceneFilepath != filepath)
 									{
-										std::shared_ptr<Scene> subScene(new Scene(subSceneFilepath, subSceneTreeName));
-										std::shared_ptr<SceneTree> subSceneTree = subScene->getLastSceneTree();
+										if (subSceneTreeName != "")
+											subSceneTree = Scene(subSceneFilepath, subSceneTreeName).getLastSceneTree();
+										else
+											subSceneTree = this->loadGLTF(subSceneFilepath);
+
 
 										/* Only load the SceneTree if it is the same spatial dimension. */
 										if (subSceneTree->is2D == sceneTree->is2D)
 										{
 											/* Transfer Entities and their Components */
-											std::shared_ptr<Entity> newRootEntity;
+											std::shared_ptr<Entity> newRootEntity(new Entity());
 											newRootEntity->setName(subSceneFilepath);
 											newRootEntity->parentID = parentID;
 											sceneTree->addEntity(newRootEntity);
@@ -235,4 +245,113 @@ std::unordered_map<Omnia::SceneTreeID, std::shared_ptr<Omnia::SceneTree>>& Omnia
 Omnia::SceneID Omnia::Scene::getID()
 {
 	return this->id;
+}
+
+std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
+{
+	std::shared_ptr<SceneTree> sceneTree(new SceneTree());
+
+	tinygltf::Model model;
+	tinygltf::TinyGLTF tinyGLTF;
+	std::string err;
+	std::string warn;
+
+	bool ret = tinyGLTF.LoadBinaryFromFile(
+		&model, 
+		&err, 
+		&warn, 
+		OS::getFileAccess().getDataDirectoryPath() + filepath);
+
+	if (!warn.empty())
+		printf("Warn: %s\n", warn.c_str());
+
+	if (!err.empty())
+		printf("Err: %s\n", err.c_str());
+
+	if (!ret)
+	{
+		printf("Failed to parse glTF\n");
+	}
+	else
+	{
+		{
+			// GLTF data
+			std::vector<float> positions = this->readGLTFPrimitiveAttribute(model, "POSITION");
+			std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(model, "TEXCOORD_0");
+			std::vector<float> normals = this->readGLTFPrimitiveAttribute(model, "NORMAL");
+			std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(model);
+
+			std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
+			std::shared_ptr<Image> image;
+
+			if (model.images.size() > 0)
+			{
+				tinygltf::Image gltfImage = model.images.at(0);
+				image = std::shared_ptr<Image>(
+					new Image((uint8_t*)gltfImage.image.data(), gltfImage.width, gltfImage.height, gltfImage.component));
+			}
+			else
+			{
+				image = std::shared_ptr<Image>(new Image("Image::default"));
+			}
+
+			//name
+
+			//Components
+			std::shared_ptr<Entity> entity(new Entity());
+			sceneTree->addEntity(entity);;
+			std::shared_ptr<Transform> transform(new Transform());
+			std::shared_ptr<Model> model(new Model());
+			std::shared_ptr<Material> material(new Material());
+			material->albedo = image;
+			model->setMaterial(material);
+			model->setMesh(mesh);
+
+			sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(transform));
+			sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(model));
+		}
+	}
+
+	return sceneTree;
+}
+
+std::vector<uint8_t> Omnia::Scene::readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView)
+{
+	std::vector<uint8_t> bytes(
+		bufferData.begin() + bufferView.byteOffset,
+		bufferData.begin() + bufferView.byteOffset + bufferView.byteLength);
+
+	return bytes;
+}
+
+std::vector<float> Omnia::Scene::readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName)
+{
+	tinygltf::Primitive primitive = model.meshes.at(0).primitives.at(0);
+	std::vector<unsigned char> buffer = model.buffers.at(0).data;
+	std::vector<uint8_t> bytes = this->readGLTFBuffer(buffer, model.bufferViews.at(primitive.attributes.at(attributeName)));
+	std::vector<float> attribute;
+	float* floatByteData = (float*)bytes.data();
+	size_t floatByteSize = bytes.size() / sizeof(float);
+
+	for (size_t i = 0; i < floatByteSize; i++)
+		attribute.push_back(floatByteData[i]);
+
+	return attribute;
+
+}
+
+std::vector<uint32_t> Omnia::Scene::readGLTFPrimitiveIndices(tinygltf::Model model)
+{
+	tinygltf::Primitive primitive = model.meshes.at(0).primitives.at(0);
+	std::vector<unsigned char> buffer = model.buffers.at(0).data;
+	std::vector<uint8_t> indexBytes = this->readGLTFBuffer(buffer, model.bufferViews.at(primitive.indices));
+	std::vector<uint32_t> indices;
+
+	uint16_t* shortIndexByteData = (uint16_t*)indexBytes.data();
+	size_t shortIndexByteSize = indexBytes.size() / sizeof(uint16_t);
+
+	for (size_t i = 0; i < shortIndexByteSize; i++)
+		indices.push_back((uint32_t)shortIndexByteData[i]);
+
+	return indices;
 }

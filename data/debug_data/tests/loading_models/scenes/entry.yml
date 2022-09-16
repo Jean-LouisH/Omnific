@@ -23,7 +23,7 @@ SceneTree:
   Entity:
     name: "Camera"
     Transform:
-      translation: [0, 1, 200]
+      translation: [0, 0, 5]
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
@@ -32,11 +32,11 @@ SceneTree:
     name: "Model"
     Transform:
       translation: [0, 0, 0]
-      scale: [25, 25, 25]
-    Model:
-      mesh: "Mesh::cube"
     ScriptCollection:
       python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
+  SubSceneTree:
+    name: ["tests/loading_models/models/suzanne.glb", ""]
+    parent: "Model"
   Entity:
     name: "Viewport"
     Viewport:

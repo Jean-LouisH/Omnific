@@ -34,6 +34,9 @@
 #include "scene_tree.hpp"
 #include <omnia_engine_api.hpp>
 
+#include <scene/assets/image.hpp>
+#include <tiny_gltf.h>
+
 namespace Omnia
 {
 	class OMNIA_ENGINE_API Scene
@@ -61,5 +64,10 @@ namespace Omnia
 		SceneID id = 0;
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees;
 		SceneTreeID lastSceneTreeID = 0;
+
+		std::shared_ptr<SceneTree> loadGLTF(std::string filepath);
+		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
+		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName);
+		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
 	};
 }

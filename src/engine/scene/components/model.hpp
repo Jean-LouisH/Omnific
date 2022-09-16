@@ -30,8 +30,6 @@
 #include "scene/assets/skeletal_animation.hpp"
 #include "scene/assets/rig.hpp"
 
-//#include <tiny_gltf.h>
-
 #include <memory>
 #include <vector>
 #include <unordered_map>
