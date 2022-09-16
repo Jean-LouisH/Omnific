@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 #include "colour.hpp"
+#include <sstream>
+#include <iostream>
 
 Omnia::Colour::Colour()
 {
@@ -32,7 +34,18 @@ Omnia::Colour::Colour()
 
 Omnia::Colour::Colour(std::string hex)
 {
+	uint32_t value;
+	std::stringstream ss;
+	ss << std::hex << hex;
+	ss >> value;
+	this->set24BitValue(value);
+	this->alpha = 1.0;
+}
 
+Omnia::Colour::Colour(uint32_t value)
+{
+	this->set24BitValue(value);
+	this->alpha = 1.0;
 }
 
 Omnia::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
@@ -62,6 +75,13 @@ uint8_t Omnia::Colour::getBlue()
 uint8_t Omnia::Colour::getAlpha()
 {
 	return (uint8_t)(this->alpha * 255.0);
+}
+
+void Omnia::Colour::set24BitValue(uint32_t value)
+{
+	this->red = ((value & 0xFF0000) >> 16) / 255.0;
+	this->green = ((value & 0x00FF00) >> 8) / 255.0;
+	this->blue = ((value & 0x0000FF) >> 0) / 255.0;
 }
 
 uint32_t Omnia::Colour::get24BitValue()

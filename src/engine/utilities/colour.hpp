@@ -33,11 +33,13 @@ namespace Omnia
 	public:
 		Colour();
 		Colour(std::string hex);
+		Colour(uint32_t value);
 		Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 		uint8_t getRed();
 		uint8_t getGreen();
 		uint8_t getBlue();
 		uint8_t getAlpha();
+		void set24BitValue(uint32_t value);
 		uint32_t get24BitValue();
 	private:
 		float red;

@@ -75,6 +75,7 @@ namespace Omnia
 
 		void colourPixel(uint32_t fillColour, int x, int y);
 		void setToDefault();
+		void setToColour(std::shared_ptr<Colour> colour);
 		void setToParameters(int colourChannels, int width, int height, uint8_t* data);
 	};
 }

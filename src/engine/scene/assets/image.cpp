@@ -53,18 +53,7 @@ Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour,
 
 Omnia::Image::Image(std::shared_ptr<Colour> colour)
 {
-	this->type = TYPE_STRING;
-	const uint16_t size = 256;
-	this->height = size;
-	this->width = size;
-	this->colourChannels = 3;
-	size_t dataSize = this->width * this->height * this->colourChannels;
-	uint32_t fillColour = colour->get24BitValue();
-
-	for (int y = 0; y < this->height; y++)
-		for (int x = 0; x < this->width; x++)
-			this->colourPixel(fillColour, x, y);
-
+	this->setToColour(colour);
 }
 
 Omnia::Image::Image(uint8_t* data, int width, int height, int colourChannels)
@@ -78,10 +67,23 @@ Omnia::Image::Image(std::string filepath)
 	this->type = TYPE_STRING;
 	this->setName(filepath);
 
-	if (filepath == "Image::default")
-		this->setToDefault();
+	std::string delimitter = "Image::";
+	size_t delimitterPosition = filepath.find(delimitter);
+	size_t position = delimitterPosition + delimitter.length();
+
+	if (delimitterPosition < filepath.length())
+	{
+		std::string token = filepath.substr(position, filepath.length());
+
+		if (token == "default")
+			this->setToDefault();
+		if (token[0] == '#')
+			this->setToColour(std::shared_ptr<Colour>(new Colour(token.substr(1, token.length()))));
+	}
 	else
+	{
 		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->colourChannels, 0), stbi_image_free);
+	}
 }
 
 void* Omnia::Image::getData()
@@ -176,6 +178,22 @@ void Omnia::Image::setToDefault()
 		if ((y % (size / divisions)) == 0)
 			darker = !darker;
 	}
+}
+
+void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
+{
+	this->type = TYPE_STRING;
+	const uint16_t size = 256;
+	this->height = size;
+	this->width = size;
+	this->colourChannels = 3;
+	size_t dataSize = this->width * this->height * this->colourChannels;
+	uint32_t fillColour = (colour->get24BitValue() << 8) + 0x000000FF;
+	this->data = std::shared_ptr<uint8_t>(new uint8_t[dataSize]);
+
+	for (int y = 0; y < this->height; y++)
+		for (int x = 0; x < this->width; x++)
+			this->colourPixel(fillColour, x, y);
 }
 
 void Omnia::Image::setToParameters(int colourChannels, int width, int height, uint8_t* data)
