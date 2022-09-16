@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "index_buffer.hpp"
-#include <scene/components/model_container.hpp>
+#include <scene/components/model.hpp>
 
 Omnia::IndexBuffer::IndexBuffer()
 {
@@ -32,13 +32,9 @@ Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<RenderableComponent> renderableC
 {
 	std::shared_ptr<Mesh> mesh;
 
-	if (renderableComponent->isType(ModelContainer::TYPE_STRING))
+	if (renderableComponent->isType(Model::TYPE_STRING))
 	{
-		std::shared_ptr<Model> model = std::dynamic_pointer_cast<ModelContainer>(renderableComponent)->getCurrentModel();
-		if (model != nullptr)
-		{
-			mesh = model->mesh;
-		}
+		mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->getMesh();
 	}
 	else
 	{

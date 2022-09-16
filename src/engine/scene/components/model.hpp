@@ -22,25 +22,69 @@
 
 #pragma once
 
-#include "scene/assets/asset.hpp"
-#include "mesh.hpp"
-#include "material.hpp"
-#include "image.hpp"
-#include "skeletal_animation.hpp"
-#include "rig.hpp"
+#include "scene/components/renderable_component.hpp"
+#include "scene/components/component.hpp"
 
-#include <tiny_gltf.h>
-#include <string>
+#include "scene/assets/mesh.hpp"
+#include "scene/assets/material.hpp"
+#include "scene/assets/skeletal_animation.hpp"
+#include "scene/assets/rig.hpp"
+
+//#include <tiny_gltf.h>
+
 #include <memory>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
+namespace Omnia
+{
+	class OMNIA_ENGINE_API Model : public RenderableComponent
+	{
+	public:
+		Model()
+		{
+			this->type = TYPE_STRING;
+			this->material = std::shared_ptr<Material>(new Material());
+			this->material->albedo = std::shared_ptr<Image>(new Image("Image::default"));
+		};
+		static constexpr const char* TYPE_STRING = "Model";
+
+		virtual Registerable* instance() override
+		{
+			Model* clone = new Model(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
+		}
+		virtual void deserialize(YAML::Node yamlNode);
+		void setToCube();
+		void setToTexturedCube(std::shared_ptr<Material> material);
+
+		void setMesh(std::shared_ptr<Mesh> mesh);
+		void setMaterial(std::shared_ptr<Material> material);
+		void setRig(std::shared_ptr<Rig> rig);
+		void addSkeletalAnimation(std::shared_ptr<SkeletalAnimation> skeletalAnimation);
+
+		std::shared_ptr<Mesh> getMesh();
+		std::shared_ptr<Material> getMaterial();
+		std::shared_ptr<Rig> getRig();
+		std::vector<std::shared_ptr<SkeletalAnimation>> getSkeletalAnimations();
+	private:
+		std::shared_ptr<Mesh> mesh;
+		std::shared_ptr<Material> material;
+		std::shared_ptr<Rig> rig;
+		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
+	};
+}
+
+/*
 namespace Omnia
 {
 	class OMNIA_ENGINE_API Model : public Asset
 	{
 	public:
 		Model()
-		{ 
+		{
 			this->type = TYPE_STRING;
 		};
 		Model(std::string filepath);
@@ -66,3 +110,5 @@ namespace Omnia
 		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
 	};
 }
+
+*/

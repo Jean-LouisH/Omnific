@@ -226,13 +226,17 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::PhysicsBody, Omnia::Component, std::shared_ptr<Omnia::PhysicsBody>>(m, Omnia::PhysicsBody::TYPE_STRING)
 		.def_readwrite("linear_velocity", &Omnia::PhysicsBody::linearVelocity);
 	pybind11::class_<Omnia::Light, Omnia::Component, std::shared_ptr<Omnia::Light>>(m, Omnia::Light::TYPE_STRING);
-	pybind11::class_<Omnia::ModelContainer, Omnia::Component, std::shared_ptr<Omnia::ModelContainer>>(m, Omnia::ModelContainer::TYPE_STRING)
-		.def("add_model", &Omnia::ModelContainer::addModel)
-		.def("add_cube", &Omnia::ModelContainer::addCube)
-		.def("add_textured_cube", &Omnia::ModelContainer::addTexturedCube)
-		.def("change_to_model", pybind11::overload_cast<std::string>(&Omnia::ModelContainer::changeToModel))
-		.def("change_to_model", pybind11::overload_cast<uint64_t>(&Omnia::ModelContainer::changeToModel))
-		.def("get_current_model", &Omnia::ModelContainer::getCurrentModel, pybind11::return_value_policy::reference);
+	pybind11::class_<Omnia::Model, Omnia::Component, std::shared_ptr<Omnia::Model>>(m, Omnia::Model::TYPE_STRING)
+		.def("set_to_cube", &Omnia::Model::setToCube)
+		.def("set_to_textured_cube", &Omnia::Model::setToTexturedCube)
+		.def("set_mesh", &Omnia::Model::setMesh)
+		.def("set_material", &Omnia::Model::setMaterial)
+		.def("set_rig", &Omnia::Model::setRig)
+		.def("add_skeletal_animation", &Omnia::Model::addSkeletalAnimation)
+		.def("get_mesh", &Omnia::Model::getMesh)
+		.def("get_material", &Omnia::Model::getMaterial)
+		.def("get_rig", &Omnia::Model::getRig)
+		.def("get_skeletal_animations", &Omnia::Model::getSkeletalAnimations);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component, std::shared_ptr<Omnia::PropertyAnimation>>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component, std::shared_ptr<Omnia::Collider>>(m, Omnia::Collider::TYPE_STRING);
 	pybind11::class_<Omnia::Sprite, Omnia::Component, std::shared_ptr<Omnia::Sprite>>(m, Omnia::Sprite::TYPE_STRING);

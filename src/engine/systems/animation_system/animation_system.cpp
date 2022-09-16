@@ -24,7 +24,7 @@
 #include "scene/scene.hpp"
 #include <configuration.hpp>
 
-#include <scene/components/sprite_container.hpp>
+#include <scene/components/sprite.hpp>
 
 Omnia::AnimationSystem::~AnimationSystem()
 {

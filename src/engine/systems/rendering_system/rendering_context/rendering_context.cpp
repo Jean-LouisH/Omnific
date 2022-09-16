@@ -26,7 +26,7 @@
 #include <string>
 #include <SDL_video.h>
 
-#include <scene/components/model_container.hpp>
+#include <scene/components/model.hpp>
 
 void Omnia::RenderingContext::initialize()
 {
@@ -229,8 +229,8 @@ std::shared_ptr<Omnia::Texture> Omnia::RenderingContext::getTexture(std::shared_
 {
 	std::shared_ptr<Image> image;
 
-	if (renderableComponent->isType(ModelContainer::TYPE_STRING))
-		image = std::dynamic_pointer_cast<ModelContainer>(renderableComponent)->getCurrentModel()->image;
+	if (renderableComponent->isType(Model::TYPE_STRING))
+		image = std::dynamic_pointer_cast<Model>(renderableComponent)->getMaterial()->albedo;
 	else
 		image = renderableComponent->getImage();
 
@@ -252,12 +252,12 @@ std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std:
 {
 	AssetID assetID;
 
-	if (renderableComponent->isType(ModelContainer::TYPE_STRING))
+	if (renderableComponent->isType(Model::TYPE_STRING))
 	{
-		std::shared_ptr<Model> model = std::dynamic_pointer_cast<ModelContainer>(renderableComponent)->getCurrentModel();
-		if (model != nullptr)
+		std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->getMesh();
+		if (mesh != nullptr)
 		{
-			assetID = model->mesh->getID();
+			assetID = mesh->getID();
 		}
 	}
 	else

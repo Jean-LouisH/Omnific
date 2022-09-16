@@ -8,7 +8,7 @@ SceneTree:
     Camera: "default"
   Entity:
     name: "Background"
-    SpriteContainer:
+    Sprite:
       image: "tests/loading_models/images/sky.png"
       dimensions: [40.0, 30.0, 0.1]
     Transform:
@@ -33,8 +33,8 @@ SceneTree:
     Transform:
       translation: [0, 0, 0]
       scale: [25, 25, 25]
-    ModelContainer:
-      models: ["tests/loading_models/models/suzanne.glb"]
+    Model:
+      mesh: "Mesh::cube"
     ScriptCollection:
       python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
   Entity:

@@ -23,6 +23,7 @@
 #pragma once
 
 #include "scene/assets/asset.hpp"
+#include <scene/assets/image.hpp>
 
 namespace Omnia
 {
@@ -41,6 +42,15 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+
+		std::shared_ptr<Image> albedo;
+		std::shared_ptr<Image> metallicity;
+		std::shared_ptr<Image> specularity;
+		std::shared_ptr<Image> roughness;
+		std::shared_ptr<Image> anisotropy;
+		std::shared_ptr<Image> emission;
+		std::shared_ptr<Image> normal;
+		std::shared_ptr<Image> displacement;
 	private:
 	};
 }

@@ -46,7 +46,7 @@
 #include "scene/components/collider.hpp"
 #include "scene/components/gui.hpp"
 #include "scene/components/light.hpp"
-#include "scene/components/model_container.hpp"
+#include "scene/components/model.hpp"
 #include "scene/components/physics_body.hpp"
 #include "scene/components/property_animation.hpp"
 #include "scene/components/script_collection.hpp"
@@ -99,7 +99,7 @@ namespace Omnia
 			registry->add<Collider, Component>();
 			registry->add<GUI, Component>();
 			registry->add<Light, Component>();
-			registry->add<ModelContainer, Component>();
+			registry->add<Model, Component>();
 			registry->add<PhysicsBody, Component>();
 			registry->add<PropertyAnimation, Component>();
 			registry->add<ScriptCollection, Component>();

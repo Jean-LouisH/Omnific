@@ -21,6 +21,73 @@
 // SOFTWARE.
 
 #include "model.hpp"
+#include <scene/scene.hpp>
+#include <os/os.hpp>
+
+
+void Omnia::Model::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+		if (it3->first.as<std::string>() == "mesh")
+			this->mesh = std::shared_ptr<Mesh>(new Mesh(it3->second.as<std::string>()));
+}
+
+void Omnia::Model::setToCube()
+{
+	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
+	this->material = std::shared_ptr<Material>(new Material());
+	this->material->albedo = std::shared_ptr<Image>(new Image("Image::default"));
+}
+
+void Omnia::Model::setToTexturedCube(std::shared_ptr<Material> material)
+{
+	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
+	this->material = material;
+}
+
+void Omnia::Model::setMesh(std::shared_ptr<Mesh> mesh)
+{
+	this->mesh = mesh;
+}
+
+void Omnia::Model::setMaterial(std::shared_ptr<Material> material)
+{
+	this->material = material;
+}
+
+void Omnia::Model::setRig(std::shared_ptr<Rig> rig)
+{
+	this->rig = rig;
+}
+
+void Omnia::Model::addSkeletalAnimation(std::shared_ptr<SkeletalAnimation> skeletalAnimation)
+{
+	this->skeletalAnimations.push_back(skeletalAnimation);
+}
+
+std::shared_ptr<Omnia::Mesh> Omnia::Model::getMesh()
+{
+	return this->mesh;
+}
+
+std::shared_ptr<Omnia::Material> Omnia::Model::getMaterial()
+{
+	return this->material;
+}
+
+std::shared_ptr<Omnia::Rig> Omnia::Model::getRig()
+{
+	return this->rig;
+}
+
+std::vector<std::shared_ptr<Omnia::SkeletalAnimation>> Omnia::Model::getSkeletalAnimations()
+{
+	return this->skeletalAnimations;
+}
+
+/*
+
+#include "model.hpp"
 #include <os/os.hpp>
 
 #define TINYGLTF_IMPLEMENTATION
@@ -68,26 +135,24 @@ void Omnia::Model::load(std::string filepath, std::shared_ptr<Image> image)
 			printf("Failed to parse glTF\n");
 		}
 
-		/*In progress...*/
+this->image = std::shared_ptr<Image>(new Image("Image::default"));
 
-		this->image = std::shared_ptr<Image>(new Image("Image::default"));
+if (model.meshes.size() == 1)
+{
+	std::vector<float> positions = this->readGLTFPrimitiveAttribute(model, "POSITION");
+	std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(model, "TEXCOORD_0");
+	std::vector<float> normals = this->readGLTFPrimitiveAttribute(model, "NORMAL");
+	std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(model);
 
-		if (model.meshes.size() == 1)
-		{
-			std::vector<float> positions = this->readGLTFPrimitiveAttribute(model, "POSITION");
-			std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(model, "TEXCOORD_0");
-			std::vector<float> normals = this->readGLTFPrimitiveAttribute(model, "NORMAL");
-			std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(model);
+	this->mesh = std::shared_ptr<Mesh>(new Mesh(positions, textureCoords, normals, indices));
 
-			this->mesh = std::shared_ptr<Mesh>(new Mesh(positions, textureCoords, normals, indices));
-
-			if (model.images.size() == 1)
-			{
-				tinygltf::Image image = model.images.at(0);
-				this->image = std::shared_ptr<Image>(
-					new Image((uint8_t*)image.image.data(), image.width,image.height, image.component));
-			}
-		}
+	if (model.images.size() == 1)
+	{
+		tinygltf::Image image = model.images.at(0);
+		this->image = std::shared_ptr<Image>(
+			new Image((uint8_t*)image.image.data(), image.width, image.height, image.component));
+	}
+}
 	}
 }
 
@@ -131,3 +196,4 @@ std::vector<uint32_t> Omnia::Model::readGLTFPrimitiveIndices(tinygltf::Model mod
 
 	return indices;
 }
+*/
