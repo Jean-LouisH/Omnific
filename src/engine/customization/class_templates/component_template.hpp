@@ -40,9 +40,11 @@ namespace Omnia
 		};
 
 		/* Make a copy function specifically for this class. */
-		virtual Registerable* copy() override
+		virtual Registerable* instance() override
 		{
-			return new ComponentTemplate(*this);
+			ComponentTemplate* clone = new ComponentTemplate(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 	private:
 	};

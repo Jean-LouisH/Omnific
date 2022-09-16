@@ -44,9 +44,11 @@ namespace Omnia
 		};
 
 		/* Make a copy function specifically for this class. */
-		virtual Registerable* copy() override
+		virtual Registerable* instance() override
 		{
-			return new SystemTemplate(*this);
+			SystemTemplate* clone = new SystemTemplate(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
 
 		/* Uncomment the methods needed to override. */
