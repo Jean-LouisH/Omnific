@@ -34,14 +34,14 @@
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API SpriteContainer : public RenderableComponent
+	class OMNIA_ENGINE_API Sprite : public RenderableComponent
 	{
 	public:
-		SpriteContainer()
+		Sprite()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "SpriteContainer";
+		static constexpr const char* TYPE_STRING = "Sprite";
 		std::string currentFrameSequenceName = "";
 
 		bool isXBillboarded = false;
@@ -49,7 +49,7 @@ namespace Omnia
 
 		virtual Registerable* instance() override
 		{
-			SpriteContainer* clone = new SpriteContainer(*this);
+			Sprite* clone = new Sprite(*this);
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}

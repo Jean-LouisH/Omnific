@@ -54,7 +54,7 @@ void Omnia::AnimationSystem::finalize()
 void Omnia::AnimationSystem::updateSpriteContainers(std::shared_ptr<SceneTree> sceneTree)
 {
 	const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
-	std::vector<std::shared_ptr<SpriteContainer>> spriteContainers = sceneTree->getComponentsByType<SpriteContainer>();
+	std::vector<std::shared_ptr<Sprite>> spriteContainers = sceneTree->getComponentsByType<Sprite>();
 
 	for (size_t i = 0; i < spriteContainers.size(); i++)
 	{

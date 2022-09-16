@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "sprite_container.hpp"
+#include "sprite.hpp"
 #include <scene/scene.hpp>
 #include <os/os.hpp>
 
-void Omnia::SpriteContainer::deserialize(YAML::Node yamlNode)
+void Omnia::Sprite::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
@@ -53,25 +53,25 @@ void Omnia::SpriteContainer::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::SpriteContainer::addImage(std::shared_ptr<Image> image)
+void Omnia::Sprite::addImage(std::shared_ptr<Image> image)
 {
 	this->addEmptyFrameSequence("");
 	this->addImageToFrameSequence("", image);
 }
 
-void Omnia::SpriteContainer::addEmptyFrameSequence(std::string frameSequenceName)
+void Omnia::Sprite::addEmptyFrameSequence(std::string frameSequenceName)
 {
 	std::vector<std::shared_ptr<Image>> frameSequence;
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 }
 
-void Omnia::SpriteContainer::addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence)
+void Omnia::Sprite::addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence)
 {
 	this->frameSequences.emplace(frameSequenceName, frameSequence);
 	this->image = this->getCurrentFrame();
 }
 
-void Omnia::SpriteContainer::addImageToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
+void Omnia::Sprite::addImageToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -83,25 +83,25 @@ void Omnia::SpriteContainer::addImageToFrameSequence(std::string frameSequenceNa
 	this->image = this->getCurrentFrame();
 }
 
-void Omnia::SpriteContainer::clearFrameSequences()
+void Omnia::Sprite::clearFrameSequences()
 {
 	this->frameSequences.clear();
 	this->currentFrameIndex = 0;
 	this->image = this->getCurrentFrame();
 }
 
-void Omnia::SpriteContainer::setAnimationSpeed(float value_fps)
+void Omnia::Sprite::setAnimationSpeed(float value_fps)
 {
 	if (value_fps > 0.0)
 		this->animationSpeedInFPS = value_fps;
 }
 
-float Omnia::SpriteContainer::getAnimationSpeed()
+float Omnia::Sprite::getAnimationSpeed()
 {
 	return this->animationSpeedInFPS;
 }
 
-void Omnia::SpriteContainer::update(float delta_s)
+void Omnia::Sprite::update(float delta_s)
 {
 	if (this->isPlaying)
 	{
@@ -125,7 +125,7 @@ void Omnia::SpriteContainer::update(float delta_s)
 	this->image = this->getCurrentFrame();
 }
 
-void Omnia::SpriteContainer::play(std::string frameSequenceName)
+void Omnia::Sprite::play(std::string frameSequenceName)
 {
 	if (this->frameSequences.count(frameSequenceName))
 	{
@@ -134,42 +134,42 @@ void Omnia::SpriteContainer::play(std::string frameSequenceName)
 	}
 }
 
-void Omnia::SpriteContainer::play()
+void Omnia::Sprite::play()
 {
 	this->isPlaying = true;
 }
 
-void Omnia::SpriteContainer::pause()
+void Omnia::Sprite::pause()
 {
 	this->isPlaying = false;
 }
 
-void Omnia::SpriteContainer::stop()
+void Omnia::Sprite::stop()
 {
 	this->pause();
 	this->currentFrameIndex = 0;
 }
 
-void Omnia::SpriteContainer::setBackwards()
+void Omnia::Sprite::setBackwards()
 {
 	this->isBackwards = true;
 }
-void Omnia::SpriteContainer::setForwards()
+void Omnia::Sprite::setForwards()
 {
 	this->isBackwards = false;
 }
 
-void Omnia::SpriteContainer::flipVertically()
+void Omnia::Sprite::flipVertically()
 {
 	this->isFlippedVertically != this->isFlippedVertically;
 }
 
-void Omnia::SpriteContainer::flipHorizontally()
+void Omnia::Sprite::flipHorizontally()
 {
 	this->isFlippedHorizontally != this->isFlippedHorizontally;
 }
 
-std::shared_ptr<Omnia::Image> Omnia::SpriteContainer::getCurrentFrame()
+std::shared_ptr<Omnia::Image> Omnia::Sprite::getCurrentFrame()
 {
 	std::shared_ptr<Image> image = std::shared_ptr<Image>(new Image());
 	if (this->frameSequences.size() > 0)
@@ -177,7 +177,7 @@ std::shared_ptr<Omnia::Image> Omnia::SpriteContainer::getCurrentFrame()
 	return image;
 }
 
-std::vector<std::string> Omnia::SpriteContainer::getFrameSequenceNames()
+std::vector<std::string> Omnia::Sprite::getFrameSequenceNames()
 {
 	std::vector<std::string> frameSequenceNames;
 
@@ -191,7 +191,7 @@ std::vector<std::string> Omnia::SpriteContainer::getFrameSequenceNames()
 	return frameSequenceNames;
 }
 
-std::vector<std::shared_ptr<Omnia::Image>> Omnia::SpriteContainer::getFrameSequenceByName(std::string frameSequenceName)
+std::vector<std::shared_ptr<Omnia::Image>> Omnia::Sprite::getFrameSequenceByName(std::string frameSequenceName)
 {
 	std::vector<std::shared_ptr<Image>> frameSequence;
 
@@ -201,7 +201,7 @@ std::vector<std::shared_ptr<Omnia::Image>> Omnia::SpriteContainer::getFrameSeque
 	return frameSequence;
 }
 
-std::vector<std::shared_ptr<Omnia::Image>> Omnia::SpriteContainer::getCurrentFrameSequence()
+std::vector<std::shared_ptr<Omnia::Image>> Omnia::Sprite::getCurrentFrameSequence()
 {
 	return this->frameSequences.at(this->currentFrameSequenceName);
 }

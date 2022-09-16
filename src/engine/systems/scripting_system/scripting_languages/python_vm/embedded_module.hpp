@@ -235,7 +235,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_current_model", &Omnia::ModelContainer::getCurrentModel, pybind11::return_value_policy::reference);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component, std::shared_ptr<Omnia::PropertyAnimation>>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component, std::shared_ptr<Omnia::Collider>>(m, Omnia::Collider::TYPE_STRING);
-	pybind11::class_<Omnia::SpriteContainer, Omnia::Component, std::shared_ptr<Omnia::SpriteContainer>>(m, Omnia::SpriteContainer::TYPE_STRING);
+	pybind11::class_<Omnia::Sprite, Omnia::Component, std::shared_ptr<Omnia::Sprite>>(m, Omnia::Sprite::TYPE_STRING);
 	pybind11::class_<Omnia::Transform, Omnia::Component, std::shared_ptr<Omnia::Transform>>(m, Omnia::Transform::TYPE_STRING)
 		.def_readwrite("translation", &Omnia::Transform::translation)
 		.def_readwrite("rotation", &Omnia::Transform::rotation)

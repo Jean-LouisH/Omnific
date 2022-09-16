@@ -50,7 +50,7 @@
 #include "scene/components/physics_body.hpp"
 #include "scene/components/property_animation.hpp"
 #include "scene/components/script_collection.hpp"
-#include "scene/components/sprite_container.hpp"
+#include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
 #include "scene/components/transform.hpp"
 #include "scene/components/viewport.hpp"
@@ -103,7 +103,7 @@ namespace Omnia
 			registry->add<PhysicsBody, Component>();
 			registry->add<PropertyAnimation, Component>();
 			registry->add<ScriptCollection, Component>();
-			registry->add<SpriteContainer, Component>();
+			registry->add<Sprite, Component>();
 			registry->add<Timer, Component>();
 			registry->add<Transform, Component>();
 			registry->add<Viewport, Component>();
