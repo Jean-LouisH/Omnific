@@ -67,7 +67,8 @@ namespace Omnia
 		};
 
 		State state;
-		std::unordered_map<std::string, std::shared_ptr<System>> systems;
+		std::unordered_map<std::string, std::shared_ptr<System>> updateSystems;
+		std::unordered_map<std::string, std::shared_ptr<System>> outputSystems;
 
 		int argc = 0;
 		char** argv = nullptr;
@@ -88,7 +89,14 @@ namespace Omnia
 		template<class T>
 		std::shared_ptr<T> getSystem()
 		{
-			return std::dynamic_pointer_cast<T>(this->systems.at(T::TYPE_STRING));
+			std::shared_ptr<T> system;
+
+			if (this->updateSystems.count(T::TYPE_STRING))
+				system = std::dynamic_pointer_cast<T>(this->updateSystems.at(T::TYPE_STRING));
+			else if (this->outputSystems.count(T::TYPE_STRING))
+				system = std::dynamic_pointer_cast<T>(this->outputSystems.at(T::TYPE_STRING));
+
+			return system;
 		}
 	};
 }

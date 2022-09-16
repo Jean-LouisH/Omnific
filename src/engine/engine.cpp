@@ -108,7 +108,6 @@ void Omnia::Engine::run()
 					"The game data is either missing or corrupted. Reinstall and try again");
 				this->state = State::FINALIZING;
 			}
-
 		}
 
 		Profiler& profiler = OS::getProfiler();
@@ -165,7 +164,14 @@ bool Omnia::Engine::initialize()
 
 	/* Load Systems from the ClassRegistry */
 	for (auto it : ClassRegistry::queryAll<System>())
-		this->systems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(it.second->instance())));
+	{
+		std::shared_ptr<System> system = std::dynamic_pointer_cast<System>(it.second);
+
+		if (system->isThreadType(ThreadType::UPDATE))
+			this->updateSystems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(system->instance())));
+		else if (system->isThreadType(ThreadType::OUTPUT))
+			this->outputSystems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(system->instance())));
+	}
 
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
@@ -215,9 +221,8 @@ void Omnia::Engine::queryInput()
 
 void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
-	for (auto system : this->systems)
-		if (system.second->isThreadType(ThreadType::UPDATE))
-			system.second->initialize();
+	for (auto updateSystem : this->updateSystems)
+		updateSystem.second->initialize();
 
 	Profiler& profiler = OS::getProfiler();
 	HiResTimer updateFrameTimer;
@@ -245,24 +250,20 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 #endif
 
 		if (OS::getInput().getHasDetectedInputChanges())
-			for (auto system : this->systems)
-				if (system.second->isThreadType(ThreadType::UPDATE))
-					system.second->onInput(activeScene);
+			for (auto updateSystem : this->updateSystems)
+				updateSystem.second->onInput(activeScene);
 
 		if (SceneStorage::hasActiveSceneChanged())
 			this->getSystem<ScriptingSystem>()->loadScriptModules(SceneStorage::getActiveScene());
 
-		for (auto system : this->systems)
-			if (system.second->isThreadType(ThreadType::UPDATE))
-				system.second->onStart(activeScene);
+		for (auto updateSystem : this->updateSystems)
+			updateSystem.second->onStart(activeScene);
 
-		for (auto system : this->systems)
-			if (system.second->isThreadType(ThreadType::UPDATE))
-				system.second->onEarly(activeScene);
+		for (auto updateSystem : this->updateSystems)
+			updateSystem.second->onEarly(activeScene);
 
-		for (auto system : this->systems)
-			if (system.second->isThreadType(ThreadType::UPDATE))
-				system.second->onLogic(activeScene);
+		for (auto updateSystem : this->updateSystems)
+			updateSystem.second->onLogic(activeScene);
 
 		/* This calls the compute based Systems repeatedly until the accumulated
 		   lag milliseconds are depleted. This ensures compute operations
@@ -270,19 +271,16 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 
 		while (profiler.getLagCount() >= msPerComputeUpdate && this->isRunning())
 		{
-			for (auto system : this->systems)
-				if (system.second->isThreadType(ThreadType::UPDATE))
-					system.second->onCompute(activeScene);
+			for (auto updateSystem : this->updateSystems)
+				updateSystem.second->onCompute(activeScene);
 			profiler.decrementLagCount(msPerComputeUpdate);
 		}
 
-		for (auto system : this->systems)
-			if (system.second->isThreadType(ThreadType::UPDATE))
-				system.second->onLate(activeScene);
+		for (auto updateSystem : this->updateSystems)
+			updateSystem.second->onLate(activeScene);
 
-		for (auto system : this->systems)
-			if (system.second->isThreadType(ThreadType::UPDATE))
-				system.second->onFinish(activeScene);
+		for (auto updateSystem : this->updateSystems)
+			updateSystem.second->onFinish(activeScene);
 
 		for (auto it : activeScene->getSceneTrees())
 			it.second->getEventBus()->clear();
@@ -300,17 +298,15 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 {
 	/* Initializes RenderingContext on the same
 	   thread as object generators, as required. */
-	for (auto system : this->systems)
-		if (system.second->isThreadType(ThreadType::OUTPUT))
-			system.second->initialize();
+	for (auto outputSystem : this->outputSystems)
+		outputSystem.second->initialize();
 
 	/* The RenderingSystem only reads Scene data. */
 	while (this->isRunning())
 	{
 		outputProcessTimer->setStart();
-		for (auto system : this->systems)
-			if (system.second->isThreadType(ThreadType::OUTPUT))
-				system.second->onLate(SceneStorage::getActiveScene());
+		for (auto outputSystem : this->outputSystems)
+			outputSystem.second->onLate(SceneStorage::getActiveScene());
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			Configuration::getInstance()->timeSettings.targetFPS,
@@ -329,6 +325,9 @@ void Omnia::Engine::finalize()
 {
 	OS::finalize();
 
-	for (auto system : this->systems)
-		system.second.reset();
+	for (auto updateSystem : this->updateSystems)
+		updateSystem.second.reset();
+
+	for (auto outputSystem : this->outputSystems)
+		outputSystem.second.reset();
 }
