@@ -42,72 +42,69 @@ void Omnia::Engine::run()
 	{
 		std::string dataDirectory = "data/";
 
-		/* On successful initialization */
-		if (this->initialize())
-		{
+		this->initialize();
 #ifdef _DEBUG
-			OS::getWindow().hide();
-			std::cout << "\n\nChoose data project to load:" << std::endl;
-			std::cout << "1. Demos" << std::endl;
-			std::cout << "2. Editor" << std::endl;
-			std::cout << "3. Debug" << std::endl;
-			std::cout << "\n-> #";
+		OS::getWindow().hide();
+		std::cout << "\n\nChoose data project to load:" << std::endl;
+		std::cout << "1. Demos" << std::endl;
+		std::cout << "2. Editor" << std::endl;
+		std::cout << "3. Debug" << std::endl;
+		std::cout << "\n-> #";
 
-			std::string inputString;
-			std::cin >> inputString;
-			OS::getWindow().show();
+		std::string inputString;
+		std::cin >> inputString;
+		OS::getWindow().show();
 
-			if (inputString == "1")
-				dataDirectory = DEBUG_DEMO_DATA_FILEPATH;
-			else if (inputString == "2")
-				dataDirectory = DEBUG_EDITOR_DATA_FILEPATH;
-			else if (inputString == "3")
-				dataDirectory = DEBUG_DEBUG_DATA_FILEPATH;
+		if (inputString == "1")
+			dataDirectory = DEBUG_DEMO_DATA_FILEPATH;
+		else if (inputString == "2")
+			dataDirectory = DEBUG_EDITOR_DATA_FILEPATH;
+		else if (inputString == "3")
+			dataDirectory = DEBUG_DEBUG_DATA_FILEPATH;
 #endif
-			std::string bootFilename = "boot.yml";
-			std::string bootFilepath = dataDirectory + bootFilename;
+		std::string bootFilename = "boot.yml";
+		std::string bootFilepath = dataDirectory + bootFilename;
 
-			FileAccess& fileAccess = OS::getFileAccess();
+		FileAccess& fileAccess = OS::getFileAccess();
 
-			if (fileAccess.exists(bootFilepath))
+		if (fileAccess.exists(bootFilepath))
+		{
+			Configuration::loadFromFile(bootFilepath);
+			OS::getFileAccess().setDataDirectory(dataDirectory);
+
+			Image image = Image(dataDirectory + Configuration::getInstance()->metadata.iconFilepath);
+			OS::getWindow().changeIcon(image);
+
+			std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
+			if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
 			{
-				Configuration::loadFromFile(bootFilepath);
-				OS::getFileAccess().setDataDirectory(dataDirectory);
-
-				Image image = Image(dataDirectory + Configuration::getInstance()->metadata.iconFilepath);
-				OS::getWindow().changeIcon(image);
-
-				std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
-				if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
-				{
-					std::shared_ptr<Scene> entryScene(new Scene(entrySceneFilepath));
-					SceneStorage::addScene(Configuration::getInstance()->metadata.entrySceneFilepath, entryScene);
-				}
+				std::shared_ptr<Scene> entryScene(new Scene(entrySceneFilepath));
+				SceneStorage::addScene(Configuration::getInstance()->metadata.entrySceneFilepath, entryScene);
 			}
+		}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-			std::cout << "\n\n\tOmnia Debug Console Enabled";
-			std::cout << "\n\nPress '`' in-application to write to command line via console.";
-			std::cout << "\n\nTo see the list of commands, enter 'commands'.";
-			std::cout << "\n\n";
+		std::cout << "\n\n\tOmnia Debug Console Enabled";
+		std::cout << "\n\nPress '`' in-application to write to command line via console.";
+		std::cout << "\n\nTo see the list of commands, enter 'commands'.";
+		std::cout << "\n\n";
 #endif
 
-			if (Configuration::getInstance()->isLoaded)
-			{
-				OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
-				Window& window = OS::getWindow();
-				window.resize(Configuration::getInstance()->windowSettings.width, Configuration::getInstance()->windowSettings.height);
-				window.changeTitle(Configuration::getInstance()->metadata.title.c_str());
-				this->state = State::RUNNING_APPLICATION_WINDOWED;
-				OS::getLogger().write("Loaded application project \"" + Configuration::getInstance()->metadata.title + "\" at: " + dataDirectory);
-			}
-			else
-			{
-				OS::showErrorBox(
-					"Could not load game data", 
-					"The game data is either missing or corrupted. Reinstall and try again");
-				this->state = State::FINALIZING;
-			}
+		if (Configuration::getInstance()->isLoaded)
+		{
+			OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
+			Window& window = OS::getWindow();
+			window.resize(Configuration::getInstance()->windowSettings.width, Configuration::getInstance()->windowSettings.height);
+			window.changeTitle(Configuration::getInstance()->metadata.title.c_str());
+			this->state = State::RUNNING_APPLICATION_WINDOWED;
+			OS::getLogger().write("Loaded application project \"" + Configuration::getInstance()->metadata.title + "\" at: " + dataDirectory);
+		}
+		else
+		{
+			OS::showErrorBox(
+				"Could not load game data", 
+				"The game data is either missing or corrupted. Reinstall and try again");
+			this->state = State::FINALIZING;
 		}
 
 		Profiler& profiler = OS::getProfiler();
@@ -156,10 +153,8 @@ bool Omnia::Engine::isRunning()
 		this->state == State::RUNNING_APPLICATION_WINDOWED);
 }
 
-bool Omnia::Engine::initialize()
+void Omnia::Engine::initialize()
 {
-	bool isInitializedOK = false;
-
 	ClassRegistry::initialize();
 
 	/* Load Systems from the ClassRegistry */
@@ -182,30 +177,15 @@ bool Omnia::Engine::initialize()
 		commandLineArguments.push_back(this->argv[i]);
 
 	/* Hardware abstraction layer initialization. */
-	isInitializedOK = OS::initialize(
-		"", 
-		640, 
-		480, 
-		false, 
-		this->getSystem<RenderingSystem>()->getRenderingContextName(),
-		commandLineArguments);
+	OS::initialize(commandLineArguments);
 
-	if (isInitializedOK)
-	{
-		Platform& platform = OS::getPlatform();
-		Logger& logger = OS::getLogger();
+	Platform& platform = OS::getPlatform();
+	Logger& logger = OS::getLogger();
 
-		logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
-		logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize()) + " B");
-		logger.write("Retrieved OS Name: " + platform.getOSName());
-		logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
-	}
-	else
-	{
-		this->state == State::FINALIZING;
-	}
-
-	return isInitializedOK;
+	logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
+	logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize()) + " B");
+	logger.write("Retrieved OS Name: " + platform.getOSName());
+	logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
 }
 
 void Omnia::Engine::queryInput()

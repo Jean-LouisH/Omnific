@@ -34,6 +34,7 @@
 #include "scene_tree_renderable.hpp"
 #include <memory>
 #include <map>
+#include <os/os.hpp>
 
 namespace Omnia
 {
@@ -54,6 +55,12 @@ namespace Omnia
 			SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
 			SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+			OS::createWindow("",
+				640,
+				480,
+				false,
+				this->getRenderingContextName());
 
 			this->context = std::shared_ptr<RenderingContext>(new RenderingContext());
 			this->type = TYPE_STRING;

@@ -28,37 +28,38 @@
 
 Omnia::OS* Omnia::OS::instance = nullptr;
 
-bool Omnia::OS::initialize(
-	std::string title, 
-	uint16_t width, 
-	uint16_t height, 
-	bool isFullscreen, 
-	std::string renderingContext,
-	std::vector<std::string> commandLineArguments)
+void Omnia::OS::initialize(std::vector<std::string> commandLineArguments)
 {
 	OS* newInstance = getInstance();
-	bool isSuccessful = false;
 
-	isSuccessful = !(bool)SDL_Init(SDL_INIT_EVERYTHING);
+	newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
+	newInstance->logger = std::unique_ptr<Logger>(new Logger());
+	newInstance->input = std::unique_ptr<Input>(new Input());
+	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(commandLineArguments[0]));
+	newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
+	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
+	newInstance->platform = std::unique_ptr<Platform>(new Platform());
+	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
+	newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
+	newInstance->runTimer->setStart();
+
+	newInstance->commandLineArguments = commandLineArguments;
+}
+
+bool Omnia::OS::createWindow(std::string title,
+	uint16_t width,
+	uint16_t height,
+	bool isFullscreen,
+	std::string renderingContext)
+{
+	bool isSuccessful = !(bool)SDL_Init(SDL_INIT_EVERYTHING);
 
 	if (isSuccessful)
 	{
-		newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
-		newInstance->logger = std::unique_ptr<Logger>(new Logger());
-		newInstance->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
-		newInstance->input = std::unique_ptr<Input>(new Input());
-		newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(commandLineArguments[0]));
-		newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
-		newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
-		newInstance->platform = std::unique_ptr<Platform>(new Platform());
-		newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
-		newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
-		newInstance->runTimer->setStart();
+		getInstance()->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
 
 		if (TTF_Init() == -1)
 			printf("TTF_Init: %s\n", TTF_GetError());
-
-		newInstance->commandLineArguments = commandLineArguments;
 	}
 	else
 	{

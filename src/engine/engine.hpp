@@ -75,7 +75,7 @@ namespace Omnia
 
 		bool isRunning();
 		/* Returns "true" if initialization is successful */
-		bool initialize();
+		void initialize();
 		void queryInput();
 		/* Runs on a dedicated update thread. */
 		void runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer);

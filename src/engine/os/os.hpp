@@ -42,14 +42,13 @@ namespace Omnia
 	class OMNIA_ENGINE_API OS
 	{
 	public:
-		static bool initialize(
-			std::string title, 
-			uint16_t width, 
-			uint16_t height, 
-			bool isFullscreen, 
-			std::string renderingContext,
-			std::vector<std::string> args
-		);
+		static void initialize(std::vector<std::string> args);
+
+		static bool createWindow(std::string title,
+			uint16_t width,
+			uint16_t height,
+			bool isFullscreen,
+			std::string renderingContext);
 
 		static void yieldThisThread();
 		/* Duration in milliseconds */
