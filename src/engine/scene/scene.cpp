@@ -134,6 +134,8 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 						   is not the same. */
 						else if (it1->first.as<std::string>() == "SubSceneTree")
 						{
+							std::string subSceneFilepath;
+							std::string subSceneTreeName;
 							EntityID parentID = 0;
 
 							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
@@ -144,43 +146,44 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 								}
 								else if (it2->first.as<std::string>() == "name")
 								{
-									std::string subSceneFilepath = it2->second[0].as<std::string>();
-									std::string subSceneTreeName = it2->second[1].as<std::string>();
-									std::shared_ptr<SceneTree> subSceneTree;
+									subSceneFilepath = it2->second[0].as<std::string>();
+									subSceneTreeName = it2->second[1].as<std::string>();
+								}
+							}
 
-									if (subSceneFilepath != filepath)
+							std::shared_ptr<SceneTree> subSceneTree;
+
+							if (subSceneFilepath != filepath)
+							{
+								if (subSceneTreeName != "")
+									subSceneTree = Scene(subSceneFilepath, subSceneTreeName).getLastSceneTree();
+								else
+									subSceneTree = this->loadGLTF(subSceneFilepath);
+
+
+								/* Only load the SceneTree if it is the same spatial dimension. */
+								if (subSceneTree->is2D == sceneTree->is2D)
+								{
+									/* Transfer Entities and their Components */
+									std::shared_ptr<Entity> newRootEntity(new Entity());
+									newRootEntity->setName(subSceneFilepath);
+									newRootEntity->parentID = parentID;
+									sceneTree->addEntity(newRootEntity);
+									std::unordered_map<EntityID, std::shared_ptr<Entity>>& subSceneEntities = subSceneTree->getEntities();
+
+									for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
 									{
-										if (subSceneTreeName != "")
-											subSceneTree = Scene(subSceneFilepath, subSceneTreeName).getLastSceneTree();
-										else
-											subSceneTree = this->loadGLTF(subSceneFilepath);
+										std::shared_ptr<Entity> subSceneEntity = it->second;
 
+										if (subSceneEntity->parentID == 0)
+											subSceneEntity->parentID = newRootEntity->getID();
 
-										/* Only load the SceneTree if it is the same spatial dimension. */
-										if (subSceneTree->is2D == sceneTree->is2D)
-										{
-											/* Transfer Entities and their Components */
-											std::shared_ptr<Entity> newRootEntity(new Entity());
-											newRootEntity->setName(subSceneFilepath);
-											newRootEntity->parentID = parentID;
-											sceneTree->addEntity(newRootEntity);
-											std::unordered_map<EntityID, std::shared_ptr<Entity>>& subSceneEntities = subSceneTree->getEntities();
+										sceneTree->addEntity(subSceneEntity);
 
-											for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
-											{
-												std::shared_ptr<Entity> subSceneEntity = it->second;
+										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity->componentIDs;
 
-												if (subSceneEntity->parentID == 0)
-													subSceneEntity->parentID = newRootEntity->getID();
-
-												sceneTree->addEntity(subSceneEntity);
-
-												std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity->componentIDs;
-
-												for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
-													sceneTree->addComponentToLastEntity(subSceneTree->getComponent(it2->second));
-											}
-										}
+										for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
+											sceneTree->addComponentToLastEntity(subSceneTree->getComponent(it2->second));
 									}
 								}
 							}

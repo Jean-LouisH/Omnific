@@ -247,7 +247,7 @@ std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::Scen
 
 std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID componentID)
 {
-	std::shared_ptr<Component> component(new Component());
+	std::shared_ptr<Component> component;
 
 	for (int i = 0; i < this->components.size(); i++)
 	{

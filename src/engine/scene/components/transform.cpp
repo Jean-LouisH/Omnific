@@ -57,12 +57,12 @@ void Omnia::Transform::rotateZ(float angle)
 	this->rotation.z += angle;
 }
 
-glm::mat4 Omnia::Transform::getGlobalTransformMatrix()
+glm::mat4 Omnia::Transform::getTransformMatrix()
 {
-	glm::mat4 globalTransform = glm::translate(glm::mat4(1.0f), this->translation);
-	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	globalTransform = glm::rotate(globalTransform, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	globalTransform = glm::scale(globalTransform, this->scale);
-	return globalTransform;
+	glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0f), this->translation);
+	transformMatrix = glm::rotate(transformMatrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	transformMatrix = glm::rotate(transformMatrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	transformMatrix = glm::rotate(transformMatrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	transformMatrix = glm::scale(transformMatrix, this->scale);
+	return transformMatrix;
 }

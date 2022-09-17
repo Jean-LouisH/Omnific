@@ -59,7 +59,7 @@ namespace Omnia
 		void rotateX(float angle);
 		void rotateY(float angle);
 		void rotateZ(float angle);
-		glm::mat4 getGlobalTransformMatrix();
+		glm::mat4 getTransformMatrix();
 	private:
 	};
 }

@@ -123,7 +123,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 			{
 				EntityRenderable* entityRenderablesData = sceneTreeRenderable.entityRenderables.data();
 				size_t entityRenderablesCount = sceneTreeRenderable.entityRenderables.size();
-				glm::mat4 worldToViewMatrix = glm::inverse(sceneTreeRenderable.cameraTransform->getGlobalTransformMatrix());
+				glm::mat4 worldToViewMatrix = glm::inverse(sceneTreeRenderable.cameraTransform->getTransformMatrix());
 				glm::mat4 viewToProjectionMatrix = sceneTreeRenderable.camera->getViewToProjectionMatrix();
 
 				if (sceneTreeRenderable.is2D)
@@ -141,6 +141,9 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 				else
 					this->disableWireframeMode();
 
+				/* Memory allocated out of the tight loop. */
+				std::shared_ptr<Transform> globalTransform(new Transform());
+
 				for (size_t j = 0; j < entityRenderablesCount; j++)
 				{
 
@@ -148,7 +151,17 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					std::vector<std::shared_ptr<Shader>> shaders = entityRenderable.renderableComponent->getShaders();
 					size_t shaderCount = shaders.size();
 
-					glm::mat4 modelToWorldMatrix = entityRenderable.entityTransform->getGlobalTransformMatrix();
+					size_t hierarchyLength = entityRenderable.entityHierarchyTransforms.size();
+					std::shared_ptr<Transform>* localHierarchyTransforms = entityRenderable.entityHierarchyTransforms.data();
+
+					for (size_t i = 0; i < hierarchyLength; i++)
+					{
+						globalTransform->translation += localHierarchyTransforms[i]->translation;
+						globalTransform->rotation += localHierarchyTransforms[i]->rotation;
+						globalTransform->scale *= localHierarchyTransforms[i]->scale;
+					}
+
+					glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
 					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
 					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
 					const float cullAlphaThreshold = 1.0 - 0.001;
