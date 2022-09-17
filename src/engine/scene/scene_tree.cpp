@@ -23,6 +23,8 @@
 #include "scene_tree.hpp"
 #include "components/component.hpp"
 
+#include <scene/components/transform.hpp>
+
 Omnia::SceneTree::SceneTree()
 {
 	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
@@ -88,6 +90,12 @@ void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component
 	{
 		this->renderOrderIndexCache.push_back(lastIndex);
 		this->hasRenderableComponentsChanged = true;
+	}
+
+	if (component->isType(Transform::TYPE_STRING))
+	{
+		std::shared_ptr<Transform> transform = std::dynamic_pointer_cast<Transform>(component);
+		transform->setTransformHierarchy(this->getComponentHierarchyByType<Transform>(transform->getEntityID()));
 	}
 }
 

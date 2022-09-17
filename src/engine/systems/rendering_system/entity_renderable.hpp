@@ -41,7 +41,7 @@ namespace Omnia
 	class EntityRenderable
 	{
 	public:
-		std::vector<std::shared_ptr<Transform>> entityHierarchyTransforms;
+		std::shared_ptr<Transform> entityTransform;
 		std::shared_ptr<RenderableComponent> renderableComponent;
 	private:
 	};

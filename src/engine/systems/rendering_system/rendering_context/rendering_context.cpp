@@ -151,16 +151,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					std::vector<std::shared_ptr<Shader>> shaders = entityRenderable.renderableComponent->getShaders();
 					size_t shaderCount = shaders.size();
 
-					size_t hierarchyLength = entityRenderable.entityHierarchyTransforms.size();
-					std::shared_ptr<Transform>* localHierarchyTransforms = entityRenderable.entityHierarchyTransforms.data();
-
-					for (size_t i = 0; i < hierarchyLength; i++)
-					{
-						globalTransform->translation += localHierarchyTransforms[i]->translation;
-						globalTransform->rotation += localHierarchyTransforms[i]->rotation;
-						globalTransform->scale *= localHierarchyTransforms[i]->scale;
-					}
-
+					globalTransform = entityRenderable.entityTransform->getGlobalTransform();
 					glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
 					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
 					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();

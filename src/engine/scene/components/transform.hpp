@@ -25,6 +25,7 @@
 
 #include <glm/glm.hpp>
 #include "scene/components/component.hpp"
+#include <memory>
 
 namespace Omnia
 {
@@ -53,13 +54,16 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
-		void globallyTranslateX(float offset);
-		void globallyTranslateY(float offset);
-		void globallyTranslateZ(float offset);
+		void setTransformHierarchy(std::vector<std::shared_ptr<Transform>> transformHierarchy);
+		void translateX(float offset);
+		void translateY(float offset);
+		void translateZ(float offset);
 		void rotateX(float angle);
 		void rotateY(float angle);
 		void rotateZ(float angle);
+		std::shared_ptr<Transform> getGlobalTransform();
 		glm::mat4 getTransformMatrix();
 	private:
+		std::vector<std::shared_ptr<Transform>> transformHierarchy;
 	};
 }

@@ -27,17 +27,22 @@ void Omnia::Transform::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::Transform::globallyTranslateX(float offset)
+void Omnia::Transform::setTransformHierarchy(std::vector<std::shared_ptr<Transform>> transformHierarchy)
+{
+	this->transformHierarchy = transformHierarchy;
+}
+
+void Omnia::Transform::translateX(float offset)
 {
 	this->translation.x += offset;
 }
 
-void Omnia::Transform::globallyTranslateY(float offset)
+void Omnia::Transform::translateY(float offset)
 {
 	this->translation.y += offset;
 }
 
-void Omnia::Transform::globallyTranslateZ(float offset)
+void Omnia::Transform::translateZ(float offset)
 {
 	this->translation.z += offset;
 }
@@ -55,6 +60,22 @@ void Omnia::Transform::rotateY(float angle)
 void Omnia::Transform::rotateZ(float angle)
 {
 	this->rotation.z += angle;
+}
+
+std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
+{
+	std::shared_ptr<Transform> globalTransform(new Transform());
+	size_t hierarchyLength = transformHierarchy.size();
+	std::shared_ptr<Transform>* localHierarchyTransforms = transformHierarchy.data();
+
+	for (size_t i = 0; i < hierarchyLength; i++)
+	{
+		globalTransform->translation += localHierarchyTransforms[i]->translation;
+		globalTransform->rotation += localHierarchyTransforms[i]->rotation;
+		globalTransform->scale *= localHierarchyTransforms[i]->scale;
+	}
+
+	return globalTransform;
 }
 
 glm::mat4 Omnia::Transform::getTransformMatrix()
