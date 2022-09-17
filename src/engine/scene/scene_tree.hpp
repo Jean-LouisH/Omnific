@@ -99,6 +99,24 @@ namespace Omnia
 		}
 
 		template <class T>
+		std::vector<std::shared_ptr<T>> getComponentHierarchyByType(EntityID entityID)
+		{
+			EntityID currentEntityID = entityID;
+			std::vector<std::shared_ptr<T>> componentHierarchy;
+
+			do
+			{
+				std::shared_ptr<T> component = this->getComponentByType<T>(currentEntityID);
+				if (component == nullptr)
+					component = std::shared_ptr<T>(new T());
+				componentHierarchy.push_back(component);
+				currentEntityID = this->getEntity(currentEntityID)->parentID;
+			} while (currentEntityID != 0);
+
+			return componentHierarchy;
+		}
+
+		template <class T>
 		std::vector<std::shared_ptr<T>> getComponentsByType()
 		{
 			std::vector<std::shared_ptr<T>> componentsByType;

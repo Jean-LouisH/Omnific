@@ -97,19 +97,7 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 						std::dynamic_pointer_cast<RenderableComponent>(sceneTree->getComponents().at(renderOrderIndexCache.at(i)));
 					std::shared_ptr<Entity> entity = sceneTree->getEntity(renderableComponent->getEntityID());
 
-					/*Store the Entity hierarchy of Transforms*/
-					EntityID currentEntityID = entity->getID();
-
-					do
-					{
-						std::shared_ptr<Transform> transform = sceneTree->getComponentByType<Transform>(currentEntityID);
-						if (transform == nullptr)
-							transform = std::shared_ptr<Transform>(new Transform());
-						entityRenderable.entityHierarchyTransforms.push_back(transform);
-						currentEntityID = sceneTree->getEntity(currentEntityID)->parentID;
-
-					} while (currentEntityID != 0);
-
+					entityRenderable.entityHierarchyTransforms = sceneTree->getComponentHierarchyByType<Transform>(entity->getID());
 					entityRenderable.renderableComponent = renderableComponent;
 					sceneTreeRenderable.entityRenderables.push_back(entityRenderable);
 				}
