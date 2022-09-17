@@ -29,6 +29,7 @@
 #include <scene/components/collider.hpp>
 #include <scene/components/physics_body.hpp>
 #include <scene/components/timer.hpp>
+#include <scene/components/transform.hpp>
 
 
 Omnia::PhysicsSystem::~PhysicsSystem()
@@ -112,7 +113,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneTree> sceneTree
 	for (size_t i = 0; i < collidersCount; i++)
 	{
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
-		std::shared_ptr<Transform> transform1 = sceneTree->getEntityTransform(collider1->getEntityID());
+		std::shared_ptr<Transform> transform1 = sceneTree->getComponentByType<Transform>(collider1->getEntityID());
 		glm::vec3 translation1 = transform1->translation;
 		glm::vec3 scale1 = transform1->scale;
 		AABB3D aabb1 = collider1->box.aabb;
@@ -122,7 +123,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneTree> sceneTree
 			if (i != j)
 			{
 				std::shared_ptr<Collider> collider2 = colliders.at(j);
-				std::shared_ptr<Transform> transform2 = sceneTree->getEntityTransform(collider2->getEntityID());
+				std::shared_ptr<Transform> transform2 = sceneTree->getComponentByType<Transform>(collider2->getEntityID());
 				glm::vec3 translation2 = transform2->translation;
 				glm::vec3 scale2 = transform2->scale;
 				AABB3D aabb2 = collider2->box.aabb;
@@ -248,7 +249,7 @@ void Omnia::PhysicsSystem::onLate(std::shared_ptr<Scene> scene)
 
 void Omnia::PhysicsSystem::displaceEntityTree(std::shared_ptr<SceneTree> sceneTree, EntityID entityID, glm::vec3 value)
 {
-	std::shared_ptr<Transform> transform = sceneTree->getEntityTransform(entityID);
+	std::shared_ptr<Transform> transform = sceneTree->getComponentByType<Transform>(entityID);
 	std::shared_ptr<Entity> entity = sceneTree->getEntity(entityID);
 	transform->translation += value;
 

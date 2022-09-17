@@ -214,11 +214,6 @@ std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponents()
 	return this->components;
 }
 
-std::shared_ptr<Omnia::Transform> Omnia::SceneTree::getEntityTransform(EntityID entityID)
-{
-	return this->getComponentByType<Transform>(entityID);
-}
-
 std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getEntity(EntityID entityID)
 {
 	return this->entities.at(entityID);

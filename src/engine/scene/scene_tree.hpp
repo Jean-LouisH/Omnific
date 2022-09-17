@@ -37,8 +37,6 @@
 #include "collision_registry.hpp"
 #include "event_bus.hpp"
 
-#include <scene/components/transform.hpp>
-
 #include <omnia_engine_api.hpp>
 
 #include <memory>
@@ -80,7 +78,6 @@ namespace Omnia
 		std::vector<std::shared_ptr<Component>> getComponents();
 		std::vector<size_t> getRenderOrderIndexCache();
 		std::unordered_map<std::string, std::vector<size_t>> getComponentIndexCaches();
-		std::shared_ptr<Transform> getEntityTransform(EntityID entityID);
 		std::shared_ptr<Entity> getEntity(EntityID entityID);
 		std::shared_ptr<Entity> getEntityByName(std::string name);
 		std::shared_ptr<Entity> getLastEntity();
