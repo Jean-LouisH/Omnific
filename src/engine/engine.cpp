@@ -285,8 +285,28 @@ void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
 	while (this->isRunning())
 	{
 		outputProcessTimer->setStart();
+
+		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
+
+		if (OS::getInput().getHasDetectedInputChanges())
+			for (auto outputSystem : this->outputSystems)
+				outputSystem.second->onInput(activeScene);
+
 		for (auto outputSystem : this->outputSystems)
-			outputSystem.second->onLate(SceneStorage::getActiveScene());
+			outputSystem.second->onStart(activeScene);
+
+		for (auto outputSystem : this->outputSystems)
+			outputSystem.second->onEarly(activeScene);
+
+		for (auto outputSystem : this->outputSystems)
+			outputSystem.second->onLogic(activeScene);
+
+		for (auto outputSystem : this->outputSystems)
+			outputSystem.second->onLate(activeScene);
+
+		for (auto outputSystem : this->outputSystems)
+			outputSystem.second->onFinish(activeScene);
+
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			Configuration::getInstance()->timeSettings.targetFPS,
