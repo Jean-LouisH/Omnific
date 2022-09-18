@@ -23,7 +23,7 @@
 #pragma once
 
 #include <utilities/aliases.hpp>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

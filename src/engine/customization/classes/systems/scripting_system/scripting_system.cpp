@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "scripting_system.hpp"
-#include "singletons/script_context.hpp"
+#include "singletons/scene_context.hpp"
 
 
 void Omnia::ScriptingSystem::initialize()

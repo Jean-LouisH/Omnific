@@ -23,10 +23,11 @@
 #pragma once
 
 #include <string>
+#include <engine_api.hpp>
 
 namespace Omnia 
 {
-	class Configuration
+	class OMNIA_ENGINE_API Configuration
 	{
 	public:
 		struct Metadata

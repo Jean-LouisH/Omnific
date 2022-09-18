@@ -32,7 +32,7 @@
 #include "utilities/aliases.hpp"
 #include <string>
 #include "scene_tree.hpp"
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 #include <customization/classes/assets/image.hpp>
 #include <tiny_gltf.h>
@@ -54,6 +54,7 @@ namespace Omnia
 		void addEmptySceneTree();
 		void removeSceneTree(SceneTreeID sceneTreeID);
 
+		std::string getName();
 		std::shared_ptr<SceneTree> getSceneTree(SceneTreeID sceneTree);
 		std::shared_ptr<SceneTree> getSceneTreeByName(std::string name);
 		std::shared_ptr<SceneTree> getLastSceneTree();
@@ -62,6 +63,7 @@ namespace Omnia
 		SceneID getID();
 	private:
 		SceneID id = 0;
+		std::string name;
 		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees;
 		SceneTreeID lastSceneTreeID = 0;
 

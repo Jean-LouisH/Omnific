@@ -37,7 +37,7 @@
 #include "collision_registry.hpp"
 #include "event_bus.hpp"
 
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 #include <memory>
 

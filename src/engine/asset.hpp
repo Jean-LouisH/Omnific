@@ -25,7 +25,7 @@
 #include <utilities/aliases.hpp>
 #include <string>
 #include <memory>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 #include <customization/class_registry/registerable.hpp>
 
 namespace Omnia

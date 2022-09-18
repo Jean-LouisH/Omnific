@@ -23,7 +23,7 @@
 #pragma once
 
 #include <string>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 #include <scene/scene.hpp>
 #include <asset.hpp>
 #include <memory>

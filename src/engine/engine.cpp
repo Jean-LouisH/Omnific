@@ -79,7 +79,7 @@ void Omnia::Engine::run()
 			if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
 			{
 				std::shared_ptr<Scene> entryScene(new Scene(entrySceneFilepath));
-				SceneStorage::addScene(Configuration::getInstance()->metadata.entrySceneFilepath, entryScene);
+				SceneStorage::addScene(entryScene);
 			}
 		}
 

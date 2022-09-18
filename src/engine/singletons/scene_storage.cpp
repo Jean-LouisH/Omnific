@@ -25,9 +25,10 @@
 
 Omnia::SceneStorage* Omnia::SceneStorage::instance = nullptr;
 
-void Omnia::SceneStorage::addScene(std::string sceneName, std::shared_ptr<Scene> scene)
+void Omnia::SceneStorage::addScene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	std::string sceneName = scene->getName();
 
 	if (sceneStorage->activeSceneName == "")
 	{
@@ -51,14 +52,15 @@ void Omnia::SceneStorage::removeScene(std::string sceneName)
 		}
 	}
 }
-void Omnia::SceneStorage::replaceActiveScene(std::string sceneName, std::shared_ptr<Scene> scene)
+void Omnia::SceneStorage::replaceActiveScene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	std::string sceneName = scene->getName();
 
 	if (sceneName != sceneStorage->activeSceneName)
 	{
 		std::string oldSceneName = sceneStorage->activeSceneName;
-		sceneStorage->addScene(sceneName, scene);
+		sceneStorage->addScene(scene);
 		sceneStorage->changeToScene(sceneName);
 		sceneStorage->removeScene(oldSceneName);
 		sceneStorage->activeSceneChanged = true;

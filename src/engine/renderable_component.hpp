@@ -27,7 +27,7 @@
 #include <customization/classes/assets/shader.hpp>
 #include <memory>
 #include <glm/glm.hpp>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

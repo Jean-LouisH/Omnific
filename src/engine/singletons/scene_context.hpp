@@ -35,26 +35,23 @@
 #include <singletons/scene_storage.hpp>
 #include <utilities/aliases.hpp>
 #include <scene/event_bus.hpp>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API ScriptContext
+	class OMNIA_ENGINE_API SceneContext
 	{
 	public:
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
-
-		static void loadScene(std::string scenepath);
-
 		static bool hasComponent(std::string type);
 		static std::shared_ptr<Entity> getEntity();
 		static std::shared_ptr<Scene> getScene();
 		static std::shared_ptr<SceneTree> getSceneTree();
 		static std::shared_ptr<Component> getComponent(std::string type);
 
-		static ScriptContext* getInstance();
+		static SceneContext* getInstance();
 	private:
-		static ScriptContext* instance;
+		static SceneContext* instance;
 
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;

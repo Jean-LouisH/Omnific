@@ -30,7 +30,7 @@
 #include <unordered_map>
 #include <memory>
 #include <vector>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 #include <yaml-cpp/yaml.h>
 #include <customization/class_registry/registerable.hpp>
 

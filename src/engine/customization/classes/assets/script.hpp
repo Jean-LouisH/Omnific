@@ -26,7 +26,9 @@
 
 // Headers for derived scripts
 ///////////////////////////////////////////////////////////
-#include <singletons/script_context.hpp>
+#include <singletons/scene_context.hpp>
+
+#include <singletons/scene_storage.hpp>
 
 #include <customization/classes/assets/audio_stream.hpp>
 #include <customization/classes/assets/font.hpp>

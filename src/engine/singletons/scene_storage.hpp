@@ -26,16 +26,17 @@
 #include <string>
 #include "utilities/aliases.hpp"
 #include <memory>
+#include <engine_api.hpp>
 
 namespace Omnia
 {
 	/* Loads and stores multiple Scenes at once. */
-	class SceneStorage
+	class OMNIA_ENGINE_API SceneStorage
 	{
 	public:
-		static void addScene(std::string sceneName, std::shared_ptr<Scene> scene);
+		static void addScene(std::shared_ptr<Scene> scene);
 		static void removeScene(std::string sceneName);
-		static void replaceActiveScene(std::string sceneName, std::shared_ptr<Scene> scene);
+		static void replaceActiveScene(std::shared_ptr<Scene> scene);
 		static void changeToScene(std::string sceneName);
 		static std::shared_ptr<Scene> getActiveScene();
 		static std::string getActiveSceneName();

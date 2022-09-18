@@ -59,6 +59,7 @@ void Omnia::Scene::deserialize(std::string filepath)
 
 void Omnia::Scene::deserialize(std::string filepath, std::string name)
 {
+	this->name = filepath;
 	const std::string fullFilepath = OS::getFileAccess().getDataDirectoryPath() + filepath;
 
 	try
@@ -217,6 +218,11 @@ void Omnia::Scene::removeSceneTree(SceneTreeID sceneTreeID)
 {
 	if (this->sceneTrees.count(sceneTreeID))
 		this->sceneTrees.erase(sceneTreeID);
+}
+
+std::string Omnia::Scene::getName()
+{
+	return this->name;
 }
 
 std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getSceneTree(SceneTreeID sceneTree)

@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

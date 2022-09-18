@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

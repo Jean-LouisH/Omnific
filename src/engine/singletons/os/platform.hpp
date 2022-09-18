@@ -24,7 +24,7 @@
 
 #include <stdint.h>
 #include <string>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

@@ -31,7 +31,7 @@
 #include <string>
 #include <singletons/uid_generator.hpp>
 #include <memory>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

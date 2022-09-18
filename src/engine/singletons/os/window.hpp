@@ -28,7 +28,7 @@
 #include <customization/classes/assets/image.hpp>
 #include <utilities/rectangle.hpp>
 #include <memory>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {

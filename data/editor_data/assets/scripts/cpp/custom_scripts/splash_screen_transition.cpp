@@ -22,18 +22,18 @@
 
 #include "splash_screen_transition.hpp"
 
-
 void Omnia::SplashScreenTransition::onStart()
 {
-    std::shared_ptr<Timer> timer = std::dynamic_pointer_cast<Timer>(ScriptContext::getComponent(Timer::TYPE_STRING));
+    std::shared_ptr<Timer> timer = std::dynamic_pointer_cast<Timer>(SceneContext::getComponent(Timer::TYPE_STRING));
     float countdownValue = 5.0f;
     timer->start(countdownValue);
 }
 
 void Omnia::SplashScreenTransition::onLogic()
 {
-    if (std::dynamic_pointer_cast<Timer>(ScriptContext::getComponent(Timer::TYPE_STRING))->isFinished())
+    if (std::dynamic_pointer_cast<Timer>(SceneContext::getComponent(Timer::TYPE_STRING))->isFinished())
     {
-        ScriptContext::loadScene("assets/scenes/debug.yml");
+        std::string scenepath = "assets/scenes/debug.yml";
+        SceneStorage::replaceActiveScene(std::shared_ptr<Scene>(new Scene(scenepath)));
     }
 }

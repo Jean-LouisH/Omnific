@@ -29,7 +29,7 @@
 #include <utilities/aliases.hpp>
 #include <glm/glm.hpp>
 #include <set>
-#include <omnia_engine_api.hpp>
+#include <engine_api.hpp>
 
 namespace Omnia
 {
