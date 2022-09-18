@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <scene/assets/asset.hpp>
+#include <asset.hpp>
 
 namespace Omnia
 {

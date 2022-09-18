@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "cpp_script_registry.hpp"
-#include "script_context.hpp"
-#include <scene/components/script_collection.hpp>
+#include "singletons/script_context.hpp"
+#include <customization/classes/components/script_collection.hpp>
 
 Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::instance = nullptr;
 

@@ -23,7 +23,7 @@
 #include "engine.hpp"
 #include <thread>
 #include "utilities/constants.hpp"
-#include "scene/assets/image.hpp"
+#include "customization/classes/assets/image.hpp"
 #include <iostream>
 
 #include <customization/class_registry/class_registry.hpp>

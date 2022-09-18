@@ -22,14 +22,14 @@
 
 #pragma once
 
-#include <scene/assets/shader.hpp>
-#include "components/component.hpp"
+#include <customization/classes/assets/shader.hpp>
+#include "component.hpp"
 #include "utilities/aliases.hpp"
 #include "utilities/constants.hpp"
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <uid_generator.hpp>
+#include <singletons/uid_generator.hpp>
 #include <memory>
 #include <omnia_engine_api.hpp>
 

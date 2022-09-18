@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 #include "scene_tree.hpp"
-#include "components/component.hpp"
+#include "component.hpp"
 
-#include <scene/components/transform.hpp>
+#include <customization/classes/components/transform.hpp>
 
 Omnia::SceneTree::SceneTree()
 {

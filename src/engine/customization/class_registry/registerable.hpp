@@ -25,7 +25,7 @@
 #include <string>
 #include <utilities/aliases.hpp>
 #include <omnia_engine_api.hpp>
-#include <uid_generator.hpp>
+#include <singletons/uid_generator.hpp>
 
 namespace Omnia
 {

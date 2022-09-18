@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "scene.hpp"
-#include "components/component.hpp"
-#include <os/os.hpp>
+#include "component.hpp"
+#include <singletons/os/os.hpp>
 #include <yaml-cpp/yaml.h>
 #include <customization/class_registry/class_registry.hpp>
 

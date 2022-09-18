@@ -27,7 +27,7 @@
 #include <memory>
 #include <queue>
 #include <unordered_map>
-#include "components/component.hpp"
+#include "component.hpp"
 #include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
 #include "utilities/rectangle.hpp"

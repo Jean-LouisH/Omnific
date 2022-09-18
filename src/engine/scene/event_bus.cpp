@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "event_bus.hpp"
-#include <os/os.hpp>
+#include <singletons/os/os.hpp>
 
 void Omnia::EventBus::publish(
 	std::string name,

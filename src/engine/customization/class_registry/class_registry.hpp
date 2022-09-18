@@ -29,39 +29,39 @@
 /// Include class headers below
 ////////////////////////////////////////////////////
 
-#include <scene/assets/audio_stream.hpp>
-#include "scene/assets/cpp_script.hpp"
-#include <scene/assets/font.hpp>
-#include <scene/assets/image.hpp>
-#include <scene/assets/material.hpp>
-#include <scene/assets/mesh.hpp>
-#include "scene/assets/python_script.hpp"
-#include <scene/assets/rig.hpp>
-#include <scene/assets/shader.hpp>
-#include <scene/assets/text.hpp>
+#include <customization/classes/assets/audio_stream.hpp>
+#include "customization/classes/assets/cpp_script.hpp"
+#include <customization/classes/assets/font.hpp>
+#include <customization/classes/assets/image.hpp>
+#include <customization/classes/assets/material.hpp>
+#include <customization/classes/assets/mesh.hpp>
+#include "customization/classes/assets/python_script.hpp"
+#include <customization/classes/assets/rig.hpp>
+#include <customization/classes/assets/shader.hpp>
+#include <customization/classes/assets/text.hpp>
 
-#include "scene/components/audio_listener.hpp"
-#include "scene/components/audio_source.hpp"
-#include "scene/components/camera.hpp"
-#include "scene/components/collider.hpp"
-#include "scene/components/gui.hpp"
-#include "scene/components/light.hpp"
-#include "scene/components/model.hpp"
-#include "scene/components/physics_body.hpp"
-#include "scene/components/property_animation.hpp"
-#include "scene/components/script_collection.hpp"
-#include "scene/components/sprite.hpp"
-#include "scene/components/timer.hpp"
-#include "scene/components/transform.hpp"
-#include "scene/components/viewport.hpp"
+#include "customization/classes/components/audio_listener.hpp"
+#include "customization/classes/components/audio_source.hpp"
+#include "customization/classes/components/camera.hpp"
+#include "customization/classes/components/collider.hpp"
+#include "customization/classes/components/gui.hpp"
+#include "customization/classes/components/light.hpp"
+#include "customization/classes/components/model.hpp"
+#include "customization/classes/components/physics_body.hpp"
+#include "customization/classes/components/property_animation.hpp"
+#include "customization/classes/components/script_collection.hpp"
+#include "customization/classes/components/sprite.hpp"
+#include "customization/classes/components/timer.hpp"
+#include "customization/classes/components/transform.hpp"
+#include "customization/classes/components/viewport.hpp"
 
-#include <systems/animation_system/animation_system.hpp>
-#include <systems/audio_system/audio_system.hpp>
-#include <systems/gui_system/gui_system.hpp>
-#include <systems/haptic_system/haptic_system.hpp>
-#include <systems/physics_system/physics_system.hpp>
-#include <systems/rendering_system/rendering_system.hpp>
-#include <systems/scripting_system/scripting_system.hpp>
+#include <customization/classes/systems/animation_system/animation_system.hpp>
+#include <customization/classes/systems/audio_system/audio_system.hpp>
+#include <customization/classes/systems/gui_system/gui_system.hpp>
+#include <customization/classes/systems/haptic_system/haptic_system.hpp>
+#include <customization/classes/systems/physics_system/physics_system.hpp>
+#include <customization/classes/systems/rendering_system/rendering_system.hpp>
+#include <customization/classes/systems/scripting_system/scripting_system.hpp>
 
 /////////////////////////////////////////////////////
 

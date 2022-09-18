@@ -34,7 +34,7 @@
 #include "scene_tree.hpp"
 #include <omnia_engine_api.hpp>
 
-#include <scene/assets/image.hpp>
+#include <customization/classes/assets/image.hpp>
 #include <tiny_gltf.h>
 
 namespace Omnia
