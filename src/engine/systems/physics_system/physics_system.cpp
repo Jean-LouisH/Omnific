@@ -76,7 +76,11 @@ void Omnia::PhysicsSystem::displace(std::shared_ptr<SceneTree> sceneTree)
 	const float secondsPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physicsBody : sceneTree->getComponentsByType<PhysicsBody>())
-		this->displaceEntityTree(sceneTree, physicsBody->getEntityID(), physicsBody->linearVelocity * secondsPerComputeUpdate);
+	{
+		std::shared_ptr<Transform> transform = sceneTree->getComponentByType<Transform>(physicsBody->getEntityID());
+		if (transform != nullptr)
+			transform->translation += physicsBody->linearVelocity * secondsPerComputeUpdate;
+	}
 }
 
 void Omnia::PhysicsSystem::gravitate(std::shared_ptr<SceneTree> sceneTree)
@@ -245,14 +249,4 @@ void Omnia::PhysicsSystem::onLate(std::shared_ptr<Scene> scene)
 		for (std::shared_ptr<PhysicsBody> physicsBody : it.second->getComponentsByType<PhysicsBody>())
 			if (!physicsBody->isRigidBody)
 				physicsBody->reload();
-}
-
-void Omnia::PhysicsSystem::displaceEntityTree(std::shared_ptr<SceneTree> sceneTree, EntityID entityID, glm::vec3 value)
-{
-	std::shared_ptr<Transform> transform = sceneTree->getComponentByType<Transform>(entityID);
-	std::shared_ptr<Entity> entity = sceneTree->getEntity(entityID);
-	transform->translation += value;
-
-	for (size_t i = 0; i < entity->childIDs.size(); i++)
-		this->displaceEntityTree(sceneTree, entity->childIDs.at(i), value);
 }

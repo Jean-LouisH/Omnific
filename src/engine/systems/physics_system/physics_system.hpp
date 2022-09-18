@@ -57,8 +57,6 @@ namespace Omnia
 		void decelerate(std::shared_ptr<SceneTree> scene);
 		void detectCollisions(std::shared_ptr<SceneTree> scene);
 		void handleCollisions(std::shared_ptr<SceneTree> scene);
-
-		void displaceEntityTree(std::shared_ptr<SceneTree> sceneTree, EntityID entityID, glm::vec3 value);
 	};
 }
 
