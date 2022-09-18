@@ -22,6 +22,8 @@
 
 #include "scripting_system.hpp"
 #include "singletons/scene_context.hpp"
+#include <singletons/scene_storage.hpp>
+#include <iostream>
 
 
 void Omnia::ScriptingSystem::initialize()
@@ -48,6 +50,23 @@ void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 
 void Omnia::ScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
+#ifdef DEBUG_CONSOLE_ENABLED
+	if (OS::getInput().hasRequestedCommandLine())
+	{
+		std::string command;
+
+		OS::getWindow().hide();
+		std::cout << std::endl << ">";
+		std::cin.ignore(1, '\n');
+		std::getline(std::cin, command);
+		this->executeCommand(command);
+		OS::getWindow().show();
+	}
+#endif
+
 	if (scene != nullptr)
 	{
 		for (auto scriptingLanguage : this->scriptingLanguages)

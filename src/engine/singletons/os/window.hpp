@@ -41,7 +41,7 @@ namespace Omnia
 		void toggleWindowedFullscreen();
 		void resize(uint16_t width, uint16_t height);
 		void changeTitle(const char* title);
-		void changeIcon(Image image);
+		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
 		void maximize();
 		void minimize();
 		void raise();

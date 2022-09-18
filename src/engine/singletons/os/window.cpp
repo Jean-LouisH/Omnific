@@ -88,14 +88,14 @@ void Omnia::Window::changeTitle(const char* title)
 	SDL_SetWindowTitle(this->sdlWindow.get(), title);
 }
 
-void Omnia::Window::changeIcon(Image image)
+void Omnia::Window::changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch)
 {
 	SDL_Surface* sdlSurface = SDL_CreateRGBSurfaceFrom(
-		image.getData(),
-		image.getWidth(),
-		image.getHeight(),
-		image.getDepth(),
-		image.getPitch(),
+		data,
+		width,
+		height,
+		depth,
+		pitch,
 		0,
 		0,
 		0,

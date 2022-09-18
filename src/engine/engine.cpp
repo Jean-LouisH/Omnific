@@ -72,9 +72,6 @@ void Omnia::Engine::run()
 			Configuration::loadFromFile(bootFilepath);
 			OS::getFileAccess().setDataDirectory(dataDirectory);
 
-			Image image = Image(dataDirectory + Configuration::getInstance()->metadata.iconFilepath);
-			OS::getWindow().changeIcon(image);
-
 			std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
 			if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
 			{
@@ -215,26 +212,9 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
 		const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
 
-#ifdef DEBUG_CONSOLE_ENABLED
-		if (OS::getInput().hasRequestedCommandLine())
-		{
-			std::string command;
-
-			OS::getWindow().hide();
-			std::cout << std::endl << ">";
-			std::cin.ignore(1, '\n');
-			std::getline(std::cin, command);
-			this->getSystem<ScriptingSystem>()->executeCommand(command);
-			OS::getWindow().show();
-		}
-#endif
-
 		if (OS::getInput().getHasDetectedInputChanges())
 			for (auto updateSystem : this->updateSystems)
 				updateSystem.second->onInput(activeScene);
-
-		if (SceneStorage::hasActiveSceneChanged())
-			this->getSystem<ScriptingSystem>()->loadScriptModules(SceneStorage::getActiveScene());
 
 		for (auto updateSystem : this->updateSystems)
 			updateSystem.second->onStart(activeScene);
@@ -268,8 +248,9 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		profiler.incrementLagCount(updateFrameTimer.getDelta());
 		updateProcessTimer->setEnd();
 
-		//this->sleepThisThreadForRemainingTime(msPerComputeUpdate * 2, updateTimer);
-		this->sleepThisThreadForRemainingTime((1.0 / 0.008) / 2.0, updateProcessTimer);
+		this->sleepThisThreadForRemainingTime(
+			Configuration::getInstance()->timeSettings.targetFPS, 
+			updateProcessTimer);
 		updateFrameTimer.setEnd();
 	}
 }

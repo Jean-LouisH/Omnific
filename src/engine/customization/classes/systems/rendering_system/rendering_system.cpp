@@ -29,6 +29,8 @@
 #include <customization/classes/components/viewport.hpp>
 #include <customization/classes/components/transform.hpp>
 
+#include <singletons/configuration.hpp>
+
 Omnia::RenderingSystem::~RenderingSystem()
 {
 	this->finalize();
@@ -36,6 +38,15 @@ Omnia::RenderingSystem::~RenderingSystem()
 
 void Omnia::RenderingSystem::initialize()
 {
+	Image image = Image(
+		OS::getFileAccess().getDataDirectoryPath() + Configuration::getInstance()->metadata.iconFilepath);
+	OS::getWindow().changeIcon(
+		image.getData(), 
+		image.getWidth(), 
+		image.getHeight(), 
+		image.getDepth(), 
+		image.getPitch());
+
 	this->context->initialize();
 	this->isInitialized = true;
 }
