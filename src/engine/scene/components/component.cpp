@@ -33,6 +33,11 @@ void Omnia::Component::setEntityID(EntityID entityID)
 	this->entityID = entityID;
 }
 
+void Omnia::Component::setComponentHierarchy(std::vector<std::shared_ptr<Component>> componentHierarchy)
+{
+	this->componentHierarchy = componentHierarchy;
+}
+
 void Omnia::Component::deserialize(YAML::Node yamlNode)
 {
 

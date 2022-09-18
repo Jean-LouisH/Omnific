@@ -183,7 +183,7 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity->componentIDs;
 
 										for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
-											sceneTree->addComponentToLastEntity(subSceneTree->getComponent(it2->second));
+											sceneTree->addComponentToLastEntity(subSceneTree->getComponentByID(it2->second));
 									}
 								}
 							}

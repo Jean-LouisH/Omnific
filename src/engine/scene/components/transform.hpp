@@ -54,7 +54,6 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
-		void setTransformHierarchy(std::vector<std::shared_ptr<Transform>> transformHierarchy);
 		void translateX(float offset);
 		void translateY(float offset);
 		void translateZ(float offset);
@@ -64,6 +63,5 @@ namespace Omnia
 		std::shared_ptr<Transform> getGlobalTransform();
 		glm::mat4 getTransformMatrix();
 	private:
-		std::vector<std::shared_ptr<Transform>> transformHierarchy;
 	};
 }

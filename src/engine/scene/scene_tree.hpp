@@ -82,8 +82,9 @@ namespace Omnia
 		std::shared_ptr<Entity> getEntityByName(std::string name);
 		std::shared_ptr<Entity> getLastEntity();
 		std::unordered_map<EntityID, std::shared_ptr<Entity>>& getEntities();
-		std::shared_ptr<Component> getComponent(ComponentID componentID);
+		std::shared_ptr<Component> getComponentByID(ComponentID componentID);
 		std::shared_ptr<Component> getComponent(std::string type, EntityID entityID);
+		std::vector<std::shared_ptr<Component>> getComponentHierarchy(std::string type, EntityID entityID);
 		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
 		std::shared_ptr<EventBus> getEventBus();
 		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
@@ -99,21 +100,20 @@ namespace Omnia
 		}
 
 		template <class T>
-		std::vector<std::shared_ptr<T>> getComponentHierarchyByType(EntityID entityID)
+		std::vector<std::shared_ptr<T>> getComponentHierarchyByType(EntityID entityID, bool replaceMissingComponents = true)
 		{
-			EntityID currentEntityID = entityID;
-			std::vector<std::shared_ptr<T>> componentHierarchy;
+			std::vector<std::shared_ptr<T>> typedComponentHierarchy;
+			std::vector<std::shared_ptr<Component>> componentHierarchy = this->getComponentHierarchy(T::TYPE_STRING, entityID);
 
-			do
+			for (std::shared_ptr<Component> component : componentHierarchy)
 			{
-				std::shared_ptr<T> component = this->getComponentByType<T>(currentEntityID);
-				if (component == nullptr)
-					component = std::shared_ptr<T>(new T());
-				componentHierarchy.push_back(component);
-				currentEntityID = this->getEntity(currentEntityID)->parentID;
-			} while (currentEntityID != 0);
+				std::shared_ptr<T> typedComponent = std::dynamic_pointer_cast<T>(component);
+				if (typedComponent == nullptr && replaceMissingComponents)
+					typedComponent = std::shared_ptr<T>(new T());
+				typedComponentHierarchy.push_back(typedComponent);
+			}
 
-			return componentHierarchy;
+			return typedComponentHierarchy;
 		}
 
 		template <class T>

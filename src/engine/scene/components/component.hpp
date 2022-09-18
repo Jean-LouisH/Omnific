@@ -47,11 +47,14 @@ namespace Omnia
 		Component();
 
 		void setEntityID(EntityID entityID);
+		void setComponentHierarchy(std::vector<std::shared_ptr<Component>> componentHierarchy);
 		virtual void deserialize(YAML::Node yamlNode);
 
 		EntityID getEntityID();
 		bool isAttachedToEntity();
 		virtual bool isRenderable();
+	protected:
+		std::vector<std::shared_ptr<Component>> componentHierarchy;
 	private:
 		EntityID entityID = 0;
     };

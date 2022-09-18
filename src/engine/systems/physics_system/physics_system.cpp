@@ -166,7 +166,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneTree> sceneTree
 
 					if (collision->hasPhysicsBody)
 					{
-						std::shared_ptr<Component> physicsBodyComponent1 = sceneTree->getComponent(entity1->componentIDs.at(PhysicsBody::TYPE_STRING));
+						std::shared_ptr<Component> physicsBodyComponent1 = sceneTree->getComponentByID(entity1->componentIDs.at(PhysicsBody::TYPE_STRING));
 						std::shared_ptr<PhysicsBody> physicsBody1 = std::dynamic_pointer_cast<PhysicsBody>(physicsBodyComponent1);
 
 						collision->elasticityRatio = physicsBody1->elasticityRatio;
@@ -177,7 +177,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneTree> sceneTree
 
 					if (collision->hasOtherPhysicsBody)
 					{
-						std::shared_ptr<Component> physicsBodyComponent2 = sceneTree->getComponent(entity2->componentIDs.at(PhysicsBody::TYPE_STRING));
+						std::shared_ptr<Component> physicsBodyComponent2 = sceneTree->getComponentByID(entity2->componentIDs.at(PhysicsBody::TYPE_STRING));
 						std::shared_ptr<PhysicsBody> physicsBody2 = std::dynamic_pointer_cast<PhysicsBody>(physicsBodyComponent2);
 
 						collision->otherElasticityRatio = physicsBody2->elasticityRatio;
@@ -229,7 +229,7 @@ void Omnia::PhysicsSystem::handleCollisions(std::shared_ptr<SceneTree> sceneTree
 			/* Collision response for PhysicsBodies */
 			if (entity->componentIDs.count(PhysicsBody::TYPE_STRING))
 			{
-				std::shared_ptr<Component> physicsBodyComponent = sceneTree->getComponent(entity->componentIDs.at(PhysicsBody::TYPE_STRING));
+				std::shared_ptr<Component> physicsBodyComponent = sceneTree->getComponentByID(entity->componentIDs.at(PhysicsBody::TYPE_STRING));
 				std::shared_ptr<PhysicsBody> physicsBody = std::dynamic_pointer_cast<PhysicsBody>(physicsBodyComponent);
 				physicsBody->linearVelocity.x = numbers.at("second_linear_velocity_x");
 				physicsBody->linearVelocity.y = numbers.at("second_linear_velocity_y");

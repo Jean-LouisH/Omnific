@@ -27,11 +27,6 @@ void Omnia::Transform::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::Transform::setTransformHierarchy(std::vector<std::shared_ptr<Transform>> transformHierarchy)
-{
-	this->transformHierarchy = transformHierarchy;
-}
-
 void Omnia::Transform::translateX(float offset)
 {
 	this->translation.x += offset;
@@ -65,14 +60,17 @@ void Omnia::Transform::rotateZ(float angle)
 std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
 {
 	std::shared_ptr<Transform> globalTransform(new Transform());
-	size_t hierarchyLength = transformHierarchy.size();
-	std::shared_ptr<Transform>* localHierarchyTransforms = transformHierarchy.data();
 
-	for (size_t i = 0; i < hierarchyLength; i++)
+	for (std::shared_ptr<Component> component : this->componentHierarchy)
 	{
-		globalTransform->translation += localHierarchyTransforms[i]->translation;
-		globalTransform->rotation += localHierarchyTransforms[i]->rotation;
-		globalTransform->scale *= localHierarchyTransforms[i]->scale;
+		std::shared_ptr<Transform> localTransform = std::dynamic_pointer_cast<Transform>(component);
+
+		if (localTransform == nullptr)
+			localTransform = std::shared_ptr<Transform>(new Transform());
+
+		globalTransform->translation += localTransform->translation;
+		globalTransform->rotation += localTransform->rotation;
+		globalTransform->scale *= localTransform->scale;
 	}
 
 	return globalTransform;

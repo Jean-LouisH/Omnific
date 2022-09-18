@@ -92,11 +92,7 @@ void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component
 		this->hasRenderableComponentsChanged = true;
 	}
 
-	if (component->isType(Transform::TYPE_STRING))
-	{
-		std::shared_ptr<Transform> transform = std::dynamic_pointer_cast<Transform>(component);
-		transform->setTransformHierarchy(this->getComponentHierarchyByType<Transform>(transform->getEntityID()));
-	}
+	component->setComponentHierarchy(this->getComponentHierarchy(component->getType(), component->getEntityID()));
 }
 
 void Omnia::SceneTree::addComponentToLastEntity(std::shared_ptr<Component> component)
@@ -248,7 +244,7 @@ std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::Scen
 	return this->entities;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(ComponentID componentID)
+std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponentByID(ComponentID componentID)
 {
 	std::shared_ptr<Component> component;
 
@@ -271,9 +267,24 @@ std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(std::string typ
 	std::shared_ptr<Component> component;
 
 	if (entity->componentIDs.count(type) > 0)
-		component = this->getComponent(entity->componentIDs.at(type));
+		component = this->getComponentByID(entity->componentIDs.at(type));
 
 	return component;
+}
+
+std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponentHierarchy(std::string type, EntityID entityID)
+{
+	EntityID currentEntityID = entityID;
+	std::vector<std::shared_ptr<Component>> componentHierarchy;
+
+	do
+	{
+		std::shared_ptr<Component> component = this->getComponent(type, currentEntityID);
+		componentHierarchy.push_back(component);
+		currentEntityID = this->getEntity(currentEntityID)->parentID;
+	} while (currentEntityID != 0);
+
+	return componentHierarchy;
 }
 
 std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneTree::getCollisionRegistry()
