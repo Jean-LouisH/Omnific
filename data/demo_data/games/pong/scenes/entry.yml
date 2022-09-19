@@ -1,48 +1,52 @@
 # Omnia Pong
 
 SceneTree:
-  name: "background"
-  spatial_dimension: 2
+  name: "Background SceneTree"
+  spatial_dimension: 3
+  Entity:
+    name: "Background Camera"
+    Transform:
+      translation: [0, 0, 150]
+    Camera: "default"
+  Entity:
+    name: "Background Image"
+    Transform:
+      translation: [0, 0, 0]
+    Sprite:
+      image: "Image::#CCCCCC"
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/debug_restart.py"]
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Background Camera"
+SceneTree:
+  name: "Foreground SceneTree"
+  spatial_dimension: 3
   Entity:
     name: "Camera"
     Transform:
       translation: [0, 0, 30]
     Camera: "default"
-  Entity:
-    name: "Background"
-    Transform:
-      translation: [0, 0, 1]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
-SceneTree:
-  name: "foreground"
-  spatial_dimension: 2
-  Entity:
-    name: "Camera"
-    Transform:
-      translation: [0, 1, 200]
-      rotation: [0, 0, 0]
-    Camera: "default"
-    ScriptCollection:
-      python: ["games/pong/scripts/python/camera_shake.py"]
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/camera_shake.py"]
   Entity:
     name: "System"
-    ScriptCollection:
-      python: ["games/pong/scripts/python/return_to_main.py"]
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/return_to_main.py"]
   Entity:
     name: "Game Mechanics"
-    ScriptCollection:
-      python: ["games/pong/scripts/python/game_mechanics.py"]
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/game_mechanics.py"]
   Entity:
     name: "Paddle1"
     Transform:
-      translation: [-2, 0, 0]
+      translation: [-17, 0, 0]
+      scale: [1, 5, 1]
     PhysicsBody: default
-    SpriteContainer:
-      image: "Image::default"
-      dimensions: [5, 10, 0]
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FF0000"
     ScriptCollection:
       python: ["games/pong/scripts/python/player_control.py"]
     Collider:
@@ -53,18 +57,19 @@ SceneTree:
     Transform: default
     #GUI:
     #  text: ""
-    ScriptCollection:
-      python: ["games/pong/scripts/python/increment_score.py"]
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/increment_score.py"]
   Entity:
     name: "Paddle2"
     Transform:
-      translation: [2, 0, 0]
+      translation: [17, 0, 0]
+      scale: [1, 5, 1]
     PhysicsBody: default
-    SpriteContainer:
-      image: "Image::default"
-      dimensions: [5, 10, 0]
-    ScriptCollection:
-      python: ["games/pong/scripts/python/ai_control.py"]
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#0000FF"
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/ai_control.py"]
     Collider:
       is_trigger: true
   Entity:
@@ -73,16 +78,18 @@ SceneTree:
     Transform: default
     # GUI:
     #  text: ""
-    ScriptCollection:
-      python: ["games/pong/scripts/python/increment_score.py"]
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/increment_score.py"]
   Entity:
     name: "Ball"
-    Transform: default
-    SpriteContainer:
-      image: "Image::default"
+    Transform:
+      translation: [0, 10, 0]
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
     PhysicsBody: default
-    ScriptCollection:
-      python: ["games/pong/scripts/python/ball_physics.py"]
+    #ScriptCollection:
+    #  python: ["games/pong/scripts/python/ball_physics.py"]
     Collider:
       is_trigger: true
   Entity:
@@ -92,28 +99,40 @@ SceneTree:
   Entity:
     name: "UpperBoundary"
     Transform:
-      translation: [0, 5, 0]
+      translation: [0, 12, 0]
+      scale: [50, 1, 1]
     Collider:
-      dimensions: [50, 1, 0]
       is_trigger: true
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
   Entity:
     name: "LowerBoundary"
     Transform:
-      translation: [0, -5, 0]
+      translation: [0, -12, 0]
+      scale: [50, 1, 1]
     Collider:
-      dimensions: [50, 1, 0]
       is_trigger: true
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
   Entity:
     name: "LeftGoalPost"
     Transform:
-      translation: [20, 0, 0]
+      translation: [-22, 0, 0]
+      scale: [1, 50, 1]
     Collider:
-      dimensions: [1, 50, 0]
       is_trigger: true
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
   Entity:
     name: "RightGoalPost"
     Transform:
-      translation: [-20, 0, 0]
+      translation: [22, 0, 0]
+      scale: [1, 50, 1]
     Collider:
-      dimensions: [1, 50, 0]
       is_trigger: true
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
