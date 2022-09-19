@@ -29,7 +29,14 @@ void Omnia::Model::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 		if (it3->first.as<std::string>() == "mesh")
+		{
 			this->mesh = std::shared_ptr<Mesh>(new Mesh(it3->second.as<std::string>()));
+		}
+		else if (it3->first.as<std::string>() == "albedo")
+		{
+			this->material = std::shared_ptr<Material>(new Material());
+			this->material->albedo = std::shared_ptr<Image>(new Image(it3->second.as<std::string>()));
+		}
 }
 
 void Omnia::Model::setToCube()
