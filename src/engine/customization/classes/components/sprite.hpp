@@ -85,7 +85,7 @@ namespace Omnia
 		float animationSpeedInFPS = 12.0;
 		float frameTime = 0.0;
 		uint16_t currentFrameIndex = 0;
-		glm::vec3 billboardOffsetRotation;
+		glm::vec3 billboardOffsetRotation = {0.0, 0.0, 0.0};
 		bool isPlaying = false;
 		bool isBackwards = false;
 		bool isFlippedVertically = false;

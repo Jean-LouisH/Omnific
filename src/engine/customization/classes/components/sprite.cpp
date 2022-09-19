@@ -38,6 +38,8 @@ void Omnia::Sprite::deserialize(YAML::Node yamlNode)
 			{
 				this->addImage(OS::getFileAccess().loadAssetByType<Image>(it3->second.as<std::string>()));
 			}
+
+			this->setDimensions(this->image->getWidth(), this->image->getHeight(), 0.0);
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
