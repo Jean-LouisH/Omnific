@@ -24,9 +24,9 @@
 
 #include <customization/classes/assets/cpp_script.hpp>
 
-namespace Omnia
+namespace OmniaEditor
 {
-	class SplashScreenTransition : public CPPScript
+	class SplashScreenTransition : public Omnia::CPPScript
 	{
 	public:
 		/* Custom classes should derive their own type string
@@ -42,7 +42,7 @@ namespace Omnia
 		virtual CPPScript* instance() override
 		{
 			SplashScreenTransition* clone = new SplashScreenTransition(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = Omnia::UIDGenerator::getNewUID();
 			return clone;
 		}
 

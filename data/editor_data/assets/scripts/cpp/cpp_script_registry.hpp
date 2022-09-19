@@ -46,7 +46,7 @@ namespace Omnia
 			// Add custom scripts here.
 			////////////////////////////////////////////
 
-			registry->add<SplashScreenTransition>();
+			registry->add<OmniaEditor::SplashScreenTransition>();
 
 
 			////////////////////////////////////////////
