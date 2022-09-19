@@ -38,6 +38,14 @@ Omnia::Engine::Engine(
 
 void Omnia::Engine::run()
 {
+	std::vector<std::string> commandLineArguments;
+
+	for (int i = 0; i < this->argc; i++)
+		commandLineArguments.push_back(this->argv[i]);
+
+	OS::initialize(commandLineArguments);
+	ClassRegistry::initialize();
+
 	do
 	{
 		std::string dataDirectory = "data/";
@@ -152,8 +160,6 @@ bool Omnia::Engine::isRunning()
 
 void Omnia::Engine::initialize()
 {
-	ClassRegistry::initialize();
-
 	/* Load Systems from the ClassRegistry */
 	for (auto it : ClassRegistry::queryAll<System>())
 	{
@@ -167,14 +173,6 @@ void Omnia::Engine::initialize()
 
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
-
-	std::vector<std::string> commandLineArguments;
-
-	for (int i = 0; i < this->argc; i++)
-		commandLineArguments.push_back(this->argv[i]);
-
-	/* Hardware abstraction layer initialization. */
-	OS::initialize(commandLineArguments);
 
 	Platform& platform = OS::getPlatform();
 	Logger& logger = OS::getLogger();
@@ -304,8 +302,6 @@ void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::sha
 
 void Omnia::Engine::finalize()
 {
-	OS::finalize();
-
 	for (auto updateSystem : this->updateSystems)
 		updateSystem.second.reset();
 
