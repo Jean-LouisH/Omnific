@@ -9,7 +9,7 @@ SceneTree:
   Entity:
     name: "Background"
     Sprite:
-      image: "tests/loading_models/images/sky.png"
+      image: "Image::#CCCCCC"
       dimensions: [40.0, 30.0, 0.1]
     Transform:
       translation: [0, 0, 1]
