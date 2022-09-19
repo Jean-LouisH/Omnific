@@ -30,10 +30,19 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![event_bus](event_bus.gif)
 
-- C++ scripting via Native shared library builds
-- Python scripting via a Virtual Machine
-- Entity-Component-System (ECS) architecture
 - OpenGL Rendering Context with GLSL
+
+![opengl](suzanne.gif)
+
+- Python scripting via a Virtual Machine
+
+![pong_ai_control](pong_ai_control_python.png)
+
+- C++ scripting via Native shared library builds
+
+![omnia_editor_cpp](omnia_editor_cpp.png)
+
+- Entity-Component-System (ECS) architecture
 - Game Controller and Haptic Feedback support
 - Multithreaded Systems
 
@@ -51,9 +60,9 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ## Demos
 
-Loading Models
+- Pong
 
-![screenshot](loading_models.png)
+![omnia_pong](omnia_pong.gif)
 
 ## License
 
