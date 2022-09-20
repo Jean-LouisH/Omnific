@@ -39,8 +39,10 @@ namespace Omnia
 		uint8_t getGreen();
 		uint8_t getBlue();
 		uint8_t getAlpha();
-		void set24BitValue(uint32_t value);
-		uint32_t get24BitValue();
+		void setRGB(uint32_t value);
+		void setRGBA(uint32_t value);
+		uint32_t getRGB();
+		uint32_t getRGBA();
 	private:
 		float red;
 		float green;
