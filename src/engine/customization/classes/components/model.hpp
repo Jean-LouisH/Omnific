@@ -43,8 +43,8 @@ namespace Omnia
 		Model()
 		{
 			this->type = TYPE_STRING;
+			this->mesh = std::shared_ptr<Mesh>(new Mesh());
 			this->material = std::shared_ptr<Material>(new Material());
-			this->material->albedo = std::shared_ptr<Image>(new Image("Image::default"));
 		};
 		static constexpr const char* TYPE_STRING = "Model";
 
