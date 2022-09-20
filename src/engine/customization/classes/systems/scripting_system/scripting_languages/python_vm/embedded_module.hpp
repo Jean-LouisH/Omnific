@@ -23,7 +23,7 @@
 #pragma once
 
 #include <component.hpp>
-#include <singletons/scene_context.hpp>
+#include <singletons/entity_context.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
@@ -294,11 +294,11 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("is_empty", &Omnia::SceneStorage::isEmpty);
 	m.def("has_active_scene_changed", &Omnia::SceneStorage::hasActiveSceneChanged);
 
-	m.def("has_component", &Omnia::SceneContext::hasComponent);
-	m.def("get_entity", &Omnia::SceneContext::getEntity);
-	m.def("get_component", &Omnia::SceneContext::getComponent);
-	m.def("get_scene", &Omnia::SceneContext::getScene);
-	m.def("get_scene_tree", &Omnia::SceneContext::getSceneTree);
+	m.def("has_component", &Omnia::EntityContext::hasComponent);
+	m.def("get_entity", &Omnia::EntityContext::getEntity);
+	m.def("get_component", &Omnia::EntityContext::getComponent);
+	m.def("get_scene", &Omnia::EntityContext::getScene);
+	m.def("get_scene_tree", &Omnia::EntityContext::getSceneTree);
 
 	m.def("get_dll_access", &Omnia::OS::getDLLAccess, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);

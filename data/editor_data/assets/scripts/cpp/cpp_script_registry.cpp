@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "cpp_script_registry.hpp"
-#include "singletons/scene_context.hpp"
+#include "singletons/entity_context.hpp"
 #include <customization/classes/components/script_collection.hpp>
 
 Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::instance = nullptr;
@@ -33,7 +33,7 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 	registry->initialize();
 	registry->cppScriptInstances.clear();
 
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
 				if (script->getType() == Omnia::CPPScript::TYPE_STRING)

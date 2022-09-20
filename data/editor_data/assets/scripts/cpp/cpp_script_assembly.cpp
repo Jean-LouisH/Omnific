@@ -22,7 +22,7 @@
 
 #include "cpp_script_assembly.hpp"
 #include "cpp_script_registry.hpp"
-#include "singletons/scene_context.hpp"
+#include "singletons/entity_context.hpp"
 #include "singletons/os/os.hpp"
 
 #include <customization/classes/components/script_collection.hpp>
@@ -34,43 +34,43 @@ void loadScriptInstances()
 
 void onStart()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "onStart");
 }
 
 void onInput()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onInput");
 }
 
 void onEarly()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onEarly");
 }
 
 void onLogic()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onLogic");
 }
 
 void onCompute()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onCompute");
 }
 
 void onLate()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeUpdateMethods(it.second, "onLate");
 }
 
 void onFinish()
 {
-	for (auto it : Omnia::SceneContext::getScene()->getSceneTrees())
+	for (auto it : Omnia::EntityContext::getScene()->getSceneTrees())
 		executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "onFinish");
 }
 
@@ -88,7 +88,7 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 		{
 			std::shared_ptr<Omnia::CPPScript> scriptInstance = scriptInstances.at(scriptInstanceName);
 
-			Omnia::SceneContext::bindEntity(
+			Omnia::EntityContext::bindEntity(
 				sceneTreeID,
 				entityID);
 

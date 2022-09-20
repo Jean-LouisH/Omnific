@@ -20,38 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "singletons/scene_context.hpp"
+#include "singletons/entity_context.hpp"
 #include <singletons/os/os.hpp>
 
-Omnia::SceneContext* Omnia::SceneContext::instance = nullptr;
+Omnia::EntityContext* Omnia::EntityContext::instance = nullptr;
 
-void Omnia::SceneContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
+void Omnia::EntityContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
 {
 	getInstance()->boundSceneTreeID = sceneTreeID;
 	getInstance()->boundEntityID = entityID;
 }
 
-bool Omnia::SceneContext::hasComponent(std::string type)
+bool Omnia::EntityContext::hasComponent(std::string type)
 {
 	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneContext::getEntity()
+std::shared_ptr<Omnia::Entity> Omnia::EntityContext::getEntity()
 {
 	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID);
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::SceneContext::getScene()
+std::shared_ptr<Omnia::Scene> Omnia::EntityContext::getScene()
 {
 	return SceneStorage::getActiveScene();
 }
 
-std::shared_ptr<Omnia::SceneTree> Omnia::SceneContext::getSceneTree()
+std::shared_ptr<Omnia::SceneTree> Omnia::EntityContext::getSceneTree()
 {
 	return getInstance()->getScene()->getSceneTrees().at(getInstance()->boundSceneTreeID);
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneContext::getComponent(std::string type)
+std::shared_ptr<Omnia::Component> Omnia::EntityContext::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component(new Component());
 
@@ -65,9 +65,9 @@ std::shared_ptr<Omnia::Component> Omnia::SceneContext::getComponent(std::string 
 	return component;
 }
 
-Omnia::SceneContext* Omnia::SceneContext::getInstance()
+Omnia::EntityContext* Omnia::EntityContext::getInstance()
 {
 	if (instance == nullptr)
-		instance = new SceneContext();
+		instance = new EntityContext();
 	return instance;
 }

@@ -22,7 +22,7 @@
 
 #include "python_vm.hpp"
 #include "embedded_module.hpp"
-#include <singletons/scene_context.hpp>
+#include <singletons/entity_context.hpp>
 #include <iostream>
 #include <set>
 
@@ -55,7 +55,7 @@ void Omnia::PythonVM::loadScriptInstances()
 	pybind11::object path = sys.attr("path");
 	std::set<std::string> addedPaths;
 
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 	{
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 		{
@@ -122,43 +122,43 @@ void Omnia::PythonVM::loadScriptInstances()
 
 void Omnia::PythonVM::onStart()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "on_start");
 }
 
 void Omnia::PythonVM::onInput()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_input");
 }
 
 void Omnia::PythonVM::onEarly()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_early");
 }
 
 void Omnia::PythonVM::onLogic()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_logic");
 }
 
 void Omnia::PythonVM::onCompute()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_compute");
 }
 
 void Omnia::PythonVM::onLate()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_late");
 }
 
 void Omnia::PythonVM::onFinish()
 {
-	for (auto it : SceneContext::getScene()->getSceneTrees())
+	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
 }
 
@@ -210,7 +210,7 @@ void Omnia::PythonVM::bindAndCall(
 		{
 			if (this->pythonScriptInstances.at(scriptPath).hasCallable(methodName))
 			{
-				SceneContext::bindEntity(
+				EntityContext::bindEntity(
 					sceneTreeID,
 					entityID);
 

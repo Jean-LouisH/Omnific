@@ -26,7 +26,7 @@
 
 // Headers for derived scripts
 ///////////////////////////////////////////////////////////
-#include <singletons/scene_context.hpp>
+#include <singletons/entity_context.hpp>
 
 #include <singletons/scene_storage.hpp>
 

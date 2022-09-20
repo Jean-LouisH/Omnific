@@ -39,7 +39,7 @@
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API SceneContext
+	class OMNIA_ENGINE_API EntityContext
 	{
 	public:
 		static void bindEntity(SceneTreeID sceneTreeID, EntityID entityID);
@@ -49,9 +49,9 @@ namespace Omnia
 		static std::shared_ptr<SceneTree> getSceneTree();
 		static std::shared_ptr<Component> getComponent(std::string type);
 
-		static SceneContext* getInstance();
+		static EntityContext* getInstance();
 	private:
-		static SceneContext* instance;
+		static EntityContext* instance;
 
 		SceneTreeID boundSceneTreeID = 0;
 		EntityID boundEntityID = 0;
