@@ -27,6 +27,8 @@
 
 void Omnia::Model::deserialize(YAML::Node yamlNode)
 {
+	this->material = std::shared_ptr<Material>(new Material());
+
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 		if (it3->first.as<std::string>() == "mesh")
 		{
