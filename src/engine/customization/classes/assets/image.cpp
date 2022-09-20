@@ -139,9 +139,11 @@ void Omnia::Image::colourPixel(uint32_t fillColour, int x, int y)
 	{
 		const int colourChannelByteLength = 8;
 		int imageIndex = (y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel;
-		int maskByteShift = (this->colourChannels * colourChannelByteLength) - colourChannelByteLength;
+		int colourByteLength = this->colourChannels * colourChannelByteLength;
 		int colourChannelByteOffset = colourChannel * colourChannelByteLength;
-		this->data.get()[imageIndex] = (fillColour & (0xFF0000 >> colourChannelByteOffset)) >> (maskByteShift - colourChannelByteOffset);
+		int maskByteShift = colourByteLength - colourChannelByteLength - colourChannelByteOffset;
+		uint8_t colourChannelValue = (uint8_t)((fillColour & (0x000000FF << maskByteShift)) >> maskByteShift);
+		this->data.get()[imageIndex] = colourChannelValue;
 	}
 }
 
@@ -186,9 +188,9 @@ void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
 	const uint16_t size = 256;
 	this->height = size;
 	this->width = size;
-	this->colourChannels = 3;
+	this->colourChannels = 4;
 	size_t dataSize = this->width * this->height * this->colourChannels;
-	uint32_t fillColour = (colour->get24BitValue() << 8) + 0x000000FF;
+	const uint32_t fillColour = colour->getRGBA();
 	this->data = std::shared_ptr<uint8_t>(new uint8_t[dataSize]);
 
 	for (int y = 0; y < this->height; y++)
