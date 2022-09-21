@@ -32,7 +32,7 @@ void Omnia::OS::initialize(std::vector<std::string> commandLineArguments)
 {
 	OS* newInstance = getInstance();
 
-	newInstance->dllAccess = std::unique_ptr<DynamicLinkLibraryAccess>(new DynamicLinkLibraryAccess());
+	newInstance->sharedLibraryAccess = std::unique_ptr<SharedLibraryAccess>(new SharedLibraryAccess());
 	newInstance->logger = std::unique_ptr<Logger>(new Logger());
 	newInstance->input = std::unique_ptr<Input>(new Input());
 	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(commandLineArguments[0]));
@@ -100,9 +100,9 @@ void Omnia::OS::finalize()
 	instance = nullptr;
 }
 
-Omnia::DynamicLinkLibraryAccess& Omnia::OS::getDLLAccess()
+Omnia::SharedLibraryAccess& Omnia::OS::getSharedLibraryAccess()
 {
-	return *getInstance()->dllAccess;
+	return *getInstance()->sharedLibraryAccess;
 }
 
 Omnia::Window& Omnia::OS::getWindow()

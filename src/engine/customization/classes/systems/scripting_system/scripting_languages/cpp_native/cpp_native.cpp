@@ -27,7 +27,7 @@ typedef void(ScriptProcedure)(void);
 
 Omnia::CPPNative::~CPPNative()
 {
-	OS::getDLLAccess().close(this->dynamicLibraryHandle);
+	OS::getSharedLibraryAccess().close(this->dynamicLibraryHandle);
 }
 
 void Omnia::CPPNative::initialize()
@@ -37,7 +37,7 @@ void Omnia::CPPNative::initialize()
 
 void Omnia::CPPNative::loadScriptInstances()
 {
-	this->dynamicLibraryHandle = OS::getDLLAccess().open(this->nativeAssemblyFilename);
+	this->dynamicLibraryHandle = OS::getSharedLibraryAccess().open(this->nativeAssemblyFilename);
 	this->execute("loadScriptInstances");
 }
 
@@ -81,7 +81,7 @@ void Omnia::CPPNative::execute(std::string methodName)
 	if (this->dynamicLibraryHandle != nullptr)
 	{
 		ScriptProcedure* procedure = 
-			(ScriptProcedure*)OS::getDLLAccess().getProcedure(this->dynamicLibraryHandle, methodName.c_str());
+			(ScriptProcedure*)OS::getSharedLibraryAccess().getProcedure(this->dynamicLibraryHandle, methodName.c_str());
 
 		if (procedure != nullptr)
 			procedure();

@@ -41,7 +41,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 {
 	/*OS Classes*/
 
-	pybind11::class_<Omnia::DynamicLinkLibraryAccess>(m, "DynamicLinkLibraryAccess");
+	pybind11::class_<Omnia::SharedLibraryAccess>(m, "SharedLibraryAccess");
 
 	pybind11::class_<Omnia::FileAccess>(m, "FileAccess");
 
@@ -302,7 +302,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_scene", &Omnia::EntityContext::getScene);
 	m.def("get_scene_tree", &Omnia::EntityContext::getSceneTree);
 
-	m.def("get_dll_access", &Omnia::OS::getDLLAccess, pybind11::return_value_policy::reference);
+	m.def("get_shared_library_access", &Omnia::OS::getSharedLibraryAccess, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);
 	m.def("get_input", &Omnia::OS::getInput, pybind11::return_value_policy::reference);
 	m.def("get_logger", &Omnia::OS::getLogger, pybind11::return_value_policy::reference);

@@ -24,7 +24,7 @@
 
 #include <SDL.h>
 #include <vector>
-#include "dynamic_link_library_access.hpp"
+#include "shared_library_access.hpp"
 #include "input.hpp"
 #include "logger.hpp"
 #include "window.hpp"
@@ -58,7 +58,7 @@ namespace Omnia
 
 		static void finalize();
 
-		static DynamicLinkLibraryAccess& getDLLAccess();
+		static SharedLibraryAccess& getSharedLibraryAccess();
 		static Window& getWindow();
 		static Input& getInput();
 		static Logger& getLogger();
@@ -76,7 +76,7 @@ namespace Omnia
 
 		std::vector<std::string> commandLineArguments;
 
-		std::unique_ptr<DynamicLinkLibraryAccess> dllAccess;
+		std::unique_ptr<SharedLibraryAccess> sharedLibraryAccess;
 		std::unique_ptr<HiResTimer> runTimer;
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Input> input;

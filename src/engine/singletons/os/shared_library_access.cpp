@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "dynamic_link_library_access.hpp"
+#include "shared_library_access.hpp"
 #include <singletons/os/os.hpp>
 #include <sstream>
 #include <iomanip>
@@ -33,7 +33,7 @@
 #include <errno.h>
 #endif
 
-void* Omnia::DynamicLinkLibraryAccess::open(std::string filename)
+void* Omnia::SharedLibraryAccess::open(std::string filename)
 {
 #ifdef _WIN32
 	return LoadLibraryA((filename + ".dll").c_str());
@@ -43,7 +43,7 @@ void* Omnia::DynamicLinkLibraryAccess::open(std::string filename)
 	OS::getLogger().write("Opened shared library: " + filename);
 }
 
-void Omnia::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
+void Omnia::SharedLibraryAccess::close(void* dynamicLibraryHandle)
 {
 	if (dynamicLibraryHandle != nullptr)
 	{
@@ -58,7 +58,7 @@ void Omnia::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
 	}
 }
 
-void* Omnia::DynamicLinkLibraryAccess::getProcedure(void* dynamicLibraryHandle, std::string procedureName)
+void* Omnia::SharedLibraryAccess::getProcedure(void* dynamicLibraryHandle, std::string procedureName)
 {
 	if (procedureName == "")
 	{

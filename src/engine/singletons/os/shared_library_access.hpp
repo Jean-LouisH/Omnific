@@ -27,7 +27,7 @@
 
 namespace Omnia
 {
-    class OMNIA_ENGINE_API DynamicLinkLibraryAccess
+    class OMNIA_ENGINE_API SharedLibraryAccess
     {
     public:
         void* open(std::string filename);
