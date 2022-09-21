@@ -28,7 +28,7 @@
 #include <string>
 #include "vertex_buffer.hpp"
 #include "index_buffer.hpp"
-#include <renderable_component.hpp>
+#include <customization/classes/components/renderable_component.hpp>
 #include <customization/classes/assets/image.hpp>
 #include <customization/classes/assets/mesh.hpp>
 #include <memory>

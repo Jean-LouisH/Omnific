@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <renderable_component.hpp>
+#include <customization/classes/components/renderable_component.hpp>
 #include <customization/classes/assets/image.hpp>
 #include <customization/classes/assets/mesh.hpp>
 #include <memory>

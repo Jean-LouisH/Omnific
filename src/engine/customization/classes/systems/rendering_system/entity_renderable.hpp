@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <customization/classes/components/transform.hpp>
-#include "renderable_component.hpp"
+#include <customization/classes/components/renderable_component.hpp>
 
 #include <customization/classes/components/camera.hpp>
 #include <customization/classes/assets/image.hpp>
