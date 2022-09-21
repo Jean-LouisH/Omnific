@@ -76,7 +76,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 # Demos
 
-- Pong
+- Pong [In progress...]
 
 ![omnia_pong](omnia_pong.gif)
 
@@ -86,7 +86,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 # License
 
-[MIT License
+MIT License
 
 Copyright (c) 2020 Jean-Louis Haywood
 
