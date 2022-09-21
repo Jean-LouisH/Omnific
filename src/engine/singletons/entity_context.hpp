@@ -48,6 +48,7 @@ namespace Omnia
 		static std::shared_ptr<Scene> getScene();
 		static std::shared_ptr<SceneTree> getSceneTree();
 		static std::shared_ptr<Component> getComponent(std::string type);
+		static float getDelta();
 
 		static EntityContext* getInstance();
 	private:

@@ -301,6 +301,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_component", &Omnia::EntityContext::getComponent);
 	m.def("get_scene", &Omnia::EntityContext::getScene);
 	m.def("get_scene_tree", &Omnia::EntityContext::getSceneTree);
+	m.def("get_delta", &Omnia::EntityContext::getDelta);
 
 	m.def("get_shared_library_access", &Omnia::OS::getSharedLibraryAccess, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);
