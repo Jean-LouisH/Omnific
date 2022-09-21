@@ -200,12 +200,14 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		updateSystem.second->initialize();
 
 	Profiler& profiler = OS::getProfiler();
-	HiResTimer updateFrameTimer;
+	std::string updateFrameTimerName = "update_frame";
+	profiler.addTimer(updateFrameTimerName);
+	std::shared_ptr<HiResTimer> updateFrameTimer = profiler.getTimer(updateFrameTimerName);
 
 	while (this->isRunning())
 	{
 		updateProcessTimer->setStart();
-		updateFrameTimer.setStart();
+		updateFrameTimer->setStart();
 
 		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
 		const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
@@ -243,13 +245,13 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 		for (auto it : activeScene->getSceneTrees())
 			it.second->getEventBus()->clear();
 
-		profiler.incrementLagCount(updateFrameTimer.getDelta());
+		profiler.incrementLagCount(updateFrameTimer->getDelta());
 		updateProcessTimer->setEnd();
 
 		this->sleepThisThreadForRemainingTime(
 			Configuration::getInstance()->timeSettings.targetFPS, 
 			updateProcessTimer);
-		updateFrameTimer.setEnd();
+		updateFrameTimer->setEnd();
 	}
 }
 
