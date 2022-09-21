@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "singletons/configuration.hpp"
+#include <singletons/os/os.hpp>
 
 Omnia::Configuration* Omnia::Configuration::instance = nullptr;
 
@@ -105,6 +106,8 @@ void Omnia::Configuration::loadFromFile(std::string bootFilepath)
 		}
 
 		configuration->isLoaded = true;
+
+		OS::getLogger().write("Successfully loaded Configuration.");
 	}
 	catch (int e)
 	{

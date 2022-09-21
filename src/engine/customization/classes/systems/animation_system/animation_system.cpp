@@ -23,6 +23,7 @@
 #include "animation_system.hpp"
 #include "scene/scene.hpp"
 #include <singletons/configuration.hpp>
+#include <singletons/os/os.hpp>
 
 #include <customization/classes/components/sprite.hpp>
 
@@ -34,6 +35,7 @@ Omnia::AnimationSystem::~AnimationSystem()
 void Omnia::AnimationSystem::initialize()
 {
 	this->isInitialized = true;
+	OS::getLogger().write("Initialized Animation System");
 }
 
 void Omnia::AnimationSystem::onCompute(std::shared_ptr<Scene> scene)

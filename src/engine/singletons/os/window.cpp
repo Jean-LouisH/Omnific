@@ -22,6 +22,7 @@
 
 #include "window.hpp"
 #include <stdint.h>
+#include "singletons/os/os.hpp"
 
 Omnia::Window::Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext)
 {
@@ -48,13 +49,14 @@ void Omnia::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowFullscreen(this->sdlWindow.get(), 0);
 	SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
-
+	OS::getLogger().write("Set Window to windowed.");
 }
 
 void Omnia::Window::setToFullscreen()
 {
 	SDL_SetWindowDisplayMode(this->sdlWindow.get(), this->sdlDisplayMode.get());
 	SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN);
+	OS::getLogger().write("Set Window to fullscreen.");
 }
 
 void Omnia::Window::toggleWindowedFullscreen()
@@ -64,6 +66,7 @@ void Omnia::Window::toggleWindowedFullscreen()
 	if (this->isFullscreen)
 	{
 		SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+		OS::getLogger().write("Set Window to windowed fullscreen.");
 	}
 	else
 	{
@@ -72,6 +75,7 @@ void Omnia::Window::toggleWindowedFullscreen()
 			this->sdlWindow.get(),
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED);
+		OS::getLogger().write("Set Window to windowed.");
 	}
 
 	SDL_ShowCursor(!this->isFullscreen);
@@ -81,11 +85,13 @@ void Omnia::Window::resize(uint16_t width_px, uint16_t height_px)
 {
 	SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
 	SDL_SetWindowPosition(this->sdlWindow.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+	OS::getLogger().write("Resized Window to: " + std::to_string(width_px) + "x" + std::to_string(height_px));
 }
 
 void Omnia::Window::changeTitle(const char* title)
 {
 	SDL_SetWindowTitle(this->sdlWindow.get(), title);
+	OS::getLogger().write("Changed Window title to: \"" + (std::string)title + "\"");
 }
 
 void Omnia::Window::changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch)
@@ -105,37 +111,44 @@ void Omnia::Window::changeIcon(void* data, uint32_t width, uint32_t height, uint
 	{
 		SDL_SetWindowIcon(this->sdlWindow.get(), sdlSurface);
 		SDL_FreeSurface(sdlSurface);
+		OS::getLogger().write("Changed Window icon.");
 	}
 }
 
 void Omnia::Window::maximize()
 {
 	SDL_MaximizeWindow(this->sdlWindow.get());
+	OS::getLogger().write("Maximized Window.");
 }
 
 void Omnia::Window::minimize()
 {
 	SDL_MinimizeWindow(this->sdlWindow.get());
+	OS::getLogger().write("Minimized Window.");
 }
 
 void Omnia::Window::raise()
 {
 	SDL_RaiseWindow(this->sdlWindow.get());
+	OS::getLogger().write("Raised Window.");
 }
 
 void Omnia::Window::restore()
 {
 	SDL_RestoreWindow(this->sdlWindow.get());
+	OS::getLogger().write("Restored Window.");
 }
 
 void Omnia::Window::hide()
 {
 	SDL_HideWindow(this->sdlWindow.get());
+	OS::getLogger().write("Hid Window.");
 }
 
 void Omnia::Window::show()
 {
 	SDL_ShowWindow(this->sdlWindow.get());
+	OS::getLogger().write("Showed Window.");
 }
 
 Omnia::Rectangle Omnia::Window::getWindowSize()

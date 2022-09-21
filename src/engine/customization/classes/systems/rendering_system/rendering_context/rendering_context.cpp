@@ -52,7 +52,7 @@ void Omnia::RenderingContext::initialize()
 
 		Rectangle windowDimensions = window.getWindowSize();
 		this->setViewport(windowDimensions.width, windowDimensions.height);
-		OS::getLogger().write((std::string)("Rendering System initialized with ") +
+		OS::getLogger().write((std::string)("Rendering Context initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
 }

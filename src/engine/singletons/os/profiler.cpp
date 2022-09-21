@@ -22,10 +22,12 @@
 
 #include "profiler.hpp"
 #include "utilities/constants.hpp"
+#include <singletons/os/os.hpp>
 
 void Omnia::Profiler::addTimer(std::string timerName)
 {
 	this->timers.emplace(timerName, std::shared_ptr<HiResTimer>(new HiResTimer()));
+	OS::getLogger().write("Added HiResTimer to Profiler: \"" + timerName + "\"");
 }
 
 std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::getTimer(std::string timerName)

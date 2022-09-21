@@ -44,6 +44,8 @@ void Omnia::Engine::run()
 		commandLineArguments.push_back(this->argv[i]);
 
 	OS::initialize(commandLineArguments);
+	Logger& logger = OS::getLogger();
+	logger.write("Initializing Omnia Engine...");
 	ClassRegistry::initialize();
 
 	do
@@ -89,9 +91,7 @@ void Omnia::Engine::run()
 		}
 
 #ifdef DEBUG_CONSOLE_ENABLED
-		std::cout << "\n\n\tOmnia Debug Console Enabled";
 		std::cout << "\n\nPress '`' in-application to write to command line via console.";
-		std::cout << "\n\nTo see the list of commands, enter 'commands'.";
 		std::cout << "\n\n";
 #endif
 
@@ -102,13 +102,14 @@ void Omnia::Engine::run()
 			window.resize(Configuration::getInstance()->windowSettings.width, Configuration::getInstance()->windowSettings.height);
 			window.changeTitle(Configuration::getInstance()->metadata.title.c_str());
 			this->state = State::RUNNING_APPLICATION_WINDOWED;
-			OS::getLogger().write("Loaded application project \"" + Configuration::getInstance()->metadata.title + "\" at: " + dataDirectory);
+			logger.write("Loaded application project \"" + Configuration::getInstance()->metadata.title + "\" at: " + dataDirectory);
 		}
 		else
 		{
 			OS::showErrorBox(
 				"Could not load game data", 
 				"The game data is either missing or corrupted. Reinstall and try again");
+			logger.write("Shutting down Engine due to error in loading Configuration.");
 			this->state = State::FINALIZING;
 		}
 
@@ -144,6 +145,7 @@ void Omnia::Engine::run()
 			this->sleepThisThreadForRemainingTime(mainThreadTargetFPS, mainThreadTimer);
 		}
 
+		logger.write("Finalizing Omnia Engine...");
 		for (std::thread& thread : dedicatedThreads)
 			thread.join();
 
@@ -160,6 +162,13 @@ bool Omnia::Engine::isRunning()
 
 void Omnia::Engine::initialize()
 {
+	Logger& logger = OS::getLogger();
+
+	if (this->state != State::RESTARTING)
+		this->state = State::INITIALIZING;
+
+	logger.write("Loading Systems from ClassRegistry...");
+
 	/* Load Systems from the ClassRegistry */
 	for (auto it : ClassRegistry::queryAll<System>())
 	{
@@ -171,15 +180,13 @@ void Omnia::Engine::initialize()
 			this->outputSystems.emplace(it.first, std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(system->instance())));
 	}
 
-	if (this->state != State::RESTARTING)
-		this->state = State::INITIALIZING;
+	logger.write("Querying Platform...");
 
 	Platform& platform = OS::getPlatform();
-	Logger& logger = OS::getLogger();
 
 	logger.write("Retrieved Logical Core Count: " + std::to_string(platform.getLogicalCoreCount()));
 	logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.getL1CacheLineSize()) + " B");
-	logger.write("Retrieved OS Name: " + platform.getOSName());
+	logger.write("Retrieved OS Name: \"" + platform.getOSName() + "\"");
 	logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
 }
 

@@ -22,6 +22,7 @@
 
 #include "audio_system.hpp"
 #include "audio_sdl/audio_sdl.hpp"
+#include <singletons/os/os.hpp>
 
 #include <customization/classes/components/audio_source.hpp>
 
@@ -42,6 +43,7 @@ void Omnia::AudioSystem::initialize()
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
 	this->isInitialized = true;
+	OS::getLogger().write("Initialized Audio System.");
 }
 
 void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)

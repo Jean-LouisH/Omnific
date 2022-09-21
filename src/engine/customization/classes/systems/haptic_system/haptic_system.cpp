@@ -51,6 +51,7 @@ void Omnia::HapticSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_HAPTIC);
 	this->isInitialized = true;
+	OS::getLogger().write("Initialized Haptic System");
 }
 
 void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)

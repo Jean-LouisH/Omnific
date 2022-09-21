@@ -40,6 +40,7 @@ Omnia::PhysicsSystem::~PhysicsSystem()
 void Omnia::PhysicsSystem::initialize()
 {
 	this->isInitialized = true;
+	OS::getLogger().write("Initialized Physics System");
 }
 
 void Omnia::PhysicsSystem::onCompute(std::shared_ptr<Scene> scene)

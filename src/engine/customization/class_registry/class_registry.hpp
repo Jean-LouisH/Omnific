@@ -25,6 +25,7 @@
 #include <memory>
 #include <unordered_map>
 #include "registerable.hpp"
+#include <singletons/os/os.hpp>
 
 /// Include class headers below
 ////////////////////////////////////////////////////
@@ -79,6 +80,7 @@ namespace Omnia
 
 		static void addClassDefinitions()
 		{
+			OS::getLogger().write("Loading class definitions to ClassRegistry...");
 			ClassRegistry* registry = getInstance();
 
 			// Add classes here.

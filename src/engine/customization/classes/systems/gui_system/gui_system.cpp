@@ -32,6 +32,7 @@ Omnia::GUISystem::~GUISystem()
 void Omnia::GUISystem::initialize()
 {
 	this->isInitialized = true;
+	OS::getLogger().write("Initialized GUI System.");
 }
 
 void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)

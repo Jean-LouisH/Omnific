@@ -24,6 +24,7 @@
 #include <SDL.h>
 #include <fstream>
 #include <algorithm>
+#include <singletons/os/os.hpp>
 
 Omnia::FileAccess::FileAccess(std::string executableFilepath)
 {
@@ -33,6 +34,7 @@ Omnia::FileAccess::FileAccess(std::string executableFilepath)
 void Omnia::FileAccess::setDataDirectory(std::string assetDirectory)
 {
 	this->dataDirectory = assetDirectory;
+	OS::getLogger().write("Data Directory set to \"" + assetDirectory + "\"");
 }
 
 std::shared_ptr<Omnia::Scene> Omnia::FileAccess::loadScene(std::string filepath)

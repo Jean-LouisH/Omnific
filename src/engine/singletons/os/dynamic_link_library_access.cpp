@@ -21,6 +21,9 @@
 // SOFTWARE.
 
 #include "dynamic_link_library_access.hpp"
+#include <singletons/os/os.hpp>
+#include <sstream>
+#include <iomanip>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -37,6 +40,7 @@ void* Omnia::DynamicLinkLibraryAccess::open(std::string filename)
 #else
 	return dlopen((filename + ".so").c_str(), RTLD_NOW);
 #endif
+	OS::getLogger().write("Opened shared library: " + filename);
 }
 
 void Omnia::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
@@ -48,6 +52,9 @@ void Omnia::DynamicLinkLibraryAccess::close(void* dynamicLibraryHandle)
 #else
 		dlclose(dynamicLibraryHandle);
 #endif
+		std::stringstream ss;
+		ss << std::hex << (uint64_t)dynamicLibraryHandle;
+		OS::getLogger().write("Close shared library at address: 0x" + ss.str());
 	}
 }
 

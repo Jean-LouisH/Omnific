@@ -23,13 +23,20 @@
 #include "scripting_system.hpp"
 #include "singletons/entity_context.hpp"
 #include <singletons/scene_storage.hpp>
+#include <singletons/os/os.hpp>
 #include <iostream>
 
 
 void Omnia::ScriptingSystem::initialize()
 {
+	Logger& logger = OS::getLogger();
+	logger.write("Initializing Scripting System...");
+
 	for (auto scriptingLanguage : this->scriptingLanguages)
+	{
 		scriptingLanguage.second->initialize();
+		logger.write("Loaded Scripting Language: " + scriptingLanguage.first);
+	}
 }
 
 void Omnia::ScriptingSystem::executeCommand(std::string command)

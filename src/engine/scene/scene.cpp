@@ -59,6 +59,12 @@ void Omnia::Scene::deserialize(std::string filepath)
 
 void Omnia::Scene::deserialize(std::string filepath, std::string name)
 {
+	if (name == "")
+		OS::getLogger().write("Loading all SceneTrees from Scene: \"" + filepath + "\"");
+	else
+		OS::getLogger().write("Loading SceneTree: \"" + name + "\" from Scene : \"" + filepath + "\"");
+
+
 	this->name = filepath;
 	const std::string fullFilepath = OS::getFileAccess().getDataDirectoryPath() + filepath;
 
