@@ -22,7 +22,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![omnia_project](omnia_project.png)
 
-- OpenGL 3.3 Rendering Context with GLSL, Scenes of multiple SceneTree layers (2D and 3D)
+- OpenGL 3.3 Rendering Context with GLSL, Scenes of multiple SceneTree layers (2D and 3D) via depth buffer refresh
 
 ![scene_tree_layers](scene_tree_layers.gif)
 
@@ -30,11 +30,11 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![event_bus](event_bus.gif)
 
-- Model loading via TinyGLTF
+- Model loading via TinyGLTF, including Mesh and Material texture maps
 
 ![opengl](suzanne.gif)
 
-- Python scripting via pybind11
+- Python VM scripting via pybind11 with game loop calls to Python and Engine API calls from Python. Imports, including pip installed packages are supported.
 
 ![pong_ai_control](pong_ai_control_python.png)
 
@@ -42,16 +42,25 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![omnia_editor_cpp](omnia_editor_cpp.png)
 
+- Fully customizable as a core framework loading custom Asset, Component and System classes on initialization
+
+![class_registry](class_registry.png)
+
 - Entity-Component-System (ECS) architecture
 - Game Controller and Haptic Feedback support
 - Multithreaded Systems
-- Fully customizable as a core framework loading custom Asset, Component and System classes on initialization
 
 # Dependencies
 
+- [Embeddable Python 3.7](https://www.python.org/downloads/release/python-370/)
+- [GLAD](https://glad.dav1d.de/)
+- [OpenGL Mathematics](https://github.com/g-truc/glm)
+- [Pybind11](https://github.com/pybind/pybind11)
 - [SDL2](https://www.libsdl.org/)
 - [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/)
-- [Embeddable Python 3.7](https://www.python.org/downloads/release/python-370/)
+- [STB Image](https://github.com/nothings/stb)
+- [TinyGLTF](https://github.com/syoyo/tinygltf)
+- [YAML-CPP](https://github.com/jbeder/yaml-cpp)
 
 # Compilation Instructions
 
