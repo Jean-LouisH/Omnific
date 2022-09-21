@@ -33,6 +33,11 @@ uint64_t Omnia::HiResTimer::getDelta()
 	return this->delta / NS_IN_MS;
 }
 
+float Omnia::HiResTimer::getDeltaInSeconds()
+{
+	return this->delta / NS_IN_S;
+}
+
 void Omnia::HiResTimer::setStart()
 {
 	this->start = std::chrono::high_resolution_clock::now();

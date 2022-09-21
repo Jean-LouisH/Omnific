@@ -34,6 +34,7 @@ namespace Omnia
 		uint64_t getDeltaInNanoseconds();
 		/* Returns delta time in Milliseconds */
 		uint64_t getDelta();
+		float getDeltaInSeconds();
 		void setStart();
 		void setEnd();
 	private:

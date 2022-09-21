@@ -266,9 +266,11 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("height", &Omnia::Rectangle::height)
 		.def_readwrite("width", &Omnia::Rectangle::width);
 
-	pybind11::class_<Omnia::HiResTimer>(m, "HiResTimer")
+	pybind11::class_<Omnia::HiResTimer, std::shared_ptr<Omnia::HiResTimer>>(m, "HiResTimer")
 		.def("set_start", &Omnia::HiResTimer::setStart)
 		.def("set_end", &Omnia::HiResTimer::setEnd)
+		.def("get_delta", &Omnia::HiResTimer::getDelta)
+		.def("get_delta_in_seconds", &Omnia::HiResTimer::getDeltaInSeconds)
 		.def("get_delta_in_nanoseconds", &Omnia::HiResTimer::getDeltaInNanoseconds);
 
 	pybind11::class_<Omnia::Colour>(m, "Colour")
