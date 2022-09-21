@@ -63,6 +63,8 @@
 #include <customization/classes/systems/rendering_system/rendering_system.hpp>
 #include <customization/classes/systems/scripting_system/scripting_system.hpp>
 
+#include <customization/experimental_classes/systems/path_trace_rendering_system.hpp>
+
 /////////////////////////////////////////////////////
 
 namespace Omnia
@@ -113,8 +115,15 @@ namespace Omnia
 			registry->add<GUISystem, System>();
 			registry->add<HapticSystem, System>();
 			registry->add<PhysicsSystem, System>();
-			registry->add<RenderingSystem, System>();
 			registry->add<ScriptingSystem, System>();
+
+#define ENABLE_PATH_TRACE_EXPERIMENT 0
+
+#if ENABLE_PATH_TRACE_EXPERIMENT == 1
+			registry->add<PathTraceRenderingSystem, System>();
+#elif ENABLE_PATH_TRACE_EXPERIMENT == 0
+			registry->add<RenderingSystem, System>();
+#endif
 
 			////////////////////////////////////////////
 		};
