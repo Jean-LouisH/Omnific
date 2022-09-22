@@ -243,11 +243,3 @@ void Omnia::PhysicsSystem::handleCollisions(std::shared_ptr<SceneTree> sceneTree
 		}
 	}
 }
-
-void Omnia::PhysicsSystem::onLate(std::shared_ptr<Scene> scene)
-{
-	for (auto it : scene->getSceneTrees())
-		for (std::shared_ptr<PhysicsBody> physicsBody : it.second->getComponentsByType<PhysicsBody>())
-			if (!physicsBody->isRigidBody)
-				physicsBody->reload();
-}
