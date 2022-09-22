@@ -4,27 +4,55 @@ import math
 class omnia_script:
 
     def __init__(self):
+        self.enable_ai_mode = True
         pass
+
+    def accelerate(acceleration, maximum_speed):
+        physics_body = omnia.get_component("PhysicsBody")
+        physics_body.linear_velocity.y += acceleration
+        if abs(physics_body.linear_velocity.y) > abs(maximum_speed):
+            physics_body.linear_velocity.y = maximum_speed
 
     def on_logic(self):
-        transform = omnia.get_component("Transform")
-        scene_tree = omnia.get_scene_tree()
-        collisions = scene_tree.get_collision_registry()
-        ball_entity = scene_tree.get_entity_by_name("Ball")
-        ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
-        ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
+        inp = omnia.get_input()
 
-        #AI logic to determine where to move as the ball approaches
+        if inp.is_on_release("p"):
+            omnia.get_logger().write("P2 enabled")
+            self.enable_ai_mode = not self.enable_ai_mode
+
+        if self.enable_ai_mode:
+            pass
+            #transform = omnia.get_component("Transform")
+            #scene_tree = omnia.get_scene_tree()
+            #collisions = scene_tree.get_collision_registry()
+            #ball_entity = scene_tree.get_entity_by_name("Ball")
+            #ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
+            #ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
+
+            #AI logic to determine where to move as the ball approaches
         
-        #Based on an older project: Suprannua, this is a placeholder
-        #until better AI code is determined.
+            #Based on an older project: Suprannua, this is a placeholder
+            #until better AI code is determined.
 
-        movement_speed = 50.0
-        position_angle_with_ball = math.atan2(ball_transform.translation.y - transform.translation.y,
-                                              ball_transform.translation.x- transform.translation.x)
+            #movement_speed = 50.0
+            #position_angle_with_ball = math.atan2(ball_transform.translation.y - transform.translation.y,
+            #                                      ball_transform.translation.x- transform.translation.x)
 
-        if (not collisions.is_colliding("Ball", "RightGoalPost") and ball_physics_body.linear_velocity.x > 0):
-            omnia.get_component("PhysicsBody").linear_velocity.y = movement_speed * math.sin(position_angle_with_ball)
+            #if (not collisions.is_colliding("Ball", "RightGoalPost") and ball_physics_body.linear_velocity.x > 0):
+            #    omnia.get_component("PhysicsBody").linear_velocity.y = movement_speed * math.sin(position_angle_with_ball)
+        else:
+            physics_body = omnia.get_component("PhysicsBody")
+
+            acceleration = 5
+            maximum_speed = 30
+            deceleration = 1.5
+
+            if inp.is_pressed("up"):
+                omnia_script.accelerate(acceleration, maximum_speed)
+            elif inp.is_pressed("down"):
+                omnia_script.accelerate(-acceleration, -maximum_speed)
+            else:
+                physics_body.linear_velocity.y /= deceleration
+            pass
             
         pass
-    

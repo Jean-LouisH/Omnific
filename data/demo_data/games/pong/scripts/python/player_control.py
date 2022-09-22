@@ -5,14 +5,25 @@ class omnia_script:
     def __init__(self):
         pass
 
+    def accelerate(acceleration, maximum_speed):
+        physics_body = omnia.get_component("PhysicsBody")
+        physics_body.linear_velocity.y += acceleration
+        if abs(physics_body.linear_velocity.y) > abs(maximum_speed):
+            physics_body.linear_velocity.y = maximum_speed
+
     def on_logic(self):
-        transform = omnia.get_component("Transform")
+        physics_body = omnia.get_component("PhysicsBody")
         inp = omnia.get_input()
+
+        acceleration = 5
+        maximum_speed = 30
+        deceleration = 1.5
+
         if inp.is_pressed("w"):
-            transform.translate_y(1.0)
+            omnia_script.accelerate(acceleration, maximum_speed)
         elif inp.is_pressed("s"):
-            transform.translate_y(-1.0)
+            omnia_script.accelerate(-acceleration, -maximum_speed)
         else:
-            transform.translate_y(inp.get_axis("left_axis_y"))
+            physics_body.linear_velocity.y /= deceleration
         pass
     
