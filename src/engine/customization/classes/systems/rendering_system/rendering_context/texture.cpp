@@ -59,16 +59,16 @@ Omnia::Texture::Texture(std::shared_ptr<Image> image)
 	switch (textureImage->getBytesPerPixel())
 	{
 		case 1: 
-			format = GL_RED; 
-			internalFormat = GL_RED;
+			internalFormat = GL_RGBA;
+			format = GL_BGRA;
 			break;
 		case 3: 
-			format = GL_RGB; 
 			internalFormat = GL_RGBA;
+			format = GL_RGB; 
 			break;
 		case 4: 
-			format = GL_RGBA; 
 			internalFormat = GL_RGBA;
+			format = GL_RGBA; 
 			break;
 	}
 
