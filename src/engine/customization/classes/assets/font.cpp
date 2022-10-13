@@ -24,6 +24,13 @@
 
 #define STB_TRUETYPE_IMPLEMENTATION
 
+Omnia::Font::Font(std::string filepath)
+{
+	uint16_t fontSize = 16;
+	this->setName(filepath);
+	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), fontSize), TTF_CloseFont);
+}
+
 Omnia::Font::Font(std::string filepath, uint16_t size_px)
 {
 	this->setName(filepath);

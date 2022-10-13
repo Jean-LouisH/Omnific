@@ -56,6 +56,7 @@ namespace Omnia
 		{ 
 			this->type = TYPE_STRING;
 		};
+		Font(std::string filepath);
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
 
