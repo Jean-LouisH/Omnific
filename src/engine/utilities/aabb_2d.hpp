@@ -30,8 +30,8 @@ namespace Omnia
 	class OMNIA_ENGINE_API AABB2D
 	{
 	public:
-		glm::vec2 min;
-		glm::vec2 max;
+		glm::vec2 min = glm::vec2(-1.0, -1.0);
+		glm::vec2 max = glm::vec2(1.0, 1.0);
 	private:
 	};
 }

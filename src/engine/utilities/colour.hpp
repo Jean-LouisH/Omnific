@@ -44,9 +44,9 @@ namespace Omnia
 		uint32_t getRGB();
 		uint32_t getRGBA();
 	private:
-		float red;
-		float green;
-		float blue;
-		float alpha;
+		float red = 1.0;
+		float green = 1.0;
+		float blue = 1.0;
+		float alpha = 1.0;
 	};
 }
