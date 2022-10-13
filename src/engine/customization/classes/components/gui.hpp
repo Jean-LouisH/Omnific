@@ -75,7 +75,7 @@ namespace Omnia
 		bool isOverlayedToParent = false;
 		glm::vec2 defaultDimensions;
 		glm::vec2 position;
-		std::string text;
+		GUIText guiText;
 		std::shared_ptr<Image> backgroundImage;
 	};
 
@@ -121,6 +121,7 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
+		void updateImage();
 	private:
 		std::unordered_map<std::string, GUIPanel> guiPanels;
 	};

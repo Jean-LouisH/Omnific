@@ -21,7 +21,8 @@
 // SOFTWARE.
 
 #include "gui.hpp"
-
+#include <singletons/os/os.hpp>
+#include <singletons/uid_generator.hpp>
 
 void Omnia::GUIText::setText(std::string text)
 {
@@ -119,27 +120,66 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
-		//if (it3->first.as<std::string>() == "text")
-		//{
-		//	this->setText(it3->second.as<std::string>());
-		//}
-		//else if (it3->first.as<std::string>() == "font")
-		//{
-		//	std::shared_ptr<Omnia::Font> font(new Font(
-		//		this->dataDirectory + it3->second[0].as<std::string>(),
-		//		it3->second[1].as<int>()));
-		//	std::shared_ptr<Asset> asset = std::static_pointer_cast<Asset>(font);
-		//	AssetCache::store(asset);
-		//	this->setFont(font, it3->second[1].as<int>());
-		//}
-		//else if (it3->first.as<std::string>() == "colour")
-		//{
-		//	this->setColour(
-		//		it3->second[0].as<int>(),
-		//		it3->second[1].as<int>(),
-		//		it3->second[2].as<int>(),
-		//		it3->second[3].as<int>()
-		//	);
-		//}
+		/*Temporary implementation for loading just text. */
+		if (it3->first.as<std::string>() == "GUIText")
+		{
+
+			GUIText guiText;
+
+			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
+			{
+				if (it4->first.as<std::string>() == "text")
+				{
+					guiText.setText(it4->second.as<std::string>());
+				}
+				else if (it4->first.as<std::string>() == "font")
+				{
+					//it3->second[1].as<int>()));
+
+					std::shared_ptr<Omnia::Font> font = OS::getFileAccess().loadAssetByType<Font>(it4->second[0].as<std::string>());
+					guiText.setFont(font, it4->second[1].as<int>());
+				}
+				else if (it4->first.as<std::string>() == "colour")
+				{
+					guiText.setColour(
+						it4->second[0].as<int>(),
+						it4->second[1].as<int>(),
+						it4->second[2].as<int>(),
+						it4->second[3].as<int>()
+					);
+				}
+			}
+
+			GUIWidget guiWidget;
+			GUIPanel guiPanel;
+
+			guiWidget.guiText = guiText;
+			guiPanel.widgets.emplace("Widget (ID:" + std::to_string(UIDGenerator::getNewUID()) + ")", guiWidget);
+			this->guiPanels.emplace("Panel (ID:" + std::to_string(UIDGenerator::getNewUID()) + ")", guiPanel);
+		}
 	}
+
+	this->updateImage();
+}
+
+void Omnia::GUI::updateImage()
+{
+	/* Temporary for a single GUIText*/
+	if (this->guiPanels.size() == 1)
+	{
+		for (auto guiPanel : this->guiPanels)
+		{
+			if (guiPanel.second.widgets.size() == 1)
+			{
+				for (auto widget : guiPanel.second.widgets)
+				{
+					this->image = widget.second.guiText.image;
+				}
+			}
+		}
+	}
+
+	this->setDimensions(this->image->getWidth(), this->image->getHeight(), 0);
+
+	/*ToDo*/
 }
