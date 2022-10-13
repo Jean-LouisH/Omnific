@@ -65,7 +65,7 @@ std::shared_ptr<Omnia::Component> Omnia::EntityContext::getComponent(std::string
 	return component;
 }
 
-float Omnia::EntityContext::getDelta()
+float Omnia::EntityContext::getTimeDelta()
 {
 	return OS::getProfiler().getTimer("update_frame")->getDeltaInSeconds();
 }
