@@ -25,8 +25,8 @@
 #include <SDL_mixer.h>
 #include <queue>
 #include <memory>
-#include "scene/scene.hpp"
-#include "system.hpp"
+#include "core/scene/scene.hpp"
+#include "core/system.hpp"
 
 namespace Omnia
 {

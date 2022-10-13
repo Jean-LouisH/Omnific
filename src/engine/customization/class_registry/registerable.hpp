@@ -23,9 +23,9 @@
 #pragma once
 
 #include <string>
-#include <utilities/aliases.hpp>
+#include <core/utilities/aliases.hpp>
 #include <engine_api.hpp>
-#include <singletons/uid_generator.hpp>
+#include <core/singletons/uid_generator.hpp>
 
 namespace Omnia
 {

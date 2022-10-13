@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "gui_system.hpp"
-#include "singletons/os/os.hpp"
+#include "core/singletons/os/os.hpp"
 #include <SDL_ttf.h>
 
 Omnia::GUISystem::~GUISystem()

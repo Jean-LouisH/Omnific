@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "haptic_system.hpp"
-#include "singletons/os/os.hpp"
+#include "core/singletons/os/os.hpp"
 #include <SDL.h>
 
 Omnia::HapticSystem::~HapticSystem()

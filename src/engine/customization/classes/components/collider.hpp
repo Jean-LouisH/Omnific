@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include "component.hpp"
+#include "core/utilities/aliases.hpp"
+#include "core/utilities/constants.hpp"
+#include "core/component.hpp"
 
-#include "utilities/aabb_3d.hpp"
+#include "core/utilities/aabb_3d.hpp"
 #include <set>
 
 

@@ -22,17 +22,17 @@
 
 #pragma once
 
-#include <component.hpp>
-#include <singletons/entity_context.hpp>
+#include <core/component.hpp>
+#include <core/singletons/entity_context.hpp>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
-#include <scene/scene.hpp>
-#include <utilities/rectangle.hpp>
-#include <utilities/hi_res_timer.hpp>
-#include <utilities/colour.hpp>
-#include <utilities/aabb_2d.hpp>
-#include <utilities/aliases.hpp>
+#include <core/scene/scene.hpp>
+#include <core/utilities/rectangle.hpp>
+#include <core/utilities/hi_res_timer.hpp>
+#include <core/utilities/colour.hpp>
+#include <core/utilities/aabb_2d.hpp>
+#include <core/utilities/aliases.hpp>
 #include <memory>
 
 #include <customization/class_registry/class_registry.hpp>

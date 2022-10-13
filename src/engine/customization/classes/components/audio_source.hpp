@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
+#include "core/utilities/aliases.hpp"
 #include <set>
 #include <queue>
-#include "utilities/constants.hpp"
+#include "core/utilities/constants.hpp"
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <memory>
 #include "customization/classes/assets/audio_stream.hpp"
-#include "component.hpp"
+#include "core/component.hpp"
 
 
 namespace Omnia

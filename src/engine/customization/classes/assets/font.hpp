@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include "asset.hpp"
+#include "core/asset.hpp"
 #include "stdint.h"
-#include <utilities/aliases.hpp>
+#include <core/utilities/aliases.hpp>
 #include <string>
 #include <memory>
 #include <SDL_ttf.h>

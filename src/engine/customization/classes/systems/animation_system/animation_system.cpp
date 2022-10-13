@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 #include "animation_system.hpp"
-#include "scene/scene.hpp"
-#include <singletons/configuration.hpp>
-#include <singletons/os/os.hpp>
+#include "core/scene/scene.hpp"
+#include <core/singletons/configuration.hpp>
+#include <core/singletons/os/os.hpp>
 
 #include <customization/classes/components/sprite.hpp>
 

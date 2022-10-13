@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include "component.hpp"
+#include "core/component.hpp"
 #include "customization/classes/assets/script.hpp"
 
 #include <vector>

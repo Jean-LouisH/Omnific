@@ -22,12 +22,12 @@
 
 #pragma once
 
-#include <utilities/aabb_2d.hpp>
-#include <utilities/rectangle.hpp>
-#include <utilities/aliases.hpp>
-#include <utilities/constants.hpp>
-#include "component.hpp"
-#include <singletons/os/os.hpp>
+#include <core/utilities/aabb_2d.hpp>
+#include <core/utilities/rectangle.hpp>
+#include <core/utilities/aliases.hpp>
+#include <core/utilities/constants.hpp>
+#include "core/component.hpp"
+#include <core/singletons/os/os.hpp>
 
 namespace Omnia
 {

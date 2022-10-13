@@ -24,18 +24,18 @@
 
 #include <vector>
 #include <string>
-#include "singletons/configuration.hpp"
-#include "singletons/scene_storage.hpp"
-#include "system.hpp"
-#include "singletons/os/os.hpp"
-#include "singletons/os/profiler.hpp"
+#include "core/singletons/configuration.hpp"
+#include "core/singletons/scene_storage.hpp"
+#include "core/system.hpp"
+#include "core/singletons/os/os.hpp"
+#include "core/singletons/os/profiler.hpp"
 #include <memory>
 
 #include <stdint.h>
-#include "scene/scene.hpp"
-#include "singletons/os/os.hpp"
-#include "singletons/os/file_access.hpp"
-#include "singletons/os/profiler.hpp"
+#include "core/scene/scene.hpp"
+#include "core/singletons/os/os.hpp"
+#include "core/singletons/os/file_access.hpp"
+#include "core/singletons/os/profiler.hpp"
 #include <vector>
 #include <stack>
 #include <string>

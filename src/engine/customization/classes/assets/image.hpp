@@ -25,16 +25,16 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-#include "utilities/aliases.hpp"
-#include "utilities/rectangle.hpp"
+#include "core/utilities/aliases.hpp"
+#include "core/utilities/rectangle.hpp"
 #include <SDL_surface.h>
 #include <SDL_render.h>
 #include <stdint.h>
-#include "asset.hpp"
+#include "core/asset.hpp"
 #include "font.hpp"
-#include "utilities/rectangle.hpp"
+#include "core/utilities/rectangle.hpp"
 #include <string>
-#include "utilities/colour.hpp"
+#include "core/utilities/colour.hpp"
 #include "font.hpp"
 #include <string>
 #include <memory>

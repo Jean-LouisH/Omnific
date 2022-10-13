@@ -22,7 +22,7 @@
 
 #include "python_vm.hpp"
 #include "embedded_module.hpp"
-#include <singletons/entity_context.hpp>
+#include <core/singletons/entity_context.hpp>
 #include <iostream>
 #include <set>
 

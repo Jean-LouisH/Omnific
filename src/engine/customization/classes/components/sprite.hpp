@@ -22,10 +22,10 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
+#include "core/utilities/aliases.hpp"
 #include <vector>
 #include <unordered_map>
-#include "utilities/constants.hpp"
+#include "core/utilities/constants.hpp"
 #include <string>
 #include "customization/classes/assets/image.hpp"
 #include "renderable_component.hpp"

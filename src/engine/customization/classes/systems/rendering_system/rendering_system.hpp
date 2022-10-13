@@ -23,18 +23,18 @@
 #pragma once
 
 #include <SDL.h>
-#include "scene/scene.hpp"
-#include "system.hpp"
+#include "core/scene/scene.hpp"
+#include "core/system.hpp"
 #include <set>
 #include <vector>
-#include "singletons/os/window.hpp"
-#include "utilities/aliases.hpp"
+#include "core/singletons/os/window.hpp"
+#include "core/utilities/aliases.hpp"
 #include "rendering_context/rendering_context.hpp"
 #include "entity_renderable.hpp"
 #include "scene_tree_renderable.hpp"
 #include <memory>
 #include <map>
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 
 namespace Omnia
 {

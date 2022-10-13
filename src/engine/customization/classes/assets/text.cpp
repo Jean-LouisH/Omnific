@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "text.hpp"
-#include <singletons/uid_generator.hpp>
+#include <core/singletons/uid_generator.hpp>
 
 Omnia::Text::Text(std::string filepath)
 {

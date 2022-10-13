@@ -24,8 +24,8 @@
 
 #include "customization/classes/assets/image.hpp"
 #include "renderable_component.hpp"
-#include "component.hpp"
-#include "utilities/colour.hpp"
+#include "core/component.hpp"
+#include "core/utilities/colour.hpp"
 #include <unordered_map>
 #include <string>
 

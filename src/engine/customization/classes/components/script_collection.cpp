@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "script_collection.hpp"
-#include <scene/scene.hpp>
+#include <core/scene/scene.hpp>
 #include <customization/classes/assets/python_script.hpp>
 #include <customization/classes/assets/cpp_script.hpp>
 

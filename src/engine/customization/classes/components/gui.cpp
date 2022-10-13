@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "gui.hpp"
-#include <singletons/os/os.hpp>
-#include <singletons/uid_generator.hpp>
+#include <core/singletons/os/os.hpp>
+#include <core/singletons/uid_generator.hpp>
 
 void Omnia::GUIText::setText(std::string text)
 {

@@ -24,7 +24,7 @@
 
 
 #include <glm/glm.hpp>
-#include "component.hpp"
+#include "core/component.hpp"
 #include <memory>
 
 namespace Omnia

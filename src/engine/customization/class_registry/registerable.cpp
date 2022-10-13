@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "registerable.hpp"
-#include <singletons/uid_generator.hpp>
+#include <core/singletons/uid_generator.hpp>
 
 Omnia::Registerable::Registerable()
 {

@@ -25,7 +25,7 @@
 #include <memory>
 #include <unordered_map>
 #include "registerable.hpp"
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 
 /// Include class headers below
 ////////////////////////////////////////////////////

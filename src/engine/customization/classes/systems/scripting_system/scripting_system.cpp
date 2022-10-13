@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 #include "scripting_system.hpp"
-#include "singletons/entity_context.hpp"
-#include <singletons/scene_storage.hpp>
-#include <singletons/os/os.hpp>
+#include "core/singletons/entity_context.hpp"
+#include <core/singletons/scene_storage.hpp>
+#include <core/singletons/os/os.hpp>
 #include <iostream>
 
 

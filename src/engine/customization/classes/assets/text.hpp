@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include "asset.hpp"
-#include <utilities/aliases.hpp>
+#include "core/asset.hpp"
+#include <core/utilities/aliases.hpp>
 #include <string>
 #include <memory>
 

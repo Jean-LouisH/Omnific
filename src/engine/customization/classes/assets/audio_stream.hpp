@@ -23,7 +23,7 @@
 #pragma once
 
 #include <SDL_mixer.h>
-#include "asset.hpp"
+#include "core/asset.hpp"
 #include <string>
 #include <memory>
 

@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "cpp_native.hpp"
-#include "singletons/os/os.hpp"
+#include "core/singletons/os/os.hpp"
 
 typedef void(ScriptProcedure)(void);
 

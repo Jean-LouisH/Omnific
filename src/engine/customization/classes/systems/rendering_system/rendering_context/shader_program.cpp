@@ -23,7 +23,7 @@
 #include "shader_program.hpp"
 #include <iostream>
 #include <glm/glm.hpp>
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <customization/classes/assets/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>

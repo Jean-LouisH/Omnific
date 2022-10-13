@@ -23,7 +23,7 @@
 #pragma once
 
 #include "renderable_component.hpp"
-#include "component.hpp"
+#include "core/component.hpp"
 
 #include "customization/classes/assets/mesh.hpp"
 #include "customization/classes/assets/material.hpp"

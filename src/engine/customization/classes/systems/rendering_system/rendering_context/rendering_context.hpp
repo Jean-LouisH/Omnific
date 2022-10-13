@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <singletons/os/window.hpp>
+#include <core/singletons/os/window.hpp>
 #include <glad/glad.h>
 #include <vector>
 #include "shader_program.hpp"
@@ -30,9 +30,9 @@
 #include "vertex_array.hpp"
 #include <customization/classes/assets/image.hpp>
 #include <customization/classes/assets/shader.hpp>
-#include <scene/scene.hpp>
+#include <core/scene/scene.hpp>
 #include "../scene_tree_renderable.hpp"
-#include "utilities/aliases.hpp"
+#include "core/utilities/aliases.hpp"
 #include <string>
 #include <map>
 

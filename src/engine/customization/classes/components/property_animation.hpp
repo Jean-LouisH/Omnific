@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
+#include "core/utilities/aliases.hpp"
 #include <vector>
-#include "utilities/constants.hpp"
+#include "core/utilities/constants.hpp"
 #include <stdint.h>
-#include "component.hpp"
+#include "core/component.hpp"
 
 namespace Omnia
 {

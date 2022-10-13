@@ -22,7 +22,7 @@
 
 #include "audio_system.hpp"
 #include "audio_sdl/audio_sdl.hpp"
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 
 #include <customization/classes/components/audio_source.hpp>
 

@@ -23,7 +23,7 @@
 #include "camera.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 
 void Omnia::Camera::deserialize(YAML::Node yamlNode)
 {

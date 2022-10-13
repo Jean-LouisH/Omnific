@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include "utilities/aliases.hpp"
-#include "utilities/constants.hpp"
-#include "component.hpp"
+#include "core/utilities/aliases.hpp"
+#include "core/utilities/constants.hpp"
+#include "core/component.hpp"
 
 
 namespace Omnia

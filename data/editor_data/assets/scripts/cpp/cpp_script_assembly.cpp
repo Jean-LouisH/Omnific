@@ -22,8 +22,8 @@
 
 #include "cpp_script_assembly.hpp"
 #include "cpp_script_registry.hpp"
-#include "singletons/entity_context.hpp"
-#include "singletons/os/os.hpp"
+#include "core/singletons/entity_context.hpp"
+#include "core/singletons/os/os.hpp"
 
 #include <customization/classes/components/script_collection.hpp>
 

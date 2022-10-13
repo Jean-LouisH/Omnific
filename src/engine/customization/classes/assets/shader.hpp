@@ -23,7 +23,7 @@
 #pragma once
 
 #include <string>
-#include "asset.hpp"
+#include "core/asset.hpp"
 
 namespace Omnia
 {

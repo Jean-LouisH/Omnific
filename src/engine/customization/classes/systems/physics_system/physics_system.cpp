@@ -21,10 +21,10 @@
 // SOFTWARE.
 
 #include "physics_system.hpp"
-#include "scene/scene.hpp"
-#include <utilities/constants.hpp>
-#include <singletons/os/os.hpp>
-#include <singletons/configuration.hpp>
+#include "core/scene/scene.hpp"
+#include <core/utilities/constants.hpp>
+#include <core/singletons/os/os.hpp>
+#include <core/singletons/configuration.hpp>
 
 #include <customization/classes/components/collider.hpp>
 #include <customization/classes/components/physics_body.hpp>

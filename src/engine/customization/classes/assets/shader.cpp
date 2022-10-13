@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "shader.hpp"
-#include <singletons/uid_generator.hpp>
+#include <core/singletons/uid_generator.hpp>
 
 Omnia::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
 {

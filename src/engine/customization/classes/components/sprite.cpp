@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "sprite.hpp"
-#include <scene/scene.hpp>
-#include <singletons/os/os.hpp>
+#include <core/scene/scene.hpp>
+#include <core/singletons/os/os.hpp>
 
 void Omnia::Sprite::deserialize(YAML::Node yamlNode)
 {

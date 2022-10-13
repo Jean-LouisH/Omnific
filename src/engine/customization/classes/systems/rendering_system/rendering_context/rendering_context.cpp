@@ -22,7 +22,7 @@
 
 #include "rendering_context.hpp"
 #include "built_in_shaders.hpp"
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 #include <string>
 #include <SDL_video.h>
 

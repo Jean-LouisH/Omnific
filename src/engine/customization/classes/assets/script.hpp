@@ -22,13 +22,13 @@
 
 #pragma once
 
-#include "asset.hpp"
+#include "core/asset.hpp"
 
 // Headers for derived scripts
 ///////////////////////////////////////////////////////////
-#include <singletons/entity_context.hpp>
+#include <core/singletons/entity_context.hpp>
 
-#include <singletons/scene_storage.hpp>
+#include <core/singletons/scene_storage.hpp>
 
 #include <customization/classes/assets/audio_stream.hpp>
 #include <customization/classes/assets/font.hpp>

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <scene/scene_tree.hpp>
+#include <core/scene/scene_tree.hpp>
 #include <queue>
 #include <customization/classes/components/script_collection.hpp>
 

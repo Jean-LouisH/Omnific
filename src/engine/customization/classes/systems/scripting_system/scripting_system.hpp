@@ -24,11 +24,11 @@
 
 #include "scripting_languages/python_vm/python_vm.hpp"
 #include "scripting_languages/cpp_native/cpp_native.hpp"
-#include "scene/scene.hpp"
-#include <singletons/scene_storage.hpp>
-#include "utilities/aliases.hpp"
+#include "core/scene/scene.hpp"
+#include <core/singletons/scene_storage.hpp>
+#include "core/utilities/aliases.hpp"
 #include "scripting_languages/scripting_language.hpp"
-#include "system.hpp"
+#include "core/system.hpp"
 #include <memory>
 #include <vector>
 

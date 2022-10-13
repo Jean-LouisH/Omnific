@@ -22,14 +22,14 @@
 
 #pragma once
 
-#include "scene/scene.hpp"
+#include "core/scene/scene.hpp"
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
-#include "system.hpp"
-#include "singletons/os/input.hpp"
-#include <scene/haptic_signal_buffer.hpp>
-#include <utilities/hi_res_timer.hpp>
+#include "core/system.hpp"
+#include "core/singletons/os/input.hpp"
+#include <core/scene/haptic_signal_buffer.hpp>
+#include <core/utilities/hi_res_timer.hpp>
 #include <memory>
 
 namespace Omnia

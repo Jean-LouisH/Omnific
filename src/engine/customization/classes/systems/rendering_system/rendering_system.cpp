@@ -24,12 +24,12 @@
 #include <customization/classes/assets/shader.hpp>
 #include <customization/classes/assets/image.hpp>
 
-#include <singletons/os/os.hpp>
+#include <core/singletons/os/os.hpp>
 #include <customization/classes/components/camera.hpp>
 #include <customization/classes/components/viewport.hpp>
 #include <customization/classes/components/transform.hpp>
 
-#include <singletons/configuration.hpp>
+#include <core/singletons/configuration.hpp>
 
 Omnia::RenderingSystem::~RenderingSystem()
 {
