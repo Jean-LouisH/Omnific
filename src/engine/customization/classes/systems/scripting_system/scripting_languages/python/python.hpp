@@ -36,13 +36,13 @@
 
 namespace Omnia
 {
-	class PythonVM : public ScriptingLanguage
+	class Python : public ScriptingLanguage
 	{
 	public:
-		static constexpr const char* TYPE_STRING = "PythonVM";
+		static constexpr const char* TYPE_STRING = "Python";
 
-		PythonVM();
-		~PythonVM();
+		Python();
+		~Python();
 		virtual void initialize() override;
 		void executeCommand(std::string command);
 		virtual void loadScriptInstances() override;

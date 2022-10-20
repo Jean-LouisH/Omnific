@@ -27,15 +27,15 @@
 
 namespace Omnia
 {
-    class CPPNative : public ScriptingLanguage
+    class CPP : public ScriptingLanguage
     {
     public:
-        static constexpr const char* TYPE_STRING = "CPPNative";
-        CPPNative()
+        static constexpr const char* TYPE_STRING = "CPP";
+        CPP()
         {
             this->type = TYPE_STRING;
         };
-        ~CPPNative();
+        ~CPP();
         virtual void initialize() override;
         virtual void loadScriptInstances() override;
         virtual void onStart() override;

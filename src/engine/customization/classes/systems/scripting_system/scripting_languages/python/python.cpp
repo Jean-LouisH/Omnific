@@ -20,34 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "python_vm.hpp"
+#include "python.hpp"
 #include "embedded_module.hpp"
 #include <core/singletons/entity_context.hpp>
 #include <iostream>
 #include <set>
 
-Omnia::PythonVM::PythonVM()
+Omnia::Python::Python()
 {
 	this->type = TYPE_STRING;
 }
 
-Omnia::PythonVM::~PythonVM()
+Omnia::Python::~Python()
 {
 
 }
 
-void Omnia::PythonVM::initialize()
+void Omnia::Python::initialize()
 {
 	pybind11::initialize_interpreter();
 }
 
-void Omnia::PythonVM::executeCommand(std::string command)
+void Omnia::Python::executeCommand(std::string command)
 {
 	pybind11::exec("from omnia import *");
 	pybind11::exec(command);
 }
 
-void Omnia::PythonVM::loadScriptInstances()
+void Omnia::Python::loadScriptInstances()
 {
 	this->pythonScriptInstances.clear();
 
@@ -120,54 +120,54 @@ void Omnia::PythonVM::loadScriptInstances()
 	}
 }
 
-void Omnia::PythonVM::onStart()
+void Omnia::Python::onStart()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "on_start");
 }
 
-void Omnia::PythonVM::onInput()
+void Omnia::Python::onInput()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_input");
 }
 
-void Omnia::PythonVM::onEarly()
+void Omnia::Python::onEarly()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_early");
 }
 
-void Omnia::PythonVM::onLogic()
+void Omnia::Python::onLogic()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_logic");
 }
 
-void Omnia::PythonVM::onCompute()
+void Omnia::Python::onCompute()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_compute");
 }
 
-void Omnia::PythonVM::onLate()
+void Omnia::Python::onLate()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeUpdateMethods(it.second, "on_late");
 }
 
-void Omnia::PythonVM::onFinish()
+void Omnia::Python::onFinish()
 {
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
 }
 
-void Omnia::PythonVM::finalize()
+void Omnia::Python::finalize()
 {
 	pybind11::finalize_interpreter();
 }
 
-void Omnia::PythonVM::executeQueuedMethods(
+void Omnia::Python::executeQueuedMethods(
 	std::queue<EntityID> entityQueue, 
 	std::shared_ptr<SceneTree> sceneTree, 
 	const char* methodName)
@@ -184,7 +184,7 @@ void Omnia::PythonVM::executeQueuedMethods(
 	}
 }
 
-void Omnia::PythonVM::executeUpdateMethods(std::shared_ptr<SceneTree> sceneTree, const char* methodName)
+void Omnia::Python::executeUpdateMethods(std::shared_ptr<SceneTree> sceneTree, const char* methodName)
 {
 	std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = sceneTree->getComponentsByType<ScriptCollection>();
 	size_t scriptCollectionsCount = scriptCollections.size();
@@ -196,7 +196,7 @@ void Omnia::PythonVM::executeUpdateMethods(std::shared_ptr<SceneTree> sceneTree,
 	}
 }
 
-void Omnia::PythonVM::bindAndCall(
+void Omnia::Python::bindAndCall(
 	std::shared_ptr<ScriptCollection> scriptCollection,
 	SceneTreeID sceneTreeID,
 	EntityID entityID,

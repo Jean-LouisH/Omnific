@@ -20,63 +20,63 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "cpp_native.hpp"
+#include "cpp.hpp"
 #include "core/singletons/os/os.hpp"
 
 typedef void(ScriptProcedure)(void);
 
-Omnia::CPPNative::~CPPNative()
+Omnia::CPP::~CPP()
 {
 	OS::getSharedLibraryAccess().close(this->dynamicLibraryHandle);
 }
 
-void Omnia::CPPNative::initialize()
+void Omnia::CPP::initialize()
 {
 
 }
 
-void Omnia::CPPNative::loadScriptInstances()
+void Omnia::CPP::loadScriptInstances()
 {
 	this->dynamicLibraryHandle = OS::getSharedLibraryAccess().open(this->nativeAssemblyFilename);
 	this->execute("loadScriptInstances");
 }
 
-void Omnia::CPPNative::onStart()
+void Omnia::CPP::onStart()
 {
 	this->execute("onStart");
 }
 
-void Omnia::CPPNative::onInput()
+void Omnia::CPP::onInput()
 {
 	this->execute("onInput");
 }
 
-void Omnia::CPPNative::onEarly()
+void Omnia::CPP::onEarly()
 {
 	this->execute("onEarly");
 }
 
-void Omnia::CPPNative::onLogic()
+void Omnia::CPP::onLogic()
 {
 	this->execute("onLogic");
 }
 
-void Omnia::CPPNative::onCompute()
+void Omnia::CPP::onCompute()
 {
 	this->execute("onCompute");
 }
 
-void Omnia::CPPNative::onLate()
+void Omnia::CPP::onLate()
 {
 	this->execute("onLate");
 }
 
-void Omnia::CPPNative::onFinish()
+void Omnia::CPP::onFinish()
 {
 	this->execute("onFinish");
 }
 
-void Omnia::CPPNative::execute(std::string methodName)
+void Omnia::CPP::execute(std::string methodName)
 {
 	if (this->dynamicLibraryHandle != nullptr)
 	{
@@ -88,7 +88,7 @@ void Omnia::CPPNative::execute(std::string methodName)
 	}
 }
 
-void Omnia::CPPNative::finalize()
+void Omnia::CPP::finalize()
 {
 
 }

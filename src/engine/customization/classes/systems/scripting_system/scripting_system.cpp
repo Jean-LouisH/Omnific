@@ -41,9 +41,9 @@ void Omnia::ScriptingSystem::initialize()
 
 void Omnia::ScriptingSystem::executeCommand(std::string command)
 {
-	std::shared_ptr<PythonVM> pythonVM = std::dynamic_pointer_cast<PythonVM>(this->scriptingLanguages.at("PythonVM"));
-	if (pythonVM != nullptr)
-		pythonVM->executeCommand(command);
+	std::shared_ptr<Python> python = std::dynamic_pointer_cast<Python>(this->scriptingLanguages.at(Python::TYPE_STRING));
+	if (python != nullptr)
+		python->executeCommand(command);
 }
 
 void Omnia::ScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
