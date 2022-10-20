@@ -164,7 +164,13 @@ namespace Omnia
 		template <class Base>
 		static std::shared_ptr<Registerable> query(std::string derivedClassName)
 		{
-			return getInstance()->queryAll<Base>().at(derivedClassName);
+			std::shared_ptr<Registerable> registerable;
+			std::unordered_map<std::string, std::shared_ptr<Registerable>> bases = getInstance()->queryAll<Base>();
+			
+			if (bases.count(derivedClassName))
+				registerable = bases.at(derivedClassName);
+
+			return registerable;
 		}
 
 		static ClassRegistry* getInstance();
