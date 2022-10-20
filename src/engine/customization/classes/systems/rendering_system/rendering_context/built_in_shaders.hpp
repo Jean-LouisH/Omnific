@@ -53,7 +53,7 @@ namespace Omnia
 				void main()
 				{    
 					colour = texture(textureSampler, uv);
-					colour.a = alpha;
+					colour.a *= alpha;
 				}  
 			)";
 		}
