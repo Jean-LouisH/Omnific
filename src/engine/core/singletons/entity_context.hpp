@@ -51,6 +51,12 @@ namespace Omnia
 		static float getTimeDelta();
 
 		static EntityContext* getInstance();
+
+		template <class T>
+		static std::shared_ptr<T> getComponentByType()
+		{
+			return std::dynamic_pointer_cast<T>(getInstance()->getComponent(T::TYPE_STRING));
+		}
 	private:
 		static EntityContext* instance;
 
