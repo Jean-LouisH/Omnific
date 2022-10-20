@@ -20,29 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "cpp_script_instance.hpp"
 
-#include "script.hpp"
-
-namespace Omnia
+void Omnia::CPPScriptInstance::onStart()
 {
-    class OMNIA_ENGINE_API PythonScript : public Script
-    {
-    public:
-        PythonScript()
-        {
-            this->type = TYPE_STRING;
-        };
-        static constexpr const char* TYPE_STRING = "PythonScript";
 
-        PythonScript(std::string filepath);
+}
 
-        virtual Registerable* instance() override
-        {
-            PythonScript* clone = new PythonScript(*this);
-            clone->id = UIDGenerator::getNewUID();
-            return clone;
-        }
-    private:
-    };
+void Omnia::CPPScriptInstance::onInput()
+{
+
+}
+
+void Omnia::CPPScriptInstance::onEarly()
+{
+
+}
+
+void Omnia::CPPScriptInstance::onLogic()
+{
+
+}
+
+void Omnia::CPPScriptInstance::onCompute()
+{
+
+}
+
+void Omnia::CPPScriptInstance::onLate()
+{
+
+}
+
+void Omnia::CPPScriptInstance::onFinish()
+{
+
 }

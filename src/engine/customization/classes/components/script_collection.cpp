@@ -22,25 +22,31 @@
 
 #include "script_collection.hpp"
 #include <core/scene/scene.hpp>
-#include <customization/classes/assets/python_script.hpp>
-#include <customization/classes/assets/cpp_script.hpp>
+#include <core/singletons/os/os.hpp>
+#include <customization/classes/assets/script.hpp>
 
 void Omnia::ScriptCollection::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
-		if (it3->first.as<std::string>() == "python")
+		std::string languageName = it3->first.as<std::string>();
+
+		if (languageName == "Python")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				this->scripts.push_back(OS::getFileAccess().loadAssetByType<PythonScript>(it3->second[i].as<std::string>(), false));
+				std::shared_ptr<Script> pythonScript(OS::getFileAccess().loadAssetByType<Script>(it3->second[i].as<std::string>(), false));
+				pythonScript->setLanguageName(languageName);
+				this->scripts.push_back(pythonScript);
 			}
 		}
-		else if (it3->first.as<std::string>() == "cpp")
+		else if (languageName == "CPP")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				this->scripts.push_back(OS::getFileAccess().loadAssetByType<CPPScript>(it3->second[i].as<std::string>()));
+				std::shared_ptr<Script> cppScript(OS::getFileAccess().loadAssetByType<Script>(it3->second[i].as<std::string>()));
+				cppScript->setLanguageName(languageName);
+				this->scripts.push_back(cppScript);
 			}
 		}
 	}

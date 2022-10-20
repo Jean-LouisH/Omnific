@@ -31,13 +31,12 @@
 ////////////////////////////////////////////////////
 
 #include <customization/classes/assets/audio_stream.hpp>
-#include "customization/classes/assets/cpp_script.hpp"
 #include <customization/classes/assets/font.hpp>
 #include <customization/classes/assets/image.hpp>
 #include <customization/classes/assets/material.hpp>
 #include <customization/classes/assets/mesh.hpp>
-#include "customization/classes/assets/python_script.hpp"
 #include <customization/classes/assets/rig.hpp>
+#include "customization/classes/assets/script.hpp"
 #include <customization/classes/assets/shader.hpp>
 #include <customization/classes/assets/text.hpp>
 
@@ -87,12 +86,11 @@ namespace Omnia
 			////////////////////////////////////////////
 
 			registry->add<AudioStream, Asset>();
-			registry->add<CPPScript, Asset>();
 			registry->add<Font, Asset>();
 			registry->add<Image, Asset>();
 			registry->add<Material, Asset>();
 			registry->add<Mesh, Asset>();
-			registry->add<PythonScript, Asset>();
+			registry->add<Script, Asset>();
 			registry->add<Rig, Asset>();
 			registry->add<Shader, Asset>();
 			registry->add<Text, Asset>();

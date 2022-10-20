@@ -21,3 +21,20 @@
 // SOFTWARE.
 
 #include "script.hpp"
+
+Omnia::Script::Script(std::string filepath)
+{
+	this->type = this->TYPE_STRING;
+	this->setName(filepath);
+}
+
+void Omnia::Script::setLanguageName(std::string languageName)
+{
+	if (this->languageName == "")
+		this->languageName = languageName;
+}
+
+std::string Omnia::Script::getLanguageName()
+{
+	return this->languageName;
+}

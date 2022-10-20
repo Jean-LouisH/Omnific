@@ -63,7 +63,7 @@ void Omnia::Python::loadScriptInstances()
 			{
 				std::string scriptFilepath = script->getName();
 
-				if (script->getType() == Omnia::PythonScript::TYPE_STRING)
+				if (script->getLanguageName() == this->TYPE_STRING)
 				{
 					try
 					{
