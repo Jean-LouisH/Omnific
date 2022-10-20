@@ -35,7 +35,7 @@ namespace Omnia
 	class OMNIA_ENGINE_API Window
 	{
 	public:
-		Window(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
+		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
 		void setToWindowed(uint16_t width, uint16_t height);
 		void setToFullscreen();
 		void toggleWindowedFullscreen();

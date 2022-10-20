@@ -40,6 +40,7 @@ void Omnia::OS::initialize(std::vector<std::string> commandLineArguments)
 	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
 	newInstance->platform = std::unique_ptr<Platform>(new Platform());
 	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
+	newInstance->window = std::unique_ptr<Window>(new Window());
 	newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
 	newInstance->runTimer->setStart();
 
@@ -56,7 +57,7 @@ bool Omnia::OS::createWindow(std::string title,
 
 	if (isSuccessful)
 	{
-		getInstance()->window = std::unique_ptr<Window>(new Window(title, width, height, isFullscreen, renderingContext));
+		getInstance()->window->initialize(title, width, height, isFullscreen, renderingContext);
 
 		if (TTF_Init() == -1)
 			printf("TTF_Init: %s\n", TTF_GetError());
