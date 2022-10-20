@@ -126,8 +126,8 @@ void Omnia::Engine::run()
 		   general parallelizable tasks. */
 
 		std::vector<std::thread> dedicatedThreads;
-		dedicatedThreads.push_back(std::thread(&Engine::runUpdate, this, profiler.getTimer("update_thread")));
-		dedicatedThreads.push_back(std::thread(&Engine::runOutput, this, profiler.getTimer("output_thread")));
+		dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer("update_thread")));
+		dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer("output_thread")));
 
 		/* Make the remaining CPU threads generalized workers
 		   after the main and dedicated ones. */
@@ -135,6 +135,8 @@ void Omnia::Engine::run()
 
 		std::shared_ptr<HiResTimer> mainThreadTimer = profiler.getTimer("main_thread");
 		uint32_t mainThreadTargetFPS = 60;
+
+		logger.write("Engine loops currently running...");
 
 		/* Main loop thread for Input. */
 		while (this->isRunning())
@@ -145,7 +147,7 @@ void Omnia::Engine::run()
 			this->sleepThisThreadForRemainingTime(mainThreadTargetFPS, mainThreadTimer);
 		}
 
-		logger.write("Finalizing Omnia Engine...");
+		logger.write("Finalizing Engine loops...");
 		for (std::thread& thread : dedicatedThreads)
 			thread.join();
 
@@ -201,7 +203,7 @@ void Omnia::Engine::queryInput()
 		this->state = State::RESTARTING;
 }
 
-void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
+void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
 	for (auto updateSystem : this->updateSystems)
 		updateSystem.second->initialize();
@@ -262,7 +264,7 @@ void Omnia::Engine::runUpdate(std::shared_ptr<HiResTimer> updateProcessTimer)
 	}
 }
 
-void Omnia::Engine::runOutput(std::shared_ptr<HiResTimer> outputProcessTimer)
+void Omnia::Engine::runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer)
 {
 	/* Initializes RenderingContext on the same
 	   thread as object generators, as required. */
