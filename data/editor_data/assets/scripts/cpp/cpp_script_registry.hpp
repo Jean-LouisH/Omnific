@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <customization/classes/assets/cpp_script.hpp>
+#include <customization/classes/systems/scripting_system/scripting_languages/cpp/cpp_script_instance.hpp>
 #include <unordered_map>
 #include <memory>
 
@@ -53,18 +53,18 @@ namespace Omnia
 		}
 
 		static void loadScriptInstances();
-		static std::unordered_map<std::string, std::shared_ptr<CPPScript>> getScriptInstances();
+		static std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> getScriptInstances();
 		static void finalize();
 
 		template <class T>
 		static void add()
 		{
-			getInstance()->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPScript>(std::shared_ptr<T>(new T())));
+			getInstance()->cppScriptDefinitions.emplace(T::TYPE_STRING, std::static_pointer_cast<CPPScriptInstance>(std::shared_ptr<T>(new T())));
 		}
 	private:
 		static CPPScriptRegistry* instance;
-		std::unordered_map<std::string, std::shared_ptr<CPPScript>> cppScriptDefinitions;
-		std::unordered_map<std::string, std::shared_ptr<CPPScript>> cppScriptInstances;
+		std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> cppScriptDefinitions;
+		std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> cppScriptInstances;
 		static CPPScriptRegistry* getInstance();
 	};
 }

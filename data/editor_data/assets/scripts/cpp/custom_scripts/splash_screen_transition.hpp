@@ -22,11 +22,11 @@
 
 #pragma once
 
-#include <customization/classes/assets/cpp_script.hpp>
+#include <customization/classes/systems/scripting_system/scripting_languages/cpp/cpp_script_instance.hpp>
 
 namespace OmniaEditor
 {
-	class SplashScreenTransition : public Omnia::CPPScript
+	class SplashScreenTransition : public Omnia::CPPScriptInstance
 	{
 	public:
 		/* Custom classes should derive their own type string
@@ -39,10 +39,9 @@ namespace OmniaEditor
 
 		/* Custom classes should have their own clone method 
 		for the CPPScriptAssembly instance derivation. */
-		virtual CPPScript* instance() override
+		virtual CPPScriptInstance* instance() override
 		{
 			SplashScreenTransition* clone = new SplashScreenTransition(*this);
-			clone->id = Omnia::UIDGenerator::getNewUID();
 			return clone;
 		}
 

@@ -27,13 +27,13 @@ SceneTree:
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
-      python: ["tests/loading_models/scripts/python/camera_control.py"]
+      Python: ["tests/loading_models/scripts/python/camera_control.py"]
   Entity:
     name: "Model"
     Transform:
       translation: [0, 0, 0]
     ScriptCollection:
-      python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
+      Python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
   SubSceneTree:
     name: ["tests/loading_models/models/suzanne.glb", ""]
     parent: "Model"
@@ -53,7 +53,7 @@ SceneTree:
         font: ["tests/loading_models/fonts/Lato-Regular.ttf", 16]
         colour: [255, 255, 255, 255]
   #  ScriptCollection:
-  #    python: ["tests/loading_models/scripts/python/fps_gui.py"]
+  #    Python: ["tests/loading_models/scripts/python/fps_gui.py"]
   Entity:
     name: "Camera"
     Transform:
@@ -61,7 +61,7 @@ SceneTree:
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
-      python: ["tests/loading_models/scripts/python/debug_camera_control.py"]
+      Python: ["tests/loading_models/scripts/python/debug_camera_control.py"]
   Entity:
     name: "Viewport"
     Viewport:

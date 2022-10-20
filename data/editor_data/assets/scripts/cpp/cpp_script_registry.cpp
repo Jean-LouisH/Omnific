@@ -36,15 +36,15 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 	for (auto it : EntityContext::getScene()->getSceneTrees())
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
-				if (script->getType() == Omnia::CPPScript::TYPE_STRING)
+				if (script->getType() == Omnia::CPPScriptInstance::TYPE_STRING)
 					if (registry->cppScriptDefinitions.count(script->getName()))
 						registry->cppScriptInstances.emplace(
 							script->getName() + std::to_string(scriptCollection->getEntityID()),
-							std::dynamic_pointer_cast<CPPScript>(std::shared_ptr<Registerable>(registry->cppScriptDefinitions.at(script->getName())->instance()))
+							std::shared_ptr<CPPScriptInstance>(registry->cppScriptDefinitions.at(script->getName())->instance())
 						);
 }
 
-std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScript>> Omnia::CPPScriptRegistry::getScriptInstances()
+std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScriptInstance>> Omnia::CPPScriptRegistry::getScriptInstances()
 {
 	return getInstance()->cppScriptInstances;
 }

@@ -9,7 +9,7 @@ SceneTree:
   Entity:
     name: "SplashScreenSprite"
     Transform: default
-    SpriteContainer:
+    Sprite:
       image: "icon.png"
   Entity:
     name: "Text"
@@ -20,8 +20,8 @@ SceneTree:
       font: ["assets/fonts/Lato-Regular.ttf", 32]
       colour: [255, 0, 0, 255]
     ScriptCollection:
-      python: ["assets/scripts/python/debug_time_display.py"]
-      cpp: ["SplashScreenTransition"]
+      Python: ["assets/scripts/python/debug_time_display.py"]
+      CPP: ["SplashScreenTransition"]
   Entity:
     name: "Viewport"
     Viewport:

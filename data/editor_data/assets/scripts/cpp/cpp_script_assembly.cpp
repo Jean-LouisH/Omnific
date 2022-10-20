@@ -82,11 +82,11 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 	for (auto script : scriptCollection->scripts)
 	{
 		std::string scriptInstanceName = script->getName() + std::to_string(entityID);
-		std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScript>> scriptInstances = Omnia::CPPScriptRegistry::getScriptInstances();
+		std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScriptInstance>> scriptInstances = Omnia::CPPScriptRegistry::getScriptInstances();
 
 		if (scriptInstances.count(scriptInstanceName))
 		{
-			std::shared_ptr<Omnia::CPPScript> scriptInstance = scriptInstances.at(scriptInstanceName);
+			std::shared_ptr<Omnia::CPPScriptInstance> scriptInstance = scriptInstances.at(scriptInstanceName);
 
 			Omnia::EntityContext::bindEntity(
 				sceneTreeID,

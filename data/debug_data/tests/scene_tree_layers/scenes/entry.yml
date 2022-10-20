@@ -8,7 +8,7 @@ SceneTree:
     Camera: "default"
   Entity:
     name: "Background"
-    SpriteContainer:
+    Sprite:
       image: "scene_tree_layers/images/brown_wooden_planks_edited.jpg"
       dimensions: [40.0, 30.0, 0.1]
     Transform:
@@ -34,7 +34,7 @@ SceneTree:
     ModelContainer:
       models: ["Model::cube"]
     ScriptCollection:
-      python: ["scene_tree_layers/scripts/python/middleground_cube_rotate.py"]
+      Python: ["scene_tree_layers/scripts/python/middleground_cube_rotate.py"]
   Entity:
     name: "Viewport"
     Viewport:
@@ -53,16 +53,16 @@ SceneTree:
     Transform:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
-    ModelContainer:
-      models: ["Model::cube"]
+    Model:
+      mesh: "Mesh::cube"
     ScriptCollection:
-      python: ["scene_tree_layers/scripts/python/foreground_cube_rotate.py"]
+      Python: ["scene_tree_layers/scripts/python/foreground_cube_rotate.py"]
   Entity:
     name: "Floor"
     Transform:
       translation: [0, 0, -5]
       rotation: [-90, 0, 0]
-    SpriteContainer:
+    Sprite:
       image: "Image::default"
       dimensions: [50.0, 50.0, 0.1]
   Entity:

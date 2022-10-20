@@ -27,7 +27,7 @@ SceneTree:
     name: "TimedTransition"
     Timer: "default"
     ScriptCollection:
-      python: ["splashscreen/scripts/python/scene_transition.py"]
+      Python: ["splashscreen/scripts/python/scene_transition.py"]
   Entity:
     name: "Viewport"
     Viewport:
