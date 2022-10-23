@@ -11,6 +11,11 @@ class omnia_script:
         if abs(physics_body.linear_velocity.y) > abs(maximum_speed):
             physics_body.linear_velocity.y = maximum_speed
 
+    def on_input(self):
+        inp = omnia.get_input()
+        if inp.is_on_release("f1"):
+            omnia.reload_active_scene()
+
     def on_logic(self):
         physics_body = omnia.get_component("PhysicsBody")
         inp = omnia.get_input()
