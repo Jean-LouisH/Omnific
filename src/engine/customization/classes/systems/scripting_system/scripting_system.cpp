@@ -145,4 +145,6 @@ void Omnia::ScriptingSystem::finalize()
 {
 	for (auto scriptingLanguage : this->scriptingLanguages)
 		scriptingLanguage.second->finalize();
+
+	this->scriptingLanguages.clear();
 }

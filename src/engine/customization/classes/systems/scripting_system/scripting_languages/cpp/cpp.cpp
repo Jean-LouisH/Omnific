@@ -90,5 +90,5 @@ void Omnia::CPP::execute(std::string methodName)
 
 void Omnia::CPP::finalize()
 {
-
+	OS::getSharedLibraryAccess().close(this->dynamicLibraryHandle);
 }

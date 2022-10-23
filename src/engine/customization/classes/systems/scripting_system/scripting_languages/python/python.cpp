@@ -31,14 +31,10 @@ Omnia::Python::Python()
 	this->type = TYPE_STRING;
 }
 
-Omnia::Python::~Python()
-{
-
-}
-
 void Omnia::Python::initialize()
 {
 	pybind11::initialize_interpreter();
+	this->isVMStarted = true;
 }
 
 void Omnia::Python::executeCommand(std::string command)
@@ -164,7 +160,8 @@ void Omnia::Python::onFinish()
 
 void Omnia::Python::finalize()
 {
-	pybind11::finalize_interpreter();
+	if (this->isVMStarted)
+		pybind11::finalize_interpreter();
 }
 
 void Omnia::Python::executeQueuedMethods(

@@ -42,7 +42,6 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "Python";
 
 		Python();
-		~Python();
 		virtual void initialize() override;
 		void executeCommand(std::string command);
 		virtual void loadScriptInstances() override;
@@ -55,6 +54,7 @@ namespace Omnia
 		virtual void onFinish() override;
 		virtual void finalize() override;
 	private:
+		bool isVMStarted = false;
 		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;
 
 		void executeQueuedMethods(

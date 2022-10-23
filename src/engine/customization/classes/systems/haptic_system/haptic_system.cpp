@@ -109,7 +109,7 @@ void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)
 void Omnia::HapticSystem::finalize()
 {
 	if (this->isInitialized)
-		SDL_INIT_HAPTIC;
+		SDL_QuitSubSystem(SDL_INIT_HAPTIC);
 
 	this->isInitialized = false;
 }
