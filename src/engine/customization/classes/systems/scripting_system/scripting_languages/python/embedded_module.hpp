@@ -288,13 +288,17 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	/*Singletons*/
 
 	m.def("add_scene", &Omnia::SceneStorage::addScene);
+	m.def("add_and_change_to_scene", &Omnia::SceneStorage::addAndChangeToScene);
 	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
-	m.def("replace_active_scene", &Omnia::SceneStorage::replaceActiveScene);
-	m.def("change_to_scene", &Omnia::SceneStorage::changeToScene);
+	m.def("load_scene", &Omnia::SceneStorage::changeToScene);
+	m.def("reload_active_scene", &Omnia::SceneStorage::reloadActiveScene);
 	m.def("get_active_scene", &Omnia::SceneStorage::getActiveScene);
 	m.def("get_active_scene_name", &Omnia::SceneStorage::getActiveSceneName);
-	m.def("is_empty", &Omnia::SceneStorage::isEmpty);
+	m.def("has_no_scenes", &Omnia::SceneStorage::hasNoScenes);
+	m.def("has_scene", &Omnia::SceneStorage::hasScene);
 	m.def("has_active_scene_changed", &Omnia::SceneStorage::hasActiveSceneChanged);
+	m.def("clear_scenes", &Omnia::SceneStorage::clearScenes);
+	m.def("get_scene_by_name", &Omnia::SceneStorage::getSceneByName);
 
 	m.def("has_component", &Omnia::EntityContext::hasComponent);
 	m.def("get_entity", &Omnia::EntityContext::getEntity);

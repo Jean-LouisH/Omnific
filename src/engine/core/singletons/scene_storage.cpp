@@ -30,54 +30,93 @@ void Omnia::SceneStorage::addScene(std::shared_ptr<Scene> scene)
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 	std::string sceneName = scene->getName();
 
-	if (sceneStorage->activeSceneName == "")
+	if (!sceneStorage->hasScene(sceneName))
 	{
-		sceneStorage->activeSceneName = sceneName;
-		sceneStorage->activeSceneChanged = true;
+		sceneStorage->scenes.emplace(sceneName, scene);
 		OS::getLogger().write("Added Scene: \"" + sceneName + "\"");
 	}
-
-	sceneStorage->scenes.emplace(sceneName, scene);
+	else
+	{
+		OS::getLogger().write("Error: Attempted to add Scene: \"" + sceneName + "\" which already exists.");
+	}
 }
+
+void Omnia::SceneStorage::addAndChangeToScene(std::shared_ptr<Scene> scene)
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+
+	sceneStorage->addScene(scene);
+	sceneStorage->changeToScene(scene->getName());
+}
+
 void Omnia::SceneStorage::removeScene(std::string sceneName)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 
-	if (sceneName != sceneStorage->activeSceneName)
+	if (sceneName != "")
 	{
-		if (sceneStorage->scenes.count(sceneName))
+		if (sceneStorage->hasScene(sceneName))
 		{
+			/*Removed Scenes are stored to allow the ouput thread to access their data
+			before registering a new active scene, without the use of synchronization. */
+			std::shared_ptr<Scene> sceneToRemove = sceneStorage->scenes.at(sceneName);
+
+			if (sceneStorage->removedScenes.count(sceneName))
+			{
+				sceneStorage->removedScenes.erase(sceneName);
+			}
+
+			sceneStorage->removedScenes.emplace(sceneName, sceneToRemove);
+
+			if (sceneName == sceneStorage->getActiveSceneName())
+			{
+				sceneStorage->changeToScene("");
+			}
+
 			sceneStorage->scenes.erase(sceneName);
 			OS::getLogger().write("Removed Scene: \"" + sceneName + "\"");
 		}
 	}
-}
-void Omnia::SceneStorage::replaceActiveScene(std::shared_ptr<Scene> scene)
-{
-	SceneStorage* sceneStorage = SceneStorage::getInstance();
-	std::string sceneName = scene->getName();
-
-	if (sceneName != sceneStorage->activeSceneName)
+	else
 	{
-		std::string oldSceneName = sceneStorage->activeSceneName;
-		sceneStorage->addScene(scene);
-		sceneStorage->changeToScene(sceneName);
-		sceneStorage->removeScene(oldSceneName);
-		sceneStorage->activeSceneChanged = true;
-		OS::getLogger().write("Replaced active Scene with: \"" + sceneName + "\"");
+		OS::getLogger().write("Error: Attempted to remove empty Scene.");
 	}
 }
+
 void Omnia::SceneStorage::changeToScene(std::string sceneName)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 
-	if (sceneStorage->scenes.count(sceneName))
+	if (sceneStorage->hasScene(sceneName))
 	{
 		sceneStorage->activeSceneName = sceneName;
 		OS::getLogger().write("Changed to Scene: \"" + sceneName + "\"");
 	}
 
 	sceneStorage->activeSceneChanged = true;
+}
+
+void Omnia::SceneStorage::reloadActiveScene()
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	std::string activeSceneName = sceneStorage->getActiveSceneName();
+
+	if (activeSceneName != "" &&
+		sceneStorage->hasScene(activeSceneName))
+	{
+		if (sceneStorage->removedScenes.count(activeSceneName))
+		{
+			std::shared_ptr<Scene> previouslyRemovedScene = sceneStorage->removedScenes.at(activeSceneName);
+			sceneStorage->removeScene(activeSceneName);
+			previouslyRemovedScene->reload();
+			sceneStorage->addAndChangeToScene(previouslyRemovedScene);
+		}
+		else
+		{
+			sceneStorage->removeScene(activeSceneName);
+			sceneStorage->addAndChangeToScene(std::shared_ptr<Scene>(new Scene(activeSceneName)));
+		}
+	}
 }
 
 std::shared_ptr<Omnia::Scene> Omnia::SceneStorage::getActiveScene()
@@ -91,9 +130,15 @@ std::string Omnia::SceneStorage::getActiveSceneName()
 	return SceneStorage::getInstance()->activeSceneName;
 }
 
-bool Omnia::SceneStorage::isEmpty()
+bool Omnia::SceneStorage::hasNoScenes()
 {
-	return SceneStorage::getInstance()->scenes.empty();
+	/*Accounting for Scenes other than the dummy scene.*/
+	return SceneStorage::getInstance()->scenes.size() < 2;
+}
+
+bool Omnia::SceneStorage::hasScene(std::string sceneName)
+{
+	return SceneStorage::getInstance()->scenes.count(sceneName);
 }
 
 bool Omnia::SceneStorage::hasActiveSceneChanged()
@@ -104,9 +149,32 @@ bool Omnia::SceneStorage::hasActiveSceneChanged()
 	return result;
 }
 
+void Omnia::SceneStorage::clearScenes()
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	sceneStorage->scenes.clear();
+	sceneStorage->activeSceneName = "";
+}
+
+std::shared_ptr<Omnia::Scene> Omnia::SceneStorage::getSceneByName(std::string sceneName)
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	std::shared_ptr<Scene> scene;
+
+	if (sceneStorage->hasScene(sceneName))
+	{
+		scene = sceneStorage->scenes.at(sceneName);
+	}
+
+	return scene;
+}
+
 Omnia::SceneStorage* Omnia::SceneStorage::getInstance()
 {
 	if (instance == nullptr)
+	{
 		instance = new SceneStorage();
+		instance->addScene(std::shared_ptr<Scene>(new Scene()));
+	}
 	return instance;
 }

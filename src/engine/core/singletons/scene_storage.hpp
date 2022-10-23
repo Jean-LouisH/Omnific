@@ -35,17 +35,22 @@ namespace Omnia
 	{
 	public:
 		static void addScene(std::shared_ptr<Scene> scene);
+		static void addAndChangeToScene(std::shared_ptr<Scene> scene);
 		static void removeScene(std::string sceneName);
-		static void replaceActiveScene(std::shared_ptr<Scene> scene);
 		static void changeToScene(std::string sceneName);
+		static void reloadActiveScene();
 		static std::shared_ptr<Scene> getActiveScene();
 		static std::string getActiveSceneName();
-		static bool isEmpty();
+		static bool hasNoScenes();
+		static bool hasScene(std::string sceneName);
 		static bool hasActiveSceneChanged();
+		static void clearScenes();
+		static std::shared_ptr<Scene> getSceneByName(std::string sceneName);
 		static SceneStorage* getInstance();
 	private:
 		static SceneStorage* instance;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
+		std::unordered_map<std::string, std::shared_ptr<Scene>> removedScenes;
 		std::string activeSceneName;
 		bool activeSceneChanged = false;
 	};
