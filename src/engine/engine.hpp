@@ -59,9 +59,7 @@ namespace Omnia
 		enum class State
 		{
 			INITIALIZING,
-			RUNNING_APPLICATION_WINDOWED,
-			RUNNING_APPLICATION_FULLSCREEN,
-			RUNNING_APPLICATION_FULLSCREEN_DESKTOP,
+			RUNNING,
 			RESTARTING,
 			FINALIZING
 		};
@@ -73,16 +71,10 @@ namespace Omnia
 		int argc = 0;
 		char** argv = nullptr;
 
-		bool isRunning();
-		/* Returns "true" if initialization is successful */
 		void initialize();
-		void queryInput();
-		/* Runs on a dedicated update thread. */
+		void runInputLoop(std::shared_ptr<HiResTimer> updateProcessTimer);
 		void runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer);
-		/* Runs on a dedicated output thread. */
 		void runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer);
-		/* For the current single-threaded engine 
-		   loop implementation*/
 		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
 		void finalize();
 
