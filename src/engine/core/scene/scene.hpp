@@ -49,6 +49,7 @@ namespace Omnia
 		void serialize(std::string filepath);
 		void deserialize(std::string filepath);
 		void deserialize(std::string filepath, std::string name);
+		void reload();
 
 		void addSceneTree(std::shared_ptr<SceneTree> sceneTree);
 		void addEmptySceneTree();

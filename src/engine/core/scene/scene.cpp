@@ -212,6 +212,13 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 	}
 }
 
+void Omnia::Scene::reload()
+{
+	this->sceneTrees.clear();
+	this->lastSceneTreeID = 0;
+	this->deserialize(this->getName());
+}
+
 void Omnia::Scene::addSceneTree(std::shared_ptr<SceneTree> sceneTree)
 {
 	this->sceneTrees.emplace(sceneTree->getID(), sceneTree);
