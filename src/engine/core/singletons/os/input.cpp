@@ -537,12 +537,16 @@ void Omnia::Input::pollInputEvents()
 
 bool Omnia::Input::hasRequestedShutdown()
 {
-	return this->shutdownRequest;
+	bool result = this->shutdownRequest;
+	this->shutdownRequest = false;
+	return result;
 }
 
 bool Omnia::Input::hasRequestedRestart()
 {
-	return this->restartRequest;
+	bool result = this->restartRequest;
+	this->restartRequest = false;
+	return result;
 }
 
 void Omnia::Input::requestShutdown()
