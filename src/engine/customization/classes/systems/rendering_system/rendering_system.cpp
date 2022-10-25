@@ -76,6 +76,12 @@ void Omnia::RenderingSystem::onWindowResize()
 
 void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene)
 {
+	if (this->activeSceneID != scene->getID())
+	{
+		this->activeSceneID = scene->getID();
+		this->sceneTreeRenderableLists.clear();
+	}
+
 	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
 
 	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)

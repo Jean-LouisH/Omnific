@@ -82,6 +82,7 @@ namespace Omnia
 	private:
 		std::shared_ptr<RenderingContext> context;
 		std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists;
+		SceneID activeSceneID = 0;
 
 		void onWindowResize();
 		void buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene);
