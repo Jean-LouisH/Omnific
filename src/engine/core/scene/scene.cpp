@@ -40,11 +40,13 @@ Omnia::Scene::Scene()
 Omnia::Scene::Scene(std::string filepath)
 {
 	this->deserialize(filepath);
+	this->id = UIDGenerator::getNewUID();
 }
 
 Omnia::Scene::Scene(std::string filepath, std::string name)
 {
 	this->deserialize(filepath, name);
+	this->id = UIDGenerator::getNewUID();
 }
 
 void Omnia::Scene::serialize(std::string filepath)
