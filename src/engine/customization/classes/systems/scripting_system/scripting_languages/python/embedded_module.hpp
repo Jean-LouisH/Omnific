@@ -287,8 +287,10 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	/*Singletons*/
 
-	m.def("add_scene", &Omnia::SceneStorage::addScene);
-	m.def("add_and_change_to_scene", &Omnia::SceneStorage::addAndChangeToScene);
+	m.def("add_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::addScene));
+	m.def("add_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::addScene));
+	m.def("add_and_change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::addAndChangeToScene));
+	m.def("add_and_change_to_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::addAndChangeToScene));
 	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
 	m.def("load_scene", &Omnia::SceneStorage::changeToScene);
 	m.def("reload_active_scene", &Omnia::SceneStorage::reloadActiveScene);

@@ -41,12 +41,36 @@ void Omnia::SceneStorage::addScene(std::shared_ptr<Scene> scene)
 	}
 }
 
+void Omnia::SceneStorage::addScene(std::string filepath)
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+
+	if (!sceneStorage->hasScene(filepath))
+	{
+		std::shared_ptr<Scene> scene(new Scene(filepath));
+		sceneStorage->scenes.emplace(filepath, scene);
+		OS::getLogger().write("Added Scene: \"" + filepath + "\"");
+	}
+	else
+	{
+		OS::getLogger().write("Error: Attempted to add Scene: \"" + filepath + "\" which already exists.");
+	}
+}
+
 void Omnia::SceneStorage::addAndChangeToScene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 
 	sceneStorage->addScene(scene);
 	sceneStorage->changeToScene(scene->getName());
+}
+
+void Omnia::SceneStorage::addAndChangeToScene(std::string filepath)
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+
+	sceneStorage->addScene(filepath);
+	sceneStorage->changeToScene(filepath);
 }
 
 void Omnia::SceneStorage::removeScene(std::string sceneName)
