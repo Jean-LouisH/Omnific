@@ -48,12 +48,7 @@ void Omnia::SceneStorage::addScene(std::string filepath)
 	if (!sceneStorage->hasScene(filepath))
 	{
 		std::shared_ptr<Scene> scene(new Scene(filepath));
-		sceneStorage->scenes.emplace(filepath, scene);
-		OS::getLogger().write("Added Scene: \"" + filepath + "\"");
-	}
-	else
-	{
-		OS::getLogger().write("Error: Attempted to add Scene: \"" + filepath + "\" which already exists.");
+		sceneStorage->addScene(scene);
 	}
 }
 
