@@ -1,6 +1,6 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
-![Intro Screenshot](debug.png)
+![Intro Screenshot](docs/images/debug.png)
 
 **This project is in pre-alpha**
 
@@ -20,31 +20,31 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 - Project-based, data-driven applications, deserialized as YAML files via yaml-cpp
 
-![omnia_project](omnia_project.png)
+![omnia_project](docs/images/omnia_project.png)
 
 - OpenGL 3.3 Rendering Context with GLSL, Scenes of multiple SceneTree layers (2D and 3D) via depth buffer refresh
 
-![scene_tree_layers](scene_tree_layers.gif)
+![scene_tree_layers](docs/images/scene_tree_layers.gif)
 
 - SceneTree EventBus for a publish/subscribe architecture
 
-![event_bus](event_bus.gif)
+![event_bus](docs/images/event_bus.gif)
 
 - Model loading via TinyGLTF, including Mesh and Material texture maps
 
-![opengl](suzanne.gif)
+![opengl](docs/images/suzanne.gif)
 
 - Python VM scripting via pybind11 with game loop calls to Python and Engine API calls from Python. Imports, including pip installed packages are supported.
 
-![pong_ai_control](pong_ai_control_python.png)
+![pong_ai_control](docs/images/pong_ai_control_python.png)
 
 - C++ scripting via native shared library builds
 
-![omnia_editor_cpp](omnia_editor_cpp.png)
+![omnia_editor_cpp](docs/images/omnia_editor_cpp.png)
 
 - Fully customizable as a core framework loading custom Asset, Component and System classes on initialization
 
-![class_registry](class_registry.png)
+![class_registry](docs/images/class_registry.png)
 
 - Entity-Component-System (ECS) architecture
 - Game Controller and Haptic Feedback support
@@ -78,7 +78,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 - Pong [In progress...]
 
-![omnia_pong](omnia_pong.gif)
+![omnia_pong](docs/images/omnia_pong.gif)
 
 # Acknowledgements
 
