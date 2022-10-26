@@ -54,34 +54,38 @@ void Omnia::Engine::run()
 
 		this->initialize();
 
-		/* These timers persist throughout Engine runtime and
-		   keep track of elapsed times in nanoseconds. */
-		profiler.addTimer("main_thread");
-		profiler.addTimer("update_thread");
-		profiler.addTimer("output_thread");
+		if (this->state != State::FINALIZING)
+		{
 
-		/* Engine threading uses a hybrid of dedicated threads
-		   for deadline sensitive tasks and a thread pool for 
-		   general parallelizable tasks. */
+			/* These timers persist throughout Engine runtime and
+			   keep track of elapsed times in nanoseconds. */
+			profiler.addTimer("main_thread");
+			profiler.addTimer("update_thread");
+			profiler.addTimer("output_thread");
 
-		std::vector<std::thread> dedicatedThreads;
-		dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer("update_thread")));
-		dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer("output_thread")));
+			/* Engine threading uses a hybrid of dedicated threads
+			   for deadline sensitive tasks and a thread pool for
+			   general parallelizable tasks. */
 
-		/* Make the remaining CPU threads generalized workers
-		   after the main and dedicated ones. */
-		OS::getThreadPool().initialize(OS::getPlatform().getLogicalCoreCount() - dedicatedThreads.size() - 1);
+			std::vector<std::thread> dedicatedThreads;
+			dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer("update_thread")));
+			dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer("output_thread")));
 
-		logger.write("Engine loops currently running...");
+			/* Make the remaining CPU threads generalized workers
+			   after the main and dedicated ones. */
+			OS::getThreadPool().initialize(OS::getPlatform().getLogicalCoreCount() - dedicatedThreads.size() - 1);
 
-		/* Input loop must run on the main thread. */
-		this->runInputLoop(profiler.getTimer("main_thread"));
+			logger.write("Engine loops currently running...");
 
-		logger.write("Finalizing Engine loops...");
-		for (std::thread& thread : dedicatedThreads)
-			thread.join();
+			/* Input loop must run on the main thread. */
+			this->runInputLoop(profiler.getTimer("main_thread"));
 
-		this->finalize();
+			logger.write("Finalizing Engine loops...");
+			for (std::thread& thread : dedicatedThreads)
+				thread.join();
+
+			this->finalize();
+		}
 	} while (this->state == State::RESTARTING);
 }
 
@@ -125,23 +129,44 @@ void Omnia::Engine::initialize()
 	std::string dataDirectory = "data/";
 
 #ifdef _DEBUG
-	OS::getWindow().hide();
-	std::cout << "\n\nChoose data project to load:" << std::endl;
-	std::cout << "1. Demos" << std::endl;
-	std::cout << "2. Editor" << std::endl;
-	std::cout << "3. Debug" << std::endl;
-	std::cout << "\n-> #";
+	while (true)
+	{
+		OS::getWindow().hide();
+		std::cout << "\n\nChoose data project to load:" << std::endl;
+		std::cout << "0. Custom" << std::endl;
+		std::cout << "1. Demos" << std::endl;
+		std::cout << "2. Editor" << std::endl;
+		std::cout << "3. Debug" << std::endl;
+		std::cout << "\n-> #";
 
-	std::string inputString;
-	std::cin >> inputString;
-	OS::getWindow().show();
+		std::string inputString;
+		std::cin >> inputString;
+		OS::getWindow().show();
 
-	if (inputString == "1")
-		dataDirectory = DEBUG_DEMO_DATA_FILEPATH;
-	else if (inputString == "2")
-		dataDirectory = DEBUG_EDITOR_DATA_FILEPATH;
-	else if (inputString == "3")
-		dataDirectory = DEBUG_DEBUG_DATA_FILEPATH;
+		if (inputString == "0")
+		{
+			break;
+		}
+		else if (inputString == "1")
+		{
+			dataDirectory = DEBUG_DEMO_DATA_FILEPATH;
+			break;
+		}
+		else if (inputString == "2")
+		{
+			dataDirectory = DEBUG_EDITOR_DATA_FILEPATH;
+			break;
+		}
+		else if (inputString == "3")
+		{
+			dataDirectory = DEBUG_DEBUG_DATA_FILEPATH;
+			break;
+		}
+		else
+		{
+			std::cout << "Error: Option \"" + inputString + "\" not listed." << std::endl;
+		}
+	}
 #endif
 	std::string bootFilename = "boot.yml";
 	std::string bootFilepath = dataDirectory + bootFilename;
