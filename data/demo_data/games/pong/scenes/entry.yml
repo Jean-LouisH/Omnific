@@ -85,10 +85,11 @@ SceneTree:
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
-    PhysicsBody: default
+    #PhysicsBody: default
     #ScriptCollection:
     #  Python: ["games/pong/scripts/python/ball_physics.py"]
-    Collider: default
+    Collider:
+      is_trigger_only: true
   Entity:
     name: "Viewport"
     Viewport:

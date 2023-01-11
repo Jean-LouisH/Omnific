@@ -45,7 +45,7 @@ namespace Omnia
 		std::set<EntityID> enteringEntityIDs;
 		std::set<std::string> enteringEntityTags;
 		ColliderType colliderType;
-		bool isTrigger = false;
+		bool isTriggerOnly = false;
 
 		struct Box
 		{

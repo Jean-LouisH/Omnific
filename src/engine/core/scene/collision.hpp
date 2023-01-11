@@ -39,6 +39,7 @@ namespace Omnia
 		glm::vec3 attackAngle;
 		bool hasPhysicsBody = false;
 		bool hasOtherPhysicsBody = false;
+		bool isTriggerOnly = false;
 		double elasticityRatio = 0.0;
 		double mass = 0.0;
 		glm::vec3 linearVelocity;

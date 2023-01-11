@@ -37,9 +37,9 @@ void Omnia::Collider::deserialize(YAML::Node yamlNode)
 				it3->second[1].as<double>(),
 				it3->second[2].as<double>());
 		}
-		else if (it3->first.as<std::string>() == "is_trigger")
+		else if (it3->first.as<std::string>() == "is_trigger_only")
 		{
-			this->isTrigger = it3->second.as<bool>();
+			this->isTriggerOnly = it3->second.as<bool>();
 		}
 	}
 }
