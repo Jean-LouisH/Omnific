@@ -214,7 +214,6 @@ void Omnia::Engine::initialize()
 void Omnia::Engine::runInputLoop(std::shared_ptr<HiResTimer> inputProcessTimer)
 {
 	Input& input = OS::getInput();
-	uint32_t inputTargetFPS = 60;
 
 	while (this->state == State::RUNNING)
 	{
@@ -226,7 +225,7 @@ void Omnia::Engine::runInputLoop(std::shared_ptr<HiResTimer> inputProcessTimer)
 		if (input.hasRequestedRestart())
 			this->state = State::RESTARTING;
 		inputProcessTimer->setEnd();
-		this->sleepThisThreadForRemainingTime(inputTargetFPS, inputProcessTimer);
+		this->sleepThisThreadForRemainingTime(INPUT_TARGET_FPS, inputProcessTimer);
 	}
 }
 
@@ -246,7 +245,10 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		updateFrameTimer->setStart();
 
 		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
-		const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
+		uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
+
+		if (msPerComputeUpdate > MAXIMUM_MS_PER_COMPUTE_UPDATE)
+			msPerComputeUpdate = MAXIMUM_MS_PER_COMPUTE_UPDATE;
 
 		if (OS::getInput().getHasDetectedInputChanges())
 			for (auto updateSystem : this->updateSystems)
@@ -286,7 +288,7 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		updateProcessTimer->setEnd();
 
 		this->sleepThisThreadForRemainingTime(
-			Configuration::getInstance()->timeSettings.targetFPS, 
+			UPDATE_TARGET_FPS,
 			updateProcessTimer);
 		updateFrameTimer->setEnd();
 	}
