@@ -59,17 +59,17 @@ void Omnia::Engine::run()
 
 			/* These timers persist throughout Engine runtime and
 			   keep track of elapsed times in nanoseconds. */
-			profiler.addTimer("main_thread");
-			profiler.addTimer("update_thread");
-			profiler.addTimer("output_thread");
+			profiler.addTimer(MAIN_THREAD_TIMER_NAME);
+			profiler.addTimer(UPDATE_THREAD_TIMER_NAME);
+			profiler.addTimer(OUTPUT_THREAD_TIMER_NAME);
 
 			/* Engine threading uses a hybrid of dedicated threads
 			   for deadline sensitive tasks and a thread pool for
 			   general parallelizable tasks. */
 
 			std::vector<std::thread> dedicatedThreads;
-			dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer("update_thread")));
-			dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer("output_thread")));
+			dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer(UPDATE_THREAD_TIMER_NAME)));
+			dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer(OUTPUT_THREAD_TIMER_NAME)));
 
 			/* Make the remaining CPU threads generalized workers
 			   after the main and dedicated ones. */
@@ -235,9 +235,8 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		updateSystem.second->initialize();
 
 	Profiler& profiler = OS::getProfiler();
-	std::string updateFrameTimerName = "update_frame";
-	profiler.addTimer(updateFrameTimerName);
-	std::shared_ptr<HiResTimer> updateFrameTimer = profiler.getTimer(updateFrameTimerName);
+	profiler.addTimer(UPDATE_FRAME_TIMER_NAME);
+	std::shared_ptr<HiResTimer> updateFrameTimer = profiler.getTimer(UPDATE_FRAME_TIMER_NAME);
 
 	while (this->state == State::RUNNING)
 	{
