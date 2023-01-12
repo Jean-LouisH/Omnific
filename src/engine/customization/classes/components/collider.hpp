@@ -34,7 +34,8 @@ namespace Omnia
 {
 	enum class ColliderType
 	{
-		BOX
+		BOX,
+		MESH
 	};
 
 	class OMNIA_ENGINE_API Collider : public Component
