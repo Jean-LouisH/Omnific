@@ -20,6 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "customization/classes/systems/scripting_system/constants.hpp"
+
+#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
+
 #include "python_script_instance.hpp"
 
 void Omnia::PythonScriptInstance::setData(pybind11::object newObject)
@@ -46,3 +50,5 @@ bool Omnia::PythonScriptInstance::hasCallable(std::string methodName)
 {
 	return this->callableMethods.count(methodName) > 0;
 }
+
+#endif

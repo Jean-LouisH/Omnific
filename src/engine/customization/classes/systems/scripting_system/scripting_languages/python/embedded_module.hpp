@@ -22,6 +22,10 @@
 
 #pragma once
 
+#include "customization/classes/systems/scripting_system/constants.hpp"
+
+#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
+
 #include <core/component.hpp>
 #include <core/singletons/entity_context.hpp>
 #include <pybind11/embed.h>
@@ -320,3 +324,5 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
 	m.def("get_args", &Omnia::OS::getArgs);
 }
+
+#endif

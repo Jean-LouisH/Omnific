@@ -22,30 +22,4 @@
 
 #pragma once
 
-#include "customization/classes/systems/scripting_system/constants.hpp"
-
-#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
-
-#define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
-
-#include "pybind11/pybind11.h"
-#include <string>
-#include <set>
-
-namespace Omnia
-{
-	class PythonScriptInstance
-	{
-	public:
-		void setData(pybind11::object newObject);
-		void setCallable(std::string methodName);
-		pybind11::object test(std::string methodName);
-		void call(std::string methodName);
-		bool hasCallable(std::string methodName);
-	private:
-		pybind11::object data;
-		std::set<std::string> callableMethods;
-	};
-}
-
-#endif
+#define ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE true

@@ -22,6 +22,10 @@
 
 #pragma once
 
+#include "customization/classes/systems/scripting_system/constants.hpp"
+
+#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
+
 #define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
 
 #include <unordered_map>
@@ -70,3 +74,5 @@ namespace Omnia
 			const char* methodName);
 	};
 }
+
+#endif

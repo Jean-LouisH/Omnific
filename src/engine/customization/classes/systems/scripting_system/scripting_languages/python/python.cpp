@@ -20,6 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "customization/classes/systems/scripting_system/constants.hpp"
+
+#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
+
 #include "python.hpp"
 #include "embedded_module.hpp"
 #include <core/singletons/entity_context.hpp>
@@ -223,3 +227,5 @@ void Omnia::Python::bindAndCall(
 		}
 	}
 }
+
+#endif

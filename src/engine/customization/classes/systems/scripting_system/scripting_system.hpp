@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include "constants.hpp"
 #include "scripting_languages/python/python.hpp"
 #include "scripting_languages/cpp/cpp.hpp"
 #include "core/scene/scene.hpp"
@@ -39,7 +40,9 @@ namespace Omnia
 	public:
 		ScriptingSystem()
 		{
+#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
 			this->scriptingLanguages.emplace(Python::TYPE_STRING, std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<Python>(new Python())));
+#endif
 			this->scriptingLanguages.emplace(CPP::TYPE_STRING, std::static_pointer_cast<ScriptingLanguage>(std::shared_ptr<CPP>(new CPP())));
 			this->type = TYPE_STRING;
 			this->threadType = ThreadType::UPDATE;
