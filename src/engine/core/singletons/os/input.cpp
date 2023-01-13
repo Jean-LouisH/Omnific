@@ -316,6 +316,9 @@ float Omnia::Input::getAxis(std::string inputCode, PlayerID playerID)
 			if (this->getControllerPlayerMap().count(playerID))
 				if (controllerAxisEvents.at(controllerAxisCode).which == this->getControllerPlayerMap().at(playerID))
 					axis = (double)(controllerAxisEvents.at(controllerAxisCode).value) / pow(2.0, 15.0);
+
+		if (inputCode == "left_axis_y" || inputCode == "right_axis_y")
+			axis *= -1.0;
 	}
 
 	return axis;
@@ -424,7 +427,7 @@ uint32_t Omnia::Input::getDropFileWindowID()
 
 void Omnia::Input::clear()
 {
-	this->controllerAxisEvents.clear();
+	//this->controllerAxisEvents.clear();
 	this->controllerButtonEvents.clear();
 	this->keyboardEvents.clear();
 
@@ -523,7 +526,10 @@ void Omnia::Input::pollInputEvents()
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
-			this->controllerAxisEvents.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
+			if (!this->controllerAxisEvents.count((SDL_GameControllerAxis)SDLEvents.caxis.axis))
+				this->controllerAxisEvents.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
+			else
+				this->controllerAxisEvents.at((SDL_GameControllerAxis)SDLEvents.caxis.axis) = SDLEvents.caxis;
 			this->hasDetectedInputChanges = true;
 			break;
 
