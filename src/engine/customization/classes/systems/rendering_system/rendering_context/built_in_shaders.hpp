@@ -28,12 +28,37 @@ namespace Omnia
 	{
 		namespace Vertex
 		{
-			const char texture[] = R"(
+			const char dimension_2[] = R"(
+				#version 330 core
+				layout (location = 0) in vec2 modelVertexTranslation;
+				layout (location = 2) in vec2 modelVertexUV;
+				out vec2 uv;
+				uniform vec2 cameraViewport;
+				uniform vec2 cameraPosition;
+				uniform float cameraRotation;
+
+				void main()
+				{
+					uv = vec2(modelVertexUV.x, 1 - modelVertexUV.y);
+
+					float x = (modelVertexTranslation.x - cameraPosition.x) / cameraViewport.x;
+					float y = (modelVertexTranslation.y - cameraPosition.y) / cameraViewport.y;
+
+					gl_Position = vec4(
+										x * cos(cameraRotation) - y * sin(cameraRotation), 
+										x * sin(cameraRotation) + y * cos(cameraRotation), 
+										0.0, 
+										1.0);
+				}	
+			)";
+
+			const char dimension_3[] = R"(
 				#version 330 core
 				layout (location = 0) in vec3 modelVertexTranslation;
 				layout (location = 2) in vec2 modelVertexUV;
 				out vec2 uv;
 				uniform mat4 mvp;
+
 				void main()
 				{
 					uv = vec2(modelVertexUV.x, 1 - modelVertexUV.y);
@@ -44,7 +69,20 @@ namespace Omnia
 
 		namespace Fragment
 		{
-			const char texture[] = R"(
+			const char dimension_2[] = R"(
+				#version 330 core
+				in vec2 uv;
+				out vec4 colour;
+				uniform float alpha;
+				uniform sampler2D textureSampler;
+				void main()
+				{    
+					colour = texture(textureSampler, uv);
+					colour.a *= alpha;
+				}  
+			)";
+
+			const char dimension_3[] = R"(
 				#version 330 core
 				in vec2 uv;
 				out vec4 colour;

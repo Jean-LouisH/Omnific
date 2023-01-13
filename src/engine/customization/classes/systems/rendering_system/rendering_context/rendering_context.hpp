@@ -61,7 +61,8 @@ namespace Omnia
 		std::unordered_map<AssetID, std::shared_ptr<Texture>> textures;
 		std::unordered_map<AssetID, std::shared_ptr<VertexArray>> vertexArrays;
 		std::unordered_map<AssetID, std::shared_ptr<ShaderProgram>> shaderPrograms;
-		std::shared_ptr<ShaderProgram> builtInShaderProgram;
+		std::shared_ptr<ShaderProgram> builtInShaderProgram2D;
+		std::shared_ptr<ShaderProgram> builtInShaderProgram3D;
 
 		uint8_t allowableMissedFrames = 0;
 		std::unordered_map<AssetID, uint8_t> missedFrameCounts;

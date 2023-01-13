@@ -39,16 +39,23 @@ void Omnia::RenderingContext::initialize()
 	}
 	else
 	{
-		std::vector<Shader> shaders;
-		Shader builtInVertexShader;
-		Shader builtInFragmentShader;
+		std::vector<Shader> builtInShaders2D;
+		std::vector<Shader> builtInShaders3D;
+		Shader vertexShader;
+		Shader fragmentShader;
 
-		builtInVertexShader.setSource(BuiltInShaders::Vertex::texture, Shader::ShaderType::VERTEX);
-		builtInFragmentShader.setSource(BuiltInShaders::Fragment::texture, Shader::ShaderType::FRAGMENT);
-		shaders.push_back(builtInVertexShader);
-		shaders.push_back(builtInFragmentShader);
+		vertexShader.setSource(BuiltInShaders::Vertex::dimension_2, Shader::ShaderType::VERTEX);
+		fragmentShader.setSource(BuiltInShaders::Fragment::dimension_2, Shader::ShaderType::FRAGMENT);
+		builtInShaders2D.push_back(vertexShader);
+		builtInShaders2D.push_back(fragmentShader);
 
-		this->builtInShaderProgram = std::shared_ptr<ShaderProgram>(new ShaderProgram(shaders));
+		vertexShader.setSource(BuiltInShaders::Vertex::dimension_3, Shader::ShaderType::VERTEX);
+		fragmentShader.setSource(BuiltInShaders::Fragment::dimension_3, Shader::ShaderType::FRAGMENT);
+		builtInShaders3D.push_back(vertexShader);
+		builtInShaders3D.push_back(fragmentShader);
+
+		this->builtInShaderProgram2D = std::shared_ptr<ShaderProgram>(new ShaderProgram(builtInShaders2D));
+		this->builtInShaderProgram3D = std::shared_ptr<ShaderProgram>(new ShaderProgram(builtInShaders3D));
 
 		Rectangle windowDimensions = window.getWindowSize();
 		this->setViewport(windowDimensions.width, windowDimensions.height);
@@ -189,14 +196,30 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 						std::shared_ptr<ShaderProgram> shaderProgram;
 
 						if (k == -1)
-							shaderProgram = this->builtInShaderProgram;
+						{
+							if (sceneTreeRenderable.is2D)
+							{
+								shaderProgram = this->builtInShaderProgram2D;
+								shaderProgram->use();
+								shaderProgram->setVec2("cameraViewport", glm::vec2());
+								shaderProgram->setVec2("cameraPosition", glm::vec2());
+								shaderProgram->setFloat("cameraRotation", 0.0);
+								shaderProgram->setInt("textureSampler", 0);
+								shaderProgram->setFloat("alpha", alpha);
+							}
+							else
+							{
+								shaderProgram = this->builtInShaderProgram3D;
+								shaderProgram->use();
+								shaderProgram->setMat4("mvp", mvp);
+								shaderProgram->setInt("textureSampler", 0);
+								shaderProgram->setFloat("alpha", alpha);
+							}
+						}
 						else
+						{
 							shaderProgram = this->shaderPrograms.at(shaders.at(k)->getID());
-
-						shaderProgram->use();
-						shaderProgram->setInt("textureSampler", 0);
-						shaderProgram->setMat4("mvp", mvp);
-						shaderProgram->setFloat("alpha", alpha);
+						}
 
 						if (vertexArray->getIndexCount() > 0)
 							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
