@@ -1,5 +1,6 @@
 import omnia
 import math
+import constants
 
 class omnia_script:
 
@@ -37,16 +38,12 @@ class omnia_script:
         else:
             physics_body = omnia.get_component("PhysicsBody")
 
-            acceleration = 5
-            maximum_speed = 30
-            deceleration = 1.5
-
             if inp.is_pressed("up"):
-                physics_body.accelerate_y(acceleration, maximum_speed)
+                physics_body.accelerate_y(constants.acceleration, constants.maximum_speed)
             elif inp.is_pressed("down"):
-                physics_body.accelerate_y(-acceleration, -maximum_speed)
+                physics_body.accelerate_y(-constants.acceleration, -constants.maximum_speed)
             else:
-                physics_body.decelerate(deceleration)
+                physics_body.decelerate(constants.deceleration)
             pass
             
         pass
