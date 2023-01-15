@@ -37,6 +37,62 @@ void Omnia::PhysicsBody::deserialize(YAML::Node yamlNode)
 	}
 }
 
+void Omnia::PhysicsBody::accelerate(glm::vec3 acceleration, float maximumSpeed)
+{
+	this->linearVelocity += acceleration;
+	float absoluteMaximumSpeed = abs(maximumSpeed);
+	float magnitude = sqrt(
+		this->linearVelocity.x * this->linearVelocity.x +
+		this->linearVelocity.y * this->linearVelocity.y +
+		this->linearVelocity.z * this->linearVelocity.z);
+
+	if (magnitude > absoluteMaximumSpeed)
+	{
+		this->linearVelocity = (absoluteMaximumSpeed * (abs(magnitude) / magnitude)) * 
+								(this->linearVelocity / magnitude);
+	}
+}
+
+void Omnia::PhysicsBody::accelerate(glm::vec3 direction, float acceleration, float maximumSpeed)
+{
+	this->accelerate(direction * acceleration, maximumSpeed);
+}
+
+void Omnia::PhysicsBody::accelerateX(float acceleration, float maximumSpeed)
+{
+	this->accelerate(glm::vec3(1.0, 0.0, 0.0), acceleration, maximumSpeed);
+}
+
+void Omnia::PhysicsBody::accelerateY(float acceleration, float maximumSpeed)
+{
+	this->accelerate(glm::vec3(0.0, 1.0, 0.0), acceleration, maximumSpeed);
+}
+
+void Omnia::PhysicsBody::accelerateZ(float acceleration, float maximumSpeed)
+{
+	this->accelerate(glm::vec3(0.0, 0.0, 1.0), acceleration, maximumSpeed);
+}
+
+void Omnia::PhysicsBody::decelerate(float deceleration)
+{
+	this->linearVelocity /= deceleration;
+}
+
+void Omnia::PhysicsBody::decelerateX(float deceleration)
+{
+	this->linearVelocity.x /= deceleration;
+}
+
+void Omnia::PhysicsBody::decelerateY(float deceleration)
+{
+	this->linearVelocity.y /= deceleration;
+}
+
+void Omnia::PhysicsBody::decelerateZ(float deceleration)
+{
+	this->linearVelocity.z /= deceleration;
+}
+
 void Omnia::PhysicsBody::move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection)
 {
 	this->linearVelocity = linearVelocity;

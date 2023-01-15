@@ -7,12 +7,6 @@ class omnia_script:
         self.enable_ai_mode = True
         pass
 
-    def accelerate(acceleration, maximum_speed):
-        physics_body = omnia.get_component("PhysicsBody")
-        physics_body.linear_velocity.y += acceleration
-        if abs(physics_body.linear_velocity.y) > abs(maximum_speed):
-            physics_body.linear_velocity.y = maximum_speed
-
     def on_logic(self):
         inp = omnia.get_input()
 
@@ -48,11 +42,11 @@ class omnia_script:
             deceleration = 1.5
 
             if inp.is_pressed("up"):
-                omnia_script.accelerate(acceleration, maximum_speed)
+                physics_body.accelerate_y(acceleration, maximum_speed)
             elif inp.is_pressed("down"):
-                omnia_script.accelerate(-acceleration, -maximum_speed)
+                physics_body.accelerate_y(-acceleration, -maximum_speed)
             else:
-                physics_body.linear_velocity.y /= deceleration
+                physics_body.decelerate(deceleration)
             pass
             
         pass

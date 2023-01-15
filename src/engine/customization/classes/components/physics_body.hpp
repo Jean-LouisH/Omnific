@@ -60,6 +60,15 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
+		void accelerate(glm::vec3 acceleration, float maximumSpeed);
+		void accelerate(glm::vec3 direction, float acceleration, float maximumSpeed);
+		void accelerateX(float acceleration, float maximumSpeed);
+		void accelerateY(float acceleration, float maximumSpeed);
+		void accelerateZ(float acceleration, float maximumSpeed);
+		void decelerate(float deceleration);
+		void decelerateX(float deceleration);
+		void decelerateY(float deceleration);
+		void decelerateZ(float deceleration);
 		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);
 		void reload();
 	private:

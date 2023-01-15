@@ -227,7 +227,16 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("stop", &Omnia::Timer::stop)
 		.def("is_finished", &Omnia::Timer::isFinished);
 	pybind11::class_<Omnia::PhysicsBody, Omnia::Component, std::shared_ptr<Omnia::PhysicsBody>>(m, Omnia::PhysicsBody::TYPE_STRING)
-		.def_readwrite("linear_velocity", &Omnia::PhysicsBody::linearVelocity);
+		.def_readwrite("linear_velocity", &Omnia::PhysicsBody::linearVelocity)
+		.def("accelerate", pybind11::overload_cast<glm::vec3, float>(&Omnia::PhysicsBody::accelerate))
+		.def("accelerate", pybind11::overload_cast<glm::vec3, float, float>(& Omnia::PhysicsBody::accelerate))
+		.def("accelerate_x", &Omnia::PhysicsBody::accelerateX)
+		.def("accelerate_y", &Omnia::PhysicsBody::accelerateY)
+		.def("accelerate_z", &Omnia::PhysicsBody::accelerateZ)
+		.def("decelerate", &Omnia::PhysicsBody::decelerate)
+		.def("decelerate_x", &Omnia::PhysicsBody::decelerateX)
+		.def("decelerate_y", &Omnia::PhysicsBody::decelerateY)
+		.def("decelerate_z", &Omnia::PhysicsBody::decelerateZ);
 	pybind11::class_<Omnia::Light, Omnia::Component, std::shared_ptr<Omnia::Light>>(m, Omnia::Light::TYPE_STRING);
 	pybind11::class_<Omnia::Model, Omnia::Component, std::shared_ptr<Omnia::Model>>(m, Omnia::Model::TYPE_STRING)
 		.def("set_to_cube", &Omnia::Model::setToCube)
