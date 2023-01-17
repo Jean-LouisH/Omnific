@@ -14,8 +14,8 @@ SceneTree:
       translation: [0, 0, 0]
     Sprite:
       image: "Image::#CCCCCC"
-    #ScriptCollection:
-    #  Python: ["games/pong/scripts/python/debug_restart.py"]
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/debug_restart.py"]
   Entity:
     name: "Viewport"
     Viewport:
@@ -28,12 +28,12 @@ SceneTree:
     Transform:
       translation: [0, 0, 30]
     Camera: "default"
-    #ScriptCollection:
-    #  Python: ["games/pong/scripts/python/camera_shake.py"]
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/camera_shake.py"]
   Entity:
     name: "System"
-    #ScriptCollection:
-    #  Python: ["games/pong/scripts/python/return_to_main.py"]
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/return_to_main.py"]
   Entity:
     name: "Game Mechanics"
     ScriptCollection:
@@ -49,7 +49,8 @@ SceneTree:
       albedo: "Image::#FF0000"
     ScriptCollection:
       Python: ["games/pong/scripts/python/player_control.py"]
-    Collider: default
+    Collider:
+      is_trigger_only: true
   Entity:
     name: "ScoreCount1"
     parent: "Paddle1"
@@ -69,7 +70,8 @@ SceneTree:
       albedo: "Image::#0000FF"
     ScriptCollection:
       Python: ["games/pong/scripts/python/ai_control.py"]
-    Collider: default
+    Collider:
+      is_trigger_only: true
   Entity:
     name: "ScoreCount2"
     parent: "Paddle2"
@@ -85,9 +87,9 @@ SceneTree:
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
-    #PhysicsBody: default
-    #ScriptCollection:
-    #  Python: ["games/pong/scripts/python/ball_physics.py"]
+    PhysicsBody: default
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/ball_physics.py"]
     Collider:
       is_trigger_only: true
   Entity:
