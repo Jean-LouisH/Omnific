@@ -82,6 +82,11 @@ std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 	return queryResults;
 }
 
+uint64_t Omnia::EventBus::queryCount(std::string name)
+{
+	return this->query(name).size();
+}
+
 void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	std::vector<Event> eventsList;

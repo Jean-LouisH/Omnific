@@ -57,8 +57,8 @@ SceneTree:
     Transform: default
     #GUI:
     #  text: ""
-    #ScriptCollection:
-    #  Python: ["games/pong/scripts/python/increment_score.py"]
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/player_score.py"]
   Entity:
     name: "Paddle2"
     Transform:
@@ -78,8 +78,8 @@ SceneTree:
     Transform: default
     # GUI:
     #  text: ""
-    #ScriptCollection:
-    #  Python: ["games/pong/scripts/python/increment_score.py"]
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/ai_score.py"]
   Entity:
     name: "Ball"
     Transform:
@@ -88,8 +88,6 @@ SceneTree:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
     PhysicsBody: default
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/ball_physics.py"]
     Collider:
       is_trigger_only: true
   Entity:

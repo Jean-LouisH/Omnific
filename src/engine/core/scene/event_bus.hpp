@@ -58,6 +58,7 @@ namespace Omnia
 		void clear();
 
 		std::vector<Event> query(std::string name);
+		uint64_t queryCount(std::string name);
 	private:
 		std::unordered_map<std::string, std::vector<Event>> events;
 

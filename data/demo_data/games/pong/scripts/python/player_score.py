@@ -7,7 +7,7 @@ class omnia_script:
         pass
 
     def on_logic(self):
-        if len(omnia.get_scene_tree().get_event_bus().query("Player won")) > 0:
+        if omnia.get_scene_tree().get_event_bus().query_count("Player won") > 0:
             self.score += 1
         pass
     
