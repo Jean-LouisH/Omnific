@@ -35,7 +35,7 @@ SceneTree:
     ScriptCollection:
       Python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
   SubSceneTree:
-    name: ["tests/loading_models/models/suzanne.glb", ""]
+    name: ["tests/loading_models/models/cube_textured.glb", ""]
     parent: "Model"
   Entity:
     name: "Viewport"

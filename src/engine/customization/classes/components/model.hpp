@@ -72,39 +72,3 @@ namespace Omnia
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 	};
 }
-
-/*
-namespace Omnia
-{
-	class OMNIA_ENGINE_API Model : public Asset
-	{
-	public:
-		Model()
-		{
-			this->type = TYPE_STRING;
-		};
-		Model(std::string filepath);
-		Model(std::string filepath, std::shared_ptr<Image> image);
-		static constexpr const char* TYPE_STRING = "Model";
-
-		std::shared_ptr<Mesh> mesh;
-		std::shared_ptr<Image> image;
-		std::shared_ptr<Material> material;
-		std::shared_ptr<Rig> rig;
-		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
-
-		virtual Registerable* instance() override
-		{
-			Model* clone = new Model(*this);
-			clone->id = UIDGenerator::getNewUID();
-			return clone;
-		}
-	private:
-		void load(std::string filepath, std::shared_ptr<Image> image);
-		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
-		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName);
-		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
-	};
-}
-
-*/

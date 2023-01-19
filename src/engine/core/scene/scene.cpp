@@ -168,6 +168,7 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 
 							if (subSceneFilepath != filepath)
 							{
+								/*The last SceneTree is the only SceneTree, so this just extracts the one specified.*/
 								if (subSceneTreeName != "")
 									subSceneTree = Scene(subSceneFilepath, subSceneTreeName).getLastSceneTree();
 								else
@@ -279,13 +280,13 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 {
 	std::shared_ptr<SceneTree> sceneTree(new SceneTree());
 
-	tinygltf::Model model;
+	tinygltf::Model gltfScene;
 	tinygltf::TinyGLTF tinyGLTF;
 	std::string err;
 	std::string warn;
 
 	bool ret = tinyGLTF.LoadBinaryFromFile(
-		&model, 
+		&gltfScene,
 		&err, 
 		&warn, 
 		OS::getFileAccess().getDataDirectoryPath() + filepath);
@@ -302,42 +303,40 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 	}
 	else
 	{
+		// GLTF data
+		std::vector<float> positions = this->readGLTFPrimitiveAttribute(gltfScene, "POSITION");
+		std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(gltfScene, "TEXCOORD_0");
+		std::vector<float> normals = this->readGLTFPrimitiveAttribute(gltfScene, "NORMAL");
+		std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(gltfScene);
+
+		std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
+		std::shared_ptr<Image> image;
+
+		if (gltfScene.images.size() > 0)
 		{
-			// GLTF data
-			std::vector<float> positions = this->readGLTFPrimitiveAttribute(model, "POSITION");
-			std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(model, "TEXCOORD_0");
-			std::vector<float> normals = this->readGLTFPrimitiveAttribute(model, "NORMAL");
-			std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(model);
-
-			std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
-			std::shared_ptr<Image> image;
-
-			if (model.images.size() > 0)
-			{
-				tinygltf::Image gltfImage = model.images.at(0);
-				image = std::shared_ptr<Image>(
-					new Image((uint8_t*)gltfImage.image.data(), gltfImage.width, gltfImage.height, gltfImage.component));
-			}
-			else
-			{
-				image = std::shared_ptr<Image>(new Image("Image::default"));
-			}
-
-			//name
-
-			//Components
-			std::shared_ptr<Entity> entity(new Entity());
-			sceneTree->addEntity(entity);;
-			std::shared_ptr<Transform> transform(new Transform());
-			std::shared_ptr<Model> model(new Model());
-			std::shared_ptr<Material> material(new Material());
-			material->albedo = image;
-			model->setMaterial(material);
-			model->setMesh(mesh);
-
-			sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(transform));
-			sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(model));
+			tinygltf::Image gltfImage = gltfScene.images.at(0);
+			image = std::shared_ptr<Image>(
+				new Image((uint8_t*)gltfImage.image.data(), gltfImage.width, gltfImage.height, gltfImage.component));
 		}
+		else
+		{
+			image = std::shared_ptr<Image>(new Image("Image::default"));
+		}
+
+		//name
+
+		//Components
+		std::shared_ptr<Entity> entity(new Entity());
+		sceneTree->addEntity(entity);;
+		std::shared_ptr<Transform> transform(new Transform());
+		std::shared_ptr<Model> model(new Model());
+		std::shared_ptr<Material> material(new Material());
+		material->albedo = image;
+		model->setMaterial(material);
+		model->setMesh(mesh);
+
+		sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(transform));
+		sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(model));
 	}
 
 	return sceneTree;
