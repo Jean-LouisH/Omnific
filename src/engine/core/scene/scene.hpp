@@ -70,7 +70,7 @@ namespace Omnia
 
 		std::shared_ptr<SceneTree> loadGLTF(std::string filepath);
 		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
-		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName);
-		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model);
+		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName, size_t index);
+		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model, size_t index);
 	};
 }
