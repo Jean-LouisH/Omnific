@@ -39,7 +39,7 @@ namespace Omnia
 
 				void main()
 				{
-					uv = vec2(modelVertexUV.x, 1 - modelVertexUV.y);
+					uv = vec2(modelVertexUV.x, modelVertexUV.y);
 
 					float x = (modelVertexTranslation.x - cameraPosition.x) / cameraViewport.x;
 					float y = (modelVertexTranslation.y - cameraPosition.y) / cameraViewport.y;
@@ -61,7 +61,7 @@ namespace Omnia
 
 				void main()
 				{
-					uv = vec2(modelVertexUV.x, 1 - modelVertexUV.y);
+					uv = vec2(modelVertexUV.x, modelVertexUV.y);
 					gl_Position = mvp *	vec4(modelVertexTranslation, 1.0);
 				}	
 			)";
