@@ -308,7 +308,8 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 			std::shared_ptr<Entity> gltfSceneRootEntity(new Entity());
 			sceneTree->addEntity(gltfSceneRootEntity);
 
-			for (size_t j = 0; j < gltfData.nodes.size(); j++)
+			//for (size_t j = 0; j < gltfData.nodes.size(); j++)
+			for (size_t j = 0; j < 1; j++)
 			{
 				// GLTF data
 				std::vector<float> positions = this->readGLTFPrimitiveAttribute(gltfData, "POSITION", j);
@@ -319,9 +320,13 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
 				std::shared_ptr<Image> image;
 
-				if (gltfData.images.size() > 0)
+				uint64_t meshIndex = gltfData.nodes.at(j).mesh;
+				tinygltf::Material gltfMaterial = gltfData.materials.at(gltfData.meshes.at(meshIndex).primitives.at(0).material);
+				uint64_t baseColourTextureIndex = gltfMaterial.pbrMetallicRoughness.baseColorTexture.index;
+				
+				if (baseColourTextureIndex != -1)
 				{
-					tinygltf::Image gltfImage = gltfData.images.at(j);
+					tinygltf::Image gltfImage = gltfData.images.at(baseColourTextureIndex);
 					image = std::shared_ptr<Image>(
 						new Image((uint8_t*)gltfImage.image.data(), gltfImage.width, gltfImage.height, gltfImage.component));
 				}
@@ -364,8 +369,9 @@ std::vector<uint8_t> Omnia::Scene::readGLTFBuffer(std::vector<unsigned char> buf
 std::vector<float> Omnia::Scene::readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName, size_t index)
 {
 	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
-	std::vector<unsigned char> buffer = model.buffers.at(index).data;
-	std::vector<uint8_t> bytes = this->readGLTFBuffer(buffer, model.bufferViews.at(primitive.attributes.at(attributeName)));
+	tinygltf::BufferView bufferView = model.bufferViews.at(primitive.attributes.at(attributeName));
+	std::vector<unsigned char> buffer = model.buffers.at(bufferView.buffer).data;
+	std::vector<uint8_t> bytes = this->readGLTFBuffer(buffer, bufferView);
 	std::vector<float> attribute;
 	float* floatByteData = (float*)bytes.data();
 	size_t floatByteSize = bytes.size() / sizeof(float);
@@ -374,14 +380,14 @@ std::vector<float> Omnia::Scene::readGLTFPrimitiveAttribute(tinygltf::Model mode
 		attribute.push_back(floatByteData[i]);
 
 	return attribute;
-
 }
 
 std::vector<uint32_t> Omnia::Scene::readGLTFPrimitiveIndices(tinygltf::Model model, size_t index)
 {
 	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
-	std::vector<unsigned char> buffer = model.buffers.at(index).data;
-	std::vector<uint8_t> indexBytes = this->readGLTFBuffer(buffer, model.bufferViews.at(primitive.indices));
+	tinygltf::BufferView bufferView = model.bufferViews.at(primitive.indices);
+	std::vector<unsigned char> buffer = model.buffers.at(bufferView.buffer).data;
+	std::vector<uint8_t> indexBytes = this->readGLTFBuffer(buffer, bufferView);
 	std::vector<uint32_t> indices;
 
 	uint16_t* shortIndexByteData = (uint16_t*)indexBytes.data();
