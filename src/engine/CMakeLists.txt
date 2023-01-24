@@ -33,7 +33,7 @@ include_directories(
 		../../thirdparty/pybind11-2.8.1/include
 		../../thirdparty/glad/include
 		../../thirdparty/glm-0.9.9.8/glm
-		../../thirdparty/tinygltf-2.5.0/include
+		../../thirdparty/tinygltf-2.8.2/include
 		../../thirdparty/zlib-1.2.11/include
 		../../thirdparty/stb_image_write-1.16/include
 		../../thirdparty/stb_image-2.27/include
