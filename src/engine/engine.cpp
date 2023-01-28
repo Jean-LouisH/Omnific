@@ -48,9 +48,9 @@ void Omnia::Engine::run(
 
 			/* These timers persist throughout Engine runtime and
 			   keep track of elapsed times in nanoseconds. */
-			profiler.addTimer(MAIN_THREAD_TIMER_NAME);
-			profiler.addTimer(UPDATE_THREAD_TIMER_NAME);
-			profiler.addTimer(OUTPUT_THREAD_TIMER_NAME);
+			profiler.addTimer(MAIN_THREAD_TIMER_NAME, false);
+			profiler.addTimer(UPDATE_THREAD_TIMER_NAME, false);
+			profiler.addTimer(OUTPUT_THREAD_TIMER_NAME, false);
 
 			/* Engine threading uses a hybrid of dedicated threads
 			   for deadline sensitive tasks and a thread pool for

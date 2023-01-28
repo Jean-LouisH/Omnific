@@ -27,7 +27,20 @@
 void Omnia::Profiler::addTimer(std::string timerName)
 {
 	this->timers.emplace(timerName, std::shared_ptr<HiResTimer>(new HiResTimer()));
+	this->isRemovableMap.emplace(timerName, isRemovable);
 	OS::getLogger().write("Added HiResTimer to Profiler: \"" + timerName + "\"");
+}
+
+void Omnia::Profiler::removeTimer(std::string timerName)
+{
+	if (this->isRemovableMap.count(timerName))
+	{
+		if (this->isRemovableMap.at(timerName))
+		{
+			this->timers.erase(timerName);
+			this->isRemovableMap.erase(timerName);
+		}
+	}
 }
 
 std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::getTimer(std::string timerName)

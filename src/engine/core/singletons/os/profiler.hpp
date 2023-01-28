@@ -33,7 +33,8 @@ namespace Omnia
 	class OMNIA_ENGINE_API Profiler
 	{
 	public:
-		void addTimer(std::string timerName);
+		void addTimer(std::string timerName, bool isRemovable = true);
+		void removeTimer(std::string timerName);
 		std::shared_ptr<HiResTimer> getTimer(std::string timerName);
 
 		void incrementFrameCount();
@@ -44,6 +45,7 @@ namespace Omnia
 		uint16_t getFPS();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<HiResTimer>> timers;
+		std::unordered_map<std::string, bool> isRemovableMap;
 		/* In milliseconds */
 		uint64_t lag = 0;
 		uint64_t frameCount = 0;
