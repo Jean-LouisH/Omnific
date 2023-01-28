@@ -28,9 +28,17 @@
 
 Omnia::OS* Omnia::OS::instance = nullptr;
 
-void Omnia::OS::initialize(std::vector<std::string> commandLineArguments)
+void Omnia::OS::initialize(
+	int argc,
+	char* argv[]
+)
 {
 	OS* newInstance = getInstance();
+
+	std::vector<std::string> commandLineArguments;
+
+	for (int i = 0; i < argc; i++)
+		commandLineArguments.push_back(argv[i]);
 
 	newInstance->sharedLibraryAccess = std::unique_ptr<SharedLibraryAccess>(new SharedLibraryAccess());
 	newInstance->logger = std::unique_ptr<Logger>(new Logger());

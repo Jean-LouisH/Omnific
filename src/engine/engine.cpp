@@ -30,15 +30,9 @@
 
 void Omnia::Engine::run(
 	int argc,
-	char* argv[]
-)
+	char* argv[])
 {
-	std::vector<std::string> commandLineArguments;
-
-	for (int i = 0; i < argc; i++)
-		commandLineArguments.push_back(argv[i]);
-
-	OS::initialize(commandLineArguments);
+	OS::initialize(argc, argv);
 	Logger& logger = OS::getLogger();
 	logger.write("Initializing Omnia Engine...");
 	ClassRegistry::initialize();

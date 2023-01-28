@@ -42,7 +42,10 @@ namespace Omnia
 	class OMNIA_ENGINE_API OS
 	{
 	public:
-		static void initialize(std::vector<std::string> args);
+		static void initialize(
+			int argc,
+			char* argv[]
+		);
 
 		static bool createWindow(std::string title,
 			uint16_t width,
