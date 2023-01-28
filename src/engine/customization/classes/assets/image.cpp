@@ -184,6 +184,8 @@ void Omnia::Image::setToDefault()
 
 void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
 {
+	stbi_set_flip_vertically_on_load(1);
+
 	this->type = TYPE_STRING;
 	const uint16_t size = 256;
 	this->height = size;
@@ -200,6 +202,8 @@ void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
 
 void Omnia::Image::setToParameters(int colourChannels, int width, int height, uint8_t* data)
 {
+	stbi_set_flip_vertically_on_load(1);
+
 	this->height = height;
 	this->width = width;
 	this->colourChannels = colourChannels;
