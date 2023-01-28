@@ -328,8 +328,26 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				if (baseColourTextureIndex != -1)
 				{
 					tinygltf::Image gltfImage = gltfData.images.at(baseColourTextureIndex);
-					image = std::shared_ptr<Image>(
-						new Image((uint8_t*)gltfImage.image.data(), gltfImage.width, gltfImage.height, gltfImage.component));
+					tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
+					std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
+					std::vector<uint8_t> imageFileBytes = this->readGLTFBuffer(buffer, bufferView);
+					int width = 0;
+					int height = 0;
+					int colourChannels = 0;
+
+					uint8_t* imageData = stbi_load_from_memory(
+						imageFileBytes.data(), 
+						imageFileBytes.size(), 
+						&width, 
+						&height, 
+						&colourChannels, 
+						0);
+
+					image = std::shared_ptr<Image>(new Image(
+						imageData, 
+						width, 
+						height, 
+						colourChannels));
 				}
 				else
 				{
