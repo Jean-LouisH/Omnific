@@ -25,6 +25,8 @@
 #include <core/singletons/os/os.hpp>
 #include <yaml-cpp/yaml.h>
 #include <customization/class_registry/class_registry.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <cmath>
 
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
@@ -185,9 +187,33 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 									sceneTree->addEntity(newRootEntity);
 									std::unordered_map<EntityID, std::shared_ptr<Entity>>& subSceneEntities = subSceneTree->getEntities();
 
+									/*Entities without parents are listed before others.*/
+									std::vector<std::shared_ptr<Entity>> sortedEntities;
+
+
+									/*Without parents*/
 									for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
 									{
 										std::shared_ptr<Entity> subSceneEntity = it->second;
+
+										if (subSceneEntity->parentID == 0)
+											sortedEntities.push_back(subSceneEntity);
+									}
+
+									/*With parents*/
+
+									for (auto it = subSceneEntities.begin(); it != subSceneEntities.end(); it++)
+									{
+										std::shared_ptr<Entity> subSceneEntity = it->second;
+
+										if (subSceneEntity->parentID != 0)
+											sortedEntities.push_back(subSceneEntity);
+									}
+
+
+									for (size_t i = 0; i < sortedEntities.size(); i++)
+									{
+										std::shared_ptr<Entity> subSceneEntity = sortedEntities[i];
 
 										if (subSceneEntity->parentID == 0)
 											subSceneEntity->parentID = newRootEntity->getID();
@@ -320,38 +346,39 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(gltfData, meshIndex);
 
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
-				std::shared_ptr<Image> image;
+				std::shared_ptr<Image> image = std::shared_ptr<Image>(new Image("Image::default"));
 
-				tinygltf::Material gltfMaterial = gltfData.materials.at(gltfData.meshes.at(meshIndex).primitives.at(0).material);
-				uint64_t baseColourTextureIndex = gltfMaterial.pbrMetallicRoughness.baseColorTexture.index;
-				
-				if (baseColourTextureIndex != -1)
+				int materialIndex = gltfData.meshes.at(meshIndex).primitives.at(0).material;
+
+				if (materialIndex != -1)
 				{
-					tinygltf::Image gltfImage = gltfData.images.at(baseColourTextureIndex);
-					tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
-					std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
-					std::vector<uint8_t> imageFileBytes = this->readGLTFBuffer(buffer, bufferView);
-					int width = 0;
-					int height = 0;
-					int colourChannels = 0;
+					tinygltf::Material gltfMaterial = gltfData.materials.at(gltfData.meshes.at(meshIndex).primitives.at(0).material);
+					int baseColourTextureIndex = gltfMaterial.pbrMetallicRoughness.baseColorTexture.index;
 
-					uint8_t* imageData = stbi_load_from_memory(
-						imageFileBytes.data(), 
-						imageFileBytes.size(), 
-						&width, 
-						&height, 
-						&colourChannels, 
-						0);
+					if (baseColourTextureIndex != -1)
+					{
+						tinygltf::Image gltfImage = gltfData.images.at(baseColourTextureIndex);
+						tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
+						std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
+						std::vector<uint8_t> imageFileBytes = this->readGLTFBuffer(buffer, bufferView);
+						int width = 0;
+						int height = 0;
+						int colourChannels = 0;
 
-					image = std::shared_ptr<Image>(new Image(
-						imageData, 
-						width, 
-						height, 
-						colourChannels));
-				}
-				else
-				{
-					image = std::shared_ptr<Image>(new Image("Image::default"));
+						uint8_t* imageData = stbi_load_from_memory(
+							imageFileBytes.data(),
+							imageFileBytes.size(),
+							&width,
+							&height,
+							&colourChannels,
+							0);
+
+						image = std::shared_ptr<Image>(new Image(
+							imageData,
+							width,
+							height,
+							colourChannels));
+					}
 				}
 
 				//name
@@ -364,14 +391,33 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				std::shared_ptr<Model> model(new Model());
 				std::shared_ptr<Material> material(new Material());
 				
-				for (size_t i = 0; i < gltfNode.translation.size(); i++)
-					transform->translation[i] = gltfNode.translation[i];
+				if (gltfNode.translation.size() == 3)
+				{
+					transform->translation = { 
+						gltfNode.translation[0], 
+						gltfNode.translation[1], 
+						gltfNode.translation[2] };
+				}
 
-				for (size_t i = 0; i < gltfNode.rotation.size(); i++)
-					transform->rotation[i] = gltfNode.rotation[i];
+				if (gltfNode.rotation.size() == 4)
+				{
+					glm::quat unitQuaternion = glm::quat(
+						gltfNode.rotation[3],
+						gltfNode.rotation[0],
+						gltfNode.rotation[1],
+						gltfNode.rotation[2]);
 
-				for (size_t i = 0; i < gltfNode.scale.size(); i++)
-					transform->scale[i] = gltfNode.scale[i];
+					transform->rotation = glm::eulerAngles(unitQuaternion);
+					transform->rotation *= 180.0 / M_PI;
+				}
+
+				if (gltfNode.scale.size() == 3)
+				{
+					transform->scale = {
+						gltfNode.scale[0],
+						gltfNode.scale[1],
+						gltfNode.scale[2] };
+				}
 
 				material->albedo = image;
 				model->setMaterial(material);
