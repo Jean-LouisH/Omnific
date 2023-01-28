@@ -50,11 +50,10 @@ namespace Omnia
 	class OMNIA_ENGINE_API Engine
 	{
 	public:
-		Engine(
+		void run(
 			int argc,
-			char* argv[]);
-
-		void run();
+			char* argv[]
+		);
 	private:
 		enum class State
 		{
@@ -67,9 +66,6 @@ namespace Omnia
 		State state;
 		std::unordered_map<std::string, std::shared_ptr<System>> updateSystems;
 		std::unordered_map<std::string, std::shared_ptr<System>> outputSystems;
-
-		int argc = 0;
-		char** argv = nullptr;
 
 		void initialize();
 		void runInputLoop(std::shared_ptr<HiResTimer> updateProcessTimer);

@@ -28,20 +28,15 @@
 
 #include <customization/class_registry/class_registry.hpp>
 
-Omnia::Engine::Engine(
-	int argc, 
-	char* argv[])
-{
-	this->argc = argc;
-	this->argv = argv;
-}
-
-void Omnia::Engine::run()
+void Omnia::Engine::run(
+	int argc,
+	char* argv[]
+)
 {
 	std::vector<std::string> commandLineArguments;
 
-	for (int i = 0; i < this->argc; i++)
-		commandLineArguments.push_back(this->argv[i]);
+	for (int i = 0; i < argc; i++)
+		commandLineArguments.push_back(argv[i]);
 
 	OS::initialize(commandLineArguments);
 	Logger& logger = OS::getLogger();

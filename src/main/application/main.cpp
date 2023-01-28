@@ -29,7 +29,7 @@
 
 int main(int argc, char* argv[])
 {
-	Omnia::Engine omnia(argc, argv);
-	omnia.run();
+	Omnia::Engine omnia;
+	omnia.run(argc, argv);
 	return 0;
 }
