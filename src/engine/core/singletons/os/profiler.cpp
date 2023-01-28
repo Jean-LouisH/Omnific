@@ -24,7 +24,7 @@
 #include "core/utilities/constants.hpp"
 #include <core/singletons/os/os.hpp>
 
-void Omnia::Profiler::addTimer(std::string timerName)
+void Omnia::Profiler::addTimer(std::string timerName, bool isRemovable)
 {
 	this->timers.emplace(timerName, std::shared_ptr<HiResTimer>(new HiResTimer()));
 	this->isRemovableMap.emplace(timerName, isRemovable);

@@ -33,7 +33,7 @@ namespace Omnia
 	class OMNIA_ENGINE_API Profiler
 	{
 	public:
-		void addTimer(std::string timerName, bool isRemovable = true);
+		void addTimer(std::string timerName, bool isRemovable= true);
 		void removeTimer(std::string timerName);
 		std::shared_ptr<HiResTimer> getTimer(std::string timerName);
 
