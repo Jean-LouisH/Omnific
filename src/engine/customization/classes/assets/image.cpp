@@ -28,6 +28,8 @@
 
 Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
 {
+	stbi_set_flip_vertically_on_load(1);
+
 	this->type = TYPE_STRING;
 
 	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
@@ -58,12 +60,14 @@ Omnia::Image::Image(std::shared_ptr<Colour> colour)
 
 Omnia::Image::Image(uint8_t* data, int width, int height, int colourChannels)
 {
+	stbi_set_flip_vertically_on_load(1);
 	this->type = TYPE_STRING;
 	this->setToParameters(colourChannels, width, height, data);
 }
 
 Omnia::Image::Image(std::string filepath)
 {
+	stbi_set_flip_vertically_on_load(0);
 	this->type = TYPE_STRING;
 	this->setName(filepath);
 
@@ -184,8 +188,6 @@ void Omnia::Image::setToDefault()
 
 void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
 {
-	stbi_set_flip_vertically_on_load(1);
-
 	this->type = TYPE_STRING;
 	const uint16_t size = 256;
 	this->height = size;
@@ -202,8 +204,6 @@ void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
 
 void Omnia::Image::setToParameters(int colourChannels, int width, int height, uint8_t* data)
 {
-	stbi_set_flip_vertically_on_load(1);
-
 	this->height = height;
 	this->width = width;
 	this->colourChannels = colourChannels;
