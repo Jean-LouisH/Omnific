@@ -25,7 +25,7 @@
 #include "core/singletons/entity_context.hpp"
 #include "core/singletons/os/os.hpp"
 
-#include <customization/classes/components/script_collection.hpp>
+#include <core/components/script_collection.hpp>
 
 void loadScriptInstances()
 {

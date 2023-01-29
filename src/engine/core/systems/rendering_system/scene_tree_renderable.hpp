@@ -22,38 +22,26 @@
 
 #pragma once
 
-#include <SDL.h>
 #include <vector>
-#include <unordered_map>
-#include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
+#include <core/components/transform.hpp>
+#include <core/components/camera.hpp>
+#include <core/components/light.hpp>
 #include <memory>
-#include <engine_api.hpp>
+#include "entity_renderable.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
+	/* Caches memory locations for values
+	   relevant to rendering from a given Camera. */
+	class SceneTreeRenderable
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
-
-		SDL_Window* getSDLWindow();
+		bool is2D = false;
+		std::shared_ptr<Camera> camera;
+		std::shared_ptr<Transform> cameraTransform;
+		std::vector<std::shared_ptr<Light>> lights;
+		std::vector<EntityRenderable> entityRenderables;
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
 	};
 }
+

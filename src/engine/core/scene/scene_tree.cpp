@@ -23,7 +23,7 @@
 #include "scene_tree.hpp"
 #include "core/component.hpp"
 
-#include <customization/classes/components/transform.hpp>
+#include <core/components/transform.hpp>
 
 Omnia::SceneTree::SceneTree()
 {

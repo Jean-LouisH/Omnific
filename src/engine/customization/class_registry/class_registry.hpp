@@ -27,47 +27,37 @@
 #include "registerable.hpp"
 #include <core/singletons/os/os.hpp>
 
-/// Include class headers below
+/// Include custom class headers here
 ////////////////////////////////////////////////////
 
-#include <customization/classes/assets/audio_stream.hpp>
-#include <customization/classes/assets/font.hpp>
-#include <customization/classes/assets/image.hpp>
-#include <customization/classes/assets/material.hpp>
-#include <customization/classes/assets/mesh.hpp>
-#include <customization/classes/assets/rig.hpp>
-#include "customization/classes/assets/script.hpp"
-#include <customization/classes/assets/shader.hpp>
-#include <customization/classes/assets/text.hpp>
 
-#include "customization/classes/components/audio_listener.hpp"
-#include "customization/classes/components/audio_source.hpp"
-#include "customization/classes/components/camera.hpp"
-#include "customization/classes/components/collider.hpp"
-#include "customization/classes/components/gui.hpp"
-#include "customization/classes/components/light.hpp"
-#include "customization/classes/components/model.hpp"
-#include "customization/classes/components/physics_body.hpp"
-#include "customization/classes/components/property_animation.hpp"
-#include "customization/classes/components/script_collection.hpp"
-#include "customization/classes/components/sprite.hpp"
-#include "customization/classes/components/timer.hpp"
-#include "customization/classes/components/transform.hpp"
-#include "customization/classes/components/viewport.hpp"
 
-#include <customization/classes/systems/animation_system/animation_system.hpp>
-#include <customization/classes/systems/audio_system/audio_system.hpp>
-#include <customization/classes/systems/gui_system/gui_system.hpp>
-#include <customization/classes/systems/haptic_system/haptic_system.hpp>
-#include <customization/classes/systems/physics_system/physics_system.hpp>
-#include <customization/classes/systems/rendering_system/rendering_system.hpp>
-#include <customization/classes/systems/scripting_system/scripting_system.hpp>
 
-#include <customization/experimental_classes/systems/path_trace_rendering_system/path_trace_rendering_system.hpp>
-#include <customization/experimental_classes/systems/libretti_system/libretti_system.hpp>
 
-#define ENABLE_PATH_TRACE_SYSTEM 0
-#define ENABLE_LIBRETTI_SYSTEM 0
+// Core class headers
+////////////////////////////////////////////////////
+#include "core/components/audio_listener.hpp"
+#include "core/components/audio_source.hpp"
+#include "core/components/camera.hpp"
+#include "core/components/collider.hpp"
+#include "core/components/gui.hpp"
+#include "core/components/light.hpp"
+#include "core/components/model.hpp"
+#include "core/components/physics_body.hpp"
+#include "core/components/property_animation.hpp"
+#include "core/components/script_collection.hpp"
+#include "core/components/sprite.hpp"
+#include "core/components/timer.hpp"
+#include "core/components/transform.hpp"
+#include "core/components/viewport.hpp"
+
+#include <core/systems/animation_system/animation_system.hpp>
+#include <core/systems/audio_system/audio_system.hpp>
+#include <core/systems/gui_system/gui_system.hpp>
+#include <core/systems/haptic_system/haptic_system.hpp>
+#include <core/systems/physics_system/physics_system.hpp>
+#include <core/systems/rendering_system/rendering_system.hpp>
+#include <core/systems/scripting_system/scripting_system.hpp>
 
 /////////////////////////////////////////////////////
 
@@ -86,19 +76,14 @@ namespace Omnia
 			OS::getLogger().write("Loading class definitions to ClassRegistry...");
 			ClassRegistry* registry = getInstance();
 
-			// Add classes here.
+			// Add custom classes here.
 			////////////////////////////////////////////
 
-			registry->add<AudioStream, Asset>();
-			registry->add<Font, Asset>();
-			registry->add<Image, Asset>();
-			registry->add<Material, Asset>();
-			registry->add<Mesh, Asset>();
-			registry->add<Script, Asset>();
-			registry->add<Rig, Asset>();
-			registry->add<Shader, Asset>();
-			registry->add<Text, Asset>();
 
+
+
+			// Core classes
+			///////////////////////////////////////////
 			registry->add<AudioListener, Component>();
 			registry->add<AudioSource, Component>();
 			registry->add<Camera, Component>();
@@ -120,16 +105,7 @@ namespace Omnia
 			registry->add<HapticSystem, System>();
 			registry->add<PhysicsSystem, System>();
 			registry->add<ScriptingSystem, System>();
-
-#if ENABLE_PATH_TRACE_SYSTEM == 1
-			registry->add<PathTraceRenderingSystem, System>();
-#elif ENABLE_PATH_TRACE_SYSTEM == 0
 			registry->add<RenderingSystem, System>();
-#endif
-
-#if ENABLE_LIBRETTI_SYSTEM == 1
-			registry->add<LibrettiSystem, System>();
-#endif
 
 			////////////////////////////////////////////
 		};

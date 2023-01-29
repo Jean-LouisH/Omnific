@@ -22,38 +22,41 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <vector>
-#include <unordered_map>
-#include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
-#include <memory>
-#include <engine_api.hpp>
+#include <string>
+#include <core/assets/shader.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
+	/* The objects that facilitate GPU computation with settable uniform values. */
+	class ShaderProgram
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
-
-		SDL_Window* getSDLWindow();
+		ShaderProgram(std::vector<Shader> shaders);
+		~ShaderProgram();
+		void use();
+		void setInt(std::string name, int value);
+		void setBool(std::string name, bool value);
+		void setFloat(std::string name, float value);
+		void setVec2(std::string name, glm::vec2 value);
+		void setVec3(std::string name, glm::vec3 value);
+		void setVec4(std::string name, glm::vec4 value);
+		void setMat4(std::string name, glm::mat4 value);
+		void logUniforms();
+		void deleteProgram();
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
+		GLuint programID = 0;
+
+		std::vector<GLuint> vertexShaderIDs;
+		std::vector<GLuint> fragmentShaderIDs;
+
+		bool compileVertexShader(std::string vertexShaderSource);
+		bool compileFragmentShader(std::string fragmentShaderSource);
+		void linkShaderProgram();
+		bool checkCompileTimeErrors(GLuint ID, GLuint status);
+		void deleteShaders();
 	};
 }
+

@@ -20,40 +20,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "core/systems/scripting_system/constants.hpp"
 
-#include <SDL.h>
-#include <vector>
-#include <unordered_map>
-#include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
-#include <memory>
-#include <engine_api.hpp>
+#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
 
-namespace Omnia
+#include "python_script_instance.hpp"
+
+void Omnia::PythonScriptInstance::setData(pybind11::object newObject)
 {
-	class OMNIA_ENGINE_API Window
-	{
-	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
-
-		SDL_Window* getSDLWindow();
-	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
-	};
+	this->data = newObject;
 }
+
+void Omnia::PythonScriptInstance::setCallable(std::string methodName)
+{
+	this->callableMethods.emplace(methodName);
+}
+
+pybind11::object Omnia::PythonScriptInstance::test(std::string methodName)
+{
+	return this->data.attr(methodName.c_str());
+}
+
+void Omnia::PythonScriptInstance::call(std::string methodName)
+{
+	this->test(methodName)();
+}
+
+bool Omnia::PythonScriptInstance::hasCallable(std::string methodName)
+{
+	return this->callableMethods.count(methodName) > 0;
+}
+
+#endif

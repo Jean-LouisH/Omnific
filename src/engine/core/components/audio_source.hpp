@@ -22,38 +22,46 @@
 
 #pragma once
 
-#include <SDL.h>
+#include "core/utilities/aliases.hpp"
+#include <set>
+#include <queue>
+#include "core/utilities/constants.hpp"
+#include <string>
 #include <vector>
 #include <unordered_map>
-#include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
 #include <memory>
-#include <engine_api.hpp>
+#include "core/assets/audio_stream.hpp"
+#include "core/component.hpp"
+
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
+	class OMNIA_ENGINE_API AudioSource : public Component
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
+		AudioSource()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "AudioSource";
 
-		SDL_Window* getSDLWindow();
+		virtual Registerable* instance() override
+		{
+			AudioSource* clone = new AudioSource(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
+		}
+		virtual void deserialize(YAML::Node yamlNode);
+		void addAudioStream(std::shared_ptr<AudioStream> audioStream);
+		void queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count);
+		void queueAudioToPlay(std::string audioStreamName);
+		void clearAudioStreams();
+		std::queue<std::shared_ptr<AudioStream>> popEntireAudioPlayQueue();
+		void clearAudioPlayQueue();
+		std::vector<std::string> getAudioStreamNames();
+		std::shared_ptr<AudioStream> getAudioStreamByName(std::string audioStreamName);
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
+		std::unordered_map<std::string, std::shared_ptr<AudioStream>> audioStreams;
+		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue;
 	};
 }

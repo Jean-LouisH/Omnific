@@ -25,7 +25,7 @@
 
 #include <core/utilities/aliases.hpp>
 #include <core/utilities/constants.hpp>
-#include <customization/classes/assets/image.hpp>
+#include <core/assets/image.hpp>
 #include <string>
 #include <unordered_map>
 #include <memory>

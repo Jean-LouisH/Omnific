@@ -20,40 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "script_collection.hpp"
+#include <core/scene/scene.hpp>
+#include <core/singletons/os/os.hpp>
+#include <core/assets/script.hpp>
 
-#include <SDL.h>
-#include <vector>
-#include <unordered_map>
-#include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
-#include <memory>
-#include <engine_api.hpp>
-
-namespace Omnia
+void Omnia::ScriptCollection::deserialize(YAML::Node yamlNode)
 {
-	class OMNIA_ENGINE_API Window
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
-	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
+		std::string languageName = it3->first.as<std::string>();
 
-		SDL_Window* getSDLWindow();
-	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
-	};
+		if (languageName == "Python")
+		{
+			for (int i = 0; i < it3->second.size(); i++)
+			{
+				std::shared_ptr<Script> pythonScript(OS::getFileAccess().loadAssetByType<Script>(it3->second[i].as<std::string>(), false));
+				pythonScript->setLanguageName(languageName);
+				this->scripts.push_back(pythonScript);
+			}
+		}
+		else if (languageName == "CPP")
+		{
+			for (int i = 0; i < it3->second.size(); i++)
+			{
+				std::shared_ptr<Script> cppScript(OS::getFileAccess().loadAssetByType<Script>(it3->second[i].as<std::string>()));
+				cppScript->setLanguageName(languageName);
+				this->scripts.push_back(cppScript);
+			}
+		}
+	}
 }

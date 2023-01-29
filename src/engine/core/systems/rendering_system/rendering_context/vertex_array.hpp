@@ -22,38 +22,36 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <vector>
-#include <unordered_map>
+#include <string>
+#include "vertex_buffer.hpp"
+#include "index_buffer.hpp"
+#include <core/components/renderable_component.hpp>
 #include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
+#include <core/assets/mesh.hpp>
 #include <memory>
-#include <engine_api.hpp>
+
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
+	/* Identifier for buffers bound to a draw call. */
+	class VertexArray
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
-
-		SDL_Window* getSDLWindow();
+		VertexArray();
+		VertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
+		~VertexArray();
+		void bind();
+		void unbind();
+		void deleteVertexArray();
+		unsigned int getIndexCount();
+		unsigned int getVertexCount();
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
+		GLuint vertexArrayID;
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		std::shared_ptr<IndexBuffer> indexBuffer;
 	};
 }
+

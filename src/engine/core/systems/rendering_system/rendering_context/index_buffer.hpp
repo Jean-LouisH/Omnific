@@ -22,38 +22,30 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <vector>
-#include <unordered_map>
+#include <string>
+#include <core/components/renderable_component.hpp>
 #include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
+#include <core/assets/mesh.hpp>
 #include <memory>
-#include <engine_api.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
+	/* Storage for mesh index data in GPU memory. */
+	class IndexBuffer
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
-
-		SDL_Window* getSDLWindow();
+		IndexBuffer();
+		IndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
+		~IndexBuffer();
+		void bind();
+		void deleteIndexBuffer();
+		unsigned int getIndexCount();
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
+		GLuint indexBufferID = 0;
+		GLsizei indexCount = 0;
 	};
 }
+

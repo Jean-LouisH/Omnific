@@ -22,38 +22,35 @@
 
 #pragma once
 
-#include <SDL.h>
-#include <vector>
-#include <unordered_map>
+#include "core/asset.hpp"
 #include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
-#include <memory>
-#include <engine_api.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
+	class OMNIA_ENGINE_API Material : public Asset
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
+		Material() 
+		{ 
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "Material";
 
-		SDL_Window* getSDLWindow();
+		virtual Registerable* instance() override
+		{
+			Material* clone = new Material(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
+		}
+
+		std::shared_ptr<Image> albedo;
+		std::shared_ptr<Image> metallicity;
+		std::shared_ptr<Image> specularity;
+		std::shared_ptr<Image> roughness;
+		std::shared_ptr<Image> anisotropy;
+		std::shared_ptr<Image> emission;
+		std::shared_ptr<Image> normal;
+		std::shared_ptr<Image> displacement;
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
 	};
 }

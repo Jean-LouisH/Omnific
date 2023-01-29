@@ -22,44 +22,53 @@
 
 #pragma once
 
-#include <core/assets/shader.hpp>
+#include "renderable_component.hpp"
 #include "core/component.hpp"
-#include "core/utilities/aliases.hpp"
-#include "core/utilities/constants.hpp"
+
+#include "core/assets/mesh.hpp"
+#include "core/assets/material.hpp"
+#include "core/assets/skeletal_animation.hpp"
+#include "core/assets/rig.hpp"
+
+#include <memory>
 #include <vector>
 #include <unordered_map>
 #include <string>
-#include <core/singletons/uid_generator.hpp>
-#include <memory>
-#include <engine_api.hpp>
 
 namespace Omnia
 {
-	/* An object that exists within the Scene with its own
-	   identity, components and  hierarchy with other Entities. */
-	class OMNIA_ENGINE_API Entity
+	class OMNIA_ENGINE_API Model : public RenderableComponent
 	{
-		friend class SceneTree;
 	public:
-		EntityID parentID = 0;
-		std::vector<EntityID> childIDs;
-		std::vector<std::string> tags;
-		std::unordered_map<std::string, ComponentID> componentIDs;
-
-		Entity()
+		Model()
 		{
-			this->id = UIDGenerator::getNewUID();
-			this->name = "Entity (ID:" + std::to_string(this->id) + ")";
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "Model";
+
+		virtual Registerable* instance() override
+		{
+			Model* clone = new Model(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
 		}
+		virtual void deserialize(YAML::Node yamlNode);
+		void setToCube();
+		void setToTexturedCube(std::shared_ptr<Material> material);
 
-		/*Sets name publicly only when it is not attached to a SceneTree.*/
-		void setName(std::string name);
-		std::string getName();
-		EntityID getID();
+		void setMesh(std::shared_ptr<Mesh> mesh);
+		void setMaterial(std::shared_ptr<Material> material);
+		void setRig(std::shared_ptr<Rig> rig);
+		void addSkeletalAnimation(std::shared_ptr<SkeletalAnimation> skeletalAnimation);
+
+		std::shared_ptr<Mesh> getMesh();
+		std::shared_ptr<Material> getMaterial();
+		std::shared_ptr<Rig> getRig();
+		std::vector<std::shared_ptr<SkeletalAnimation>> getSkeletalAnimations();
 	private:
-		std::string name;
-		EntityID id = 0;
-
-		bool isAttachedToSceneTree = false;
+		std::shared_ptr<Mesh> mesh;
+		std::shared_ptr<Material> material;
+		std::shared_ptr<Rig> rig;
+		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
 	};
 }

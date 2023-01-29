@@ -22,38 +22,35 @@
 
 #pragma once
 
-#include <SDL.h>
-#include <vector>
-#include <unordered_map>
-#include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
-#include <memory>
-#include <engine_api.hpp>
+#include <string>
+#include "core/systems/scripting_system/scripting_languages/scripting_language.hpp"
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Window
-	{
-	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
-		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
-		void maximize();
-		void minimize();
-		void raise();
-		void restore();
-		void hide();
-		void show();
-		Rectangle getWindowSize();
+    class CPP : public ScriptingLanguage
+    {
+    public:
+        static constexpr const char* TYPE_STRING = "CPP";
+        CPP()
+        {
+            this->type = TYPE_STRING;
+        };
+        ~CPP();
+        virtual void initialize() override;
+        virtual void loadScriptInstances() override;
+        virtual void onStart() override;
+        virtual void onInput() override;
+        virtual void onEarly() override;
+        virtual void onLogic() override;
+        virtual void onCompute() override;
+        virtual void onLate() override;
+        virtual void onFinish() override;
+        virtual void finalize() override;
 
-		SDL_Window* getSDLWindow();
-	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
-	};
+    private:
+        void* dynamicLibraryHandle;
+        std::string nativeAssemblyFilename = "omnia_cpp_script_assembly";
+
+        void execute(std::string methodName);
+    };
 }
