@@ -16,7 +16,7 @@ add_dependencies (omnia_engine
 
  add_definitions(/bigobj)
 
-find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
+find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.26.2/lib/x64)
 find_library(SDL2_Mixer SDL2_mixer.lib PATHS ../../thirdparty/SDL2_mixer-2.0.4/lib/x64)
 find_library(SDL2_TTF SDL2_ttf.lib PATHS ../../thirdparty/SDL2_ttf-2.0.18/lib/x64)
 find_library(FreeType freetype.lib PATHS ../../thirdparty/freetype-2.11.1/release_dll/win64)
@@ -25,7 +25,7 @@ find_library(ZLIB zlib.lib PATHS ../../thirdparty/zlib-1.2.11/lib)
 
 
 include_directories(
-		../../thirdparty/SDL2-2.0.12/include
+		../../thirdparty/SDL2-2.26.2/include
 		../../thirdparty/SDL2_mixer-2.0.4/include
 		../../thirdparty/SDL2_ttf-2.0.18/include
 		../../thirdparty/yaml-cpp-0.6.3/include

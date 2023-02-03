@@ -18,10 +18,10 @@ add_dependencies(dedicated_gpu_application
 	omnia_engine
 )
 
-find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.0.12/lib/x64)
+find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.26.2/lib/x64)
 
 include_directories(
-		../../thirdparty/SDL2-2.0.12/include
+		../../thirdparty/SDL2-2.26.2/include
 		../../thirdparty/SDL2_mixer-2.0.4/include
 		../../thirdparty/SDL2_ttf-2.0.18/include
 		../../thirdparty/yaml-cpp-0.6.3/include
