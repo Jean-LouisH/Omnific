@@ -35,6 +35,7 @@ namespace Omnia
 		Colour(std::string hex);
 		Colour(uint32_t value);
 		Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		Colour(double red, double green, double blue, double alpha);
 		uint8_t getRed();
 		uint8_t getGreen();
 		uint8_t getBlue();

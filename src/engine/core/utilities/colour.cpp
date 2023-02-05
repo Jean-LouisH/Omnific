@@ -55,6 +55,14 @@ Omnia::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 	this->alpha = float(alpha) / 255.0;
 }
 
+Omnia::Colour::Colour(double red, double green, double blue, double alpha)
+{
+	this->red = red;
+	this->green = green;
+	this->blue = blue;
+	this->alpha = alpha;
+}
+
 uint8_t Omnia::Colour::getRed()
 {
 	return (uint8_t)(this->red * 255.0);
