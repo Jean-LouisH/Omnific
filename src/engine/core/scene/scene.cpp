@@ -331,13 +331,15 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 	{
 		for (size_t i = 0; i < gltfData.scenes.size(); i++)
 		{
+			tinygltf::Scene gltfScene = gltfData.scenes[i];
 			std::shared_ptr<Entity> gltfSceneRootEntity(new Entity());
 			sceneTree->addEntity(gltfSceneRootEntity);
 
-			for (size_t j = 0; j < gltfData.nodes.size(); j++)
+			for (size_t j = 0; j < gltfScene.nodes.size(); j++)
 			{
-				tinygltf::Node gltfNode = gltfData.nodes.at(j);
-				uint64_t meshIndex = gltfNode.mesh;
+				int nodeIndex = gltfScene.nodes[j];
+				tinygltf::Node gltfNode = gltfData.nodes[nodeIndex];
+				int meshIndex = gltfNode.mesh;
 
 				// GLTF data
 				std::vector<float> positions = this->readGLTFPrimitiveAttribute(gltfData, "POSITION", meshIndex);
@@ -346,7 +348,13 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(gltfData, meshIndex);
 
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
-				std::shared_ptr<Image> image = std::shared_ptr<Image>(new Image("Image::default"));
+				std::shared_ptr<Material> material(new Material());
+
+				std::shared_ptr<Entity> entity(new Entity());
+				entity->parentID = gltfSceneRootEntity->getID();
+				sceneTree->addEntity(entity);
+				std::shared_ptr<Transform> transform(new Transform());
+				std::shared_ptr<Model> model(new Model());
 
 				int materialIndex = gltfData.meshes.at(meshIndex).primitives.at(0).material;
 
@@ -354,7 +362,11 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				{
 					tinygltf::Material gltfMaterial = gltfData.materials.at(gltfData.meshes.at(meshIndex).primitives.at(0).material);
 					int baseColourTextureIndex = gltfMaterial.pbrMetallicRoughness.baseColorTexture.index;
+					int metallicRougnessTextureIndex = gltfMaterial.pbrMetallicRoughness.metallicRoughnessTexture.index;
+					int normalTextureIndex = gltfMaterial.normalTexture.index;
+					int emissiveTextureIndex = gltfMaterial.emissiveTexture.index;
 
+					/* Albedo / BaseColour*/
 					if (baseColourTextureIndex != -1)
 					{
 						tinygltf::Image gltfImage = gltfData.images.at(baseColourTextureIndex);
@@ -373,23 +385,113 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 							&colourChannels,
 							0);
 
-						image = std::shared_ptr<Image>(new Image(
+						material->albedo = std::shared_ptr<Image>(new Image(
 							imageData,
 							width,
 							height,
 							colourChannels));
 					}
+					else
+					{
+						std::vector<double> baseColorFactor = gltfMaterial.pbrMetallicRoughness.baseColorFactor;
+
+						if (baseColorFactor.size() == 3)
+						{
+							material->albedo = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+								baseColorFactor[0],
+								baseColorFactor[1],
+								baseColorFactor[2],
+								1.0))
+							));
+						}
+						else if (baseColorFactor.size() == 4)
+						{
+							material->albedo = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+								baseColorFactor[0],
+								baseColorFactor[1],
+								baseColorFactor[2],
+								baseColorFactor[3]))
+							));
+						}
+					}
+
+					/* Metallicity and Roughness */
+					if (metallicRougnessTextureIndex != -1)
+					{
+
+					}
+					else
+					{
+						double metallicFactor = gltfMaterial.pbrMetallicRoughness.metallicFactor;
+						double roughnessFactor = gltfMaterial.pbrMetallicRoughness.roughnessFactor;
+
+						material->metallicity = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							metallicFactor,
+							metallicFactor,
+							metallicFactor,
+							1.0))
+						));
+
+						material->roughness = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							roughnessFactor,
+							roughnessFactor,
+							roughnessFactor,
+							1.0))
+						));
+
+					}
+
+					/* Normal Map*/
+					if (normalTextureIndex != -1)
+					{
+						tinygltf::Image gltfImage = gltfData.images[normalTextureIndex];
+
+						tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
+						std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
+						std::vector<uint8_t> imageData = this->readGLTFBuffer(buffer, bufferView);
+
+						material->normal = std::shared_ptr<Image>(new Image(
+							imageData.data(), 
+							gltfImage.width, 
+							gltfImage.height,
+							gltfImage.component));
+					}
+					else
+					{
+						material->normal = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							0.0,
+							0.0,
+							0.0,
+							1.0))
+						));
+					}
+
+					/* Emission */
+					if (emissiveTextureIndex != -1)
+					{
+						tinygltf::Image gltfImage = gltfData.images[emissiveTextureIndex];
+
+						tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
+						std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
+						std::vector<uint8_t> imageData = this->readGLTFBuffer(buffer, bufferView);
+
+						material->emission = std::shared_ptr<Image>(new Image(
+							imageData.data(),
+							gltfImage.width,
+							gltfImage.height,
+							gltfImage.component));
+					}
+					else
+					{
+						material->emission = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							0.0,
+							0.0,
+							0.0,
+							1.0))
+						));
+					}
+
 				}
-
-				//name
-
-				//Components
-				std::shared_ptr<Entity> entity(new Entity());
-				entity->parentID = gltfSceneRootEntity->getID();
-				sceneTree->addEntity(entity);
-				std::shared_ptr<Transform> transform(new Transform());
-				std::shared_ptr<Model> model(new Model());
-				std::shared_ptr<Material> material(new Material());
 				
 				if (gltfNode.translation.size() == 3)
 				{
@@ -419,7 +521,6 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 						gltfNode.scale[2] };
 				}
 
-				material->albedo = image;
 				model->setMaterial(material);
 				model->setMesh(mesh);
 
