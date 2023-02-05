@@ -483,10 +483,12 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 					}
 					else
 					{
+						std::vector<double> emissiveFactor = gltfMaterial.emissiveFactor;
+
 						material->emission = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
-							0.0,
-							0.0,
-							0.0,
+							emissiveFactor[0],
+							emissiveFactor[1],
+							emissiveFactor[2],
 							1.0))
 						));
 					}
