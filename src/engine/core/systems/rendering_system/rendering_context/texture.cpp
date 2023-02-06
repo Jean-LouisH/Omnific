@@ -36,8 +36,6 @@ Omnia::Texture::Texture(std::shared_ptr<Image> image)
 {
 	float borderColour[] = { 0.0, 0.0, 0.0, 0.0 };
 	glGenTextures(1, &this->textureID);
-	this->type = "image";
-	this->textureUnit = 0;
 	this->bind();
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -90,14 +88,20 @@ void Omnia::Texture::activateDefaultTextureUnit()
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void Omnia::Texture::activateTextureUnit()
+void Omnia::Texture::activateTextureUnit(Unit textureUnit)
 {
-	glActiveTexture(GL_TEXTURE0 + this->textureUnit);
+	glActiveTexture(GL_TEXTURE0 + (uint8_t)textureUnit);
 }
 
 void Omnia::Texture::bind()
 {
-	this->activateTextureUnit();
+	this->activateDefaultTextureUnit();
+	glBindTexture(GL_TEXTURE_2D, this->textureID);
+}
+
+void Omnia::Texture::bind(Unit textureUnit)
+{
+	this->activateTextureUnit(textureUnit);
 	glBindTexture(GL_TEXTURE_2D, this->textureID);
 }
 

@@ -186,9 +186,23 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					}
 
 					std::shared_ptr<VertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
-					std::shared_ptr<Texture> texture = this->getTexture(entityRenderable.renderableComponent);
 					vertexArray->bind();
-					texture->bind();
+
+					if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
+					{
+						std::shared_ptr<Material> material = 
+							std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->material;
+
+						this->getTexture(material->albedo)->bind(Texture::Unit::_0);
+						this->getTexture(material->metallicity)->bind(Texture::Unit::_1);
+						this->getTexture(material->roughness)->bind(Texture::Unit::_2);
+						this->getTexture(material->emission)->bind(Texture::Unit::_3);
+						this->getTexture(material->normal)->bind(Texture::Unit::_4);
+					}
+					else
+					{
+						this->getTexture(entityRenderable.renderableComponent->getImage())->bind(Texture::Unit::_0);
+					}
 
 					/* Render for each ShaderProgram. Starting with the built in one. */
 					for (int k = -1; k < (int)shaderCount; k++)
@@ -204,7 +218,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 								shaderProgram->setVec2("cameraViewport", glm::vec2());
 								shaderProgram->setVec2("cameraPosition", glm::vec2());
 								shaderProgram->setFloat("cameraRotation", 0.0);
-								shaderProgram->setInt("textureSampler", 0);
+								shaderProgram->setInt("albedoTextureSampler", 0);
 								shaderProgram->setFloat("alpha", alpha);
 							}
 							else
@@ -212,7 +226,11 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 								shaderProgram = this->builtInShaderProgram3D;
 								shaderProgram->use();
 								shaderProgram->setMat4("mvp", mvp);
-								shaderProgram->setInt("textureSampler", 0);
+								shaderProgram->setInt("albedoTextureSampler", 0);
+								shaderProgram->setInt("metallicityTextureSampler", 1);
+								shaderProgram->setInt("roughnessTextureSampler", 2);
+								shaderProgram->setInt("emissionTextureSampler", 3);
+								shaderProgram->setInt("normalTextureSampler", 4);
 								shaderProgram->setFloat("alpha", alpha);
 							}
 						}
@@ -228,7 +246,6 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					}
 
 					vertexArray->unbind();
-					texture->activateDefaultTextureUnit();
 				}
 			}
 		}
@@ -252,27 +269,32 @@ std::string Omnia::RenderingContext::getRenderingContextName()
 	return "opengl";
 }
 
-std::shared_ptr<Omnia::Texture> Omnia::RenderingContext::getTexture(std::shared_ptr<RenderableComponent> renderableComponent)
+std::shared_ptr<Omnia::Texture> Omnia::RenderingContext::getTexture(std::shared_ptr<Image> image)
 {
-	std::shared_ptr<Image> image;
+	std::shared_ptr<Texture> texture;
 
-	if (renderableComponent->isType(Model::TYPE_STRING))
-		image = std::dynamic_pointer_cast<Model>(renderableComponent)->getMaterial()->albedo;
-	else
-		image = renderableComponent->getImage();
-
-	AssetID assetID = image->getID();
-
-	if (this->textures.count(assetID) == 0)
+	if (image != nullptr)
 	{
-		this->textures.emplace(assetID, std::shared_ptr<Texture>(new Texture(image)));
-		this->missedFrameCounts.emplace(assetID, 0);
+		AssetID assetID = image->getID();
+
+		if (this->textures.count(assetID) == 0)
+		{
+			this->textures.emplace(assetID, std::shared_ptr<Texture>(new Texture(image)));
+			this->missedFrameCounts.emplace(assetID, 0);
+		}
+		else
+		{
+			this->missedFrameCounts.at(assetID) = 0;
+		}
+
+		texture = this->textures.at(assetID);
 	}
 	else
 	{
-		this->missedFrameCounts.at(assetID) = 0;
+		texture = std::shared_ptr<Texture>(new Texture());
 	}
-	return this->textures.at(assetID);
+
+	return texture;
 }
 
 std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
@@ -281,7 +303,7 @@ std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std:
 
 	if (renderableComponent->isType(Model::TYPE_STRING))
 	{
-		std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->getMesh();
+		std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->mesh;
 		if (mesh != nullptr)
 		{
 			assetID = mesh->getID();

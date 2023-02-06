@@ -74,10 +74,10 @@ namespace Omnia
 				in vec2 uv;
 				out vec4 colour;
 				uniform float alpha;
-				uniform sampler2D textureSampler;
+				uniform sampler2D albedoTextureSampler;
 				void main()
 				{    
-					colour = texture(textureSampler, uv);
+					colour = texture(albedoTextureSampler, uv);
 					colour.a *= alpha;
 				}  
 			)";
@@ -87,10 +87,15 @@ namespace Omnia
 				in vec2 uv;
 				out vec4 colour;
 				uniform float alpha;
-				uniform sampler2D textureSampler;
+				uniform sampler2D albedoTextureSampler;
+				uniform sampler2D metallicityTextureSampler;
+				uniform sampler2D roughnessTextureSampler;
+				uniform sampler2D emissionTextureSampler;
+				uniform sampler2D normalTextureSampler;
+
 				void main()
 				{    
-					colour = texture(textureSampler, uv);
+					colour = texture(albedoTextureSampler, uv);
 					colour.a *= alpha;
 				}  
 			)";

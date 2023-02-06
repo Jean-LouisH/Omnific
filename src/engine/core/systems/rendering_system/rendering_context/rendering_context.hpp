@@ -67,7 +67,7 @@ namespace Omnia
 		uint8_t allowableMissedFrames = 0;
 		std::unordered_map<AssetID, uint8_t> missedFrameCounts;
 
-		std::shared_ptr<Texture> getTexture(std::shared_ptr<RenderableComponent> renderableComponent);
+		std::shared_ptr<Texture> getTexture(std::shared_ptr<Image> image);
 		std::shared_ptr<VertexArray> getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
 
 		void collectGarbage();

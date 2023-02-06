@@ -35,17 +35,38 @@ namespace Omnia
 	class Texture
 	{
 	public:
+		/* There's at least 16 texture unit in 
+		   OpenGL drivers. */
+		enum class Unit
+		{
+			_0,
+			_1,
+			_2,
+			_3,
+			_4,
+			_5,
+			_6,
+			_7,
+			_8,
+			_9,
+			_10,
+			_11,
+			_12,
+			_13,
+			_14,
+			_15
+		};
+
 		Texture();
 		~Texture();
 		Texture(std::shared_ptr<Image> image);
 		void activateDefaultTextureUnit();
-		void activateTextureUnit();
+		void activateTextureUnit(Unit textureUnit);
 		void bind();
+		void bind(Unit textureUnit);
 		void deleteTexture();
 	private:
 		GLuint textureID = 0;
-		uint8_t textureUnit = 0;
-		std::string type;
 	};
 }
 
