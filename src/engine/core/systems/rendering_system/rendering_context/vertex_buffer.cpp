@@ -34,7 +34,7 @@ Omnia::VertexBuffer::VertexBuffer(std::shared_ptr<RenderableComponent> renderabl
 
 	if (renderableComponent->isType(Model::TYPE_STRING))
 	{
-		mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->getMesh();
+		mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->mesh;
 	}
 	else
 	{

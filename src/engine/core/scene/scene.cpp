@@ -523,8 +523,8 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 						gltfNode.scale[2] };
 				}
 
-				model->setMaterial(material);
-				model->setMesh(mesh);
+				model->material = material;
+				model->mesh = mesh;
 
 				sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(transform));
 				sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(model));

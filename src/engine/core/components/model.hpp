@@ -52,23 +52,15 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void setToCube();
-		void setToTexturedCube(std::shared_ptr<Material> material);
 
-		void setMesh(std::shared_ptr<Mesh> mesh);
-		void setMaterial(std::shared_ptr<Material> material);
-		void setRig(std::shared_ptr<Rig> rig);
-		void addSkeletalAnimation(std::shared_ptr<SkeletalAnimation> skeletalAnimation);
-
-		std::shared_ptr<Mesh> getMesh();
-		std::shared_ptr<Material> getMaterial();
-		std::shared_ptr<Rig> getRig();
-		std::vector<std::shared_ptr<SkeletalAnimation>> getSkeletalAnimations();
-	private:
 		std::shared_ptr<Mesh> mesh;
 		std::shared_ptr<Material> material;
 		std::shared_ptr<Rig> rig;
 		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
+
+		virtual void deserialize(YAML::Node yamlNode);
+		void setToCube();
+		void setToTexturedCube(std::shared_ptr<Material> material);
+	private:
 	};
 }

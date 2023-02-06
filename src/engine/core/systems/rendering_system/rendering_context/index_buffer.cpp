@@ -34,7 +34,7 @@ Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<RenderableComponent> renderableC
 
 	if (renderableComponent->isType(Model::TYPE_STRING))
 	{
-		mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->getMesh();
+		mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->mesh;
 	}
 	else
 	{
