@@ -48,7 +48,7 @@ namespace Omnia
         virtual void finalize() override;
 
     private:
-        void* dynamicLibraryHandle;
+        void* dynamicLibraryHandle = nullptr;
         std::string nativeAssemblyFilename = "omnia_cpp_script_assembly";
 
         void execute(std::string methodName);
