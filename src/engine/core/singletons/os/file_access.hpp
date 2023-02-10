@@ -44,6 +44,9 @@ namespace Omnia
 		std::string getPathBeforeFile(std::string filepath);
 		bool exists(std::string filepath);
 
+		std::string loadString(std::string filepath);
+		std::vector<uint8_t> loadBinary(std::string filepath);
+
 		template <class DerivedAsset>
 		std::shared_ptr<DerivedAsset> loadAssetByType(std::string filepath, bool applyDataDirectory = true)
 		{
