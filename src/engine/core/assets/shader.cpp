@@ -22,17 +22,20 @@
 
 #include "shader.hpp"
 #include <core/singletons/uid_generator.hpp>
+#include <core/singletons/os/os.hpp>
 
-Omnia::Shader::Shader(std::string sourceFilepath, ShaderType shaderType)
+Omnia::Shader::Shader(std::string sourceInputString, ShaderType shaderType, bool isFilepath)
 {
-	this->setName(sourceFilepath);
-	//this->source;
-	this->shaderType = shaderType;
-}
+	if (isFilepath)
+	{
+		this->setName(sourceInputString);
+		this->source = OS::getFileAccess().loadString(sourceInputString);
+	}
+	else
+	{
+		this->source = sourceInputString;
+	}
 
-void Omnia::Shader::setSource(std::string source, ShaderType shaderType)
-{
-	this->source = source;
 	this->shaderType = shaderType;
 }
 

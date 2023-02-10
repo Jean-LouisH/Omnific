@@ -41,7 +41,7 @@ namespace Omnia
 		{ 
 			this->type = TYPE_STRING;
 		};
-		Shader(std::string sourceFilepath, ShaderType type);
+		Shader(std::string sourceInputString, ShaderType type, bool isFilepath = true);
 
 		virtual Registerable* instance() override
 		{
@@ -49,7 +49,6 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
-		void setSource(std::string source, ShaderType type);
 		std::string getSource();
 		ShaderType getType();
 	private:

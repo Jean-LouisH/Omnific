@@ -41,18 +41,11 @@ void Omnia::RenderingContext::initialize()
 	{
 		std::vector<Shader> builtInShaders2D;
 		std::vector<Shader> builtInShaders3D;
-		Shader vertexShader;
-		Shader fragmentShader;
 
-		vertexShader.setSource(BuiltInShaders::Vertex::dimension_2, Shader::ShaderType::VERTEX);
-		fragmentShader.setSource(BuiltInShaders::Fragment::dimension_2, Shader::ShaderType::FRAGMENT);
-		builtInShaders2D.push_back(vertexShader);
-		builtInShaders2D.push_back(fragmentShader);
-
-		vertexShader.setSource(BuiltInShaders::Vertex::dimension_3, Shader::ShaderType::VERTEX);
-		fragmentShader.setSource(BuiltInShaders::Fragment::dimension_3, Shader::ShaderType::FRAGMENT);
-		builtInShaders3D.push_back(vertexShader);
-		builtInShaders3D.push_back(fragmentShader);
+		builtInShaders2D.push_back(Shader(BuiltInShaders::Vertex::dimension_2, Shader::ShaderType::VERTEX, false));
+		builtInShaders2D.push_back(Shader(BuiltInShaders::Fragment::dimension_2, Shader::ShaderType::FRAGMENT, false));
+		builtInShaders3D.push_back(Shader(BuiltInShaders::Vertex::dimension_3, Shader::ShaderType::VERTEX, false));
+		builtInShaders3D.push_back(Shader(BuiltInShaders::Fragment::dimension_3, Shader::ShaderType::FRAGMENT, false));
 
 		this->builtInShaderProgram2D = std::shared_ptr<ShaderProgram>(new ShaderProgram(builtInShaders2D));
 		this->builtInShaderProgram3D = std::shared_ptr<ShaderProgram>(new ShaderProgram(builtInShaders3D));
