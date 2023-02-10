@@ -27,7 +27,7 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
-		if (it3->first.as<std::string>() == "vertex shaders")
+		if (it3->first.as<std::string>() == "vertex_shaders")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
@@ -38,7 +38,7 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 				this->addShader(vertexShader);
 			}
 		}
-		else if (it3->first.as<std::string>() == "fragment shaders")
+		else if (it3->first.as<std::string>() == "fragment_shaders")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
