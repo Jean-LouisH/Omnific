@@ -105,18 +105,25 @@ bool Omnia::FileAccess::exists(std::string filepath)
 	return inputFile.good();
 }
 
-std::string Omnia::FileAccess::loadString(std::string filepath)
+std::string Omnia::FileAccess::loadString(std::string filepath, bool applyDataDirectory)
 {
 	std::string outputString;
-	std::vector<uint8_t> binary = this->loadBinary(filepath);
+	std::vector<uint8_t> binary = this->loadBinary(filepath, applyDataDirectory);
 	outputString.assign(binary.begin(), binary.end());
 	return outputString;
 }
 
-std::vector<uint8_t> Omnia::FileAccess::loadBinary(std::string filepath)
+std::vector<uint8_t> Omnia::FileAccess::loadBinary(std::string filepath, bool applyDataDirectory)
 {
 	std::vector<uint8_t> outputBinary;
-	std::FILE* filePointer = std::fopen(filepath.c_str(), "rb");
+	std::string fullFilepath;
+
+	if (applyDataDirectory)
+		fullFilepath = this->getDataDirectoryPath() + filepath;
+	else
+		fullFilepath = filepath;
+
+	std::FILE* filePointer = std::fopen(fullFilepath.c_str(), "rb");
 
 	if (filePointer)
 	{
