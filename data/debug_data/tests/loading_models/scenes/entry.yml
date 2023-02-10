@@ -34,6 +34,9 @@ SceneTree:
       translation: [0, 0, 0]
     ScriptCollection:
       Python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
+    RenderableComponent:
+      vertex_shaders: [""]
+      fragment_shaders: [""]
   SubSceneTree:
     name: ["tests/loading_models/models/rainbow_cylinder.glb", ""]
     parent: "Model"

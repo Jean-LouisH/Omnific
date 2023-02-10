@@ -43,6 +43,20 @@ namespace Omnia
 			FRONT_AND_BACK
 		};
 
+		RenderableComponent()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "RenderableComponent";
+
+		virtual Registerable* instance() override
+		{
+			RenderableComponent* clone = new RenderableComponent(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
+		}
+
+		virtual void deserialize(YAML::Node yamlNode);
 		void setDimensions(float width, float height);
 		void setDimensions(float width, float height, float depth);
 		void addShader(std::shared_ptr<Shader> shader);

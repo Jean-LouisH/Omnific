@@ -21,6 +21,47 @@
 // SOFTWARE.
 
 #include "renderable_component.hpp"
+#include <core/singletons/os/os.hpp>
+
+void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
+{
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		if (it3->first.as<std::string>() == "vertex shaders")
+		{
+			for (int i = 0; i < it3->second.size(); i++)
+			{
+				std::shared_ptr<Shader> vertexShader( new Shader(
+					it3->second[i].as<std::string>(), 
+					Shader::ShaderType::VERTEX)
+				);
+				this->addShader(vertexShader);
+			}
+		}
+		else if (it3->first.as<std::string>() == "fragment shaders")
+		{
+			for (int i = 0; i < it3->second.size(); i++)
+			{
+				std::shared_ptr<Shader> fragmentShader(new Shader(
+					it3->second[i].as<std::string>(),
+					Shader::ShaderType::FRAGMENT)
+				);
+				this->addShader(fragmentShader);
+			}
+		}
+		else if (it3->first.as<std::string>() == "dimensions")
+		{
+			this->setDimensions(
+				it3->second[0].as<double>(),
+				it3->second[1].as<double>(),
+				it3->second[2].as<double>());
+		}
+		else if (it3->first.as<std::string>() == "alpha")
+		{
+			this->setAlpha((uint8_t)(it3->second.as<double>() * 255.0));
+		}
+	}
+}
 
 void Omnia::RenderableComponent::setDimensions(float width, float height)
 {
