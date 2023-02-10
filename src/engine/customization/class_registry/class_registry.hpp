@@ -93,6 +93,7 @@ namespace Omnia
 			registry->add<Model, Component>();
 			registry->add<PhysicsBody, Component>();
 			registry->add<PropertyAnimation, Component>();
+			registry->add<RenderableComponent, Component>();
 			registry->add<ScriptCollection, Component>();
 			registry->add<Sprite, Component>();
 			registry->add<Timer, Component>();
