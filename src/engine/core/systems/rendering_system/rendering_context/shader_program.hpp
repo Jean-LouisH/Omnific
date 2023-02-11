@@ -52,6 +52,9 @@ namespace Omnia
 		std::vector<GLuint> vertexShaderIDs;
 		std::vector<GLuint> fragmentShaderIDs;
 
+		std::vector<Shader> vertexShaders;
+		std::vector<Shader> fragmentShaders;
+
 		bool compileVertexShader(std::string vertexShaderSource);
 		bool compileFragmentShader(std::string fragmentShaderSource);
 		void linkShaderProgram();

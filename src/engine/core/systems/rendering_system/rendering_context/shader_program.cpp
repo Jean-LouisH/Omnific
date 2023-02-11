@@ -41,9 +41,11 @@ Omnia::ShaderProgram::ShaderProgram(std::vector<Shader> shaders)
 		{
 		case Shader::ShaderType::VERTEX:
 			compilationSuccess = this->compileVertexShader(shader.getSource());
+			this->vertexShaders.push_back(shader);
 			break;
 		case Shader::ShaderType::FRAGMENT:
 			compilationSuccess = this->compileFragmentShader(shader.getSource());
+			this->fragmentShaders.push_back(shader);
 			break;
 		}
 	}
