@@ -229,7 +229,9 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 						}
 						else
 						{
-							shaderProgram = this->shaderPrograms.at(shaders.at(k)->getID());
+							AssetID shaderID = shaders.at(k)->getID();
+							if (this->shaderPrograms.count(shaderID))
+								shaderProgram = this->shaderPrograms.at(shaderID);
 						}
 
 						if (vertexArray->getIndexCount() > 0)
