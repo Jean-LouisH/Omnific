@@ -29,9 +29,22 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 	{
 		if (it3->first.as<std::string>() == "shader")
 		{
-			std::shared_ptr<Shader> shader(new Shader(it3->second[0].as<std::string>(),
-				it3->second[1].as<std::string>()));
+			std::string vertex = "";
+			std::string fragment = "";
 
+			for (YAML::const_iterator it4 = it4->second.begin(); it4 != it4->second.end(); ++it4)
+			{
+				if (it4->first.as<std::string>() == "vertex")
+				{
+					vertex = it4->second.as<std::string>();
+				}
+				else if (it4->first.as<std::string>() == "fragment")
+				{
+					fragment = it4->second.as<std::string>();
+				}
+			}
+
+			std::shared_ptr<Shader> shader(new Shader(vertex, fragment));
 			this->shader = shader;
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
