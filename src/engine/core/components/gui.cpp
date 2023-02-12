@@ -120,6 +120,8 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
+		RenderableComponent::deserialize(yamlNode);
+
 		/*Temporary implementation for loading just text. */
 		if (it3->first.as<std::string>() == "GUIText")
 		{
@@ -147,13 +149,6 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 						it4->second[2].as<int>(),
 						it4->second[3].as<int>()
 					);
-				}
-				else if (it3->first.as<std::string>() == "shader")
-				{
-					std::shared_ptr<Shader> shader(new Shader(it3->second[0].as<std::string>(),
-						it3->second[1].as<std::string>()));
-
-					this->shader = shader;
 				}
 			}
 

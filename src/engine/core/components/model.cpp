@@ -26,6 +26,8 @@
 
 void Omnia::Model::deserialize(YAML::Node yamlNode)
 {
+	RenderableComponent::deserialize(yamlNode);
+
 	this->material = std::shared_ptr<Material>(new Material());
 
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
@@ -37,13 +39,6 @@ void Omnia::Model::deserialize(YAML::Node yamlNode)
 		else if (it3->first.as<std::string>() == "albedo")
 		{
 			this->material->albedo = std::shared_ptr<Image>(new Image(it3->second.as<std::string>()));
-		}
-		else if (it3->first.as<std::string>() == "shader")
-		{
-			std::shared_ptr<Shader> shader(new Shader(it3->second[0].as<std::string>(),
-				it3->second[1].as<std::string>()));
-
-			this->shader = shader;
 		}
 	}
 

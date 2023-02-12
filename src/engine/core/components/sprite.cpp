@@ -26,6 +26,8 @@
 
 void Omnia::Sprite::deserialize(YAML::Node yamlNode)
 {
+	RenderableComponent::deserialize(yamlNode);
+
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "image")
@@ -40,24 +42,6 @@ void Omnia::Sprite::deserialize(YAML::Node yamlNode)
 			}
 
 			this->setDimensions(this->image->getWidth(), this->image->getHeight(), 0.0);
-		}
-		else if (it3->first.as<std::string>() == "shader")
-		{
-			std::shared_ptr<Shader> shader(new Shader(it3->second[0].as<std::string>(),
-				it3->second[1].as<std::string>()));
-
-			this->shader = shader;
-		}
-		else if (it3->first.as<std::string>() == "dimensions")
-		{
-			this->setDimensions(
-				it3->second[0].as<double>(),
-				it3->second[1].as<double>(),
-				it3->second[2].as<double>());
-		}
-		else if (it3->first.as<std::string>() == "alpha")
-		{
-			this->setAlpha((uint8_t)(it3->second.as<double>() * 255.0));
 		}
 	}
 }
