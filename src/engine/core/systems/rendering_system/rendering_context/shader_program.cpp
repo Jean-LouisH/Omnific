@@ -32,8 +32,8 @@ Omnia::ShaderProgram::ShaderProgram(std::shared_ptr<Shader> shader)
 {
 	bool compilationSuccess = true;
 
-	compilationSuccess = this->compileVertexShader(shader->getVertexSource());
-	compilationSuccess = this->compileFragmentShader(shader->getFragmentSource());
+	compilationSuccess &= this->compileVertexShader(shader->getVertexSource());
+	compilationSuccess &= this->compileFragmentShader(shader->getFragmentSource());
 
 	if (compilationSuccess)
 	{
