@@ -27,27 +27,12 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
-		if (it3->first.as<std::string>() == "vertex_shaders")
+		if (it3->first.as<std::string>() == "shader")
 		{
-			for (int i = 0; i < it3->second.size(); i++)
-			{
-				std::shared_ptr<Shader> vertexShader( new Shader(
-					it3->second[i].as<std::string>(), 
-					Shader::ShaderType::VERTEX)
-				);
-				this->addShader(vertexShader);
-			}
-		}
-		else if (it3->first.as<std::string>() == "fragment_shaders")
-		{
-			for (int i = 0; i < it3->second.size(); i++)
-			{
-				std::shared_ptr<Shader> fragmentShader(new Shader(
-					it3->second[i].as<std::string>(),
-					Shader::ShaderType::FRAGMENT)
-				);
-				this->addShader(fragmentShader);
-			}
+			std::shared_ptr<Shader> shader(new Shader(it3->second[0].as<std::string>(),
+				it3->second[1].as<std::string>()));
+
+			this->shader = shader;
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
@@ -74,11 +59,6 @@ void Omnia::RenderableComponent::setDimensions(float width, float height, float 
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 	this->dimensions.z = depth;
-}
-
-void Omnia::RenderableComponent::addShader(std::shared_ptr<Omnia::Shader> shader)
-{
-	this->shaders.push_back(shader);
 }
 
 void Omnia::RenderableComponent::setAlpha(uint8_t value)
@@ -156,9 +136,9 @@ std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::getImage()
 	return this->image;
 }
 
-std::vector<std::shared_ptr<Omnia::Shader>> Omnia::RenderableComponent::getShaders()
+std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getShader()
 {
-	return this->shaders;
+	return this->shader;
 }
 
 glm::vec3 Omnia::RenderableComponent::getDimensions()

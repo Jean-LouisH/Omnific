@@ -30,18 +30,13 @@ namespace Omnia
 	class OMNIA_ENGINE_API Shader : public Asset
 	{
 	public:
-		enum class ShaderType
-		{
-			VERTEX,
-			FRAGMENT
-		};
 
 		static constexpr const char* TYPE_STRING = "Shader";
 		Shader() 
 		{ 
 			this->type = TYPE_STRING;
 		};
-		Shader(std::string sourceInputString, ShaderType type, bool isFilepath = true);
+		Shader(std::string vertexSourceInput, std::string fragmentSourceInput, bool isFilepath = true);
 
 		virtual Registerable* instance() override
 		{
@@ -49,10 +44,11 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
-		std::string getSource();
-		ShaderType getType();
+
+		std::string getVertexSource();
+		std::string getFragmentSource();
 	private:
-		std::string source;
-		ShaderType shaderType;
+		std::string vertexSource;
+		std::string fragmentSource;
 	};
 }

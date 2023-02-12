@@ -24,27 +24,27 @@
 #include <core/singletons/uid_generator.hpp>
 #include <core/singletons/os/os.hpp>
 
-Omnia::Shader::Shader(std::string sourceInputString, ShaderType shaderType, bool isFilepath)
+Omnia::Shader::Shader(std::string vertexSourceInput, std::string fragmentSourceInput, bool isFilepath)
 {
 	if (isFilepath)
 	{
-		this->setName(sourceInputString);
-		this->source = OS::getFileAccess().loadString(sourceInputString);
+		this->setName(vertexSourceInput + ", " + fragmentSourceInput);
+		this->vertexSource = OS::getFileAccess().loadString(vertexSourceInput);
+		this->fragmentSource = OS::getFileAccess().loadString(fragmentSourceInput);
 	}
 	else
 	{
-		this->source = sourceInputString;
+		this->vertexSource = vertexSourceInput;
+		this->fragmentSource = fragmentSourceInput;
 	}
-
-	this->shaderType = shaderType;
 }
 
-std::string Omnia::Shader::getSource()
+std::string Omnia::Shader::getVertexSource()
 {
-	return this->source;
+	return this->vertexSource;
 }
 
-Omnia::Shader::ShaderType Omnia::Shader::getType()
+std::string Omnia::Shader::getFragmentSource()
 {
-	return this->shaderType;
+	return this->fragmentSource;
 }

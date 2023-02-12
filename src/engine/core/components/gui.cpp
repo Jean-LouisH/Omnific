@@ -148,27 +148,12 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 						it4->second[3].as<int>()
 					);
 				}
-				else if (it3->first.as<std::string>() == "vertex_shaders")
+				else if (it3->first.as<std::string>() == "shader")
 				{
-					for (int i = 0; i < it3->second.size(); i++)
-					{
-						std::shared_ptr<Shader> vertexShader(new Shader(
-							it3->second[i].as<std::string>(),
-							Shader::ShaderType::VERTEX)
-						);
-						this->addShader(vertexShader);
-					}
-				}
-				else if (it3->first.as<std::string>() == "fragment_shaders")
-				{
-					for (int i = 0; i < it3->second.size(); i++)
-					{
-						std::shared_ptr<Shader> fragmentShader(new Shader(
-							it3->second[i].as<std::string>(),
-							Shader::ShaderType::FRAGMENT)
-						);
-						this->addShader(fragmentShader);
-					}
+					std::shared_ptr<Shader> shader(new Shader(it3->second[0].as<std::string>(),
+						it3->second[1].as<std::string>()));
+
+					this->shader = shader;
 				}
 			}
 

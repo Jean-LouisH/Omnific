@@ -39,16 +39,15 @@ void Omnia::RenderingContext::initialize()
 	}
 	else
 	{
-		std::vector<Shader> builtInShaders2D;
-		std::vector<Shader> builtInShaders3D;
+		this->builtInShaderProgram2D = std::shared_ptr<ShaderProgram>(new ShaderProgram(std::shared_ptr<Shader>(new Shader(
+			BuiltInShaders::Vertex::dimension_2, 
+			BuiltInShaders::Fragment::dimension_2, 
+			false))));
 
-		builtInShaders2D.push_back(Shader(BuiltInShaders::Vertex::dimension_2, Shader::ShaderType::VERTEX, false));
-		builtInShaders2D.push_back(Shader(BuiltInShaders::Fragment::dimension_2, Shader::ShaderType::FRAGMENT, false));
-		builtInShaders3D.push_back(Shader(BuiltInShaders::Vertex::dimension_3, Shader::ShaderType::VERTEX, false));
-		builtInShaders3D.push_back(Shader(BuiltInShaders::Fragment::dimension_3, Shader::ShaderType::FRAGMENT, false));
-
-		this->builtInShaderProgram2D = std::shared_ptr<ShaderProgram>(new ShaderProgram(builtInShaders2D));
-		this->builtInShaderProgram3D = std::shared_ptr<ShaderProgram>(new ShaderProgram(builtInShaders3D));
+		this->builtInShaderProgram3D = std::shared_ptr<ShaderProgram>(new ShaderProgram(std::shared_ptr<Shader>(new Shader(
+			BuiltInShaders::Vertex::dimension_3,
+			BuiltInShaders::Fragment::dimension_3,
+			false))));
 
 		Rectangle windowDimensions = window.getWindowSize();
 		this->setViewport(windowDimensions.width, windowDimensions.height);
@@ -148,8 +147,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 				{
 
 					EntityRenderable& entityRenderable = entityRenderablesData[j];
-					std::vector<std::shared_ptr<Shader>> shaders = entityRenderable.renderableComponent->getShaders();
-					size_t shaderCount = shaders.size();
+					std::shared_ptr<Shader> shader = entityRenderable.renderableComponent->getShader();
 
 					globalTransform = entityRenderable.entityTransform->getGlobalTransform();
 					glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
@@ -197,48 +195,54 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 						this->getTexture(entityRenderable.renderableComponent->getImage())->bind(Texture::Unit::_0);
 					}
 
-					/* Render for each ShaderProgram. Starting with the built in one. */
-					for (int k = -1; k < (int)shaderCount; k++)
+					std::shared_ptr<ShaderProgram> shaderProgram;
+
+					if (shader != nullptr)
 					{
-						std::shared_ptr<ShaderProgram> shaderProgram;
+						AssetID shaderID = shader->getID();
 
-						if (k == -1)
+						if (!this->shaderPrograms.count(shaderID))
 						{
-							if (sceneTreeRenderable.is2D)
-							{
-								shaderProgram = this->builtInShaderProgram2D;
-								shaderProgram->use();
-								shaderProgram->setVec2("cameraViewport", glm::vec2());
-								shaderProgram->setVec2("cameraPosition", glm::vec2());
-								shaderProgram->setFloat("cameraRotation", 0.0);
-								shaderProgram->setInt("albedoTextureSampler", 0);
-								shaderProgram->setFloat("alpha", alpha);
-							}
-							else
-							{
-								shaderProgram = this->builtInShaderProgram3D;
-								shaderProgram->use();
-								shaderProgram->setMat4("mvp", mvp);
-								shaderProgram->setInt("albedoTextureSampler", 0);
-								shaderProgram->setInt("metallicityTextureSampler", 1);
-								shaderProgram->setInt("roughnessTextureSampler", 2);
-								shaderProgram->setInt("emissionTextureSampler", 3);
-								shaderProgram->setInt("normalTextureSampler", 4);
-								shaderProgram->setFloat("alpha", alpha);
-							}
-						}
-						else
-						{
-							AssetID shaderID = shaders.at(k)->getID();
-							if (this->shaderPrograms.count(shaderID))
-								shaderProgram = this->shaderPrograms.at(shaderID);
+							this->shaderPrograms.emplace(
+								shaderID,
+								std::shared_ptr<ShaderProgram>(new ShaderProgram(shader)));
 						}
 
-						if (vertexArray->getIndexCount() > 0)
-							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
-						else
-							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
+						shaderProgram = this->shaderPrograms.at(shaderID);
+						shaderProgram->use();
+
+						//ToDo: detect uniforms in Shaders and allow setters for them.
 					}
+					else
+					{
+						if (sceneTreeRenderable.is2D)
+						{
+							shaderProgram = this->builtInShaderProgram2D;
+							shaderProgram->use();
+							shaderProgram->setVec2("cameraViewport", glm::vec2());
+							shaderProgram->setVec2("cameraPosition", glm::vec2());
+							shaderProgram->setFloat("cameraRotation", 0.0);
+							shaderProgram->setInt("albedoTextureSampler", 0);
+							shaderProgram->setFloat("alpha", alpha);
+						}
+						else
+						{
+							shaderProgram = this->builtInShaderProgram3D;
+							shaderProgram->use();
+							shaderProgram->setMat4("mvp", mvp);
+							shaderProgram->setInt("albedoTextureSampler", 0);
+							shaderProgram->setInt("metallicityTextureSampler", 1);
+							shaderProgram->setInt("roughnessTextureSampler", 2);
+							shaderProgram->setInt("emissionTextureSampler", 3);
+							shaderProgram->setInt("normalTextureSampler", 4);
+							shaderProgram->setFloat("alpha", alpha);
+						}
+					}
+
+					if (vertexArray->getIndexCount() > 0)
+						glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
+					else
+						glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
 
 					vertexArray->unbind();
 				}

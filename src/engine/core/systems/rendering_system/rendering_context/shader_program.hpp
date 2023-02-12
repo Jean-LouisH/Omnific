@@ -26,6 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <memory>
 #include <core/assets/shader.hpp>
 
 namespace Omnia
@@ -34,7 +35,7 @@ namespace Omnia
 	class ShaderProgram
 	{
 	public:
-		ShaderProgram(std::vector<Shader> shaders);
+		ShaderProgram(std::shared_ptr<Shader> shader);
 		~ShaderProgram();
 		void use();
 		void setInt(std::string name, int value);
@@ -49,17 +50,16 @@ namespace Omnia
 	private:
 		GLuint programID = 0;
 
-		std::vector<GLuint> vertexShaderIDs;
-		std::vector<GLuint> fragmentShaderIDs;
+		GLuint vertexShaderID;
+		GLuint fragmentShaderID;
 
-		std::vector<Shader> vertexShaders;
-		std::vector<Shader> fragmentShaders;
+		std::shared_ptr<Shader> shader;
 
 		bool compileVertexShader(std::string vertexShaderSource);
 		bool compileFragmentShader(std::string fragmentShaderSource);
 		void linkShaderProgram();
 		bool checkCompileTimeErrors(GLuint ID, GLuint status);
-		void deleteShaders();
+		void deleteShaderObjectCode();
 	};
 }
 

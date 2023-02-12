@@ -28,32 +28,20 @@
 #include <core/assets/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Omnia::ShaderProgram::ShaderProgram(std::vector<Shader> shaders)
+Omnia::ShaderProgram::ShaderProgram(std::shared_ptr<Shader> shader)
 {
 	bool compilationSuccess = true;
-	int shaderCount = shaders.size();
 
-	for (int i = 0; i < shaderCount && compilationSuccess; i++)
-	{
-		Shader& shader = shaders.at(i);
-
-		switch (shader.getType())
-		{
-		case Shader::ShaderType::VERTEX:
-			compilationSuccess = this->compileVertexShader(shader.getSource());
-			this->vertexShaders.push_back(shader);
-			break;
-		case Shader::ShaderType::FRAGMENT:
-			compilationSuccess = this->compileFragmentShader(shader.getSource());
-			this->fragmentShaders.push_back(shader);
-			break;
-		}
-	}
+	compilationSuccess = this->compileVertexShader(shader->getVertexSource());
+	compilationSuccess = this->compileFragmentShader(shader->getFragmentSource());
 
 	if (compilationSuccess)
+	{
 		this->linkShaderProgram();
+		this->shader = shader;
+	}
 
-	this->deleteShaders();
+	this->deleteShaderObjectCode();
 }
 
 Omnia::ShaderProgram::~ShaderProgram()
@@ -132,38 +120,31 @@ void Omnia::ShaderProgram::deleteProgram()
 
 bool Omnia::ShaderProgram::compileVertexShader(std::string vertexShaderSource)
 {
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	GLchar* source = (GLchar*)vertexShaderSource.c_str();
-	glShaderSource(vertexShader, 1, &source, NULL);
-	glCompileShader(vertexShader);
-	this->vertexShaderIDs.push_back(vertexShader);
-	return this->checkCompileTimeErrors(vertexShader, GL_COMPILE_STATUS);
+	glShaderSource(vertexShaderID, 1, &source, NULL);
+	glCompileShader(vertexShaderID);
+	this->vertexShaderID = vertexShaderID;
+	return this->checkCompileTimeErrors(vertexShaderID, GL_COMPILE_STATUS);
 }
 
 bool Omnia::ShaderProgram::compileFragmentShader(std::string fragmentShaderSource)
 {
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 	GLchar* source = (GLchar*)fragmentShaderSource.c_str();
-	glShaderSource(fragmentShader, 1, &source, NULL);
-	glCompileShader(fragmentShader);
-	this->fragmentShaderIDs.push_back(fragmentShader);
-	return this->checkCompileTimeErrors(fragmentShader, GL_COMPILE_STATUS);
+	glShaderSource(fragmentShaderID, 1, &source, NULL);
+	glCompileShader(fragmentShaderID);
+	this->fragmentShaderID = fragmentShaderID;
+	return this->checkCompileTimeErrors(fragmentShaderID, GL_COMPILE_STATUS);
 }
 
 void Omnia::ShaderProgram::linkShaderProgram()
 {
 	GLuint programID = glCreateProgram();
-	int vertexShaderCount = this->vertexShaderIDs.size();
-	for (int i = 0; i < vertexShaderCount; i++)
-		glAttachShader(programID, this->vertexShaderIDs.at(i));
-
-	int fragmentShaderCount = this->fragmentShaderIDs.size();
-	for (int i = 0; i < fragmentShaderCount; i++)
-		glAttachShader(programID, this->fragmentShaderIDs.at(i));
-
+	glAttachShader(programID, this->vertexShaderID);
+	glAttachShader(programID, this->fragmentShaderID);
 	glLinkProgram(programID);
 	this->checkCompileTimeErrors(programID, GL_LINK_STATUS);
-
 	OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(programID));
 	this->logUniforms();
 	this->programID = programID;
@@ -188,15 +169,8 @@ bool Omnia::ShaderProgram::checkCompileTimeErrors(GLuint ID, GLuint status)
 	return compilationSuccess;
 }
 
-void Omnia::ShaderProgram::deleteShaders()
+void Omnia::ShaderProgram::deleteShaderObjectCode()
 {
-	int vertexShaderCount = this->vertexShaderIDs.size();
-	for (int i = 0; i < vertexShaderCount; i++)
-		glDeleteShader(this->vertexShaderIDs.at(i));
-	this->vertexShaderIDs.clear();
-
-	int fragmentShaderCount = this->fragmentShaderIDs.size();
-	for (int i = 0; i < fragmentShaderCount; i++)
-		glDeleteShader(this->fragmentShaderIDs.at(i));
-	this->fragmentShaderIDs.clear();
+	glDeleteShader(this->vertexShaderID);
+	glDeleteShader(this->fragmentShaderID);
 }
