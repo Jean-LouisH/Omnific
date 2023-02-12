@@ -42,11 +42,13 @@ void Omnia::RenderingContext::initialize()
 		this->builtInShaderProgram2D = std::shared_ptr<ShaderProgram>(new ShaderProgram(std::shared_ptr<Shader>(new Shader(
 			BuiltInShaders::Vertex::dimension_2, 
 			BuiltInShaders::Fragment::dimension_2, 
+			false,
 			false))));
 
 		this->builtInShaderProgram3D = std::shared_ptr<ShaderProgram>(new ShaderProgram(std::shared_ptr<Shader>(new Shader(
 			BuiltInShaders::Vertex::dimension_3,
 			BuiltInShaders::Fragment::dimension_3,
+			false,
 			false))));
 
 		Rectangle windowDimensions = window.getWindowSize();
@@ -203,9 +205,40 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 
 						if (!this->shaderPrograms.count(shaderID))
 						{
+							std::shared_ptr<Shader> completeShader; 
+
+							if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
+							{
+								completeShader = std::shared_ptr<Shader>(new Shader(
+									BuiltInShaders::Vertex::dimension_3,
+									BuiltInShaders::Fragment::dimension_3,
+									false,
+									false));
+							}
+							else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
+							{
+								completeShader = std::shared_ptr<Shader>(new Shader(
+									BuiltInShaders::Vertex::dimension_3,
+									shader->getFragmentSource(),
+									false,
+									false));
+							}
+							else if (shader->getVertexSource() != "" && shader->getFragmentSource() == "")
+							{
+								completeShader = std::shared_ptr<Shader>(new Shader(
+									shader->getVertexSource(),
+									BuiltInShaders::Fragment::dimension_3,
+									false,
+									false));
+							}
+							else
+							{
+								completeShader = shader;
+							}
+
 							this->shaderPrograms.emplace(
 								shaderID,
-								std::shared_ptr<ShaderProgram>(new ShaderProgram(shader)));
+								std::shared_ptr<ShaderProgram>(new ShaderProgram(completeShader)));
 						}
 
 						shaderProgram = this->shaderPrograms.at(shaderID);
