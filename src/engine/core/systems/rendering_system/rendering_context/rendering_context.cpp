@@ -270,7 +270,27 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					shaderProgram->setVec3("cameraPosition", glm::vec3());
 					shaderProgram->setVec3("cameraRotation", glm::vec3());
 
-					//ToDo: detect uniforms in Shaders and allow setters for them.
+					/* Custom uniforms. */
+					for (auto const& intUniformPair : entityRenderable.renderableComponent->intUniforms)
+						shaderProgram->setInt(intUniformPair.first, intUniformPair.second);
+
+					for (auto const& boolUniformPair : entityRenderable.renderableComponent->boolUniforms)
+						shaderProgram->setBool(boolUniformPair.first, boolUniformPair.second);
+
+					for (auto const& floatUniformPair : entityRenderable.renderableComponent->floatUniforms)
+						shaderProgram->setFloat(floatUniformPair.first, floatUniformPair.second);
+
+					for (auto const& vec2UniformPair : entityRenderable.renderableComponent->vec2Uniforms)
+						shaderProgram->setVec2(vec2UniformPair.first, vec2UniformPair.second);
+
+					for (auto const& vec3UniformPair : entityRenderable.renderableComponent->vec3Uniforms)
+						shaderProgram->setVec3(vec3UniformPair.first, vec3UniformPair.second);
+
+					for (auto const& vec4UniformPair : entityRenderable.renderableComponent->vec4Uniforms)
+						shaderProgram->setVec4(vec4UniformPair.first, vec4UniformPair.second);
+
+					for (auto const& mat4UniformPair : entityRenderable.renderableComponent->mat4Uniforms)
+						shaderProgram->setMat4(mat4UniformPair.first, mat4UniformPair.second);
 
 					if (vertexArray->getIndexCount() > 0)
 						glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);

@@ -47,9 +47,9 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 			std::shared_ptr<Shader> shader(new Shader(vertex, fragment));
 
 			if (it3->first.as<std::string>() == "shader")
-				this->shader = shader;
+				this->addShader(shader);
 			else
-				this->overridingShader = shader;
+				this->addOverridingShader(shader);
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
@@ -76,6 +76,19 @@ void Omnia::RenderableComponent::setDimensions(float width, float height, float 
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 	this->dimensions.z = depth;
+}
+
+void Omnia::RenderableComponent::addShader(std::shared_ptr<Shader> shader)
+{
+	if (this->overridingShader == nullptr)
+		this->buildUniformReferencesFromShader(shader);
+	this->shader = shader;
+}
+
+void Omnia::RenderableComponent::addOverridingShader(std::shared_ptr<Shader> overridingShader)
+{
+	this->buildUniformReferencesFromShader(overridingShader);
+	this->overridingShader = overridingShader;
 }
 
 void Omnia::RenderableComponent::setAlpha(uint8_t value)
@@ -163,6 +176,41 @@ std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getOverridingShader()
 	return this->overridingShader;
 }
 
+int& Omnia::RenderableComponent::getIntUniform(std::string uniformName)
+{
+	return this->intUniforms.at(uniformName);
+}
+
+bool& Omnia::RenderableComponent::getBoolUniform(std::string uniformName)
+{
+	return this->boolUniforms.at(uniformName);
+}
+
+float& Omnia::RenderableComponent::getFloatUniform(std::string uniformName)
+{
+	return this->floatUniforms.at(uniformName);
+}
+
+glm::vec2& Omnia::RenderableComponent::getVec2Uniform(std::string uniformName)
+{
+	return this->vec2Uniforms.at(uniformName);
+}
+
+glm::vec3& Omnia::RenderableComponent::getVec3Uniform(std::string uniformName)
+{
+	return this->vec3Uniforms.at(uniformName);
+}
+
+glm::vec4& Omnia::RenderableComponent::getVec4Uniform(std::string uniformName)
+{
+	return this->vec4Uniforms.at(uniformName);
+}
+
+glm::mat4& Omnia::RenderableComponent::getMat4Uniform(std::string uniformName)
+{
+	return this->mat4Uniforms.at(uniformName);
+}
+
 glm::vec3 Omnia::RenderableComponent::getDimensions()
 {
 	return this->dimensions;
@@ -171,4 +219,9 @@ glm::vec3 Omnia::RenderableComponent::getDimensions()
 bool Omnia::RenderableComponent::isRenderable()
 {
 	return true;
+}
+
+void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_ptr<Shader> shader)
+{
+
 }

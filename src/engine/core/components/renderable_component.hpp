@@ -60,6 +60,7 @@ namespace Omnia
 		void setDimensions(float width, float height);
 		void setDimensions(float width, float height, float depth);
 		void addShader(std::shared_ptr<Shader> shader);
+		void addOverridingShader(std::shared_ptr<Shader> overridingShader);
 		void setAlpha(uint8_t value);
 		void setToNoFaceCulling();
 		void setToFrontFaceCulling();
@@ -77,8 +78,24 @@ namespace Omnia
 		std::shared_ptr<Image> getImage();
 		std::shared_ptr<Shader> getShader();
 		std::shared_ptr<Shader> getOverridingShader();
+		int& getIntUniform(std::string);
+		bool& getBoolUniform(std::string);
+		float& getFloatUniform(std::string);
+		glm::vec2& getVec2Uniform(std::string);
+		glm::vec3& getVec3Uniform(std::string);
+		glm::vec4& getVec4Uniform(std::string);
+		glm::mat4& getMat4Uniform(std::string);
 		glm::vec3 getDimensions();
 		bool isRenderable() override;
+
+		std::unordered_map<std::string, int> intUniforms;
+		std::unordered_map<std::string, bool> boolUniforms;
+		std::unordered_map<std::string, float> floatUniforms;
+		std::unordered_map<std::string, glm::vec2> vec2Uniforms;
+		std::unordered_map<std::string, glm::vec3> vec3Uniforms;
+		std::unordered_map<std::string, glm::vec4> vec4Uniforms;
+		std::unordered_map<std::string, glm::mat4> mat4Uniforms;
+
 	protected:
 		glm::vec3 dimensions;
 		uint8_t alpha = 255;
@@ -87,5 +104,6 @@ namespace Omnia
 		std::shared_ptr<Shader> shader;
 		std::shared_ptr<Shader> overridingShader;
 	private:
+		void buildUniformReferencesFromShader(std::shared_ptr<Shader> shader);
 	};
 }
