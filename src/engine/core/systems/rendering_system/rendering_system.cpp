@@ -116,6 +116,27 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 
 					entityRenderable.entityTransform = sceneTree->getComponentByType<Transform>(entity->getID());
 					entityRenderable.renderableComponent = renderableComponent;
+
+					std::shared_ptr<Entity> topEntity = entity;
+					EntityID parentEntityID = entity->parentID;
+
+					while(parentEntityID != 0)
+					{
+						topEntity = sceneTree->getEntity(parentEntityID);
+						parentEntityID = topEntity->parentID;
+					}
+
+					if (topEntity->renderableComponentID != 0)
+					{
+						std::shared_ptr<RenderableComponent> renderableComponent =
+							std::dynamic_pointer_cast<RenderableComponent>(sceneTree->getComponentByID(topEntity->renderableComponentID));
+
+						std::shared_ptr<Shader> overridingShader = renderableComponent->getOverridingShader();
+
+						if (overridingShader != nullptr)
+							entityRenderable.overridingShader = overridingShader;
+					}
+
 					sceneTreeRenderable.entityRenderables.push_back(entityRenderable);
 				}
 				sceneTreeRenderableList.push_back(sceneTreeRenderable);
@@ -124,7 +145,6 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 			this->sceneTreeRenderableLists.emplace(sceneTree->getID(), sceneTreeRenderableList);
 			sceneTree->hasRenderableComponentsChanged = false;
 		}
-
 	}
 }
 

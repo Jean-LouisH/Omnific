@@ -27,12 +27,12 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
 	{
-		if (it3->first.as<std::string>() == "shader")
+		if (it3->first.as<std::string>() == "shader" || it3->first.as<std::string>() == "overriding_shader")
 		{
 			std::string vertex = "";
 			std::string fragment = "";
 
-			for (YAML::const_iterator it4 = it4->second.begin(); it4 != it4->second.end(); ++it4)
+			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
 			{
 				if (it4->first.as<std::string>() == "vertex")
 				{
@@ -45,7 +45,11 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 			}
 
 			std::shared_ptr<Shader> shader(new Shader(vertex, fragment));
-			this->shader = shader;
+
+			if (it3->first.as<std::string>() == "shader")
+				this->shader = shader;
+			else
+				this->overridingShader = shader;
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
@@ -152,6 +156,11 @@ std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::getImage()
 std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getShader()
 {
 	return this->shader;
+}
+
+std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getOverridingShader()
+{
+	return this->overridingShader;
 }
 
 glm::vec3 Omnia::RenderableComponent::getDimensions()

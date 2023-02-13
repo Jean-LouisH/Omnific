@@ -149,7 +149,10 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 				{
 
 					EntityRenderable& entityRenderable = entityRenderablesData[j];
-					std::shared_ptr<Shader> shader = entityRenderable.renderableComponent->getShader();
+					std::shared_ptr<Shader> shader = entityRenderable.overridingShader;
+					
+					if (shader == nullptr)
+						shader = entityRenderable.renderableComponent->getShader();
 
 					globalTransform = entityRenderable.entityTransform->getGlobalTransform();
 					glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
@@ -242,35 +245,32 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 						}
 
 						shaderProgram = this->shaderPrograms.at(shaderID);
-						shaderProgram->use();
-
-						//ToDo: detect uniforms in Shaders and allow setters for them.
 					}
-					else
+					else if (!sceneTreeRenderable.is2D)
 					{
-						if (sceneTreeRenderable.is2D)
-						{
-							shaderProgram = this->builtInShaderProgram2D;
-							shaderProgram->use();
-							shaderProgram->setVec2("cameraViewport", glm::vec2());
-							shaderProgram->setVec2("cameraPosition", glm::vec2());
-							shaderProgram->setFloat("cameraRotation", 0.0);
-							shaderProgram->setInt("albedoTextureSampler", 0);
-							shaderProgram->setFloat("alpha", alpha);
-						}
-						else
-						{
-							shaderProgram = this->builtInShaderProgram3D;
-							shaderProgram->use();
-							shaderProgram->setMat4("mvp", mvp);
-							shaderProgram->setInt("albedoTextureSampler", 0);
-							shaderProgram->setInt("metallicityTextureSampler", 1);
-							shaderProgram->setInt("roughnessTextureSampler", 2);
-							shaderProgram->setInt("emissionTextureSampler", 3);
-							shaderProgram->setInt("normalTextureSampler", 4);
-							shaderProgram->setFloat("alpha", alpha);
-						}
+						shaderProgram = this->builtInShaderProgram3D;
 					}
+					else 
+					{
+						shaderProgram = this->builtInShaderProgram2D;
+					}
+
+					shaderProgram->use();
+
+					/* Standard uniforms */
+					shaderProgram->setMat4("mvp", mvp);
+					shaderProgram->setInt("albedoTextureSampler", 0);
+					shaderProgram->setInt("metallicityTextureSampler", 1);
+					shaderProgram->setInt("roughnessTextureSampler", 2);
+					shaderProgram->setInt("emissionTextureSampler", 3);
+					shaderProgram->setInt("normalTextureSampler", 4);
+					shaderProgram->setFloat("alpha", alpha);
+
+					shaderProgram->setVec2("cameraViewport", glm::vec2());
+					shaderProgram->setVec3("cameraPosition", glm::vec3());
+					shaderProgram->setVec3("cameraRotation", glm::vec3());
+
+					//ToDo: detect uniforms in Shaders and allow setters for them.
 
 					if (vertexArray->getIndexCount() > 0)
 						glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);

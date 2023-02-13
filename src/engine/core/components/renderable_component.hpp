@@ -76,6 +76,7 @@ namespace Omnia
 		CullMode getCullMode();
 		std::shared_ptr<Image> getImage();
 		std::shared_ptr<Shader> getShader();
+		std::shared_ptr<Shader> getOverridingShader();
 		glm::vec3 getDimensions();
 		bool isRenderable() override;
 	protected:
@@ -84,6 +85,7 @@ namespace Omnia
 		CullMode cullMode = CullMode::NONE;
 		std::shared_ptr<Image> image;
 		std::shared_ptr<Shader> shader;
+		std::shared_ptr<Shader> overridingShader;
 	private:
 	};
 }

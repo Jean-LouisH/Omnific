@@ -34,10 +34,10 @@ SceneTree:
       translation: [0, 0, 0]
     ScriptCollection:
       Python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
-    RenderableComponent:
-      shader: 
-        vertex: "tests/loading_models/shaders/vertex.glsl"
-        fragment: "tests/loading_models/shaders/fragment.glsl"
+    #RenderableComponent:
+    #  overriding_shader: 
+    #    vertex: "tests/loading_models/shaders/vertex.glsl"
+    #    fragment: "tests/loading_models/shaders/fragment.glsl"
   SubSceneTree:
     name: ["tests/loading_models/models/rainbow_cylinder.glb", ""]
     parent: "Model"

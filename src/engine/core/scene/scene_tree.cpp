@@ -72,7 +72,8 @@ void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component
 	component->setEntityID(entityID);
 	this->components.push_back(component);
 	std::string type = component->getType();
-	this->entities.at(entityID)->componentIDs.emplace(type, component->getID());
+	std::shared_ptr<Entity> entity = this->entities.at(entityID);
+	entity->componentIDs.emplace(type, component->getID());
 	size_t lastIndex = this->components.size() - 1;
 
 	if (this->componentIndexCaches.count(type) > 0)
@@ -88,6 +89,7 @@ void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component
 
 	if (component->isRenderable())
 	{
+		entity->renderableComponentID = component->getID();
 		this->renderOrderIndexCache.push_back(lastIndex);
 		this->hasRenderableComponentsChanged = true;
 	}

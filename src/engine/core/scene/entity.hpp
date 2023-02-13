@@ -45,6 +45,7 @@ namespace Omnia
 		std::vector<EntityID> childIDs;
 		std::vector<std::string> tags;
 		std::unordered_map<std::string, ComponentID> componentIDs;
+		ComponentID renderableComponentID = 0;
 
 		Entity()
 		{
