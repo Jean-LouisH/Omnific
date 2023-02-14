@@ -54,11 +54,6 @@ void Omnia::Camera::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::Camera::addShader(std::shared_ptr<Omnia::Shader> shader)
-{
-	this->shaders.push_back(shader);
-}
-
 void Omnia::Camera::resetAspect()
 {
 	this->aspect = defaultAspect;
@@ -75,6 +70,11 @@ void Omnia::Camera::toggleWireframeMode()
 Omnia::Rectangle Omnia::Camera::getViewportDimensions()
 {
 	return this->viewport;
+}
+
+glm::vec2 Omnia::Camera::getViewportinVec2()
+{
+	return glm::vec2(this->viewport.width, this->viewport.height);
 }
 
 bool Omnia::Camera::getIsStreaming()
@@ -128,9 +128,4 @@ glm::mat4 Omnia::Camera::getViewToProjectionMatrix()
 {
 	Rectangle rectangle = OS::getWindow().getWindowSize();
 	return glm::perspective(glm::radians(this->fieldOfView), (float)rectangle.width / (float)rectangle.height, this->nearPlane, this->farPlane);
-}
-
-std::vector<std::shared_ptr<Omnia::Shader>> Omnia::Camera::getShaders()
-{
-	return this->shaders;
 }

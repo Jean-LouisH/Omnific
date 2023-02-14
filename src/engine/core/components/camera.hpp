@@ -50,10 +50,10 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
-		void addShader(std::shared_ptr<Shader> shader);
 		void resetAspect();
 		void toggleWireframeMode();
 		Rectangle getViewportDimensions();
+		glm::vec2 getViewportinVec2();
 		bool getIsStreaming();
 		bool getIsWireframeMode();
 		void setViewportWidth(uint32_t width);
@@ -63,7 +63,6 @@ namespace Omnia
 		void setIsStreaming(bool value);
 		void setWireframeMode(bool value);
 		glm::mat4 getViewToProjectionMatrix();
-		std::vector<std::shared_ptr<Shader>> getShaders();
 	private:
 		const float defaultAspect = 1920.0 / 1080.0;
 		float aspect = defaultAspect;
@@ -75,6 +74,5 @@ namespace Omnia
 		bool keepAspect = true;
 		bool isStreaming = true;
 		bool isWireFrame = false;
-		std::vector<std::shared_ptr<Shader>> shaders;
 	};
 }
