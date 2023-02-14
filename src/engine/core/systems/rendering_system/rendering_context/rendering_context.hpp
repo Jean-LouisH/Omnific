@@ -42,6 +42,12 @@ namespace Omnia
 	class RenderingContext
 	{
 	public:
+		RenderingContext()
+		{
+			this->dummyLight = std::shared_ptr<Light>(new Light());
+			this->dummyLightTransform = std::shared_ptr<Transform>(new Transform());
+		}
+
 		void initialize();
 		void clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 		void clearDepthBuffer();
@@ -63,6 +69,9 @@ namespace Omnia
 		std::unordered_map<AssetID, std::shared_ptr<ShaderProgram>> shaderPrograms;
 		std::shared_ptr<ShaderProgram> builtInShaderProgram2D;
 		std::shared_ptr<ShaderProgram> builtInShaderProgram3D;
+
+		std::shared_ptr<Light> dummyLight;
+		std::shared_ptr<Transform> dummyLightTransform;
 
 		uint8_t allowableMissedFrames = 0;
 		std::unordered_map<AssetID, uint8_t> missedFrameCounts;

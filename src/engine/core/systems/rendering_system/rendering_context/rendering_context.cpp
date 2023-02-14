@@ -145,159 +145,195 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 				/* Memory allocated out of the tight loop. */
 				std::shared_ptr<Transform> globalTransform(new Transform());
 
-				for (size_t j = 0; j < entityRenderablesCount; j++)
+				std::vector<std::shared_ptr<Light>> activeLights;
+				std::vector<std::shared_ptr<Transform>> activeLightTransforms;
+
+				if (activeLights.size() > 0)
 				{
-
-					EntityRenderable& entityRenderable = entityRenderablesData[j];
-					std::shared_ptr<Shader> shader = entityRenderable.overridingShader;
+					activeLights = sceneTreeRenderable.lights;
+					activeLightTransforms = sceneTreeRenderable.lightTransforms;
+				}
+				else
+				{
+					activeLights.push_back(this->dummyLight);
+					activeLightTransforms.push_back(this->dummyLightTransform);
 					
-					if (shader == nullptr)
-						shader = entityRenderable.renderableComponent->getShader();
+				}
 
-					globalTransform = entityRenderable.entityTransform->getGlobalTransform();
-					glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
-					glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
-					float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
-					const float cullAlphaThreshold = 1.0 - 0.001;
-					RenderableComponent::CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
+				size_t lightsCount = activeLights.size();
 
-					switch (cullMode)
+				/* Forward Rendering */
+				for (size_t j = 0; j < lightsCount; j++)
+				{
+					std::shared_ptr<Light> light = activeLights[j];
+					std::shared_ptr<Transform> lightTransform = activeLightTransforms[j];
+
+					for (size_t k = 0; k < entityRenderablesCount; k++)
 					{
+						EntityRenderable& entityRenderable = entityRenderablesData[k];
+						std::shared_ptr<Shader> shader = entityRenderable.overridingShader;
+						std::shared_ptr<ShaderParameters> shaderParameters = entityRenderable.overridingShaderParameters;
+
+						if (shader == nullptr && shaderParameters == nullptr)
+						{
+							shader = entityRenderable.renderableComponent->getShader();
+							shaderParameters = entityRenderable.renderableComponent->shaderParameters;
+						}
+
+						globalTransform = entityRenderable.entityTransform->getGlobalTransform();
+						glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
+						glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
+						float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
+						const float cullAlphaThreshold = 1.0 - 0.001;
+						RenderableComponent::CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
+
+						switch (cullMode)
+						{
 						case RenderableComponent::CullMode::NONE:
 						case RenderableComponent::CullMode::BACK: glCullFace(GL_BACK); break;
 						case RenderableComponent::CullMode::FRONT: glCullFace(GL_FRONT); break;
 						case RenderableComponent::CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
-					}
-
-					if (alpha < cullAlphaThreshold || cullMode == RenderableComponent::CullMode::NONE)
-					{
-						glDisable(GL_CULL_FACE);
-						if (alpha < cullAlphaThreshold)
-							this->enableBlending();
-					}
-					else
-					{
-						glEnable(GL_CULL_FACE);
-						this->disableBlending();
-					}
-
-					std::shared_ptr<VertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
-					vertexArray->bind();
-
-					if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
-					{
-						std::shared_ptr<Material> material = 
-							std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->material;
-
-						this->getTexture(material->albedo)->bind(Texture::Unit::_0);
-						this->getTexture(material->metallicity)->bind(Texture::Unit::_1);
-						this->getTexture(material->roughness)->bind(Texture::Unit::_2);
-						this->getTexture(material->emission)->bind(Texture::Unit::_3);
-						this->getTexture(material->normal)->bind(Texture::Unit::_4);
-					}
-					else
-					{
-						this->getTexture(entityRenderable.renderableComponent->getImage())->bind(Texture::Unit::_0);
-					}
-
-					std::shared_ptr<ShaderProgram> shaderProgram;
-
-					if (shader != nullptr)
-					{
-						AssetID shaderID = shader->getID();
-
-						if (!this->shaderPrograms.count(shaderID))
-						{
-							std::shared_ptr<Shader> completeShader; 
-
-							if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
-							{
-								completeShader = std::shared_ptr<Shader>(new Shader(
-									BuiltInShaders::Vertex::dimension_3,
-									BuiltInShaders::Fragment::dimension_3,
-									false,
-									false));
-							}
-							else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
-							{
-								completeShader = std::shared_ptr<Shader>(new Shader(
-									BuiltInShaders::Vertex::dimension_3,
-									shader->getFragmentSource(),
-									false,
-									false));
-							}
-							else if (shader->getVertexSource() != "" && shader->getFragmentSource() == "")
-							{
-								completeShader = std::shared_ptr<Shader>(new Shader(
-									shader->getVertexSource(),
-									BuiltInShaders::Fragment::dimension_3,
-									false,
-									false));
-							}
-							else
-							{
-								completeShader = shader;
-							}
-
-							this->shaderPrograms.emplace(
-								shaderID,
-								std::shared_ptr<ShaderProgram>(new ShaderProgram(completeShader)));
 						}
 
-						shaderProgram = this->shaderPrograms.at(shaderID);
+						if (alpha < cullAlphaThreshold || cullMode == RenderableComponent::CullMode::NONE)
+						{
+							glDisable(GL_CULL_FACE);
+							if (alpha < cullAlphaThreshold)
+								this->enableBlending();
+						}
+						else
+						{
+							glEnable(GL_CULL_FACE);
+							this->disableBlending();
+						}
+
+						std::shared_ptr<VertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
+						vertexArray->bind();
+
+						if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
+						{
+							std::shared_ptr<Material> material =
+								std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->material;
+
+							this->getTexture(material->albedo)->bind(Texture::Unit::_0);
+							this->getTexture(material->metallicity)->bind(Texture::Unit::_1);
+							this->getTexture(material->roughness)->bind(Texture::Unit::_2);
+							this->getTexture(material->emission)->bind(Texture::Unit::_3);
+							this->getTexture(material->normal)->bind(Texture::Unit::_4);
+						}
+						else
+						{
+							this->getTexture(entityRenderable.renderableComponent->getImage())->bind(Texture::Unit::_0);
+						}
+
+						std::shared_ptr<ShaderProgram> shaderProgram;
+
+						if (shader != nullptr)
+						{
+							AssetID shaderID = shader->getID();
+
+							if (!this->shaderPrograms.count(shaderID))
+							{
+								std::shared_ptr<Shader> completeShader;
+
+								if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
+								{
+									completeShader = std::shared_ptr<Shader>(new Shader(
+										BuiltInShaders::Vertex::dimension_3,
+										BuiltInShaders::Fragment::dimension_3,
+										false,
+										false));
+								}
+								else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
+								{
+									completeShader = std::shared_ptr<Shader>(new Shader(
+										BuiltInShaders::Vertex::dimension_3,
+										shader->getFragmentSource(),
+										false,
+										false));
+								}
+								else if (shader->getVertexSource() != "" && shader->getFragmentSource() == "")
+								{
+									completeShader = std::shared_ptr<Shader>(new Shader(
+										shader->getVertexSource(),
+										BuiltInShaders::Fragment::dimension_3,
+										false,
+										false));
+								}
+								else
+								{
+									completeShader = shader;
+								}
+
+								this->shaderPrograms.emplace(
+									shaderID,
+									std::shared_ptr<ShaderProgram>(new ShaderProgram(completeShader)));
+							}
+
+							shaderProgram = this->shaderPrograms.at(shaderID);
+						}
+						else if (!sceneTreeRenderable.is2D)
+						{
+							shaderProgram = this->builtInShaderProgram3D;
+						}
+						else
+						{
+							shaderProgram = this->builtInShaderProgram2D;
+						}
+
+						shaderProgram->use();
+
+						/* Custom uniforms. */
+						for (auto const& intUniformPair : shaderParameters->intUniforms)
+							shaderProgram->setInt(intUniformPair.first, intUniformPair.second);
+
+						for (auto const& boolUniformPair : shaderParameters->boolUniforms)
+							shaderProgram->setBool(boolUniformPair.first, boolUniformPair.second);
+
+						for (auto const& floatUniformPair : shaderParameters->floatUniforms)
+							shaderProgram->setFloat(floatUniformPair.first, floatUniformPair.second);
+
+						for (auto const& vec2UniformPair : shaderParameters->vec2Uniforms)
+							shaderProgram->setVec2(vec2UniformPair.first, vec2UniformPair.second);
+
+						for (auto const& vec3UniformPair : shaderParameters->vec3Uniforms)
+							shaderProgram->setVec3(vec3UniformPair.first, vec3UniformPair.second);
+
+						for (auto const& vec4UniformPair : shaderParameters->vec4Uniforms)
+							shaderProgram->setVec4(vec4UniformPair.first, vec4UniformPair.second);
+
+						for (auto const& mat4UniformPair : shaderParameters->mat4Uniforms)
+							shaderProgram->setMat4(mat4UniformPair.first, mat4UniformPair.second);
+
+						/* Standard uniforms */
+						shaderProgram->setMat4("mvp", mvp);
+						shaderProgram->setInt("albedoTextureSampler", 0);
+						shaderProgram->setInt("metallicityTextureSampler", 1);
+						shaderProgram->setInt("roughnessTextureSampler", 2);
+						shaderProgram->setInt("emissionTextureSampler", 3);
+						shaderProgram->setInt("normalTextureSampler", 4);
+						shaderProgram->setFloat("alpha", alpha);
+						shaderProgram->setVec4("lightColour", light->colour->getRGBAInVec4());
+						shaderProgram->setVec4("shadowColour", light->shadowColour->getRGBAInVec4());
+						shaderProgram->setFloat("lightIntensity", light->intensity);
+						shaderProgram->setFloat("lightAttenuation", light->attenuation);
+						shaderProgram->setFloat("lightRange", light->range);
+						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
+
+						//For 2D shaders
+						shaderProgram->setVec2("cameraViewport", sceneTreeRenderable.camera->getViewportinVec2());
+						shaderProgram->setVec3("cameraTranslation", sceneTreeRenderable.cameraTransform->translation);
+						shaderProgram->setVec3("cameraRotation", sceneTreeRenderable.cameraTransform->rotation);
+						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);
+						shaderProgram->setVec3("entityRotation", entityRenderable.entityTransform->rotation);
+
+						if (vertexArray->getIndexCount() > 0)
+							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
+						else
+							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
+
+						vertexArray->unbind();
 					}
-					else if (!sceneTreeRenderable.is2D)
-					{
-						shaderProgram = this->builtInShaderProgram3D;
-					}
-					else 
-					{
-						shaderProgram = this->builtInShaderProgram2D;
-					}
-
-					shaderProgram->use();
-
-					/* Standard uniforms */
-					shaderProgram->setMat4("mvp", mvp);
-					shaderProgram->setInt("albedoTextureSampler", 0);
-					shaderProgram->setInt("metallicityTextureSampler", 1);
-					shaderProgram->setInt("roughnessTextureSampler", 2);
-					shaderProgram->setInt("emissionTextureSampler", 3);
-					shaderProgram->setInt("normalTextureSampler", 4);
-					shaderProgram->setFloat("alpha", alpha);
-
-					shaderProgram->setVec2("cameraViewport", glm::vec2());
-					shaderProgram->setVec3("cameraPosition", glm::vec3());
-					shaderProgram->setVec3("cameraRotation", glm::vec3());
-
-					/* Custom uniforms. */
-					for (auto const& intUniformPair : entityRenderable.renderableComponent->intUniforms)
-						shaderProgram->setInt(intUniformPair.first, intUniformPair.second);
-
-					for (auto const& boolUniformPair : entityRenderable.renderableComponent->boolUniforms)
-						shaderProgram->setBool(boolUniformPair.first, boolUniformPair.second);
-
-					for (auto const& floatUniformPair : entityRenderable.renderableComponent->floatUniforms)
-						shaderProgram->setFloat(floatUniformPair.first, floatUniformPair.second);
-
-					for (auto const& vec2UniformPair : entityRenderable.renderableComponent->vec2Uniforms)
-						shaderProgram->setVec2(vec2UniformPair.first, vec2UniformPair.second);
-
-					for (auto const& vec3UniformPair : entityRenderable.renderableComponent->vec3Uniforms)
-						shaderProgram->setVec3(vec3UniformPair.first, vec3UniformPair.second);
-
-					for (auto const& vec4UniformPair : entityRenderable.renderableComponent->vec4Uniforms)
-						shaderProgram->setVec4(vec4UniformPair.first, vec4UniformPair.second);
-
-					for (auto const& mat4UniformPair : entityRenderable.renderableComponent->mat4Uniforms)
-						shaderProgram->setMat4(mat4UniformPair.first, mat4UniformPair.second);
-
-					if (vertexArray->getIndexCount() > 0)
-						glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
-					else
-						glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
-
-					vertexArray->unbind();
 				}
 			}
 		}

@@ -44,6 +44,7 @@ namespace Omnia
 		std::shared_ptr<Transform> entityTransform;
 		std::shared_ptr<RenderableComponent> renderableComponent;
 		std::shared_ptr<Shader> overridingShader;
+		std::shared_ptr<ShaderParameters> overridingShaderParameters;
 	private:
 	};
 }

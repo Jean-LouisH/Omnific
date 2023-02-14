@@ -107,6 +107,12 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 				sceneTreeRenderable.camera = camera;
 				sceneTreeRenderable.cameraTransform = cameraTransform;
 
+				for (std::shared_ptr<Light> light : sceneTree->getComponentsByType<Light>())
+				{
+					sceneTreeRenderable.lights.push_back(light);
+					sceneTreeRenderable.lightTransforms.push_back(sceneTree->getComponentByType<Transform>(light->getEntityID()));
+				}
+
 				for (int i = 0; i < renderOrderIndexCache.size(); i++)
 				{
 					EntityRenderable entityRenderable;
@@ -134,7 +140,10 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 						std::shared_ptr<Shader> overridingShader = renderableComponent->getOverridingShader();
 
 						if (overridingShader != nullptr)
+						{
 							entityRenderable.overridingShader = overridingShader;
+							entityRenderable.overridingShaderParameters = renderableComponent->shaderParameters;
+						}
 					}
 
 					sceneTreeRenderable.entityRenderables.push_back(entityRenderable);

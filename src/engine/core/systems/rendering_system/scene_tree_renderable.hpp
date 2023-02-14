@@ -40,6 +40,7 @@ namespace Omnia
 		std::shared_ptr<Camera> camera;
 		std::shared_ptr<Transform> cameraTransform;
 		std::vector<std::shared_ptr<Light>> lights;
+		std::vector<std::shared_ptr<Transform>> lightTransforms;
 		std::vector<EntityRenderable> entityRenderables;
 	private:
 	};
