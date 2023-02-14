@@ -109,3 +109,8 @@ uint32_t Omnia::Colour::getRGBA()
 {
 	return (uint32_t)((this->getRed() << 24) + (this->getGreen() << 16) + (this->getBlue() << 8) + (this->getAlpha() << 0));
 }
+
+glm::vec4 Omnia::Colour::getRGBAInVec4()
+{
+	return glm::vec4(this->red, this->green, this->blue, this->alpha);
+}

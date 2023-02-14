@@ -25,6 +25,7 @@
 #include <stdint.h>
 #include <string>
 #include <engine_api.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnia
 {
@@ -44,6 +45,7 @@ namespace Omnia
 		void setRGBA(uint32_t value);
 		uint32_t getRGB();
 		uint32_t getRGBA();
+		glm::vec4 getRGBAInVec4();
 	private:
 		float red = 1.0;
 		float green = 1.0;
