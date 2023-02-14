@@ -24,6 +24,12 @@ SceneTree:
   name: "Foreground SceneTree"
   spatial_dimension: 3
   Entity:
+    name: "GlobalShaderEntity"
+    Transform: default
+    RenderableComponent:
+      overriding_shader:
+        fragment: "games/pong/shaders/unlit_3d_fragment.glsl"
+  Entity:
     name: "Camera"
     Transform:
       translation: [0, 0, 30]
@@ -40,6 +46,7 @@ SceneTree:
       Python: ["games/pong/scripts/python/game_mechanics.py"]
   Entity:
     name: "Paddle1"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [-17, 0, 0]
       scale: [1, 5, 1]
@@ -61,6 +68,7 @@ SceneTree:
       Python: ["games/pong/scripts/python/player_score.py"]
   Entity:
     name: "Paddle2"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [17, 0, 0]
       scale: [1, 5, 1]
@@ -82,6 +90,7 @@ SceneTree:
       Python: ["games/pong/scripts/python/ai_score.py"]
   Entity:
     name: "Ball"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [0, 10, 0]
     Model:
@@ -96,6 +105,7 @@ SceneTree:
       camera_entity: "Camera"
   Entity:
     name: "UpperBoundary"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [0, 12, 0]
       scale: [50, 1, 1]
@@ -105,6 +115,7 @@ SceneTree:
       albedo: "Image::#FFFFFF"
   Entity:
     name: "LowerBoundary"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [0, -12, 0]
       scale: [50, 1, 1]
@@ -114,6 +125,7 @@ SceneTree:
       albedo: "Image::#FFFFFF"
   Entity:
     name: "LeftGoalPost"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [-22, 0, 0]
       scale: [1, 50, 1]
@@ -123,6 +135,7 @@ SceneTree:
       albedo: "Image::#FFFFFF"
   Entity:
     name: "RightGoalPost"
+    parent: "GlobalShaderEntity"
     Transform:
       translation: [22, 0, 0]
       scale: [1, 50, 1]
