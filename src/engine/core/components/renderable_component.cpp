@@ -23,6 +23,41 @@
 #include "renderable_component.hpp"
 #include <core/singletons/os/os.hpp>
 
+int& Omnia::ShaderParameters::getIntUniform(std::string uniformName)
+{
+	return this->intUniforms[uniformName];
+}
+
+bool& Omnia::ShaderParameters::getBoolUniform(std::string uniformName)
+{
+	return this->boolUniforms[uniformName];
+}
+
+float& Omnia::ShaderParameters::getFloatUniform(std::string uniformName)
+{
+	return this->floatUniforms[uniformName];
+}
+
+glm::vec2& Omnia::ShaderParameters::getVec2Uniform(std::string uniformName)
+{
+	return this->vec2Uniforms[uniformName];
+}
+
+glm::vec3& Omnia::ShaderParameters::getVec3Uniform(std::string uniformName)
+{
+	return this->vec3Uniforms[uniformName];
+}
+
+glm::vec4& Omnia::ShaderParameters::getVec4Uniform(std::string uniformName)
+{
+	return this->vec4Uniforms[uniformName];
+}
+
+glm::mat4& Omnia::ShaderParameters::getMat4Uniform(std::string uniformName)
+{
+	return this->mat4Uniforms[uniformName];
+}
+
 void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 {
 	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
@@ -176,41 +211,6 @@ std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getOverridingShader()
 	return this->overridingShader;
 }
 
-int& Omnia::RenderableComponent::getIntUniform(std::string uniformName)
-{
-	return this->intUniforms.at(uniformName);
-}
-
-bool& Omnia::RenderableComponent::getBoolUniform(std::string uniformName)
-{
-	return this->boolUniforms.at(uniformName);
-}
-
-float& Omnia::RenderableComponent::getFloatUniform(std::string uniformName)
-{
-	return this->floatUniforms.at(uniformName);
-}
-
-glm::vec2& Omnia::RenderableComponent::getVec2Uniform(std::string uniformName)
-{
-	return this->vec2Uniforms.at(uniformName);
-}
-
-glm::vec3& Omnia::RenderableComponent::getVec3Uniform(std::string uniformName)
-{
-	return this->vec3Uniforms.at(uniformName);
-}
-
-glm::vec4& Omnia::RenderableComponent::getVec4Uniform(std::string uniformName)
-{
-	return this->vec4Uniforms.at(uniformName);
-}
-
-glm::mat4& Omnia::RenderableComponent::getMat4Uniform(std::string uniformName)
-{
-	return this->mat4Uniforms.at(uniformName);
-}
-
 glm::vec3 Omnia::RenderableComponent::getDimensions()
 {
 	return this->dimensions;
@@ -223,5 +223,71 @@ bool Omnia::RenderableComponent::isRenderable()
 
 void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_ptr<Shader> shader)
 {
+	/* Parse GLSL shader sources for uniform declaration statements */
 
+	enum class ParseState
+	{
+		READING_KEYWORD,
+		READING_TYPE,
+		READING_UNIFORM_NAME
+	};
+
+	std::string keyword;
+	std::string type;
+	std::string uniformName;
+	ParseState state = ParseState::READING_KEYWORD;
+
+	std::string concatenatedSources = shader->getVertexSource() + shader->getFragmentSource();
+
+	for (int i = 0; i < concatenatedSources.size(); i++)
+	{
+		char c = concatenatedSources[i];
+
+		if (c == ' ')
+		{
+			if (state == ParseState::READING_KEYWORD && keyword == "uniform")
+				state = ParseState::READING_TYPE;
+			else if (state == ParseState::READING_TYPE)
+				state = ParseState::READING_UNIFORM_NAME;
+
+			keyword = "";
+		}
+		else if (c == ';')
+		{
+			if (type == "int")
+				this->shaderParameters->intUniforms.emplace(uniformName, 0);
+			if (type == "bool")
+				this->shaderParameters->boolUniforms.emplace(uniformName, false);
+			if (type == "float")
+				this->shaderParameters->floatUniforms.emplace(uniformName, 0.0);
+			if (type == "vec2")
+				this->shaderParameters->vec2Uniforms.emplace(uniformName, glm::vec2());
+			if (type == "vec3")
+				this->shaderParameters->vec3Uniforms.emplace(uniformName, glm::vec3());
+			if (type == "vec4")
+				this->shaderParameters->vec4Uniforms.emplace(uniformName, glm::vec4());
+			if (type == "mat4")
+				this->shaderParameters->mat4Uniforms.emplace(uniformName, glm::mat4());
+
+			keyword = "";
+			type = "";
+			uniformName = "";
+		}
+		else if (c == '\r' || c == '\n')
+		{
+			;
+		}
+		else if (state == ParseState::READING_KEYWORD)
+		{
+			keyword.push_back(c);
+		}
+		else if (state == ParseState::READING_TYPE)
+		{
+			type.push_back(c);
+		}
+		else if (state == ParseState::READING_UNIFORM_NAME)
+		{
+			uniformName.push_back(c);
+		}
+	}
 }

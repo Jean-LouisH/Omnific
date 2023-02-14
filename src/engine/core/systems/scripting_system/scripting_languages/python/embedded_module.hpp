@@ -222,12 +222,24 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::Text, Omnia::Asset, std::shared_ptr<Omnia::Text>>(m, Omnia::Text::TYPE_STRING);
 
 	/*Component classes*/
-	pybind11::class_<Omnia::Component, std::shared_ptr<Omnia::Component>>(m, "Component")
+	pybind11::class_<Omnia::Component, std::shared_ptr<Omnia::Component>>(m, Omnia::Component::TYPE_STRING)
 		.def("set_entity_id", &Omnia::Component::setEntityID)
 		.def("get_id", &Omnia::Component::getID)
 		.def("is_attached_to_entity", &Omnia::Component::isAttachedToEntity)
 		.def("get_type", &Omnia::Component::getType)
 		.def("is_renderable", &Omnia::Component::isRenderable);
+
+	pybind11::class_<Omnia::ShaderParameters, std::shared_ptr<Omnia::ShaderParameters>>(m, "ShaderParameters")
+		.def("get_int_uniform", &Omnia::ShaderParameters::getIntUniform)
+		.def("get_bool_uniform", &Omnia::ShaderParameters::getBoolUniform)
+		.def("get_float_uniform", &Omnia::ShaderParameters::getFloatUniform)
+		.def("get_vec2_uniform", &Omnia::ShaderParameters::getVec2Uniform)
+		.def("get_vec3_uniform", &Omnia::ShaderParameters::getVec3Uniform)
+		.def("get_vec4_uniform", &Omnia::ShaderParameters::getVec4Uniform)
+		.def("get_mat4_uniform", &Omnia::ShaderParameters::getMat4Uniform);
+
+	pybind11::class_<Omnia::RenderableComponent, Omnia::Component, std::shared_ptr<Omnia::RenderableComponent>>(m, Omnia::RenderableComponent::TYPE_STRING)
+		.def_readwrite("shader_parameters", &Omnia::RenderableComponent::shaderParameters);
 
 	pybind11::class_<Omnia::AudioListener, Omnia::Component, std::shared_ptr<Omnia::AudioListener>>(m, Omnia::AudioListener::TYPE_STRING);
 	pybind11::class_<Omnia::AudioSource, Omnia::Component, std::shared_ptr<Omnia::AudioSource>>(m, Omnia::AudioSource::TYPE_STRING);
@@ -249,12 +261,12 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("decelerate_y", &Omnia::PhysicsBody::decelerateY)
 		.def("decelerate_z", &Omnia::PhysicsBody::decelerateZ);
 	pybind11::class_<Omnia::Light, Omnia::Component, std::shared_ptr<Omnia::Light>>(m, Omnia::Light::TYPE_STRING);
-	pybind11::class_<Omnia::Model, Omnia::Component, std::shared_ptr<Omnia::Model>>(m, Omnia::Model::TYPE_STRING)
+	pybind11::class_<Omnia::Model, Omnia::RenderableComponent, std::shared_ptr<Omnia::Model>>(m, Omnia::Model::TYPE_STRING)
 		.def("set_to_cube", &Omnia::Model::setToCube)
 		.def("set_to_textured_cube", &Omnia::Model::setToTexturedCube);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component, std::shared_ptr<Omnia::PropertyAnimation>>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component, std::shared_ptr<Omnia::Collider>>(m, Omnia::Collider::TYPE_STRING);
-	pybind11::class_<Omnia::Sprite, Omnia::Component, std::shared_ptr<Omnia::Sprite>>(m, Omnia::Sprite::TYPE_STRING);
+	pybind11::class_<Omnia::Sprite, Omnia::RenderableComponent, std::shared_ptr<Omnia::Sprite>>(m, Omnia::Sprite::TYPE_STRING);
 	pybind11::class_<Omnia::Transform, Omnia::Component, std::shared_ptr<Omnia::Transform>>(m, Omnia::Transform::TYPE_STRING)
 		.def_readwrite("translation", &Omnia::Transform::translation)
 		.def_readwrite("rotation", &Omnia::Transform::rotation)
@@ -265,7 +277,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("rotate_x", &Omnia::Transform::rotateX)
 		.def("rotate_y", &Omnia::Transform::rotateY)
 		.def("rotate_z", &Omnia::Transform::rotateZ);
-	pybind11::class_<Omnia::GUI, Omnia::Component, std::shared_ptr<Omnia::GUI>>(m, Omnia::GUI::TYPE_STRING);
+	pybind11::class_<Omnia::GUI, Omnia::RenderableComponent, std::shared_ptr<Omnia::GUI>>(m, Omnia::GUI::TYPE_STRING);
 	pybind11::class_<Omnia::Viewport, Omnia::Component, std::shared_ptr<Omnia::Viewport>>(m, Omnia::Viewport::TYPE_STRING);
 
 	/*Utility classes*/

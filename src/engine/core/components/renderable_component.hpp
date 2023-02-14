@@ -31,6 +31,27 @@
 
 namespace Omnia
 {
+	class OMNIA_ENGINE_API ShaderParameters
+	{
+	public:
+		int& getIntUniform(std::string);
+		bool& getBoolUniform(std::string);
+		float& getFloatUniform(std::string);
+		glm::vec2& getVec2Uniform(std::string);
+		glm::vec3& getVec3Uniform(std::string);
+		glm::vec4& getVec4Uniform(std::string);
+		glm::mat4& getMat4Uniform(std::string);
+
+		std::unordered_map<std::string, int> intUniforms;
+		std::unordered_map<std::string, bool> boolUniforms;
+		std::unordered_map<std::string, float> floatUniforms;
+		std::unordered_map<std::string, glm::vec2> vec2Uniforms;
+		std::unordered_map<std::string, glm::vec3> vec3Uniforms;
+		std::unordered_map<std::string, glm::vec4> vec4Uniforms;
+		std::unordered_map<std::string, glm::mat4> mat4Uniforms;
+	private:
+
+	};
 
 	class OMNIA_ENGINE_API RenderableComponent : public Component
 	{
@@ -46,6 +67,7 @@ namespace Omnia
 		RenderableComponent()
 		{
 			this->type = TYPE_STRING;
+			this->shaderParameters = std::shared_ptr<ShaderParameters>(new ShaderParameters());
 		};
 		static constexpr const char* TYPE_STRING = "RenderableComponent";
 
@@ -78,24 +100,10 @@ namespace Omnia
 		std::shared_ptr<Image> getImage();
 		std::shared_ptr<Shader> getShader();
 		std::shared_ptr<Shader> getOverridingShader();
-		int& getIntUniform(std::string);
-		bool& getBoolUniform(std::string);
-		float& getFloatUniform(std::string);
-		glm::vec2& getVec2Uniform(std::string);
-		glm::vec3& getVec3Uniform(std::string);
-		glm::vec4& getVec4Uniform(std::string);
-		glm::mat4& getMat4Uniform(std::string);
-		glm::vec3 getDimensions();
 		bool isRenderable() override;
+		glm::vec3 getDimensions();
 
-		std::unordered_map<std::string, int> intUniforms;
-		std::unordered_map<std::string, bool> boolUniforms;
-		std::unordered_map<std::string, float> floatUniforms;
-		std::unordered_map<std::string, glm::vec2> vec2Uniforms;
-		std::unordered_map<std::string, glm::vec3> vec3Uniforms;
-		std::unordered_map<std::string, glm::vec4> vec4Uniforms;
-		std::unordered_map<std::string, glm::mat4> mat4Uniforms;
-
+		std::shared_ptr<ShaderParameters> shaderParameters;
 	protected:
 		glm::vec3 dimensions;
 		uint8_t alpha = 255;
