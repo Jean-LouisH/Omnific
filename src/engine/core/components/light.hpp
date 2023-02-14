@@ -23,6 +23,7 @@
 #pragma once
 
 #include "core/component.hpp"
+#include <core/utilities/colour.hpp>
 
 namespace Omnia
 {
@@ -39,10 +40,19 @@ namespace Omnia
 		Light()
 		{
 			this->type = TYPE_STRING;
+			this->colour = std::shared_ptr<Colour>(new Colour(1.0, 1.0, 1.0, 1.0));
+			this->shadowColour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
 		};
 		static constexpr const char* TYPE_STRING = "Light";
 
-		LightMode mode;
+		LightMode mode = LightMode::DIRECTIONAL;
+		std::shared_ptr<Colour> colour;
+		std::shared_ptr<Colour> shadowColour;
+		float intensity = 1.0;
+		float attenuation = 0.0;
+		float range = 0.0;
+		float angle = 45.0;
+		bool isShadowEnabled = false;
 
 		virtual Registerable* instance() override
 		{
