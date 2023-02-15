@@ -272,6 +272,8 @@ void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_pt
 			keyword = "";
 			type = "";
 			uniformName = "";
+
+			state = ParseState::READING_KEYWORD;
 		}
 		else if (c == '\r' || c == '\n')
 		{
