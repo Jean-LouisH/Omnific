@@ -25,4 +25,54 @@
 void Omnia::Light::deserialize(YAML::Node yamlNode)
 {
 
+	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	{
+		std::string value = it3->first.as<std::string>();
+
+		if (value == "light_mode")
+		{
+			std::string lightModeValue = it3->second.as<std::string>();
+
+			if (lightModeValue == "directional")
+			{
+				this->mode = LightMode::DIRECTIONAL;
+			}
+			else if (lightModeValue == "omnidirectional")
+			{
+				this->mode = LightMode::OMNIDIRECTIONAL;
+			}
+			else if (lightModeValue == "spot")
+			{
+				this->mode = LightMode::SPOT;
+			}
+		}
+		else if (value == "colour")
+		{
+			this->colour = std::shared_ptr<Colour>(new Colour(it3->second.as<std::string>()));
+		}
+		else if (value == "shadow_colour")
+		{
+			this->shadowColour = std::shared_ptr<Colour>(new Colour(it3->second.as<std::string>()));
+		}
+		else if (value == "intensity")
+		{
+			this->intensity = it3->second.as<float>();
+		}
+		else if (value == "attenuation")
+		{
+			this->attenuation = it3->second.as<float>();
+		}
+		else if (value == "range")
+		{
+			this->range = it3->second.as<float>();
+		}
+		else if (value == "angle")
+		{
+			this->angle = it3->second.as<float>();
+		}
+		else if (value == "is_shadow_enabled")
+		{
+			this->isShadowEnabled = it3->second.as<bool>();
+		}
+	}
 }
