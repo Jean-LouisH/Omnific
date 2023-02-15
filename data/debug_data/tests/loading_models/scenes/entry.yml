@@ -16,7 +16,7 @@ SceneTree:
   Entity:
     name: "Viewport"
     Viewport:
-      camera_entity: "Camera"	
+      camera_entity: "Camera"
 SceneTree:
   name: "foreground"
   spatial_dimension: 3
@@ -29,15 +29,18 @@ SceneTree:
     ScriptCollection:
       Python: ["tests/loading_models/scripts/python/camera_control.py"]
   Entity:
+    name: "LightSource"
+    Transform: default
+    Light: default
+  Entity:
     name: "Model"
     Transform:
       translation: [0, 0, 0]
     ScriptCollection:
-      Python: ["tests/loading_models/scripts/python/constantly_rotate.py"]
-    #RenderableComponent:
-    #  overriding_shader: 
-    #    vertex: "tests/loading_models/shaders/vertex.glsl"
-    #    fragment: "tests/loading_models/shaders/fragment.glsl"
+      Python: ["tests/loading_models/scripts/python/constantly_rotate.py", "tests/loading_models/scripts/python/shader_parameter_control.py"]
+    RenderableComponent:
+      overriding_shader:
+        fragment: "tests/loading_models/shaders/phong_fragment.glsl"
   SubSceneTree:
     name: ["tests/loading_models/models/rainbow_cylinder.glb", ""]
     parent: "Model"
