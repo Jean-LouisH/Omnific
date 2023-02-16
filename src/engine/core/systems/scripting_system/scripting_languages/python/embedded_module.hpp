@@ -230,13 +230,13 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("is_renderable", &Omnia::Component::isRenderable);
 
 	pybind11::class_<Omnia::ShaderParameters, std::shared_ptr<Omnia::ShaderParameters>>(m, "ShaderParameters")
-		.def_readwrite("int_uniforms", &Omnia::ShaderParameters::intUniforms)
-		.def_readwrite("bool_uniforms", &Omnia::ShaderParameters::boolUniforms)
-		.def_readwrite("float_uniforms", &Omnia::ShaderParameters::floatUniforms)
-		.def_readwrite("vec2_uniforms", &Omnia::ShaderParameters::vec2Uniforms)
-		.def_readwrite("vec3_uniforms", &Omnia::ShaderParameters::vec3Uniforms)
-		.def_readwrite("vec4_uniforms", &Omnia::ShaderParameters::vec4Uniforms)
-		.def_readwrite("mat4_uniforms", &Omnia::ShaderParameters::mat4Uniforms);
+		.def("set_int_uniform", &Omnia::ShaderParameters::setIntUniform)
+		.def("set_bool_uniform", &Omnia::ShaderParameters::setBoolUniform)
+		.def("set_float_uniform", &Omnia::ShaderParameters::setFloatUniform)
+		.def("set_vec2_uniform", &Omnia::ShaderParameters::setVec2Uniform)
+		.def("set_vec3_uniform", &Omnia::ShaderParameters::setVec3Uniform)
+		.def("set_vec4_uniform", &Omnia::ShaderParameters::setVec4Uniform)
+		.def("set_mat4_uniform", &Omnia::ShaderParameters::setMat4Uniform);
 
 	pybind11::class_<Omnia::RenderableComponent, Omnia::Component, std::shared_ptr<Omnia::RenderableComponent>>(m, Omnia::RenderableComponent::TYPE_STRING)
 		.def_readwrite("shader_parameters", &Omnia::RenderableComponent::shaderParameters);

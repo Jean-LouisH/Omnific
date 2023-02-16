@@ -34,13 +34,13 @@ namespace Omnia
 	class OMNIA_ENGINE_API ShaderParameters
 	{
 	public:
-		int& getIntUniform(std::string);
-		bool& getBoolUniform(std::string);
-		float& getFloatUniform(std::string);
-		glm::vec2& getVec2Uniform(std::string);
-		glm::vec3& getVec3Uniform(std::string);
-		glm::vec4& getVec4Uniform(std::string);
-		glm::mat4& getMat4Uniform(std::string);
+		void setIntUniform(std::string uniformName, int value);
+		void setBoolUniform(std::string uniformName, bool value);
+		void setFloatUniform(std::string uniformName, float value);
+		void setVec2Uniform(std::string uniformName, glm::vec2 value);
+		void setVec3Uniform(std::string uniformName, glm::vec3 value);
+		void setVec4Uniform(std::string uniformName, glm::vec4 value);
+		void setMat4Uniform(std::string uniformName, glm::mat4 value);
 
 		std::unordered_map<std::string, int> intUniforms;
 		std::unordered_map<std::string, bool> boolUniforms;

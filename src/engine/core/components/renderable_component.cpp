@@ -23,39 +23,39 @@
 #include "renderable_component.hpp"
 #include <core/singletons/os/os.hpp>
 
-int& Omnia::ShaderParameters::getIntUniform(std::string uniformName)
+void Omnia::ShaderParameters::setIntUniform(std::string uniformName, int value)
 {
-	return this->intUniforms[uniformName];
+	this->intUniforms[uniformName] = value;
 }
 
-bool& Omnia::ShaderParameters::getBoolUniform(std::string uniformName)
+void Omnia::ShaderParameters::setBoolUniform(std::string uniformName, bool value)
 {
-	return this->boolUniforms[uniformName];
+	this->boolUniforms[uniformName] = value;
 }
 
-float& Omnia::ShaderParameters::getFloatUniform(std::string uniformName)
+void Omnia::ShaderParameters::setFloatUniform(std::string uniformName, float value)
 {
-	return this->floatUniforms[uniformName];
+	this->floatUniforms[uniformName] = value;
 }
 
-glm::vec2& Omnia::ShaderParameters::getVec2Uniform(std::string uniformName)
+void Omnia::ShaderParameters::setVec2Uniform(std::string uniformName, glm::vec2 value)
 {
-	return this->vec2Uniforms[uniformName];
+	this->vec2Uniforms[uniformName] = value;
 }
 
-glm::vec3& Omnia::ShaderParameters::getVec3Uniform(std::string uniformName)
+void Omnia::ShaderParameters::setVec3Uniform(std::string uniformName, glm::vec3 value)
 {
-	return this->vec3Uniforms[uniformName];
+	this->vec3Uniforms[uniformName] = value;
 }
 
-glm::vec4& Omnia::ShaderParameters::getVec4Uniform(std::string uniformName)
+void Omnia::ShaderParameters::setVec4Uniform(std::string uniformName, glm::vec4 value)
 {
-	return this->vec4Uniforms[uniformName];
+	this->vec4Uniforms[uniformName] = value;
 }
 
-glm::mat4& Omnia::ShaderParameters::getMat4Uniform(std::string uniformName)
+void Omnia::ShaderParameters::setMat4Uniform(std::string uniformName, glm::mat4 value)
 {
-	return this->mat4Uniforms[uniformName];
+	this->mat4Uniforms[uniformName] = value;
 }
 
 void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
