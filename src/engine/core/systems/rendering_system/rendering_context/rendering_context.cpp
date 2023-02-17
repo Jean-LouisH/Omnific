@@ -148,7 +148,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 				std::vector<std::shared_ptr<Light>> activeLights;
 				std::vector<std::shared_ptr<Transform>> activeLightTransforms;
 
-				if (activeLights.size() > 0)
+				if (sceneTreeRenderable.lights.size() > 0)
 				{
 					activeLights = sceneTreeRenderable.lights;
 					activeLightTransforms = sceneTreeRenderable.lightTransforms;
@@ -307,6 +307,8 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 
 						/* Standard uniforms */
 						shaderProgram->setMat4("mvp", mvp);
+						shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
+						shaderProgram->setMat4("worldToModelMatrix", glm::inverse(modelToWorldMatrix));
 						shaderProgram->setInt("albedoTextureSampler", 0);
 						shaderProgram->setInt("metallicityTextureSampler", 1);
 						shaderProgram->setInt("roughnessTextureSampler", 2);
@@ -319,8 +321,8 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 						shaderProgram->setFloat("lightAttenuation", light->attenuation);
 						shaderProgram->setFloat("lightRange", light->range);
 						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
-
-						//For 2D shaders
+						shaderProgram->setVec3("lightTranslation", lightTransform->translation);
+						shaderProgram->setVec3("lightRotation", lightTransform->rotation);
 						shaderProgram->setVec2("cameraViewport", sceneTreeRenderable.camera->getViewportinVec2());
 						shaderProgram->setVec3("cameraTranslation", sceneTreeRenderable.cameraTransform->translation);
 						shaderProgram->setVec3("cameraRotation", sceneTreeRenderable.cameraTransform->rotation);
