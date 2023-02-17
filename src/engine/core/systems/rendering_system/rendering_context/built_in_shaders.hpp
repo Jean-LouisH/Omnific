@@ -30,8 +30,9 @@ namespace Omnia
 		{
 			const char dimension_2[] = R"(
 				#version 330 core
-				layout (location = 0) in vec2 modelVertexTranslation;
+				layout (location = 0) in vec3 modelVertexTranslation;
 				layout (location = 2) in vec2 modelVertexUV;
+				out vec3 translation;
 				out vec2 uv;
 				uniform vec2 cameraViewport;
 				uniform vec2 cameraPosition;
@@ -55,14 +56,29 @@ namespace Omnia
 			const char dimension_3[] = R"(
 				#version 330 core
 				layout (location = 0) in vec3 modelVertexTranslation;
+				layout (location = 1) in vec3 modelNormal;
 				layout (location = 2) in vec2 modelVertexUV;
+				layout (location = 3) in vec3 modelTangent;
+				layout (location = 4) in vec3 modelBitangent;
+				out vec3 translation;
+				out vec3 normal;
 				out vec2 uv;
+				out vec3 tangent;
+				out vec3 bitangent;
+				out vec3 fragmentTranslation;
 				uniform mat4 mvp;
+				uniform mat4 modelToWorldMatrix;
+				uniform mat4 worldToModelMatrix;
 
 				void main()
 				{
-					uv = vec2(modelVertexUV.x, modelVertexUV.y);
-					gl_Position = mvp *	vec4(modelVertexTranslation, 1.0);
+					translation = modelVertexTranslation;
+					normal = mat3(transpose(worldToModelMatrix)) * modelNormal;
+					uv = modelVertexUV;
+					tangent = modelTangent;
+					bitangent = modelBitangent;
+					fragmentTranslation = vec3(modelToWorldMatrix * vec4(translation, 1.0));
+					gl_Position = mvp *	vec4(translation, 1.0);
 				}	
 			)";
 		}
