@@ -22,7 +22,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![omnia_project](docs/images/omnia_project.png)
 
-- OpenGL 3.3 Rendering Context with GLSL, Scenes of multiple SceneTree layers (2D and 3D) via depth buffer refresh
+- OpenGL Rendering Context with GLSL, Scenes of multiple SceneTree layers (2D and 3D) via depth buffer refresh
 
 ![scene_tree_layers](docs/images/scene_tree_layers.gif)
 
@@ -36,7 +36,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 - Python VM scripting via pybind11 with game loop calls to Python and Engine API calls from Python. Imports, including pip installed packages are supported.
 
-![pong_ai_control](docs/images/pong_ai_control_python.png)
+![pong_ai_control](docs/images/pong_game_mechanics_python.png)
 
 - C++ scripting via native shared library builds
 

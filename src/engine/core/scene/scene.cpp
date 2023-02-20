@@ -496,6 +496,10 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 					}
 
 				}
+				else
+				{
+					material->albedo = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+				}
 				
 				if (gltfNode.translation.size() == 3)
 				{

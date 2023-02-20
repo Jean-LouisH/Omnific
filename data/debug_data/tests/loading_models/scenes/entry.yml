@@ -50,7 +50,7 @@ SceneTree:
       overriding_shader:
         fragment: "tests/loading_models/shaders/phong_fragment.glsl"
   SubSceneTree:
-    name: ["tests/loading_models/models/random_objects.glb", ""]
+    name: ["tests/loading_models/models/suzanne.glb", ""]
     parent: "Model"
   Entity:
     name: "Viewport"
