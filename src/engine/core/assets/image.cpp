@@ -60,7 +60,6 @@ Omnia::Image::Image(std::shared_ptr<Colour> colour)
 
 Omnia::Image::Image(uint8_t* data, int width, int height, int colourChannels)
 {
-	stbi_set_flip_vertically_on_load(1);
 	this->type = TYPE_STRING;
 	this->setToParameters(colourChannels, width, height, data);
 }
@@ -218,7 +217,7 @@ void Omnia::Image::setToParameters(int colourChannels, int width, int height, ui
 			uint32_t fillColour = 0;
 			for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
 				fillColour |= data[(y * this->width * this->colourChannels) + (x * this->colourChannels) + colourChannel] <<
-								(colourChannelByteLength * colourChannel);
+								(colourChannelByteLength * (colourChannels - 1 - colourChannel));
 
 			this->colourPixel(fillColour, x, y);
 		}

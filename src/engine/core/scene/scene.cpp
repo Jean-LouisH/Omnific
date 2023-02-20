@@ -377,6 +377,8 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 						int height = 0;
 						int colourChannels = 0;
 
+						stbi_set_flip_vertically_on_load(0);
+
 						uint8_t* imageData = stbi_load_from_memory(
 							imageFileBytes.data(),
 							imageFileBytes.size(),
