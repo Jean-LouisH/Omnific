@@ -53,11 +53,12 @@
 
 #include <core/systems/animation_system/animation_system.hpp>
 #include <core/systems/audio_system/audio_system.hpp>
+#include <core/systems/cpp_scripting_system/cpp_scripting_system.hpp>
 #include <core/systems/gui_system/gui_system.hpp>
 #include <core/systems/haptic_system/haptic_system.hpp>
 #include <core/systems/physics_system/physics_system.hpp>
+#include <core/systems/python_scripting_system/python_scripting_system.hpp>
 #include <core/systems/rendering_system/rendering_system.hpp>
-#include <core/systems/scripting_system/scripting_system.hpp>
 
 /////////////////////////////////////////////////////
 
@@ -102,10 +103,11 @@ namespace Omnia
 
 			registry->add<AnimationSystem, System>();
 			registry->add<AudioSystem, System>();
+			registry->add<CPPScriptingSystem, System>();
 			registry->add<GUISystem, System>();
 			registry->add<HapticSystem, System>();
 			registry->add<PhysicsSystem, System>();
-			registry->add<ScriptingSystem, System>();
+			registry->add<PythonScriptingSystem, System>();
 			registry->add<RenderingSystem, System>();
 
 			////////////////////////////////////////////

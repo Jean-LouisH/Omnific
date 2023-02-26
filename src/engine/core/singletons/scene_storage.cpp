@@ -164,8 +164,13 @@ bool Omnia::SceneStorage::hasActiveSceneChanged()
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 	bool result = sceneStorage->activeSceneChanged;
-	sceneStorage->activeSceneChanged = false;
 	return result;
+}
+
+void Omnia::SceneStorage::finalizeUpdate()
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	sceneStorage->activeSceneChanged = false;
 }
 
 void Omnia::SceneStorage::clearScenes()

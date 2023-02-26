@@ -47,6 +47,7 @@ namespace Omnia
 		static bool hasScene(std::string sceneName);
 		static bool hasActiveSceneChanged();
 		static void clearScenes();
+		static void finalizeUpdate();
 		static std::shared_ptr<Scene> getSceneByName(std::string sceneName);
 		static SceneStorage* getInstance();
 	private:

@@ -100,8 +100,14 @@ namespace Omnia
 
 			const char dimension_3[] = R"(
 				#version 330 core
+				in vec3 translation;
 				in vec2 uv;
+				in vec3 normal;
+				in vec3 fragmentTranslation;
 				out vec4 colour;
+				uniform vec4 lightColour;
+				uniform vec3 lightTranslation;
+				uniform vec3 cameraTranslation;
 				uniform float alpha;
 				uniform sampler2D albedoTextureSampler;
 				uniform sampler2D metallicityTextureSampler;

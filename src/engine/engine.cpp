@@ -245,6 +245,9 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		for (auto updateSystem : this->updateSystems)
 			updateSystem.second->onStart(activeScene);
 
+		for (auto it : activeScene->getSceneTrees())
+			it.second->clearStartEntityQueue();
+
 		for (auto updateSystem : this->updateSystems)
 			updateSystem.second->onEarly(activeScene);
 
@@ -270,7 +273,12 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 			updateSystem.second->onFinish(activeScene);
 
 		for (auto it : activeScene->getSceneTrees())
+			it.second->clearFinishEntityQueue();
+
+		for (auto it : activeScene->getSceneTrees())
 			it.second->getEventBus()->clear();
+
+		SceneStorage::finalizeUpdate();
 
 		profiler.incrementLagCount(updateFrameTimer->getDelta());
 		updateProcessTimer->setEnd();

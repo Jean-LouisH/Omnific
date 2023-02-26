@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <core/systems/scripting_system/scripting_languages/cpp/cpp_script_instance.hpp>
+#include <core/systems/cpp_scripting_system/cpp_script_instance.hpp>
 #include <unordered_map>
 #include <memory>
 

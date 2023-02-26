@@ -22,10 +22,6 @@
 
 #pragma once
 
-#include "core/systems/scripting_system/constants.hpp"
-
-#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
-
 #include <core/assets/audio_stream.hpp>
 #include <core/assets/font.hpp>
 #include <core/assets/image.hpp>
@@ -348,5 +344,3 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
 	m.def("get_args", &Omnia::OS::getArgs);
 }
-
-#endif

@@ -22,51 +22,61 @@
 
 #pragma once
 
-#include "core/systems/scripting_system/constants.hpp"
-
-#if ENABLE_NON_NATIVE_SCRIPTING_LANGUAGE
-
 #define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
+
+#include "core/scene/scene.hpp"
+#include <core/singletons/scene_storage.hpp>
+#include "core/utilities/aliases.hpp"
+#include "core/system.hpp"
+#include <core/components/script_collection.hpp>
+#include <memory>
+#include <vector>
 
 #include <unordered_map>
 #include "pybind11/pybind11.h"
 #include "pybind11/embed.h"
 #include "python_script_instance.hpp"
-#include <core/scene/scene.hpp>
-#include "core/systems/scripting_system/scripting_languages/scripting_language.hpp"
-#include <memory>
-
-#include <core/components/script_collection.hpp>
 
 namespace Omnia
 {
-	class Python : public ScriptingLanguage
+	class PythonScriptingSystem : public System
 	{
 	public:
-		static constexpr const char* TYPE_STRING = "Python";
+		PythonScriptingSystem()
+		{
+			this->type = TYPE_STRING;
+			this->threadType = ThreadType::UPDATE;
+		};
 
-		Python();
+		static constexpr const char* TYPE_STRING = "PythonScriptingSystem";
+
+		virtual Registerable* instance() override
+		{
+			return new PythonScriptingSystem(*this);
+		}
+
 		virtual void initialize() override;
-		void executeCommand(std::string command);
-		virtual void loadScriptInstances() override;
-		virtual void onStart() override;
-		virtual void onInput() override;
-		virtual void onEarly() override;
-		virtual void onLogic() override;
-		virtual void onCompute() override;
-		virtual void onLate() override;
-		virtual void onFinish() override;
 		virtual void finalize() override;
+		virtual void onStart(std::shared_ptr<Scene> scene) override;
+		virtual void onInput(std::shared_ptr<Scene> scene) override;
+		virtual void onEarly(std::shared_ptr<Scene> scene) override;
+		virtual void onLogic(std::shared_ptr<Scene> scene) override;
+		virtual void onCompute(std::shared_ptr<Scene> scene) override;
+		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void onFinish(std::shared_ptr<Scene> scene) override;
+
+		void executeCommand(std::string command);
+		void loadScriptModules(std::shared_ptr<Scene> scene);
 	private:
 		bool isVMStarted = false;
 		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;
 
 		void executeQueuedMethods(
-			std::queue<EntityID> entityQueue, 
-			std::shared_ptr<SceneTree> sceneTree, 
+			std::queue<EntityID> entityQueue,
+			std::shared_ptr<SceneTree> sceneTree,
 			const char* methodName);
 		void executeUpdateMethods(
-			std::shared_ptr<SceneTree> sceneTree, 
+			std::shared_ptr<SceneTree> sceneTree,
 			const char* methodName);
 		void bindAndCall(std::shared_ptr<ScriptCollection> scriptCollection,
 			SceneTreeID sceneTreeID,
@@ -75,4 +85,3 @@ namespace Omnia
 	};
 }
 
-#endif

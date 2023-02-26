@@ -22,29 +22,53 @@
 
 #pragma once
 
-#include <customization/class_registry/registerable.hpp>
+#include "core/scene/scene.hpp"
+#include <core/singletons/scene_storage.hpp>
+#include "core/utilities/aliases.hpp"
+#include "core/system.hpp"
+#include <memory>
+#include <vector>
+
 
 namespace Omnia
 {
-	class ScriptingLanguage : public Registerable
+	class CPPScriptingSystem : public System
 	{
 	public:
-		static constexpr const char* TYPE_STRING = "ScriptingLanguage";
-		ScriptingLanguage()
+		CPPScriptingSystem()
 		{
 			this->type = TYPE_STRING;
+			this->threadType = ThreadType::UPDATE;
 		};
-		virtual void initialize();
-		virtual void loadScriptInstances();
-		virtual void onStart();
-		virtual void onInput();
-		virtual void onEarly();
-		virtual void onLogic();
-		virtual void onCompute();
-		virtual void onLate();
-		virtual void onFinish();
-		virtual void finalize();
+
+		~CPPScriptingSystem()
+		{
+			this->finalize();
+		}
+
+		static constexpr const char* TYPE_STRING = "CPPScriptingSystem";
+
+		virtual Registerable* instance() override
+		{
+			return new CPPScriptingSystem(*this);
+		}
+
+		virtual void initialize() override;
+		virtual void finalize() override;
+		virtual void onStart(std::shared_ptr<Scene> scene) override;
+		virtual void onInput(std::shared_ptr<Scene> scene) override;
+		virtual void onEarly(std::shared_ptr<Scene> scene) override;
+		virtual void onLogic(std::shared_ptr<Scene> scene) override;
+		virtual void onCompute(std::shared_ptr<Scene> scene) override;
+		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void onFinish(std::shared_ptr<Scene> scene) override;
+
+		void loadScriptModules(std::shared_ptr<Scene> scene);
 	private:
+		void* dynamicLibraryHandle = nullptr;
+		std::string nativeAssemblyFilename = "omnia_cpp_script_assembly";
+
+		void execute(std::string methodName);
 	};
 }
 

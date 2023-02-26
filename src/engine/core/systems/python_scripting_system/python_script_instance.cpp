@@ -20,54 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scripting_language.hpp"
+#include "python_script_instance.hpp"
 
-void Omnia::ScriptingLanguage::initialize()
+void Omnia::PythonScriptInstance::setData(pybind11::object newObject)
 {
-
+	this->data = newObject;
 }
 
-void Omnia::ScriptingLanguage::loadScriptInstances()
+void Omnia::PythonScriptInstance::setCallable(std::string methodName)
 {
-
+	this->callableMethods.emplace(methodName);
 }
 
-void Omnia::ScriptingLanguage::onStart()
+pybind11::object Omnia::PythonScriptInstance::test(std::string methodName)
 {
-
+	return this->data.attr(methodName.c_str());
 }
 
-void Omnia::ScriptingLanguage::onInput()
+void Omnia::PythonScriptInstance::call(std::string methodName)
 {
-
+	this->test(methodName)();
 }
 
-void Omnia::ScriptingLanguage::onEarly()
+bool Omnia::PythonScriptInstance::hasCallable(std::string methodName)
 {
-
-}
-
-void Omnia::ScriptingLanguage::onLogic()
-{
-
-}
-
-void Omnia::ScriptingLanguage::onCompute()
-{
-
-}
-
-void Omnia::ScriptingLanguage::onLate()
-{
-
-}
-
-void Omnia::ScriptingLanguage::onFinish()
-{
-
-}
-
-void Omnia::ScriptingLanguage::finalize()
-{
-
+	return this->callableMethods.count(methodName) > 0;
 }
