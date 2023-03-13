@@ -57,6 +57,25 @@ void Omnia::Transform::rotateZ(float angle)
 	this->rotation.z += angle;
 }
 
+float Omnia::Transform::calculateDistanceFrom(glm::vec3 position)
+{
+	return sqrt(
+		pow(position.x - this->translation.x, 2) + 
+		pow(position.y - this->translation.y, 2) + 
+		pow(position.z - this->translation.z, 2)
+	);
+}
+
+float Omnia::Transform::calculateAzimuthFrom(glm::vec3 position)
+{
+	return atan2(position.y - this->translation.y, position.z - this->translation.z);
+}
+
+float Omnia::Transform::calculateElevationFrom(glm::vec3 position)
+{
+	return atan2(position.x - this->translation.x, position.z - this->translation.z);
+}
+
 std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
 {
 	std::shared_ptr<Transform> globalTransform(new Transform());

@@ -60,6 +60,9 @@ namespace Omnia
 		void rotateX(float angle);
 		void rotateY(float angle);
 		void rotateZ(float angle);
+		float calculateDistanceFrom(glm::vec3 position);
+		float calculateAzimuthFrom(glm::vec3 position);
+		float calculateElevationFrom(glm::vec3 position);
 		std::shared_ptr<Transform> getGlobalTransform();
 		glm::mat4 getTransformMatrix();
 	private:
