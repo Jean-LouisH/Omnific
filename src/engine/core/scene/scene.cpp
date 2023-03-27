@@ -329,18 +329,16 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 	}
 	else
 	{
-		for (size_t i = 0; i < gltfData.scenes.size(); i++)
+		std::shared_ptr<Entity> gltfSceneRootEntity(new Entity());
+		sceneTree->addEntity(gltfSceneRootEntity);
+
+		for (size_t i = 0; i < gltfData.nodes.size(); i++)
 		{
-			tinygltf::Scene gltfScene = gltfData.scenes[i];
-			std::shared_ptr<Entity> gltfSceneRootEntity(new Entity());
-			sceneTree->addEntity(gltfSceneRootEntity);
+			tinygltf::Node gltfNode = gltfData.nodes[i];
+			int meshIndex = gltfNode.mesh;
 
-			for (size_t j = 0; j < gltfScene.nodes.size(); j++)
+			if (meshIndex != -1)
 			{
-				int nodeIndex = gltfScene.nodes[j];
-				tinygltf::Node gltfNode = gltfData.nodes[nodeIndex];
-				int meshIndex = gltfNode.mesh;
-
 				// GLTF data
 				std::vector<float> positions = this->readGLTFPrimitiveAttribute(gltfData, "POSITION", meshIndex);
 				std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(gltfData, "TEXCOORD_0", meshIndex);
@@ -453,8 +451,8 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 						std::vector<uint8_t> imageData = this->readGLTFBuffer(buffer, bufferView);
 
 						material->normal = std::shared_ptr<Image>(new Image(
-							imageData.data(), 
-							gltfImage.width, 
+							imageData.data(),
+							gltfImage.width,
 							gltfImage.height,
 							gltfImage.component));
 					}
@@ -500,12 +498,12 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				{
 					material->albedo = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
 				}
-				
+
 				if (gltfNode.translation.size() == 3)
 				{
-					transform->translation = { 
-						gltfNode.translation[0], 
-						gltfNode.translation[1], 
+					transform->translation = {
+						gltfNode.translation[0],
+						gltfNode.translation[1],
 						gltfNode.translation[2] };
 				}
 
