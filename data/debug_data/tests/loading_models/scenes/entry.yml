@@ -1,4 +1,4 @@
-SceneTree:
+SceneLayer:
   name: "background"
   spatial_dimension: 3
   Entity:
@@ -17,7 +17,7 @@ SceneTree:
     name: "Viewport"
     Viewport:
       camera_entity: "Camera"
-SceneTree:
+SceneLayer:
   name: "foreground"
   spatial_dimension: 3
   Entity:
@@ -49,14 +49,14 @@ SceneTree:
     RenderableComponent:
       overriding_shader:
         fragment: "tests/loading_models/shaders/phong_fragment.glsl"
-  SubSceneTree:
+  SubSceneLayer:
     name: ["tests/loading_models/models/suzanne.glb", ""]
     parent: "Model"
   Entity:
     name: "Viewport"
     Viewport:
       camera_entity: "Camera"
-SceneTree:
+SceneLayer:
   name: "GUI layer"
   spatial_dimension: 3
   Entity:

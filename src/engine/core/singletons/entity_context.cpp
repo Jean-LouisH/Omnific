@@ -25,9 +25,9 @@
 
 Omnia::EntityContext* Omnia::EntityContext::instance = nullptr;
 
-void Omnia::EntityContext::bindEntity(SceneTreeID sceneTreeID, EntityID entityID)
+void Omnia::EntityContext::bindEntity(SceneLayerID sceneLayerID, EntityID entityID)
 {
-	getInstance()->boundSceneTreeID = sceneTreeID;
+	getInstance()->boundSceneTreeID = sceneLayerID;
 	getInstance()->boundEntityID = entityID;
 }
 
@@ -46,9 +46,9 @@ std::shared_ptr<Omnia::Scene> Omnia::EntityContext::getScene()
 	return SceneStorage::getActiveScene();
 }
 
-std::shared_ptr<Omnia::SceneTree> Omnia::EntityContext::getSceneTree()
+std::shared_ptr<Omnia::SceneLayer> Omnia::EntityContext::getSceneTree()
 {
-	return getInstance()->getScene()->getSceneTrees().at(getInstance()->boundSceneTreeID);
+	return getInstance()->getScene()->getSceneLayers().at(getInstance()->boundSceneTreeID);
 }
 
 std::shared_ptr<Omnia::Component> Omnia::EntityContext::getComponent(std::string type)

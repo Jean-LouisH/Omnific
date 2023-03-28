@@ -22,11 +22,11 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![omnia_project](docs/images/omnia_project.png)
 
-- OpenGL Rendering Context with GLSL, Scenes of multiple SceneTree layers (2D and 3D) via depth buffer refresh
+- OpenGL Rendering Context with GLSL, Scenes of multiple SceneLayers (2D and 3D) via depth buffer refresh
 
-![scene_tree_layers](docs/images/scene_tree_layers.gif)
+![scene_layers](docs/images/scene_layers.gif)
 
-- SceneTree EventBus for a publish/subscribe architecture
+- SceneLayer EventBus for a publish/subscribe architecture
 
 ![event_bus](docs/images/event_bus.gif)
 

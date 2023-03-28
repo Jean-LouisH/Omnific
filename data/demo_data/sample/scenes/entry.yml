@@ -1,0 +1,59 @@
+# Omnia Pong
+
+SceneLayer:
+  name: "Background SceneTree"
+  spatial_dimension: 3
+  Entity:
+    name: "Background Camera"
+    Transform:
+      translation: [0, 0, 150]
+    Camera: "default"
+    ScriptCollection:
+      Python: ["sample/scripts/python/camera_control.py"]
+  Entity:
+    name: "Background Image"
+    Transform:
+      translation: [0, 0, 0]
+    Sprite:
+      image: "Image::#CCCCCC"
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Background Camera"
+SceneLayer:
+  name: "Foreground SceneTree"
+  spatial_dimension: 3
+  Entity:
+    name: "GlobalShaderEntity"
+    Transform: default
+    RenderableComponent:
+      overriding_shader:
+        fragment: "sample/shaders/phong_fragment.glsl"
+    ScriptCollection:
+      Python: ["sample/scripts/python/shader_parameter_control.py"]
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 30]
+    Camera: "default"
+    ScriptCollection:
+      Python: ["sample/scripts/python/camera_control.py"]
+  SubSceneLayer:
+    name: ["sample/models/sponza.glb", ""]
+    parent: "GlobalShaderEntity"
+  Entity:
+    name: "LightSource"
+    Transform:
+      translation: [2.0, 0.25, 0.0]
+      scale: [0.5, 0.5, 0.5]
+    Model:
+      mesh: "Mesh::cube"
+      shader:
+        fragment: "sample/shaders/light_source_fragment.glsl"
+    ScriptCollection:
+      Python: ["sample/scripts/python/light_movement.py"]
+    Light: default
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"

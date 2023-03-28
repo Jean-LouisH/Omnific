@@ -73,13 +73,13 @@ namespace Omnia
 
 		void executeQueuedMethods(
 			std::queue<EntityID> entityQueue,
-			std::shared_ptr<SceneTree> sceneTree,
+			std::shared_ptr<SceneLayer> sceneLayer,
 			const char* methodName);
 		void executeUpdateMethods(
-			std::shared_ptr<SceneTree> sceneTree,
+			std::shared_ptr<SceneLayer> sceneLayer,
 			const char* methodName);
 		void bindAndCall(std::shared_ptr<ScriptCollection> scriptCollection,
-			SceneTreeID sceneTreeID,
+			SceneLayerID sceneLayerID,
 			EntityID entityID,
 			const char* methodName);
 	};

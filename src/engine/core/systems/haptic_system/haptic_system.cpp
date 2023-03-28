@@ -57,9 +57,9 @@ void Omnia::HapticSystem::initialize()
 void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	Input& hid = OS::getInput();
-	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 
-	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
 		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer = it->second->getHapticSignalBuffer();
 		std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer->getHapticSignals();

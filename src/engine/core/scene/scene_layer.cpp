@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scene_tree.hpp"
+#include "scene_layer.hpp"
 #include "core/component.hpp"
 
 #include <core/components/transform.hpp>
 
-Omnia::SceneTree::SceneTree()
+Omnia::SceneLayer::SceneLayer()
 {
 	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
@@ -35,7 +35,7 @@ Omnia::SceneTree::SceneTree()
 	this->name = "SceneTree (ID:" + std::to_string(this->id) + ")";
 }
 
-void Omnia::SceneTree::addEntity(std::shared_ptr<Entity> entity)
+void Omnia::SceneLayer::addEntity(std::shared_ptr<Entity> entity)
 {
 	if (entity->parentID != 0)
 		this->entities.at(entity->parentID)->childIDs.push_back(entity->id);
@@ -46,13 +46,13 @@ void Omnia::SceneTree::addEntity(std::shared_ptr<Entity> entity)
 	this->setEntityName(entity->id, entity->name);
 }
 
-void Omnia::SceneTree::addEmptyEntity()
+void Omnia::SceneLayer::addEmptyEntity()
 {
 	std::shared_ptr<Entity> emptyEntity(new Entity());
 	this->addEntity(emptyEntity);
 }
 
-void Omnia::SceneTree::setEntityName(EntityID entityID, std::string name)
+void Omnia::SceneLayer::setEntityName(EntityID entityID, std::string name)
 {
 	if (this->entityNames.count(name))
 		name += "(Copy)";
@@ -61,13 +61,13 @@ void Omnia::SceneTree::setEntityName(EntityID entityID, std::string name)
 	this->entityNames.emplace(name, entityID);
 }
 
-void Omnia::SceneTree::addEntityTag(EntityID entityID, std::string tag)
+void Omnia::SceneLayer::addEntityTag(EntityID entityID, std::string tag)
 {
 	this->getEntity(entityID)->tags.push_back(tag);
 	this->entityTags.emplace(tag, entityID);
 }
 
-void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component> component)
+void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Component> component)
 {
 	component->setEntityID(entityID);
 	this->components.push_back(component);
@@ -97,12 +97,12 @@ void Omnia::SceneTree::addComponent(EntityID entityID, std::shared_ptr<Component
 	component->setComponentHierarchy(this->getComponentHierarchy(component->getType(), component->getEntityID()));
 }
 
-void Omnia::SceneTree::addComponentToLastEntity(std::shared_ptr<Component> component)
+void Omnia::SceneLayer::addComponentToLastEntity(std::shared_ptr<Component> component)
 {
 	this->addComponent(this->lastEntityID, component);
 }
 
-void Omnia::SceneTree::removeEntity(EntityID entityID)
+void Omnia::SceneLayer::removeEntity(EntityID entityID)
 {
 	if (this->entities.count(entityID) > 0)
 	{
@@ -139,7 +139,7 @@ void Omnia::SceneTree::removeEntity(EntityID entityID)
 	}
 }
 
-void Omnia::SceneTree::removeComponent(EntityID entityID, std::string type)
+void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
 {
 	if (this->entities.count(entityID) > 0)
 	{
@@ -183,49 +183,49 @@ void Omnia::SceneTree::removeComponent(EntityID entityID, std::string type)
 	}
 }
 
-std::vector<size_t> Omnia::SceneTree::getRenderOrderIndexCache()
+std::vector<size_t> Omnia::SceneLayer::getRenderOrderIndexCache()
 {
 	return this->renderOrderIndexCache;
 }
 
-std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneTree::getComponentIndexCaches()
+std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneLayer::getComponentIndexCaches()
 {
 	return this->componentIndexCaches;
 }
 
-void Omnia::SceneTree::clearStartEntityQueue()
+void Omnia::SceneLayer::clearStartEntityQueue()
 {
 	while (!this->startEntitiesQueue.empty())
 		this->startEntitiesQueue.pop();
 }
 
-void Omnia::SceneTree::clearFinishEntityQueue()
+void Omnia::SceneLayer::clearFinishEntityQueue()
 {
 	while (!this->finishEntitiesQueue.empty())
 		this->finishEntitiesQueue.pop();
 }
 
-std::queue<Omnia::EntityID> Omnia::SceneTree::getStartEntityQueue()
+std::queue<Omnia::EntityID> Omnia::SceneLayer::getStartEntityQueue()
 {
 	return this->startEntitiesQueue;
 }
 
-std::queue<Omnia::EntityID> Omnia::SceneTree::getFinishEntityQueue()
+std::queue<Omnia::EntityID> Omnia::SceneLayer::getFinishEntityQueue()
 {
 	return this->finishEntitiesQueue;
 }
 
-std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponents()
+std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::getComponents()
 {
 	return this->components;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getEntity(EntityID entityID)
+std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getEntity(EntityID entityID)
 {
 	return this->entities.at(entityID);
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getEntityByName(std::string name)
+std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getEntityByName(std::string name)
 {
 	std::shared_ptr<Entity> entity(new Entity());
 
@@ -236,17 +236,17 @@ std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getEntityByName(std::string nam
 	return entity;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneTree::getLastEntity()
+std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getLastEntity()
 {
 	return this->entities.at(this->lastEntityID);
 }
 
-std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::SceneTree::getEntities()
+std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::SceneLayer::getEntities()
 {
 	return this->entities;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponentByID(ComponentID componentID)
+std::shared_ptr<Omnia::Component> Omnia::SceneLayer::getComponentByID(ComponentID componentID)
 {
 	std::shared_ptr<Component> component;
 
@@ -263,7 +263,7 @@ std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponentByID(ComponentID
 	return component;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(std::string type, EntityID entityID)
+std::shared_ptr<Omnia::Component> Omnia::SceneLayer::getComponent(std::string type, EntityID entityID)
 {
 	std::shared_ptr<Entity> entity = this->getEntity(entityID);
 	std::shared_ptr<Component> component;
@@ -274,7 +274,7 @@ std::shared_ptr<Omnia::Component> Omnia::SceneTree::getComponent(std::string typ
 	return component;
 }
 
-std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponentHierarchy(std::string type, EntityID entityID)
+std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::getComponentHierarchy(std::string type, EntityID entityID)
 {
 	EntityID currentEntityID = entityID;
 	std::vector<std::shared_ptr<Component>> componentHierarchy;
@@ -289,37 +289,37 @@ std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneTree::getComponentHie
 	return componentHierarchy;
 }
 
-std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneTree::getCollisionRegistry()
+std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneLayer::getCollisionRegistry()
 {
 	return this->collisionRegistry;
 }
 
-std::shared_ptr<Omnia::EventBus> Omnia::SceneTree::getEventBus()
+std::shared_ptr<Omnia::EventBus> Omnia::SceneLayer::getEventBus()
 {
 	return this->eventBus;
 }
 
-bool Omnia::SceneTree::getHasShadersChanged()
+bool Omnia::SceneLayer::getHasShadersChanged()
 {
 	return false;
 }
 
-bool Omnia::SceneTree::getHasScriptsChanged()
+bool Omnia::SceneLayer::getHasScriptsChanged()
 {
 	return false;
 }
 
-Omnia::SceneTreeID Omnia::SceneTree::getID()
+Omnia::SceneLayerID Omnia::SceneLayer::getID()
 {
 	return this->id;
 }
 
-std::string Omnia::SceneTree::getName()
+std::string Omnia::SceneLayer::getName()
 {
 	return this->name;
 }
 
-std::shared_ptr<Omnia::HapticSignalBuffer> Omnia::SceneTree::getHapticSignalBuffer()
+std::shared_ptr<Omnia::HapticSignalBuffer> Omnia::SceneLayer::getHapticSignalBuffer()
 {
 	return this->hapticSignalBuffer;
 }

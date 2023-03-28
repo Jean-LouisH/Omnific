@@ -56,7 +56,7 @@ void Omnia::PythonScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scen
 		pybind11::object path = sys.attr("path");
 		std::set<std::string> addedPaths;
 
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 		{
 			for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			{
@@ -142,49 +142,49 @@ void Omnia::PythonScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 #endif
 
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "on_start");
 }
 
 void Omnia::PythonScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_input");
 }
 
 void Omnia::PythonScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_early");
 }
 
 void Omnia::PythonScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_logic");
 }
 
 void Omnia::PythonScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_compute");
 }
 
 void Omnia::PythonScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_late");
 }
 
 void Omnia::PythonScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneTrees())
+		for (auto it : EntityContext::getScene()->getSceneLayers())
 			this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
 }
 
@@ -196,36 +196,36 @@ void Omnia::PythonScriptingSystem::finalize()
 
 void Omnia::PythonScriptingSystem::executeQueuedMethods(
 	std::queue<EntityID> entityQueue,
-	std::shared_ptr<SceneTree> sceneTree,
+	std::shared_ptr<SceneLayer> sceneLayer,
 	const char* methodName)
 {
 	while (!entityQueue.empty())
 	{
-		std::shared_ptr<Entity> entity = sceneTree->getEntity(entityQueue.front());
-		std::shared_ptr<ScriptCollection> scriptCollection = sceneTree->getComponentByType<ScriptCollection>(entity->getID());
+		std::shared_ptr<Entity> entity = sceneLayer->getEntity(entityQueue.front());
+		std::shared_ptr<ScriptCollection> scriptCollection = sceneLayer->getComponentByType<ScriptCollection>(entity->getID());
 		if (scriptCollection != nullptr)
 		{
-			this->bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
+			this->bindAndCall(scriptCollection, sceneLayer->getID(), scriptCollection->getEntityID(), methodName);
 		}
 		entityQueue.pop();
 	}
 }
 
-void Omnia::PythonScriptingSystem::executeUpdateMethods(std::shared_ptr<SceneTree> sceneTree, const char* methodName)
+void Omnia::PythonScriptingSystem::executeUpdateMethods(std::shared_ptr<SceneLayer> sceneLayer, const char* methodName)
 {
-	std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = sceneTree->getComponentsByType<ScriptCollection>();
+	std::vector<std::shared_ptr<ScriptCollection>> scriptCollections = sceneLayer->getComponentsByType<ScriptCollection>();
 	size_t scriptCollectionsCount = scriptCollections.size();
 
 	for (size_t i = 0; i < scriptCollectionsCount; i++)
 	{
 		std::shared_ptr<ScriptCollection> scriptCollection = scriptCollections.at(i);
-		this->bindAndCall(scriptCollection, sceneTree->getID(), scriptCollection->getEntityID(), methodName);
+		this->bindAndCall(scriptCollection, sceneLayer->getID(), scriptCollection->getEntityID(), methodName);
 	}
 }
 
 void Omnia::PythonScriptingSystem::bindAndCall(
 	std::shared_ptr<ScriptCollection> scriptCollection,
-	SceneTreeID sceneTreeID,
+	SceneLayerID sceneLayerID,
 	EntityID entityID,
 	const char* methodName)
 {
@@ -238,7 +238,7 @@ void Omnia::PythonScriptingSystem::bindAndCall(
 			if (this->pythonScriptInstances.at(scriptPath).hasCallable(methodName))
 			{
 				EntityContext::bindEntity(
-					sceneTreeID,
+					sceneLayerID,
 					entityID);
 
 				try

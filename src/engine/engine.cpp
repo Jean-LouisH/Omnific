@@ -245,7 +245,7 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		for (auto updateSystem : this->updateSystems)
 			updateSystem.second->onStart(activeScene);
 
-		for (auto it : activeScene->getSceneTrees())
+		for (auto it : activeScene->getSceneLayers())
 			it.second->clearStartEntityQueue();
 
 		for (auto updateSystem : this->updateSystems)
@@ -272,10 +272,10 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		for (auto updateSystem : this->updateSystems)
 			updateSystem.second->onFinish(activeScene);
 
-		for (auto it : activeScene->getSceneTrees())
+		for (auto it : activeScene->getSceneLayers())
 			it.second->clearFinishEntityQueue();
 
-		for (auto it : activeScene->getSceneTrees())
+		for (auto it : activeScene->getSceneLayers())
 			it.second->getEventBus()->clear();
 
 		SceneStorage::finalizeUpdate();

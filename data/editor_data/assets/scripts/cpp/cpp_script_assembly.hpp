@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <core/scene/scene_tree.hpp>
+#include <core/scene/scene_layer.hpp>
 #include <queue>
 #include <core/components/script_collection.hpp>
 
@@ -46,15 +46,15 @@ OMNIA_CPP_SCRIPT_ASSEMBLY_API void onLate();
 OMNIA_CPP_SCRIPT_ASSEMBLY_API void onFinish();
 
 void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
-	Omnia::SceneTreeID sceneTreeID,
+	Omnia::SceneLayerID sceneLayerID,
 	Omnia::EntityID entityID,
 	std::string methodName);
 
 void executeQueuedMethods(
 	std::queue<Omnia::EntityID> entityQueue,
-	std::shared_ptr<Omnia::SceneTree> sceneTree,
+	std::shared_ptr<Omnia::SceneLayer> sceneLayer,
 	std::string methodName);
 
 void executeUpdateMethods(
-	std::shared_ptr<Omnia::SceneTree> sceneTree,
+	std::shared_ptr<Omnia::SceneLayer> sceneLayer,
 	std::string methodName);

@@ -50,14 +50,14 @@ namespace Omnia
 		FINISH
 	};
 
-	class OMNIA_ENGINE_API SceneTree
+	class OMNIA_ENGINE_API SceneLayer
 	{
 	public:
 		bool is2D = false;
 		bool hasRenderableComponentsChanged = false;
 		std::string name;
 
-		SceneTree();
+		SceneLayer();
 
 		void addEntity(std::shared_ptr<Entity> entity);
 		void addEmptyEntity();
@@ -90,7 +90,7 @@ namespace Omnia
 		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
 		bool getHasShadersChanged();
 		bool getHasScriptsChanged();
-		SceneTreeID getID();
+		SceneLayerID getID();
 		std::string getName();
 
 		template <class T>
@@ -135,7 +135,7 @@ namespace Omnia
 			return componentsByType;
 		}
 	private:
-		SceneTreeID id = 0;
+		SceneLayerID id = 0;
 
 		/*Entities are stored in maps for fast random access
 		when Components invoke changes in other Components

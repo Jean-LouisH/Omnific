@@ -31,7 +31,7 @@
 #include <unordered_map>
 #include "core/utilities/aliases.hpp"
 #include <string>
-#include "scene_tree.hpp"
+#include "scene_layer.hpp"
 #include <engine_api.hpp>
 
 #include <core/assets/image.hpp>
@@ -51,24 +51,24 @@ namespace Omnia
 		void deserialize(std::string filepath, std::string name);
 		void reload();
 
-		void addSceneTree(std::shared_ptr<SceneTree> sceneTree);
-		void addEmptySceneTree();
-		void removeSceneTree(SceneTreeID sceneTreeID);
+		void addSceneLayer(std::shared_ptr<SceneLayer> sceneLayer);
+		void addEmptySceneLayer();
+		void removeSceneLayer(SceneLayerID sceneLayerID);
 
 		std::string getName();
-		std::shared_ptr<SceneTree> getSceneTree(SceneTreeID sceneTree);
-		std::shared_ptr<SceneTree> getSceneTreeByName(std::string name);
-		std::shared_ptr<SceneTree> getLastSceneTree();
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& getSceneTrees();
+		std::shared_ptr<SceneLayer> getSceneLayer(SceneLayerID sceneLayer);
+		std::shared_ptr<SceneLayer> getSceneLayerByName(std::string name);
+		std::shared_ptr<SceneLayer> getLastSceneLayer();
+		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& getSceneLayers();
 
 		SceneID getID();
 	private:
 		SceneID id = 0;
 		std::string name;
-		std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>> sceneTrees;
-		SceneTreeID lastSceneTreeID = 0;
+		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>> sceneLayers;
+		SceneLayerID lastSceneLayerID = 0;
 
-		std::shared_ptr<SceneTree> loadGLTF(std::string filepath);
+		std::shared_ptr<SceneLayer> loadGLTF(std::string filepath);
 		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
 		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName, size_t index);
 		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model, size_t index);

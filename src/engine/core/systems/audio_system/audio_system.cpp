@@ -48,9 +48,9 @@ void Omnia::AudioSystem::initialize()
 
 void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 
-	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
 		/* Basic functionality for now, without 3D audio listener calculations. */
 		std::vector<std::shared_ptr<AudioSource>> audioSources = it->second->getComponentsByType<AudioSource>();

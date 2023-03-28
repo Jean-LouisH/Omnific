@@ -37,7 +37,7 @@ void Omnia::GUISystem::initialize()
 
 void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneTreeID, std::shared_ptr<SceneTree>>& sceneTrees = scene->getSceneTrees();
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 	Input& hid = OS::getInput();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
@@ -48,7 +48,7 @@ void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
 		strings.emplace((std::string)"drop_file_path", hid.getDropFilePath());
 	}
 
-	for (auto it = sceneTrees.begin(); it != sceneTrees.end(); it++)
+	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
 		if (hid.isDropFileDetected())
 			it->second->getEventBus()->publish("file dropped on window", numbers, strings);

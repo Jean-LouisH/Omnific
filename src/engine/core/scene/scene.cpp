@@ -64,9 +64,9 @@ void Omnia::Scene::deserialize(std::string filepath)
 void Omnia::Scene::deserialize(std::string filepath, std::string name)
 {
 	if (name == "")
-		OS::getLogger().write("Loading all SceneTrees from Scene: \"" + filepath + "\"");
+		OS::getLogger().write("Loading all SceneLayers from Scene: \"" + filepath + "\"");
 	else
-		OS::getLogger().write("Loading SceneTree: \"" + name + "\" from Scene : \"" + filepath + "\"");
+		OS::getLogger().write("Loading SceneLayer: \"" + name + "\" from Scene : \"" + filepath + "\"");
 
 
 	this->name = filepath;
@@ -78,58 +78,58 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 
 		for (YAML::const_iterator it0 = yamlNode.begin(); it0 != yamlNode.end(); ++it0)
 		{
-			if (it0->first.as<std::string>() == "SceneTree")
+			if (it0->first.as<std::string>() == "SceneLayer")
 			{
-				std::shared_ptr<SceneTree> sceneTree(new SceneTree());
-				bool loadThisSceneTree = true;
+				std::shared_ptr<SceneLayer> sceneLayer(new SceneLayer());
+				bool loadThisSceneLayer = true;
 
 				/* If the name is an empty string, load all, otherwise search for the name */
 				if (name != "")
 				{
-					loadThisSceneTree = false;
+					loadThisSceneLayer = false;
 
 					for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 					{
 						if (it1->first.as<std::string>() == "name")
 						{
-							loadThisSceneTree = it1->second.as<std::string>() == name;
+							loadThisSceneLayer = it1->second.as<std::string>() == name;
 							break;
 						}
 					}
 				}
 
-				if (loadThisSceneTree)
+				if (loadThisSceneLayer)
 				{
 					for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 					{
 						if (it1->first.as<std::string>() == "name")
 						{
-							sceneTree->name = it1->second.as<std::string>();
+							sceneLayer->name = it1->second.as<std::string>();
 						}
 						else if (it1->first.as<std::string>() == "spatial_dimension")
 						{
 							int value = it1->second.as<int>();
 
 							if (value == 2)
-								sceneTree->is2D = true;
+								sceneLayer->is2D = true;
 							else if (value == 3)
-								sceneTree->is2D = false;
+								sceneLayer->is2D = false;
 						}
 						else if (it1->first.as<std::string>() == "Entity")
 						{
 							std::shared_ptr<Entity> entity(new Entity());
-							sceneTree->addEntity(entity);
+							sceneLayer->addEntity(entity);
 
 							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 							{
 								//Entity attributes
 								if (it2->first.as<std::string>() == "name")
 								{
-									sceneTree->setEntityName(sceneTree->getLastEntity()->getID(), it2->second.as<std::string>());
+									sceneLayer->setEntityName(sceneLayer->getLastEntity()->getID(), it2->second.as<std::string>());
 								}
 								else if (it2->first.as<std::string>() == "parent")
 								{
-									sceneTree->getLastEntity()->parentID = sceneTree->getEntityByName(it2->second.as<std::string>())->getID();
+									sceneLayer->getLastEntity()->parentID = sceneLayer->getEntityByName(it2->second.as<std::string>())->getID();
 								}
 								//Components
 								else
@@ -140,52 +140,52 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 									{
 										std::shared_ptr<Component> component = std::dynamic_pointer_cast<Component>(std::shared_ptr<Registerable>(registerable->instance()));
 										component->deserialize(it2->second);
-										sceneTree->addComponentToLastEntity(component);
+										sceneLayer->addComponentToLastEntity(component);
 									}
 								}
 							}
 						}
 						/* Recursively load another SceneTree into this one if the filename
 						   is not the same. */
-						else if (it1->first.as<std::string>() == "SubSceneTree")
+						else if (it1->first.as<std::string>() == "SubSceneLayer")
 						{
 							std::string subSceneFilepath;
-							std::string subSceneTreeName;
+							std::string subSceneLayerName;
 							EntityID parentID = 0;
 
 							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 							{
 								if (it2->first.as<std::string>() == "parent")
 								{
-									parentID = sceneTree->getEntityByName(it2->second.as<std::string>())->getID();
+									parentID = sceneLayer->getEntityByName(it2->second.as<std::string>())->getID();
 								}
 								else if (it2->first.as<std::string>() == "name")
 								{
 									subSceneFilepath = it2->second[0].as<std::string>();
-									subSceneTreeName = it2->second[1].as<std::string>();
+									subSceneLayerName = it2->second[1].as<std::string>();
 								}
 							}
 
-							std::shared_ptr<SceneTree> subSceneTree;
+							std::shared_ptr<SceneLayer> subSceneLayer;
 
 							if (subSceneFilepath != filepath)
 							{
 								/*The last SceneTree is the only SceneTree, so this just extracts the one specified.*/
-								if (subSceneTreeName != "")
-									subSceneTree = Scene(subSceneFilepath, subSceneTreeName).getLastSceneTree();
+								if (subSceneLayerName != "")
+									subSceneLayer = Scene(subSceneFilepath, subSceneLayerName).getLastSceneLayer();
 								else
-									subSceneTree = this->loadGLTF(subSceneFilepath);
+									subSceneLayer = this->loadGLTF(subSceneFilepath);
 
 
 								/* Only load the SceneTree if it is the same spatial dimension. */
-								if (subSceneTree->is2D == sceneTree->is2D)
+								if (subSceneLayer->is2D == sceneLayer->is2D)
 								{
 									/* Transfer Entities and their Components */
 									std::shared_ptr<Entity> newRootEntity(new Entity());
 									newRootEntity->setName(subSceneFilepath);
 									newRootEntity->parentID = parentID;
-									sceneTree->addEntity(newRootEntity);
-									std::unordered_map<EntityID, std::shared_ptr<Entity>>& subSceneEntities = subSceneTree->getEntities();
+									sceneLayer->addEntity(newRootEntity);
+									std::unordered_map<EntityID, std::shared_ptr<Entity>>& subSceneEntities = subSceneLayer->getEntities();
 
 									/*Entities without parents are listed before others.*/
 									std::vector<std::shared_ptr<Entity>> sortedEntities;
@@ -218,12 +218,12 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 										if (subSceneEntity->parentID == 0)
 											subSceneEntity->parentID = newRootEntity->getID();
 
-										sceneTree->addEntity(subSceneEntity);
+										sceneLayer->addEntity(subSceneEntity);
 
 										std::unordered_map<std::string, ComponentID> subSceneEntityComponentIDs = subSceneEntity->componentIDs;
 
 										for (auto it2 = subSceneEntityComponentIDs.begin(); it2 != subSceneEntityComponentIDs.end(); it2++)
-											sceneTree->addComponentToLastEntity(subSceneTree->getComponentByID(it2->second));
+											sceneLayer->addComponentToLastEntity(subSceneLayer->getComponentByID(it2->second));
 									}
 								}
 							}
@@ -231,7 +231,7 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 					}
 				}
 
-				this->addSceneTree(sceneTree);
+				this->addSceneLayer(sceneLayer);
 			}
 		}
 	}
@@ -243,27 +243,27 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 
 void Omnia::Scene::reload()
 {
-	this->sceneTrees.clear();
-	this->lastSceneTreeID = 0;
+	this->sceneLayers.clear();
+	this->lastSceneLayerID = 0;
 	this->deserialize(this->getName());
 }
 
-void Omnia::Scene::addSceneTree(std::shared_ptr<SceneTree> sceneTree)
+void Omnia::Scene::addSceneLayer(std::shared_ptr<SceneLayer> sceneLayer)
 {
-	this->sceneTrees.emplace(sceneTree->getID(), sceneTree);
-	this->lastSceneTreeID = sceneTree->getID();
+	this->sceneLayers.emplace(sceneLayer->getID(), sceneLayer);
+	this->lastSceneLayerID = sceneLayer->getID();
 }
 
-void Omnia::Scene::addEmptySceneTree()
+void Omnia::Scene::addEmptySceneLayer()
 {
-	std::shared_ptr<SceneTree> sceneTree = std::shared_ptr<SceneTree>(new SceneTree());
-	this->addSceneTree(sceneTree);
+	std::shared_ptr<SceneLayer> sceneLayer = std::shared_ptr<SceneLayer>(new SceneLayer());
+	this->addSceneLayer(sceneLayer);
 }
 
-void Omnia::Scene::removeSceneTree(SceneTreeID sceneTreeID)
+void Omnia::Scene::removeSceneLayer(SceneLayerID sceneLayerID)
 {
-	if (this->sceneTrees.count(sceneTreeID))
-		this->sceneTrees.erase(sceneTreeID);
+	if (this->sceneLayers.count(sceneLayerID))
+		this->sceneLayers.erase(sceneLayerID);
 }
 
 std::string Omnia::Scene::getName()
@@ -271,30 +271,30 @@ std::string Omnia::Scene::getName()
 	return this->name;
 }
 
-std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getSceneTree(SceneTreeID sceneTree)
+std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::getSceneLayer(SceneLayerID sceneLayer)
 {
-	return this->sceneTrees.at(sceneTree);
+	return this->sceneLayers.at(sceneLayer);
 }
 
-std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getSceneTreeByName(std::string name)
+std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::getSceneLayerByName(std::string name)
 {
-	std::shared_ptr<SceneTree> sceneTree = nullptr;
+	std::shared_ptr<SceneLayer> sceneLayer = nullptr;
 
-	for (auto it = this->sceneTrees.begin(); it != this->sceneTrees.end(); it++)
+	for (auto it = this->sceneLayers.begin(); it != this->sceneLayers.end(); it++)
 		if (it->second->getName() == name)
 			return it->second;
 
-	return sceneTree;
+	return sceneLayer;
 }
 
-std::shared_ptr<Omnia::SceneTree> Omnia::Scene::getLastSceneTree()
+std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::getLastSceneLayer()
 {
-	return this->sceneTrees.at(this->lastSceneTreeID);
+	return this->sceneLayers.at(this->lastSceneLayerID);
 }
 
-std::unordered_map<Omnia::SceneTreeID, std::shared_ptr<Omnia::SceneTree>>& Omnia::Scene::getSceneTrees()
+std::unordered_map<Omnia::SceneLayerID, std::shared_ptr<Omnia::SceneLayer>>& Omnia::Scene::getSceneLayers()
 {
-	return this->sceneTrees;
+	return this->sceneLayers;
 }
 
 Omnia::SceneID Omnia::Scene::getID()
@@ -302,9 +302,9 @@ Omnia::SceneID Omnia::Scene::getID()
 	return this->id;
 }
 
-std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
+std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 {
-	std::shared_ptr<SceneTree> sceneTree(new SceneTree());
+	std::shared_ptr<SceneLayer> sceneLayer(new SceneLayer());
 
 	tinygltf::Model gltfData;
 	tinygltf::TinyGLTF tinyGLTF;
@@ -330,7 +330,7 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 	else
 	{
 		std::shared_ptr<Entity> gltfSceneRootEntity(new Entity());
-		sceneTree->addEntity(gltfSceneRootEntity);
+		sceneLayer->addEntity(gltfSceneRootEntity);
 
 		for (size_t i = 0; i < gltfData.nodes.size(); i++)
 		{
@@ -350,7 +350,7 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 
 				std::shared_ptr<Entity> entity(new Entity());
 				entity->parentID = gltfSceneRootEntity->getID();
-				sceneTree->addEntity(entity);
+				sceneLayer->addEntity(entity);
 				std::shared_ptr<Transform> transform(new Transform());
 				std::shared_ptr<Model> model(new Model());
 
@@ -530,13 +530,13 @@ std::shared_ptr<Omnia::SceneTree> Omnia::Scene::loadGLTF(std::string filepath)
 				model->material = material;
 				model->mesh = mesh;
 
-				sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(transform));
-				sceneTree->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(model));
+				sceneLayer->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(transform));
+				sceneLayer->addComponentToLastEntity(std::dynamic_pointer_cast<Component>(model));
 			}
 		}
 	}
 
-	return sceneTree;
+	return sceneLayer;
 }
 
 std::vector<uint8_t> Omnia::Scene::readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView)

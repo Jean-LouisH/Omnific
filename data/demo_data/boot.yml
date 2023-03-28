@@ -3,7 +3,7 @@ metadata:
   version: 1.0.0
   developer: Jean-LouisH
   icon_filepath: icon.png
-  entry_scene_filepath: games/pong/scenes/entry.yml
+  entry_scene_filepath: sample/scenes/entry.yml
 window_settings:
   width: 853
   height: 480

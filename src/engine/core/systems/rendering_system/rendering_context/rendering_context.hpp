@@ -58,7 +58,7 @@ namespace Omnia
 		void enableBlending();
 		void disableBlending();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists);
+		void submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists);
 		void swapBuffers();
 		std::string getRenderingContextName();
 	private:

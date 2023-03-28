@@ -1,6 +1,6 @@
 # Omnia Pong
 
-SceneTree:
+SceneLayer:
   name: "Background SceneTree"
   spatial_dimension: 3
   Entity:
@@ -20,7 +20,7 @@ SceneTree:
     name: "Viewport"
     Viewport:
       camera_entity: "Background Camera"
-SceneTree:
+SceneLayer:
   name: "Foreground SceneTree"
   spatial_dimension: 3
   Entity:

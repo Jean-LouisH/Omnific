@@ -105,29 +105,29 @@ void Omnia::RenderingContext::disableBlending()
 	glDisable(GL_BLEND);
 }
 
-void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTreeRenderable>> sceneTreeRenderableLists)
+void Omnia::RenderingContext::submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists)
 {
 
-	for (auto it = sceneTreeRenderableLists.begin(); it != sceneTreeRenderableLists.end(); it++)
+	for (auto it = sceneLayerRenderableLists.begin(); it != sceneLayerRenderableLists.end(); it++)
 	{
 
-		std::vector<SceneTreeRenderable> sceneTreeRenderableList = it->second;
-		SceneTreeRenderable* sceneTreeRenderableListData = sceneTreeRenderableList.data();
-		size_t sceneTreeRenderableListCount = sceneTreeRenderableList.size();
+		std::vector<SceneTreeRenderable> sceneLayerRenderableList = it->second;
+		SceneTreeRenderable* sceneLayerRenderableListData = sceneLayerRenderableList.data();
+		size_t sceneLayerRenderableListCount = sceneLayerRenderableList.size();
 
-		for (size_t i = 0; i < sceneTreeRenderableListCount; i++)
+		for (size_t i = 0; i < sceneLayerRenderableListCount; i++)
 		{
 
-			SceneTreeRenderable& sceneTreeRenderable = sceneTreeRenderableListData[i];
+			SceneTreeRenderable& sceneLayerRenderable = sceneLayerRenderableListData[i];
 
-			if (sceneTreeRenderable.camera->getIsStreaming())
+			if (sceneLayerRenderable.camera->getIsStreaming())
 			{
-				EntityRenderable* entityRenderablesData = sceneTreeRenderable.entityRenderables.data();
-				size_t entityRenderablesCount = sceneTreeRenderable.entityRenderables.size();
-				glm::mat4 worldToViewMatrix = glm::inverse(sceneTreeRenderable.cameraTransform->getTransformMatrix());
-				glm::mat4 viewToProjectionMatrix = sceneTreeRenderable.camera->getViewToProjectionMatrix();
+				EntityRenderable* entityRenderablesData = sceneLayerRenderable.entityRenderables.data();
+				size_t entityRenderablesCount = sceneLayerRenderable.entityRenderables.size();
+				glm::mat4 worldToViewMatrix = glm::inverse(sceneLayerRenderable.cameraTransform->getTransformMatrix());
+				glm::mat4 viewToProjectionMatrix = sceneLayerRenderable.camera->getViewToProjectionMatrix();
 
-				if (sceneTreeRenderable.is2D)
+				if (sceneLayerRenderable.is2D)
 				{
 					this->disableDepthTest();
 				}
@@ -137,7 +137,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 					this->enableDepthTest();
 				}
 
-				if (sceneTreeRenderable.camera->getIsWireframeMode())
+				if (sceneLayerRenderable.camera->getIsWireframeMode())
 					this->enableWireframeMode();
 				else
 					this->disableWireframeMode();
@@ -148,10 +148,10 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 				std::vector<std::shared_ptr<Light>> activeLights;
 				std::vector<std::shared_ptr<Transform>> activeLightTransforms;
 
-				if (sceneTreeRenderable.lights.size() > 0)
+				if (sceneLayerRenderable.lights.size() > 0)
 				{
-					activeLights = sceneTreeRenderable.lights;
-					activeLightTransforms = sceneTreeRenderable.lightTransforms;
+					activeLights = sceneLayerRenderable.lights;
+					activeLightTransforms = sceneLayerRenderable.lightTransforms;
 				}
 				else
 				{
@@ -272,7 +272,7 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 
 							shaderProgram = this->shaderPrograms.at(shaderID);
 						}
-						else if (!sceneTreeRenderable.is2D)
+						else if (!sceneLayerRenderable.is2D)
 						{
 							shaderProgram = this->builtInShaderProgram3D;
 						}
@@ -323,9 +323,9 @@ void Omnia::RenderingContext::submit(std::map<SceneTreeID, std::vector<SceneTree
 						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
 						shaderProgram->setVec3("lightTranslation", lightTransform->translation);
 						shaderProgram->setVec3("lightRotation", lightTransform->rotation);
-						shaderProgram->setVec2("cameraViewport", sceneTreeRenderable.camera->getViewportinVec2());
-						shaderProgram->setVec3("cameraTranslation", sceneTreeRenderable.cameraTransform->translation);
-						shaderProgram->setVec3("cameraRotation", sceneTreeRenderable.cameraTransform->rotation);
+						shaderProgram->setVec2("cameraViewport", sceneLayerRenderable.camera->getViewportinVec2());
+						shaderProgram->setVec3("cameraTranslation", sceneLayerRenderable.cameraTransform->translation);
+						shaderProgram->setVec3("cameraRotation", sceneLayerRenderable.cameraTransform->rotation);
 						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);
 						shaderProgram->setVec3("entityRotation", entityRenderable.entityTransform->rotation);
 

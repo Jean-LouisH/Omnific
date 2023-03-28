@@ -1,4 +1,4 @@
-SceneTree:
+SceneLayer:
   name: "background"
   spatial_dimension: 2
   Entity:
@@ -10,7 +10,7 @@ SceneTree:
     name: "Viewport"
     Viewport:
       camera_entity: "Camera"	
-SceneTree:
+SceneLayer:
   name: "foreground"
   spatial_dimension: 2
   Entity:

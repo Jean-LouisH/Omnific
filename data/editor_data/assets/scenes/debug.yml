@@ -1,4 +1,4 @@
-SceneTree:
+SceneLayer:
   name: "main"
   spatial_dimension: 3
   Entity:

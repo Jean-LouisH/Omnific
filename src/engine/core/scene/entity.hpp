@@ -39,7 +39,7 @@ namespace Omnia
 	   identity, components and  hierarchy with other Entities. */
 	class OMNIA_ENGINE_API Entity
 	{
-		friend class SceneTree;
+		friend class SceneLayer;
 	public:
 		EntityID parentID = 0;
 		std::vector<EntityID> childIDs;
