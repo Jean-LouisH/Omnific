@@ -72,5 +72,6 @@ namespace Omnia
 		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
 		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName, size_t index);
 		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model, size_t index);
+		std::shared_ptr<Image> readGLTFImage(tinygltf::Model model, int textureIndex);
 	};
 }

@@ -306,13 +306,13 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 {
 	std::shared_ptr<SceneLayer> sceneLayer(new SceneLayer());
 
-	tinygltf::Model gltfData;
+	tinygltf::Model gltfModel;
 	tinygltf::TinyGLTF tinyGLTF;
 	std::string err;
 	std::string warn;
 
 	bool ret = tinyGLTF.LoadBinaryFromFile(
-		&gltfData,
+		&gltfModel,
 		&err, 
 		&warn, 
 		OS::getFileAccess().getDataDirectoryPath() + filepath);
@@ -332,18 +332,18 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 		std::shared_ptr<Entity> gltfSceneRootEntity(new Entity());
 		sceneLayer->addEntity(gltfSceneRootEntity);
 
-		for (size_t i = 0; i < gltfData.nodes.size(); i++)
+		for (size_t i = 0; i < gltfModel.nodes.size(); i++)
 		{
-			tinygltf::Node gltfNode = gltfData.nodes[i];
+			tinygltf::Node gltfNode = gltfModel.nodes[i];
 			int meshIndex = gltfNode.mesh;
 
 			if (meshIndex != -1)
 			{
 				// GLTF data
-				std::vector<float> positions = this->readGLTFPrimitiveAttribute(gltfData, "POSITION", meshIndex);
-				std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(gltfData, "TEXCOORD_0", meshIndex);
-				std::vector<float> normals = this->readGLTFPrimitiveAttribute(gltfData, "NORMAL", meshIndex);
-				std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(gltfData, meshIndex);
+				std::vector<float> positions = this->readGLTFPrimitiveAttribute(gltfModel, "POSITION", meshIndex);
+				std::vector<float> textureCoords = this->readGLTFPrimitiveAttribute(gltfModel, "TEXCOORD_0", meshIndex);
+				std::vector<float> normals = this->readGLTFPrimitiveAttribute(gltfModel, "NORMAL", meshIndex);
+				std::vector<uint32_t> indices = this->readGLTFPrimitiveIndices(gltfModel, meshIndex);
 
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, textureCoords, normals, indices));
 				std::shared_ptr<Material> material(new Material());
@@ -354,11 +354,11 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 				std::shared_ptr<Transform> transform(new Transform());
 				std::shared_ptr<Model> model(new Model());
 
-				int materialIndex = gltfData.meshes.at(meshIndex).primitives.at(0).material;
+				int materialIndex = gltfModel.meshes.at(meshIndex).primitives.at(0).material;
 
 				if (materialIndex != -1)
 				{
-					tinygltf::Material gltfMaterial = gltfData.materials.at(gltfData.meshes.at(meshIndex).primitives.at(0).material);
+					tinygltf::Material gltfMaterial = gltfModel.materials.at(gltfModel.meshes.at(meshIndex).primitives.at(0).material);
 					int baseColourTextureIndex = gltfMaterial.pbrMetallicRoughness.baseColorTexture.index;
 					int metallicRougnessTextureIndex = gltfMaterial.pbrMetallicRoughness.metallicRoughnessTexture.index;
 					int normalTextureIndex = gltfMaterial.normalTexture.index;
@@ -367,29 +367,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 					/* Albedo / BaseColour*/
 					if (baseColourTextureIndex != -1)
 					{
-						tinygltf::Image gltfImage = gltfData.images.at(baseColourTextureIndex);
-						tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
-						std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
-						std::vector<uint8_t> imageFileBytes = this->readGLTFBuffer(buffer, bufferView);
-						int width = 0;
-						int height = 0;
-						int colourChannels = 0;
-
-						stbi_set_flip_vertically_on_load(0);
-
-						uint8_t* imageData = stbi_load_from_memory(
-							imageFileBytes.data(),
-							imageFileBytes.size(),
-							&width,
-							&height,
-							&colourChannels,
-							0);
-
-						material->albedo = std::shared_ptr<Image>(new Image(
-							imageData,
-							width,
-							height,
-							colourChannels));
+						material->albedo = this->readGLTFImage(gltfModel, baseColourTextureIndex);
 					}
 					else
 					{
@@ -444,17 +422,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 					/* Normal Map*/
 					if (normalTextureIndex != -1)
 					{
-						tinygltf::Image gltfImage = gltfData.images[normalTextureIndex];
-
-						tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
-						std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
-						std::vector<uint8_t> imageData = this->readGLTFBuffer(buffer, bufferView);
-
-						material->normal = std::shared_ptr<Image>(new Image(
-							imageData.data(),
-							gltfImage.width,
-							gltfImage.height,
-							gltfImage.component));
+						material->normal = this->readGLTFImage(gltfModel, normalTextureIndex);
 					}
 					else
 					{
@@ -469,17 +437,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 					/* Emission */
 					if (emissiveTextureIndex != -1)
 					{
-						tinygltf::Image gltfImage = gltfData.images[emissiveTextureIndex];
-
-						tinygltf::BufferView bufferView = gltfData.bufferViews.at(gltfImage.bufferView);
-						std::vector<unsigned char> buffer = gltfData.buffers.at(bufferView.buffer).data;
-						std::vector<uint8_t> imageData = this->readGLTFBuffer(buffer, bufferView);
-
-						material->emission = std::shared_ptr<Image>(new Image(
-							imageData.data(),
-							gltfImage.width,
-							gltfImage.height,
-							gltfImage.component));
+						material->emission = this->readGLTFImage(gltfModel, emissiveTextureIndex);
 					}
 					else
 					{
@@ -496,7 +454,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 				}
 				else
 				{
-					material->albedo = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+					material->albedo = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
 				}
 
 				if (gltfNode.translation.size() == 3)
@@ -550,17 +508,21 @@ std::vector<uint8_t> Omnia::Scene::readGLTFBuffer(std::vector<unsigned char> buf
 
 std::vector<float> Omnia::Scene::readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName, size_t index)
 {
-	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
-	tinygltf::Accessor accessor = model.accessors.at(primitive.attributes.at(attributeName));
-	tinygltf::BufferView bufferView = model.bufferViews.at(accessor.bufferView);
-	std::vector<unsigned char> buffer = model.buffers.at(bufferView.buffer).data;
-	std::vector<uint8_t> bytes = this->readGLTFBuffer(buffer, bufferView);
 	std::vector<float> attribute;
-	float* floatByteData = (float*)bytes.data();
-	size_t floatByteSize = bytes.size() / sizeof(float);
+	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
 
-	for (size_t i = 0; i < floatByteSize; i++)
-		attribute.push_back(floatByteData[i]);
+	if (primitive.attributes.count(attributeName) > 0)
+	{
+		tinygltf::Accessor accessor = model.accessors.at(primitive.attributes.at(attributeName));
+		tinygltf::BufferView bufferView = model.bufferViews.at(accessor.bufferView);
+		std::vector<unsigned char> buffer = model.buffers.at(bufferView.buffer).data;
+		std::vector<uint8_t> bytes = this->readGLTFBuffer(buffer, bufferView);
+		float* floatByteData = (float*)bytes.data();
+		size_t floatByteSize = bytes.size() / sizeof(float);
+
+		for (size_t i = 0; i < floatByteSize; i++)
+			attribute.push_back(floatByteData[i]);
+	}
 
 	return attribute;
 }
@@ -581,4 +543,32 @@ std::vector<uint32_t> Omnia::Scene::readGLTFPrimitiveIndices(tinygltf::Model mod
 		indices.push_back((uint32_t)shortIndexByteData[i]);
 
 	return indices;
+}
+
+std::shared_ptr<Omnia::Image> Omnia::Scene::readGLTFImage(tinygltf::Model model, int textureIndex)
+{
+	int imageIndex = model.textures[textureIndex].source;
+	tinygltf::Image gltfImage = model.images[imageIndex];
+	tinygltf::BufferView bufferView = model.bufferViews.at(gltfImage.bufferView);
+	std::vector<unsigned char> buffer = model.buffers.at(bufferView.buffer).data;
+	std::vector<uint8_t> imageFileBytes = this->readGLTFBuffer(buffer, bufferView);
+	int width = 0;
+	int height = 0;
+	int colourChannels = 0;
+
+	stbi_set_flip_vertically_on_load(0);
+
+	uint8_t* imageData = stbi_load_from_memory(
+		imageFileBytes.data(),
+		imageFileBytes.size(),
+		&width,
+		&height,
+		&colourChannels,
+		0);
+
+	return std::shared_ptr<Image>(new Image(
+		imageData,
+		width,
+		height,
+		colourChannels));
 }
