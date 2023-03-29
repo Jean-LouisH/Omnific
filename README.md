@@ -1,6 +1,7 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
-![Intro Screenshot](docs/images/debug.png)
+![Intro Screenshot](docs/images/cover.png)
+["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915)
 
 **This project is in pre-alpha**
 
