@@ -13,7 +13,7 @@ SceneLayer:
     Transform:
       translation: [0, 0, 0]
     Sprite:
-      image: "Image::#CCCCCC"
+      image: "Image::#668BD5"
   Entity:
     name: "Viewport"
     Viewport:
@@ -42,8 +42,15 @@ SceneLayer:
     Camera: "default"
     ScriptCollection:
       Python: ["sample/scripts/python/camera_control.py"]
+  Entity:
+    name: "ImGUI Entity"
+    Transform:
+      translation: [0, 0, 0]
+    Timer: default
+    ScriptCollection:
+      CPP: ["IMGUITest"]
   SubSceneLayer:
-    name: ["sample/models/sponza_bl.glb", ""]
+    name: ["sample/models/suzanne.glb", ""]
     parent: "Model"
   Entity:
     name: "LightSource"
