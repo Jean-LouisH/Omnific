@@ -44,7 +44,7 @@ void Omnia::ScriptCollection::deserialize(YAML::Node yamlNode)
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				std::shared_ptr<Script> cppScript(OS::getFileAccess().loadAssetByType<Script>(it3->second[i].as<std::string>()));
+				std::shared_ptr<Script> cppScript(OS::getFileAccess().loadAssetByType<Script>(it3->second[i].as<std::string>(), false));
 				cppScript->setLanguageName(languageName);
 				this->scripts.push_back(cppScript);
 			}
