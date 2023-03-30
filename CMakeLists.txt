@@ -13,6 +13,7 @@ project ("omnia_cpp_script_assembly")
 # Include sub-projects.
 add_subdirectory("src")
 add_subdirectory("thirdparty")
-add_subdirectory("data/editor_data/assets/scripts/cpp")
+add_subdirectory("data/demo_data/sample/scripts/cpp")
+#add_subdirectory("data/editor_data/assets/scripts/cpp")
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT application)

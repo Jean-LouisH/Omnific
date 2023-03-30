@@ -5,7 +5,9 @@ cmake_minimum_required (VERSION 3.8)
 
 project("yaml_cpp")
 project("glad")
+project("imgui")
 
 # Include sub-projects.
 add_subdirectory("yaml-cpp-0.6.3")
 add_subdirectory("glad")
+add_subdirectory("imgui-1.89.4")
