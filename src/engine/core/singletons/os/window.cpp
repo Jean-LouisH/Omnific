@@ -44,6 +44,11 @@ void Omnia::Window::initialize(std::string title, uint16_t width, uint16_t heigh
 	this->isFullscreen = isFullscreen;
 }
 
+void Omnia::Window::initializeWindowContext(std::string renderingContext)
+{
+	if (renderingContext == "opengl")
+		this->sdlGlContext = SDL_GL_CreateContext(this->sdlWindow.get());
+}
 
 void Omnia::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
 {
@@ -207,4 +212,9 @@ Omnia::Rectangle Omnia::Window::getWindowSize()
 SDL_Window* Omnia::Window::getSDLWindow()
 {
 	return this->sdlWindow.get();
+}
+
+SDL_GLContext Omnia::Window::getSDLGLContext()
+{
+	return this->sdlGlContext;
 }

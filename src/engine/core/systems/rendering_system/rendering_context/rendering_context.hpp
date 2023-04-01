@@ -62,8 +62,6 @@ namespace Omnia
 		void swapBuffers();
 		std::string getRenderingContextName();
 	private:
-		SDL_GLContext glContext;
-
 		std::unordered_map<AssetID, std::shared_ptr<Texture>> textures;
 		std::unordered_map<AssetID, std::shared_ptr<VertexArray>> vertexArrays;
 		std::unordered_map<AssetID, std::shared_ptr<ShaderProgram>> shaderPrograms;

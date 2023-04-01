@@ -36,6 +36,7 @@ namespace Omnia
 	{
 	public:
 		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
+		void initializeWindowContext(std::string renderingContext);
 		void setToWindowed(uint16_t width, uint16_t height);
 		void setToFullscreen();
 		void toggleWindowedFullscreen();
@@ -51,8 +52,10 @@ namespace Omnia
 		Rectangle getWindowSize();
 
 		SDL_Window* getSDLWindow();
+		SDL_GLContext getSDLGLContext();
 	private:
 		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
+		SDL_GLContext sdlGlContext;
 		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
 		bool isFullscreen;
 	};

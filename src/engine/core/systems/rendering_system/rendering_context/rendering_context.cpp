@@ -31,9 +31,9 @@
 void Omnia::RenderingContext::initialize()
 {
 	Window& window = OS::getWindow();
-	this->glContext = SDL_GL_CreateContext(window.getSDLWindow());
+	window.initializeWindowContext("opengl");
 
-	if (!gladLoadGL())
+	if ((!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)))
 	{
 		OS::getLogger().write("GLAD failed to initialize.");
 	}
