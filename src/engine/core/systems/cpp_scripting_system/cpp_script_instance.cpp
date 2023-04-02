@@ -52,6 +52,11 @@ void Omnia::CPPScriptInstance::onLate()
 
 }
 
+void Omnia::CPPScriptInstance::onOutput()
+{
+
+}
+
 void Omnia::CPPScriptInstance::onFinish()
 {
 

@@ -34,7 +34,6 @@ namespace Omnia
 		PhysicsSystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::UPDATE;
 		};
 
 		~PhysicsSystem();

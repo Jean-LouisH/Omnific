@@ -38,7 +38,6 @@ namespace Omnia
 		CPPScriptingSystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::UPDATE;
 		};
 
 		~CPPScriptingSystem()
@@ -61,6 +60,7 @@ namespace Omnia
 		virtual void onLogic(std::shared_ptr<Scene> scene) override;
 		virtual void onCompute(std::shared_ptr<Scene> scene) override;
 		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
 		virtual void onFinish(std::shared_ptr<Scene> scene) override;
 
 		void loadScriptModules(std::shared_ptr<Scene> scene);

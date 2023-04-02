@@ -48,11 +48,14 @@ namespace Sample
 		/* Add all the methods from CPPScript to override. */
 		virtual void onStart() override;
 		virtual void onLogic() override;
+		virtual void onOutput() override;
+		virtual void onFinish() override;
 
 		/* custom public methods. */
 
 	private:
 		int countdown_value = 5.0;
+		bool isImGuiInitialized = false;
 
 		/* custom private methods. */
 	};

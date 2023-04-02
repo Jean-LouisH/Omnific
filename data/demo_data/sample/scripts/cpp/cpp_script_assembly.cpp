@@ -68,6 +68,12 @@ void onLate()
 		executeUpdateMethods(it.second, "onLate");
 }
 
+void onOutput()
+{
+	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+		executeUpdateMethods(it.second, "onOutput");
+}
+
 void onFinish()
 {
 	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
@@ -104,6 +110,8 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 				scriptInstance->onCompute();
 			else if (methodName == "onLate")
 				scriptInstance->onLate();
+			else if (methodName == "onOutput")
+				scriptInstance->onOutput();
 			else if (methodName == "onFinish")
 				scriptInstance->onFinish();
 		}

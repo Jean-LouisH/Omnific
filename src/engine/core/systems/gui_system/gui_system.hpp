@@ -35,7 +35,6 @@ namespace Omnia
 		GUISystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::UPDATE;
 		};
 		~GUISystem();
 

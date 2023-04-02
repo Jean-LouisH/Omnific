@@ -38,11 +38,13 @@ include_directories(
 		../../thirdparty/stb_image_write-1.16/include
 		../../thirdparty/stb_image-2.27/include
 		../../thirdparty/freetype-2.11.1/include
+		../../thirdparty/imgui-1.89.4
 		.
 )
 
 target_link_libraries (omnia_engine
 		yaml_cpp
+		imgui
 		glad
 		${SDL2}
 		${SDL2_Mixer}

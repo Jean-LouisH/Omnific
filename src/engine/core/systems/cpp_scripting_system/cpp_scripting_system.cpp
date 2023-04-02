@@ -82,6 +82,12 @@ void Omnia::CPPScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 		this->execute("onLate");
 }
 
+void Omnia::CPPScriptingSystem::onOutput(std::shared_ptr<Scene> scene)
+{
+	if (scene != nullptr)
+		this->execute("onOutput");
+}
+
 void Omnia::CPPScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)

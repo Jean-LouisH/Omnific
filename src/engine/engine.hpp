@@ -64,8 +64,7 @@ namespace Omnia
 		};
 
 		State state;
-		std::unordered_map<std::string, std::shared_ptr<System>> updateSystems;
-		std::unordered_map<std::string, std::shared_ptr<System>> outputSystems;
+		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 
 		void initialize();
 		void runInputLoop(std::shared_ptr<HiResTimer> updateProcessTimer);
@@ -79,10 +78,8 @@ namespace Omnia
 		{
 			std::shared_ptr<T> system;
 
-			if (this->updateSystems.count(T::TYPE_STRING))
-				system = std::dynamic_pointer_cast<T>(this->updateSystems.at(T::TYPE_STRING));
-			else if (this->outputSystems.count(T::TYPE_STRING))
-				system = std::dynamic_pointer_cast<T>(this->outputSystems.at(T::TYPE_STRING));
+			if (this->systems.count(T::TYPE_STRING))
+				system = std::dynamic_pointer_cast<T>(this->systems.at(T::TYPE_STRING));
 
 			return system;
 		}

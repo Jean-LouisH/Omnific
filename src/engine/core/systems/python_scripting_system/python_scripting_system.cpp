@@ -92,7 +92,16 @@ void Omnia::PythonScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scen
 							pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
 
 							PythonScriptInstance scriptInstance;
-							std::vector<std::string> methodNames = { "on_start", "on_input", "on_early", "on_logic", "on_compute", "on_late", "on_finish" };
+							std::vector<std::string> methodNames = { 
+								"on_start", 
+								"on_input", 
+								"on_early", 
+								"on_logic", 
+								"on_compute", 
+								"on_late", 
+								"on_output", 
+								"on_finish" 
+							};
 							scriptInstance.setData(newPybind11Module.attr("omnia_script")());
 
 							for (int i = 0; i < methodNames.size(); i++)

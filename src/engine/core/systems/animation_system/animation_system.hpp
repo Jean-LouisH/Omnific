@@ -34,7 +34,6 @@ namespace Omnia
 		AnimationSystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::UPDATE;
 		};
 		~AnimationSystem();
 

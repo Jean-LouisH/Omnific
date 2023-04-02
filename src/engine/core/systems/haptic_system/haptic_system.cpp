@@ -47,14 +47,14 @@ void Omnia::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*>
 	}
 }
 
-void Omnia::HapticSystem::initialize()
+void Omnia::HapticSystem::initializeOutput()
 {
 	SDL_InitSubSystem(SDL_INIT_HAPTIC);
-	this->isInitialized = true;
+	this->isOutputInitialized = true;
 	OS::getLogger().write("Initialized Haptic System");
 }
 
-void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::HapticSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	Input& hid = OS::getInput();
 	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
@@ -106,10 +106,10 @@ void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::HapticSystem::finalize()
+void Omnia::HapticSystem::finalizeOutput()
 {
-	if (this->isInitialized)
+	if (this->isOutputInitialized)
 		SDL_QuitSubSystem(SDL_INIT_HAPTIC);
 
-	this->isInitialized = false;
+	this->isOutputInitialized = false;
 }

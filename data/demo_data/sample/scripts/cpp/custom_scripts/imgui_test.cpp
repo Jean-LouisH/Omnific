@@ -20,7 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+
 #include "imgui_test.hpp"
+#include <backends/imgui_impl_sdl2.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <imgui.h>
+#include <glad/glad.h>
 
 void Sample::IMGUITest::onStart()
 {
@@ -32,11 +37,63 @@ void Sample::IMGUITest::onStart()
 void Sample::IMGUITest::onLogic()
 {
     std::shared_ptr<Omnia::Timer> timer = Omnia::EntityContext::getComponentByType<Omnia::Timer>();
+    Omnia::Logger& logger = Omnia::OS::getLogger();
 
     if (timer->isFinished())
     {
         timer->start(1.0f);
         timer->stop();
-        Omnia::OS::getLogger().write("Time's up!");
+        logger.write("Time's up!");
+    }
+}
+
+void Sample::IMGUITest::onOutput()
+{
+    Omnia::Window& window = Omnia::OS::getWindow();
+
+    if (!this->isImGuiInitialized)
+    {
+        if (window.getSDLGLContext() != NULL)
+        {
+            ImGui::CreateContext();
+            ImGuiIO& io = ImGui::GetIO();
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+            ImGui_ImplSDL2_InitForOpenGL(window.getSDLWindow(), window.getSDLGLContext());
+            ImGui_ImplOpenGL3_Init();
+            this->isImGuiInitialized = true;
+        }
+    }
+    else
+    {
+        char buf[32];
+        float f;
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame(window.getSDLWindow());
+        ImGui::NewFrame();
+
+ /*       ImGui::Text("Hello, world %d", 123);
+        if (ImGui::Button("Save"))
+            Omnia::OS::getLogger().write("Saved.");
+        ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);*/
+
+        ImGui::Begin("MyWindow");
+        ImGui::Button("OK");          // Label = "OK",     ID = hash of ("MyWindow", "OK")
+        ImGui::Button("Cancel");      // Label = "Cancel", ID = hash of ("MyWindow", "Cancel")
+        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+}
+
+void Sample::IMGUITest::onFinish()
+{
+    if (this->isImGuiInitialized)
+    {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
     }
 }

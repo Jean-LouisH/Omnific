@@ -41,7 +41,6 @@ namespace Omnia
 		HapticSystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::OUTPUT;
 		};
 
 		~HapticSystem();
@@ -53,9 +52,9 @@ namespace Omnia
 			return new HapticSystem(*this);
 		}
 
-		virtual void initialize() override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
-		virtual void finalize() override;
+		virtual void initializeOutput() override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
+		virtual void finalizeOutput() override;
 	private:
 		typedef struct HapticPlayback
 		{

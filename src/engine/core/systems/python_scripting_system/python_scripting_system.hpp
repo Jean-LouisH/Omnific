@@ -45,7 +45,6 @@ namespace Omnia
 		PythonScriptingSystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::UPDATE;
 		};
 
 		static constexpr const char* TYPE_STRING = "PythonScriptingSystem";

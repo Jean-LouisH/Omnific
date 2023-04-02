@@ -37,7 +37,6 @@ namespace Omnia
 		AudioSystem()
 		{
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::OUTPUT;
 		};
 		~AudioSystem();
 
@@ -48,9 +47,9 @@ namespace Omnia
 			return new AudioSystem(*this);
 		}
 
-		virtual void initialize() override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
-		virtual void finalize() override;
+		virtual void initializeOutput() override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
+		virtual void finalizeOutput() override;
 	private:
 		std::queue<std::shared_ptr<Mix_Chunk>> soundFXQueue;
 		std::queue<std::shared_ptr<Mix_Music>> musicQueue;

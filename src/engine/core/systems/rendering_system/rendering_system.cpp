@@ -36,22 +36,22 @@ Omnia::RenderingSystem::~RenderingSystem()
 	this->finalize();
 }
 
-void Omnia::RenderingSystem::initialize()
+void Omnia::RenderingSystem::initializeOutput()
 {
 	Image image = Image(
 		OS::getFileAccess().getDataDirectoryPath() + Configuration::getInstance()->metadata.iconFilepath);
 	OS::getWindow().changeIcon(
-		image.getData(), 
-		image.getWidth(), 
-		image.getHeight(), 
-		image.getDepth(), 
+		image.getData(),
+		image.getWidth(),
+		image.getHeight(),
+		image.getDepth(),
 		image.getPitch());
 
 	this->context->initialize();
-	this->isInitialized = true;
+	this->isOutputInitialized = true;
 }
 
-void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
 	this->buildRenderablesOnModifiedComponents(scene);
@@ -60,12 +60,12 @@ void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
 	this->context->swapBuffers();
 }
 
-void Omnia::RenderingSystem::finalize()
+void Omnia::RenderingSystem::finalizeOutput()
 {
-	if (this->isInitialized)
+	if (this->isOutputInitialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
-	this->isInitialized = false;
+	this->isOutputInitialized = false;
 }
 
 void Omnia::RenderingSystem::onWindowResize()

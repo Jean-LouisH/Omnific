@@ -37,16 +37,16 @@ void Omnia::AudioSystem::play()
 	SDL::Audio::playMusic(&this->musicQueue);
 }
 
-void Omnia::AudioSystem::initialize()
+void Omnia::AudioSystem::initializeOutput()
 {
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
-	this->isInitialized = true;
+	this->isOutputInitialized = true;
 	OS::getLogger().write("Initialized Audio System.");
 }
 
-void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::AudioSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 
@@ -76,14 +76,14 @@ void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
 	this->play();
 }
 
-void Omnia::AudioSystem::finalize()
+void Omnia::AudioSystem::finalizeOutput()
 {
-	if (this->isInitialized)
+	if (this->isOutputInitialized)
 	{
 		Mix_CloseAudio();
 		Mix_Quit();
 		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	}
 
-	this->isInitialized = false;
+	this->isOutputInitialized = false;
 }

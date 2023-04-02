@@ -31,6 +31,12 @@ void Omnia::System::initialize()
 {
 
 }
+
+void Omnia::System::initializeOutput()
+{
+
+}
+
 void Omnia::System::onStart(std::shared_ptr<Scene> scene)
 {
 
@@ -61,7 +67,17 @@ void Omnia::System::onLate(std::shared_ptr<Scene> scene)
 
 }
 
+void Omnia::System::onOutput(std::shared_ptr<Scene> scene)
+{
+
+}
+
 void Omnia::System::onFinish(std::shared_ptr<Scene> scene)
+{
+
+}
+
+void Omnia::System::finalizeOutput()
 {
 
 }
@@ -76,12 +92,7 @@ bool Omnia::System::getIsInitialized()
 	return this->isInitialized;
 }
 
-bool Omnia::System::isThreadType(ThreadType threadType)
+bool Omnia::System::getIsOutputInitialized()
 {
-	return this->getThreadType() == threadType;
-}
-
-Omnia::ThreadType Omnia::System::getThreadType()
-{
-	return this->threadType;
+	return this->isOutputInitialized;
 }

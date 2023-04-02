@@ -76,6 +76,7 @@ namespace Omnia
         virtual void onLogic();
         virtual void onCompute();
         virtual void onLate();
+        virtual void onOutput();
         virtual void onFinish();
     protected:
         std::string type;

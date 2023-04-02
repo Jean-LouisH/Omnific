@@ -21,6 +21,7 @@ include_directories(
 	 "."
      "../SDL2-2.26.2/include"
      "../freetype-2.11.1/include"
+     "../glad/include"
 )
 
 add_library(imgui STATIC

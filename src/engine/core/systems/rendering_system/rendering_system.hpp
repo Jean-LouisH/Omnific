@@ -64,7 +64,6 @@ namespace Omnia
 
 			this->context = std::shared_ptr<RenderingContext>(new RenderingContext());
 			this->type = TYPE_STRING;
-			this->threadType = ThreadType::OUTPUT;
 		}
 		~RenderingSystem();
 
@@ -75,9 +74,9 @@ namespace Omnia
 			return new RenderingSystem(*this);
 		}
 
-		virtual void initialize() override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
-		virtual void finalize() override;
+		virtual void initializeOutput() override;
+		virtual void onOutput(std::shared_ptr<Scene> scene) override;
+		virtual void finalizeOutput() override;
 		std::string getRenderingContextName();
 	private:
 		std::shared_ptr<RenderingContext> context;
