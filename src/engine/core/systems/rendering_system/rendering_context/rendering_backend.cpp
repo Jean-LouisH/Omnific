@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "rendering_context.hpp"
+#include "rendering_backend.hpp"
 #include "built_in_shaders.hpp"
 #include <core/singletons/os/os.hpp>
 #include <string>
@@ -28,7 +28,7 @@
 
 #include <core/components/model.hpp>
 
-void Omnia::RenderingContext::initialize()
+void Omnia::RenderingBackend::initialize()
 {
 	Window& window = OS::getWindow();
 	window.initializeWindowContext("opengl");
@@ -53,12 +53,12 @@ void Omnia::RenderingContext::initialize()
 
 		Rectangle windowDimensions = window.getWindowSize();
 		this->setViewport(windowDimensions.width, windowDimensions.height);
-		OS::getLogger().write((std::string)("Rendering Context initialized with ") +
+		OS::getLogger().write((std::string)("Rendering Backend initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
 }
 
-void Omnia::RenderingContext::clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnia::RenderingBackend::clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	glClearColor(
 		(float)(red) / 255.0, 
@@ -68,44 +68,44 @@ void Omnia::RenderingContext::clearColourBuffer(uint8_t red, uint8_t green, uint
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Omnia::RenderingContext::clearDepthBuffer()
+void Omnia::RenderingBackend::clearDepthBuffer()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Omnia::RenderingContext::enableDepthTest()
+void Omnia::RenderingBackend::enableDepthTest()
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 }
 
-void Omnia::RenderingContext::disableDepthTest()
+void Omnia::RenderingBackend::disableDepthTest()
 {
 	glDisable(GL_DEPTH_TEST);
 }
 
-void Omnia::RenderingContext::enableWireframeMode()
+void Omnia::RenderingBackend::enableWireframeMode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void Omnia::RenderingContext::disableWireframeMode()
+void Omnia::RenderingBackend::disableWireframeMode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Omnia::RenderingContext::enableBlending()
+void Omnia::RenderingBackend::enableBlending()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Omnia::RenderingContext::disableBlending()
+void Omnia::RenderingBackend::disableBlending()
 {
 	glDisable(GL_BLEND);
 }
 
-void Omnia::RenderingContext::submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists)
+void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists)
 {
 
 	for (auto it = sceneLayerRenderableLists.begin(); it != sceneLayerRenderableLists.end(); it++)
@@ -344,22 +344,22 @@ void Omnia::RenderingContext::submit(std::map<SceneLayerID, std::vector<SceneTre
 	this->collectGarbage();
 }
 
-void Omnia::RenderingContext::setViewport(uint32_t width, uint32_t height)
+void Omnia::RenderingBackend::setViewport(uint32_t width, uint32_t height)
 {
 	glViewport(0, 0, width, height);
 }
 
-void Omnia::RenderingContext::swapBuffers()
+void Omnia::RenderingBackend::swapBuffers()
 {
 	SDL_GL_SwapWindow(OS::getWindow().getSDLWindow());
 }
 
-std::string Omnia::RenderingContext::getRenderingContextName()
+std::string Omnia::RenderingBackend::getRenderingBackendName()
 {
 	return "opengl";
 }
 
-std::shared_ptr<Omnia::Texture> Omnia::RenderingContext::getTexture(std::shared_ptr<Image> image)
+std::shared_ptr<Omnia::Texture> Omnia::RenderingBackend::getTexture(std::shared_ptr<Image> image)
 {
 	std::shared_ptr<Texture> texture;
 
@@ -387,7 +387,7 @@ std::shared_ptr<Omnia::Texture> Omnia::RenderingContext::getTexture(std::shared_
 	return texture;
 }
 
-std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
+std::shared_ptr<Omnia::VertexArray> Omnia::RenderingBackend::getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
 {
 	AssetID assetID;
 
@@ -420,7 +420,7 @@ std::shared_ptr<Omnia::VertexArray> Omnia::RenderingContext::getVertexArray(std:
 	return this->vertexArrays.at(assetID);
 }
 
-void Omnia::RenderingContext::collectGarbage()
+void Omnia::RenderingBackend::collectGarbage()
 {
 	std::vector<AssetID> assetsToDelete;
 

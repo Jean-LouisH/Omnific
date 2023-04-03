@@ -29,7 +29,7 @@
 #include <vector>
 #include "core/singletons/os/window.hpp"
 #include "core/utilities/aliases.hpp"
-#include "rendering_context/rendering_context.hpp"
+#include "rendering_context/rendering_backend.hpp"
 #include "entity_renderable.hpp"
 #include "scene_tree_renderable.hpp"
 #include <memory>
@@ -60,9 +60,9 @@ namespace Omnia
 				640,
 				480,
 				false,
-				this->getRenderingContextName());
+				this->getRenderingBackendName());
 
-			this->context = std::shared_ptr<RenderingContext>(new RenderingContext());
+			this->context = std::shared_ptr<RenderingBackend>(new RenderingBackend());
 			this->type = TYPE_STRING;
 		}
 		~RenderingSystem();
@@ -77,9 +77,9 @@ namespace Omnia
 		virtual void initializeOutput() override;
 		virtual void onOutput(std::shared_ptr<Scene> scene) override;
 		virtual void finalizeOutput() override;
-		std::string getRenderingContextName();
+		std::string getRenderingBackendName();
 	private:
-		std::shared_ptr<RenderingContext> context;
+		std::shared_ptr<RenderingBackend> context;
 		std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists;
 		SceneID activeSceneID = 0;
 

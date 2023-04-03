@@ -157,7 +157,7 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 	}
 }
 
-std::string Omnia::RenderingSystem::getRenderingContextName()
+std::string Omnia::RenderingSystem::getRenderingBackendName()
 {
-	return this->context->getRenderingContextName();
+	return this->context->getRenderingBackendName();
 }

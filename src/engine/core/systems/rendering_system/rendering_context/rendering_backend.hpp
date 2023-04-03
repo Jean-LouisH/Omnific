@@ -39,10 +39,10 @@
 namespace Omnia
 {
 	/* The object that calls the rendering API functions. */
-	class RenderingContext
+	class RenderingBackend
 	{
 	public:
-		RenderingContext()
+		RenderingBackend()
 		{
 			this->dummyLight = std::shared_ptr<Light>(new Light());
 			this->dummyLightTransform = std::shared_ptr<Transform>(new Transform());
@@ -60,7 +60,7 @@ namespace Omnia
 		void setViewport(uint32_t width, uint32_t height);
 		void submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists);
 		void swapBuffers();
-		std::string getRenderingContextName();
+		std::string getRenderingBackendName();
 	private:
 		std::unordered_map<AssetID, std::shared_ptr<Texture>> textures;
 		std::unordered_map<AssetID, std::shared_ptr<VertexArray>> vertexArrays;
