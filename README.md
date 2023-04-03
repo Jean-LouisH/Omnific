@@ -23,7 +23,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![omnia_project](docs/images/omnia_project.png)
 
-- OpenGL Rendering Context with GLSL, Scenes of multiple SceneLayers (2D and 3D) via depth buffer refresh
+- OpenGL Rendering Backend with GLSL, Scenes of multiple SceneLayers (2D and 3D) via depth buffer refresh
 
 ![scene_layers](docs/images/scene_layers.gif)
 
