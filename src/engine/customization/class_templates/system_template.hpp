@@ -60,6 +60,7 @@ namespace Omnia
 		//virtual void onLogic(std::shared_ptr<Scene> scene);
 		//virtual void onCompute(std::shared_ptr<Scene> scene);
 		//virtual void onLate(std::shared_ptr<Scene> scene);
+		//virtual void onOutput(std::shared_ptr<Scene> scene);
 		//virtual void onFinish(std::shared_ptr<Scene> scene);
 		//virtual void finalize();
 
