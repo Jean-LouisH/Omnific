@@ -27,18 +27,18 @@ Omnia::EntityContext* Omnia::EntityContext::instance = nullptr;
 
 void Omnia::EntityContext::bindEntity(SceneLayerID sceneLayerID, EntityID entityID)
 {
-	getInstance()->boundSceneTreeID = sceneLayerID;
+	getInstance()->boundSceneLayerID = sceneLayerID;
 	getInstance()->boundEntityID = entityID;
 }
 
 bool Omnia::EntityContext::hasComponent(std::string type)
 {
-	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
+	return getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
 }
 
 std::shared_ptr<Omnia::Entity> Omnia::EntityContext::getEntity()
 {
-	return getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID);
+	return getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID);
 }
 
 std::shared_ptr<Omnia::Scene> Omnia::EntityContext::getScene()
@@ -46,17 +46,17 @@ std::shared_ptr<Omnia::Scene> Omnia::EntityContext::getScene()
 	return SceneStorage::getActiveScene();
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::EntityContext::getSceneTree()
+std::shared_ptr<Omnia::SceneLayer> Omnia::EntityContext::getSceneLayer()
 {
-	return getInstance()->getScene()->getSceneLayers().at(getInstance()->boundSceneTreeID);
+	return getInstance()->getScene()->getSceneLayers().at(getInstance()->boundSceneLayerID);
 }
 
 std::shared_ptr<Omnia::Component> Omnia::EntityContext::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component(new Component());
 
-	std::shared_ptr<Entity> entity = getInstance()->getSceneTree()->getEntity(getInstance()->boundEntityID);
-	std::vector<std::shared_ptr<Component>>& components = getInstance()->getSceneTree()->getComponents();
+	std::shared_ptr<Entity> entity = getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID);
+	std::vector<std::shared_ptr<Component>>& components = getInstance()->getSceneLayer()->getComponents();
 
 	for (int i = 0; i < components.size(); i++)
 		if (components.at(i)->getID() == entity->componentIDs.at(type))

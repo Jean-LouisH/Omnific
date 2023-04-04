@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "audio_sdl.hpp"
+#include "sdl_audio_backend.hpp"
 
-void SDL::Audio::playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQueue)
+void SDLAudioBackend::playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQueue)
 {
 	while (!soundFXQueue->empty())
 	{
@@ -31,7 +31,7 @@ void SDL::Audio::playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQue
 	}
 }
 
-void SDL::Audio::playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue)
+void SDLAudioBackend::playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue)
 {
 	/* For now plays the last music that was queued. */
 	while (!musicQueue->empty())
@@ -41,7 +41,7 @@ void SDL::Audio::playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue)
 	}
 }
 
-void SDL::Audio::stopMusic()
+void SDLAudioBackend::stopMusic()
 {
 	Mix_HaltMusic();
 }

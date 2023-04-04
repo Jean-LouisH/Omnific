@@ -20,4 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "query.hpp"
+#pragma once
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <string>
+
+namespace Omnia
+{
+	class OpenGLFramebuffer
+	{
+	public:
+	private:
+	};
+}
+

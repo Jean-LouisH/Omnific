@@ -24,7 +24,7 @@
 
 namespace Omnia
 {
-	namespace BuiltInShaders
+	namespace OpenGLBuiltInShaders
 	{
 		namespace Vertex
 		{

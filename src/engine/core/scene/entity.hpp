@@ -53,7 +53,7 @@ namespace Omnia
 			this->name = "Entity (ID:" + std::to_string(this->id) + ")";
 		}
 
-		/*Sets name publicly only when it is not attached to a SceneTree.*/
+		/*Sets name publicly only when it is not attached to a SceneLayer.*/
 		void setName(std::string name);
 		std::string getName();
 		EntityID getID();
@@ -61,6 +61,6 @@ namespace Omnia
 		std::string name;
 		EntityID id = 0;
 
-		bool isAttachedToSceneTree = false;
+		bool isAttachedToSceneLayer = false;
 	};
 }

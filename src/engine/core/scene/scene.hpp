@@ -46,9 +46,9 @@ namespace Omnia
 		Scene(std::string filepath);
 		Scene(std::string filepath, std::string name);
 
-		void serialize(std::string filepath);
-		void deserialize(std::string filepath);
-		void deserialize(std::string filepath, std::string name);
+		void serializeTo(std::string filepath);
+		void deserializeFrom(std::string filepath);
+		void deserializeFrom(std::string filepath, std::string name);
 		void reload();
 
 		void addSceneLayer(std::shared_ptr<SceneLayer> sceneLayer);

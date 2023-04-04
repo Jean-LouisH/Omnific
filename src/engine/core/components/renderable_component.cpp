@@ -82,9 +82,9 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 			std::shared_ptr<Shader> shader(new Shader(vertex, fragment));
 
 			if (it3->first.as<std::string>() == "shader")
-				this->addShader(shader);
+				this->setShader(shader);
 			else
-				this->addOverridingShader(shader);
+				this->setOverridingShader(shader);
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
@@ -113,14 +113,14 @@ void Omnia::RenderableComponent::setDimensions(float width, float height, float 
 	this->dimensions.z = depth;
 }
 
-void Omnia::RenderableComponent::addShader(std::shared_ptr<Shader> shader)
+void Omnia::RenderableComponent::setShader(std::shared_ptr<Shader> shader)
 {
 	if (this->overridingShader == nullptr)
 		this->buildUniformReferencesFromShader(shader);
 	this->shader = shader;
 }
 
-void Omnia::RenderableComponent::addOverridingShader(std::shared_ptr<Shader> overridingShader)
+void Omnia::RenderableComponent::setOverridingShader(std::shared_ptr<Shader> overridingShader)
 {
 	this->buildUniformReferencesFromShader(overridingShader);
 	this->overridingShader = overridingShader;

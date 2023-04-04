@@ -131,7 +131,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("childIDs", &Omnia::Entity::childIDs)
 		.def_readwrite("tags", &Omnia::Entity::tags);
 
-	pybind11::class_<Omnia::SceneLayer, std::shared_ptr<Omnia::SceneLayer>>(m, "SceneTree")
+	pybind11::class_<Omnia::SceneLayer, std::shared_ptr<Omnia::SceneLayer>>(m, "SceneLayer")
 		.def("add_entity", &Omnia::SceneLayer::addEntity)
 		.def("add_empty_entity", &Omnia::SceneLayer::addEmptyEntity)
 		.def("add_component", &Omnia::SceneLayer::addComponent)
@@ -330,7 +330,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_entity", &Omnia::EntityContext::getEntity);
 	m.def("get_component", &Omnia::EntityContext::getComponent);
 	m.def("get_scene", &Omnia::EntityContext::getScene);
-	m.def("get_scene_tree", &Omnia::EntityContext::getSceneTree);
+	m.def("get_scene_tree", &Omnia::EntityContext::getSceneLayer);
 	m.def("get_time_delta", &Omnia::EntityContext::getTimeDelta);
 
 	m.def("get_shared_library_access", &Omnia::OS::getSharedLibraryAccess, pybind11::return_value_policy::reference);

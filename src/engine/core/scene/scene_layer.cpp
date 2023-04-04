@@ -32,7 +32,7 @@ Omnia::SceneLayer::SceneLayer()
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 
 	this->id = UIDGenerator::getNewUID();
-	this->name = "SceneTree (ID:" + std::to_string(this->id) + ")";
+	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
 }
 
 void Omnia::SceneLayer::addEntity(std::shared_ptr<Entity> entity)

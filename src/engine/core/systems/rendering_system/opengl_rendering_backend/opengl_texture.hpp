@@ -20,4 +20,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "scene_tree_renderable.hpp"
+#pragma once
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <string>
+#include <core/assets/image.hpp>
+#include <memory>
+
+namespace Omnia
+{
+	/* Image or material data formatted in GPU memory. */
+	class OpenGLTexture
+	{
+	public:
+		/* There's at least 16 texture unit in 
+		   OpenGL drivers. */
+		enum class Unit
+		{
+			_0,
+			_1,
+			_2,
+			_3,
+			_4,
+			_5,
+			_6,
+			_7,
+			_8,
+			_9,
+			_10,
+			_11,
+			_12,
+			_13,
+			_14,
+			_15
+		};
+
+		OpenGLTexture();
+		~OpenGLTexture();
+		OpenGLTexture(std::shared_ptr<Image> image);
+		void activateDefaultTextureUnit();
+		void activateTextureUnit(Unit textureUnit);
+		void bind();
+		void bind(Unit textureUnit);
+		void deleteTexture();
+	private:
+		GLuint textureID = 0;
+	};
+}
+

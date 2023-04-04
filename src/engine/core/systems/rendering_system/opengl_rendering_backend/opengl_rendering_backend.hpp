@@ -25,13 +25,13 @@
 #include <core/singletons/os/window.hpp>
 #include <glad/glad.h>
 #include <vector>
-#include "shader_program.hpp"
-#include "texture.hpp"
-#include "vertex_array.hpp"
+#include "opengl_shader_program.hpp"
+#include "opengl_texture.hpp"
+#include "opengl_vertex_array.hpp"
 #include <core/assets/image.hpp>
 #include <core/assets/shader.hpp>
 #include <core/scene/scene.hpp>
-#include "../scene_tree_renderable.hpp"
+#include "../scene_layer_renderable.hpp"
 #include "core/utilities/aliases.hpp"
 #include <string>
 #include <map>
@@ -39,10 +39,10 @@
 namespace Omnia
 {
 	/* The object that calls the rendering API functions. */
-	class RenderingBackend
+	class OpenGLRenderingBackend
 	{
 	public:
-		RenderingBackend()
+		OpenGLRenderingBackend()
 		{
 			this->dummyLight = std::shared_ptr<Light>(new Light());
 			this->dummyLightTransform = std::shared_ptr<Transform>(new Transform());
@@ -58,15 +58,15 @@ namespace Omnia
 		void enableBlending();
 		void disableBlending();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists);
+		void submit(std::map<SceneLayerID, std::vector<SceneLayerRenderable>> sceneLayerRenderableLists);
 		void swapBuffers();
 		std::string getRenderingBackendName();
 	private:
-		std::unordered_map<AssetID, std::shared_ptr<Texture>> textures;
-		std::unordered_map<AssetID, std::shared_ptr<VertexArray>> vertexArrays;
-		std::unordered_map<AssetID, std::shared_ptr<ShaderProgram>> shaderPrograms;
-		std::shared_ptr<ShaderProgram> builtInShaderProgram2D;
-		std::shared_ptr<ShaderProgram> builtInShaderProgram3D;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLTexture>> textures;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLVertexArray>> vertexArrays;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLShaderProgram>> shaderPrograms;
+		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram2D;
+		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram3D;
 
 		std::shared_ptr<Light> dummyLight;
 		std::shared_ptr<Transform> dummyLightTransform;
@@ -74,8 +74,8 @@ namespace Omnia
 		uint8_t allowableMissedFrames = 0;
 		std::unordered_map<AssetID, uint8_t> missedFrameCounts;
 
-		std::shared_ptr<Texture> getTexture(std::shared_ptr<Image> image);
-		std::shared_ptr<VertexArray> getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
+		std::shared_ptr<OpenGLTexture> getTexture(std::shared_ptr<Image> image);
+		std::shared_ptr<OpenGLVertexArray> getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
 
 		void collectGarbage();
 	};

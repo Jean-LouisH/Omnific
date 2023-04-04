@@ -81,8 +81,8 @@ namespace Omnia
 		virtual void deserialize(YAML::Node yamlNode);
 		void setDimensions(float width, float height);
 		void setDimensions(float width, float height, float depth);
-		void addShader(std::shared_ptr<Shader> shader);
-		void addOverridingShader(std::shared_ptr<Shader> overridingShader);
+		void setShader(std::shared_ptr<Shader> shader);
+		void setOverridingShader(std::shared_ptr<Shader> overridingShader);
 		void setAlpha(uint8_t value);
 		void setToNoFaceCulling();
 		void setToFrontFaceCulling();

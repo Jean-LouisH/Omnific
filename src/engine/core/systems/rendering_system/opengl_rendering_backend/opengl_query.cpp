@@ -20,18 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include <SDL_mixer.h>
-#include <queue>
-#include <memory>
-
-namespace SDL
-{
-	namespace Audio
-	{
-		void playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQueue);
-		void playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue);
-		void stopMusic();
-	}
-}
+#include "opengl_query.hpp"

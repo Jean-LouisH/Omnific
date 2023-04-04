@@ -22,26 +22,16 @@
 
 #pragma once
 
+#include <glad/glad.h>
+#include <glm/glm.hpp>
 #include <vector>
-#include <core/components/transform.hpp>
-#include <core/components/camera.hpp>
-#include <core/components/light.hpp>
-#include <memory>
-#include "entity_renderable.hpp"
+#include <string>
 
 namespace Omnia
 {
-	/* Caches memory locations for values
-	   relevant to rendering from a given Camera. */
-	class SceneTreeRenderable
+	class OpenGLQuery
 	{
 	public:
-		bool is2D = false;
-		std::shared_ptr<Camera> camera;
-		std::shared_ptr<Transform> cameraTransform;
-		std::vector<std::shared_ptr<Light>> lights;
-		std::vector<std::shared_ptr<Transform>> lightTransforms;
-		std::vector<EntityRenderable> entityRenderables;
 	private:
 	};
 }

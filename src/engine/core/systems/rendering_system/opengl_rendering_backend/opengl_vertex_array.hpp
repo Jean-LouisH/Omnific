@@ -20,4 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "framebuffer.hpp"
+#pragma once
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <string>
+#include "opengl_vertex_buffer.hpp"
+#include "opengl_index_buffer.hpp"
+#include <core/components/renderable_component.hpp>
+#include <core/assets/image.hpp>
+#include <core/assets/mesh.hpp>
+#include <memory>
+
+
+namespace Omnia
+{
+	/* Identifier for buffers bound to a draw call. */
+	class OpenGLVertexArray
+	{
+	public:
+		OpenGLVertexArray();
+		OpenGLVertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
+		~OpenGLVertexArray();
+		void bind();
+		void unbind();
+		void deleteVertexArray();
+		unsigned int getIndexCount();
+		unsigned int getVertexCount();
+	private:
+		GLuint vertexArrayID;
+		std::shared_ptr<OpenGLVertexBuffer> vertexBuffer;
+		std::shared_ptr<OpenGLIndexBuffer> indexBuffer;
+	};
+}
+

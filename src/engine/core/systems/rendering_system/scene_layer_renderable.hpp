@@ -22,51 +22,27 @@
 
 #pragma once
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
 #include <vector>
-#include <string>
-#include <core/assets/image.hpp>
+#include <core/components/transform.hpp>
+#include <core/components/camera.hpp>
+#include <core/components/light.hpp>
 #include <memory>
+#include "entity_renderable.hpp"
 
 namespace Omnia
 {
-	/* Image or material data formatted in GPU memory. */
-	class Texture
+	/* Caches memory locations for values
+	   relevant to rendering from a given Camera. */
+	class SceneLayerRenderable
 	{
 	public:
-		/* There's at least 16 texture unit in 
-		   OpenGL drivers. */
-		enum class Unit
-		{
-			_0,
-			_1,
-			_2,
-			_3,
-			_4,
-			_5,
-			_6,
-			_7,
-			_8,
-			_9,
-			_10,
-			_11,
-			_12,
-			_13,
-			_14,
-			_15
-		};
-
-		Texture();
-		~Texture();
-		Texture(std::shared_ptr<Image> image);
-		void activateDefaultTextureUnit();
-		void activateTextureUnit(Unit textureUnit);
-		void bind();
-		void bind(Unit textureUnit);
-		void deleteTexture();
+		bool is2D = false;
+		std::shared_ptr<Camera> camera;
+		std::shared_ptr<Transform> cameraTransform;
+		std::vector<std::shared_ptr<Light>> lights;
+		std::vector<std::shared_ptr<Transform>> lightTransforms;
+		std::vector<EntityRenderable> entityRenderables;
 	private:
-		GLuint textureID = 0;
 	};
 }
 

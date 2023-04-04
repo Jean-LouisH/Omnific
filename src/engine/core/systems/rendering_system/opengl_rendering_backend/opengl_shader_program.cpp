@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "shader_program.hpp"
+#include "opengl_shader_program.hpp"
 #include <iostream>
 #include <glm/glm.hpp>
 #include <core/singletons/os/os.hpp>
@@ -28,7 +28,7 @@
 #include <core/assets/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Omnia::ShaderProgram::ShaderProgram(std::shared_ptr<Shader> shader)
+Omnia::OpenGLShaderProgram::OpenGLShaderProgram(std::shared_ptr<Shader> shader)
 {
 	bool compilationSuccess = true;
 
@@ -44,55 +44,55 @@ Omnia::ShaderProgram::ShaderProgram(std::shared_ptr<Shader> shader)
 	this->deleteShaderObjectCode();
 }
 
-Omnia::ShaderProgram::~ShaderProgram()
+Omnia::OpenGLShaderProgram::~OpenGLShaderProgram()
 {
 	this->deleteProgram();
 }
 
-void Omnia::ShaderProgram::use()
+void Omnia::OpenGLShaderProgram::use()
 {
 	if (this->programID != 0)
 		glUseProgram(this->programID);
 }
 
-void Omnia::ShaderProgram::setInt(std::string name, int value)
+void Omnia::OpenGLShaderProgram::setInt(std::string name, int value)
 {
 	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), value);
 }
 
-void Omnia::ShaderProgram::setBool(std::string name, bool value)
+void Omnia::OpenGLShaderProgram::setBool(std::string name, bool value)
 {
 	glUniform1i(glGetUniformLocation(this->programID, name.c_str()), (int)value);
 }
 
-void Omnia::ShaderProgram::setFloat(std::string name, float value)
+void Omnia::OpenGLShaderProgram::setFloat(std::string name, float value)
 {
 	glUniform1f(glGetUniformLocation(this->programID, name.c_str()), value);
 }
 
-void Omnia::ShaderProgram::setVec2(std::string name, glm::vec2 value)
+void Omnia::OpenGLShaderProgram::setVec2(std::string name, glm::vec2 value)
 {
 	glUniform2f(glGetUniformLocation(this->programID, name.c_str()), value.x, value.y);
 }
 
-void Omnia::ShaderProgram::setVec3(std::string name, glm::vec3 value)
+void Omnia::OpenGLShaderProgram::setVec3(std::string name, glm::vec3 value)
 {
 	glUniform3f(glGetUniformLocation(this->programID, name.c_str()), value.x, value.y, value.z);
 }
 
-void Omnia::ShaderProgram::setVec4(std::string name, glm::vec4 value)
+void Omnia::OpenGLShaderProgram::setVec4(std::string name, glm::vec4 value)
 {
 	glUniform4f(glGetUniformLocation(this->programID, name.c_str()), value.x, value.y, value.z, value.w);
 }
 
-void Omnia::ShaderProgram::setMat4(std::string name, glm::mat4 value)
+void Omnia::OpenGLShaderProgram::setMat4(std::string name, glm::mat4 value)
 {
 	glUniformMatrix4fv(glGetUniformLocation(this->programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL
 Shader tutorial comment section. Reference: https://learnopengl.com/Getting-started/Shaders#comment-4468935635*/
-void Omnia::ShaderProgram::logUniforms()
+void Omnia::OpenGLShaderProgram::logUniforms()
 {
 	int how_many{};
 	int bufsize{}; // max name size
@@ -112,13 +112,13 @@ void Omnia::ShaderProgram::logUniforms()
 	}
 }
 
-void Omnia::ShaderProgram::deleteProgram()
+void Omnia::OpenGLShaderProgram::deleteProgram()
 {
 	if (this->programID != 0)
 		glDeleteProgram(this->programID);
 }
 
-bool Omnia::ShaderProgram::compileVertexShader(std::string vertexShaderSource)
+bool Omnia::OpenGLShaderProgram::compileVertexShader(std::string vertexShaderSource)
 {
 	GLuint vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	GLchar* source = (GLchar*)vertexShaderSource.c_str();
@@ -128,7 +128,7 @@ bool Omnia::ShaderProgram::compileVertexShader(std::string vertexShaderSource)
 	return this->checkCompileTimeErrors(vertexShaderID, GL_COMPILE_STATUS);
 }
 
-bool Omnia::ShaderProgram::compileFragmentShader(std::string fragmentShaderSource)
+bool Omnia::OpenGLShaderProgram::compileFragmentShader(std::string fragmentShaderSource)
 {
 	GLuint fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 	GLchar* source = (GLchar*)fragmentShaderSource.c_str();
@@ -138,7 +138,7 @@ bool Omnia::ShaderProgram::compileFragmentShader(std::string fragmentShaderSourc
 	return this->checkCompileTimeErrors(fragmentShaderID, GL_COMPILE_STATUS);
 }
 
-void Omnia::ShaderProgram::linkShaderProgram()
+void Omnia::OpenGLShaderProgram::linkShaderProgram()
 {
 	GLuint programID = glCreateProgram();
 	glAttachShader(programID, this->vertexShaderID);
@@ -150,7 +150,7 @@ void Omnia::ShaderProgram::linkShaderProgram()
 	this->programID = programID;
 }
 
-bool Omnia::ShaderProgram::checkCompileTimeErrors(GLuint ID, GLuint status)
+bool Omnia::OpenGLShaderProgram::checkCompileTimeErrors(GLuint ID, GLuint status)
 {
 	GLint compilationSuccess = GL_FALSE;
 	char infoLog[512];
@@ -169,7 +169,7 @@ bool Omnia::ShaderProgram::checkCompileTimeErrors(GLuint ID, GLuint status)
 	return compilationSuccess;
 }
 
-void Omnia::ShaderProgram::deleteShaderObjectCode()
+void Omnia::OpenGLShaderProgram::deleteShaderObjectCode()
 {
 	glDeleteShader(this->vertexShaderID);
 	glDeleteShader(this->fragmentShaderID);

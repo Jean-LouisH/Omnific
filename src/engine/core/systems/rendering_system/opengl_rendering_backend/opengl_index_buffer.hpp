@@ -34,12 +34,12 @@
 namespace Omnia
 {
 	/* Storage for mesh index data in GPU memory. */
-	class IndexBuffer
+	class OpenGLIndexBuffer
 	{
 	public:
-		IndexBuffer();
-		IndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
-		~IndexBuffer();
+		OpenGLIndexBuffer();
+		OpenGLIndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
+		~OpenGLIndexBuffer();
 		void bind();
 		void deleteIndexBuffer();
 		unsigned int getIndexCount();

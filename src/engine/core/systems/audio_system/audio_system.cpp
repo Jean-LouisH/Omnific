@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "audio_system.hpp"
-#include "audio_sdl/audio_sdl.hpp"
+#include "sdl_audio_backend/sdl_audio_backend.hpp"
 #include <core/singletons/os/os.hpp>
 
 #include <core/components/audio_source.hpp>
@@ -33,8 +33,8 @@ Omnia::AudioSystem::~AudioSystem()
 
 void Omnia::AudioSystem::play()
 {
-	SDL::Audio::playSoundFXs(&this->soundFXQueue);
-	SDL::Audio::playMusic(&this->musicQueue);
+	SDLAudioBackend::playSoundFXs(&this->soundFXQueue);
+	SDLAudioBackend::playMusic(&this->musicQueue);
 }
 
 void Omnia::AudioSystem::initializeOutput()

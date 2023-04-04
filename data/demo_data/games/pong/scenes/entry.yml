@@ -1,7 +1,7 @@
 # Omnia Pong
 
 SceneLayer:
-  name: "Background SceneTree"
+  name: "Background SceneLayer"
   spatial_dimension: 3
   Entity:
     name: "Background Camera"
@@ -21,7 +21,7 @@ SceneLayer:
     Viewport:
       camera_entity: "Background Camera"
 SceneLayer:
-  name: "Foreground SceneTree"
+  name: "Foreground SceneLayer"
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"

@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "index_buffer.hpp"
+#include "opengl_vertex_buffer.hpp"
 #include <core/components/model.hpp>
 
-Omnia::IndexBuffer::IndexBuffer()
+Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer()
 {
 
 }
 
-Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent)
+Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer(std::shared_ptr<RenderableComponent> renderableComponent)
 {
 	std::shared_ptr<Mesh> mesh;
 
@@ -39,41 +39,48 @@ Omnia::IndexBuffer::IndexBuffer(std::shared_ptr<RenderableComponent> renderableC
 	else
 	{
 		std::shared_ptr<Image> image = renderableComponent->getImage();
+		glm::vec3 dimensions = renderableComponent->getDimensions();
 		if (image != nullptr)
 		{
 			mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
+			int width = dimensions.x;
+			int height = dimensions.y;
+			int xCentre = width / 2;
+			int yCentre = height / 2;
+
+			/* This stretches the mesh dimensions to the renderable component. */
+			mesh->vertices[0].position = glm::vec3(width - xCentre, height - yCentre, 0.0); //top right
+			mesh->vertices[1].position = glm::vec3(width - xCentre, 0 - yCentre, 0.0); //bottom right
+			mesh->vertices[2].position = glm::vec3(0 - xCentre, 0 - yCentre, 0.0); //bottom left
+			mesh->vertices[3].position = glm::vec3(0 - xCentre, height - yCentre, 0.0); //top left
 		}
 	}
 
 	if (mesh != nullptr)
 	{
-		if (mesh->getIsIndexed())
-		{
-			this->indexCount = mesh->indices.size();
-			glGenBuffers(1, &this->indexBufferID);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
-				&mesh->indices[0], GL_STATIC_DRAW);
-		}
+		this->vertexCount = mesh->vertices.size();
+		glGenBuffers(1, &this->vertexBufferID);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
+		glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
 	}
 }
 
-Omnia::IndexBuffer::~IndexBuffer()
+Omnia::OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
-	this->deleteIndexBuffer();
+	this->deleteVertexBuffer();
 }
 
-void Omnia::IndexBuffer::bind()
+void Omnia::OpenGLVertexBuffer::bind()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBufferID);
 }
 
-void Omnia::IndexBuffer::deleteIndexBuffer()
+void Omnia::OpenGLVertexBuffer::deleteVertexBuffer()
 {
-	glDeleteBuffers(1, &this->indexBufferID);
+	glDeleteBuffers(1, &this->vertexBufferID);
 }
 
-unsigned int Omnia::IndexBuffer::getIndexCount()
+unsigned int Omnia::OpenGLVertexBuffer::getVertexCount()
 {
-	return this->indexCount;
+	return this->vertexCount;
 }

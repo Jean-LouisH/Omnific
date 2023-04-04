@@ -29,9 +29,9 @@
 #include <vector>
 #include "core/singletons/os/window.hpp"
 #include "core/utilities/aliases.hpp"
-#include "rendering_context/rendering_backend.hpp"
+#include "opengl_rendering_backend/opengl_rendering_backend.hpp"
 #include "entity_renderable.hpp"
-#include "scene_tree_renderable.hpp"
+#include "scene_layer_renderable.hpp"
 #include <memory>
 #include <map>
 #include <core/singletons/os/os.hpp>
@@ -62,7 +62,7 @@ namespace Omnia
 				false,
 				this->getRenderingBackendName());
 
-			this->context = std::shared_ptr<RenderingBackend>(new RenderingBackend());
+			this->openglBackend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
 			this->type = TYPE_STRING;
 		}
 		~RenderingSystem();
@@ -79,8 +79,8 @@ namespace Omnia
 		virtual void finalizeOutput() override;
 		std::string getRenderingBackendName();
 	private:
-		std::shared_ptr<RenderingBackend> context;
-		std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists;
+		std::shared_ptr<OpenGLRenderingBackend> openglBackend;
+		std::map<SceneLayerID, std::vector<SceneLayerRenderable>> sceneLayerRenderableLists;
 		SceneID activeSceneID = 0;
 
 		void onWindowResize();

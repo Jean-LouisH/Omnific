@@ -47,7 +47,7 @@ void Omnia::RenderingSystem::initializeOutput()
 		image.getDepth(),
 		image.getPitch());
 
-	this->context->initialize();
+	this->openglBackend->initialize();
 	this->isOutputInitialized = true;
 }
 
@@ -55,9 +55,9 @@ void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
 	this->buildRenderablesOnModifiedComponents(scene);
-	this->context->clearColourBuffer(0, 0, 0, 255);
-	this->context->submit(this->sceneLayerRenderableLists);
-	this->context->swapBuffers();
+	this->openglBackend->clearColourBuffer(0, 0, 0, 255);
+	this->openglBackend->submit(this->sceneLayerRenderableLists);
+	this->openglBackend->swapBuffers();
 }
 
 void Omnia::RenderingSystem::finalizeOutput()
@@ -71,7 +71,7 @@ void Omnia::RenderingSystem::finalizeOutput()
 void Omnia::RenderingSystem::onWindowResize()
 {
 	Rectangle windowRectangle = OS::getWindow().getWindowSize();
-	this->context->setViewport(windowRectangle.width, windowRectangle.height);
+	this->openglBackend->setViewport(windowRectangle.width, windowRectangle.height);
 }
 
 void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene)
@@ -90,7 +90,7 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 
 		if (sceneLayer->hasRenderableComponentsChanged)
 		{
-			std::vector<SceneTreeRenderable> sceneLayerRenderableList;
+			std::vector<SceneLayerRenderable> sceneLayerRenderableList;
 
 			std::vector<std::shared_ptr<Viewport>> uiViewports = sceneLayer->getComponentsByType<Viewport>();
 			std::vector<size_t> renderOrderIndexCache = sceneLayer->getRenderOrderIndexCache();
@@ -100,7 +100,7 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 				std::shared_ptr<Viewport> uiViewport = uiViewports.at(i);
 				std::shared_ptr<Entity> cameraEntity = sceneLayer->getEntityByName(uiViewport->getCameraEntityName());
 				std::shared_ptr<Camera> camera = sceneLayer->getComponentByType<Camera>(cameraEntity->getID());
-				SceneTreeRenderable sceneLayerRenderable;
+				SceneLayerRenderable sceneLayerRenderable;
 				std::shared_ptr<Transform> cameraTransform = sceneLayer->getComponentByType<Transform>(camera->getEntityID());
 
 				sceneLayerRenderable.is2D = sceneLayer->is2D;
@@ -159,5 +159,5 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 
 std::string Omnia::RenderingSystem::getRenderingBackendName()
 {
-	return this->context->getRenderingBackendName();
+	return this->openglBackend->getRenderingBackendName();
 }

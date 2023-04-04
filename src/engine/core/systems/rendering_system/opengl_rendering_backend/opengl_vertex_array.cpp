@@ -20,19 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "vertex_array.hpp"
+#include "opengl_vertex_array.hpp"
 
-Omnia::VertexArray::VertexArray()
+Omnia::OpenGLVertexArray::OpenGLVertexArray()
 {
 	glGenVertexArrays(1, &this->vertexArrayID);
 }
 
-Omnia::VertexArray::VertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
+Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
 {
 	glGenVertexArrays(1, &this->vertexArrayID);
 	this->bind();
-	this->vertexBuffer = std::shared_ptr<VertexBuffer>(new VertexBuffer(renderableComponent));
-	this->indexBuffer = std::shared_ptr<IndexBuffer>(new IndexBuffer(renderableComponent));
+	this->vertexBuffer = std::shared_ptr<OpenGLVertexBuffer>(new OpenGLVertexBuffer(renderableComponent));
+	this->indexBuffer = std::shared_ptr<OpenGLIndexBuffer>(new OpenGLIndexBuffer(renderableComponent));
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -53,32 +53,32 @@ Omnia::VertexArray::VertexArray(std::shared_ptr<RenderableComponent> renderableC
 	this->unbind();
 }
 
-Omnia::VertexArray::~VertexArray()
+Omnia::OpenGLVertexArray::~OpenGLVertexArray()
 {
 	this->deleteVertexArray();
 }
 
-void Omnia::VertexArray::bind()
+void Omnia::OpenGLVertexArray::bind()
 {
 	glBindVertexArray(this->vertexArrayID);
 }
 
-void Omnia::VertexArray::unbind()
+void Omnia::OpenGLVertexArray::unbind()
 {
 	glBindVertexArray(0);
 }
 
-void Omnia::VertexArray::deleteVertexArray()
+void Omnia::OpenGLVertexArray::deleteVertexArray()
 {
 	glDeleteVertexArrays(1, &this->vertexArrayID);
 }
 
-unsigned int Omnia::VertexArray::getIndexCount()
+unsigned int Omnia::OpenGLVertexArray::getIndexCount()
 {
 	return this->indexBuffer->getIndexCount();
 }
 
-unsigned int Omnia::VertexArray::getVertexCount()
+unsigned int Omnia::OpenGLVertexArray::getVertexCount()
 {
 	return this->vertexBuffer->getVertexCount();
 }

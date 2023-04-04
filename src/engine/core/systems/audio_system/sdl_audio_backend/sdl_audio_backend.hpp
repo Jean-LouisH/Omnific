@@ -22,36 +22,13 @@
 
 #pragma once
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <vector>
-#include <string>
-#include "vertex_buffer.hpp"
-#include "index_buffer.hpp"
-#include <core/components/renderable_component.hpp>
-#include <core/assets/image.hpp>
-#include <core/assets/mesh.hpp>
+#include <SDL_mixer.h>
+#include <queue>
 #include <memory>
 
-
-namespace Omnia
+namespace SDLAudioBackend
 {
-	/* Identifier for buffers bound to a draw call. */
-	class VertexArray
-	{
-	public:
-		VertexArray();
-		VertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
-		~VertexArray();
-		void bind();
-		void unbind();
-		void deleteVertexArray();
-		unsigned int getIndexCount();
-		unsigned int getVertexCount();
-	private:
-		GLuint vertexArrayID;
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		std::shared_ptr<IndexBuffer> indexBuffer;
-	};
+	void playSoundFXs(std::queue<std::shared_ptr<Mix_Chunk>>* soundFXQueue);
+	void playMusic(std::queue<std::shared_ptr<Mix_Music>>* musicQueue);
+	void stopMusic();
 }
-

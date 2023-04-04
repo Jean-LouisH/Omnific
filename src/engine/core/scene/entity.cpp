@@ -24,7 +24,7 @@
 
 void Omnia::Entity::setName(std::string name)
 {
-	if (!this->isAttachedToSceneTree)
+	if (!this->isAttachedToSceneLayer)
 		this->name = name;
 }
 

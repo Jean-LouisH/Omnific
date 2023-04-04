@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "rendering_backend.hpp"
-#include "built_in_shaders.hpp"
+#include "opengl_rendering_backend.hpp"
+#include "opengl_built_in_shaders.hpp"
 #include <core/singletons/os/os.hpp>
 #include <string>
 #include <SDL_video.h>
 
 #include <core/components/model.hpp>
 
-void Omnia::RenderingBackend::initialize()
+void Omnia::OpenGLRenderingBackend::initialize()
 {
 	Window& window = OS::getWindow();
 	window.initializeWindowContext("opengl");
@@ -39,15 +39,15 @@ void Omnia::RenderingBackend::initialize()
 	}
 	else
 	{
-		this->builtInShaderProgram2D = std::shared_ptr<ShaderProgram>(new ShaderProgram(std::shared_ptr<Shader>(new Shader(
-			BuiltInShaders::Vertex::dimension_2, 
-			BuiltInShaders::Fragment::dimension_2, 
+		this->builtInShaderProgram2D = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
+			OpenGLBuiltInShaders::Vertex::dimension_2, 
+			OpenGLBuiltInShaders::Fragment::dimension_2, 
 			false,
 			false))));
 
-		this->builtInShaderProgram3D = std::shared_ptr<ShaderProgram>(new ShaderProgram(std::shared_ptr<Shader>(new Shader(
-			BuiltInShaders::Vertex::dimension_3,
-			BuiltInShaders::Fragment::dimension_3,
+		this->builtInShaderProgram3D = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
+			OpenGLBuiltInShaders::Vertex::dimension_3,
+			OpenGLBuiltInShaders::Fragment::dimension_3,
 			false,
 			false))));
 
@@ -58,7 +58,7 @@ void Omnia::RenderingBackend::initialize()
 	}
 }
 
-void Omnia::RenderingBackend::clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnia::OpenGLRenderingBackend::clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	glClearColor(
 		(float)(red) / 255.0, 
@@ -68,57 +68,57 @@ void Omnia::RenderingBackend::clearColourBuffer(uint8_t red, uint8_t green, uint
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Omnia::RenderingBackend::clearDepthBuffer()
+void Omnia::OpenGLRenderingBackend::clearDepthBuffer()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Omnia::RenderingBackend::enableDepthTest()
+void Omnia::OpenGLRenderingBackend::enableDepthTest()
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 }
 
-void Omnia::RenderingBackend::disableDepthTest()
+void Omnia::OpenGLRenderingBackend::disableDepthTest()
 {
 	glDisable(GL_DEPTH_TEST);
 }
 
-void Omnia::RenderingBackend::enableWireframeMode()
+void Omnia::OpenGLRenderingBackend::enableWireframeMode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void Omnia::RenderingBackend::disableWireframeMode()
+void Omnia::OpenGLRenderingBackend::disableWireframeMode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Omnia::RenderingBackend::enableBlending()
+void Omnia::OpenGLRenderingBackend::enableBlending()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Omnia::RenderingBackend::disableBlending()
+void Omnia::OpenGLRenderingBackend::disableBlending()
 {
 	glDisable(GL_BLEND);
 }
 
-void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTreeRenderable>> sceneLayerRenderableLists)
+void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneLayerRenderable>> sceneLayerRenderableLists)
 {
 
 	for (auto it = sceneLayerRenderableLists.begin(); it != sceneLayerRenderableLists.end(); it++)
 	{
 
-		std::vector<SceneTreeRenderable> sceneLayerRenderableList = it->second;
-		SceneTreeRenderable* sceneLayerRenderableListData = sceneLayerRenderableList.data();
+		std::vector<SceneLayerRenderable> sceneLayerRenderableList = it->second;
+		SceneLayerRenderable* sceneLayerRenderableListData = sceneLayerRenderableList.data();
 		size_t sceneLayerRenderableListCount = sceneLayerRenderableList.size();
 
 		for (size_t i = 0; i < sceneLayerRenderableListCount; i++)
 		{
 
-			SceneTreeRenderable& sceneLayerRenderable = sceneLayerRenderableListData[i];
+			SceneLayerRenderable& sceneLayerRenderable = sceneLayerRenderableListData[i];
 
 			if (sceneLayerRenderable.camera->getIsStreaming())
 			{
@@ -207,7 +207,7 @@ void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTre
 							this->disableBlending();
 						}
 
-						std::shared_ptr<VertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
+						std::shared_ptr<OpenGLVertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
 						vertexArray->bind();
 
 						if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
@@ -215,18 +215,18 @@ void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTre
 							std::shared_ptr<Material> material =
 								std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->material;
 
-							this->getTexture(material->albedo)->bind(Texture::Unit::_0);
-							this->getTexture(material->metallicity)->bind(Texture::Unit::_1);
-							this->getTexture(material->roughness)->bind(Texture::Unit::_2);
-							this->getTexture(material->emission)->bind(Texture::Unit::_3);
-							this->getTexture(material->normal)->bind(Texture::Unit::_4);
+							this->getTexture(material->albedo)->bind(OpenGLTexture::Unit::_0);
+							this->getTexture(material->metallicity)->bind(OpenGLTexture::Unit::_1);
+							this->getTexture(material->roughness)->bind(OpenGLTexture::Unit::_2);
+							this->getTexture(material->emission)->bind(OpenGLTexture::Unit::_3);
+							this->getTexture(material->normal)->bind(OpenGLTexture::Unit::_4);
 						}
 						else
 						{
-							this->getTexture(entityRenderable.renderableComponent->getImage())->bind(Texture::Unit::_0);
+							this->getTexture(entityRenderable.renderableComponent->getImage())->bind(OpenGLTexture::Unit::_0);
 						}
 
-						std::shared_ptr<ShaderProgram> shaderProgram;
+						std::shared_ptr<OpenGLShaderProgram> shaderProgram;
 
 						if (shader != nullptr)
 						{
@@ -239,15 +239,15 @@ void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTre
 								if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
 								{
 									completeShader = std::shared_ptr<Shader>(new Shader(
-										BuiltInShaders::Vertex::dimension_3,
-										BuiltInShaders::Fragment::dimension_3,
+										OpenGLBuiltInShaders::Vertex::dimension_3,
+										OpenGLBuiltInShaders::Fragment::dimension_3,
 										false,
 										false));
 								}
 								else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
 								{
 									completeShader = std::shared_ptr<Shader>(new Shader(
-										BuiltInShaders::Vertex::dimension_3,
+										OpenGLBuiltInShaders::Vertex::dimension_3,
 										shader->getFragmentSource(),
 										false,
 										false));
@@ -256,7 +256,7 @@ void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTre
 								{
 									completeShader = std::shared_ptr<Shader>(new Shader(
 										shader->getVertexSource(),
-										BuiltInShaders::Fragment::dimension_3,
+										OpenGLBuiltInShaders::Fragment::dimension_3,
 										false,
 										false));
 								}
@@ -267,7 +267,7 @@ void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTre
 
 								this->shaderPrograms.emplace(
 									shaderID,
-									std::shared_ptr<ShaderProgram>(new ShaderProgram(completeShader)));
+									std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(completeShader)));
 							}
 
 							shaderProgram = this->shaderPrograms.at(shaderID);
@@ -344,24 +344,24 @@ void Omnia::RenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneTre
 	this->collectGarbage();
 }
 
-void Omnia::RenderingBackend::setViewport(uint32_t width, uint32_t height)
+void Omnia::OpenGLRenderingBackend::setViewport(uint32_t width, uint32_t height)
 {
 	glViewport(0, 0, width, height);
 }
 
-void Omnia::RenderingBackend::swapBuffers()
+void Omnia::OpenGLRenderingBackend::swapBuffers()
 {
 	SDL_GL_SwapWindow(OS::getWindow().getSDLWindow());
 }
 
-std::string Omnia::RenderingBackend::getRenderingBackendName()
+std::string Omnia::OpenGLRenderingBackend::getRenderingBackendName()
 {
 	return "opengl";
 }
 
-std::shared_ptr<Omnia::Texture> Omnia::RenderingBackend::getTexture(std::shared_ptr<Image> image)
+std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::getTexture(std::shared_ptr<Image> image)
 {
-	std::shared_ptr<Texture> texture;
+	std::shared_ptr<OpenGLTexture> texture;
 
 	if (image != nullptr)
 	{
@@ -369,7 +369,7 @@ std::shared_ptr<Omnia::Texture> Omnia::RenderingBackend::getTexture(std::shared_
 
 		if (this->textures.count(assetID) == 0)
 		{
-			this->textures.emplace(assetID, std::shared_ptr<Texture>(new Texture(image)));
+			this->textures.emplace(assetID, std::shared_ptr<OpenGLTexture>(new OpenGLTexture(image)));
 			this->missedFrameCounts.emplace(assetID, 0);
 		}
 		else
@@ -381,13 +381,13 @@ std::shared_ptr<Omnia::Texture> Omnia::RenderingBackend::getTexture(std::shared_
 	}
 	else
 	{
-		texture = std::shared_ptr<Texture>(new Texture());
+		texture = std::shared_ptr<OpenGLTexture>(new OpenGLTexture());
 	}
 
 	return texture;
 }
 
-std::shared_ptr<Omnia::VertexArray> Omnia::RenderingBackend::getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
+std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent)
 {
 	AssetID assetID;
 
@@ -410,7 +410,7 @@ std::shared_ptr<Omnia::VertexArray> Omnia::RenderingBackend::getVertexArray(std:
 
 	if (this->vertexArrays.count(assetID) == 0)
 	{
-		this->vertexArrays.emplace(assetID, std::shared_ptr<VertexArray>(new VertexArray(renderableComponent)));
+		this->vertexArrays.emplace(assetID, std::shared_ptr<OpenGLVertexArray>(new OpenGLVertexArray(renderableComponent)));
 		this->missedFrameCounts.emplace(assetID, 0);
 	}
 	else
@@ -420,7 +420,7 @@ std::shared_ptr<Omnia::VertexArray> Omnia::RenderingBackend::getVertexArray(std:
 	return this->vertexArrays.at(assetID);
 }
 
-void Omnia::RenderingBackend::collectGarbage()
+void Omnia::OpenGLRenderingBackend::collectGarbage()
 {
 	std::vector<AssetID> assetsToDelete;
 

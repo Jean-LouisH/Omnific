@@ -46,7 +46,7 @@ namespace Omnia
 		static bool hasComponent(std::string type);
 		static std::shared_ptr<Entity> getEntity();
 		static std::shared_ptr<Scene> getScene();
-		static std::shared_ptr<SceneLayer> getSceneTree();
+		static std::shared_ptr<SceneLayer> getSceneLayer();
 		static std::shared_ptr<Component> getComponent(std::string type);
 		static float getTimeDelta();
 
@@ -60,7 +60,7 @@ namespace Omnia
 	private:
 		static EntityContext* instance;
 
-		SceneLayerID boundSceneTreeID = 0;
+		SceneLayerID boundSceneLayerID = 0;
 		EntityID boundEntityID = 0;
 	};
 }

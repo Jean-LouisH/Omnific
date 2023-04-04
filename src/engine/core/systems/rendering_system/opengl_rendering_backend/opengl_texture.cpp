@@ -20,19 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "texture.hpp"
+#include "opengl_texture.hpp"
 
-Omnia::Texture::Texture()
+Omnia::OpenGLTexture::OpenGLTexture()
 {
 
 }
 
-Omnia::Texture::~Texture()
+Omnia::OpenGLTexture::~OpenGLTexture()
 {
 	this->deleteTexture();
 }
 
-Omnia::Texture::Texture(std::shared_ptr<Image> image)
+Omnia::OpenGLTexture::OpenGLTexture(std::shared_ptr<Image> image)
 {
 	float borderColour[] = { 0.0, 0.0, 0.0, 0.0 };
 	glGenTextures(1, &this->textureID);
@@ -83,29 +83,29 @@ Omnia::Texture::Texture(std::shared_ptr<Image> image)
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-void Omnia::Texture::activateDefaultTextureUnit()
+void Omnia::OpenGLTexture::activateDefaultTextureUnit()
 {
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void Omnia::Texture::activateTextureUnit(Unit textureUnit)
+void Omnia::OpenGLTexture::activateTextureUnit(Unit textureUnit)
 {
 	glActiveTexture(GL_TEXTURE0 + (uint8_t)textureUnit);
 }
 
-void Omnia::Texture::bind()
+void Omnia::OpenGLTexture::bind()
 {
 	this->activateDefaultTextureUnit();
 	glBindTexture(GL_TEXTURE_2D, this->textureID);
 }
 
-void Omnia::Texture::bind(Unit textureUnit)
+void Omnia::OpenGLTexture::bind(Unit textureUnit)
 {
 	this->activateTextureUnit(textureUnit);
 	glBindTexture(GL_TEXTURE_2D, this->textureID);
 }
 
-void Omnia::Texture::deleteTexture()
+void Omnia::OpenGLTexture::deleteTexture()
 {
 	glDeleteTextures(1, &this->textureID);
 }

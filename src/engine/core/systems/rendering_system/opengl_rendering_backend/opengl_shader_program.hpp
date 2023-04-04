@@ -26,13 +26,40 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include <memory>
+#include <core/assets/shader.hpp>
 
 namespace Omnia
 {
-	class Query
+	/* The objects that facilitate GPU computation with settable uniform values. */
+	class OpenGLShaderProgram
 	{
 	public:
+		OpenGLShaderProgram(std::shared_ptr<Shader> shader);
+		~OpenGLShaderProgram();
+		void use();
+		void setInt(std::string name, int value);
+		void setBool(std::string name, bool value);
+		void setFloat(std::string name, float value);
+		void setVec2(std::string name, glm::vec2 value);
+		void setVec3(std::string name, glm::vec3 value);
+		void setVec4(std::string name, glm::vec4 value);
+		void setMat4(std::string name, glm::mat4 value);
+		void logUniforms();
+		void deleteProgram();
 	private:
+		GLuint programID = 0;
+
+		GLuint vertexShaderID;
+		GLuint fragmentShaderID;
+
+		std::shared_ptr<Shader> shader;
+
+		bool compileVertexShader(std::string vertexShaderSource);
+		bool compileFragmentShader(std::string fragmentShaderSource);
+		void linkShaderProgram();
+		bool checkCompileTimeErrors(GLuint ID, GLuint status);
+		void deleteShaderObjectCode();
 	};
 }
 

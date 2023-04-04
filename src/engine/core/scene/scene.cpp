@@ -41,27 +41,27 @@ Omnia::Scene::Scene()
 
 Omnia::Scene::Scene(std::string filepath)
 {
-	this->deserialize(filepath);
+	this->deserializeFrom(filepath);
 	this->id = UIDGenerator::getNewUID();
 }
 
 Omnia::Scene::Scene(std::string filepath, std::string name)
 {
-	this->deserialize(filepath, name);
+	this->deserializeFrom(filepath, name);
 	this->id = UIDGenerator::getNewUID();
 }
 
-void Omnia::Scene::serialize(std::string filepath)
+void Omnia::Scene::serializeTo(std::string filepath)
 {
 
 }
 
-void Omnia::Scene::deserialize(std::string filepath)
+void Omnia::Scene::deserializeFrom(std::string filepath)
 {
-	return this->deserialize(filepath, "");
+	return this->deserializeFrom(filepath, "");
 }
 
-void Omnia::Scene::deserialize(std::string filepath, std::string name)
+void Omnia::Scene::deserializeFrom(std::string filepath, std::string name)
 {
 	if (name == "")
 		OS::getLogger().write("Loading all SceneLayers from Scene: \"" + filepath + "\"");
@@ -145,7 +145,7 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 								}
 							}
 						}
-						/* Recursively load another SceneTree into this one if the filename
+						/* Recursively load another SceneLayer into this one if the filename
 						   is not the same. */
 						else if (it1->first.as<std::string>() == "SubSceneLayer")
 						{
@@ -170,14 +170,14 @@ void Omnia::Scene::deserialize(std::string filepath, std::string name)
 
 							if (subSceneFilepath != filepath)
 							{
-								/*The last SceneTree is the only SceneTree, so this just extracts the one specified.*/
+								/*The last SceneLayer is the only SceneTree, so this just extracts the one specified.*/
 								if (subSceneLayerName != "")
 									subSceneLayer = Scene(subSceneFilepath, subSceneLayerName).getLastSceneLayer();
 								else
 									subSceneLayer = this->loadGLTF(subSceneFilepath);
 
 
-								/* Only load the SceneTree if it is the same spatial dimension. */
+								/* Only load the SceneLayer if it is the same spatial dimension. */
 								if (subSceneLayer->is2D == sceneLayer->is2D)
 								{
 									/* Transfer Entities and their Components */
@@ -245,7 +245,7 @@ void Omnia::Scene::reload()
 {
 	this->sceneLayers.clear();
 	this->lastSceneLayerID = 0;
-	this->deserialize(this->getName());
+	this->deserializeFrom(this->getName());
 }
 
 void Omnia::Scene::addSceneLayer(std::shared_ptr<SceneLayer> sceneLayer)

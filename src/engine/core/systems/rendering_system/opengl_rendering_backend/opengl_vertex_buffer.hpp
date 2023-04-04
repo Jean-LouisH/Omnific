@@ -34,12 +34,12 @@
 namespace Omnia
 {
 	/* Storage for mesh data in GPU memory. */
-	class VertexBuffer
+	class OpenGLVertexBuffer
 	{
 	public:
-		VertexBuffer();
-		VertexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
-		~VertexBuffer();
+		OpenGLVertexBuffer();
+		OpenGLVertexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
+		~OpenGLVertexBuffer();
 		void bind();
 		void deleteVertexBuffer();
 		unsigned int getVertexCount();
