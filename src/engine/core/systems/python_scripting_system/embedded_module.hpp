@@ -38,7 +38,6 @@
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
 #include <core/scene/scene.hpp>
-#include <core/utilities/rectangle.hpp>
 #include <core/utilities/hi_res_timer.hpp>
 #include <core/utilities/colour.hpp>
 #include <core/utilities/aabb_2d.hpp>
@@ -285,10 +284,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("x", &glm::vec3::x)
 		.def_readwrite("y", &glm::vec3::y)
 		.def_readwrite("z", &glm::vec3::z);
-
-	pybind11::class_<Omnia::Rectangle>(m, "Rectangle")
-		.def_readwrite("height", &Omnia::Rectangle::height)
-		.def_readwrite("width", &Omnia::Rectangle::width);
 
 	pybind11::class_<Omnia::HiResTimer, std::shared_ptr<Omnia::HiResTimer>>(m, "HiResTimer")
 		.def("set_start", &Omnia::HiResTimer::setStart)

@@ -70,8 +70,8 @@ void Omnia::RenderingSystem::finalizeOutput()
 
 void Omnia::RenderingSystem::onWindowResize()
 {
-	Rectangle windowRectangle = OS::getWindow().getWindowSize();
-	this->openglBackend->setViewport(windowRectangle.width, windowRectangle.height);
+	glm::vec2 windowSize = OS::getWindow().getWindowSize();
+	this->openglBackend->setViewport(windowSize.x, windowSize.y);
 }
 
 void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene)

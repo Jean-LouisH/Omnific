@@ -43,13 +43,13 @@ void Omnia::Viewport::setCameraEntityName(std::string cameraEntityName)
 	this->cameraEntityName = cameraEntityName;
 }
 
-Omnia::Rectangle Omnia::Viewport::getDimensions()
+glm::vec2 Omnia::Viewport::getDimensions()
 {
 	return  this->dimensions;
 }
 
 void Omnia::Viewport::setDimensions(uint32_t width, uint32_t height)
 {
-	this->dimensions.width = width;
-	this->dimensions.height = height;
+	this->dimensions.x = width;
+	this->dimensions.y = height;
 }

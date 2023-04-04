@@ -192,9 +192,9 @@ void Omnia::Window::show()
 	}
 }
 
-Omnia::Rectangle Omnia::Window::getWindowSize()
+glm::vec2 Omnia::Window::getWindowSize()
 {
-	Rectangle rectangle;
+	glm::vec2 windowSize;
 
 	if (this->sdlWindow != nullptr)
 	{
@@ -202,11 +202,11 @@ Omnia::Rectangle Omnia::Window::getWindowSize()
 		int height = 0;
 
 		SDL_GetWindowSize(this->sdlWindow.get(), &width, &height);
-		rectangle.width = width;
-		rectangle.height = height;
+		windowSize.x = width;
+		windowSize.y = height;
 	}
 
-	return rectangle;
+	return windowSize;
 }
 
 SDL_Window* Omnia::Window::getSDLWindow()

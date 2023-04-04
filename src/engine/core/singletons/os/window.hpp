@@ -26,9 +26,9 @@
 #include <vector>
 #include <unordered_map>
 #include <core/assets/image.hpp>
-#include <core/utilities/rectangle.hpp>
 #include <memory>
 #include <engine_api.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnia
 {
@@ -49,7 +49,7 @@ namespace Omnia
 		void restore();
 		void hide();
 		void show();
-		Rectangle getWindowSize();
+		glm::vec2 getWindowSize();
 
 		SDL_Window* getSDLWindow();
 		SDL_GLContext getSDLGLContext();

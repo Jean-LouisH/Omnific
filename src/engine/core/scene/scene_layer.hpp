@@ -30,7 +30,6 @@
 #include "core/component.hpp"
 #include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
-#include "core/utilities/rectangle.hpp"
 #include <unordered_map>
 #include "core/utilities/aliases.hpp"
 #include <string>

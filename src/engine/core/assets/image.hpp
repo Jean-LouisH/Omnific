@@ -26,18 +26,17 @@
 #include "stb_image_write.h"
 
 #include "core/utilities/aliases.hpp"
-#include "core/utilities/rectangle.hpp"
 #include <SDL_surface.h>
 #include <SDL_render.h>
 #include <stdint.h>
 #include "core/asset.hpp"
 #include "font.hpp"
-#include "core/utilities/rectangle.hpp"
 #include <string>
 #include "core/utilities/colour.hpp"
 #include "font.hpp"
 #include <string>
 #include <memory>
+#include <glm/glm.hpp>
 
 namespace Omnia
 {
@@ -65,7 +64,7 @@ namespace Omnia
 		uint32_t getHeight();
 		uint32_t getDepth();
 		uint32_t getPitch();
-		Rectangle getDimensions();
+		glm::vec2 getDimensions();
 		uint8_t getBytesPerPixel();
 	private:
 		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };

@@ -23,11 +23,11 @@
 #pragma once
 
 #include <core/utilities/aabb_2d.hpp>
-#include <core/utilities/rectangle.hpp>
 #include <core/utilities/aliases.hpp>
 #include <core/utilities/constants.hpp>
 #include "core/component.hpp"
 #include <core/singletons/os/os.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnia
 {
@@ -49,11 +49,11 @@ namespace Omnia
 		}
 		virtual void deserialize(YAML::Node yamlNode);
 		std::string getCameraEntityName();
-		Rectangle getDimensions();
+		glm::vec2 getDimensions();
 		void setCameraEntityName(std::string cameraEntityName);
 		void setDimensions(uint32_t width, uint32_t height);
 	private:
-		Rectangle dimensions;
+		glm::vec2 dimensions;
 		std::string cameraEntityName;
 	};
 }

@@ -51,8 +51,8 @@ void Omnia::OpenGLRenderingBackend::initialize()
 			false,
 			false))));
 
-		Rectangle windowDimensions = window.getWindowSize();
-		this->setViewport(windowDimensions.width, windowDimensions.height);
+		glm::vec2 windowSize = window.getWindowSize();
+		this->setViewport(windowSize.x, windowSize.y);
 		OS::getLogger().write((std::string)("Rendering Backend initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
@@ -323,7 +323,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
 						shaderProgram->setVec3("lightTranslation", lightTransform->translation);
 						shaderProgram->setVec3("lightRotation", lightTransform->rotation);
-						shaderProgram->setVec2("cameraViewport", sceneLayerRenderable.camera->getViewportinVec2());
+						shaderProgram->setVec2("cameraViewport", sceneLayerRenderable.camera->getViewport());
 						shaderProgram->setVec3("cameraTranslation", sceneLayerRenderable.cameraTransform->translation);
 						shaderProgram->setVec3("cameraRotation", sceneLayerRenderable.cameraTransform->rotation);
 						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);

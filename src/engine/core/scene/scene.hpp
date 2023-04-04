@@ -27,7 +27,6 @@
 #include <memory>
 #include <queue>
 #include <unordered_map>
-#include "core/utilities/rectangle.hpp"
 #include <unordered_map>
 #include "core/utilities/aliases.hpp"
 #include <string>

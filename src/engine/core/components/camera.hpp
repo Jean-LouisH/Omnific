@@ -23,7 +23,6 @@
 #pragma once
 
 #include "core/utilities/aliases.hpp"
-#include "core/utilities/rectangle.hpp"
 #include "core/utilities/aabb_2d.hpp"
 #include <glm/glm.hpp>
 #include "core/utilities/constants.hpp"
@@ -52,8 +51,7 @@ namespace Omnia
 		virtual void deserialize(YAML::Node yamlNode);
 		void resetAspect();
 		void toggleWireframeMode();
-		Rectangle getViewportDimensions();
-		glm::vec2 getViewportinVec2();
+		glm::vec2 getViewport();
 		bool getIsStreaming();
 		bool getIsWireframeMode();
 		void setViewportWidth(uint32_t width);
@@ -70,7 +68,7 @@ namespace Omnia
 		float nearPlane = 0.1;
 		float farPlane = 1000.0;
 		AABB2D limits;
-		Rectangle viewport;
+		glm::vec2 viewport;
 		bool keepAspect = true;
 		bool isStreaming = true;
 		bool isWireFrame = false;

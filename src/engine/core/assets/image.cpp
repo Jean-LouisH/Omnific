@@ -123,12 +123,9 @@ uint32_t Omnia::Image::getPitch()
 	return this->getBytesPerPixel() * this->getWidth();
 }
 
-Omnia::Rectangle Omnia::Image::getDimensions()
+glm::vec2 Omnia::Image::getDimensions()
 {
-	Rectangle dimensions;
-	dimensions.width = this->getWidth();
-	dimensions.height = this->getHeight();
-	return dimensions;
+	return glm::vec2(this->getWidth(), this->getHeight());
 }
 
 uint8_t Omnia::Image::getBytesPerPixel()

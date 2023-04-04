@@ -67,14 +67,9 @@ void Omnia::Camera::toggleWireframeMode()
 		this->setWireframeMode(true);
 }
 
-Omnia::Rectangle Omnia::Camera::getViewportDimensions()
+glm::vec2 Omnia::Camera::getViewport()
 {
-	return this->viewport;
-}
-
-glm::vec2 Omnia::Camera::getViewportinVec2()
-{
-	return glm::vec2(this->viewport.width, this->viewport.height);
+	return glm::vec2(this->viewport.x, this->viewport.y);
 }
 
 bool Omnia::Camera::getIsStreaming()
@@ -89,16 +84,16 @@ bool Omnia::Camera::getIsWireframeMode()
 
 void Omnia::Camera::setViewportWidth(uint32_t width_px)
 {
-	this->viewport.width = width_px;
+	this->viewport.x = width_px;
 	if (keepAspect)
-		this->viewport.height = (uint32_t)((double)width_px / aspect);
+		this->viewport.y = (uint32_t)((double)width_px / aspect);
 }
 
 void Omnia::Camera::setViewportHeight(uint32_t height_px)
 {
-	this->viewport.height = height_px;
+	this->viewport.y = height_px;
 	if (keepAspect)
-		this->viewport.width = (uint32_t)((double)height_px * aspect);
+		this->viewport.x = (uint32_t)((double)height_px * aspect);
 }
 
 void Omnia::Camera::setLimits(float left, float bottom, float top, float right)
@@ -126,6 +121,6 @@ void Omnia::Camera::setWireframeMode(bool value)
 
 glm::mat4 Omnia::Camera::getViewToProjectionMatrix()
 {
-	Rectangle rectangle = OS::getWindow().getWindowSize();
-	return glm::perspective(glm::radians(this->fieldOfView), (float)rectangle.width / (float)rectangle.height, this->nearPlane, this->farPlane);
+	glm::vec2 windowSize = OS::getWindow().getWindowSize();
+	return glm::perspective(glm::radians(this->fieldOfView), (float)windowSize.x / (float)windowSize.y, this->nearPlane, this->farPlane);
 }
