@@ -26,9 +26,10 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
-#define DEBUG_EDITOR_DATA_FILEPATH "../../../../../data/editor_data/"
-#define DEBUG_DEMO_DATA_FILEPATH "../../../../../data/demo_data/"
-#define DEBUG_DEBUG_DATA_FILEPATH "../../../../../data/debug_data/"
+#define DATA_DIRECTORY "data/"
+#define DEBUG_EDITOR_DATA_DIRECTORY "../../../../../data/editor_data/"
+#define DEBUG_DEMO_DATA_DIRECTORY "../../../../../data/demo_data/"
+#define DEBUG_DEBUG_DATA_DIRECTORY "../../../../../data/debug_data/"
 
 #ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED
@@ -38,6 +39,9 @@
 #define UPDATE_TARGET_FPS INPUT_TARGET_FPS
 #define COMPUTE_MINIMUM_TARGET_FPS (UPDATE_TARGET_FPS * 2.0)
 #define MAXIMUM_MS_PER_COMPUTE_UPDATE (1000.0 / COMPUTE_MINIMUM_TARGET_FPS)
+
+#define BOOT_FILE_NAME "boot.yml"
+#define GAME_CONTROLLER_DATABASE_FILE_NAME "gamecontrollerdb.txt"
 
 #define MAIN_THREAD_TIMER_NAME "main_thread"
 #define UPDATE_THREAD_TIMER_NAME "update_thread"

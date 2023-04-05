@@ -106,7 +106,7 @@ void Omnia::Engine::initialize()
 	logger.write("Retrieved OS Name: \"" + platform.getOSName() + "\"");
 	logger.write("Retrieved System RAM: " + std::to_string(platform.getSystemRAM()) + " MB");
 
-	std::string dataDirectory = "data/";
+	std::string dataDirectory = DATA_DIRECTORY;
 
 #ifdef _DEBUG
 	while (true)
@@ -129,17 +129,17 @@ void Omnia::Engine::initialize()
 		}
 		else if (inputString == "1")
 		{
-			dataDirectory = DEBUG_DEMO_DATA_FILEPATH;
+			dataDirectory = DEBUG_DEMO_DATA_DIRECTORY;
 			break;
 		}
 		else if (inputString == "2")
 		{
-			dataDirectory = DEBUG_EDITOR_DATA_FILEPATH;
+			dataDirectory = DEBUG_EDITOR_DATA_DIRECTORY;
 			break;
 		}
 		else if (inputString == "3")
 		{
-			dataDirectory = DEBUG_DEBUG_DATA_FILEPATH;
+			dataDirectory = DEBUG_DEBUG_DATA_DIRECTORY;
 			break;
 		}
 		else
@@ -148,22 +148,13 @@ void Omnia::Engine::initialize()
 		}
 	}
 #endif
-	std::string bootFilename = "boot.yml";
-	std::string bootFilepath = dataDirectory + bootFilename;
-
+	std::string bootFilepath = dataDirectory + BOOT_FILE_NAME;
 	FileAccess& fileAccess = OS::getFileAccess();
 
 	if (fileAccess.exists(bootFilepath))
 	{
 		Configuration::loadFromFile(bootFilepath);
 		OS::getFileAccess().setDataDirectory(dataDirectory);
-
-		std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
-
-		if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
-		{
-			SceneStorage::addAndChangeToScene(std::shared_ptr<Scene>(new Scene(entrySceneFilepath)));
-		}
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
@@ -173,7 +164,7 @@ void Omnia::Engine::initialize()
 
 	if (Configuration::getInstance()->isLoaded)
 	{
-		OS::addGameControllerMappings(dataDirectory + "gamecontrollerdb.txt");
+		OS::addGameControllerMappings(dataDirectory + GAME_CONTROLLER_DATABASE_FILE_NAME);
 		Window& window = OS::getWindow();
 		window.resize(Configuration::getInstance()->windowSettings.width, Configuration::getInstance()->windowSettings.height);
 		window.changeTitle(Configuration::getInstance()->metadata.title.c_str());
@@ -211,6 +202,12 @@ void Omnia::Engine::runInputLoop(std::shared_ptr<HiResTimer> inputProcessTimer)
 
 void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
+	FileAccess& fileAccess = OS::getFileAccess();
+	std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
+
+	if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
+		SceneStorage::addAndChangeToScene(std::shared_ptr<Scene>(new Scene(entrySceneFilepath)));
+
 	for (auto system : this->systems)
 		system.second->initialize();
 
