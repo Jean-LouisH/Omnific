@@ -12,6 +12,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 # Table of Contents
 
 * [Notable Features](#notable-features)
+* [Dependencies](#dependencies)
 * [Compilation Instructions](#compilation-instructions)
 * [Manual](#manual)
 * [Demos](#demos)
@@ -77,12 +78,9 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 # Demos
 
-- Pong [In progress...]
+- Pong
 
 ![omnia_pong](docs/images/omnia_pong.gif)
-
-# Acknowledgements
-
 
 
 # License
