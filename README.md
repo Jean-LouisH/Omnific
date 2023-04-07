@@ -1,7 +1,7 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
 ![Intro Screenshot](docs/images/cover.png)
-["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915)
+["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnia with a basic phong Shader. The white cube contains a Light Component and is rendered with its own unlit white Shader.
 
 **This project is in pre-alpha**
 
@@ -57,7 +57,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 Omnia functions by retaining a collection of Scenes and processing them in a main Engine class. On every loop, one active Scene is passed to the Engine's collection of Systems where each of them can update the Scene and or generate outputs from it. 
 
-![Diagram showing Scenes and OS data passed to Systems and then Scene states are updated in one loop and output is given in another arrow]()
+![Diagram showing Scene Storage, Configuration and OS data passed to the Engine and then to Systems that are updated in one loop and output is given in another arrow](docs/images/omnia_overview.png)
 
 The Engine facilitates this by reading inputs on the main thread, allocating dedicated threads to update and output methods, and coordinating their loops through order of operations and target frame rates. At the same time it retains states for initializing, running, restarting and finalizing
 
