@@ -1,0 +1,78 @@
+# Components Demonstration
+
+SceneLayer:
+  name: "Background SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "Background Image"
+    Transform: default
+    Sprite:
+      image: "Image::#44444444"
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 1]
+    Camera: "default"
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"
+SceneLayer:
+  name: "Foreground SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "GlobalShaderEntity"
+    Transform: default
+    RenderableComponent:
+      overriding_shader:
+        fragment: "sample/shaders/unlit.glsl"
+  Entity:
+    name: "ScriptableShaderEntity"
+    Transform: default
+    RenderableComponent:
+      overriding_shader:
+        fragment: "sample/shaders/unlit_and_coloured.glsl"
+    ScriptCollection:
+      Python: ["sample/scripts/python/rainbow.py"]
+  Entity:
+    name: "Model"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [-5.0, 0.0, 0.0]
+  SubSceneLayer:
+    name: ["sample/models/suzanne.glb", ""]
+    parent: "Model"
+  Entity:
+    name: "Model + PhysicsBody"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [0.0, 0.0, 0.0]
+    PhysicsBody:
+      drag_ratio: [0.001, 0.001, 0.001]
+  SubSceneLayer:
+    name: ["sample/models/suzanne.glb", ""]
+    parent: "Model + PhysicsBody"
+  Entity:
+    name: "Model + PhysicsBody + ScriptCollection"
+    parent: "ScriptableShaderEntity"
+    Transform:
+      translation: [5.0, 0.0, 0.0]
+    PhysicsBody:
+      drag_ratio: [0.001, 0.001, 0.001]
+    ScriptCollection:
+      Python: ["sample/scripts/python/x_vibration.py"]
+  SubSceneLayer:
+    name: ["sample/models/suzanne.glb", ""]
+    parent: "Model + PhysicsBody + ScriptCollection"
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, -2, 10]
+    Camera:
+      wireframe_mode: true
+    ScriptCollection:
+      Python: ["sample/scripts/python/camera_control.py"]
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"

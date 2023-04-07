@@ -57,7 +57,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 Omnia functions by retaining a collection of Scenes and processing them in a main Engine class. On every loop, one active Scene is passed to the Engine's collection of Systems where each of them can update the Scene and or generate outputs from it. 
 
-![Diagram showing Scene Storage, Configuration and OS data passed to the Engine and then to Systems that are updated in one loop and output is given in another arrow](docs/images/omnia_overview.png)
+![omnia_overview](docs/images/omnia_overview.png) _Diagram showing Scene Storage, Configuration and OS data passed to the Engine and then to Systems that are updated in one loop and output is given in another arrow._
 
 The Engine facilitates this by reading inputs on the main thread, allocating dedicated threads to update and output methods, and coordinating their loops through order of operations and target frame rates. At the same time it retains states for initializing, running, restarting and finalizing
 
@@ -72,7 +72,7 @@ An Entity represents an object that exists in the SceneLayer. It mostly consists
 Components are data containers for their host Entities. Their data are specialized for specific ways in which an Entity is expected to be represented. For example, an Entity with a Transform and Model Component attached to it is capable of existing in physical locations as a visible 2D/3D object. With a PhysicsBody Component added to that, it would be capable of falling under gravity. Finally, with a ScriptCollection Component added to that, it would be able to override the properties of the PhysicsBody and Model and effectively store any additional data or have the Entity behave in any other way the developer wishes. 
 
 ![components](docs/images/components.gif)
-Animation showing three Suzannes lined up with one stationary (Transform only), another falling under gravity (with a PhysicsBody), and another falling while zig-zagging and changing colour (with a ScriptCollection).
+_Animation showing three Suzannes lined up with one stationary (Transform only), another falling under gravity (with a PhysicsBody), and another falling while zig-zagging and changing colour (with a ScriptCollection)._
 
 Components may contain Assets, which are immutable objects containing resource data from memory or files. Some examples of these are Images and AudioStreams. Assets may appear in other parts of the Engine as needed, such as the Image object in the Window icon generation in Engine start up. Assets are immutable so that they may be reliably cached and instanced in Systems that need them to be constant, such as Images that represent textures in a cache that are already uploaded to the GPU in a RenderingSystem. If the Image were changeable in this case, the Image data would not match with the texture data in the GPU but would represent it in the texture cache. Consequently, the user would never see a change in texture on screen.
 
