@@ -1,7 +1,7 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
 ![Intro Screenshot](docs/images/cover.png)
-["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnia with a basic phong Shader. The white cube contains a Light Component and is rendered with its own unlit white Shader.
+["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnia's RenderingSystem with a basic phong Shader. The white cube contains a Light Component and is rendered with a separate unlit Shader.
 
 **This project is in pre-alpha**
 
@@ -45,7 +45,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 ![omnia_editor_cpp](docs/images/omnia_editor_cpp.png)
 
-- Fully customizable as a core framework loading custom Asset, Component and System classes on initialization
+- Fully customizable as a core framework loading custom Component and System classes on initialization
 
 ![class_registry](docs/images/class_registry.png)
 
@@ -71,7 +71,7 @@ An Entity represents an object that exists in the SceneLayer. It mostly consists
 
 Components are data containers for their host Entities. Their data are specialized for specific ways in which an Entity is expected to be represented. For example, an Entity with a Transform and Model Component attached to it is capable of existing in physical locations as a visible 2D/3D object. With a PhysicsBody Component added to that, it would be capable of falling under gravity. Finally, with a ScriptCollection Component added to that, it would be able to override the properties of the PhysicsBody and Model and effectively store any additional data or have the Entity behave in any other way the developer wishes. 
 
-![Animation showing three Suzannes lined up with one stationary, another falling under gravity, and another falling while zig-zagging and changing colour]()
+![Animation showing three Suzannes lined up with one stationary, another falling under gravity, and another falling while zig-zagging and changing colour](docs/images/components.png)
 
 Components may contain Assets, which are immutable objects containing resource data from memory or files. Some examples of these are Images and AudioStreams. Assets may appear in other parts of the Engine as needed, such as the Image object in the Window icon generation in Engine start up. Assets are immutable so that they may be reliably cached and instanced in Systems that need them to be constant, such as Images that represent textures in a cache that are already uploaded to the GPU in a RenderingSystem. If the Image were changeable in this case, the Image data would not match with the texture data in the GPU but would represent it in the texture cache. Consequently, the user would never see a change in texture on screen.
 
