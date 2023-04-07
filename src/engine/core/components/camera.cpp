@@ -43,13 +43,17 @@ void Omnia::Camera::deserialize(YAML::Node yamlNode)
 				it3->second[3].as<double>()
 			);
 		}
-		else if (it3->first.as<std::string>() == "keepAspect")
+		else if (it3->first.as<std::string>() == "keep_aspect")
 		{
 			this->setKeepAspect(it3->second.as<bool>());
 		}
-		else if (it3->first.as<std::string>() == "isStreaming")
+		else if (it3->first.as<std::string>() == "is_streaming")
 		{
 			this->setIsStreaming(it3->second.as<bool>());
+		}
+		else if (it3->first.as<std::string>() == "wireframe_mode")
+		{
+			this->setWireframeMode(it3->second.as<bool>());
 		}
 	}
 }

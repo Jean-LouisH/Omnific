@@ -40,7 +40,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "PhysicsBody";
 
-		bool isRigidBody = false;
+		bool isRigidBody = true;
 
 		float mass = 1.0;
 		float frictionRatio = 1.0;

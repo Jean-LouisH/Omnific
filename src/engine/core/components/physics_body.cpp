@@ -30,9 +30,15 @@ void Omnia::PhysicsBody::deserialize(YAML::Node yamlNode)
 		{
 
 		}
-		else if (it3->first.as<std::string>() == "")
+		else if (it3->first.as<std::string>() == "is_rigidbody")
 		{
-
+			this->isRigidBody = it3->second.as<bool>();
+		}
+		else if (it3->first.as<std::string>() == "drag_ratio")
+		{
+			this->dragRatio[0] = it3->second[0].as<float>();
+			this->dragRatio[1] = it3->second[1].as<float>();
+			this->dragRatio[2] = it3->second[2].as<float>();
 		}
 	}
 }
