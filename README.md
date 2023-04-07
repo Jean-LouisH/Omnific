@@ -63,11 +63,11 @@ The Engine facilitates this by reading inputs on the main thread, allocating ded
 
 Scenes consist of 2D and 3D SceneLayers. They can generate these through deserializing YAML files. Each SceneLayer consists of collections of Entities and Components. It has objects for specialized and general events such; a CollisionRegistry; an EventBus; and a HapticSignalBuffer. It is also augmented with collections of IDs that help to optimize search queries on it, in real-time, to constant time complexity. 
 
-![Diagram showing Scenes being expanded into SceneLayers, and SceneLayers expanded into collections of Entities and Components, and the event classes]()
+![Diagram showing Scenes being expanded into SceneLayers, and SceneLayers expanded into collections of Entities and Components, and the event classes](docs/images/scene_structure.png)
 
 An Entity represents an object that exists in the SceneLayer. It mostly consists of IDs for other Entities that form a tree-like relationship with it through a parent ID and a list of child IDs. It also has a dictionary of component IDs that are attached to it.
 
-![Diagram showing the Entity tree with associated data for Component IDs.]()
+![Diagram showing the Entity tree with associated data for Component IDs.](docs/images/entity_tree.png)
 
 Components are data containers for their host Entities. Their data are specialized for specific ways in which an Entity is expected to be represented. For example, an Entity with a Transform and Model Component attached to it is capable of existing in physical locations as a visible 2D/3D object. With a PhysicsBody Component added to that, it would be capable of falling under gravity. Finally, with a ScriptCollection Component added to that, it would be able to override the properties of the PhysicsBody and Model and effectively store any additional data or have the Entity behave in any other way the developer wishes. 
 
@@ -76,7 +76,7 @@ _Animation showing three Suzannes lined up with one stationary (Transform only),
 
 Components may contain Assets, which are immutable objects containing resource data from memory or files. Some examples of these are Images and AudioStreams. Assets may appear in other parts of the Engine as needed, such as the Image object in the Window icon generation in Engine start up. Assets are immutable so that they may be reliably cached and instanced in Systems that need them to be constant, such as Images that represent textures in a cache that are already uploaded to the GPU in a RenderingSystem. If the Image were changeable in this case, the Image data would not match with the texture data in the GPU but would represent it in the texture cache. Consequently, the user would never see a change in texture on screen.
 
-![Diagram of a Sprite Component containing Images]()
+![Diagram of a Sprite Component containing Images](docs/images/sprite_and_image.png)
 
 Scenes, SceneLayers, Entities, Components, and Assets all retain IDs for caching wherever needed.
 
