@@ -58,10 +58,14 @@ namespace Omnia
 		void clearAudioStreams();
 		std::queue<std::shared_ptr<AudioStream>> popEntireAudioPlayQueue();
 		void clearAudioPlayQueue();
+		void setVolume(float value);
+		float getVolume();
 		std::vector<std::string> getAudioStreamNames();
 		std::shared_ptr<AudioStream> getAudioStreamByName(std::string audioStreamName);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<AudioStream>> audioStreams;
 		std::queue<std::shared_ptr<AudioStream>> audioPlayQueue;
+
+		float volume = 1.0;
 	};
 }

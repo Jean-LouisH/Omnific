@@ -44,7 +44,15 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+		std::vector<uint8_t> spectrumData;
+
 		virtual void deserialize(YAML::Node yamlNode);
+		void setVolume(float value);
+		float getVolume();
+		void mute();
+		void unmute();
 	private:
+		float volume = 1.0;
+		float previousVolume = 1.0;
 	};
 }

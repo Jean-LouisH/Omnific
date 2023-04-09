@@ -54,6 +54,20 @@ void Omnia::AudioSource::queueAudioToPlay(std::string audioStreamName)
 	this->queueAudioToPlayAndRepeat(audioStreamName, 1);
 }
 
+void Omnia::AudioSource::setVolume(float value)
+{
+	if (value > 1.0)
+		value = 1.0;
+	else if (value < 0.0)
+		value = 0.0;
+	this->volume = value;
+}
+
+float Omnia::AudioSource::getVolume()
+{
+	return this->volume;
+}
+
 void Omnia::AudioSource::clearAudioStreams()
 {
 	this->audioStreams.clear();
