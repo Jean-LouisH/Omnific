@@ -363,6 +363,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 					int metallicRougnessTextureIndex = gltfMaterial.pbrMetallicRoughness.metallicRoughnessTexture.index;
 					int normalTextureIndex = gltfMaterial.normalTexture.index;
 					int emissiveTextureIndex = gltfMaterial.emissiveTexture.index;
+					int occlusionTextureIndex = gltfMaterial.occlusionTexture.index;
 
 					/* Albedo / BaseColour*/
 					if (baseColourTextureIndex != -1)
@@ -449,6 +450,12 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::loadGLTF(std::string filepath)
 							emissiveFactor[2],
 							1.0))
 						));
+					}
+
+					/* Occlusion */
+					if (occlusionTextureIndex != -1)
+					{
+						material->occlusion = this->readGLTFImage(gltfModel, occlusionTextureIndex);
 					}
 
 				}

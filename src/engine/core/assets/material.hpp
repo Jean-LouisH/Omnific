@@ -51,6 +51,7 @@ namespace Omnia
 		std::shared_ptr<Image> emission;
 		std::shared_ptr<Image> normal;
 		std::shared_ptr<Image> displacement;
+		std::shared_ptr<Image> occlusion;
 	private:
 	};
 }

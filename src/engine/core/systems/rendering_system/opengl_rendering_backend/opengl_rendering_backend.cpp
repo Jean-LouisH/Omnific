@@ -220,6 +220,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 							this->getTexture(material->roughness)->bind(OpenGLTexture::Unit::_2);
 							this->getTexture(material->emission)->bind(OpenGLTexture::Unit::_3);
 							this->getTexture(material->normal)->bind(OpenGLTexture::Unit::_4);
+							this->getTexture(material->occlusion)->bind(OpenGLTexture::Unit::_5);
 						}
 						else
 						{
@@ -314,6 +315,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 						shaderProgram->setInt("roughnessTextureSampler", 2);
 						shaderProgram->setInt("emissionTextureSampler", 3);
 						shaderProgram->setInt("normalTextureSampler", 4);
+						shaderProgram->setInt("occlusionTextureSampler", 5);
 						shaderProgram->setFloat("alpha", alpha);
 						shaderProgram->setInt("lightMode", (int)light->mode);
 						shaderProgram->setVec4("lightColour", light->colour->getRGBAInVec4());
