@@ -23,7 +23,6 @@
 #pragma once
 
 #include "core/utilities/aliases.hpp"
-#include "core/utilities/aabb_2d.hpp"
 #include <glm/glm.hpp>
 #include "core/utilities/constants.hpp"
 #include "core/component.hpp"
@@ -67,7 +66,8 @@ namespace Omnia
 		float fieldOfView = 45.0;
 		float nearPlane = 0.1;
 		float farPlane = 1000.0;
-		AABB2D limits;
+		glm::vec2 minLimit;
+		glm::vec2 maxLimit;
 		glm::vec2 viewport;
 		bool keepAspect = true;
 		bool isStreaming = true;

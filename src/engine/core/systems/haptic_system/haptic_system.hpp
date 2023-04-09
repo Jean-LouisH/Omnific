@@ -29,7 +29,7 @@
 #include "core/system.hpp"
 #include "core/singletons/os/input.hpp"
 #include <core/scene/haptic_signal_buffer.hpp>
-#include <core/utilities/hi_res_timer.hpp>
+#include <core/singletons/os/profiler.hpp>
 #include <memory>
 
 namespace Omnia

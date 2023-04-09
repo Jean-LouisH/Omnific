@@ -25,8 +25,6 @@
 #include "core/utilities/aliases.hpp"
 #include "core/utilities/constants.hpp"
 #include "core/component.hpp"
-
-#include "core/utilities/aabb_3d.hpp"
 #include <set>
 
 
@@ -36,6 +34,22 @@ namespace Omnia
 	{
 		BOX,
 		MESH
+	};
+
+	class OMNIA_ENGINE_API AABB2D
+	{
+	public:
+		glm::vec2 min = glm::vec2(-1.0, -1.0);
+		glm::vec2 max = glm::vec2(1.0, 1.0);
+	private:
+	};
+
+	class OMNIA_ENGINE_API AABB3D
+	{
+	public:
+		glm::vec3 min = glm::vec3(-1.0, -1.0, -1.0);
+		glm::vec3 max = glm::vec3(1.0, 1.0, 1.0);
+	private:
 	};
 
 	class OMNIA_ENGINE_API Collider : public Component

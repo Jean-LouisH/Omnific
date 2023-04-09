@@ -32,7 +32,7 @@
 #include "core/asset.hpp"
 #include "font.hpp"
 #include <string>
-#include "core/utilities/colour.hpp"
+#include "colour.hpp"
 #include "font.hpp"
 #include <string>
 #include <memory>

@@ -38,9 +38,6 @@
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
 #include <core/scene/scene.hpp>
-#include <core/utilities/hi_res_timer.hpp>
-#include <core/utilities/colour.hpp>
-#include <core/utilities/aabb_2d.hpp>
 #include <core/utilities/aliases.hpp>
 #include <memory>
 

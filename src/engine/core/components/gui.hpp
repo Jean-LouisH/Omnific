@@ -25,7 +25,7 @@
 #include "core/assets/image.hpp"
 #include "renderable_component.hpp"
 #include "core/component.hpp"
-#include "core/utilities/colour.hpp"
+#include "core/assets/colour.hpp"
 #include <unordered_map>
 #include <string>
 

@@ -102,10 +102,10 @@ void Omnia::Camera::setViewportHeight(uint32_t height_px)
 
 void Omnia::Camera::setLimits(float left, float bottom, float top, float right)
 {
-	this->limits.min.x = left;
-	this->limits.min.y = bottom;
-	this->limits.max.x = right;
-	this->limits.max.y = top;
+	this->minLimit.x = left;
+	this->minLimit.y = bottom;
+	this->maxLimit.x = right;
+	this->maxLimit.y = top;
 }
 
 void Omnia::Camera::setKeepAspect(bool value)

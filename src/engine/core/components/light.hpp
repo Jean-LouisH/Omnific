@@ -23,7 +23,7 @@
 #pragma once
 
 #include "core/component.hpp"
-#include <core/utilities/colour.hpp>
+#include <core/assets/colour.hpp>
 
 namespace Omnia
 {

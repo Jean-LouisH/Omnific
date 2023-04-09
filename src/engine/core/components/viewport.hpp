@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <core/utilities/aabb_2d.hpp>
 #include <core/utilities/aliases.hpp>
 #include <core/utilities/constants.hpp>
 #include "core/component.hpp"

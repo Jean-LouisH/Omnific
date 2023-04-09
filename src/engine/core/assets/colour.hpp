@@ -22,16 +22,49 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
+#include "core/asset.hpp"
+#include <stdint.h>
+#include <string>
 #include <engine_api.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AABB2D
+	class OMNIA_ENGINE_API Colour : public Asset
 	{
 	public:
-		glm::vec2 min = glm::vec2(-1.0, -1.0);
-		glm::vec2 max = glm::vec2(1.0, 1.0);
+		static constexpr const char* TYPE_STRING = "Colour";
+
+		Colour()
+		{
+			this->type = TYPE_STRING;
+		};
+		Colour(std::string hex);
+		Colour(uint32_t value);
+		Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		Colour(double red, double green, double blue, double alpha);
+
+		virtual Registerable* instance() override
+		{
+			Colour* clone = new Colour(*this);
+			clone->id = UIDGenerator::getNewUID();
+			return clone;
+		}
+
+		uint8_t getRed();
+		uint8_t getGreen();
+		uint8_t getBlue();
+		uint8_t getAlpha();
+		uint32_t getRGB();
+		uint32_t getRGBA();
+		glm::vec4 getRGBAInVec4();
 	private:
+		float red = 1.0;
+		float green = 1.0;
+		float blue = 1.0;
+		float alpha = 1.0;
+
+		void setRGB(uint32_t value);
+		void setRGBA(uint32_t value);
 	};
 }

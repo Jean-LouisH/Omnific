@@ -23,13 +23,28 @@
 #pragma once
 
 #include <stdint.h>
-#include "core/utilities/hi_res_timer.hpp"
 #include <unordered_map>
 #include <memory>
+#include <chrono>
 #include <engine_api.hpp>
 
 namespace Omnia
 {
+	class OMNIA_ENGINE_API HiResTimer
+	{
+	public:
+		uint64_t getDeltaInNanoseconds();
+		/* Returns delta time in Milliseconds */
+		uint64_t getDelta();
+		float getDeltaInSeconds();
+		void setStart();
+		void setEnd();
+	private:
+		uint64_t delta = 0; //In nanoseconds.
+		std::chrono::time_point<std::chrono::steady_clock> start;
+		std::chrono::time_point<std::chrono::steady_clock> end;
+	};
+
 	class OMNIA_ENGINE_API Profiler
 	{
 	public:

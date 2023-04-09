@@ -24,6 +24,32 @@
 #include "core/utilities/constants.hpp"
 #include <core/singletons/os/os.hpp>
 
+uint64_t Omnia::HiResTimer::getDeltaInNanoseconds()
+{
+	return this->delta;
+}
+
+uint64_t Omnia::HiResTimer::getDelta()
+{
+	return this->delta / NS_IN_MS;
+}
+
+float Omnia::HiResTimer::getDeltaInSeconds()
+{
+	return this->delta / NS_IN_S;
+}
+
+void Omnia::HiResTimer::setStart()
+{
+	this->start = std::chrono::high_resolution_clock::now();
+}
+
+void Omnia::HiResTimer::setEnd()
+{
+	this->end = std::chrono::high_resolution_clock::now();
+	this->delta = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+}
+
 void Omnia::Profiler::addTimer(std::string timerName, bool isRemovable)
 {
 	this->timers.emplace(timerName, std::shared_ptr<HiResTimer>(new HiResTimer()));
