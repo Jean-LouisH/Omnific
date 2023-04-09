@@ -315,6 +315,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 						shaderProgram->setInt("emissionTextureSampler", 3);
 						shaderProgram->setInt("normalTextureSampler", 4);
 						shaderProgram->setFloat("alpha", alpha);
+						shaderProgram->setInt("lightMode", (int)light->mode);
 						shaderProgram->setVec4("lightColour", light->colour->getRGBAInVec4());
 						shaderProgram->setVec4("shadowColour", light->shadowColour->getRGBAInVec4());
 						shaderProgram->setFloat("lightIntensity", light->intensity);
