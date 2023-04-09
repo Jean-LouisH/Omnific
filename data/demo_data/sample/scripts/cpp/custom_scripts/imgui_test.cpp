@@ -29,14 +29,14 @@
 
 void Sample::IMGUITest::onStart()
 {
-    std::shared_ptr<Omnia::Timer> timer = Omnia::EntityContext::getComponentByType<Omnia::Timer>();
+    std::shared_ptr<Omnia::Timer> timer = Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>();
     float countdownValue = 5.0f;
     timer->start(countdownValue);
 }
 
 void Sample::IMGUITest::onLogic()
 {
-    std::shared_ptr<Omnia::Timer> timer = Omnia::EntityContext::getComponentByType<Omnia::Timer>();
+    std::shared_ptr<Omnia::Timer> timer = Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>();
     Omnia::Logger& logger = Omnia::OS::getLogger();
 
     if (timer->isFinished())

@@ -20,38 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core/singletons/entity_context.hpp"
+#include "cpp_entity_context.hpp"
 #include <core/singletons/os/os.hpp>
 
-Omnia::EntityContext* Omnia::EntityContext::instance = nullptr;
+Omnia::CPPEntityContext* Omnia::CPPEntityContext::instance = nullptr;
 
-void Omnia::EntityContext::bindEntity(SceneLayerID sceneLayerID, EntityID entityID)
+void Omnia::CPPEntityContext::bindEntity(SceneLayerID sceneLayerID, EntityID entityID)
 {
 	getInstance()->boundSceneLayerID = sceneLayerID;
 	getInstance()->boundEntityID = entityID;
 }
 
-bool Omnia::EntityContext::hasComponent(std::string type)
+bool Omnia::CPPEntityContext::hasComponent(std::string type)
 {
 	return getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::EntityContext::getEntity()
+std::shared_ptr<Omnia::Entity> Omnia::CPPEntityContext::getEntity()
 {
 	return getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID);
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::EntityContext::getScene()
+std::shared_ptr<Omnia::Scene> Omnia::CPPEntityContext::getScene()
 {
 	return SceneStorage::getActiveScene();
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::EntityContext::getSceneLayer()
+std::shared_ptr<Omnia::SceneLayer> Omnia::CPPEntityContext::getSceneLayer()
 {
 	return getInstance()->getScene()->getSceneLayers().at(getInstance()->boundSceneLayerID);
 }
 
-std::shared_ptr<Omnia::Component> Omnia::EntityContext::getComponent(std::string type)
+std::shared_ptr<Omnia::Component> Omnia::CPPEntityContext::getComponent(std::string type)
 {
 	std::shared_ptr<Component> component(new Component());
 
@@ -65,14 +65,14 @@ std::shared_ptr<Omnia::Component> Omnia::EntityContext::getComponent(std::string
 	return component;
 }
 
-float Omnia::EntityContext::getTimeDelta()
+float Omnia::CPPEntityContext::getTimeDelta()
 {
 	return OS::getProfiler().getTimer("update_frame")->getDeltaInSeconds();
 }
 
-Omnia::EntityContext* Omnia::EntityContext::getInstance()
+Omnia::CPPEntityContext* Omnia::CPPEntityContext::getInstance()
 {
 	if (instance == nullptr)
-		instance = new EntityContext();
+		instance = new CPPEntityContext();
 	return instance;
 }

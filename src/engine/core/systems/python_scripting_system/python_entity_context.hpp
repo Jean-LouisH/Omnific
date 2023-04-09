@@ -26,7 +26,7 @@
 #include <core/singletons/scene_storage.hpp>
 #include <core/singletons/configuration.hpp>
 #include "core/utilities/aliases.hpp"
-#include "os/os.hpp"
+#include "core/singletons/os/os.hpp"
 #include <string>
 
 #include <memory>
@@ -39,7 +39,7 @@
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API EntityContext
+	class PythonEntityContext
 	{
 	public:
 		static void bindEntity(SceneLayerID sceneLayerID, EntityID entityID);
@@ -50,15 +50,9 @@ namespace Omnia
 		static std::shared_ptr<Component> getComponent(std::string type);
 		static float getTimeDelta();
 
-		static EntityContext* getInstance();
-
-		template <class T>
-		static std::shared_ptr<T> getComponentByType()
-		{
-			return std::dynamic_pointer_cast<T>(getInstance()->getComponent(T::TYPE_STRING));
-		}
+		static PythonEntityContext* getInstance();
 	private:
-		static EntityContext* instance;
+		static PythonEntityContext* instance;
 
 		SceneLayerID boundSceneLayerID = 0;
 		EntityID boundEntityID = 0;

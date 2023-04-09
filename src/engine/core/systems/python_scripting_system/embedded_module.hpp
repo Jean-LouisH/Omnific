@@ -33,7 +33,7 @@
 #include <core/assets/text.hpp>
 
 #include <core/component.hpp>
-#include <core/singletons/entity_context.hpp>
+#include "python_entity_context.hpp"
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <glm/glm.hpp>
@@ -318,12 +318,12 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("clear_scenes", &Omnia::SceneStorage::clearScenes);
 	m.def("get_scene_by_name", &Omnia::SceneStorage::getSceneByName);
 
-	m.def("has_component", &Omnia::EntityContext::hasComponent);
-	m.def("get_entity", &Omnia::EntityContext::getEntity);
-	m.def("get_component", &Omnia::EntityContext::getComponent);
-	m.def("get_scene", &Omnia::EntityContext::getScene);
-	m.def("get_scene_tree", &Omnia::EntityContext::getSceneLayer);
-	m.def("get_time_delta", &Omnia::EntityContext::getTimeDelta);
+	m.def("has_component", &Omnia::PythonEntityContext::hasComponent);
+	m.def("get_entity", &Omnia::PythonEntityContext::getEntity);
+	m.def("get_component", &Omnia::PythonEntityContext::getComponent);
+	m.def("get_scene", &Omnia::PythonEntityContext::getScene);
+	m.def("get_scene_tree", &Omnia::PythonEntityContext::getSceneLayer);
+	m.def("get_time_delta", &Omnia::PythonEntityContext::getTimeDelta);
 
 	m.def("get_shared_library_access", &Omnia::OS::getSharedLibraryAccess, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);

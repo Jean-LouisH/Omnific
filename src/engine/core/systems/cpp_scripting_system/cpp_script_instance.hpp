@@ -24,7 +24,7 @@
 
 // Headers for derived scripts
 ///////////////////////////////////////////////////////////
-#include <core/singletons/entity_context.hpp>
+#include <core/systems/cpp_scripting_system/cpp_entity_context.hpp>
 
 #include <core/singletons/scene_storage.hpp>
 

@@ -21,13 +21,12 @@
 // SOFTWARE.
 
 #include "python_scripting_system.hpp"
-#include "core/singletons/entity_context.hpp"
+#include "python_entity_context.hpp"
 #include <core/singletons/scene_storage.hpp>
 #include <core/singletons/os/os.hpp>
 #include <iostream>
 
 #include "embedded_module.hpp"
-#include <core/singletons/entity_context.hpp>
 #include <iostream>
 #include <set>
 
@@ -56,7 +55,7 @@ void Omnia::PythonScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scen
 		pybind11::object path = sys.attr("path");
 		std::set<std::string> addedPaths;
 
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 		{
 			for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			{
@@ -151,49 +150,49 @@ void Omnia::PythonScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 #endif
 
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "on_start");
 }
 
 void Omnia::PythonScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_input");
 }
 
 void Omnia::PythonScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_early");
 }
 
 void Omnia::PythonScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_logic");
 }
 
 void Omnia::PythonScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_compute");
 }
 
 void Omnia::PythonScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_late");
 }
 
 void Omnia::PythonScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
-		for (auto it : EntityContext::getScene()->getSceneLayers())
+		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
 }
 
@@ -246,7 +245,7 @@ void Omnia::PythonScriptingSystem::bindAndCall(
 		{
 			if (this->pythonScriptInstances.at(scriptPath).hasCallable(methodName))
 			{
-				EntityContext::bindEntity(
+				PythonEntityContext::bindEntity(
 					sceneLayerID,
 					entityID);
 

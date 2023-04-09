@@ -22,7 +22,7 @@
 
 #include "cpp_script_assembly.hpp"
 #include "cpp_script_registry.hpp"
-#include "core/singletons/entity_context.hpp"
+#include "core/systems/cpp_scripting_system/cpp_entity_context.hpp"
 #include "core/singletons/os/os.hpp"
 
 #include <core/components/script_collection.hpp>
@@ -34,49 +34,49 @@ void loadScriptInstances()
 
 void onStart()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "onStart");
 }
 
 void onInput()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onInput");
 }
 
 void onEarly()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onEarly");
 }
 
 void onLogic()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onLogic");
 }
 
 void onCompute()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onCompute");
 }
 
 void onLate()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onLate");
 }
 
 void onOutput()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onOutput");
 }
 
 void onFinish()
 {
-	for (auto it : Omnia::EntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
 		executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "onFinish");
 }
 
@@ -94,7 +94,7 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 		{
 			std::shared_ptr<Omnia::CPPScriptInstance> scriptInstance = scriptInstances.at(scriptInstanceName);
 
-			Omnia::EntityContext::bindEntity(
+			Omnia::CPPEntityContext::bindEntity(
 				sceneLayerID,
 				entityID);
 
