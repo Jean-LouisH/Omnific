@@ -56,11 +56,14 @@
 #include <core/systems/cpp_scripting_system/cpp_scripting_system.hpp>
 #include <core/systems/gui_system/gui_system.hpp>
 #include <core/systems/haptic_system/haptic_system.hpp>
+#include <core/systems/libretti_audio_system/libretti_audio_system.hpp>
+#include <core/systems/path_trace_rendering_system/path_trace_rendering_system.hpp>
 #include <core/systems/physics_system/physics_system.hpp>
 #include <core/systems/python_scripting_system/python_scripting_system.hpp>
 #include <core/systems/rendering_system/rendering_system.hpp>
 
 /////////////////////////////////////////////////////
+#define ENABLE_PATH_TRACE_RENDERING_SYSTEM false
 
 namespace Omnia
 {
@@ -106,9 +109,15 @@ namespace Omnia
 			registry->add<CPPScriptingSystem, System>();
 			registry->add<GUISystem, System>();
 			registry->add<HapticSystem, System>();
+			registry->add<LibrettiAudioSystem, System>();
 			registry->add<PhysicsSystem, System>();
 			registry->add<PythonScriptingSystem, System>();
+
+#if ENABLE_PATH_TRACE_RENDERING_SYSTEM
+			registry->add<PathTraceRenderingSystem>();
+#else
 			registry->add<RenderingSystem, System>();
+#endif
 
 			////////////////////////////////////////////
 		};

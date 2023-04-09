@@ -6,8 +6,7 @@ file(GLOB_RECURSE omnia_engine_headers "[a-zA-Z]*.hpp")
 
 add_library(omnia_engine SHARED
 	  ${omnia_engine_sources}
-	  ${omnia_engine_headers}
-)
+	  ${omnia_engine_headers})
 
 add_dependencies (omnia_engine
 	yaml_cpp
