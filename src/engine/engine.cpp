@@ -202,14 +202,14 @@ void Omnia::Engine::runInputLoop(std::shared_ptr<HiResTimer> inputProcessTimer)
 
 void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer)
 {
+	for (auto system : this->systems)
+		system.second->initialize();
+
 	FileAccess& fileAccess = OS::getFileAccess();
 	std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
 
 	if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
 		SceneStorage::addAndChangeToScene(std::shared_ptr<Scene>(new Scene(entrySceneFilepath)));
-
-	for (auto system : this->systems)
-		system.second->initialize();
 
 	Profiler& profiler = OS::getProfiler();
 	profiler.addTimer(UPDATE_FRAME_TIMER_NAME);
