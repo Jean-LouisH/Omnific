@@ -57,15 +57,12 @@ Omnia::OpenGLTexture::OpenGLTexture(std::shared_ptr<Image> image)
 	switch (textureImage->getBytesPerPixel())
 	{
 		case 1: 
-			internalFormat = GL_RGBA;
-			format = GL_BGRA;
+			format = GL_RGBA8;
 			break;
 		case 3: 
-			internalFormat = GL_RGBA;
 			format = GL_RGB; 
 			break;
 		case 4: 
-			internalFormat = GL_RGBA;
 			format = GL_RGBA; 
 			break;
 	}
@@ -73,7 +70,7 @@ Omnia::OpenGLTexture::OpenGLTexture(std::shared_ptr<Image> image)
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
-		internalFormat,
+		GL_RGBA,
 		textureImage->getWidth(),
 		textureImage->getHeight(),
 		0,
