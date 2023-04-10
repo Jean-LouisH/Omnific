@@ -22,8 +22,6 @@
 
 #include "font.hpp"
 
-#define STB_TRUETYPE_IMPLEMENTATION
-
 Omnia::Font::Font(std::string filepath)
 {
 	uint16_t fontSize = 16;

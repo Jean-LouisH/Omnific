@@ -1,0 +1,68 @@
+# Components Demonstration
+
+SceneLayer:
+  name: "Background SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "Background Image"
+    Transform: default
+    Sprite:
+      image: "Image::#44444444"
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 1]
+    Camera: "default"
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"
+SceneLayer:
+  name: "Foreground SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "GlobalShaderEntity"
+    Transform: default
+    RenderableComponent:
+      overriding_shader:
+        fragment: "sample/shaders/unlit.glsl"
+  Entity:
+    name: "Model1"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [0.0, 0.0, 0.0]
+    ScriptCollection:
+      Python: ["sample/scripts/python/z_rotation.py"]
+  SubSceneLayer:
+    name: ["sample/models/suzanne.glb", ""]
+    parent: "Model1"
+  Entity:
+    name: "Model2"
+    parent: "Model1"
+    Transform:
+      translation: [0.0, -1.0, 0.0]
+    Model:
+      mesh: "Mesh::cube"
+  Entity:
+    name: "GUI"
+    Transform:
+      translation: [0.0, -2.0, 0.0]
+    GUI:
+      GUIPanel:
+        GUIWidget:
+          GUIText:
+            text: "This is a test to see if longer text will give longer images."
+            font: ["sample/fonts/Lato-Regular.ttf", 16]
+            colour: [255, 255, 255, 255]
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, -2, 10]
+    Camera:
+      wireframe_mode: true
+    ScriptCollection:
+      Python: ["sample/scripts/python/camera_control.py"]
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"

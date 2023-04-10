@@ -34,22 +34,6 @@ namespace Omnia
 	class OMNIA_ENGINE_API Font : public Asset
 	{
 	public:
-		enum class Style
-		{
-			NORMAL,
-			BOLD,
-			ITALIC,
-			UNDERLINE,
-			STRIKETHROUGH
-		};
-
-		enum class RenderMode
-		{
-			SOLID,
-			SHADED,
-			BLENDED
-		};
-
 		static constexpr const char* TYPE_STRING = "Font";
 
 		Font() 

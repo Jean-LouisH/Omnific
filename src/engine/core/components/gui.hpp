@@ -31,7 +31,7 @@
 
 namespace Omnia
 {
-	class GUIText
+	class OMNIA_ENGINE_API GUIText
 	{
 	public:
 		GUIText()
@@ -41,23 +41,13 @@ namespace Omnia
 
 		void setText(std::string text);
 		void setFont(std::shared_ptr<Omnia::Font> font, uint16_t size_px);
-		void setFontStyleNormal();
-		void setFontStyleBold();
-		void setFontStyleItalic();
-		void setFontStyleUnderline();
-		void setFontStyleStrikethrough();
-		void setFontRenderModeSolid();
-		void setFontRenderModeShaded();
-		void setFontRenderModeBlended();
 		void setFontSize(uint16_t size_px);
 		void setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
-		Font::Style getFontStyle();
 
 		std::string text;
 		std::shared_ptr<Omnia::Font> font;
-		Font::Style style = Font::Style::NORMAL;
-		Font::RenderMode mode = Font::RenderMode::SOLID;
 		uint16_t size = 0;
+		uint16_t wrapLength = 500;
 		Colour colour;
 		std::shared_ptr<Image> image;
 
@@ -65,7 +55,7 @@ namespace Omnia
 		void generateImage();
 	};
 
-	class GUIWidget
+	class OMNIA_ENGINE_API GUIWidget
 	{
 	public:
 		bool isClickable = false;
@@ -79,7 +69,7 @@ namespace Omnia
 		std::shared_ptr<Image> backgroundImage;
 	};
 
-	class GUIProgressBar
+	class OMNIA_ENGINE_API GUIProgressBar
 	{
 	public:
 		float progressValue = 0.0;
@@ -87,14 +77,14 @@ namespace Omnia
 		glm::vec2 position;
 	};
 
-	class GUILine
+	class OMNIA_ENGINE_API GUILine
 	{
 	public:
 		glm::vec2 startPoint;
 		glm::vec2 endPoint;
 	};
 
-	class GUIPanel
+	class OMNIA_ENGINE_API GUIPanel
 	{
 	public:
 		std::unordered_map<std::string, GUIWidget> widgets;
@@ -114,6 +104,8 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 
+		std::unordered_map<std::string, GUIPanel> guiPanels;
+
 		virtual Registerable* instance() override
 		{
 			GUI* clone = new GUI(*this);
@@ -121,8 +113,7 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
-		void updateImage();
 	private:
-		std::unordered_map<std::string, GUIPanel> guiPanels;
+		void updateImage();
 	};
 }
