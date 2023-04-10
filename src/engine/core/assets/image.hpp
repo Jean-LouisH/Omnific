@@ -48,7 +48,7 @@ namespace Omnia
 		{ 
 			this->type = TYPE_STRING;
 		};
-		Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode);
+		Image(std::string text, std::shared_ptr<Font> font, Colour colour, uint16_t wrapLength);
 		Image(std::shared_ptr<Colour> colour);
 		Image(uint8_t* data, int width, int height, int colourChannels);
 		Image(std::string filepath);

@@ -26,28 +26,39 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, Font::RenderMode mode)
+Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, uint16_t wrapLength)
 {
-	stbi_set_flip_vertically_on_load(1);
-
 	this->type = TYPE_STRING;
 
 	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
-	SDL_Color sdlBackgroundColor = { 0, 0, 0, 255 };
-	std::shared_ptr<SDL_Surface> sdlSurface;
+	std::shared_ptr<SDL_Surface> sdlSurface(SDL_ConvertSurfaceFormat(TTF_RenderUTF8_Blended_Wrapped(font->getSDLTTFFont(), text.c_str(), sdlColor, wrapLength), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
 
-	switch (mode)
-	{
-	case Font::RenderMode::SOLID:
-		sdlSurface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Solid(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
-		break;
-	case Font::RenderMode::SHADED:
-		sdlSurface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Shaded(font->getSDLTTFFont(), text.c_str(), sdlColor, sdlBackgroundColor), SDL_FreeSurface);
-		break;
-	case Font::RenderMode::BLENDED:
-		sdlSurface = std::shared_ptr<SDL_Surface>(TTF_RenderUTF8_Blended(font->getSDLTTFFont(), text.c_str(), sdlColor), SDL_FreeSurface);
-		break;
+	/*	SDL vertical pixel flip solution by 
+		vvanpelt on StackOverflow: https://stackoverflow.com/a/65817254 
+	*/
+	SDL_Surface* flippedSDLSurface = sdlSurface.get();
+	SDL_LockSurface(flippedSDLSurface);
+
+	int pitch = flippedSDLSurface->pitch; // row size
+	char* temp = new char[pitch]; // intermediate buffer
+	char* pixels = (char*)flippedSDLSurface->pixels;
+
+	for (int i = 0; i < flippedSDLSurface->h / 2; ++i) {
+		// get pointers to the two rows to swap
+		char* row1 = pixels + i * pitch;
+		char* row2 = pixels + (flippedSDLSurface->h - i - 1) * pitch;
+
+		// swap rows
+		memcpy(temp, row1, pitch);
+		memcpy(row1, row2, pitch);
+		memcpy(row2, temp, pitch);
 	}
+
+	delete[] temp;
+
+	SDL_UnlockSurface(flippedSDLSurface);
+
+	/////////
 
 	if (sdlSurface != nullptr)
 		this->setToParameters(sdlSurface->format->BytesPerPixel, sdlSurface->w, sdlSurface->h, (uint8_t*)sdlSurface->pixels);
