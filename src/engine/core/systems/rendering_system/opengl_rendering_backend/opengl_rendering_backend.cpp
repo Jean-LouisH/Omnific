@@ -195,17 +195,12 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 						case RenderableComponent::CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
 						}
 
-						if (alpha < cullAlphaThreshold || cullMode == RenderableComponent::CullMode::NONE)
-						{
+						if (cullMode == RenderableComponent::CullMode::NONE)
 							glDisable(GL_CULL_FACE);
-							if (alpha < cullAlphaThreshold)
-								this->enableBlending();
-						}
 						else
-						{
 							glEnable(GL_CULL_FACE);
-							this->disableBlending();
-						}
+
+						this->enableBlending();
 
 						std::shared_ptr<OpenGLVertexArray> vertexArray = this->getVertexArray(entityRenderable.renderableComponent);
 						vertexArray->bind();
@@ -338,6 +333,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
 
 						vertexArray->unbind();
+						this->disableBlending();
 					}
 				}
 			}
