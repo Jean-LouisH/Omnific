@@ -33,6 +33,8 @@ void Omnia::GUISystem::initialize()
 {
 	this->isInitialized = true;
 	OS::getLogger().write("Initialized GUI System.");
+	if (TTF_Init() == -1)
+		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
 void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
