@@ -1,7 +1,7 @@
 # [Omnia](https://github.com/Jean-LouisH/Omnia)
 
 ![Intro Screenshot](docs/images/cover.png)
-["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnia's RenderingSystem with a basic phong Shader. The white cube contains a Light Component and is rendered with a separate unlit Shader.
+_["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnia's RenderingSystem with a basic phong Shader. The white cube contains a Light Component and is rendered with a separate unlit Shader._
 
 **This project is in pre-alpha**
 
@@ -21,7 +21,7 @@ The name "Omnia" stems from the prefix "Omni-" which means "all." It is loosely 
 
 # Notable Features
 
-- Project-based, data-driven applications, deserialized as YAML files via yaml-cpp
+- Project-based, data-driven applications, deserialized from YAML files via [yaml-cpp](https://github.com/jbeder/yaml-cpp)
 
 ![omnia_project](docs/images/omnia_project.png)
 
