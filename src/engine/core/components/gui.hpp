@@ -113,6 +113,7 @@ namespace Omnia
 			return clone;
 		}
 		virtual void deserialize(YAML::Node yamlNode);
+		void setText(std::string text);
 	private:
 		void updateImage();
 	};

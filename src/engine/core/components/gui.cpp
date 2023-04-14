@@ -148,4 +148,25 @@ void Omnia::GUI::updateImage()
 	this->setDimensions(this->image->getWidth(), this->image->getHeight(), 0);
 
 	/*ToDo*/
+
+}
+
+void Omnia::GUI::setText(std::string text)
+{
+	/* Basic temporary implementation for a text only GUI*/
+	if (this->guiPanels.size() == 1)
+	{
+		for (auto guiPanel : this->guiPanels)
+		{
+			if (guiPanel.second.widgets.size() == 1)
+			{
+				for (auto widget : guiPanel.second.widgets)
+				{
+					widget.second.guiText.setText(text);
+				}
+			}
+		}
+	}
+
+	this->updateImage();
 }

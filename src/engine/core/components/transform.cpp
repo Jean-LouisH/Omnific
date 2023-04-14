@@ -1,6 +1,7 @@
 #include "transform.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 void Omnia::Transform::deserialize(YAML::Node yamlNode)
 {
@@ -78,7 +79,55 @@ float Omnia::Transform::calculateElevationFrom(glm::vec3 position)
 
 std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
 {
-	std::shared_ptr<Transform> globalTransform(new Transform());
+	if (this->globalTransform == nullptr)
+		this->globalTransform = std::shared_ptr<Transform>(new Transform());
+
+	//std::shared_ptr<Transform> localTransform = std::dynamic_pointer_cast<Transform>(this->componentHierarchy[0]);
+	//std::shared_ptr<Transform> parentLocalTransform = 
+	//	std::dynamic_pointer_cast<Transform>(this->componentHierarchy[this->componentHierarchy.size() - 1]);
+
+	//if (parentLocalTransform == nullptr)
+	//	parentLocalTransform = std::shared_ptr<Transform>(new Transform());
+
+	//for (int i = this->componentHierarchy.size() - 2;
+	//	i >= 0;
+	//	i--)
+	//{
+	//	std::shared_ptr<Transform> localTransform =	std::dynamic_pointer_cast<Transform>(this->componentHierarchy[i]);
+
+	//	if (localTransform == nullptr)
+	//		localTransform = std::shared_ptr<Transform>(new Transform());
+
+	//	glm::mat4 localTransformMatrix = localTransform->getTransformMatrix();
+	//	localTransformMatrix = glm::translate(localTransformMatrix, parentLocalTransform->translation);
+	//	localTransformMatrix = glm::rotate(localTransformMatrix, glm::radians(parentLocalTransform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	//	localTransformMatrix = glm::rotate(localTransformMatrix, glm::radians(parentLocalTransform->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	//	localTransformMatrix = glm::rotate(localTransformMatrix, glm::radians(parentLocalTransform->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	//	localTransformMatrix = glm::scale(localTransformMatrix, parentLocalTransform->scale);
+
+	//	glm::quat rotationQuaternion;
+	//	glm::vec3 skew;
+	//	glm::vec4 perspective;
+
+	//	glm::decompose(
+	//		localTransformMatrix,
+	//		localTransform->scale, 
+	//		rotationQuaternion,
+	//		localTransform->translation, 
+	//		skew, 
+	//		perspective);
+
+	//	localTransform->rotation = glm::eulerAngles(rotationQuaternion);
+	//	parentLocalTransform = localTransform;
+	//}
+
+	//this->globalTransform->translation = localTransform->translation;
+	//this->globalTransform->rotation = localTransform->rotation;
+	//this->globalTransform->scale = localTransform->scale;
+
+	this->globalTransform->translation = glm::vec3(0.0);
+	this->globalTransform->rotation = glm::vec3(0.0);
+	this->globalTransform->scale = glm::vec3(1.0);
 
 	for (std::shared_ptr<Component> component : this->componentHierarchy)
 	{
@@ -92,7 +141,7 @@ std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
 		globalTransform->scale *= localTransform->scale;
 	}
 
-	return globalTransform;
+	return this->globalTransform;
 }
 
 glm::mat4 Omnia::Transform::getTransformMatrix()
