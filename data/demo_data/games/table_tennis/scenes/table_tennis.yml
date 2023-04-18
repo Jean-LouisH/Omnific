@@ -1,4 +1,4 @@
-# Omnia Pong
+# Omnia Table Tennis
 
 SceneLayer:
   name: "Background SceneLayer"
@@ -14,49 +14,59 @@ SceneLayer:
       translation: [0, 0, 0]
     Sprite:
       image: "Image::#CCCCCC"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/debug_restart.py"]
   Entity:
     name: "Viewport"
     Viewport:
       camera_entity: "Background Camera"
 SceneLayer:
-  name: "Foreground SceneLayer"
+  name: "Table Tennis"
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
     RenderableComponent:
       overriding_shader:
-        fragment: "games/pong/shaders/unlit_3d_fragment.glsl"
+        fragment: "games/table_tennis/shaders/phong_fragment.glsl"
   Entity:
     name: "Camera"
     Transform:
-      translation: [0, 0, 30]
+      translation: [0, 3, 30]
+      rotation: [10.0, 0.0, 0.0]
     Camera: "default"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/camera_shake.py"]
   Entity:
     name: "System"
     ScriptCollection:
-      Python: ["games/pong/scripts/python/return_to_main.py"]
+      Python: ["games/table_tennis/scripts/python/return_to_main.py"]
   Entity:
     name: "Game Mechanics"
     ScriptCollection:
-      Python: ["games/pong/scripts/python/game_mechanics.py"]
+      Python: ["games/table_tennis/scripts/python/game_mechanics.py"]
+  Entity:
+    name: "Table"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [0.0, 1.0, -5.0]
+      scale: [5, 1, 10]
+    PhysicsBody:
+      is_rigidbody: false
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
+    Collider:
+      is_trigger_only: true
   Entity:
     name: "Paddle1"
     parent: "GlobalShaderEntity"
     Transform:
-      translation: [-17, 0, 0]
-      scale: [1, 5, 1]
+      translation: [-1.0, 2.0, 0]
+      scale: [2, 1, 1]
     PhysicsBody:
       is_rigidbody: false
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FF0000"
     ScriptCollection:
-      Python: ["games/pong/scripts/python/player_control.py"]
+      Python: ["games/table_tennis/scripts/python/player_control.py"]
     Collider:
       is_trigger_only: true
   Entity:
@@ -70,23 +80,23 @@ SceneLayer:
         GUIWidget:
           GUIText:
             text: "a"
-            font: ["sample/fonts/Lato-Regular.ttf", 16]
+            font: ["games/table_tennis/fonts/Lato-Regular.ttf", 16]
             colour: [255, 0, 0, 255]
     ScriptCollection:
-      Python: ["games/pong/scripts/python/player_score.py"]
+      Python: ["games/table_tennis/scripts/python/player_score.py"]
   Entity:
     name: "Paddle2"
     parent: "GlobalShaderEntity"
     Transform:
-      translation: [17, 0, 0]
-      scale: [1, 5, 1]
+      translation: [1.0, 2.0, -5.0]
+      scale: [2, 1, 1]
     PhysicsBody:
       is_rigidbody: false
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#0000FF"
     ScriptCollection:
-      Python: ["games/pong/scripts/python/ai_control.py"]
+      Python: ["games/table_tennis/scripts/python/ai_control.py"]
     Collider:
       is_trigger_only: true
   Entity:
@@ -99,16 +109,16 @@ SceneLayer:
       GUIPanel:
         GUIWidget:
           GUIText:
-            text: "a"
+            text: "b"
             font: ["sample/fonts/Lato-Regular.ttf", 16]
             colour: [0, 0, 255, 255]
     ScriptCollection:
-      Python: ["games/pong/scripts/python/ai_score.py"]
+      Python: ["games/table_tennis/scripts/python/ai_score.py"]
   Entity:
     name: "Ball"
     parent: "GlobalShaderEntity"
     Transform:
-      translation: [0, 10, 0]
+      translation: [0.0, 2.0, -2.5]
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
@@ -121,42 +131,24 @@ SceneLayer:
     Viewport:
       camera_entity: "Camera"
   Entity:
-    name: "UpperBoundary"
-    parent: "GlobalShaderEntity"
+    name: "Front Post"
     Transform:
-      translation: [0, 12, 0]
-      scale: [50, 1, 1]
-    Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
+      translation: [0.0, 0.0, 1.0]
+      scale: [10.0, 10.0, 1.0]
+    Collider:
+      is_trigger_only: true
   Entity:
-    name: "LowerBoundary"
-    parent: "GlobalShaderEntity"
+    name: "Back Post"
     Transform:
-      translation: [0, -12, 0]
-      scale: [50, 1, 1]
-    Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
+      translation: [0.0, 0.0, -6.0]
+      scale: [10.0, 10.0, 1.0]
+    Collider:
+      is_trigger_only: true
   Entity:
-    name: "LeftGoalPost"
-    parent: "GlobalShaderEntity"
+    name: "LightSource"
     Transform:
-      translation: [-22, 0, 0]
-      scale: [1, 50, 1]
-    Collider: default
+      translation: [0.0, 0.0, 0.0]
     Model:
       mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-  Entity:
-    name: "RightGoalPost"
-    parent: "GlobalShaderEntity"
-    Transform:
-      translation: [22, 0, 0]
-      scale: [1, 50, 1]
-    Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
+      shader:
+        fragment: "games/table_tennis/shaders/light_source_fragment.glsl"
