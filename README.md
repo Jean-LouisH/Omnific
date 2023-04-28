@@ -109,7 +109,7 @@ This summarizes how the Engine operates. Users can also extend it through the Cl
 
 # Demos
 
-- Pong
+- [Pong](https://github.com/Jean-LouisH/Omnia/releases/tag/0.1)
 
 ![omnia_pong](docs/images/omnia_pong.gif)
 
