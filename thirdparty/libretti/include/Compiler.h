@@ -12,12 +12,12 @@
 #ifndef Compiler_h
 #define Compiler_h
 
-#include "Audio.h"
+#include "Composition.h"
 #include <stdint.h>
 
-void compileAudioFromScript(lb_Audio* audio, const char* script);
-void allocateMemory(lb_Audio* audio, const char* script);
-void buildAudioData(lb_Audio* audio, const char* script);
+void compileCompositionFromScript(lb_Composition* audio, const char* script);
+void allocateMemory(lb_Composition* audio, const char* script);
+void buildCompositionData(lb_Composition* audio, const char* script);
 void tuneByKeySignature(uint8_t keySignature, char* noteChar);
 void assignFrequencyFromNoteChar(float* frequency, uint8_t octave, char noteChar);
 void tuneByAccidental(float* frequency, uint8_t octave, char scriptChar, char noteChar);

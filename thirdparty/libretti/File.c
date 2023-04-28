@@ -10,10 +10,10 @@ bool exists(char* filename)
 	return (bool)inputFile;
 }
 
-lb_Binary_u8 loadASCIIStringFromFile(char* filename)
+lb_BinaryU8 loadASCIIStringFromFile(char* filename)
 {
 	FILE* inputFile = fopen(filename, "rb");
-	lb_Binary_u8 string;
+	lb_BinaryU8 string;
 	string.data = NULL;
 	string.size = 0;
 	if (inputFile != NULL)
@@ -32,10 +32,10 @@ lb_Binary_u8 loadASCIIStringFromFile(char* filename)
 	return string;
 }
 
-lb_Binary_u8 loadBinaryU8FromFile(char* filename)
+lb_BinaryU8 loadBinaryU8FromFile(char* filename)
 {
 	FILE* inputFile = fopen(filename, "rb");
-	lb_Binary_u8 binary;
+	lb_BinaryU8 binary;
 	binary.data = NULL;
 	binary.size = 0;
 	if (inputFile != NULL)
@@ -43,18 +43,18 @@ lb_Binary_u8 loadBinaryU8FromFile(char* filename)
 		fseek(inputFile, 0, SEEK_END);
 		binary.size = ftell(inputFile);
 		rewind(inputFile);
-		binary.data = malloc(sizeof(lb_Binary_u8) * (binary.size));
+		binary.data = malloc(sizeof(lb_BinaryU8) * (binary.size));
 		if (binary.data != NULL)
-			fread(binary.data, sizeof(lb_Binary_u8), binary.size, inputFile);
+			fread(binary.data, sizeof(lb_BinaryU8), binary.size, inputFile);
 		fclose(inputFile);
 	}
 	return binary;
 }
 
-lb_Binary_s16 loadBinaryS16FromFile(char* filename)
+lb_BinaryS16 loadBinaryS16FromFile(char* filename)
 {
 	FILE* inputFile = fopen(filename, "rb");
-	lb_Binary_s16 binary;
+	lb_BinaryS16 binary;
 	binary.data = NULL;
 	binary.size = 0;
 	if (inputFile != NULL)
@@ -62,15 +62,15 @@ lb_Binary_s16 loadBinaryS16FromFile(char* filename)
 		fseek(inputFile, 0, SEEK_END);
 		binary.size = ftell(inputFile);
 		rewind(inputFile);
-		binary.data = malloc(sizeof(lb_Binary_s16) * (binary.size));
+		binary.data = malloc(sizeof(lb_BinaryS16) * (binary.size));
 		if (binary.data != NULL)
-			fread(binary.data, sizeof(lb_Binary_s16), binary.size, inputFile);
+			fread(binary.data, sizeof(lb_BinaryS16), binary.size, inputFile);
 		fclose(inputFile);
 	}
 	return binary;
 }
 
-void saveBinaryU8ToFile(lb_Binary_u8* binary, char* filename)
+void saveBinaryU8ToFile(lb_BinaryU8* binary, char* filename)
 {
 	FILE* outputFile = fopen(filename, "wb");
 	if (outputFile != NULL)
@@ -80,7 +80,7 @@ void saveBinaryU8ToFile(lb_Binary_u8* binary, char* filename)
 	}
 }
 
-void saveBinaryS16ToFile(lb_Binary_s16* binary, char* filename)
+void saveBinaryS16ToFile(lb_BinaryS16* binary, char* filename)
 {
 	FILE* outputFile = fopen(filename, "wb");
 	if (outputFile != NULL)
@@ -90,7 +90,7 @@ void saveBinaryS16ToFile(lb_Binary_s16* binary, char* filename)
 	}
 }
 
-void appendBinaryU8ToFile(lb_Binary_u8* binary, char* filename)
+void appendBinaryU8ToFile(lb_BinaryU8* binary, char* filename)
 {
 	FILE* outputFile = fopen(filename, "a");
 	if (outputFile != NULL)
@@ -100,7 +100,7 @@ void appendBinaryU8ToFile(lb_Binary_u8* binary, char* filename)
 	}
 }
 
-void appendBinaryS16ToFile(lb_Binary_s16* binary, char* filename)
+void appendBinaryS16ToFile(lb_BinaryS16* binary, char* filename)
 {
 	FILE* outputFile = fopen(filename, "a");
 	if (outputFile != NULL)

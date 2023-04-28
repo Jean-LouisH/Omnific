@@ -16,12 +16,12 @@
 #include "Binary.h"
 
 bool exists(char* filename);
-lb_Binary_u8 loadASCIIStringFromFile(const char* filename);
-lb_Binary_u8 loadBinaryU8FromFile(const char* filename);
-lb_Binary_s16 loadBinaryS16FromFile(const char* filename);
-void saveBinaryU8ToFile(lb_Binary_u8* binary, const char* filename);
-void saveBinaryS16ToFile(lb_Binary_s16* binary, const char* filename);
-void appendBinaryU8ToFile(lb_Binary_u8* binary, const char* filename);
-void appendBinaryS16ToFile(lb_Binary_s16* binary, const char* filename);
+lb_BinaryU8 loadASCIIStringFromFile(const char* filename);
+lb_BinaryU8 loadBinaryU8FromFile(const char* filename);
+lb_BinaryS16 loadBinaryS16FromFile(const char* filename);
+void saveBinaryU8ToFile(lb_BinaryU8* binary, const char* filename);
+void saveBinaryS16ToFile(lb_BinaryS16* binary, const char* filename);
+void appendBinaryU8ToFile(lb_BinaryU8* binary, const char* filename);
+void appendBinaryS16ToFile(lb_BinaryS16* binary, const char* filename);
 
 #endif /*File_h*/

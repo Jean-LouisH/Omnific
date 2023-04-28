@@ -35,7 +35,7 @@ void initAudioPlayback(CallbackList callbackList[])
 	}
 }
 
-void initAudioCapture(lb_Binary_s16* binary)
+void initAudioCapture(lb_BinaryS16* binary)
 {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 	{
@@ -82,18 +82,21 @@ void runCallbackPlay(void* userdata, Uint8* stream, int byteLength)
 		playbackStream[i] = 0;
 	}
 
-	for (int i = 0; i < callbackList->size; i++)
+	if (callbackList != NULL)
 	{
-		Libretti* libretti = callbackList->librettiList[i];
-
-		if (libretti != NULL &&
-			libretti->audio != NULL &&
-			libretti->noteWaves != NULL &&
-			libretti->runtime != NULL &&
-			libretti->audio->trackCount > 0)
+		for (int i = 0; i < callbackList->size; i++)
 		{
-			lb_updateNoteWavesFromAudio(libretti->noteWaves, libretti->audio, libretti->runtime);
-			interleaveNoteWavesToStream(playbackStream, libretti->noteWaves);
+			lb_Libretti* libretti = callbackList->librettiList[i];
+
+			if (libretti != NULL &&
+				libretti->composition != NULL &&
+				libretti->noteWaves != NULL &&
+				libretti->playback != NULL &&
+				libretti->composition->trackCount > 0)
+			{
+				lb_updateNoteWavesFromComposition(libretti->noteWaves, libretti->composition, libretti->playback);
+				interleaveNoteWavesToStream(playbackStream, libretti->noteWaves);
+			}
 		}
 	}
 }
@@ -105,7 +108,7 @@ void runCallbackCapture(void* userdata, Uint8* stream, int byteLength)
 	of two bytes.*/
 	Sint16* captureStream = (Sint16*)stream;
 	int doubleByteLength = byteLength / sizeof(Sint16);
-	lb_Binary_s16* binary = (lb_Binary_s16*)userdata;
+	lb_BinaryS16* binary = (lb_BinaryS16*)userdata;
 
 	int16_t debug[SAMPLE_SIZE];
 
@@ -117,4 +120,12 @@ void runCallbackCapture(void* userdata, Uint8* stream, int byteLength)
 
 	//debugging
 	lb_appendBinaryS16ToFile(binary, "audio_recording_dump.bin");
+}
+
+void finalizeAudioPlayback(CallbackList callbackList[])
+{
+	SDL_PauseAudioDevice(callbackList->device, 1);
+	SDL_CloseAudioDevice(callbackList->device);
+	SDL_CloseAudio();
+	callbackList->device = 0;
 }

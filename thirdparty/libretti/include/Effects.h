@@ -14,26 +14,26 @@
 
 typedef struct
 {
-	float preDelay_ms;
-	float roomSize_pct;
-	float damping_pct;
+	float preDelay; //in milliseconds
+	float roomSize; //in percentages
+	float damping; //in percentages
 }ReverbControl;
 
 typedef struct
 {
-	float delay_ms;
-	float decay_pct;
+	float delay; //in milliseconds
+	float decay; //in percentages
 }EchoControl;
 
 typedef struct
 {
-	float level_dB;
+	float level; //in decibels
 }EQControl;
 
 typedef struct
 {
-	float extent_cents;
-	float rate_per_s;
+	float extent; //in cents
+	float rate; //oscillations per second
 }VibratoControl;
 
 typedef struct
@@ -42,8 +42,8 @@ typedef struct
 	EchoControl echo;
 	EQControl eq[10]; //31Hz, 62Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz
 	VibratoControl vibrato;
-	uint32_t crossfading_ms;
-	float pitchBlend_pct;
+	uint32_t crossfading; //in milliseconds
+	float pitchBlend; //in percentages
 }lb_Effects;
 
 #endif /*Effects_h*/

@@ -14,12 +14,12 @@
 
 enum beatsPerMinute
 {
-	LARGO = 50,
-	ADAGIO = 70,
-	ADANTE = 90,
-	MODERATO = 110,
-	ALLEGRO = 140,
-	PRESTO = 180,
+	LB_BPM_LARGO = 50,
+	LB_BPM_ADAGIO = 70,
+	LB_BPM_ADANTE = 90,
+	LB_BPM_MODERATO = 110,
+	LB_BPM_ALLEGRO = 140,
+	LB_BPM_PRESTO = 180,
 };
 
 #endif /*Timing_h*/
