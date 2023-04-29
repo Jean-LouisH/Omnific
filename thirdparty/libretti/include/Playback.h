@@ -16,7 +16,7 @@
 #include "UserEffectsOverride.h"
 #include <SDL_audio.h>
 
-enum States
+enum PlaybackStates
 {
 	LB_PLAYBACK_STATE_IS_PLAYING = 1 << 0,
 	LB_PLAYBACK_STATE_PLAYED_AT_LEAST_ONCE = 1 << 1

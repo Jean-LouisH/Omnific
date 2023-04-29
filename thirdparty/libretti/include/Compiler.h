@@ -15,9 +15,9 @@
 #include "Composition.h"
 #include <stdint.h>
 
-void compileCompositionFromScript(lb_Composition* audio, const char* script);
-void allocateMemory(lb_Composition* audio, const char* script);
-void buildCompositionData(lb_Composition* audio, const char* script);
+void compileCompositionFromScript(lb_Composition* composition, const char* script);
+void allocateMemory(lb_Composition* composition, const char* script);
+void buildCompositionData(lb_Composition* composition, const char* script);
 void tuneByKeySignature(uint8_t keySignature, char* noteChar);
 void assignFrequencyFromNoteChar(float* frequency, uint8_t octave, char noteChar);
 void tuneByAccidental(float* frequency, uint8_t octave, char scriptChar, char noteChar);

@@ -11,12 +11,12 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-void compileCompositionFromScript(lb_Composition* audio, const char* script)
+void compileCompositionFromScript(lb_Composition* composition, const char* script)
 {
 	if (validateScript(script) == LB_VALIDATION_ALL_OK)
 	{
-		allocateMemory(audio, script);
-		buildCompositionData(audio, script);
+		allocateMemory(composition, script);
+		buildCompositionData(composition, script);
 	}
 	else
 	{
@@ -24,7 +24,7 @@ void compileCompositionFromScript(lb_Composition* audio, const char* script)
 	}
 }
 
-void allocateMemory(lb_Composition* audio, const char* script)
+void allocateMemory(lb_Composition* composition, const char* script)
 {
 	int readPosition = 0;
 	int currentTrack = -1;
@@ -60,10 +60,10 @@ void allocateMemory(lb_Composition* audio, const char* script)
 			break;
 		case '}':
 			if (noteCount > 0)
-				audio->tracks[currentTrack].noteEvents = malloc(sizeof(lb_NoteEvent) * noteCount);
+				composition->tracks[currentTrack].noteEvents = malloc(sizeof(lb_NoteEvent) * noteCount);
 			else
-				audio->tracks[currentTrack].noteEvents = calloc(1, sizeof(lb_NoteEvent));
-			audio->tracks[currentTrack].noteCount = noteCount;
+				composition->tracks[currentTrack].noteEvents = calloc(1, sizeof(lb_NoteEvent));
+			composition->tracks[currentTrack].noteCount = noteCount;
 			break;
 		case ']':
 			isReadingValue = false;
@@ -81,15 +81,15 @@ void allocateMemory(lb_Composition* audio, const char* script)
 		readPosition++;
 	} while (symbol != NULL);
 
-	audio->tempoEvents = malloc(sizeof(lb_TempoEvent) * tempoEventCount);
-	audio->tempoEventCount = tempoEventCount;
-	audio->lyricsEvents = malloc(sizeof(lb_LyricsEvent) * lyricsEventCount);
-	audio->lyricsEventCount = lyricsEventCount;
-	audio->trackCount = currentTrack + 1;
+	composition->tempoEvents = malloc(sizeof(lb_TempoEvent) * tempoEventCount);
+	composition->tempoEventCount = tempoEventCount;
+	composition->lyricsEvents = malloc(sizeof(lb_LyricsEvent) * lyricsEventCount);
+	composition->lyricsEventCount = lyricsEventCount;
+	composition->trackCount = currentTrack + 1;
 	lb_freeString(&header);
 }
 
-void buildCompositionData(lb_Composition* audio, const char* script)
+void buildCompositionData(lb_Composition* composition, const char* script)
 {
 	uint32_t readPosition = 0;
 	uint32_t currentNote = 0;
@@ -204,8 +204,8 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 				note.timbre = timbre;
 				note.effects = effects;
 
-				audio->tracks[currentTrack].noteEvents[currentNote].note = note;
-				audio->tracks[currentTrack].noteEvents[currentNote].startTime = currentTime_s;
+				composition->tracks[currentTrack].noteEvents[currentNote].note = note;
+				composition->tracks[currentTrack].noteEvents[currentNote].startTime = currentTime_s;
 
 				if (hasFractionalDuration)
 					duration = 1.0 / atoi(durationString.data);
@@ -248,7 +248,7 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 				int valueReadPosition = 0;
 				while (value.data[valueReadPosition] != 0)
 				{
-					audio->name[valueReadPosition] = value.data[valueReadPosition];
+					composition->name[valueReadPosition] = value.data[valueReadPosition];
 					valueReadPosition++;
 				}
 			}
@@ -257,64 +257,64 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 				int valueReadPosition = 0;
 				while (value.data[valueReadPosition] != 0)
 				{
-					audio->artist[valueReadPosition] = value.data[valueReadPosition];
+					composition->artist[valueReadPosition] = value.data[valueReadPosition];
 					valueReadPosition++;
 				}
 			}
 			else if (strcmp(header.data, "key sig") == 0)
 			{
 				if (strcmp(value.data, "C major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_C_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_C_MAJOR;
 				else if (strcmp(value.data, "G major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_G_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_G_MAJOR;
 				else if (strcmp(value.data, "D major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_D_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_D_MAJOR;
 				else if (strcmp(value.data, "A major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_A_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_A_MAJOR;
 				else if (strcmp(value.data, "E major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_E_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_E_MAJOR;
 				else if (strcmp(value.data, "B major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_B_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_B_MAJOR;
 				else if (strcmp(value.data, "Fs major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Fs_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Fs_MAJOR;
 				else if (strcmp(value.data, "Gb major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Gb_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Gb_MAJOR;
 				else if (strcmp(value.data, "Db major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Db_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Db_MAJOR;
 				else if (strcmp(value.data, "Ab major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Ab_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Ab_MAJOR;
 				else if (strcmp(value.data, "Eb major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Eb_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Eb_MAJOR;
 				else if (strcmp(value.data, "Bb major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Bb_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Bb_MAJOR;
 				else if (strcmp(value.data, "F major") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_F_MAJOR;
+					composition->keySignature = LB_KEY_SIGNATURE_F_MAJOR;
 				else if (strcmp(value.data, "A minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_A_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_A_MINOR;
 				else if (strcmp(value.data, "E minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_E_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_E_MINOR;
 				else if (strcmp(value.data, "B minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_B_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_B_MINOR;
 				else if (strcmp(value.data, "Fs minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Fs_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Fs_MINOR;
 				else if (strcmp(value.data, "Cs minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Cs_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Cs_MINOR;
 				else if (strcmp(value.data, "Gs minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Gs_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Gs_MINOR;
 				else if (strcmp(value.data, "Ds minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Ds_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Ds_MINOR;
 				else if (strcmp(value.data, "Eb minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Eb_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Eb_MINOR;
 				else if (strcmp(value.data, "Bb minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_Bb_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_Bb_MINOR;
 				else if (strcmp(value.data, "F minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_F_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_F_MINOR;
 				else if (strcmp(value.data, "C minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_C_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_C_MINOR;
 				else if (strcmp(value.data, "G minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_G_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_G_MINOR;
 				else if (strcmp(value.data, "D minor") == 0)
-					audio->keySignature = LB_KEY_SIGNATURE_D_MINOR;
+					composition->keySignature = LB_KEY_SIGNATURE_D_MINOR;
 			}
 			else if (strcmp(header.data, "time sig") == 0)
 			{
@@ -340,8 +340,8 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 				timeSigUpper = atoi(upper.data);
 				timeSigLower = atoi(lower.data);
 
-				audio->timeSignature[0] = timeSigUpper;
-				audio->timeSignature[1] = timeSigLower;
+				composition->timeSignature[0] = timeSigUpper;
+				composition->timeSignature[1] = timeSigLower;
 
 				lb_freeString(&upper);
 				lb_freeString(&lower);
@@ -364,8 +364,8 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 					else if (strcmp(value.data, "presto") == 0)
 						tempo = LB_BPM_PRESTO;
 				}
-				audio->tempoEvents[currentTempoEvent].tempo = tempo;
-				audio->tempoEvents[currentTempoEvent].startTime = currentTime_s;
+				composition->tempoEvents[currentTempoEvent].tempo = tempo;
+				composition->tempoEvents[currentTempoEvent].startTime = currentTime_s;
 				currentTempoEvent++;
 			}
 			else if (strcmp(header.data, "dynamic") == 0)
@@ -480,11 +480,11 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 			}
 			else if (strcmp(header.data, "loop") == 0)
 			{
-				audio->loopTimestamp = currentTime_s;
-				audio->loopCount = atoi(value.data);
+				composition->loopTimestamp = currentTime_s;
+				composition->loopCount = atoi(value.data);
 				if (strcmp(value.data, "infinity") == 0 || 
-					audio->loopCount > pow(2, (sizeof audio->loopCount) * 8) - 1)
-					audio->loopCount = pow(2, (sizeof audio->loopCount) * 8) - 1;
+					composition->loopCount > pow(2, (sizeof composition->loopCount) * 8) - 1)
+					composition->loopCount = pow(2, (sizeof composition->loopCount) * 8) - 1;
 			}
 			else if (strcmp(header.data, "cue") == 0)
 			{
@@ -506,8 +506,8 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 			else if (strcmp(header.data, "lyric") == 0)
 			{
 				//audio->lyricsEvents[currentLyricsEvent].lyrics = malloc(sizeof(char) * value.capacity);
-				strcpy(audio->lyricsEvents[currentLyricsEvent].lyrics, value.data);
-				audio->lyricsEvents[currentLyricsEvent].startTime = currentTime_s;
+				strcpy(composition->lyricsEvents[currentLyricsEvent].lyrics, value.data);
+				composition->lyricsEvents[currentLyricsEvent].startTime = currentTime_s;
 				currentLyricsEvent++;
 			}
 			else if (strcmp(header.data, "eq") == 0)
@@ -580,7 +580,7 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 			parseState = previousParseState;
 			break;
 		case '}':
-			audio->timeLength = currentTime_s;
+			composition->timeLength = currentTime_s;
 			currentTime_s = 0.0;
 			currentNote = 0;
 			barCount = 0;
@@ -603,7 +603,7 @@ void buildCompositionData(lb_Composition* audio, const char* script)
 				{
 					parseState = LB_PARSE_STATE_READING_NOTE_FREQUENCY;
 					noteToPlay = script[readPosition];
-					tuneByKeySignature(audio->keySignature, &noteToPlay);
+					tuneByKeySignature(composition->keySignature, &noteToPlay);
 					assignFrequencyFromNoteChar(&note.key, octave, noteToPlay);
 				}
 				else if (script[readPosition] == '-')
