@@ -21,3 +21,21 @@
 // SOFTWARE.
 
 #include "audio_synthesis.hpp"
+
+Omnia::AudioSynthesis::~AudioSynthesis()
+{
+	lb_freeComposition(this->composition);
+	this->composition = nullptr;
+}
+
+Omnia::AudioSynthesis::AudioSynthesis(std::string filepath)
+{
+	this->composition = lb_createComposition(filepath.c_str());
+	this->setName(filepath);
+	this->type = TYPE_STRING;
+}
+
+lb_Composition* Omnia::AudioSynthesis::getComposition()
+{
+	return this->composition;
+}

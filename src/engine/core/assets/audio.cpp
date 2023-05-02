@@ -20,38 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include <SDL_mixer.h>
 #include "audio.hpp"
-#include <string>
-#include <memory>
-
-namespace Omnia
-{
-	class OMNIA_ENGINE_API AudioStream : public Audio
-	{
-	public:
-		static constexpr const char* TYPE_STRING = "AudioStream";
-		AudioStream() 
-		{ 
-			this->type = TYPE_STRING; 
-		};
-		~AudioStream();
-		AudioStream(std::string filepath, bool isMusic);
-
-		virtual Registerable* instance() override
-		{
-			AudioStream* clone = new AudioStream(*this);
-			clone->id = UIDGenerator::getNewUID();
-			return clone;
-		}
-		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
-		std::shared_ptr<Mix_Music> getSDLMixMusic();
-		bool getIsMusic();
-	private:
-		bool isMusic = false;
-		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
-		std::shared_ptr<Mix_Chunk> soundFX = {nullptr, Mix_FreeChunk};
-	};
-}

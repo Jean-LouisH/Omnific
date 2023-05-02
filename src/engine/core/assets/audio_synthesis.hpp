@@ -22,17 +22,22 @@
 
 #pragma once
 
-#include "core/asset.hpp"
+#include "audio.hpp"
+#include <string>
+#include <Libretti.h>
+
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AudioSynthesis : public Asset
+	class OMNIA_ENGINE_API AudioSynthesis : public Audio
 	{
 	public:
 		AudioSynthesis()
 		{ 
 			this->type = TYPE_STRING; 
 		};
+		~AudioSynthesis();
+		AudioSynthesis(std::string filepath);
 		static constexpr const char* TYPE_STRING = "AudioSynthesis";
 
 		virtual Registerable* instance() override
@@ -41,6 +46,9 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+
+		lb_Composition* getComposition();
 	private:
+		lb_Composition* composition;
 	};
 }

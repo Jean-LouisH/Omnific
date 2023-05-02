@@ -11,6 +11,7 @@ add_library(omnia_engine SHARED
 add_dependencies (omnia_engine
 	yaml_cpp
 	glad
+	libretti
 )
 
  add_definitions(/bigobj)
@@ -38,6 +39,7 @@ include_directories(
 		../../thirdparty/stb_image-2.27/include
 		../../thirdparty/freetype-2.11.1/include
 		../../thirdparty/imgui-1.89.4
+		../../thirdparty/libretti/include
 		.
 )
 
@@ -45,6 +47,7 @@ target_link_libraries (omnia_engine
 		yaml_cpp
 		imgui
 		glad
+		libretti
 		${SDL2}
 		${SDL2_Mixer}
 		${SDL2_TTF}

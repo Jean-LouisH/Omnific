@@ -37,21 +37,21 @@ void Omnia::AudioSource::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::AudioSource::addAudioStream(std::shared_ptr<AudioStream> audioStream)
+void Omnia::AudioSource::addAudio(std::shared_ptr<Audio> audio)
 {
-	this->audioStreams.emplace(audioStream->getName(), audioStream);
+	this->audio.emplace(audio->getName(), audio);
 }
 
-void Omnia::AudioSource::queueAudioToPlayAndRepeat(std::string audioStreamName, uint8_t count)
+void Omnia::AudioSource::queueAudioToPlayAndRepeat(std::string audioName, uint8_t count)
 {
-	if (this->audioStreams.count(audioStreamName) > 0)
+	if (this->audio.count(audioName) > 0)
 		for (int i = 0; i < count; i++)
-			this->audioPlayQueue.emplace(this->audioStreams.at(audioStreamName));
+			this->audioPlayQueue.emplace(this->audio.at(audioName));
 }
 
-void Omnia::AudioSource::queueAudioToPlay(std::string audioStreamName)
+void Omnia::AudioSource::queueAudioToPlay(std::string audioName)
 {
-	this->queueAudioToPlayAndRepeat(audioStreamName, 1);
+	this->queueAudioToPlayAndRepeat(audioName, 1);
 }
 
 void Omnia::AudioSource::setVolume(float value)
@@ -68,14 +68,14 @@ float Omnia::AudioSource::getVolume()
 	return this->volume;
 }
 
-void Omnia::AudioSource::clearAudioStreams()
+void Omnia::AudioSource::clearAudio()
 {
-	this->audioStreams.clear();
+	this->audio.clear();
 }
 
-std::queue<std::shared_ptr<Omnia::AudioStream>> Omnia::AudioSource::popEntireAudioPlayQueue()
+std::queue<std::shared_ptr<Omnia::Audio>> Omnia::AudioSource::popEntireAudioPlayQueue()
 {
-	std::queue<std::shared_ptr<AudioStream>> outputQueue = this->audioPlayQueue;
+	std::queue<std::shared_ptr<Audio>> outputQueue = this->audioPlayQueue;
 	this->clearAudioPlayQueue();
 	return outputQueue;
 }
@@ -86,12 +86,12 @@ void Omnia::AudioSource::clearAudioPlayQueue()
 		this->audioPlayQueue.pop();
 }
 
-std::vector<std::string> Omnia::AudioSource::getAudioStreamNames()
+std::vector<std::string> Omnia::AudioSource::getAudioNames()
 {
 	std::vector<std::string> audioStreamNames;
 
-	for (std::unordered_map<std::string, std::shared_ptr<AudioStream>>::iterator it = this->audioStreams.begin();
-		it != this->audioStreams.end();
+	for (std::unordered_map<std::string, std::shared_ptr<Audio>>::iterator it = this->audio.begin();
+		it != this->audio.end();
 		++it)
 	{
 		audioStreamNames.push_back(it->first);
@@ -100,12 +100,12 @@ std::vector<std::string> Omnia::AudioSource::getAudioStreamNames()
 	return audioStreamNames;
 }
 
-std::shared_ptr<Omnia::AudioStream> Omnia::AudioSource::getAudioStreamByName(std::string audioStreamName)
+std::shared_ptr<Omnia::Audio> Omnia::AudioSource::getAudioByName(std::string audioName)
 {
-	std::shared_ptr<AudioStream> audioStream;
+	std::shared_ptr<Audio> audioStream;
 
-	if (this->audioStreams.count(audioStreamName))
-		audioStream = this->audioStreams.at(audioStreamName);
+	if (this->audio.count(audioName))
+		audioStream = this->audio.at(audioName);
 
 	return audioStream;
 }

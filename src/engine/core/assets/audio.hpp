@@ -22,50 +22,29 @@
 
 #pragma once
 
-#include "core/utilities/aliases.hpp"
-#include <set>
-#include <queue>
-#include "core/utilities/constants.hpp"
+#include <SDL_mixer.h>
+#include "core/asset.hpp"
 #include <string>
-#include <vector>
-#include <unordered_map>
 #include <memory>
-#include "core/assets/audio.hpp"
-#include "core/component.hpp"
-
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API AudioSource : public Component
+	class OMNIA_ENGINE_API Audio : public Asset
 	{
 	public:
-		AudioSource()
+		static constexpr const char* TYPE_STRING = "Audio";
+		Audio()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AudioSource";
 
 		virtual Registerable* instance() override
 		{
-			AudioSource* clone = new AudioSource(*this);
+			Audio* clone = new Audio(*this);
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void addAudio(std::shared_ptr<Audio> audio);
-		void queueAudioToPlayAndRepeat(std::string audioName, uint8_t count);
-		void queueAudioToPlay(std::string audioName);
-		void clearAudio();
-		std::queue<std::shared_ptr<Audio>> popEntireAudioPlayQueue();
-		void clearAudioPlayQueue();
-		void setVolume(float value);
-		float getVolume();
-		std::vector<std::string> getAudioNames();
-		std::shared_ptr<Audio> getAudioByName(std::string audioName);
-	private:
-		std::unordered_map<std::string, std::shared_ptr<Audio>> audio;
-		std::queue<std::shared_ptr<Audio>> audioPlayQueue;
 
-		float volume = 1.0;
+	private:
 	};
 }

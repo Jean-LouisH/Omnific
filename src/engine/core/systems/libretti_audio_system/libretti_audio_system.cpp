@@ -22,6 +22,9 @@
 
 #include "libretti_audio_system.hpp"
 #include "core/scene/scene.hpp"
+#include <Libretti.h>
+#include "core/components/audio_source.hpp"
+#include "core/components/audio_listener.hpp"
 #include <core/singletons/configuration.hpp>
 #include <core/singletons/os/os.hpp>
 
@@ -32,6 +35,7 @@ Omnia::LibrettiAudioSystem::~LibrettiAudioSystem()
 
 void Omnia::LibrettiAudioSystem::initialize()
 {
+	lb_initialize();
 	this->isInitialized = true;
 	OS::getLogger().write("Initialized Libretti Audio System");
 }
@@ -42,7 +46,18 @@ void Omnia::LibrettiAudioSystem::onOutput(std::shared_ptr<Scene> scene)
 
 	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
+		std::vector<std::shared_ptr<AudioListener>> audioListeners = it->second->getComponentsByType<AudioListener>();
 
+		if (audioListeners.size() > 0)
+		{
+			std::shared_ptr<AudioListener> audioListener = audioListeners[0]; //Get first AudioListener.
+			std::vector<std::shared_ptr<AudioSource>> audioSources = it->second->getComponentsByType<AudioSource>();
+
+			for (std::shared_ptr<AudioSource> audioSource : audioSources)
+			{
+
+			}
+		}
 	}
 }
 

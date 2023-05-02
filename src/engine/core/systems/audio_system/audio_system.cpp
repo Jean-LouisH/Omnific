@@ -23,6 +23,7 @@
 #include "audio_system.hpp"
 #include "sdl_audio_backend/sdl_audio_backend.hpp"
 #include <core/singletons/os/os.hpp>
+#include <core/assets/audio_stream.hpp>
 
 #include <core/components/audio_source.hpp>
 
@@ -57,18 +58,17 @@ void Omnia::AudioSystem::onOutput(std::shared_ptr<Scene> scene)
 
 		for (size_t i = 0; i < audioSources.size(); i++)
 		{
-			std::queue<std::shared_ptr<AudioStream>> audioPlayQueue = audioSources.at(i)->popEntireAudioPlayQueue();
+			std::queue<std::shared_ptr<Audio>> audioPlayQueue = audioSources.at(i)->popEntireAudioPlayQueue();
 
 			while (!audioPlayQueue.empty())
 			{
-				std::shared_ptr<AudioStream> audioStream = audioPlayQueue.front();
+				std::shared_ptr<Audio> audio = audioPlayQueue.front();
+				std::shared_ptr<AudioStream> audioStream = std::dynamic_pointer_cast<AudioStream>(audio);
 
-				if (audioStream->getIsMusic())
-					this->musicQueue.emplace(audioStream->getSDLMixMusic());
-				else
-					this->soundFXQueue.emplace(audioStream->getSDLMixChunk());
+				if (audioStream != nullptr)
+				{
 
-				audioPlayQueue.pop();
+				}
 			}
 		}
 	}
