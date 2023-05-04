@@ -11,6 +11,7 @@ file(GLOB_RECURSE libretti_headers "./include/[a-zA-Z]*.h")
 
 include_directories(
 	 "."
+     "./include"
      "../SDL2-2.26.2/include"
 )
 
