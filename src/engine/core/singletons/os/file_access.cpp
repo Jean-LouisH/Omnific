@@ -81,6 +81,24 @@ std::string Omnia::FileAccess::getFileNameWithoutExtension(std::string filepath)
 	return fileName;
 }
 
+std::string Omnia::FileAccess::getFileExtension(std::string filepath)
+{
+	std::string fileName;
+	int nameIndexStart = 0;
+
+	//Find the first slash from the end
+	for (nameIndexStart = filepath.size() - 1;
+		filepath.at(nameIndexStart) != '.';
+		nameIndexStart--)
+		;
+
+	//append from the start index to the extension name.
+	for (int j = nameIndexStart + 1; filepath.at(j) != '\0'; j++)
+		fileName += filepath.at(j);
+
+	return fileName;
+}
+
 std::string Omnia::FileAccess::getPathBeforeFile(std::string filepath)
 {
 	std::string path;

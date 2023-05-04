@@ -41,6 +41,7 @@ namespace Omnia
 		std::string getExecutableDirectoryPath();
 		std::string getDataDirectoryPath();
 		std::string getFileNameWithoutExtension(std::string filepath);
+		std::string getFileExtension(std::string filepath);
 		std::string getPathBeforeFile(std::string filepath);
 		bool exists(std::string filepath);
 
