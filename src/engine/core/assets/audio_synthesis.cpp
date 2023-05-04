@@ -35,6 +35,24 @@ Omnia::AudioSynthesis::AudioSynthesis(std::string filepath)
 	this->type = TYPE_STRING;
 }
 
+float Omnia::AudioSynthesis::getPlaybackLength()
+{
+	return this->composition->timeLength;
+}
+
+std::vector<uint16_t> Omnia::AudioSynthesis::getSpectrumData()
+{
+	std::vector<uint16_t> spectrum;
+	lb_BinaryS16 binary = lb_getSpectrumData(this->composition);
+
+	for (int i = 0; i < binary.size; i++)
+	{
+		spectrum.push_back(binary.data[i]);
+	}
+
+	return spectrum;
+}
+
 lb_Composition* Omnia::AudioSynthesis::getComposition()
 {
 	return this->composition;

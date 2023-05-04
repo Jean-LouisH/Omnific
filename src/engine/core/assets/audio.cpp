@@ -21,3 +21,14 @@
 // SOFTWARE.
 
 #include "audio.hpp"
+
+float Omnia::Audio::getPlaybackLength()
+{
+	return 0.0;
+}
+
+std::vector<uint16_t> Omnia::Audio::getSpectrumData()
+{
+	std::vector<uint16_t> spectrum;
+	return spectrum;
+}

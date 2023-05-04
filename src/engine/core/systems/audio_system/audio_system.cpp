@@ -21,7 +21,6 @@
 // SOFTWARE.
 
 #include "audio_system.hpp"
-#include "sdl_audio_backend/sdl_audio_backend.hpp"
 #include <core/singletons/os/os.hpp>
 #include <core/assets/audio_stream.hpp>
 
@@ -30,12 +29,6 @@
 Omnia::AudioSystem::~AudioSystem()
 {
 	this->finalize();
-}
-
-void Omnia::AudioSystem::play()
-{
-	SDLAudioBackend::playSoundFXs(&this->soundFXQueue);
-	SDLAudioBackend::playMusic(&this->musicQueue);
 }
 
 void Omnia::AudioSystem::initializeOutput()
@@ -53,27 +46,8 @@ void Omnia::AudioSystem::onOutput(std::shared_ptr<Scene> scene)
 
 	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
-		/* Basic functionality for now, without 3D audio listener calculations. */
-		std::vector<std::shared_ptr<AudioSource>> audioSources = it->second->getComponentsByType<AudioSource>();
-
-		for (size_t i = 0; i < audioSources.size(); i++)
-		{
-			std::queue<std::shared_ptr<Audio>> audioPlayQueue = audioSources.at(i)->popEntireAudioPlayQueue();
-
-			while (!audioPlayQueue.empty())
-			{
-				std::shared_ptr<Audio> audio = audioPlayQueue.front();
-				std::shared_ptr<AudioStream> audioStream = std::dynamic_pointer_cast<AudioStream>(audio);
-
-				if (audioStream != nullptr)
-				{
-
-				}
-			}
-		}
+		
 	}
-
-	this->play();
 }
 
 void Omnia::AudioSystem::finalizeOutput()

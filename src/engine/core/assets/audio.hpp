@@ -26,6 +26,8 @@
 #include "core/asset.hpp"
 #include <string>
 #include <memory>
+#include <stdint.h>
+#include <vector>
 
 namespace Omnia
 {
@@ -44,6 +46,9 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+
+		virtual float getPlaybackLength();
+		virtual std::vector<uint16_t> getSpectrumData();
 
 	private:
 	};

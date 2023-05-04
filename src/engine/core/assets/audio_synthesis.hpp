@@ -22,9 +22,9 @@
 
 #pragma once
 
+#include "Libretti.h"
 #include "audio.hpp"
 #include <string>
-#include <Libretti.h>
 
 
 namespace Omnia
@@ -46,6 +46,9 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+
+		float getPlaybackLength() override;
+		std::vector<uint16_t> getSpectrumData() override;
 
 		lb_Composition* getComposition();
 	private:

@@ -32,6 +32,7 @@
 #include <memory>
 #include "core/assets/audio.hpp"
 #include "core/component.hpp"
+#include "core/assets/audio_synthesis.hpp"
 
 
 namespace Omnia
@@ -51,21 +52,32 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+
 		virtual void deserialize(YAML::Node yamlNode);
 		void addAudio(std::shared_ptr<Audio> audio);
-		void queueAudioToPlayAndRepeat(std::string audioName, uint8_t count);
-		void queueAudioToPlay(std::string audioName);
 		void clearAudio();
-		std::queue<std::shared_ptr<Audio>> popEntireAudioPlayQueue();
-		void clearAudioPlayQueue();
+		void removeAudio(std::string audioName);
+		void playAudio(std::string audioName);
+		void play();
+		void pause();
+		void stop();
+		void reset();
+		uint16_t getRepeatCount();
+		void jump(float timePoint);
 		void setVolume(float value);
+		void setPanning(float value);
 		float getVolume();
+		float getCurrentPlaybackTime();
 		std::vector<std::string> getAudioNames();
+		std::shared_ptr<Audio> getActiveAudio();
 		std::shared_ptr<Audio> getAudioByName(std::string audioName);
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Audio>> audio;
-		std::queue<std::shared_ptr<Audio>> audioPlayQueue;
+		std::unordered_map<std::string, std::shared_ptr<Audio>> audioCollection;
+		lb_Libretti* libretti;
+		std::string activeAudioName;
 
-		float volume = 1.0;
+		bool isPlayingSynthesized = false;
+
+		float normalize(float value);
 	};
 }

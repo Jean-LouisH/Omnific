@@ -51,10 +51,6 @@ namespace Omnia
 		virtual void onOutput(std::shared_ptr<Scene> scene) override;
 		virtual void finalizeOutput() override;
 	private:
-		std::queue<std::shared_ptr<Mix_Chunk>> soundFXQueue;
-		std::queue<std::shared_ptr<Mix_Music>> musicQueue;
-
-		void play();
 	};
 }
 

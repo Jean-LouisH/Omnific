@@ -45,6 +45,7 @@ namespace Omnia
 		}
 
 		virtual void initialize() override;
+		virtual void onLogic(std::shared_ptr<Scene> scene) override;
 		virtual void onOutput(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:

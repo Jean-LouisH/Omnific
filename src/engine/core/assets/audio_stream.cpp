@@ -21,21 +21,49 @@
 // SOFTWARE.
 
 #include "audio_stream.hpp"
+#include "core/singletons/os/os.hpp"
 
 Omnia::AudioStream::~AudioStream()
 {
 
 }
 
-Omnia::AudioStream::AudioStream(std::string filepath, bool isMusic)
+Omnia::AudioStream::AudioStream(std::string filepath)
 {
 	this->setName(filepath);
-	this->isMusic = isMusic;
+
+	std::string fileExtension = OS::getFileAccess().getFileExtension(filepath);
+
+	if (fileExtension == "mp3" || 
+		fileExtension == "ogg")
+	{
+		this->isMusic = true;
+		this->music = std::shared_ptr<Mix_Music>(Mix_LoadMUS(filepath.c_str()), Mix_FreeMusic);
+	}
+	else if (fileExtension == "wav")
+	{
+		this->isMusic = false;
+		this->soundFX = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
+	}
+}
+
+float Omnia::AudioStream::getPlaybackLength()
+{
+	float playbackLength = 0.0;
 
 	if (isMusic)
-		this->music = std::shared_ptr<Mix_Music>(Mix_LoadMUS(filepath.c_str()), Mix_FreeMusic);
-	else
-		this->soundFX = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
+	{
+		playbackLength = Mix_MusicDuration(this->music.get());
+	}
+
+	return playbackLength;
+	
+}
+
+std::vector<uint16_t> Omnia::AudioStream::getSpectrumData()
+{
+	std::vector<uint16_t> spectrum;
+	return spectrum;
 }
 
 std::shared_ptr<Mix_Chunk> Omnia::AudioStream::getSDLMixChunk()

@@ -40,6 +40,11 @@ void Omnia::LibrettiAudioSystem::initialize()
 	OS::getLogger().write("Initialized Libretti Audio System");
 }
 
+void Omnia::LibrettiAudioSystem::onLogic(std::shared_ptr<Scene> scene)
+{
+	lb_incrementAllPlayTimes(OS::getProfiler().getTimer(UPDATE_THREAD_TIMER_NAME)->getDeltaInSeconds());
+}
+
 void Omnia::LibrettiAudioSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
@@ -50,18 +55,13 @@ void Omnia::LibrettiAudioSystem::onOutput(std::shared_ptr<Scene> scene)
 
 		if (audioListeners.size() > 0)
 		{
-			std::shared_ptr<AudioListener> audioListener = audioListeners[0]; //Get first AudioListener.
-			std::vector<std::shared_ptr<AudioSource>> audioSources = it->second->getComponentsByType<AudioSource>();
-
-			for (std::shared_ptr<AudioSource> audioSource : audioSources)
-			{
-
-			}
+			std::shared_ptr<AudioListener> audioListener = audioListeners.at(audioListeners.size() - 1); //Get the last AudioListener.
 		}
 	}
 }
 
 void Omnia::LibrettiAudioSystem::finalize()
 {
+	lb_finalize();
 	this->isInitialized = false;
 }

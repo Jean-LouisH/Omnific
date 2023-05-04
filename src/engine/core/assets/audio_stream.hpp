@@ -38,7 +38,7 @@ namespace Omnia
 			this->type = TYPE_STRING; 
 		};
 		~AudioStream();
-		AudioStream(std::string filepath, bool isMusic);
+		AudioStream(std::string filepath);
 
 		virtual Registerable* instance() override
 		{
@@ -49,6 +49,9 @@ namespace Omnia
 		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
 		std::shared_ptr<Mix_Music> getSDLMixMusic();
 		bool getIsMusic();
+
+		float getPlaybackLength() override;
+		std::vector<uint16_t> getSpectrumData() override;
 	private:
 		bool isMusic = false;
 		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
