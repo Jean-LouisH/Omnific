@@ -30,6 +30,7 @@
 #include <glm/glm.hpp>
 #include <set>
 #include <engine_api.hpp>
+#include <string>
 
 namespace Omnia
 {

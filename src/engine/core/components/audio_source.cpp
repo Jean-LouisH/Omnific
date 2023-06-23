@@ -24,6 +24,7 @@
 #include "core/assets/audio_stream.hpp"
 #include "core/assets/audio_synthesis.hpp"
 #include "core/singletons/os/os.hpp"
+#include <SDL_mixer.h>
 
 void Omnia::AudioSource::deserialize(YAML::Node yamlNode)
 {

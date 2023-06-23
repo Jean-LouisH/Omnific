@@ -26,6 +26,7 @@
 #include <unordered_map>
 #include <memory>
 #include <chrono>
+#include <string>
 #include <engine_api.hpp>
 
 namespace Omnia
