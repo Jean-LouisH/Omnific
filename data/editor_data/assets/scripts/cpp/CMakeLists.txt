@@ -19,7 +19,7 @@ add_library(omnia_cpp_script_assembly SHARED
 
 include_directories(
 		../../../../../thirdparty/SDL2-2.26.2/include
-		../../../../../thirdparty/SDL2_mixer-2.0.4/include
+		../../../../../thirdparty/SDL2_mixer-2.6.3/include
 		../../../../../thirdparty/SDL2_ttf-2.0.18/include
 		../../../../../thirdparty/yaml-cpp-0.6.3/include
 		../../../../../thirdparty/python37/include

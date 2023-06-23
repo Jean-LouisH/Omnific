@@ -3,17 +3,19 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
+# Enable Hot Reload for MSVC compilers if supported.
+if (POLICY CMP0141)
+  cmake_policy(SET CMP0141 NEW)
+  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+endif()
+
 project ("omnia_engine")
 project ("application")
-project ("steam_application")
 project ("dedicated_gpu_application")
-project ("dedicated_gpu_steam_application")
-project ("omnia_cpp_script_assembly")
 
 # Include sub-projects.
 add_subdirectory("src")
 add_subdirectory("thirdparty")
-add_subdirectory("data/demo_data/sample/scripts/cpp")
-#add_subdirectory("data/editor_data/assets/scripts/cpp")
+add_subdirectory("data")
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT application)
