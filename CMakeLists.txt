@@ -13,8 +13,11 @@ project ("omnia_engine")
 project ("application")
 project ("dedicated_gpu_application")
 
+enable_testing()
+
 # Include sub-projects.
 add_subdirectory("src")
+add_subdirectory("tests")
 add_subdirectory("thirdparty")
 add_subdirectory("data")
 
