@@ -66,8 +66,10 @@ void Omnia::AudioSource::setVolume(float value)
 		{
 			libretti->playback->outputVolume = value;
 		}
-
-		Mix_MasterVolume(value * 128);
+		else
+		{
+			Mix_MasterVolume(value * 128);
+		}
 	}
 }
 
