@@ -44,10 +44,10 @@ namespace Omnia
 			return new LibrettiAudioSystem(*this);
 		}
 
-		virtual void initialize() override;
+		virtual void initializeOutput() override;
 		virtual void onLogic(std::shared_ptr<Scene> scene) override;
 		virtual void onOutput(std::shared_ptr<Scene> scene) override;
-		virtual void finalize() override;
+		virtual void finalizeOutput() override;
 	private:
 
 	};

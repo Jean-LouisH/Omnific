@@ -33,7 +33,7 @@ Omnia::LibrettiAudioSystem::~LibrettiAudioSystem()
 	this->finalize();
 }
 
-void Omnia::LibrettiAudioSystem::initialize()
+void Omnia::LibrettiAudioSystem::initializeOutput()
 {
 	lb_initialize();
 	this->isInitialized = true;
@@ -60,8 +60,7 @@ void Omnia::LibrettiAudioSystem::onOutput(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::LibrettiAudioSystem::finalize()
+void Omnia::LibrettiAudioSystem::finalizeOutput()
 {
-	lb_finalize();
 	this->isInitialized = false;
 }
