@@ -6,7 +6,7 @@
 *
 * Track components with timestamps.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef Events_h
@@ -14,6 +14,7 @@
 
 #include <stdint.h>
 #include "Notes.h"
+#include "Constants.h"
 
 typedef struct
 {
@@ -29,7 +30,7 @@ typedef struct
 
 typedef struct
 {
-	char lyrics[128];
+	char lyrics[LYRICS_LENGTH];
 	float startTime; //in seconds
 }lb_LyricsEvent;
 

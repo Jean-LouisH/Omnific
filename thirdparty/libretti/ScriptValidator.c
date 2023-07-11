@@ -1,4 +1,6 @@
 #include "include/ScriptValidator.h"
+#include "include/Validation.h"
+#include "include/ScriptParseStates.h"
 #include "include/Constants.h"
 #include "include/Strings.h"
 #include "include/File.h"
@@ -166,8 +168,8 @@ int validateScript(char* script)
 					strcmp(header.data, "name") != 0 &&
 					strcmp(header.data, "artist") != 0 &&
 					strcmp(header.data, "lyric") != 0 &&
-					strcmp(header.data, "time sig") != 0 &&
-					strcmp(header.data, "key sig") != 0 &&
+					strcmp(header.data, "time signature") != 0 &&
+					strcmp(header.data, "key signature") != 0 &&
 					strcmp(header.data, "tempo") != 0 &&
 					strcmp(header.data, "timbre") != 0 &&
 					strcmp(header.data, "octave") != 0 &&
@@ -195,7 +197,7 @@ int validateScript(char* script)
 				}
 				break;
 			case ']':
-				if (strcmp(header.data, "time sig") == 0)
+				if (strcmp(header.data, "time signature") == 0)
 				{
 					int valueReadPosition = 0;
 					lb_String upper = lb_newString("");
@@ -219,7 +221,7 @@ int validateScript(char* script)
 					timeSigUpper = atoi(upper.data);
 					timeSigLower = atoi(lower.data);
 				}
-				else if (strcmp(header.data, "key sig") == 0)
+				else if (strcmp(header.data, "key signature") == 0)
 				{
 
 					if (strcmp(value.data, "C major") != 0 &&
@@ -228,20 +230,22 @@ int validateScript(char* script)
 						strcmp(value.data, "A major") != 0 &&
 						strcmp(value.data, "E major") != 0 &&
 						strcmp(value.data, "B major") != 0 &&
-						strcmp(value.data, "Fs major") != 0 &&
+						strcmp(value.data, "F# major") != 0 &&
 						strcmp(value.data, "Gb major") != 0 &&
 						strcmp(value.data, "Db major") != 0 &&
 						strcmp(value.data, "Ab major") != 0 &&
 						strcmp(value.data, "Eb major") != 0 &&
 						strcmp(value.data, "Bb major") != 0 &&
 						strcmp(value.data, "F major") != 0 &&
+						strcmp(value.data, "Cb major") != 0 &&
+						strcmp(value.data, "C# major") != 0 &&
 						strcmp(value.data, "A minor") != 0 &&
 						strcmp(value.data, "E minor") != 0 &&
 						strcmp(value.data, "B minor") != 0 &&
-						strcmp(value.data, "Fs minor") != 0 &&
-						strcmp(value.data, "Cs minor") != 0 &&
-						strcmp(value.data, "Gs minor") != 0 &&
-						strcmp(value.data, "Ds minor") != 0 &&
+						strcmp(value.data, "F# minor") != 0 &&
+						strcmp(value.data, "C# minor") != 0 &&
+						strcmp(value.data, "G# minor") != 0 &&
+						strcmp(value.data, "D# minor") != 0 &&
 						strcmp(value.data, "Eb minor") != 0 &&
 						strcmp(value.data, "Bb minor") != 0 &&
 						strcmp(value.data, "F minor") != 0 &&
@@ -250,12 +254,12 @@ int validateScript(char* script)
 						strcmp(value.data, "D minor") != 0)
 					{
 						printf("Error 0x%X: \tINVALID_KEY_SIG_PROVIDED '%s' at position %d, line %d, column %d.\n",
-							LB_VALIDATION_INVALID_KEY_SIG_PROVIDED,
+							LB_VALIDATION_INVALID_KEY_SIGNATURE_PROVIDED,
 							value.data,
 							readPosition,
 							linePosition,
 							columnPosition);
-						validationStatuses |= LB_VALIDATION_INVALID_KEY_SIG_PROVIDED;
+						validationStatuses |= LB_VALIDATION_INVALID_KEY_SIGNATURE_PROVIDED;
 					}
 				}
 				else if (strcmp(header.data, "tempo") == 0)
@@ -288,13 +292,12 @@ int validateScript(char* script)
 						strcmp(value.data, "sawtooth wave") != 0 &&
 						strcmp(value.data, "pulse 10") != 0 &&
 						strcmp(value.data, "pulse 25") != 0 &&
-						strcmp(value.data, "noise") != 0 &&
-						strcmp(value.data, "metallic") != 0)
+						strcmp(value.data, "noise") != 0)
 					{
 #ifdef _DEBUG
-						lb_String filename = lb_newString("../Libretti/Samples/");
+						lb_String filename = lb_newString("../../../../../demos/data/samples/");
 #else
-						lb_String filename = lb_newString("Samples/");
+						lb_String filename = lb_newString("data/samples/");
 #endif
 						lb_String extension = lb_newString(".pcm");
 						strcat(filename.data, value.data);
@@ -392,7 +395,7 @@ int validateScript(char* script)
 				unclosedTrackScopes--;
 				if (octave < 1 || octave > 7)
 				{
-					printf("Error 0x%X: \tOCTAVE_SHIFTS_OUT_OF_RANGE %d at position %d, line %d, column %d.\n",
+					printf("Error 0x%X: \tOCTAVE_SHIFTS_OUT_OF_RANGE %d, instead of 1 to 7 non-inclusive, at position %d, line %d, column %d.\n",
 						LB_VALIDATION_OCTAVE_SHIFTS_OUT_OF_RANGE,
 						octave,
 						readPosition,
@@ -516,8 +519,8 @@ int validateScript(char* script)
 		printf("Error 0x%X: \tINVALID_TIME_SIG_PROVIDED. %d/%d \n",
 			timeSigLower,
 			timeSigUpper,
-			LB_VALIDATION_INVALID_TIME_SIG_PROVIDED);
-		validationStatuses |= LB_VALIDATION_INVALID_TIME_SIG_PROVIDED;
+			LB_VALIDATION_INVALID_TIME_SIGNATURE_PROVIDED);
+		validationStatuses |= LB_VALIDATION_INVALID_TIME_SIGNATURE_PROVIDED;
 	}
 
 	if (trackScopeCount > MAX_TRACKS)
@@ -616,20 +619,20 @@ int validateScript(char* script)
 
 bool validateSymbol(char symbol, uint8_t parseState)
 {
-	bool valid = false;
+	bool isValid = false;
 
 	if (parseState == LB_PARSE_STATE_READING_NOTHING)
 	{
 		if (symbol == '[' || symbol == '{' ||
 			symbol == ' ' || symbol == '\n' ||
 			symbol == '\r')
-			valid = true;
+			isValid = true;
 	}
 	else if (parseState == LB_PARSE_STATE_READING_TRACK_SCOPE)
 	{
 		if (symbol >= 'A' && symbol <= 'G')
 		{
-			valid = true;
+			isValid = true;
 		}
 		else
 		{
@@ -648,7 +651,7 @@ bool validateSymbol(char symbol, uint8_t parseState)
 			case '>':
 			case 'R':
 			case '}':
-				valid = true;
+				isValid = true;
 			}
 		}
 	}
@@ -656,27 +659,27 @@ bool validateSymbol(char symbol, uint8_t parseState)
 	{
 		if (symbol >= '1' && symbol <= '9')
 		{
-			valid = true;
+			isValid = true;
 		}
 		else
 		{
 			switch (symbol)
 			{
 			case '#': case 'b':	case 'n': case '/':
-				valid = true;
+				isValid = true;
 			}
 		}
 	}
 	else if (parseState == LB_PARSE_STATE_READING_NOTE_ACCIDENTAL)
 	{
 		if (symbol >= '1' && symbol <= '9')
-			valid = true;
+			isValid = true;
 	}
 	else if (parseState == LB_PARSE_STATE_READING_NOTE_DURATION)
 	{
 		if (symbol >= '0' && symbol <= '9')
 		{
-			valid = true;
+			isValid = true;
 		}
 		else
 		{
@@ -686,14 +689,14 @@ bool validateSymbol(char symbol, uint8_t parseState)
 			case '.':
 			case '>':
 			case ' ':
-				valid = true;
+				isValid = true;
 			}
 		}
 	}
 	else
 	{
-		valid = true;
+		isValid = true;
 	}
 
-	return valid;
+	return isValid;
 }

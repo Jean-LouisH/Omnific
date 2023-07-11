@@ -6,7 +6,7 @@
 *
 * Builds the audio structs from text scripts.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef Compiler_h

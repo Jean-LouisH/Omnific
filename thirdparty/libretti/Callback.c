@@ -4,7 +4,7 @@
 #include "include/Mixer.h"
 #include <SDL.h>
 
-void initAudioPlayback(CallbackList callbackList[])
+void initializeAudioPlayback(CallbackList callbackList[])
 {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 	{
@@ -31,11 +31,11 @@ void initAudioPlayback(CallbackList callbackList[])
 			NULL);
 
 		SDL_PauseAudioDevice(device, 0);
-		callbackList->device = device;
+		callbackList->audioDeviceID = device;
 	}
 }
 
-void initAudioCapture(lb_BinaryS16* binary)
+void initializeAudioCapture(lb_BinaryS16* binary)
 {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 	{
@@ -90,12 +90,11 @@ void runCallbackPlay(void* userdata, Uint8* stream, int byteLength)
 
 			if (libretti != NULL &&
 				libretti->composition != NULL &&
-				libretti->noteWaves != NULL &&
 				libretti->playback != NULL &&
 				libretti->composition->trackCount > 0)
 			{
-				lb_updateNoteWavesFromComposition(libretti->noteWaves, libretti->composition, libretti->playback);
-				interleaveNoteWavesToStream(playbackStream, libretti->noteWaves);
+				lb_updatePlayback(libretti->playback, libretti->composition);
+				interleaveWaveformToStream(playbackStream, libretti->playback);
 			}
 		}
 	}
@@ -124,8 +123,8 @@ void runCallbackCapture(void* userdata, Uint8* stream, int byteLength)
 
 void finalizeAudioPlayback(CallbackList callbackList[])
 {
-	SDL_PauseAudioDevice(callbackList->device, 1);
-	SDL_CloseAudioDevice(callbackList->device);
+	SDL_PauseAudioDevice(callbackList->audioDeviceID, 1);
+	SDL_CloseAudioDevice(callbackList->audioDeviceID);
 	SDL_CloseAudio();
-	callbackList->device = 0;
+	callbackList->audioDeviceID = 0;
 }

@@ -2,15 +2,15 @@
 *                      This file is part of:
 *                          Libretti
 *
-* NoteWaves
+* Waveform
 *
 * Raw audio samples from individual notes.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
-#ifndef NoteWaves_h
-#define NoteWaves_h
+#ifndef Waveforms_h
+#define Waveforms_h
 
 #include <stdint.h>
 #include "SDL_stdinc.h"
@@ -20,8 +20,8 @@
 typedef struct
 {
 	Sint16 streams[MAX_TRACKS][SAMPLE_SIZE];
-	lb_Note metaData[MAX_TRACKS];
+	lb_Note noteMetaData[MAX_TRACKS];
 	uint8_t count;
-}lb_NoteWaves;
+}lb_Waveforms;
 
-#endif /*NoteWaves_h*/
+#endif /*Waveforms_h*/

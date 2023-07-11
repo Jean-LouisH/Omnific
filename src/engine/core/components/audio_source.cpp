@@ -64,7 +64,7 @@ void Omnia::AudioSource::setVolume(float value)
 
 		if (this->isPlayingSynthesized)
 		{
-			libretti->playback->userEffectsOverride.outputVolume = value;
+			libretti->playback->outputVolume = value;
 		}
 
 		Mix_MasterVolume(value * 128);
@@ -79,7 +79,7 @@ float Omnia::AudioSource::getVolume()
 	{
 		if (this->isPlayingSynthesized)
 		{
-			volume = libretti->playback->userEffectsOverride.outputVolume;
+			volume = libretti->playback->outputVolume;
 		}
 		else
 		{
@@ -277,7 +277,7 @@ void Omnia::AudioSource::setPanning(float value)
 	{
 		if (this->isPlayingSynthesized)
 		{
-			libretti->playback->userEffectsOverride.outputPanning = value;
+			;
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 *
 * The smallest unit of immediate sounds and channel data.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef Notes_h
@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include "Binary.h"
 #include "Effects.h"
+#include "Constants.h"
 
 typedef struct
 {
@@ -24,7 +25,7 @@ typedef struct
 	uint8_t timbre;
 	uint8_t articulation;
 	uint16_t cue;
-	lb_BinaryS16 sample;
+	int16_t sample[SAMPLE_SIZE];
 	lb_Effects effects;
 }lb_Note;
 
@@ -46,7 +47,6 @@ enum timbre
 	LB_TIMBRE_PULSE_10,
 	LB_TIMBRE_PULSE_25,
 	LB_TIMBRE_NOISE,
-	LB_TIMBRE_METALLIC,
 	LB_TIMBRE_SAMPLE
 };
 

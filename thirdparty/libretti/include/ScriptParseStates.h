@@ -7,7 +7,7 @@
 * For all script parsers to determine the correct segments of
 * Libretti scripts according to the language specification.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef ScriptParseStates_h

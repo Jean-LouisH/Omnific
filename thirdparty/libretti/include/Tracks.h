@@ -6,7 +6,7 @@
 *
 * Individual tracks of notes that comprise audio structs.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef Tracks_h

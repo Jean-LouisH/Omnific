@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include "include/ScriptValidator.h"
+#include "include/Validation.h"
 #include "include/Compiler.h"
 #include "include/Callback.h"
 #include "include/File.h"
@@ -22,7 +23,7 @@ void lb_initialize()
 			g_librettiIDCount = 0;
 			g_callbackList->capacity = 2;
 			g_callbackList->librettiList = calloc(g_callbackList->capacity, sizeof(lb_Libretti*));
-			initAudioPlayback(g_callbackList);
+			initializeAudioPlayback(g_callbackList);
 		}
 		else
 		{
@@ -37,7 +38,6 @@ lb_Libretti* lb_createLibretti(const char* filename)
 	if (libretti != NULL)
 	{
 		libretti->composition = lb_createComposition(filename);
-		libretti->noteWaves = lb_createNoteWaves();
 		libretti->playback = lb_createPlayback();
 		if (g_librettiIDCount != -1)
 		{
@@ -54,7 +54,6 @@ lb_Libretti* lb_createEmptyLibretti()
 	if (libretti != NULL)
 	{
 		libretti->composition = lb_createEmptyComposition();
-		libretti->noteWaves = lb_createNoteWaves();
 		libretti->playback = lb_createPlayback();
 		if (g_librettiIDCount != -1)
 		{
@@ -67,7 +66,7 @@ lb_Libretti* lb_createEmptyLibretti()
 
 lb_Composition* lb_createComposition(const char* filename)
 {
-	lb_Composition* composition = calloc(1, sizeof(lb_Composition));
+	lb_Composition* composition = lb_createEmptyComposition();
 	if (composition != NULL)
 		lb_compileCompositionFromScriptFile(composition, filename);
 	return composition;
@@ -75,12 +74,10 @@ lb_Composition* lb_createComposition(const char* filename)
 
 lb_Composition* lb_createEmptyComposition()
 {
-	return calloc(1, sizeof(lb_Composition));
-}
-
-lb_NoteWaves* lb_createNoteWaves()
-{
-	return calloc(1, sizeof(lb_NoteWaves));
+	lb_Composition* composition = calloc(1, sizeof(lb_Composition));
+	if (composition != NULL)
+		composition->validationStatuses = LB_VALIDATION_SCRIPT_FILE_NOT_LOADED;
+	return composition;
 }
 
 lb_Playback* lb_createPlayback()
@@ -92,11 +89,10 @@ void lb_addLibrettiToCallback(lb_Libretti* libretti)
 {
 	if (g_callbackList != NULL)
 	{
-		libretti->playback->device = g_callbackList->device;
+		libretti->playback->audioDeviceID = g_callbackList->audioDeviceID;
 		libretti->playback->playStates = 0;
 		libretti->playback->currentLoopCount = 0;
-		libretti->playback->userEffectsOverride.outputVolume = 1.0;
-		libretti->playback->userEffectsOverride.outputPanning = 0.0;
+		libretti->playback->outputVolume = 1.0;
 		lb_reset(libretti);
 		lb_play(libretti);
 
@@ -179,14 +175,31 @@ void lb_compileCompositionFromScriptFile(lb_Composition* composition, const char
 		compileCompositionFromScript(composition, script);
 		free(script);
 	}
+	else
+	{
+		composition->validationStatuses = LB_VALIDATION_SCRIPT_FILE_NOT_LOADED;
+		printf("\n\nError 0x%X: \tLB_VALIDATION_SCRIPT_FILE_NOT_LOADED -> The file '%s' may be missing.\n",
+			LB_VALIDATION_SCRIPT_FILE_NOT_LOADED,
+			filename);
+	}
 }
 
-void lb_updateNoteWavesFromComposition(lb_NoteWaves* noteWaves, lb_Composition* composition, lb_Playback* playback)
+void lb_updatePlayback(lb_Playback* playback, lb_Composition* composition)
 {
-	lb_Note* currentNotes = malloc(composition->trackCount * (sizeof *currentNotes));
+	lb_Note* currentNotes = malloc(composition->trackCount * (sizeof * currentNotes));
 	lb_updateNotesFromComposition(currentNotes, composition, playback);
-	noteWaves->count = composition->trackCount;
-	lb_updateNoteWavesFromNotes(noteWaves, currentNotes, composition->trackCount);
+	playback->currentWaveforms.count = composition->trackCount;
+	lb_updateWaveformFromNotes(&playback->currentWaveforms, currentNotes, composition->trackCount);
+
+	for (int i = 0; i < LYRICS_LENGTH; i++)
+		playback->currentLyrics[i] = '\0';
+
+	/* Find the current lyrics. */
+	for (int i = 0; i < composition->lyricsEventCount; i++)
+		if (playback->currentPlayTime > composition->lyricsEvents[i].startTime)
+			for (int j = 0; j < LYRICS_LENGTH; j++)
+				playback->currentLyrics[j] = composition->lyricsEvents[i].lyrics[j];
+
 	free(currentNotes);
 }
 
@@ -252,7 +265,7 @@ void lb_updateNotesFromComposition(lb_Note currentNotes[], lb_Composition* compo
 					else
 					{
 						playback->playStates &= ~LB_PLAYBACK_STATE_IS_PLAYING;
-						SDL_PauseAudioDevice(playback->device, true);
+						SDL_PauseAudioDevice(playback->audioDeviceID, true);
 					}
 				}	
 			}
@@ -285,9 +298,9 @@ void lb_updateNotesFromComposition(lb_Note currentNotes[], lb_Composition* compo
 	}
 }
 
-void lb_updateNoteWavesFromNotes(lb_NoteWaves* noteWaves, lb_Note currentNotes[], uint8_t trackCount)
+void lb_updateWaveformFromNotes(lb_Waveforms* waveforms, lb_Note currentNotes[], uint8_t trackCount)
 {
-	generateNoteWaves(noteWaves, currentNotes);
+	generateWaveform(waveforms, currentNotes);
 }
 
 void lb_incrementPlayTime(lb_Libretti* libretti, float deltaTime_s)
@@ -317,7 +330,7 @@ void lb_load(lb_Libretti* libretti, const char* filename)
 void lb_play(lb_Libretti* libretti)
 {
 	libretti->playback->playStates |= LB_PLAYBACK_STATE_IS_PLAYING;
-	SDL_PauseAudioDevice(libretti->playback->device, false);
+	SDL_PauseAudioDevice(libretti->playback->audioDeviceID, false);
 }
 
 lb_Libretti* lb_play_note_for(
@@ -398,7 +411,7 @@ lb_Libretti* lb_play_simple_note(
 void lb_pause(lb_Libretti* libretti)
 {
 	libretti->playback->playStates &= ~LB_PLAYBACK_STATE_IS_PLAYING;
-	SDL_PauseAudioDevice(libretti->playback->device, true);
+	SDL_PauseAudioDevice(libretti->playback->audioDeviceID, true);
 }
 
 void lb_reset(lb_Libretti* libretti)
@@ -445,7 +458,7 @@ lb_BinaryS16* lb_getAudioCaptureStreamBuffer()
 	{
 		binary->size = SAMPLE_SIZE;
 		binary->data = calloc(SAMPLE_SIZE, sizeof * binary->data);
-		initAudioCapture(binary);
+		initializeAudioCapture(binary);
 	}
 	return binary;
 }
@@ -473,7 +486,6 @@ void lb_appendBinaryS16ToFile(lb_BinaryS16* binary, const char* filename)
 lb_BinaryS16 lb_getSpectrumData(lb_Composition* composition)
 {
 	lb_Playback* playback = lb_createPlayback();
-	lb_NoteWaves* noteWaves = lb_createNoteWaves();
 	lb_BinaryS16 spectrum;
 
 	int maxNoteCount = 0;
@@ -492,10 +504,10 @@ lb_BinaryS16 lb_getSpectrumData(lb_Composition* composition)
 	while (!(playback->playStates & LB_PLAYBACK_STATE_PLAYED_AT_LEAST_ONCE))
 	{
 		int streamPosition = 0;
-		lb_updateNoteWavesFromComposition(noteWaves, composition, playback);
+		lb_updatePlayback(playback, composition);
 		for (int i = 0; i < SAMPLE_SIZE; i++)
 		{
-			spectrum.data[streamPosition] += noteWaves->streams[0][i];
+			spectrum.data[streamPosition] += playback->currentWaveforms.streams[0][i];
 			streamPosition++;
 		}
 		playback->currentPlayTime += 17.0 / 1000.0;
@@ -506,15 +518,9 @@ lb_BinaryS16 lb_getSpectrumData(lb_Composition* composition)
 
 void lb_freePlayback(lb_Playback* playback)
 {
-	SDL_CloseAudioDevice(playback->device);
+	SDL_CloseAudioDevice(playback->audioDeviceID);
 	free(playback);
 	playback = NULL;
-}
-
-void lb_freeNoteWaves(lb_NoteWaves* noteWaves)
-{
-	free(noteWaves);
-	noteWaves = NULL;
 }
 
 void lb_freeComposition(lb_Composition* composition)
@@ -532,10 +538,8 @@ void lb_freeComposition(lb_Composition* composition)
 void lb_freeLibretti(lb_Libretti* libretti)
 {
 	lb_freePlayback(libretti->playback);
-	lb_freeNoteWaves(libretti->noteWaves);
 	lb_freeComposition(libretti->composition);
 	libretti->playback = NULL;
-	libretti->noteWaves = NULL;
 	libretti->composition = NULL;
 	free(libretti);
 	libretti = NULL;

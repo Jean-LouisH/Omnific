@@ -4,13 +4,14 @@
 *
 * Constants
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef Contants_h
 #define Contants_h
 
 #define MAX_TRACKS 24
+#define LYRICS_LENGTH 128
 
 #define CHANNELS 6	//front-left, front-right, center, low-freq, rear-left, rear-right
 #define MAX_FPS 60
@@ -34,6 +35,9 @@ enum KeySignature
 	LB_KEY_SIGNATURE_Bb_MAJOR,
 	LB_KEY_SIGNATURE_F_MAJOR,
 
+	LB_KEY_SIGNATURE_Cb_MAJOR,
+	LB_KEY_SIGNATURE_Cs_MAJOR,
+
 	LB_KEY_SIGNATURE_A_MINOR,
 	LB_KEY_SIGNATURE_E_MINOR,
 	LB_KEY_SIGNATURE_B_MINOR,
@@ -46,7 +50,7 @@ enum KeySignature
 	LB_KEY_SIGNATURE_F_MINOR,
 	LB_KEY_SIGNATURE_C_MINOR,
 	LB_KEY_SIGNATURE_G_MINOR,
-	LB_KEY_SIGNATURE_D_MINOR
+	LB_KEY_SIGNATURE_D_MINOR,
 };
 
 #endif /*Contants_h*/	

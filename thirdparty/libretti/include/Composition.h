@@ -6,7 +6,7 @@
 *
 * Defines entire songs or sound effects in memory.
 *
-* Copyright (c) 2017-2021 Jean-Louis Haywood. All rights reserved.
+* Copyright (c) 2017 Jean-Louis Haywood. All rights reserved.
 */
 
 #ifndef Composition_h
@@ -32,6 +32,7 @@ typedef struct
 	char artist[32];
 	uint8_t keySignature;
 	uint8_t timeSignature[2]; //[0] = numerator, [1] = denominator
+	int validationStatuses;
 }lb_Composition;
 
 #endif /*Composition_h*/

@@ -2,6 +2,7 @@
 #include "include/File.h"
 #include "include/ScriptParseStates.h"
 #include "include/ScriptValidator.h"
+#include "include/Validation.h"
 #include "include/Strings.h"
 #include "include/Timing.h"
 #include "include/Notes.h"
@@ -13,7 +14,9 @@
 
 void compileCompositionFromScript(lb_Composition* composition, const char* script)
 {
-	if (validateScript(script) == LB_VALIDATION_ALL_OK)
+	composition->validationStatuses = validateScript(script);
+
+	if (composition->validationStatuses == LB_VALIDATION_ALL_OK)
 	{
 		allocateMemory(composition, script);
 		buildCompositionData(composition, script);
@@ -103,18 +106,23 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 	uint8_t timeSigLower = 0;
 	uint8_t timeSigUpper = 0;
 	uint8_t octave = 0;
-	uint8_t tempo = 0;
+	uint16_t tempo = 0;
 	uint16_t dynamic = 0;
 	int8_t panning = 0;
 	uint8_t timbre = 0;
 	uint16_t cue = 0;
 	double duration = 0.0;
-	lb_BinaryS16 sample = { NULL, 0 };
 	bool tupletIsOpened = false;
 	bool slurIsOpened = false;
 	bool isReadingCrescendo = false;
 	bool isReadingDiminuendo = false;
 	bool hasFractionalDuration = false;
+	bool hasDottedDuration = false;
+
+	bool isInCrescendoState = false;
+	bool isInDiminuendoState = false;
+	uint32_t gradualDynamicsNoteIndices[256] = {0};
+	uint16_t gradualDynamicsNoteCount = 0;
 
 	lb_Note note;
 	lb_Effects effects;
@@ -158,13 +166,33 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 			slurIsOpened = !slurIsOpened;
 			break;
 		case '<':
+			if (isReadingCrescendo)
+			{
+				isInCrescendoState = !isInCrescendoState;
+
+				if (isInCrescendoState)
+					gradualDynamicsNoteCount = 0;
+			}
+
 			isReadingCrescendo = !isReadingCrescendo;
 			break;
 		case '>':
 			if (parseState == LB_PARSE_STATE_READING_NOTE_DURATION)
+			{
 				parseState = LB_PARSE_STATE_READING_DYNAMIC_ACCENT;
+			}
 			else
+			{
+				if (isReadingDiminuendo)
+				{
+					isInDiminuendoState = !isInDiminuendoState;
+
+					if (isInDiminuendoState)
+						gradualDynamicsNoteCount = 0;
+				}
+
 				isReadingDiminuendo = !isReadingDiminuendo;
+			}
 			break;
 		case '*':
 			if (parseState == LB_PARSE_STATE_READING_NOTE_DURATION)
@@ -198,17 +226,25 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 					note.articulation = LB_ARTICULATION_SLUR;
 				else
 					note.articulation = LB_ARTICULATION_NORMAL;
+
 				note.cue = cue;
 				note.panning = panning;
-				note.sample = sample;
 				note.timbre = timbre;
 				note.effects = effects;
 
 				composition->tracks[currentTrack].noteEvents[currentNote].note = note;
 				composition->tracks[currentTrack].noteEvents[currentNote].startTime = currentTime_s;
 
+				if (isInCrescendoState || isInDiminuendoState)
+				{
+					gradualDynamicsNoteIndices[gradualDynamicsNoteCount] = currentNote;
+					gradualDynamicsNoteCount++;
+				}
+
 				if (hasFractionalDuration)
 					duration = 1.0 / atoi(durationString.data);
+				else if (hasDottedDuration)
+					;
 				else
 					duration = atoi(durationString.data);
 
@@ -261,7 +297,7 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 					valueReadPosition++;
 				}
 			}
-			else if (strcmp(header.data, "key sig") == 0)
+			else if (strcmp(header.data, "key signature") == 0)
 			{
 				if (strcmp(value.data, "C major") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_C_MAJOR;
@@ -275,7 +311,7 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 					composition->keySignature = LB_KEY_SIGNATURE_E_MAJOR;
 				else if (strcmp(value.data, "B major") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_B_MAJOR;
-				else if (strcmp(value.data, "Fs major") == 0)
+				else if (strcmp(value.data, "F# major") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Fs_MAJOR;
 				else if (strcmp(value.data, "Gb major") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Gb_MAJOR;
@@ -289,19 +325,23 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 					composition->keySignature = LB_KEY_SIGNATURE_Bb_MAJOR;
 				else if (strcmp(value.data, "F major") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_F_MAJOR;
+				else if (strcmp(value.data, "Cb major") == 0)
+					composition->keySignature = LB_KEY_SIGNATURE_Cb_MAJOR;
+				else if (strcmp(value.data, "C# major") == 0)
+					composition->keySignature = LB_KEY_SIGNATURE_Cs_MAJOR;
 				else if (strcmp(value.data, "A minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_A_MINOR;
 				else if (strcmp(value.data, "E minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_E_MINOR;
 				else if (strcmp(value.data, "B minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_B_MINOR;
-				else if (strcmp(value.data, "Fs minor") == 0)
+				else if (strcmp(value.data, "F# minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Fs_MINOR;
-				else if (strcmp(value.data, "Cs minor") == 0)
+				else if (strcmp(value.data, "C# minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Cs_MINOR;
-				else if (strcmp(value.data, "Gs minor") == 0)
+				else if (strcmp(value.data, "G# minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Gs_MINOR;
-				else if (strcmp(value.data, "Ds minor") == 0)
+				else if (strcmp(value.data, "D# minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Ds_MINOR;
 				else if (strcmp(value.data, "Eb minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_Eb_MINOR;
@@ -316,7 +356,7 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 				else if (strcmp(value.data, "D minor") == 0)
 					composition->keySignature = LB_KEY_SIGNATURE_D_MINOR;
 			}
-			else if (strcmp(header.data, "time sig") == 0)
+			else if (strcmp(header.data, "time signature") == 0)
 			{
 				int valueReadPosition = 0;
 				lb_String upper = lb_newString("");
@@ -370,6 +410,8 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 			}
 			else if (strcmp(header.data, "dynamic") == 0)
 			{
+				uint16_t previousDynamic = dynamic;
+
 				if (strcmp(value.data, "ppp") == 0)
 					dynamic = LB_DYNAMIC_PPP;
 				else if (strcmp(value.data, "pp") == 0)
@@ -386,6 +428,21 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 					dynamic = LB_DYNAMIC_FF;
 				else if (strcmp(value.data, "fff") == 0)
 					dynamic = LB_DYNAMIC_FFF;
+
+
+				if (!isInCrescendoState && !isInDiminuendoState)
+				{
+					for (int i = 0; i < gradualDynamicsNoteCount; i++)
+					{
+						uint32_t noteIndex = gradualDynamicsNoteIndices[i];
+						float gradualDynamicDelta = (float)(dynamic - previousDynamic) / (float)gradualDynamicsNoteCount;
+						uint16_t gradualDynamic = (uint16_t)((float)previousDynamic + (gradualDynamicDelta * i));
+						composition->tracks[currentTrack].noteEvents[noteIndex].note.dynamic = gradualDynamic;
+					}
+
+					gradualDynamicsNoteCount = 0;
+				}
+
 			}
 			else if (strcmp(header.data, "reverb") == 0)
 			{
@@ -456,20 +513,28 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 					timbre = LB_TIMBRE_PULSE_25;
 				else if (strcmp(value.data, "noise") == 0)
 					timbre = LB_TIMBRE_NOISE;
-				else if (strcmp(value.data, "metallic") == 0)
-					timbre = LB_TIMBRE_METALLIC;
 				else
 				{
 #ifdef _DEBUG
-					lb_String filename = lb_newString("../Libretti/Samples/");
+					lb_String filename = lb_newString("../../../../../demos/data/samples/");
 #else
-					lb_String filename = lb_newString("Samples/");
+					lb_String filename = lb_newString("data/samples/");
 #endif
 					lb_String extension = lb_newString(".pcm");
 					timbre = LB_TIMBRE_SAMPLE;
 					strcat(filename.data, value.data);
 					strcat(filename.data, extension.data);
-					sample = loadBinaryS16FromFile(filename.data);
+					lb_BinaryS16 binary = loadBinaryS16FromFile(filename.data);
+					float sampleProgressDelta = (float)binary.size / (float)SAMPLE_SIZE;
+
+					int16_t debugBinaryData[2048] = { 0 };
+
+					for (int i = 0; i < binary.size; i++)
+						debugBinaryData[i] = binary.data[i];
+
+					for (int i = 0; i < SAMPLE_SIZE; i++)
+						note.sample[i] = binary.data[(int)(sampleProgressDelta * i)];
+
 					lb_freeString(&filename);
 					lb_freeString(&extension);
 				}
@@ -621,6 +686,7 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 				(script[readPosition] >= '1' && script[readPosition] <= '9'))
 			{
 				hasFractionalDuration = false;
+				hasDottedDuration = false;
 				parseState = LB_PARSE_STATE_READING_NOTE_DURATION;
 				lb_appendString(&durationString, script[readPosition]);
 			}
@@ -632,25 +698,14 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 			}
 			else if (parseState == LB_PARSE_STATE_READING_NOTE_DURATION && script[readPosition] == '.')
 			{
+				hasDottedDuration = true;
+
 				if (hasFractionalDuration)
 					duration = 1.0 / atoi(durationString.data);
 				else
 					duration = atoi(durationString.data);
 
 				duration += duration / 2.0;
-
-				lb_clearString(&durationString);
-
-				if (tupletIsOpened)
-					duration = (duration * 2.0) / 3.0;
-
-				double secondsPerBeat = 60.0 / (double)tempo;
-				double beatLength = 4.0 / (double)timeSigLower;
-				secondsPerBeat /= beatLength;
-				duration *= secondsPerBeat;
-				currentTime_s += duration;
-				parseState = LB_PARSE_STATE_READING_TRACK_SCOPE;
-				currentNote++;
 			}
 			else if (parseState == LB_PARSE_STATE_READING_NOTE_DURATION &&
 				(script[readPosition] >= '0' && script[readPosition] <= '9'))
@@ -675,37 +730,125 @@ void buildCompositionData(lb_Composition* composition, const char* script)
 
 void tuneByKeySignature(uint8_t keySignature, char* noteChar)
 {
-	if (keySignature != LB_KEY_SIGNATURE_C_MAJOR && keySignature != LB_KEY_SIGNATURE_A_MINOR)
+
+	if (keySignature == LB_KEY_SIGNATURE_C_MAJOR || keySignature == LB_KEY_SIGNATURE_A_MINOR)
+	{
+		;
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_G_MAJOR || keySignature == LB_KEY_SIGNATURE_E_MINOR)
 	{
 		switch (*noteChar)
 		{
-			case 'F': 
-				*noteChar = 'f'; 
-				break;
-			case 'C':
-				if (keySignature != LB_KEY_SIGNATURE_G_MAJOR)
-					*noteChar = 'c';
-				break;
-			case 'G':
-				if (keySignature != LB_KEY_SIGNATURE_G_MAJOR && keySignature != LB_KEY_SIGNATURE_D_MAJOR)
-					*noteChar = 'g';
-				break;
-			case 'D':
-				if (keySignature != LB_KEY_SIGNATURE_G_MAJOR && keySignature != LB_KEY_SIGNATURE_D_MAJOR &&
-					keySignature != LB_KEY_SIGNATURE_A_MAJOR)
-					*noteChar = 'e';
-				break;
-			case 'A':
-				if (keySignature != LB_KEY_SIGNATURE_G_MAJOR && keySignature != LB_KEY_SIGNATURE_D_MAJOR &&
-					keySignature != LB_KEY_SIGNATURE_A_MAJOR && keySignature != LB_KEY_SIGNATURE_E_MAJOR)
-					*noteChar = 'b';
-				break;
-			case 'E':
-				if (keySignature != LB_KEY_SIGNATURE_G_MAJOR && keySignature != LB_KEY_SIGNATURE_D_MAJOR &&
-					keySignature != LB_KEY_SIGNATURE_A_MAJOR && keySignature != LB_KEY_SIGNATURE_E_MAJOR &&
-					keySignature != LB_KEY_SIGNATURE_B_MAJOR)
-					*noteChar = 'F';
-				break;
+			case 'F': *noteChar = 'f'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_D_MAJOR || keySignature == LB_KEY_SIGNATURE_B_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'F': *noteChar = 'f'; break;
+			case 'C': *noteChar = 'c'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_A_MAJOR || keySignature == LB_KEY_SIGNATURE_Fs_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'F': *noteChar = 'f'; break;
+			case 'C': *noteChar = 'c'; break;
+			case 'G': *noteChar = 'g'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_E_MAJOR || keySignature == LB_KEY_SIGNATURE_Cs_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'F': *noteChar = 'f'; break;
+			case 'C': *noteChar = 'c'; break;
+			case 'G': *noteChar = 'g'; break;
+			case 'D': *noteChar = 'e'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_B_MAJOR || keySignature == LB_KEY_SIGNATURE_Cb_MAJOR ||
+		keySignature == LB_KEY_SIGNATURE_Gs_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'F': *noteChar = 'f'; break;
+			case 'C': *noteChar = 'c'; break;
+			case 'G': *noteChar = 'g'; break;
+			case 'D': *noteChar = 'e'; break;
+			case 'A': *noteChar = 'b'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_Fs_MAJOR || keySignature == LB_KEY_SIGNATURE_Ds_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'F': *noteChar = 'f'; break;
+			case 'C': *noteChar = 'c'; break;
+			case 'G': *noteChar = 'g'; break;
+			case 'D': *noteChar = 'e'; break;
+			case 'A': *noteChar = 'b'; break;
+			case 'E': *noteChar = 'F'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_Gb_MAJOR || keySignature == LB_KEY_SIGNATURE_Eb_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'B': *noteChar = 'b'; break;
+			case 'E': *noteChar = 'e'; break;
+			case 'A': *noteChar = 'g'; break;
+			case 'D': *noteChar = 'c'; break;
+			case 'G': *noteChar = 'f'; break;
+			case 'C': *noteChar = 'B'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_Db_MAJOR || keySignature == LB_KEY_SIGNATURE_Cs_MAJOR ||
+		keySignature == LB_KEY_SIGNATURE_Bb_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'B': *noteChar = 'b'; break;
+			case 'E': *noteChar = 'e'; break;
+			case 'A': *noteChar = 'g'; break;
+			case 'D': *noteChar = 'c'; break;
+			case 'G': *noteChar = 'f'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_Ab_MAJOR || keySignature == LB_KEY_SIGNATURE_F_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'B': *noteChar = 'b'; break;
+			case 'E': *noteChar = 'e'; break;
+			case 'A': *noteChar = 'g'; break;
+			case 'D': *noteChar = 'c'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_Eb_MAJOR || keySignature == LB_KEY_SIGNATURE_C_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'B': *noteChar = 'b'; break;
+			case 'E': *noteChar = 'e'; break;
+			case 'A': *noteChar = 'g'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_Bb_MAJOR || keySignature == LB_KEY_SIGNATURE_G_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'B': *noteChar = 'b'; break;
+			case 'E': *noteChar = 'e'; break;
+		}
+	}
+	else if (keySignature == LB_KEY_SIGNATURE_F_MAJOR || keySignature == LB_KEY_SIGNATURE_D_MINOR)
+	{
+		switch (*noteChar)
+		{
+			case 'B': *noteChar = 'b'; break;
 		}
 	}
 }
