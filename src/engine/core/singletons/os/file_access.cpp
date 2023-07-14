@@ -66,13 +66,20 @@ std::string Omnia::FileAccess::getDataDirectoryPath()
 std::string Omnia::FileAccess::getFileNameWithoutExtension(std::string filepath)
 {
 	std::string fileName;
-	int nameIndexStart = 0;
+	int nameIndexStart = filepath.size() - 1;
 
-	//Find the first slash from the end
-	for (nameIndexStart = filepath.size() - 1;
-		filepath.at(nameIndexStart) != '/' && filepath.at(nameIndexStart) != '\\';
-		nameIndexStart--)
-		;
+	if (nameIndexStart > -1)
+	{
+		//Find the first slash from the end
+		while (filepath.at(nameIndexStart) != '/' && filepath.at(nameIndexStart) != '\\')
+		{
+			nameIndexStart--;
+			if (nameIndexStart < 0)
+			{
+				break;
+			}
+		}
+	}
 
 	//append from the start index to the extension name.
 	for (int j = nameIndexStart + 1; filepath.at(j) != '.';	j++)
@@ -102,17 +109,29 @@ std::string Omnia::FileAccess::getFileExtension(std::string filepath)
 std::string Omnia::FileAccess::getPathBeforeFile(std::string filepath)
 {
 	std::string path;
-	int nameEndIndex = 0;
+	int nameEndIndex = filepath.size() - 1;
 
 	//Find the first slash from the end
-	for (nameEndIndex = filepath.size() - 1;
-		filepath.at(nameEndIndex) != '/' && filepath.at(nameEndIndex) != '\\';
-		nameEndIndex--)
-		;
+	if (nameEndIndex > -1)
+	{
+		while ((filepath.at(nameEndIndex) != '/' && filepath.at(nameEndIndex) != '\\'))
+		{
+			nameEndIndex--;
+			if (nameEndIndex < 0)
+			{
+				break;
+			}
+		}
+	}
 
-	//append from the start index to the extension name.
-	for (int j = 0; j != nameEndIndex; j++)
-		path += filepath.at(j);
+	if (nameEndIndex > -1)
+	{
+		//append from the start index to the extension name.
+		for (int j = 0; j != nameEndIndex; j++)
+		{
+			path += filepath.at(j);
+		}
+	}
 
 	return path;
 }
