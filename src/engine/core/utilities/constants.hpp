@@ -29,7 +29,6 @@
 #define DATA_DIRECTORY "data/"
 #define DEBUG_EDITOR_DATA_DIRECTORY "../../../../../data/editor_data/"
 #define DEBUG_DEMO_DATA_DIRECTORY "../../../../../data/demo_data/"
-#define DEBUG_DEBUG_DATA_DIRECTORY "../../../../../data/debug_data/"
 
 #ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED

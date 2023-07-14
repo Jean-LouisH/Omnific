@@ -116,7 +116,6 @@ void Omnia::Engine::initialize()
 		std::cout << "0. Custom" << std::endl;
 		std::cout << "1. Demos" << std::endl;
 		std::cout << "2. Editor" << std::endl;
-		std::cout << "3. Debug" << std::endl;
 		std::cout << "\n-> #";
 
 		std::string inputString;
@@ -135,11 +134,6 @@ void Omnia::Engine::initialize()
 		else if (inputString == "2")
 		{
 			dataDirectory = DEBUG_EDITOR_DATA_DIRECTORY;
-			break;
-		}
-		else if (inputString == "3")
-		{
-			dataDirectory = DEBUG_DEBUG_DATA_DIRECTORY;
 			break;
 		}
 		else
