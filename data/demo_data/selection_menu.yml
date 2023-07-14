@@ -14,6 +14,20 @@ SceneLayer:
   name: "foreground"
   spatial_dimension: 2
   Entity:
+    name: "Project List"
+    Transform:
+      translation: [0.0, 0.0, 0]
+    ScriptCollection:
+      Python: ["selection_menu.py"]
+    GUI:
+      GUIPanel:
+        GUIWidget:
+          GUIText:
+            text: ""
+            font: ["tests/fonts/Lato-Regular.ttf", 40]
+            colour: [255, 255, 255, 255]
+            wrap_length: 1000
+  Entity:
     name: "Camera"
     Transform:
       translation: [0, 0, 0]
@@ -22,3 +36,4 @@ SceneLayer:
     name: "Viewport"
     Viewport:
       camera_entity: "Camera"
+	  

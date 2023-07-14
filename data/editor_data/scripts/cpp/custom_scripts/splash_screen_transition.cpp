@@ -24,14 +24,14 @@
 
 void OmniaEditor::SplashScreenTransition::onStart()
 {
-    std::shared_ptr<Omnia::Timer> timer = Omnia::EntityContext::getComponentByType<Omnia::Timer>();
+    std::shared_ptr<Omnia::Timer> timer = Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>();
     float countdownValue = 5.0f;
     timer->start(countdownValue);
 }
 
 void OmniaEditor::SplashScreenTransition::onLogic()
 {
-    if (Omnia::EntityContext::getComponentByType<Omnia::Timer>()->isFinished())
+    if (Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>()->isFinished())
     {
         std::string scenepath = "assets/scenes/debug.yml";
         Omnia::SceneStorage::addAndChangeToScene(std::shared_ptr<Omnia::Scene>(new Omnia::Scene(scenepath)));
