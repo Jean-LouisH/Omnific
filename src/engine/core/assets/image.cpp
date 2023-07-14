@@ -26,14 +26,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, Colour colour, uint16_t wrapLength)
+Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrapLength)
 {
 	this->type = TYPE_STRING;
 
 	if (text == "")
 		text = " ";
 
-	SDL_Color sdlColor = { colour.getRed(), colour.getGreen(), colour.getBlue(), colour.getAlpha() };
+	SDL_Color sdlColor = { colour->getRed(), colour->getGreen(), colour->getBlue(), colour->getAlpha() };
 	std::shared_ptr<SDL_Surface> sdlSurface(SDL_ConvertSurfaceFormat(TTF_RenderUTF8_Blended_Wrapped(font->getSDLTTFFont(), text.c_str(), sdlColor, wrapLength), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
 
 	/*	SDL vertical pixel flip solution by 
