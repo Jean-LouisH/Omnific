@@ -33,50 +33,55 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 		/*Temporary implementation for loading just text. */
 		if (it3->first.as<std::string>() == "GUIPanel")
 		{
-			GUIPanel guiPanel;
+			std::shared_ptr<GUIPanel> guiPanel(new GUIPanel());
 
 			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
 			{
 				if (it4->first.as<std::string>() == "GUIWidget")
 				{
-					GUIWidget guiWidget;
+					std::shared_ptr<GUIWidget> guiWidget(new GUIWidget());
 
 					for (YAML::const_iterator it5 = it4->second.begin(); it5 != it4->second.end(); ++it5)
 					{
 						if (it5->first.as<std::string>() == "GUIText")
 						{
-							GUIText guiText;
+							std::shared_ptr<GUIText> guiText(new GUIText());
 
 							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 							{
 								if (it6->first.as<std::string>() == "text")
 								{
-									guiText.setText(it6->second.as<std::string>());
+									guiText->setText(it6->second.as<std::string>());
 								}
 								else if (it6->first.as<std::string>() == "font")
 								{
 									//it6->second[1].as<int>()));
 
 									std::shared_ptr<Omnia::Font> font = OS::getFileAccess().loadAssetByType<Font>(it6->second[0].as<std::string>());
-									guiText.setFont(font, it6->second[1].as<int>());
+									*font = Font(font->getName(), it6->second[1].as<int>());
+									guiText->setFont(font, it6->second[1].as<int>());
 								}
 								else if (it6->first.as<std::string>() == "colour")
 								{
-									guiText.setColour(
+									guiText->setColour(
 										it6->second[0].as<int>(),
 										it6->second[1].as<int>(),
 										it6->second[2].as<int>(),
 										it6->second[3].as<int>()
 									);
 								}
+								else if (it6->first.as<std::string>() == "wrap_length")
+								{
+									guiText->wrapLength = it6->second.as<int>();
+								}
 							}
 
-							guiWidget.guiText = guiText;
+							guiWidget->guiText = guiText;
 						}
 
 					}
 
-					guiPanel.widgets.emplace("Widget (ID:" + std::to_string(UIDGenerator::getNewUID()) + ")", guiWidget);
+					guiPanel->widgets.emplace("Widget (ID:" + std::to_string(UIDGenerator::getNewUID()) + ")", guiWidget);
 
 				}
 
@@ -113,13 +118,13 @@ void Omnia::GUIText::setFontSize(uint16_t size_px)
 
 void Omnia::GUIText::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
-	this->colour = Colour(red, green, blue, alpha);
+	this->colour = std::shared_ptr<Colour>(new Colour(red, green, blue, alpha));
 	this->generateImage();
 }
 
 void Omnia::GUIText::generateImage()
 {
-	if (this->font != nullptr)
+	if (this->font != nullptr && this->colour != nullptr)
 	{
 		if (this->font->getSDLTTFFont() != nullptr)
 		{
@@ -135,11 +140,11 @@ void Omnia::GUI::updateImage()
 	{
 		for (auto guiPanel : this->guiPanels)
 		{
-			if (guiPanel.second.widgets.size() == 1)
+			if (guiPanel.second->widgets.size() == 1)
 			{
-				for (auto widget : guiPanel.second.widgets)
+				for (auto widget : guiPanel.second->widgets)
 				{
-					this->image = widget.second.guiText.image;
+					this->image = widget.second->guiText->image;
 				}
 			}
 		}
@@ -158,11 +163,11 @@ void Omnia::GUI::setText(std::string text)
 	{
 		for (auto guiPanel : this->guiPanels)
 		{
-			if (guiPanel.second.widgets.size() == 1)
+			if (guiPanel.second->widgets.size() == 1)
 			{
-				for (auto widget : guiPanel.second.widgets)
+				for (auto widget : guiPanel.second->widgets)
 				{
-					widget.second.guiText.setText(text);
+					widget.second->guiText->setText(text);
 				}
 			}
 		}

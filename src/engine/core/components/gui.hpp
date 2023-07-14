@@ -48,7 +48,7 @@ namespace Omnia
 		std::shared_ptr<Omnia::Font> font;
 		uint16_t size = 0;
 		uint16_t wrapLength = 500;
-		Colour colour;
+		std::shared_ptr<Colour> colour;
 		std::shared_ptr<Image> image;
 
 	private:
@@ -65,7 +65,7 @@ namespace Omnia
 		bool isOverlayedToParent = false;
 		glm::vec2 defaultDimensions;
 		glm::vec2 position;
-		GUIText guiText;
+		std::shared_ptr<GUIText> guiText;
 		std::shared_ptr<Image> backgroundImage;
 	};
 
@@ -87,9 +87,9 @@ namespace Omnia
 	class OMNIA_ENGINE_API GUIPanel
 	{
 	public:
-		std::unordered_map<std::string, GUIWidget> widgets;
-		std::unordered_map<std::string, GUIProgressBar> progressBars;
-		std::unordered_map<std::string, GUILine> separators;
+		std::unordered_map<std::string, std::shared_ptr<GUIWidget>> widgets;
+		std::unordered_map<std::string, std::shared_ptr<GUIProgressBar>> progressBars;
+		std::unordered_map<std::string, std::shared_ptr<GUILine>> separators;
 		float verticalSliderPosition = 0.0;
 		float horizontalSliderPosition = 0.0;
 	};
@@ -104,7 +104,7 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 
-		std::unordered_map<std::string, GUIPanel> guiPanels;
+		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> guiPanels;
 
 		virtual Registerable* instance() override
 		{
