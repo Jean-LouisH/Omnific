@@ -51,7 +51,9 @@ namespace Omnia
 			return clone;
 		}
 		TTF_Font* getSDLTTFFont();
+		uint16_t getFontSize();
 	private:
 		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
+		uint16_t fontSize = 0;
 	};
 }
