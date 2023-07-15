@@ -309,7 +309,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("add_and_change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::addAndChangeToScene));
 	m.def("add_and_change_to_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::addAndChangeToScene));
 	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
-	m.def("load_scene", &Omnia::SceneStorage::changeToScene);
+	m.def("change_to_scene", &Omnia::SceneStorage::changeToScene);
 	m.def("reload_active_scene", &Omnia::SceneStorage::reloadActiveScene);
 	m.def("get_active_scene", &Omnia::SceneStorage::getActiveScene);
 	m.def("get_active_scene_name", &Omnia::SceneStorage::getActiveSceneName);
@@ -323,7 +323,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	m.def("get_entity", &Omnia::PythonEntityContext::getEntity);
 	m.def("get_component", &Omnia::PythonEntityContext::getComponent);
 	m.def("get_scene", &Omnia::PythonEntityContext::getScene);
-	m.def("get_scene_tree", &Omnia::PythonEntityContext::getSceneLayer);
+	m.def("get_scene_layer", &Omnia::PythonEntityContext::getSceneLayer);
 	m.def("get_time_delta", &Omnia::PythonEntityContext::getTimeDelta);
 
 	m.def("get_shared_library_access", &Omnia::OS::getSharedLibraryAccess, pybind11::return_value_policy::reference);
