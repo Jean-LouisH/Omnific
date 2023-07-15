@@ -68,6 +68,7 @@ namespace Omnia
 		void loadScriptModules(std::shared_ptr<Scene> scene);
 	private:
 		bool isVMStarted = false;
+		bool hasModulesLoadedOnThisUpdate = false;
 		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;
 
 		void executeQueuedMethods(

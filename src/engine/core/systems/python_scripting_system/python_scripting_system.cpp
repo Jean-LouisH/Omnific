@@ -49,83 +49,87 @@ void Omnia::PythonScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scen
 {
 	if (scene != nullptr)
 	{
-		this->pythonScriptInstances.clear();
-
-		pybind11::module_ sys = pybind11::module_::import("sys");
-		pybind11::object path = sys.attr("path");
-		std::set<std::string> addedPaths;
-
-		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
+		if (!this->hasModulesLoadedOnThisUpdate)
 		{
-			for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
+			this->pythonScriptInstances.clear();
+
+			pybind11::module_ sys = pybind11::module_::import("sys");
+			pybind11::object path = sys.attr("path");
+			std::set<std::string> addedPaths;
+
+			for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			{
-				for (std::shared_ptr<Script> script : scriptCollection->scripts)
+				for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 				{
-					std::string scriptFilepath = script->getName();
-
-					if (script->getLanguageName() == "Python")
+					for (std::shared_ptr<Script> script : scriptCollection->scripts)
 					{
-						try
+						std::string scriptFilepath = script->getName();
+
+						if (script->getLanguageName() == "Python")
 						{
-							if (addedPaths.count(scriptFilepath) == 0)
+							try
 							{
-								std::string newPath = OS::getFileAccess().getExecutableDirectoryPath() +
-									"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
+								if (addedPaths.count(scriptFilepath) == 0)
+								{
+									std::string newPath = OS::getFileAccess().getExecutableDirectoryPath() +
+										"//data//" + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #ifdef _DEBUG
-								newPath = OS::getFileAccess().getExecutableDirectoryPath();
-								newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
-								std::string dataFolder = OS::getFileAccess().getDataDirectoryPath();
-								dataFolder = dataFolder.substr(dataFolder.find("data/"), dataFolder.size() - 1);
-								newPath += dataFolder + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
+									newPath = OS::getFileAccess().getExecutableDirectoryPath();
+									newPath = newPath.substr(0, newPath.find("out\\build\\x64-Debug\\src\\main"));
+									std::string dataFolder = OS::getFileAccess().getDataDirectoryPath();
+									dataFolder = dataFolder.substr(dataFolder.find("data/"), dataFolder.size() - 1);
+									newPath += dataFolder + OS::getFileAccess().getPathBeforeFile(scriptFilepath);
 #endif
-								pybind11::str newPathObj = pybind11::str(newPath);
-								newPathObj = newPathObj.attr("replace")("//", "/");
-								newPathObj = newPathObj.attr("replace")("/", "\\");
-								newPath = newPathObj.cast<std::string>();
+									pybind11::str newPathObj = pybind11::str(newPath);
+									newPathObj = newPathObj.attr("replace")("//", "/");
+									newPathObj = newPathObj.attr("replace")("/", "\\");
+									newPath = newPathObj.cast<std::string>();
 
-								path.attr("insert")(0, newPath);
-								addedPaths.emplace(newPath);
+									path.attr("insert")(0, newPath);
+									addedPaths.emplace(newPath);
+								}
+
+								std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
+								pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
+
+								PythonScriptInstance scriptInstance;
+								std::vector<std::string> methodNames = {
+									"on_start",
+									"on_input",
+									"on_early",
+									"on_logic",
+									"on_compute",
+									"on_late",
+									"on_output",
+									"on_finish"
+								};
+								scriptInstance.setData(newPybind11Module.attr("omnia_script")());
+
+								for (int i = 0; i < methodNames.size(); i++)
+								{
+									try
+									{
+										std::string methodName = methodNames.at(i);
+										pybind11::object test = scriptInstance.test(methodName.c_str());
+										scriptInstance.setCallable(methodName);
+									}
+									catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
+									{
+
+									}
+								}
+
+								this->pythonScriptInstances.emplace(scriptFilepath + std::to_string(scriptCollection->getEntityID()), scriptInstance);
 							}
-
-							std::string moduleName = OS::getFileAccess().getFileNameWithoutExtension(scriptFilepath);
-							pybind11::module_ newPybind11Module = pybind11::module_::import(moduleName.c_str());
-
-							PythonScriptInstance scriptInstance;
-							std::vector<std::string> methodNames = { 
-								"on_start", 
-								"on_input", 
-								"on_early", 
-								"on_logic", 
-								"on_compute", 
-								"on_late", 
-								"on_output", 
-								"on_finish" 
-							};
-							scriptInstance.setData(newPybind11Module.attr("omnia_script")());
-
-							for (int i = 0; i < methodNames.size(); i++)
+							catch (const pybind11::error_already_set& e)
 							{
-								try
-								{
-									std::string methodName = methodNames.at(i);
-									pybind11::object test = scriptInstance.test(methodName.c_str());
-									scriptInstance.setCallable(methodName);
-								}
-								catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
-								{
-
-								}
+								std::cout << e.what() << std::endl;
 							}
-
-							this->pythonScriptInstances.emplace(scriptFilepath + std::to_string(scriptCollection->getEntityID()), scriptInstance);
-						}
-						catch (const pybind11::error_already_set& e)
-						{
-							std::cout << e.what() << std::endl;
 						}
 					}
 				}
 			}
+			this->hasModulesLoadedOnThisUpdate = true;
 		}
 	}
 }
@@ -156,6 +160,9 @@ void Omnia::PythonScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_input");
@@ -163,6 +170,9 @@ void Omnia::PythonScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_early");
@@ -170,6 +180,9 @@ void Omnia::PythonScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_logic");
@@ -177,6 +190,9 @@ void Omnia::PythonScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_compute");
@@ -184,6 +200,9 @@ void Omnia::PythonScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeUpdateMethods(it.second, "on_late");
@@ -191,9 +210,14 @@ void Omnia::PythonScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::getScene()->getSceneLayers())
 			this->executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "on_finish");
+
+	this->hasModulesLoadedOnThisUpdate = false;
 }
 
 void Omnia::PythonScriptingSystem::finalize()
