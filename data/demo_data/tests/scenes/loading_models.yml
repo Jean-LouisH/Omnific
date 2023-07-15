@@ -27,7 +27,7 @@ SceneLayer:
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
-      Python: ["tests/loading_models/scripts/python/camera_control.py"]
+      Python: ["tests/scripts/python/camera_control.py"]
   Entity:
     name: "LightSource"
     Transform:
@@ -36,21 +36,21 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
       shader:
-        fragment: "tests/loading_models/shaders/light_source_fragment.glsl"
+        fragment: "tests/shaders/light_source_fragment.glsl"
     ScriptCollection:
-      Python: ["tests/loading_models/scripts/python/light_movement.py"]
+      Python: ["tests/scripts/python/light_movement.py"]
     Light: default
   Entity:
     name: "Model"
     Transform:
       translation: [0, 0, 0]
     ScriptCollection:
-      Python: ["tests/loading_models/scripts/python/constantly_rotate.py", "tests/loading_models/scripts/python/shader_parameter_control.py"]
+      Python: ["tests/scripts/python/constantly_rotate.py", "tests/scripts/python/shader_parameter_control.py"]
     RenderableComponent:
       overriding_shader:
-        fragment: "tests/loading_models/shaders/phong_fragment.glsl"
+        fragment: "tests/shaders/phong_fragment.glsl"
   SubSceneLayer:
-    name: ["tests/loading_models/models/suzanne.glb", ""]
+    name: ["tests/models/suzanne.glb", ""]
     parent: "Model"
   Entity:
     name: "Viewport"
@@ -65,10 +65,10 @@ SceneLayer:
   #  GUI: 
   #    GUIText:
   #      text: "This is a test."
-  #      font: ["tests/loading_models/fonts/Lato-Regular.ttf", 16]
+  #      font: ["tests/fonts/Lato-Regular.ttf", 16]
   #      colour: [255, 255, 255, 255]
   #  ScriptCollection:
-  #    Python: ["tests/loading_models/scripts/python/fps_gui.py"]
+  #    Python: ["tests/scripts/python/fps_gui.py"]
   Entity:
     name: "Camera"
     Transform:
@@ -76,8 +76,12 @@ SceneLayer:
       rotation: [0, 0, 0]
     Camera: "default"
     ScriptCollection:
-      Python: ["tests/loading_models/scripts/python/debug_camera_control.py"]
+      Python: ["tests/scripts/python/debug_camera_control.py"]
   Entity:
     name: "Viewport"
     Viewport:
       camera_entity: "Camera"
+  Entity:
+    name: "EscapeToSelectionMenu"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py"]

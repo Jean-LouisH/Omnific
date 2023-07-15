@@ -152,3 +152,7 @@ SceneLayer:
       mesh: "Mesh::cube"
       shader:
         fragment: "games/table_tennis/shaders/light_source_fragment.glsl"
+  Entity:
+    name: "EscapeToSelectionMenu"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py"]

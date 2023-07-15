@@ -9,7 +9,7 @@ SceneLayer:
   Entity:
     name: "Background"
     Sprite:
-      image: "scene_tree_layers/images/brown_wooden_planks_edited.jpg"
+      image: "tests/images/brown_wooden_planks_edited.jpg"
       dimensions: [40.0, 30.0, 0.1]
     Transform:
       translation: [0, 0, 1]
@@ -34,7 +34,7 @@ SceneLayer:
     ModelContainer:
       models: ["Model::cube"]
     ScriptCollection:
-      Python: ["scene_tree_layers/scripts/python/middleground_cube_rotate.py"]
+      Python: ["tests/scripts/python/middleground_cube_rotate.py"]
   Entity:
     name: "Viewport"
     Viewport:
@@ -56,7 +56,7 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
     ScriptCollection:
-      Python: ["scene_tree_layers/scripts/python/foreground_cube_rotate.py"]
+      Python: ["tests/scripts/python/foreground_cube_rotate.py"]
   Entity:
     name: "Floor"
     Transform:
@@ -69,3 +69,7 @@ SceneLayer:
     name: "Viewport"
     Viewport:
       camera_entity: "ForegroundCamera"
+  Entity:
+    name: "EscapeToSelectionMenu"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py"]

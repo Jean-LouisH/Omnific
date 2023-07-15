@@ -160,3 +160,7 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
+  Entity:
+    name: "EscapeToSelectionMenu"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py"]

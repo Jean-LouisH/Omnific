@@ -18,7 +18,7 @@ class omnia_script:
 
     def __init__(self):
         self.project_paths = {}
-        self.last_letter = 'A'
+        self.last_letter = 'a'
 
         project_names_list = project_name_type_pairs.keys()
 
@@ -44,6 +44,12 @@ class omnia_script:
         pass
 
     def on_logic(self):
+        inp = omnia.get_input()
+        
+        for letter, project_path in self.project_paths.items():
+            if inp.is_on_release(letter):
+                omnia.add_and_change_to_scene(project_path)
+                break
         pass
 
     def list_project(self, project_name, project_type):

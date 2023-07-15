@@ -66,3 +66,7 @@ SceneLayer:
     name: "Viewport"
     Viewport:
       camera_entity: "Camera"
+  Entity:
+    name: "EscapeToSelectionMenu"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py"]
