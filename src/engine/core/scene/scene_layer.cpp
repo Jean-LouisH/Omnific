@@ -29,6 +29,7 @@ Omnia::SceneLayer::SceneLayer()
 {
 	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
 	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
+	this->outputEventBus = std::shared_ptr<EventBus>(new EventBus());
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 
 	this->id = UIDGenerator::getNewUID();
@@ -87,11 +88,13 @@ void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Componen
 		this->componentIndexCaches.emplace(type, componentIndices);
 	}
 
+	this->eventBus->publish(OMNIA_EVENT_COMPONENT_CHANGED);
+
 	if (component->isRenderable())
 	{
 		entity->renderableComponentID = component->getID();
 		this->renderOrderIndexCache.push_back(lastIndex);
-		this->hasRenderableComponentsChanged = true;
+		this->outputEventBus->publish(OMNIA_EVENT_RENDERABLE_COMPONENT_CHANGED);
 	}
 
 	component->setComponentHierarchy(this->getComponentHierarchy(component->getType(), component->getEntityID()));
@@ -157,8 +160,9 @@ void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
 				if ((*it)->getID() == componentID)
 				{
 					if ((*it)->isRenderable())
-						this->hasRenderableComponentsChanged = true;
+						this->outputEventBus->publish(OMNIA_EVENT_RENDERABLE_COMPONENT_CHANGED);
 					it = this->components.erase(it);
+					this->eventBus->publish(OMNIA_EVENT_COMPONENT_CHANGED);
 					break;
 				}
 				else
@@ -299,14 +303,9 @@ std::shared_ptr<Omnia::EventBus> Omnia::SceneLayer::getEventBus()
 	return this->eventBus;
 }
 
-bool Omnia::SceneLayer::getHasShadersChanged()
+std::shared_ptr<Omnia::EventBus> Omnia::SceneLayer::getOutputEventBus()
 {
-	return false;
-}
-
-bool Omnia::SceneLayer::getHasScriptsChanged()
-{
-	return false;
+	return this->outputEventBus;
 }
 
 Omnia::SceneLayerID Omnia::SceneLayer::getID()

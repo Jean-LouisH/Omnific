@@ -76,7 +76,9 @@ void Omnia::RenderingSystem::onWindowResize()
 
 void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene)
 {
-	if (this->activeSceneID != scene->getID())
+	bool activeSceneChanged = this->activeSceneID != scene->getID();
+
+	if (activeSceneChanged)
 	{
 		this->activeSceneID = scene->getID();
 		this->sceneLayerRenderableLists.clear();
@@ -88,7 +90,8 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 	{
 		std::shared_ptr<SceneLayer> sceneLayer = it->second;
 
-		if (sceneLayer->hasRenderableComponentsChanged)
+		if (sceneLayer->getOutputEventBus()->queryCount(OMNIA_EVENT_RENDERABLE_COMPONENT_CHANGED) || 
+			activeSceneChanged)
 		{
 			std::vector<SceneLayerRenderable> sceneLayerRenderableList;
 
@@ -152,7 +155,6 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 			}
 
 			this->sceneLayerRenderableLists.emplace(sceneLayer->getID(), sceneLayerRenderableList);
-			sceneLayer->hasRenderableComponentsChanged = false;
 		}
 	}
 }

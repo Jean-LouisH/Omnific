@@ -40,6 +40,11 @@
 
 #include <memory>
 
+#define OMNIA_EVENT_COMPONENT_CHANGED "component_changed"
+#define OMNIA_EVENT_RENDERABLE_COMPONENT_CHANGED "renderable_component_changed"
+#define OMNIA_EVENT_SHADER_CHANGED "shader_changed"
+#define OMNIA_EVENT_SCRIPT_CHANGED "script_changed"
+
 namespace Omnia
 {
 	enum class CallType
@@ -53,7 +58,6 @@ namespace Omnia
 	{
 	public:
 		bool is2D = false;
-		bool hasRenderableComponentsChanged = false;
 		std::string name;
 
 		SceneLayer();
@@ -86,9 +90,8 @@ namespace Omnia
 		std::vector<std::shared_ptr<Component>> getComponentHierarchy(std::string type, EntityID entityID);
 		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
 		std::shared_ptr<EventBus> getEventBus();
+		std::shared_ptr<EventBus> getOutputEventBus();
 		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
-		bool getHasShadersChanged();
-		bool getHasScriptsChanged();
 		SceneLayerID getID();
 		std::string getName();
 
@@ -154,6 +157,7 @@ namespace Omnia
 
 		std::shared_ptr<CollisionRegistry> collisionRegistry;
 		std::shared_ptr<EventBus> eventBus;
+		std::shared_ptr<EventBus> outputEventBus;
 		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer;
 
 		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;

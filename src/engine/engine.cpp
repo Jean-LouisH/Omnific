@@ -290,10 +290,14 @@ void Omnia::Engine::runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer
 		for (auto system : this->systems)
 			system.second->onOutput(activeScene);
 
+		for (auto it : activeScene->getSceneLayers())
+			it.second->getOutputEventBus()->clear();
+
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			Configuration::getInstance()->timeSettings.targetFPS,
 			outputProcessTimer);
+
 	}
 
 	for (auto system : this->systems)
