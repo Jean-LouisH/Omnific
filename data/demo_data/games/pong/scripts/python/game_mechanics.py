@@ -9,10 +9,10 @@ class omnia_script:
         pass
 
     def reset_ball(self):
-        scene_tree = omnia.get_scene_tree()
-        ball_entity = scene_tree.get_entity_by_name("Ball")
-        ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
-        ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
+        scene_layer = omnia.get_scene_layer()
+        ball_entity = scene_layer.get_entity_by_name("Ball")
+        ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
+        ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
         player_x_direction = random.choice([-1.0, 1.0])
         ball_physics_body.linear_velocity.x = random.uniform(8.0, 10.0) * player_x_direction
         ball_physics_body.linear_velocity.y = random.uniform(5.0, 8.0)
@@ -25,13 +25,13 @@ class omnia_script:
 
 
     def on_logic(self):
-        scene_tree = omnia.get_scene_tree()
-        ball_entity = scene_tree.get_entity_by_name("Ball")
-        ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
-        ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
-        left_post_transform = scene_tree.get_component("Transform", scene_tree.get_entity_by_name("LeftGoalPost").get_id())
-        right_post_transform = scene_tree.get_component("Transform", scene_tree.get_entity_by_name("RightGoalPost").get_id())
-        collisions = scene_tree.get_collision_registry()
+        scene_layer = omnia.get_scene_layer()
+        ball_entity = scene_layer.get_entity_by_name("Ball")
+        ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
+        ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
+        left_post_transform = scene_layer.get_component("Transform", scene_layer.get_entity_by_name("LeftGoalPost").get_id())
+        right_post_transform = scene_layer.get_component("Transform", scene_layer.get_entity_by_name("RightGoalPost").get_id())
+        collisions = scene_layer.get_collision_registry()
         ball_bounce_increase = 1.5
 
         #Bouncing the ball off the walls
@@ -46,9 +46,9 @@ class omnia_script:
               ball_physics_body.linear_velocity.y * ball_physics_body.linear_velocity.y)
 
             if ball_transform.translation.x < left_post_transform.translation.x:
-                scene_tree.get_event_bus().publish("AI won", {"ball_speed": ball_speed})
+                scene_layer.get_event_bus().publish("AI won", {"ball_speed": ball_speed})
             if ball_transform.translation.x > right_post_transform.translation.x:
-                scene_tree.get_event_bus().publish("Player won", {"ball_speed": ball_speed})
+                scene_layer.get_event_bus().publish("Player won", {"ball_speed": ball_speed})
         
         #When the ball collides with the paddles
         if ((collisions.is_colliding("Ball", "Paddle1") and ball_physics_body.linear_velocity.x < 0.0) or 

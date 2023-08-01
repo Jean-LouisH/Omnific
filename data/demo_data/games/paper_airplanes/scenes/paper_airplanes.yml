@@ -74,6 +74,6 @@ SceneLayer:
       shader:
         fragment: "games/paper_airplanes/shaders/light_source_fragment.glsl"
   Entity:
-    name: "EscapeToSelectionMenu"
+    name: "DemoUtilityScripts"
     ScriptCollection:
-      Python: ["escape_to_selection_menu.py"]
+      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

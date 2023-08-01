@@ -82,6 +82,6 @@ SceneLayer:
     Viewport:
       camera_entity: "Camera"
   Entity:
-    name: "EscapeToSelectionMenu"
+    name: "DemoUtilityScripts"
     ScriptCollection:
-      Python: ["escape_to_selection_menu.py"]
+      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

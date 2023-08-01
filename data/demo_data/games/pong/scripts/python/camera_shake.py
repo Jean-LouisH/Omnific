@@ -8,9 +8,9 @@ class omnia_script:
 
     def on_logic(self):
         transform = omnia.get_component("Transform")
-        scene_tree = omnia.get_scene_tree()
-        event_bus = scene_tree.get_event_bus()
-        collisions = scene_tree.get_collision_registry()
+        scene_layer = omnia.get_scene_layer()
+        event_bus = scene_layer.get_event_bus()
+        collisions = scene_layer.get_collision_registry()
         win_events = event_bus.query("Player won") + (event_bus.query("AI won"))
 
         if len(win_events) > 0:

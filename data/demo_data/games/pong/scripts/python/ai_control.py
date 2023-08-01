@@ -18,10 +18,10 @@ class omnia_script:
         if self.enable_ai_mode:
             pass
             transform = omnia.get_component("Transform")
-            scene_tree = omnia.get_scene_tree()
-            ball_entity = scene_tree.get_entity_by_name("Ball")
-            ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
-            ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
+            scene_layer = omnia.get_scene_layer()
+            ball_entity = scene_layer.get_entity_by_name("Ball")
+            ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
+            ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
             paddle_physics_body = omnia.get_component("PhysicsBody")
 
             #AI logic to determine where to move as the ball approaches
