@@ -47,13 +47,6 @@
 
 namespace Omnia
 {
-	enum class CallType
-	{
-		START,
-		UPDATE,
-		FINISH
-	};
-
 	class OMNIA_ENGINE_API SceneLayer
 	{
 	public:
