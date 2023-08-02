@@ -57,27 +57,43 @@ void Omnia::EventBus::publish(
 
 	OS::getRunTimer().setEnd();
 
-	if (this->events.count(name))
-		eventsList = this->events.at(name);
+	if (this->updateEvents.count(name))
+		eventsList = this->updateEvents.at(name);
 
 	eventsList.push_back(Event(
 		name,
 		OS::getRunTimer().getDeltaInNanoseconds()));
 
-	this->events.emplace(name, eventsList);
+	this->updateEvents.emplace(name, eventsList);
+	this->outputEvents.emplace(name, eventsList);
 }
 
 void Omnia::EventBus::clear()
 {
-	this->events.clear();
+	this->updateEvents.clear();
+}
+
+void Omnia::EventBus::clearOutputEvents()
+{
+	this->outputEvents.clear();
 }
 
 std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 {
 	std::vector<Event> queryResults;
 
-	if (this->events.count(name))
-		queryResults = this->events.at(name);
+	if (this->updateEvents.count(name))
+		queryResults = this->updateEvents.at(name);
+
+	return queryResults;
+}
+
+std::vector<Omnia::Event> Omnia::EventBus::queryOutputEvents(std::string name)
+{
+	std::vector<Event> queryResults;
+
+	if (this->outputEvents.count(name))
+		queryResults = this->outputEvents.at(name);
 
 	return queryResults;
 }
@@ -87,22 +103,32 @@ uint64_t Omnia::EventBus::queryCount(std::string name)
 	return this->query(name).size();
 }
 
+uint64_t Omnia::EventBus::queryOutputEventCount(std::string name)
+{
+	return this->queryOutputEvents(name).size();
+}
+
 void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	std::vector<Event> eventsList;
 
 	OS::getRunTimer().setEnd();
 
-	if (this->events.count(name))
-		eventsList = this->events.at(name);
+	if (this->updateEvents.count(name))
+		eventsList = this->updateEvents.at(name);
 
 	eventsList.push_back(Event(
 		name,
 		OS::getRunTimer().getDeltaInNanoseconds(),
 		parameters));
 
-	if (this->events.count(name))
-		this->events.at(name) = eventsList;
+	if (this->updateEvents.count(name))
+	{
+		this->updateEvents.at(name) = eventsList;
+	}
 	else
-		this->events.emplace(name, eventsList);
+	{
+		this->updateEvents.emplace(name, eventsList);
+		this->outputEvents.emplace(name, eventsList);
+	}
 }

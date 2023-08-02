@@ -180,7 +180,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_timestamp", &Omnia::Event::getTimestamp);
 
 	pybind11::class_<Omnia::EventBus, std::shared_ptr<Omnia::EventBus>>(m, "EventBus")
-		.def("clear", &Omnia::EventBus::clear)
 		.def("query", &Omnia::EventBus::query)
 		.def("query_count", &Omnia::EventBus::queryCount)
 		.def("publish", pybind11::overload_cast<std::string>(&Omnia::EventBus::publish))

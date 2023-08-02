@@ -291,7 +291,7 @@ void Omnia::Engine::runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer
 			system.second->onOutput(activeScene);
 
 		for (auto it : activeScene->getSceneLayers())
-			it.second->getOutputEventBus()->clear();
+			it.second->getEventBus()->clearOutputEvents();
 
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(

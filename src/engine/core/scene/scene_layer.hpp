@@ -83,7 +83,6 @@ namespace Omnia
 		std::vector<std::shared_ptr<Component>> getComponentHierarchy(std::string type, EntityID entityID);
 		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
 		std::shared_ptr<EventBus> getEventBus();
-		std::shared_ptr<EventBus> getOutputEventBus();
 		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
 		SceneLayerID getID();
 		std::string getName();
@@ -150,7 +149,6 @@ namespace Omnia
 
 		std::shared_ptr<CollisionRegistry> collisionRegistry;
 		std::shared_ptr<EventBus> eventBus;
-		std::shared_ptr<EventBus> outputEventBus;
 		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer;
 
 		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;

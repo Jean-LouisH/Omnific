@@ -90,7 +90,7 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 	{
 		std::shared_ptr<SceneLayer> sceneLayer = it->second;
 
-		if (sceneLayer->getOutputEventBus()->queryCount(OMNIA_EVENT_RENDERABLE_COMPONENT_CHANGED) || 
+		if (sceneLayer->getEventBus()->queryOutputEventCount(OMNIA_EVENT_COMPONENT_CHANGED) || 
 			activeSceneChanged)
 		{
 			std::vector<SceneLayerRenderable> sceneLayerRenderableList;

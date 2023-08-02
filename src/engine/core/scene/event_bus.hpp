@@ -32,11 +32,12 @@ namespace Omnia
 {
 	class OMNIA_ENGINE_API EventBus
 	{
+		friend class Engine;
 	public:
 		EventBus()
 		{
 			/* Reserve some event space to prevent initial frame lag */
-			events.reserve(32);
+			updateEvents.reserve(32);
 		}
 
 		void publish(
@@ -55,13 +56,16 @@ namespace Omnia
 		void publish(
 			std::string name);
 
-		void clear();
-
 		std::vector<Event> query(std::string name);
+		std::vector<Event> queryOutputEvents(std::string name);
 		uint64_t queryCount(std::string name);
+		uint64_t queryOutputEventCount(std::string name);
 	private:
-		std::unordered_map<std::string, std::vector<Event>> events;
+		std::unordered_map<std::string, std::vector<Event>> updateEvents;
+		std::unordered_map<std::string, std::vector<Event>> outputEvents;
 
+		void clear();
+		void clearOutputEvents();
 		void publishWithParameters(std::string name, Event::Parameters parameters);
 	};
 }
