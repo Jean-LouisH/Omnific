@@ -10,5 +10,5 @@ class omnia_script:
 
     def on_logic(self):
         if omnia.get_input().is_on_release("escape"):
-            omnia.add_and_change_to_scene("selection_menu.yml")
+            omnia.change_to_scene("selection_menu.yml")
         pass

@@ -203,7 +203,7 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 	std::string entrySceneFilepath = Configuration::getInstance()->metadata.entrySceneFilepath;
 
 	if (fileAccess.exists(fileAccess.getDataDirectoryPath() + entrySceneFilepath))
-		SceneStorage::addAndChangeToScene(std::shared_ptr<Scene>(new Scene(entrySceneFilepath)));
+		SceneStorage::changeToScene(std::shared_ptr<Scene>(new Scene(entrySceneFilepath)));
 
 	Profiler& profiler = OS::getProfiler();
 	profiler.addTimer(UPDATE_FRAME_TIMER_NAME);

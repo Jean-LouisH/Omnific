@@ -36,10 +36,9 @@ namespace Omnia
 	public:
 		static void addScene(std::shared_ptr<Scene> scene);
 		static void addScene(std::string filepath);
-		static void addAndChangeToScene(std::shared_ptr<Scene> scene);
-		static void addAndChangeToScene(std::string filepath);
-		static void removeScene(std::string sceneName);
+		static void changeToScene(std::shared_ptr<Scene> scene);
 		static void changeToScene(std::string sceneName);
+		static void removeScene(std::string sceneName);
 		static void reloadActiveScene();
 		static std::shared_ptr<Scene> getActiveScene();
 		static std::string getActiveSceneName();

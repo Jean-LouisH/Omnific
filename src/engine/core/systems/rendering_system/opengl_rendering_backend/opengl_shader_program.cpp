@@ -145,8 +145,8 @@ void Omnia::OpenGLShaderProgram::linkShaderProgram()
 	glAttachShader(programID, this->fragmentShaderID);
 	glLinkProgram(programID);
 	this->checkCompileTimeErrors(programID, GL_LINK_STATUS);
-	OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(programID));
-	this->logUniforms();
+	//OS::getLogger().write("GLSL shaders compiled successfully under program ID " + std::to_string(programID));
+	//this->logUniforms();
 	this->programID = programID;
 }
 

@@ -36,8 +36,7 @@ namespace Omnia
 		glm::vec3 rotation;
 		glm::vec3 scale;
 
-		Transform() :
-			rotation(0.0)
+		Transform()
 		{
 			this->translation = glm::vec3(0.0, 0.0, 0.0);
 			this->rotation = glm::vec3(0.0, 0.0, 0.0);
@@ -66,5 +65,6 @@ namespace Omnia
 		std::shared_ptr<Transform> getGlobalTransform();
 		glm::mat4 getTransformMatrix();
 	private:
+		std::shared_ptr<Transform> globalTransform;
 	};
 }

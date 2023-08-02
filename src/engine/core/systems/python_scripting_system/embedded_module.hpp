@@ -306,10 +306,9 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	m.def("add_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::addScene));
 	m.def("add_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::addScene));
-	m.def("add_and_change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::addAndChangeToScene));
-	m.def("add_and_change_to_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::addAndChangeToScene));
+	m.def("change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::changeToScene));
+	m.def("change_to_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::changeToScene));
 	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
-	m.def("change_to_scene", &Omnia::SceneStorage::changeToScene);
 	m.def("reload_active_scene", &Omnia::SceneStorage::reloadActiveScene);
 	m.def("get_active_scene", &Omnia::SceneStorage::getActiveScene);
 	m.def("get_active_scene_name", &Omnia::SceneStorage::getActiveSceneName);
