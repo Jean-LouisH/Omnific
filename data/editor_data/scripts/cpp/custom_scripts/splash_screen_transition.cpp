@@ -34,6 +34,6 @@ void OmniaEditor::SplashScreenTransition::onLogic()
     if (Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>()->isFinished())
     {
         std::string scenepath = "assets/scenes/debug.yml";
-        Omnia::SceneStorage::addAndChangeToScene(std::shared_ptr<Omnia::Scene>(new Omnia::Scene(scenepath)));
+        Omnia::SceneStorage::changeToScene(std::shared_ptr<Omnia::Scene>(new Omnia::Scene(scenepath)));
     }
 }
