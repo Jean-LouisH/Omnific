@@ -2,6 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 void Omnia::Transform::deserialize(YAML::Node yamlNode)
 {
@@ -82,63 +83,54 @@ std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
 	if (this->globalTransform == nullptr)
 		this->globalTransform = std::shared_ptr<Transform>(new Transform());
 
-	//std::shared_ptr<Transform> localTransform = std::dynamic_pointer_cast<Transform>(this->componentHierarchy[0]);
-	//std::shared_ptr<Transform> parentLocalTransform = 
-	//	std::dynamic_pointer_cast<Transform>(this->componentHierarchy[this->componentHierarchy.size() - 1]);
+	std::shared_ptr<Transform> rootTransform;
+	int rootTransformIndex;
 
-	//if (parentLocalTransform == nullptr)
-	//	parentLocalTransform = std::shared_ptr<Transform>(new Transform());
-
-	//for (int i = this->componentHierarchy.size() - 2;
-	//	i >= 0;
-	//	i--)
-	//{
-	//	std::shared_ptr<Transform> localTransform =	std::dynamic_pointer_cast<Transform>(this->componentHierarchy[i]);
-
-	//	if (localTransform == nullptr)
-	//		localTransform = std::shared_ptr<Transform>(new Transform());
-
-	//	glm::mat4 localTransformMatrix = localTransform->getTransformMatrix();
-	//	localTransformMatrix = glm::translate(localTransformMatrix, parentLocalTransform->translation);
-	//	localTransformMatrix = glm::rotate(localTransformMatrix, glm::radians(parentLocalTransform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	localTransformMatrix = glm::rotate(localTransformMatrix, glm::radians(parentLocalTransform->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	//	localTransformMatrix = glm::rotate(localTransformMatrix, glm::radians(parentLocalTransform->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	//	localTransformMatrix = glm::scale(localTransformMatrix, parentLocalTransform->scale);
-
-	//	glm::quat rotationQuaternion;
-	//	glm::vec3 skew;
-	//	glm::vec4 perspective;
-
-	//	glm::decompose(
-	//		localTransformMatrix,
-	//		localTransform->scale, 
-	//		rotationQuaternion,
-	//		localTransform->translation, 
-	//		skew, 
-	//		perspective);
-
-	//	localTransform->rotation = glm::eulerAngles(rotationQuaternion);
-	//	parentLocalTransform = localTransform;
-	//}
-
-	//this->globalTransform->translation = localTransform->translation;
-	//this->globalTransform->rotation = localTransform->rotation;
-	//this->globalTransform->scale = localTransform->scale;
-
-	this->globalTransform->translation = glm::vec3(0.0);
-	this->globalTransform->rotation = glm::vec3(0.0);
-	this->globalTransform->scale = glm::vec3(1.0);
-
-	for (std::shared_ptr<Component> component : this->componentHierarchy)
+	for (int i = this->componentHierarchy.size() - 1;
+		i >= 0;
+		i--)
 	{
-		std::shared_ptr<Transform> localTransform = std::dynamic_pointer_cast<Transform>(component);
+		rootTransform = std::dynamic_pointer_cast<Transform>(this->componentHierarchy[i]);
+		if (rootTransform != nullptr)
+		{
+			rootTransformIndex = i;
+			break;
+		}
+	}
 
-		if (localTransform == nullptr)
-			localTransform = std::shared_ptr<Transform>(new Transform());
+	this->globalTransform->translation = rootTransform->translation;
+	this->globalTransform->rotation = rootTransform->rotation;
+	this->globalTransform->scale = rootTransform->scale;
 
-		globalTransform->translation += localTransform->translation;
-		globalTransform->rotation += localTransform->rotation;
-		globalTransform->scale *= localTransform->scale;
+	for (int i = rootTransformIndex - 1; 
+		i >= 0; 
+		i--)
+	{
+		std::shared_ptr<Transform> localTransform = std::dynamic_pointer_cast<Transform>(this->componentHierarchy[i]);
+
+		if (localTransform != nullptr)
+		{
+			glm::vec3 radiansRotation = glm::vec3(
+				glm::radians(this->globalTransform->rotation.x),
+				glm::radians(this->globalTransform->rotation.y),
+				glm::radians(this->globalTransform->rotation.z)
+			);
+
+			glm::vec3 distanceVector = localTransform->translation - globalTransform->translation;
+			float distance = glm::length(distanceVector);
+			glm::vec3 direction = glm::normalize(distanceVector);
+
+			if (!(std::isnan(direction.x) || std::isnan(direction.y) || std::isnan(direction.z)))
+			{
+				direction = glm::rotateX(direction, radiansRotation.x);
+				direction = glm::rotateY(direction, radiansRotation.y);
+				direction = glm::rotateZ(direction, radiansRotation.z);
+				this->globalTransform->translation += direction * distance;
+			}
+
+			this->globalTransform->rotation += localTransform->rotation;
+			this->globalTransform->scale *= localTransform->scale;
+		}
 	}
 
 	return this->globalTransform;
