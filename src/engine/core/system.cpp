@@ -96,3 +96,27 @@ bool Omnia::System::getIsOutputInitialized()
 {
 	return this->isOutputInitialized;
 }
+
+bool Omnia::System::hasSceneChanged(std::shared_ptr<Scene> scene)
+{
+	bool activeSceneChanged = this->activeSceneID != scene->getID();
+
+	if (activeSceneChanged)
+		this->activeSceneID = scene->getID();
+
+	return (scene->queryEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
+		scene->queryEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
+		activeSceneChanged);
+}
+
+bool Omnia::System::hasSceneChangedForOutput(std::shared_ptr<Scene> scene)
+{
+	bool activeSceneChanged = this->activeSceneID != scene->getID();
+
+	if (activeSceneChanged)
+		this->activeSceneID = scene->getID();
+
+	return (scene->queryOutputEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
+		scene->queryOutputEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
+		activeSceneChanged);
+}

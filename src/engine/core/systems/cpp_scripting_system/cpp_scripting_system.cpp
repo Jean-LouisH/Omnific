@@ -45,7 +45,7 @@ void Omnia::CPPScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -54,7 +54,7 @@ void Omnia::CPPScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -63,7 +63,7 @@ void Omnia::CPPScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -72,7 +72,7 @@ void Omnia::CPPScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -81,7 +81,7 @@ void Omnia::CPPScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -90,7 +90,7 @@ void Omnia::CPPScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -99,7 +99,7 @@ void Omnia::CPPScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChangedForOutput(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -108,7 +108,7 @@ void Omnia::CPPScriptingSystem::onOutput(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)

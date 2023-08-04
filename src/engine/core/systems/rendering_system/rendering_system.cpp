@@ -54,7 +54,8 @@ void Omnia::RenderingSystem::initializeOutput()
 void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
-	this->buildRenderablesOnSceneChange(scene);
+	if (this->hasSceneChangedForOutput(scene))
+		this->buildRenderablesOnSceneChange(scene);
 	this->openglBackend->clearColourBuffer(0, 0, 0, 255);
 	this->openglBackend->submit(this->sceneLayerRenderableLists);
 	this->openglBackend->swapBuffers();
@@ -76,87 +77,75 @@ void Omnia::RenderingSystem::onWindowResize()
 
 void Omnia::RenderingSystem::buildRenderablesOnSceneChange(std::shared_ptr<Scene> scene)
 {
-	bool activeSceneChanged = this->activeSceneID != scene->getID();
-
-	if (activeSceneChanged)
-	{
-		this->activeSceneID = scene->getID();
-		this->sceneLayerRenderableLists.clear();
-	}
+	this->sceneLayerRenderableLists.clear();
 
 	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 
 	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
 		std::shared_ptr<SceneLayer> sceneLayer = it->second;
+		std::vector<SceneLayerRenderable> sceneLayerRenderableList;
 
-		if (sceneLayer->getEventBus()->queryOutputEventCount(OMNIA_EVENT_COMPONENT_ADDED) || 
-			sceneLayer->getEventBus()->queryOutputEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
-			activeSceneChanged)
+		std::vector<std::shared_ptr<Viewport>> uiViewports = sceneLayer->getComponentsByType<Viewport>();
+		std::vector<size_t> renderOrderIndexCache = sceneLayer->getRenderOrderIndexCache();
+
+		for (int i = 0; i < uiViewports.size(); i++)
 		{
-			std::vector<SceneLayerRenderable> sceneLayerRenderableList;
+			std::shared_ptr<Viewport> uiViewport = uiViewports.at(i);
+			std::shared_ptr<Entity> cameraEntity = sceneLayer->getEntityByName(uiViewport->getCameraEntityName());
+			std::shared_ptr<Camera> camera = sceneLayer->getComponentByType<Camera>(cameraEntity->getID());
+			SceneLayerRenderable sceneLayerRenderable;
+			std::shared_ptr<Transform> cameraTransform = sceneLayer->getComponentByType<Transform>(camera->getEntityID());
 
-			std::vector<std::shared_ptr<Viewport>> uiViewports = sceneLayer->getComponentsByType<Viewport>();
-			std::vector<size_t> renderOrderIndexCache = sceneLayer->getRenderOrderIndexCache();
+			sceneLayerRenderable.is2D = sceneLayer->is2D;
+			sceneLayerRenderable.camera = camera;
+			sceneLayerRenderable.cameraTransform = cameraTransform;
 
-			for (int i = 0; i < uiViewports.size(); i++)
+			for (std::shared_ptr<Light> light : sceneLayer->getComponentsByType<Light>())
 			{
-				std::shared_ptr<Viewport> uiViewport = uiViewports.at(i);
-				std::shared_ptr<Entity> cameraEntity = sceneLayer->getEntityByName(uiViewport->getCameraEntityName());
-				std::shared_ptr<Camera> camera = sceneLayer->getComponentByType<Camera>(cameraEntity->getID());
-				SceneLayerRenderable sceneLayerRenderable;
-				std::shared_ptr<Transform> cameraTransform = sceneLayer->getComponentByType<Transform>(camera->getEntityID());
-
-				sceneLayerRenderable.is2D = sceneLayer->is2D;
-				sceneLayerRenderable.camera = camera;
-				sceneLayerRenderable.cameraTransform = cameraTransform;
-
-				for (std::shared_ptr<Light> light : sceneLayer->getComponentsByType<Light>())
-				{
-					sceneLayerRenderable.lights.push_back(light);
-					sceneLayerRenderable.lightTransforms.push_back(sceneLayer->getComponentByType<Transform>(light->getEntityID()));
-				}
-
-				for (int i = 0; i < renderOrderIndexCache.size(); i++)
-				{
-					EntityRenderable entityRenderable;
-					std::shared_ptr<RenderableComponent> renderableComponent =
-						std::dynamic_pointer_cast<RenderableComponent>(sceneLayer->getComponents().at(renderOrderIndexCache.at(i)));
-					std::shared_ptr<Entity> entity = sceneLayer->getEntity(renderableComponent->getEntityID());
-
-					entityRenderable.entityTransform = sceneLayer->getComponentByType<Transform>(entity->getID());
-					entityRenderable.renderableComponent = renderableComponent;
-
-					std::shared_ptr<Entity> topEntity = entity;
-					EntityID parentEntityID = entity->parentID;
-
-					while(parentEntityID != 0)
-					{
-						topEntity = sceneLayer->getEntity(parentEntityID);
-						parentEntityID = topEntity->parentID;
-					}
-
-					if (topEntity->renderableComponentID != 0)
-					{
-						std::shared_ptr<RenderableComponent> renderableComponent =
-							std::dynamic_pointer_cast<RenderableComponent>(sceneLayer->getComponentByID(topEntity->renderableComponentID));
-
-						std::shared_ptr<Shader> overridingShader = renderableComponent->getOverridingShader();
-
-						if (overridingShader != nullptr)
-						{
-							entityRenderable.overridingShader = overridingShader;
-							entityRenderable.overridingShaderParameters = renderableComponent->shaderParameters;
-						}
-					}
-
-					sceneLayerRenderable.entityRenderables.push_back(entityRenderable);
-				}
-				sceneLayerRenderableList.push_back(sceneLayerRenderable);
+				sceneLayerRenderable.lights.push_back(light);
+				sceneLayerRenderable.lightTransforms.push_back(sceneLayer->getComponentByType<Transform>(light->getEntityID()));
 			}
 
-			this->sceneLayerRenderableLists.emplace(sceneLayer->getID(), sceneLayerRenderableList);
+			for (int i = 0; i < renderOrderIndexCache.size(); i++)
+			{
+				EntityRenderable entityRenderable;
+				std::shared_ptr<RenderableComponent> renderableComponent =
+					std::dynamic_pointer_cast<RenderableComponent>(sceneLayer->getComponents().at(renderOrderIndexCache.at(i)));
+				std::shared_ptr<Entity> entity = sceneLayer->getEntity(renderableComponent->getEntityID());
+
+				entityRenderable.entityTransform = sceneLayer->getComponentByType<Transform>(entity->getID());
+				entityRenderable.renderableComponent = renderableComponent;
+
+				std::shared_ptr<Entity> topEntity = entity;
+				EntityID parentEntityID = entity->parentID;
+
+				while(parentEntityID != 0)
+				{
+					topEntity = sceneLayer->getEntity(parentEntityID);
+					parentEntityID = topEntity->parentID;
+				}
+
+				if (topEntity->renderableComponentID != 0)
+				{
+					std::shared_ptr<RenderableComponent> renderableComponent =
+						std::dynamic_pointer_cast<RenderableComponent>(sceneLayer->getComponentByID(topEntity->renderableComponentID));
+
+					std::shared_ptr<Shader> overridingShader = renderableComponent->getOverridingShader();
+
+					if (overridingShader != nullptr)
+					{
+						entityRenderable.overridingShader = overridingShader;
+						entityRenderable.overridingShaderParameters = renderableComponent->shaderParameters;
+					}
+				}
+
+				sceneLayerRenderable.entityRenderables.push_back(entityRenderable);
+			}
+			sceneLayerRenderableList.push_back(sceneLayerRenderable);
 		}
+
+		this->sceneLayerRenderableLists.emplace(sceneLayer->getID(), sceneLayerRenderableList);
 	}
 }
 

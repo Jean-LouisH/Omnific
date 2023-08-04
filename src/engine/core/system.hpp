@@ -58,6 +58,11 @@ namespace Omnia
     protected:
         bool isInitialized = false;
         bool isOutputInitialized = false;
+
+        bool hasSceneChanged(std::shared_ptr<Scene> scene);
+        bool hasSceneChangedForOutput(std::shared_ptr<Scene> scene);
     private:
+        SceneID activeSceneID = 0;
+
     };
 }

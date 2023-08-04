@@ -285,15 +285,3 @@ void Omnia::PythonScriptingSystem::bindAndCall(
 		}
 	}
 }
-
-bool Omnia::PythonScriptingSystem::hasSceneChanged(std::shared_ptr<Scene> scene)
-{
-	bool activeSceneChanged = this->activeSceneID != scene->getID();
-
-	if (activeSceneChanged)
-		this->activeSceneID = scene->getID();
-
-	return (scene->queryEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
-		scene->queryEventCount(OMNIA_EVENT_COMPONENT_REMOVED) || 
-		activeSceneChanged);
-}

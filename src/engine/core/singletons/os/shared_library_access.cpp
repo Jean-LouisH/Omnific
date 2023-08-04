@@ -42,7 +42,7 @@ void* Omnia::SharedLibraryAccess::open(std::string filename)
 #else
 	sharedLibrary = dlopen((filename + ".so").c_str(), RTLD_NOW);
 #endif
-	OS::getLogger().write("Opened shared library: " + filename);
+	//OS::getLogger().write("Opened shared library: " + filename);
 	return sharedLibrary;
 }
 
@@ -57,7 +57,7 @@ void Omnia::SharedLibraryAccess::close(void* dynamicLibraryHandle)
 #endif
 		std::stringstream ss;
 		ss << std::hex << (uint64_t)dynamicLibraryHandle;
-		OS::getLogger().write("Closed shared library at address: 0x" + ss.str());
+		//OS::getLogger().write("Closed shared library at address: 0x" + ss.str());
 	}
 }
 
