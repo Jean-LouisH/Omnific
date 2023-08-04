@@ -34,10 +34,12 @@ namespace Omnia
 	class OMNIA_ENGINE_API ThreadPool
 	{
 	public:
-		void initialize(int threadCount);
+		void initialize();
+		void setAllowableThreadCount(int threadCount);
 		void finalize();
 	private:
 		std::vector<std::thread*> threads;
+		uint64_t allowableThreadCount;
 		bool isFinished = false;
 
 		void runWorkerThread();

@@ -27,6 +27,8 @@
 #include <core/scene/scene.hpp>
 #include <core/asset.hpp>
 #include <memory>
+#include <thread>
+#include <queue>
 
 namespace Omnia
 {
@@ -34,6 +36,7 @@ namespace Omnia
 	{
 	public:
 		FileAccess(std::string executableFilepath);
+		~FileAccess();
 		void setDataDirectory(std::string assetDirectory);
 		std::shared_ptr<Scene> loadScene(std::string filepath);
 		std::string getExecutableFilePath();
@@ -48,16 +51,16 @@ namespace Omnia
 		std::string loadString(std::string filepath, bool applyDataDirectory = true);
 		std::vector<uint8_t> loadBinary(std::string filepath, bool applyDataDirectory = true);
 
+		void requestAsynchronousBinaryLoading(std::string filepath, bool applyDataDirectory = true);
+		void loadBinaryAsynchronously(std::string filepath, bool applyDataDirectory);
+		bool hasBinaryLoadedAsynchronously(std::string filepath, bool applyDataDirectory = true);
+		std::vector<uint8_t> fetchAsynchronouslyLoadedBinary(std::string filepath, bool applyDataDirectory = true);
+
 		template <class DerivedAsset>
 		std::shared_ptr<DerivedAsset> loadAssetByType(std::string filepath, bool applyDataDirectory = true)
 		{
 			std::shared_ptr<DerivedAsset> derivedAsset;
-			std::string fullFilepath;
-
-			if (applyDataDirectory)
-				fullFilepath = this->getDataDirectoryPath() + filepath;
-			else
-				fullFilepath = filepath;
+			std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
 
 			if (this->assets.count(filepath) != 0)
 			{
@@ -77,5 +80,9 @@ namespace Omnia
 		std::string executableFilepath;
 		std::string dataDirectory;
 		std::unordered_map<std::string, std::shared_ptr<Omnia::Asset>> assets;
+		std::vector<std::thread*> fileLoadingThreads;
+		std::unordered_map<std::string, std::vector<uint8_t>> asynchronouslyLoadedBinaries;
+
+		std::string getFilepathWithDataDirectory(std::string filepath, bool applyDataDirectory = true);
 	};
 }

@@ -60,9 +60,7 @@ void Omnia::Engine::run(
 			dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer(UPDATE_THREAD_TIMER_NAME)));
 			dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer(OUTPUT_THREAD_TIMER_NAME)));
 
-			/* Make the remaining CPU threads generalized workers
-			   after the main and dedicated ones. */
-			OS::getThreadPool().initialize(OS::getPlatform().getLogicalCoreCount() - dedicatedThreads.size() - 1);
+			OS::getThreadPool().initialize();
 
 			logger.write("Engine loops currently running...");
 

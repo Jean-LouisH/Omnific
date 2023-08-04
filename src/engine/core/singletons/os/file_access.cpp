@@ -31,6 +31,12 @@ Omnia::FileAccess::FileAccess(std::string executableFilepath)
 	this->executableFilepath = executableFilepath;
 }
 
+Omnia::FileAccess::~FileAccess()
+{
+	for (std::thread* fileLoadingThread : this->fileLoadingThreads)
+		fileLoadingThread->join();
+}
+
 void Omnia::FileAccess::setDataDirectory(std::string assetDirectory)
 {
 	this->dataDirectory = assetDirectory;
@@ -153,13 +159,7 @@ std::string Omnia::FileAccess::loadString(std::string filepath, bool applyDataDi
 std::vector<uint8_t> Omnia::FileAccess::loadBinary(std::string filepath, bool applyDataDirectory)
 {
 	std::vector<uint8_t> outputBinary;
-	std::string fullFilepath;
-
-	if (applyDataDirectory)
-		fullFilepath = this->getDataDirectoryPath() + filepath;
-	else
-		fullFilepath = filepath;
-
+	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
 	std::FILE* filePointer = std::fopen(fullFilepath.c_str(), "rb");
 
 	if (filePointer)
@@ -172,4 +172,45 @@ std::vector<uint8_t> Omnia::FileAccess::loadBinary(std::string filepath, bool ap
 	}
 
 	return outputBinary;
+}
+
+void Omnia::FileAccess::requestAsynchronousBinaryLoading(std::string filepath, bool applyDataDirectory)
+{
+	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
+
+	if (!this->asynchronouslyLoadedBinaries.count(fullFilepath))
+		this->fileLoadingThreads.push_back(new std::thread(&FileAccess::loadBinaryAsynchronously, this, filepath, applyDataDirectory));
+}
+
+void Omnia::FileAccess::loadBinaryAsynchronously(std::string filepath, bool applyDataDirectory)
+{
+	std::vector<uint8_t> binary = this->loadBinary(filepath, applyDataDirectory);
+	this->asynchronouslyLoadedBinaries.emplace(filepath, binary);
+}
+
+bool Omnia::FileAccess::hasBinaryLoadedAsynchronously(std::string filepath, bool applyDataDirectory)
+{
+	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
+	return this->asynchronouslyLoadedBinaries.count(fullFilepath);
+}
+
+std::vector<uint8_t> Omnia::FileAccess::fetchAsynchronouslyLoadedBinary(std::string filepath, bool applyDataDirectory)
+{
+	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
+	std::vector<uint8_t> binary;
+	if (this->asynchronouslyLoadedBinaries.count(fullFilepath))
+		binary = this->asynchronouslyLoadedBinaries.at(fullFilepath);
+	return binary;
+}
+
+std::string Omnia::FileAccess::getFilepathWithDataDirectory(std::string filepath, bool applyDataDirectory)
+{
+	std::string fullFilepath;
+
+	if (applyDataDirectory)
+		fullFilepath = this->getDataDirectoryPath() + filepath;
+	else
+		fullFilepath = filepath;
+
+	return fullFilepath;
 }

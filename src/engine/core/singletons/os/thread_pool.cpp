@@ -24,13 +24,20 @@
 #include <core/singletons/os/os.hpp>
 #include <chrono>
 
-void Omnia::ThreadPool::initialize(int threadCount)
+void Omnia::ThreadPool::initialize()
 {
-	if (threadCount > 0)
-	{
-		for (int i = 0; i < (threadCount); i++)
-			this->threads.push_back(new std::thread(&ThreadPool::runWorkerThread, this));
-	}
+	int threadCount = OS::getPlatform().getLogicalCoreCount();
+
+	for (int i = 0; i < (threadCount); i++)
+		this->threads.push_back(new std::thread(&ThreadPool::runWorkerThread, this));
+
+	this->allowableThreadCount = threadCount;
+}
+
+void Omnia::ThreadPool::setAllowableThreadCount(int threadCount)
+{
+	if (threadCount > 0 && threadCount <= this->threads.size())
+		this->allowableThreadCount = threadCount;
 }
 
 void Omnia::ThreadPool::finalize()
