@@ -121,6 +121,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneLayer> sceneLay
 		std::shared_ptr<Transform> transform1 = sceneLayer->getComponentByType<Transform>(collider1->getEntityID());
 		glm::vec3 translation1 = transform1->translation;
 		glm::vec3 scale1 = transform1->scale;
+		scale1 *= 0.5;
 		AABB3D aabb1 = collider1->box.aabb;
 
 		for (size_t j = 0; j < collidersCount; j++)
@@ -131,6 +132,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneLayer> sceneLay
 				std::shared_ptr<Transform> transform2 = sceneLayer->getComponentByType<Transform>(collider2->getEntityID());
 				glm::vec3 translation2 = transform2->translation;
 				glm::vec3 scale2 = transform2->scale;
+				scale2 *= 0.5;
 				AABB3D aabb2 = collider2->box.aabb;
 
 				float box1left = translation1.x + aabb1.min.x * scale1.x;
