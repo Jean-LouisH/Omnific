@@ -25,7 +25,7 @@
 
 Omnia::SceneStorage* Omnia::SceneStorage::instance = nullptr;
 
-void Omnia::SceneStorage::addScene(std::shared_ptr<Scene> scene)
+void Omnia::SceneStorage::preLoadScene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 	std::string sceneName = scene->getName();
@@ -33,7 +33,7 @@ void Omnia::SceneStorage::addScene(std::shared_ptr<Scene> scene)
 	if (!sceneStorage->hasScene(sceneName))
 	{
 		sceneStorage->scenes.emplace(sceneName, scene);
-		OS::getLogger().write("Added Scene: \"" + sceneName + "\"");
+		OS::getLogger().write("Preloaded Scene: \"" + sceneName + "\"");
 	}
 	else
 	{
@@ -41,14 +41,14 @@ void Omnia::SceneStorage::addScene(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::SceneStorage::addScene(std::string filepath)
+void Omnia::SceneStorage::preLoadScene(std::string filepath)
 {
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 
 	if (!sceneStorage->hasScene(filepath))
 	{
 		std::shared_ptr<Scene> scene(new Scene(filepath));
-		sceneStorage->addScene(scene);
+		sceneStorage->preLoadScene(scene);
 	}
 }
 
@@ -59,7 +59,7 @@ void Omnia::SceneStorage::changeToScene(std::shared_ptr<Scene> scene)
 
 	if (!sceneStorage->hasScene(sceneName))
 	{
-		sceneStorage->addScene(scene);
+		sceneStorage->preLoadScene(scene);
 	}
 
 	sceneStorage->activeSceneName = sceneName;
@@ -72,6 +72,31 @@ void Omnia::SceneStorage::changeToScene(std::string sceneName)
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 	std::shared_ptr<Scene> scene(new Scene(sceneName));
 	sceneStorage->changeToScene(scene);
+}
+
+void Omnia::SceneStorage::loadScene(std::shared_ptr<Scene> scene)
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	std::string sceneName = scene->getName();
+
+	if (!sceneStorage->hasScene(sceneName))
+	{
+		sceneStorage->scenes.emplace(sceneName, scene);
+	}
+	{
+		sceneStorage->scenes.at(sceneName)->reload();
+	}
+
+	sceneStorage->activeSceneName = sceneName;
+	sceneStorage->activeSceneChanged = true;
+	OS::getLogger().write("Loaded Scene: \"" + sceneName + "\"");
+}
+
+void Omnia::SceneStorage::loadScene(std::string sceneName)
+{
+	SceneStorage* sceneStorage = SceneStorage::getInstance();
+	std::shared_ptr<Scene> scene(new Scene(sceneName));
+	sceneStorage->loadScene(scene);
 }
 
 void Omnia::SceneStorage::removeScene(std::string sceneName)
@@ -191,7 +216,7 @@ Omnia::SceneStorage* Omnia::SceneStorage::getInstance()
 	if (instance == nullptr)
 	{
 		instance = new SceneStorage();
-		instance->addScene(std::shared_ptr<Scene>(new Scene()));
+		instance->preLoadScene(std::shared_ptr<Scene>(new Scene()));
 	}
 	return instance;
 }

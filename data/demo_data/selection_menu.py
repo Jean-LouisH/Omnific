@@ -48,7 +48,7 @@ class omnia_script:
         
         for letter, project_path in self.project_paths.items():
             if inp.is_on_release(letter):
-                omnia.change_to_scene(project_path)
+                omnia.load_scene(project_path)
                 break
         pass
 

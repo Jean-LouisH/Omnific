@@ -34,10 +34,12 @@ namespace Omnia
 	class OMNIA_ENGINE_API SceneStorage
 	{
 	public:
-		static void addScene(std::shared_ptr<Scene> scene);
-		static void addScene(std::string filepath);
+		static void preLoadScene(std::shared_ptr<Scene> scene);
+		static void preLoadScene(std::string filepath);
 		static void changeToScene(std::shared_ptr<Scene> scene);
 		static void changeToScene(std::string sceneName);
+		static void loadScene(std::shared_ptr<Scene> scene);
+		static void loadScene(std::string sceneName);
 		static void removeScene(std::string sceneName);
 		static void reloadActiveScene();
 		static std::shared_ptr<Scene> getActiveScene();
