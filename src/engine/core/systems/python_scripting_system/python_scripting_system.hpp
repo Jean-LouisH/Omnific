@@ -70,6 +70,7 @@ namespace Omnia
 		bool isVMStarted = false;
 		bool hasModulesLoadedOnThisUpdate = false;
 		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;
+		SceneID activeSceneID = 0;
 
 		void executeQueuedMethods(
 			std::queue<EntityID> entityQueue,
@@ -82,6 +83,8 @@ namespace Omnia
 			SceneLayerID sceneLayerID,
 			EntityID entityID,
 			const char* methodName);
+
+		bool hasSceneChanged(std::shared_ptr<Scene> scene);
 	};
 }
 

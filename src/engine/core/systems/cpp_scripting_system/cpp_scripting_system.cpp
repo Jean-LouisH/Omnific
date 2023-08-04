@@ -54,42 +54,63 @@ void Omnia::CPPScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 
 void Omnia::CPPScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onInput");
 }
 
 void Omnia::CPPScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onEarly");
 }
 
 void Omnia::CPPScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onLogic");
 }
 
 void Omnia::CPPScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onCompute");
 }
 
 void Omnia::CPPScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onLate");
 }
 
 void Omnia::CPPScriptingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onOutput");
 }
 
 void Omnia::CPPScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
+	if (SceneStorage::hasActiveSceneChanged())
+		this->loadScriptModules(scene);
+
 	if (scene != nullptr)
 		this->execute("onFinish");
 }

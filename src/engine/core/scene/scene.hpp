@@ -54,6 +54,9 @@ namespace Omnia
 		void addEmptySceneLayer();
 		void removeSceneLayer(SceneLayerID sceneLayerID);
 
+		uint64_t queryEventCount(std::string name);
+		uint64_t queryOutputEventCount(std::string name);
+
 		std::string getName();
 		std::shared_ptr<SceneLayer> getSceneLayer(SceneLayerID sceneLayer);
 		std::shared_ptr<SceneLayer> getSceneLayerByName(std::string name);

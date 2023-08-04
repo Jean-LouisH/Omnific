@@ -40,10 +40,12 @@
 
 #include <memory>
 
-#define OMNIA_EVENT_COMPONENT_CHANGED "component_changed"
-#define OMNIA_EVENT_RENDERABLE_COMPONENT_CHANGED "renderable_component_changed"
-#define OMNIA_EVENT_SHADER_CHANGED "shader_changed"
-#define OMNIA_EVENT_SCRIPT_CHANGED "script_changed"
+#define OMNIA_EVENT_ENTITY_ADDED "entity_added"
+#define OMNIA_EVENT_ENTITY_NAME_SET "entity_name_set"
+#define OMNIA_EVENT_ENTITY_TAG_SET "entity_tag_set"
+#define OMNIA_EVENT_ENTITY_REMOVED "entity_removed"
+#define OMNIA_EVENT_COMPONENT_ADDED "component_added"
+#define OMNIA_EVENT_COMPONENT_REMOVED "component_removed"
 
 namespace Omnia
 {

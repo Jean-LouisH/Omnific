@@ -44,6 +44,7 @@ void Omnia::SceneLayer::addEntity(std::shared_ptr<Entity> entity)
 	this->entities.emplace(entity->id, entity);
 	this->lastEntityID = entity->id;
 	this->setEntityName(entity->id, entity->name);
+	this->eventBus->publish(OMNIA_EVENT_ENTITY_ADDED);
 }
 
 void Omnia::SceneLayer::addEmptyEntity()
@@ -59,12 +60,14 @@ void Omnia::SceneLayer::setEntityName(EntityID entityID, std::string name)
 
 	this->getEntity(entityID)->name = name;
 	this->entityNames.emplace(name, entityID);
+	this->eventBus->publish(OMNIA_EVENT_ENTITY_NAME_SET);
 }
 
 void Omnia::SceneLayer::addEntityTag(EntityID entityID, std::string tag)
 {
 	this->getEntity(entityID)->tags.push_back(tag);
 	this->entityTags.emplace(tag, entityID);
+	this->eventBus->publish(OMNIA_EVENT_ENTITY_TAG_SET);
 }
 
 void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Component> component)
@@ -87,7 +90,7 @@ void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Componen
 		this->componentIndexCaches.emplace(type, componentIndices);
 	}
 
-	this->eventBus->publish(OMNIA_EVENT_COMPONENT_CHANGED);
+	this->eventBus->publish(OMNIA_EVENT_COMPONENT_ADDED);
 
 	if (component->isRenderable())
 	{
@@ -137,6 +140,7 @@ void Omnia::SceneLayer::removeEntity(EntityID entityID)
 		/* Remove the entity itself*/
 
 		this->entities.erase(entityID);
+		this->eventBus->publish(OMNIA_EVENT_ENTITY_REMOVED);
 	}
 }
 
@@ -158,7 +162,6 @@ void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
 				if ((*it)->getID() == componentID)
 				{
 					it = this->components.erase(it);
-					this->eventBus->publish(OMNIA_EVENT_COMPONENT_CHANGED);
 					break;
 				}
 				else
@@ -166,6 +169,8 @@ void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
 					++it;
 				}
 			}
+
+			this->eventBus->publish(OMNIA_EVENT_COMPONENT_REMOVED);
 
 			/* Rebuild index caches */
 

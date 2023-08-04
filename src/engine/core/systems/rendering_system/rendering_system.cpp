@@ -54,7 +54,7 @@ void Omnia::RenderingSystem::initializeOutput()
 void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
-	this->buildRenderablesOnModifiedComponents(scene);
+	this->buildRenderablesOnSceneChange(scene);
 	this->openglBackend->clearColourBuffer(0, 0, 0, 255);
 	this->openglBackend->submit(this->sceneLayerRenderableLists);
 	this->openglBackend->swapBuffers();
@@ -74,7 +74,7 @@ void Omnia::RenderingSystem::onWindowResize()
 	this->openglBackend->setViewport(windowSize.x, windowSize.y);
 }
 
-void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::buildRenderablesOnSceneChange(std::shared_ptr<Scene> scene)
 {
 	bool activeSceneChanged = this->activeSceneID != scene->getID();
 
@@ -90,7 +90,8 @@ void Omnia::RenderingSystem::buildRenderablesOnModifiedComponents(std::shared_pt
 	{
 		std::shared_ptr<SceneLayer> sceneLayer = it->second;
 
-		if (sceneLayer->getEventBus()->queryOutputEventCount(OMNIA_EVENT_COMPONENT_CHANGED) || 
+		if (sceneLayer->getEventBus()->queryOutputEventCount(OMNIA_EVENT_COMPONENT_ADDED) || 
+			sceneLayer->getEventBus()->queryOutputEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
 			activeSceneChanged)
 		{
 			std::vector<SceneLayerRenderable> sceneLayerRenderableList;

@@ -136,7 +136,7 @@ void Omnia::PythonScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scen
 
 void Omnia::PythonScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 #ifdef DEBUG_CONSOLE_ENABLED
@@ -160,7 +160,7 @@ void Omnia::PythonScriptingSystem::onStart(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -170,7 +170,7 @@ void Omnia::PythonScriptingSystem::onInput(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -180,7 +180,7 @@ void Omnia::PythonScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -190,7 +190,7 @@ void Omnia::PythonScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -200,7 +200,7 @@ void Omnia::PythonScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -210,7 +210,7 @@ void Omnia::PythonScriptingSystem::onLate(std::shared_ptr<Scene> scene)
 
 void Omnia::PythonScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
 {
-	if (SceneStorage::hasActiveSceneChanged())
+	if (this->hasSceneChanged(scene))
 		this->loadScriptModules(scene);
 
 	if (scene != nullptr)
@@ -284,4 +284,16 @@ void Omnia::PythonScriptingSystem::bindAndCall(
 			}
 		}
 	}
+}
+
+bool Omnia::PythonScriptingSystem::hasSceneChanged(std::shared_ptr<Scene> scene)
+{
+	bool activeSceneChanged = this->activeSceneID != scene->getID();
+
+	if (activeSceneChanged)
+		this->activeSceneID = scene->getID();
+
+	return (scene->queryEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
+		scene->queryEventCount(OMNIA_EVENT_COMPONENT_REMOVED) || 
+		activeSceneChanged);
 }

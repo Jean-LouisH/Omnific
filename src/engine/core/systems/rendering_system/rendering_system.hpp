@@ -84,7 +84,7 @@ namespace Omnia
 		SceneID activeSceneID = 0;
 
 		void onWindowResize();
-		void buildRenderablesOnModifiedComponents(std::shared_ptr<Scene> scene);
+		void buildRenderablesOnSceneChange(std::shared_ptr<Scene> scene);
 	};
 }
 

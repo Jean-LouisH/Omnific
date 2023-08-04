@@ -266,6 +266,26 @@ void Omnia::Scene::removeSceneLayer(SceneLayerID sceneLayerID)
 		this->sceneLayers.erase(sceneLayerID);
 }
 
+uint64_t Omnia::Scene::queryEventCount(std::string name)
+{
+	uint64_t eventCount = 0; 
+
+	for (auto sceneLayer : this->sceneLayers)
+		eventCount += sceneLayer.second->getEventBus()->queryCount(name);
+
+	return eventCount;
+}
+
+uint64_t Omnia::Scene::queryOutputEventCount(std::string name)
+{
+	uint64_t eventCount = 0;
+
+	for (auto sceneLayer : this->sceneLayers)
+		eventCount += sceneLayer.second->getEventBus()->queryOutputEventCount(name);
+
+	return eventCount;
+}
+
 std::string Omnia::Scene::getName()
 {
 	return this->name;
