@@ -34,18 +34,10 @@
 #include "core/utilities/aliases.hpp"
 #include <string>
 #include "collision_registry.hpp"
-#include "event_bus.hpp"
 
 #include <engine_api.hpp>
 
 #include <memory>
-
-#define OMNIA_EVENT_ENTITY_ADDED "entity_added"
-#define OMNIA_EVENT_ENTITY_NAME_SET "entity_name_set"
-#define OMNIA_EVENT_ENTITY_TAG_SET "entity_tag_set"
-#define OMNIA_EVENT_ENTITY_REMOVED "entity_removed"
-#define OMNIA_EVENT_COMPONENT_ADDED "component_added"
-#define OMNIA_EVENT_COMPONENT_REMOVED "component_removed"
 
 namespace Omnia
 {
@@ -84,7 +76,6 @@ namespace Omnia
 		std::shared_ptr<Component> getComponent(std::string type, EntityID entityID);
 		std::vector<std::shared_ptr<Component>> getComponentHierarchy(std::string type, EntityID entityID);
 		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
-		std::shared_ptr<EventBus> getEventBus();
 		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
 		SceneLayerID getID();
 		std::string getName();
@@ -150,7 +141,6 @@ namespace Omnia
 		EntityID lastEntityID = 0;
 
 		std::shared_ptr<CollisionRegistry> collisionRegistry;
-		std::shared_ptr<EventBus> eventBus;
 		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer;
 
 		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;

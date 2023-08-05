@@ -31,6 +31,8 @@
 #include <core/components/timer.hpp>
 #include <core/components/transform.hpp>
 
+#include <core/singletons/event_bus.hpp>
+
 
 Omnia::PhysicsSystem::~PhysicsSystem()
 {
@@ -205,7 +207,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneLayer> sceneLay
 					}
 
 					if (!collisionRegistry->isColliding(entity1->getName(), entity2->getName()))
-						sceneLayer->getEventBus()->publish("entity_is_on_collision", eventStrings);
+						EventBus::publish("entity_is_on_collision", eventStrings);
 
 					collisionRegistry->addOrUpdate(collision);
 				}
@@ -215,7 +217,7 @@ void Omnia::PhysicsSystem::detectCollisions(std::shared_ptr<SceneLayer> sceneLay
 					eventStrings.emplace("collider_name", entity1->getName());
 					eventStrings.emplace("other_collider_name", entity2->getName());
 					collisionRegistry->remove(entity1->getName(), entity2->getName());
-					sceneLayer->getEventBus()->publish("entity_is_off_collision", eventStrings);
+					EventBus::publish("entity_is_off_collision", eventStrings);
 				}
 			}
 		}

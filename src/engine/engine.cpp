@@ -26,6 +26,8 @@
 #include "core/assets/image.hpp"
 #include <iostream>
 
+#include <core/singletons/event_bus.hpp>
+
 #include <customization/class_registry/class_registry.hpp>
 
 void Omnia::Engine::run(
@@ -255,10 +257,7 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		for (auto it : activeScene->getSceneLayers())
 			it.second->clearFinishEntityQueue();
 
-		for (auto it : activeScene->getSceneLayers())
-			it.second->getEventBus()->clear();
-
-		SceneStorage::finalizeUpdate();
+		EventBus::clear();
 
 		profiler.incrementLagCount(updateFrameTimer->getDelta());
 		updateProcessTimer->setEnd();
@@ -288,14 +287,12 @@ void Omnia::Engine::runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer
 		for (auto system : this->systems)
 			system.second->onOutput(activeScene);
 
-		for (auto it : activeScene->getSceneLayers())
-			it.second->getEventBus()->clearOutputEvents();
+		EventBus::clearOutputEvents();
 
 		outputProcessTimer->setEnd();
 		this->sleepThisThreadForRemainingTime(
 			Configuration::getInstance()->timeSettings.targetFPS,
 			outputProcessTimer);
-
 	}
 
 	for (auto system : this->systems)

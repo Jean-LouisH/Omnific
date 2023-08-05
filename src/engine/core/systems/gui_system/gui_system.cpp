@@ -22,6 +22,7 @@
 
 #include "gui_system.hpp"
 #include "core/singletons/os/os.hpp"
+#include <core/singletons/event_bus.hpp>
 #include <SDL_ttf.h>
 
 Omnia::GUISystem::~GUISystem()
@@ -53,7 +54,7 @@ void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
 	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
 		if (hid.isDropFileDetected())
-			it->second->getEventBus()->publish("file dropped on window", numbers, strings);
+			EventBus::publish("file dropped on window", numbers, strings);
 	}
 }
 

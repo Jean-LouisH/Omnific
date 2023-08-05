@@ -7,7 +7,7 @@ class omnia_script:
         pass
 
     def on_late(self):
-        if omnia.get_scene_layer().get_event_bus().query_count("AI won") > 0:
+        if omnia.query_event_count("AI won") > 0:
             self.score += 1
 
         omnia.get_component("GUI").set_text("AI: " + str(self.score))

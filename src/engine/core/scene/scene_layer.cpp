@@ -22,13 +22,12 @@
 
 #include "scene_layer.hpp"
 #include "core/component.hpp"
-
+#include <core/singletons/event_bus.hpp>
 #include <core/components/transform.hpp>
 
 Omnia::SceneLayer::SceneLayer()
 {
 	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
-	this->eventBus = std::shared_ptr<EventBus>(new EventBus());
 	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 
 	this->id = UIDGenerator::getNewUID();
@@ -44,7 +43,7 @@ void Omnia::SceneLayer::addEntity(std::shared_ptr<Entity> entity)
 	this->entities.emplace(entity->id, entity);
 	this->lastEntityID = entity->id;
 	this->setEntityName(entity->id, entity->name);
-	this->eventBus->publish(OMNIA_EVENT_ENTITY_ADDED);
+	EventBus::publish(OMNIA_EVENT_ENTITY_ADDED);
 }
 
 void Omnia::SceneLayer::addEmptyEntity()
@@ -60,14 +59,14 @@ void Omnia::SceneLayer::setEntityName(EntityID entityID, std::string name)
 
 	this->getEntity(entityID)->name = name;
 	this->entityNames.emplace(name, entityID);
-	this->eventBus->publish(OMNIA_EVENT_ENTITY_NAME_SET);
+	EventBus::publish(OMNIA_EVENT_ENTITY_NAME_SET);
 }
 
 void Omnia::SceneLayer::addEntityTag(EntityID entityID, std::string tag)
 {
 	this->getEntity(entityID)->tags.push_back(tag);
 	this->entityTags.emplace(tag, entityID);
-	this->eventBus->publish(OMNIA_EVENT_ENTITY_TAG_SET);
+	EventBus::publish(OMNIA_EVENT_ENTITY_TAG_SET);
 }
 
 void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Component> component)
@@ -90,7 +89,7 @@ void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Componen
 		this->componentIndexCaches.emplace(type, componentIndices);
 	}
 
-	this->eventBus->publish(OMNIA_EVENT_COMPONENT_ADDED);
+	EventBus::publish(OMNIA_EVENT_COMPONENT_ADDED);
 
 	if (component->isRenderable())
 	{
@@ -140,7 +139,7 @@ void Omnia::SceneLayer::removeEntity(EntityID entityID)
 		/* Remove the entity itself*/
 
 		this->entities.erase(entityID);
-		this->eventBus->publish(OMNIA_EVENT_ENTITY_REMOVED);
+		EventBus::publish(OMNIA_EVENT_ENTITY_REMOVED);
 	}
 }
 
@@ -170,7 +169,7 @@ void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
 				}
 			}
 
-			this->eventBus->publish(OMNIA_EVENT_COMPONENT_REMOVED);
+			EventBus::publish(OMNIA_EVENT_COMPONENT_REMOVED);
 
 			/* Rebuild index caches */
 
@@ -297,11 +296,6 @@ std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::getComponentHi
 std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneLayer::getCollisionRegistry()
 {
 	return this->collisionRegistry;
-}
-
-std::shared_ptr<Omnia::EventBus> Omnia::SceneLayer::getEventBus()
-{
-	return this->eventBus;
 }
 
 Omnia::SceneLayerID Omnia::SceneLayer::getID()

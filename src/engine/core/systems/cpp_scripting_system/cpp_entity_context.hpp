@@ -34,7 +34,7 @@
 #include <core/scene/scene.hpp>
 #include <core/singletons/scene_storage.hpp>
 #include <core/utilities/aliases.hpp>
-#include <core/scene/event_bus.hpp>
+#include <core/singletons/event_bus.hpp>
 #include <engine_api.hpp>
 
 namespace Omnia

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "core/system.hpp"
+#include <core/singletons/event_bus.hpp>
 
 Omnia::System::~System()
 {
@@ -104,8 +105,8 @@ bool Omnia::System::hasSceneChanged(std::shared_ptr<Scene> scene)
 	if (activeSceneChanged)
 		this->activeSceneID = scene->getID();
 
-	return (scene->queryEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
-		scene->queryEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
+	return (EventBus::queryCount(OMNIA_EVENT_COMPONENT_ADDED) ||
+		EventBus::queryCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
 		activeSceneChanged);
 }
 
@@ -116,7 +117,7 @@ bool Omnia::System::hasSceneChangedForOutput(std::shared_ptr<Scene> scene)
 	if (activeSceneChanged)
 		this->activeSceneID = scene->getID();
 
-	return (scene->queryOutputEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
-		scene->queryOutputEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
+	return (EventBus::queryOutputEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
+		EventBus::queryOutputEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
 		activeSceneChanged);
 }

@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "core/singletons/scene_storage.hpp"
+#include <core/singletons/event_bus.hpp>
 #include "os/os.hpp"
 
 Omnia::SceneStorage* Omnia::SceneStorage::instance = nullptr;
@@ -34,6 +35,7 @@ void Omnia::SceneStorage::preLoadScene(std::shared_ptr<Scene> scene)
 	{
 		sceneStorage->scenes.emplace(sceneName, scene);
 		OS::getLogger().write("Preloaded Scene: \"" + sceneName + "\"");
+		EventBus::publish(OMNIA_EVENT_SCENE_PRELOADED);
 	}
 	else
 	{
@@ -65,6 +67,7 @@ void Omnia::SceneStorage::changeToScene(std::shared_ptr<Scene> scene)
 	sceneStorage->activeSceneName = sceneName;
 	OS::getLogger().write("Changed to Scene: \"" + sceneName + "\"");
 	sceneStorage->activeSceneChanged = true;
+	EventBus::publish(OMNIA_EVENT_ACTIVE_SCENE_CHANGED);
 }
 
 void Omnia::SceneStorage::changeToScene(std::string sceneName)
@@ -89,6 +92,8 @@ void Omnia::SceneStorage::loadScene(std::shared_ptr<Scene> scene)
 
 	sceneStorage->activeSceneName = sceneName;
 	sceneStorage->activeSceneChanged = true;
+	EventBus::publish(OMNIA_EVENT_ACTIVE_SCENE_CHANGED);
+	EventBus::publish(OMNIA_EVENT_SCENE_LOADED);
 	OS::getLogger().write("Loaded Scene: \"" + sceneName + "\"");
 }
 
@@ -126,6 +131,8 @@ void Omnia::SceneStorage::removeScene(std::string sceneName)
 			sceneStorage->scenes.erase(sceneName);
 			OS::getLogger().write("Removed Scene: \"" + sceneName + "\"");
 		}
+
+		EventBus::publish(OMNIA_EVENT_SCENE_REMOVED);
 	}
 	else
 	{
@@ -153,6 +160,8 @@ void Omnia::SceneStorage::reloadActiveScene()
 			sceneStorage->removeScene(activeSceneName);
 			sceneStorage->changeToScene(std::shared_ptr<Scene>(new Scene(activeSceneName)));
 		}
+
+		EventBus::publish(OMNIA_EVENT_ACTIVE_SCENE_RELOADED);
 	}
 }
 
@@ -183,12 +192,6 @@ bool Omnia::SceneStorage::hasActiveSceneChanged()
 	SceneStorage* sceneStorage = SceneStorage::getInstance();
 	bool result = sceneStorage->activeSceneChanged;
 	return result;
-}
-
-void Omnia::SceneStorage::finalizeUpdate()
-{
-	SceneStorage* sceneStorage = SceneStorage::getInstance();
-	sceneStorage->activeSceneChanged = false;
 }
 
 void Omnia::SceneStorage::clearScenes()

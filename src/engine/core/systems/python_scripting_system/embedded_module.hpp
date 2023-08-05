@@ -39,6 +39,7 @@
 #include <glm/glm.hpp>
 #include <core/scene/scene.hpp>
 #include <core/utilities/aliases.hpp>
+#include <core/singletons/event_bus.hpp>
 #include <memory>
 
 #include <customization/class_registry/class_registry.hpp>
@@ -141,7 +142,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("get_last_entity", &Omnia::SceneLayer::getLastEntity)
 		.def("get_entities", &Omnia::SceneLayer::getEntities)
 		.def("get_collision_registry", &Omnia::SceneLayer::getCollisionRegistry)
-		.def("get_event_bus", &Omnia::SceneLayer::getEventBus)
 		.def("get_haptic_signal_buffer", &Omnia::SceneLayer::getHapticSignalBuffer)
 		.def("get_id", &Omnia::SceneLayer::getID);
 
@@ -167,25 +167,6 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("query_all", &Omnia::CollisionRegistry::queryAll)
 		.def("is_colliding", &Omnia::CollisionRegistry::isColliding)
 		.def("get_collision_count", &Omnia::CollisionRegistry::getCollisionCount);
-
-	pybind11::class_<Omnia::Event::Parameters>(m, "EventParameters")
-		.def_readwrite("numbers", &Omnia::Event::Parameters::numbers)
-		.def_readwrite("strings", &Omnia::Event::Parameters::strings);
-
-	pybind11::class_<Omnia::Event>(m, "Event")
-		.def(pybind11::init<std::string, uint64_t, Omnia::Event::Parameters>())
-		.def(pybind11::init<std::string, uint64_t>())
-		.def("get_name", &Omnia::Event::getName)
-		.def("get_parameters", &Omnia::Event::getParameters)
-		.def("get_timestamp", &Omnia::Event::getTimestamp);
-
-	pybind11::class_<Omnia::EventBus, std::shared_ptr<Omnia::EventBus>>(m, "EventBus")
-		.def("query", &Omnia::EventBus::query)
-		.def("query_count", &Omnia::EventBus::queryCount)
-		.def("publish", pybind11::overload_cast<std::string>(&Omnia::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish))
-		.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>>(&Omnia::EventBus::publish));
 
 	pybind11::class_<Omnia::HapticSignal>(m, "HapticSignal")
 		.def(pybind11::init<Omnia::PlayerID, float, uint16_t>())
@@ -302,6 +283,24 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("min", &Omnia::AABB2D::min);
 
 	/*Singletons*/
+
+	pybind11::class_<Omnia::Event::Parameters>(m, "EventParameters")
+		.def_readwrite("numbers", &Omnia::Event::Parameters::numbers)
+		.def_readwrite("strings", &Omnia::Event::Parameters::strings);
+
+	pybind11::class_<Omnia::Event>(m, "Event")
+		.def(pybind11::init<std::string, uint64_t, Omnia::Event::Parameters>())
+		.def(pybind11::init<std::string, uint64_t>())
+		.def("get_name", &Omnia::Event::getName)
+		.def("get_parameters", &Omnia::Event::getParameters)
+		.def("get_timestamp", &Omnia::Event::getTimestamp);
+
+	m.def("query_event", &Omnia::EventBus::query);
+	m.def("query_event_count", &Omnia::EventBus::queryCount);
+	m.def("publish_event", pybind11::overload_cast<std::string>(&Omnia::EventBus::publish));
+	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish));
+	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish));
+	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>>(&Omnia::EventBus::publish));
 
 	m.def("preload_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::preLoadScene));
 	m.def("preload_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::preLoadScene));

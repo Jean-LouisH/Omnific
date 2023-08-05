@@ -20,115 +20,166 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "event_bus.hpp"
-#include <core/singletons/os/os.hpp>
+#include "core/singletons/event_bus.hpp"
+#include "os/os.hpp"
+
+Omnia::EventBus* Omnia::EventBus::instance = nullptr;
+
+Omnia::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
+{
+	this->name = name;
+	this->timestamp = timestamp;
+	this->parameters = parameters;
+}
+
+Omnia::Event::Event(std::string name, uint64_t timestamp)
+{
+	this->name = name;
+	this->timestamp = timestamp;
+}
+
+std::string Omnia::Event::getName()
+{
+	return this->name;
+}
+
+uint64_t Omnia::Event::getTimestamp()
+{
+	return this->timestamp;
+}
+
+Omnia::Event::Parameters Omnia::Event::getParameters()
+{
+	return this->parameters;
+}
 
 void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, double> numbers,
 	std::unordered_map<std::string, std::string> strings)
 {
-	Event::Parameters parameters = {numbers, strings};
-	this->publishWithParameters(name, parameters);
+	EventBus* eventBus = EventBus::getInstance();
+	Event::Parameters parameters = { numbers, strings };
+	eventBus->publishWithParameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, double> numbers)
 {
+	EventBus* eventBus = EventBus::getInstance();
 	Event::Parameters parameters;
 	parameters.numbers = numbers;
-	this->publishWithParameters(name, parameters);
+	eventBus->publishWithParameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, std::string> strings)
 {
+	EventBus* eventBus = EventBus::getInstance();
 	Event::Parameters parameters;
 	parameters.strings = strings;
-	this->publishWithParameters(name, parameters);
+	eventBus->publishWithParameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name)
 {
+	EventBus* eventBus = EventBus::getInstance();
 	std::vector<Event> eventsList;
 
 	OS::getRunTimer().setEnd();
 
-	if (this->updateEvents.count(name))
-		eventsList = this->updateEvents.at(name);
+	if (eventBus->updateEvents.count(name))
+		eventsList = eventBus->updateEvents.at(name);
 
 	eventsList.push_back(Event(
 		name,
 		OS::getRunTimer().getDeltaInNanoseconds()));
 
-	this->updateEvents.emplace(name, eventsList);
-	this->outputEvents.emplace(name, eventsList);
+	eventBus->updateEvents.emplace(name, eventsList);
+	eventBus->outputEvents.emplace(name, eventsList);
 }
 
 void Omnia::EventBus::clear()
 {
-	this->updateEvents.clear();
+	EventBus* eventBus = EventBus::getInstance();
+	eventBus->updateEvents.clear();
 }
 
 void Omnia::EventBus::clearOutputEvents()
 {
-	this->outputEvents.clear();
+	EventBus* eventBus = EventBus::getInstance();
+	eventBus->outputEvents.clear();
 }
 
 std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 {
+	EventBus* eventBus = EventBus::getInstance();
 	std::vector<Event> queryResults;
 
-	if (this->updateEvents.count(name))
-		queryResults = this->updateEvents.at(name);
+	if (eventBus->updateEvents.count(name))
+		queryResults = eventBus->updateEvents.at(name);
 
 	return queryResults;
 }
 
 std::vector<Omnia::Event> Omnia::EventBus::queryOutputEvents(std::string name)
 {
+	EventBus* eventBus = EventBus::getInstance();
 	std::vector<Event> queryResults;
 
-	if (this->outputEvents.count(name))
-		queryResults = this->outputEvents.at(name);
+	if (eventBus->outputEvents.count(name))
+		queryResults = eventBus->outputEvents.at(name);
 
 	return queryResults;
 }
 
 uint64_t Omnia::EventBus::queryCount(std::string name)
 {
-	return this->query(name).size();
+	EventBus* eventBus = EventBus::getInstance();
+	return eventBus->query(name).size();
 }
 
 uint64_t Omnia::EventBus::queryOutputEventCount(std::string name)
 {
-	return this->queryOutputEvents(name).size();
+	EventBus* eventBus = EventBus::getInstance();
+	return eventBus->queryOutputEvents(name).size();
 }
 
 void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
+	EventBus* eventBus = EventBus::getInstance();
 	std::vector<Event> eventsList;
 
 	OS::getRunTimer().setEnd();
 
-	if (this->updateEvents.count(name))
-		eventsList = this->updateEvents.at(name);
+	if (eventBus->updateEvents.count(name))
+		eventsList = eventBus->updateEvents.at(name);
 
 	eventsList.push_back(Event(
 		name,
 		OS::getRunTimer().getDeltaInNanoseconds(),
 		parameters));
 
-	if (this->updateEvents.count(name))
+	if (eventBus->updateEvents.count(name))
 	{
-		this->updateEvents.at(name) = eventsList;
+		eventBus->updateEvents.at(name) = eventsList;
 	}
 	else
 	{
-		this->updateEvents.emplace(name, eventsList);
-		this->outputEvents.emplace(name, eventsList);
+		eventBus->updateEvents.emplace(name, eventsList);
+		eventBus->outputEvents.emplace(name, eventsList);
 	}
+}
+
+Omnia::EventBus* Omnia::EventBus::getInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new EventBus();
+		instance->updateEvents.reserve(32);
+	}
+	return instance;
 }

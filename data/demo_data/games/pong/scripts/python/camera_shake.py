@@ -9,9 +9,8 @@ class omnia_script:
     def on_logic(self):
         transform = omnia.get_component("Transform")
         scene_layer = omnia.get_scene_layer()
-        event_bus = scene_layer.get_event_bus()
         collisions = scene_layer.get_collision_registry()
-        win_events = event_bus.query("Player won") + (event_bus.query("AI won"))
+        win_events = omnia.query_event("Player won") + (omnia.query_event("AI won"))
 
         if len(win_events) > 0:
             ball_speed = win_events[0].get_parameters().numbers["ball_speed"]

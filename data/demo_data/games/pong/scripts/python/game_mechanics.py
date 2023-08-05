@@ -46,9 +46,9 @@ class omnia_script:
               ball_physics_body.linear_velocity.y * ball_physics_body.linear_velocity.y)
 
             if ball_transform.translation.x < left_post_transform.translation.x:
-                scene_layer.get_event_bus().publish("AI won", {"ball_speed": ball_speed})
+                omnia.publish_event("AI won", {"ball_speed": ball_speed})
             if ball_transform.translation.x > right_post_transform.translation.x:
-                scene_layer.get_event_bus().publish("Player won", {"ball_speed": ball_speed})
+                omnia.publish_event("Player won", {"ball_speed": ball_speed})
         
         #When the ball collides with the paddles
         if ((collisions.is_colliding("Ball", "Paddle1") and ball_physics_body.linear_velocity.x < 0.0) or 
