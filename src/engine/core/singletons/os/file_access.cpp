@@ -33,7 +33,7 @@ Omnia::FileAccess::FileAccess(std::string executableFilepath)
 
 Omnia::FileAccess::~FileAccess()
 {
-	for (std::thread* fileLoadingThread : this->fileLoadingThreads)
+	for (std::thread* fileLoadingThread : this->ioThreads)
 		fileLoadingThread->join();
 }
 
@@ -148,15 +148,15 @@ bool Omnia::FileAccess::exists(std::string filepath)
 	return inputFile.good();
 }
 
-std::string Omnia::FileAccess::loadString(std::string filepath, bool applyDataDirectory)
+std::string Omnia::FileAccess::readString(std::string filepath, bool applyDataDirectory)
 {
 	std::string outputString;
-	std::vector<uint8_t> binary = this->loadBinary(filepath, applyDataDirectory);
+	std::vector<uint8_t> binary = this->readBinary(filepath, applyDataDirectory);
 	outputString.assign(binary.begin(), binary.end());
 	return outputString;
 }
 
-std::vector<uint8_t> Omnia::FileAccess::loadBinary(std::string filepath, bool applyDataDirectory)
+std::vector<uint8_t> Omnia::FileAccess::readBinary(std::string filepath, bool applyDataDirectory)
 {
 	std::vector<uint8_t> outputBinary;
 	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
@@ -174,27 +174,32 @@ std::vector<uint8_t> Omnia::FileAccess::loadBinary(std::string filepath, bool ap
 	return outputBinary;
 }
 
-void Omnia::FileAccess::requestAsynchronousBinaryLoading(std::string filepath, bool applyDataDirectory)
+void Omnia::FileAccess::writeBinary(std::string filepath, std::vector<uint8_t> binary, bool applyDataDirectory)
+{
+
+}
+
+void Omnia::FileAccess::requestAsynchronousBinaryReading(std::string filepath, bool applyDataDirectory)
 {
 	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
 
 	if (!this->asynchronouslyLoadedBinaries.count(fullFilepath))
-		this->fileLoadingThreads.push_back(new std::thread(&FileAccess::loadBinaryAsynchronously, this, filepath, applyDataDirectory));
+		this->ioThreads.push_back(new std::thread(&FileAccess::readBinaryAsynchronously, this, filepath, applyDataDirectory));
 }
 
-void Omnia::FileAccess::loadBinaryAsynchronously(std::string filepath, bool applyDataDirectory)
+void Omnia::FileAccess::requestAsynchronousBinaryWriting(std::string filepath, std::vector<uint8_t> binary, bool applyDataDirectory)
 {
-	std::vector<uint8_t> binary = this->loadBinary(filepath, applyDataDirectory);
-	this->asynchronouslyLoadedBinaries.emplace(filepath, binary);
+	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
+	this->ioThreads.push_back(new std::thread(&FileAccess::writeBinaryAsynchronously, this, filepath, binary, applyDataDirectory));
 }
 
-bool Omnia::FileAccess::hasBinaryLoadedAsynchronously(std::string filepath, bool applyDataDirectory)
+bool Omnia::FileAccess::hasBinaryBeenReadAsynchronously(std::string filepath, bool applyDataDirectory)
 {
 	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
 	return this->asynchronouslyLoadedBinaries.count(fullFilepath);
 }
 
-std::vector<uint8_t> Omnia::FileAccess::fetchAsynchronouslyLoadedBinary(std::string filepath, bool applyDataDirectory)
+std::vector<uint8_t> Omnia::FileAccess::fetchAsynchronouslyReadBinary(std::string filepath, bool applyDataDirectory)
 {
 	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
 	std::vector<uint8_t> binary;
@@ -213,4 +218,15 @@ std::string Omnia::FileAccess::getFilepathWithDataDirectory(std::string filepath
 		fullFilepath = filepath;
 
 	return fullFilepath;
+}
+
+void Omnia::FileAccess::readBinaryAsynchronously(std::string filepath, bool applyDataDirectory)
+{
+	std::vector<uint8_t> binary = this->readBinary(filepath, applyDataDirectory);
+	this->asynchronouslyLoadedBinaries.emplace(filepath, binary);
+}
+
+void Omnia::FileAccess::writeBinaryAsynchronously(std::string filepath, std::vector<uint8_t> binary, bool applyDataDirectory)
+{
+	this->writeBinary(filepath, binary, applyDataDirectory);
 }

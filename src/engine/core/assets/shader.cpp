@@ -28,7 +28,7 @@ Omnia::Shader::Shader(std::string vertexSourceInput, std::string fragmentSourceI
 {
 	if (isVertexFilepath)
 	{
-		this->vertexSource = OS::getFileAccess().loadString(vertexSourceInput);
+		this->vertexSource = OS::getFileAccess().readString(vertexSourceInput);
 	}
 	else
 	{
@@ -37,7 +37,7 @@ Omnia::Shader::Shader(std::string vertexSourceInput, std::string fragmentSourceI
 
 	if (isFragmentFilepath)
 	{
-		this->fragmentSource = OS::getFileAccess().loadString(fragmentSourceInput);
+		this->fragmentSource = OS::getFileAccess().readString(fragmentSourceInput);
 	}
 	else
 	{
