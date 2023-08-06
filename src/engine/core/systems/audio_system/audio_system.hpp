@@ -47,9 +47,9 @@ namespace Omnia
 			return new AudioSystem(*this);
 		}
 
-		virtual void initializeOutput() override;
-		virtual void onOutput(std::shared_ptr<Scene> scene) override;
-		virtual void finalizeOutput() override;
+		virtual void initialize() override;
+		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void finalize() override;
 	private:
 	};
 }

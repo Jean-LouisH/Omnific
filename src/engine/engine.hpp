@@ -67,9 +67,7 @@ namespace Omnia
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 
 		void initialize();
-		void runInputLoop(std::shared_ptr<HiResTimer> updateProcessTimer);
-		void runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer);
-		void runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer);
+		void runLoop(std::shared_ptr<HiResTimer> loopProcessTimer);
 		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
 		void finalize();
 

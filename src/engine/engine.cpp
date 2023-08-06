@@ -51,23 +51,35 @@ void Omnia::Engine::run(
 			/* These timers persist throughout Engine runtime and
 			   keep track of elapsed times in nanoseconds. */
 			profiler.addTimer(MAIN_THREAD_TIMER_NAME, false);
-			profiler.addTimer(UPDATE_THREAD_TIMER_NAME, false);
-			profiler.addTimer(OUTPUT_THREAD_TIMER_NAME, false);
+			profiler.addTimer(LOOP_THREAD_TIMER_NAME, false);
 
 			/* Engine threading uses a hybrid of dedicated threads
 			   for deadline sensitive tasks and a thread pool for
 			   general parallelizable tasks. */
 
 			std::vector<std::thread> dedicatedThreads;
-			dedicatedThreads.push_back(std::thread(&Engine::runUpdateLoop, this, profiler.getTimer(UPDATE_THREAD_TIMER_NAME)));
-			dedicatedThreads.push_back(std::thread(&Engine::runOutputLoop, this, profiler.getTimer(OUTPUT_THREAD_TIMER_NAME)));
+			dedicatedThreads.push_back(std::thread(&Engine::runLoop, this, profiler.getTimer(LOOP_THREAD_TIMER_NAME)));
 
 			OS::getThreadPool().initialize();
 
 			logger.write("Engine loops currently running...");
 
 			/* Input loop must run on the main thread. */
-			this->runInputLoop(profiler.getTimer("main_thread"));
+			Input& input = OS::getInput();
+			std::shared_ptr<HiResTimer> inputProcessTimer = profiler.getTimer(MAIN_THREAD_TIMER_NAME);
+
+			while (this->state == State::RUNNING)
+			{
+				inputProcessTimer->setStart();
+				input.detectGameControllers();
+				input.pollInputEvents();
+				if (input.hasRequestedShutdown())
+					this->state = State::FINALIZING;
+				if (input.hasRequestedRestart())
+					this->state = State::RESTARTING;
+				inputProcessTimer->setEnd();
+				this->sleepThisThreadForRemainingTime(INPUT_TARGET_FPS, inputProcessTimer);
+			}
 
 			logger.write("Finalizing Engine loops...");
 			for (std::thread& thread : dedicatedThreads)
@@ -176,25 +188,7 @@ void Omnia::Engine::initialize()
 
 }
 
-void Omnia::Engine::runInputLoop(std::shared_ptr<HiResTimer> inputProcessTimer)
-{
-	Input& input = OS::getInput();
-
-	while (this->state == State::RUNNING)
-	{
-		inputProcessTimer->setStart();
-		input.detectGameControllers();
-		input.pollInputEvents();
-		if (input.hasRequestedShutdown())
-			this->state = State::FINALIZING;
-		if (input.hasRequestedRestart())
-			this->state = State::RESTARTING;
-		inputProcessTimer->setEnd();
-		this->sleepThisThreadForRemainingTime(INPUT_TARGET_FPS, inputProcessTimer);
-	}
-}
-
-void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer)
+void Omnia::Engine::runLoop(std::shared_ptr<HiResTimer> loopProcessTimer)
 {
 	for (auto system : this->systems)
 		system.second->initialize();
@@ -206,13 +200,13 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 		SceneStorage::loadScene(std::shared_ptr<Scene>(new Scene(entrySceneFilepath)));
 
 	Profiler& profiler = OS::getProfiler();
-	profiler.addTimer(UPDATE_FRAME_TIMER_NAME);
-	std::shared_ptr<HiResTimer> updateFrameTimer = profiler.getTimer(UPDATE_FRAME_TIMER_NAME);
+	profiler.addTimer(LOOP_FRAME_TIMER_NAME);
+	std::shared_ptr<HiResTimer> loopFrameTimer = profiler.getTimer(LOOP_FRAME_TIMER_NAME);
 
 	while (this->state == State::RUNNING)
 	{
-		updateProcessTimer->setStart();
-		updateFrameTimer->setStart();
+		loopProcessTimer->setStart();
+		loopFrameTimer->setStart();
 
 		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
 		uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
@@ -259,44 +253,17 @@ void Omnia::Engine::runUpdateLoop(std::shared_ptr<HiResTimer> updateProcessTimer
 
 		EventBus::clear();
 
-		profiler.incrementLagCount(updateFrameTimer->getDelta());
-		updateProcessTimer->setEnd();
+		profiler.incrementLagCount(loopFrameTimer->getDelta());
+		loopProcessTimer->setEnd();
 
 		this->sleepThisThreadForRemainingTime(
 			UPDATE_TARGET_FPS,
-			updateProcessTimer);
-		updateFrameTimer->setEnd();
+			loopProcessTimer);
+		loopFrameTimer->setEnd();
 	}
 
 	for (auto system : this->systems)
 		system.second->finalize();
-}
-
-void Omnia::Engine::runOutputLoop(std::shared_ptr<HiResTimer> outputProcessTimer)
-{
-	for (auto system : this->systems)
-		system.second->initializeOutput();
-
-	/* Read only for Scene data. */
-	while (this->state == State::RUNNING)
-	{
-		outputProcessTimer->setStart();
-
-		std::shared_ptr<Scene> activeScene = SceneStorage::getActiveScene();
-
-		for (auto system : this->systems)
-			system.second->onOutput(activeScene);
-
-		EventBus::clearOutputEvents();
-
-		outputProcessTimer->setEnd();
-		this->sleepThisThreadForRemainingTime(
-			Configuration::getInstance()->timeSettings.targetFPS,
-			outputProcessTimer);
-	}
-
-	for (auto system : this->systems)
-		system.second->finalizeOutput();
 }
 
 void Omnia::Engine::sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer)

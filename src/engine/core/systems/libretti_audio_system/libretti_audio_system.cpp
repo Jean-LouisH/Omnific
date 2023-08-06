@@ -33,7 +33,7 @@ Omnia::LibrettiAudioSystem::~LibrettiAudioSystem()
 	this->finalize();
 }
 
-void Omnia::LibrettiAudioSystem::initializeOutput()
+void Omnia::LibrettiAudioSystem::initialize()
 {
 	lb_initialize();
 	this->isInitialized = true;
@@ -42,10 +42,10 @@ void Omnia::LibrettiAudioSystem::initializeOutput()
 
 void Omnia::LibrettiAudioSystem::onLogic(std::shared_ptr<Scene> scene)
 {
-	lb_incrementAllPlayTimes(OS::getProfiler().getTimer(UPDATE_THREAD_TIMER_NAME)->getDeltaInSeconds());
+	lb_incrementAllPlayTimes(OS::getProfiler().getTimer(LOOP_THREAD_TIMER_NAME)->getDeltaInSeconds());
 }
 
-void Omnia::LibrettiAudioSystem::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::LibrettiAudioSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 
@@ -60,7 +60,7 @@ void Omnia::LibrettiAudioSystem::onOutput(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::LibrettiAudioSystem::finalizeOutput()
+void Omnia::LibrettiAudioSystem::finalize()
 {
 	this->isInitialized = false;
 }

@@ -33,11 +33,6 @@ void Omnia::System::initialize()
 
 }
 
-void Omnia::System::initializeOutput()
-{
-
-}
-
 void Omnia::System::onStart(std::shared_ptr<Scene> scene)
 {
 
@@ -68,17 +63,7 @@ void Omnia::System::onLate(std::shared_ptr<Scene> scene)
 
 }
 
-void Omnia::System::onOutput(std::shared_ptr<Scene> scene)
-{
-
-}
-
 void Omnia::System::onFinish(std::shared_ptr<Scene> scene)
-{
-
-}
-
-void Omnia::System::finalizeOutput()
 {
 
 }
@@ -93,11 +78,6 @@ bool Omnia::System::getIsInitialized()
 	return this->isInitialized;
 }
 
-bool Omnia::System::getIsOutputInitialized()
-{
-	return this->isOutputInitialized;
-}
-
 bool Omnia::System::hasSceneChanged(std::shared_ptr<Scene> scene)
 {
 	bool activeSceneChanged = this->activeSceneID != scene->getID();
@@ -107,17 +87,5 @@ bool Omnia::System::hasSceneChanged(std::shared_ptr<Scene> scene)
 
 	return (EventBus::queryCount(OMNIA_EVENT_COMPONENT_ADDED) ||
 		EventBus::queryCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
-		activeSceneChanged);
-}
-
-bool Omnia::System::hasSceneChangedForOutput(std::shared_ptr<Scene> scene)
-{
-	bool activeSceneChanged = this->activeSceneID != scene->getID();
-
-	if (activeSceneChanged)
-		this->activeSceneID = scene->getID();
-
-	return (EventBus::queryOutputEventCount(OMNIA_EVENT_COMPONENT_ADDED) ||
-		EventBus::queryOutputEventCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
 		activeSceneChanged);
 }

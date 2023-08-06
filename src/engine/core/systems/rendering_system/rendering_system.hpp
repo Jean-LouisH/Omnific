@@ -74,9 +74,9 @@ namespace Omnia
 			return new RenderingSystem(*this);
 		}
 
-		virtual void initializeOutput() override;
-		virtual void onOutput(std::shared_ptr<Scene> scene) override;
-		virtual void finalizeOutput() override;
+		virtual void initialize() override;
+		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void finalize() override;
 		std::string getRenderingBackendName();
 	private:
 		std::shared_ptr<OpenGLRenderingBackend> openglBackend;
@@ -84,7 +84,7 @@ namespace Omnia
 		SceneID activeSceneID = 0;
 
 		void onWindowResize();
-		void buildRenderablesOnSceneChange(std::shared_ptr<Scene> scene);
+		void buildRenderables(std::shared_ptr<Scene> scene);
 	};
 }
 

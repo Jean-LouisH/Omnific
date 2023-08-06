@@ -87,17 +87,13 @@ namespace Omnia
 			std::string name);
 
 		static std::vector<Event> query(std::string name);
-		static std::vector<Event> queryOutputEvents(std::string name);
 		static uint64_t queryCount(std::string name);
-		static uint64_t queryOutputEventCount(std::string name);
 		static EventBus* getInstance();
 	private:
 		static EventBus* instance;
-		std::unordered_map<std::string, std::vector<Event>> updateEvents;
-		std::unordered_map<std::string, std::vector<Event>> outputEvents;
+		std::unordered_map<std::string, std::vector<Event>> events;
 
 		static void clear();
-		static void clearOutputEvents();
 		static void publishWithParameters(std::string name, Event::Parameters parameters);
 	};
 }

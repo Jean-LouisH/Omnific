@@ -91,27 +91,20 @@ void Omnia::EventBus::publish(
 
 	OS::getRunTimer().setEnd();
 
-	if (eventBus->updateEvents.count(name))
-		eventsList = eventBus->updateEvents.at(name);
+	if (eventBus->events.count(name))
+		eventsList = eventBus->events.at(name);
 
 	eventsList.push_back(Event(
 		name,
 		OS::getRunTimer().getDeltaInNanoseconds()));
 
-	eventBus->updateEvents.emplace(name, eventsList);
-	eventBus->outputEvents.emplace(name, eventsList);
+	eventBus->events.emplace(name, eventsList);
 }
 
 void Omnia::EventBus::clear()
 {
 	EventBus* eventBus = EventBus::getInstance();
-	eventBus->updateEvents.clear();
-}
-
-void Omnia::EventBus::clearOutputEvents()
-{
-	EventBus* eventBus = EventBus::getInstance();
-	eventBus->outputEvents.clear();
+	eventBus->events.clear();
 }
 
 std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
@@ -119,19 +112,8 @@ std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 	EventBus* eventBus = EventBus::getInstance();
 	std::vector<Event> queryResults;
 
-	if (eventBus->updateEvents.count(name))
-		queryResults = eventBus->updateEvents.at(name);
-
-	return queryResults;
-}
-
-std::vector<Omnia::Event> Omnia::EventBus::queryOutputEvents(std::string name)
-{
-	EventBus* eventBus = EventBus::getInstance();
-	std::vector<Event> queryResults;
-
-	if (eventBus->outputEvents.count(name))
-		queryResults = eventBus->outputEvents.at(name);
+	if (eventBus->events.count(name))
+		queryResults = eventBus->events.at(name);
 
 	return queryResults;
 }
@@ -142,12 +124,6 @@ uint64_t Omnia::EventBus::queryCount(std::string name)
 	return eventBus->query(name).size();
 }
 
-uint64_t Omnia::EventBus::queryOutputEventCount(std::string name)
-{
-	EventBus* eventBus = EventBus::getInstance();
-	return eventBus->queryOutputEvents(name).size();
-}
-
 void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
 {
 	EventBus* eventBus = EventBus::getInstance();
@@ -155,22 +131,21 @@ void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters 
 
 	OS::getRunTimer().setEnd();
 
-	if (eventBus->updateEvents.count(name))
-		eventsList = eventBus->updateEvents.at(name);
+	if (eventBus->events.count(name))
+		eventsList = eventBus->events.at(name);
 
 	eventsList.push_back(Event(
 		name,
 		OS::getRunTimer().getDeltaInNanoseconds(),
 		parameters));
 
-	if (eventBus->updateEvents.count(name))
+	if (eventBus->events.count(name))
 	{
-		eventBus->updateEvents.at(name) = eventsList;
+		eventBus->events.at(name) = eventsList;
 	}
 	else
 	{
-		eventBus->updateEvents.emplace(name, eventsList);
-		eventBus->outputEvents.emplace(name, eventsList);
+		eventBus->events.emplace(name, eventsList);
 	}
 }
 
@@ -179,7 +154,7 @@ Omnia::EventBus* Omnia::EventBus::getInstance()
 	if (instance == nullptr)
 	{
 		instance = new EventBus();
-		instance->updateEvents.reserve(32);
+		instance->events.reserve(32);
 	}
 	return instance;
 }

@@ -36,7 +36,7 @@ Omnia::PathTraceRenderingSystem::~PathTraceRenderingSystem()
 	this->finalize();
 }
 
-void Omnia::PathTraceRenderingSystem::initializeOutput()
+void Omnia::PathTraceRenderingSystem::initialize()
 {
 	Image image = Image(
 		OS::getFileAccess().getDataDirectoryPath() + Configuration::getInstance()->metadata.iconFilepath);
@@ -47,21 +47,21 @@ void Omnia::PathTraceRenderingSystem::initializeOutput()
 		image.getDepth(),
 		image.getPitch());
 
-	this->isOutputInitialized = true;
+	this->isInitialized = true;
 	OS::getLogger().write("Initialized Path Trace Rendering System");
 }
 
-void Omnia::PathTraceRenderingSystem::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::PathTraceRenderingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::PathTraceRenderingSystem::finalizeOutput()
+void Omnia::PathTraceRenderingSystem::finalize()
 {
-	if (this->isOutputInitialized)
+	if (this->isInitialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
-	this->isOutputInitialized = false;
+	this->isInitialized = false;
 }
 
 std::string Omnia::PathTraceRenderingSystem::getRenderingBackendName()

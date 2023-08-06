@@ -42,7 +42,6 @@
 #define BOOT_FILE_NAME "boot.yml"
 #define GAME_CONTROLLER_DATABASE_FILE_NAME "gamecontrollerdb.txt"
 
-#define MAIN_THREAD_TIMER_NAME "main_thread"
-#define UPDATE_THREAD_TIMER_NAME "update_thread"
-#define UPDATE_FRAME_TIMER_NAME "update_frame"
-#define OUTPUT_THREAD_TIMER_NAME "output_thread"
+#define MAIN_THREAD_TIMER_NAME "main_thread_timer"
+#define LOOP_THREAD_TIMER_NAME "loop_thread_timer"
+#define LOOP_FRAME_TIMER_NAME "loop_frame"

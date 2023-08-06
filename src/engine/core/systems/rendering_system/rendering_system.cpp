@@ -36,7 +36,7 @@ Omnia::RenderingSystem::~RenderingSystem()
 	this->finalize();
 }
 
-void Omnia::RenderingSystem::initializeOutput()
+void Omnia::RenderingSystem::initialize()
 {
 	Image image = Image(
 		OS::getFileAccess().getDataDirectoryPath() + Configuration::getInstance()->metadata.iconFilepath);
@@ -48,25 +48,25 @@ void Omnia::RenderingSystem::initializeOutput()
 		image.getPitch());
 
 	this->openglBackend->initialize();
-	this->isOutputInitialized = true;
+	this->isInitialized = true;
 }
 
-void Omnia::RenderingSystem::onOutput(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
-	if (this->hasSceneChangedForOutput(scene))
-		this->buildRenderablesOnSceneChange(scene);
+	if (this->hasSceneChanged(scene))
+		this->buildRenderables(scene);
 	this->openglBackend->clearColourBuffer(0, 0, 0, 255);
 	this->openglBackend->submit(this->sceneLayerRenderableLists);
 	this->openglBackend->swapBuffers();
 }
 
-void Omnia::RenderingSystem::finalizeOutput()
+void Omnia::RenderingSystem::finalize()
 {
-	if (this->isOutputInitialized)
+	if (this->isInitialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
-	this->isOutputInitialized = false;
+	this->isInitialized = false;
 }
 
 void Omnia::RenderingSystem::onWindowResize()
@@ -75,7 +75,7 @@ void Omnia::RenderingSystem::onWindowResize()
 	this->openglBackend->setViewport(windowSize.x, windowSize.y);
 }
 
-void Omnia::RenderingSystem::buildRenderablesOnSceneChange(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::buildRenderables(std::shared_ptr<Scene> scene)
 {
 	this->sceneLayerRenderableLists.clear();
 

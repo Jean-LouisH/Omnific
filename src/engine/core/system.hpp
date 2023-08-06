@@ -41,26 +41,20 @@ namespace Omnia
         ~System();
 
         virtual void initialize();
-        virtual void initializeOutput();
         virtual void onStart(std::shared_ptr<Scene> scene);
         virtual void onInput(std::shared_ptr<Scene> scene);
         virtual void onEarly(std::shared_ptr<Scene> scene);
         virtual void onLogic(std::shared_ptr<Scene> scene);
         virtual void onCompute(std::shared_ptr<Scene> scene);
         virtual void onLate(std::shared_ptr<Scene> scene);
-        virtual void onOutput(std::shared_ptr<Scene> scene);
         virtual void onFinish(std::shared_ptr<Scene> scene);
-        virtual void finalizeOutput();
         virtual void finalize();
         bool getIsInitialized();
-        bool getIsOutputInitialized();
 
     protected:
         bool isInitialized = false;
-        bool isOutputInitialized = false;
 
         bool hasSceneChanged(std::shared_ptr<Scene> scene);
-        bool hasSceneChangedForOutput(std::shared_ptr<Scene> scene);
     private:
         SceneID activeSceneID = 0;
 
