@@ -27,16 +27,44 @@
 #include "core/component.hpp"
 #include "core/assets/colour.hpp"
 #include <unordered_map>
+#include <vector>
 #include <string>
+#include <core/utilities/aliases.hpp>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API GUIText
+	class OMNIA_ENGINE_API GUIWidget
 	{
 	public:
-		GUIText()
+		GUIWidget()
 		{
 			this->image = std::shared_ptr<Image>(new Image());
+			this->id = UIDGenerator::getNewUID();
+		}
+
+		virtual ~GUIWidget() = default;
+
+		UID id;
+		std::string widgetType;
+		bool isClickable = false;
+		bool isHighlightable = false;
+		bool isAnchored = false;
+		bool isPressed = false;
+		bool isHovered = false;
+		bool isXStretchedToPanel = false;
+		bool isYStretchedToPanel = false;
+		glm::vec2 defaultDimensions;
+		glm::vec2 position;
+		std::shared_ptr<Image> image;
+	};
+
+	class OMNIA_ENGINE_API GUIText : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUIText";
+		GUIText()
+		{
+			this->widgetType = TYPE_STRING;
 		};
 
 		void setText(std::string text);
@@ -49,49 +77,175 @@ namespace Omnia
 		uint16_t size = 0;
 		uint16_t wrapLength = 500;
 		std::shared_ptr<Colour> colour;
-		std::shared_ptr<Image> image;
+		bool isEdittable = false;
 
-	private:
 		void generateImage();
 	};
 
-	class OMNIA_ENGINE_API GUIWidget
+	class OMNIA_ENGINE_API GUIButton : public GUIWidget
 	{
 	public:
-		bool isClickable = false;
-		bool isHighlightable = false;
-		bool isAnchored = false;
-		bool isPressed = false;
-		bool isOverlayedToParent = false;
-		glm::vec2 defaultDimensions;
-		glm::vec2 position;
-		std::shared_ptr<GUIText> guiText;
-		std::shared_ptr<Image> backgroundImage;
+		static constexpr const char* TYPE_STRING = "GUIButton";
+		GUIButton()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+		GUIText guiText;
+
 	};
 
-	class OMNIA_ENGINE_API GUIProgressBar
+	class OMNIA_ENGINE_API GUIToggleButton : public GUIButton
 	{
 	public:
-		float progressValue = 0.0;
-		float maximumValue = 0.0;
-		glm::vec2 position;
+		static constexpr const char* TYPE_STRING = "GUIToggleButton";
+		GUIToggleButton()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
 	};
 
-	class OMNIA_ENGINE_API GUILine
+	class OMNIA_ENGINE_API GUIList : public GUIWidget
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "GUIListBox";
+		GUIList()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+		std::vector<GUIButton> listItems;
+	};
+
+	class OMNIA_ENGINE_API GUITree : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUITree";
+		GUITree()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+		std::unordered_map<std::string, GUIButton> items;
+		std::unordered_map<std::string, std::string> itemHierarchy;
+	};
+
+	class OMNIA_ENGINE_API GUIContextMenu : public GUITree
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUIContextMenu";
+		GUIContextMenu()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+	};
+
+	class OMNIA_ENGINE_API GUIMenuBar : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUIMenuBar";
+		GUIMenuBar()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+		std::unordered_map<std::string, GUIContextMenu> menus;
+
+	};
+
+	class OMNIA_ENGINE_API GUISpinner : public GUIList
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUISpinner";
+		GUISpinner()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+	};
+
+	class OMNIA_ENGINE_API GUITiles : public GUIList
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUITiles";
+		GUITiles()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+	};
+
+	class OMNIA_ENGINE_API GUIDropDownList : public GUIList
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUIDropDownList";
+		GUIDropDownList()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+		uint64_t currentItemIndex = 0;
+	};
+
+	class OMNIA_ENGINE_API GUISlider : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUISlider";
+		GUISlider()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+		float currentValue = 0.0;
+		float minimumValue = 0.0;
+		float maximumValue = 100.0;
+		bool isHorizontal = true;
+		bool isVertical = false;
+		bool isProgresBar = false;
+		bool isDisplayingSpinner = false;
+		std::string unitsString;
+		GUISpinner guiSpinner;
+	};
+
+	class OMNIA_ENGINE_API GUILine : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUILine";
+		GUILine()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
 		glm::vec2 startPoint;
 		glm::vec2 endPoint;
+	};
+
+	class OMNIA_ENGINE_API GUITreeView : public GUITree
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUITreeView";
+		GUITreeView()
+		{
+			this->widgetType = TYPE_STRING;
+		};
 	};
 
 	class OMNIA_ENGINE_API GUIPanel
 	{
 	public:
-		std::unordered_map<std::string, std::shared_ptr<GUIWidget>> widgets;
-		std::unordered_map<std::string, std::shared_ptr<GUIProgressBar>> progressBars;
-		std::unordered_map<std::string, std::shared_ptr<GUILine>> separators;
+		std::string name;
+		std::unordered_map<UID, std::shared_ptr<GUIWidget>> widgets;
 		float verticalSliderPosition = 0.0;
 		float horizontalSliderPosition = 0.0;
+	};
+
+	class OMNIA_ENGINE_API GUIPanelTabGroup
+	{
+	public:
+		std::string name;
+		glm::vec2 position;
+		glm::vec2 dimensions;
+		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> guiPanels;
+		std::string activeGuiPanelName;
 	};
 
 	class OMNIA_ENGINE_API GUI : public RenderableComponent
@@ -104,17 +258,22 @@ namespace Omnia
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 
-		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> guiPanels;
-
 		virtual Registerable* instance() override
 		{
 			GUI* clone = new GUI(*this);
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
+
+		std::string followTargetEntityName;
+		glm::vec2 followOffset;
+		bool isFollowingEntity = false;
+
 		virtual void deserialize(YAML::Node yamlNode);
-		void setText(std::string text);
+		void setAsText(std::string text);
 	private:
+		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> guiPanelTabGroups;
+
 		void updateImage();
 	};
 }

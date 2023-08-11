@@ -30,44 +30,190 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 	{
 		RenderableComponent::deserialize(yamlNode);
 
-		/*Temporary implementation for loading just text. */
-		if (it3->first.as<std::string>() == "GUIPanel")
+		if (it3->first.as<std::string>() == "GUIPanelTabGroup")
 		{
-			std::shared_ptr<GUIPanel> guiPanel(new GUIPanel());
+			std::shared_ptr<GUIPanelTabGroup> guiPanelTabGroup(new GUIPanelTabGroup());
 
 			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
 			{
-				if (it4->first.as<std::string>() == "GUIWidget")
+				if (it4->first.as<std::string>() == "name")
 				{
-					std::shared_ptr<GUIWidget> guiWidget(new GUIWidget());
+					guiPanelTabGroup->name = it4->second.as<std::string>();
+				}
+				if (it4->first.as<std::string>() == "position")
+				{
+					guiPanelTabGroup->position.x = it4->second[0].as<double>();
+					guiPanelTabGroup->position.y = it4->second[1].as<double>();
+				}
+				if (it4->first.as<std::string>() == "dimensions")
+				{
+					guiPanelTabGroup->dimensions.x = it4->second[0].as<double>();
+					guiPanelTabGroup->dimensions.y = it4->second[1].as<double>();
+				}
+
+				if (it4->first.as<std::string>() == "GUIPanel")
+				{
+					std::shared_ptr<GUIPanel> guiPanel(new GUIPanel());
+					std::shared_ptr<GUIWidget> guiWidget;
 
 					for (YAML::const_iterator it5 = it4->second.begin(); it5 != it4->second.end(); ++it5)
 					{
-						if (it5->first.as<std::string>() == "GUIText")
+						if (it5->first.as<std::string>() == "name")
+						{
+							guiPanel->name = it5->second.as<std::string>();
+						}
+						if (it5->first.as<std::string>() == "GUIMenuBar")
+						{
+							std::shared_ptr<GUIMenuBar> guiMenuBar(new GUIMenuBar());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiMenuBar);
+						}
+						else if (it5->first.as<std::string>() == "GUIContextMenu")
+						{
+							std::shared_ptr<GUIContextMenu> guiContextMenu(new GUIContextMenu());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiContextMenu);
+						}
+						else if (it5->first.as<std::string>() == "GUIButton")
+						{
+							std::shared_ptr<GUIButton> guiButton(new GUIButton());
+
+							guiButton->isClickable = true;
+							guiButton->isHighlightable = true;
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "is_x_stretched_to_panel")
+								{
+									guiButton->isXStretchedToPanel = it6->second.as<bool>();
+								}
+								else if (it6->first.as<std::string>() == "is_y_stretched_to_panel")
+								{
+									guiButton->isYStretchedToPanel = it6->second.as<bool>();
+								}
+								else if (it6->first.as<std::string>() == "default_dimensions")
+								{
+									guiButton->defaultDimensions.x = it6->second[0].as<double>();
+									guiButton->defaultDimensions.y = it6->second[1].as<double>();
+								}
+								else if (it6->first.as<std::string>() == "position")
+								{
+									guiButton->position.x = it6->second[0].as<double>();
+									guiButton->position.y = it6->second[1].as<double>();
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiButton);
+						}
+						else if (it5->first.as<std::string>() == "GUIToggleButton")
+						{
+							std::shared_ptr<GUIToggleButton> guiToggleButton(new GUIToggleButton());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiToggleButton);
+						}
+						else if (it5->first.as<std::string>() == "GUIList")
+						{
+							std::shared_ptr<GUIList> guiList(new GUIList());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiList);
+						}
+						else if (it5->first.as<std::string>() == "GUITree")
+						{
+							std::shared_ptr<GUITree> guiTree(new GUITree());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiTree);
+						}
+						else if (it5->first.as<std::string>() == "GUIText")
 						{
 							std::shared_ptr<GUIText> guiText(new GUIText());
 
 							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 							{
-								if (it6->first.as<std::string>() == "text")
+								if (it6->first.as<std::string>() == "is_clickable")
 								{
-									guiText->setText(it6->second.as<std::string>());
+									guiText->isClickable = it6->second.as<bool>();
+								}
+								if (it6->first.as<std::string>() == "is_highlightable")
+								{
+									guiText->isHighlightable = it6->second.as<bool>();
+								}
+								if (it6->first.as<std::string>() == "is_x_stretched_to_panel")
+								{
+									guiText->isXStretchedToPanel = it6->second.as<bool>();
+								}
+								else if (it6->first.as<std::string>() == "is_y_stretched_to_panel")
+								{
+									guiText->isYStretchedToPanel = it6->second.as<bool>();
+								}
+								else if (it6->first.as<std::string>() == "default_dimensions")
+								{
+									guiText->defaultDimensions.x = it6->second[0].as<double>();
+									guiText->defaultDimensions.y = it6->second[1].as<double>();
+								}
+								else if (it6->first.as<std::string>() == "position")
+								{
+									guiText->position.x = it6->second[0].as<double>();
+									guiText->position.y = it6->second[1].as<double>();
+								}
+
+								else if (it6->first.as<std::string>() == "text")
+								{
+									guiText->text = it6->second.as<std::string>();
 								}
 								else if (it6->first.as<std::string>() == "font")
 								{
-									//it6->second[1].as<int>()));
-
 									std::shared_ptr<Omnia::Font> font = OS::getFileAccess().loadAssetByType<Font>(it6->second[0].as<std::string>());
 									*font = Font(font->getName(), it6->second[1].as<int>());
-									guiText->setFont(font, it6->second[1].as<int>());
+									guiText->font = font;
+									guiText->size = it6->second[1].as<int>();
 								}
 								else if (it6->first.as<std::string>() == "colour")
 								{
-									guiText->setColour(
-										it6->second[0].as<int>(),
-										it6->second[1].as<int>(),
-										it6->second[2].as<int>(),
-										it6->second[3].as<int>()
+									guiText->colour = std::shared_ptr<Colour>(new Colour(
+										(uint8_t)it6->second[0].as<int>(),
+										(uint8_t)it6->second[1].as<int>(),
+										(uint8_t)it6->second[2].as<int>(),
+										(uint8_t)it6->second[3].as<int>())
 									);
 								}
 								else if (it6->first.as<std::string>() == "wrap_length")
@@ -76,18 +222,148 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								}
 							}
 
-							guiWidget->guiText = guiText;
+							guiText->generateImage();
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiText);
+						}
+						else if (it5->first.as<std::string>() == "GUITiles")
+						{
+							std::shared_ptr<GUITiles> guiTiles(new GUITiles());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiTiles);
+						}
+						else if (it5->first.as<std::string>() == "GUIListBox")
+						{
+							std::shared_ptr<GUIList> guiListBox(new GUIList());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiListBox);
+						}
+						else if (it5->first.as<std::string>() == "GUISpinner")
+						{
+							std::shared_ptr<GUISpinner> guiSpinner(new GUISpinner());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiSpinner);
+						}
+						else if (it5->first.as<std::string>() == "GUIDropDownList")
+						{
+							std::shared_ptr<GUIDropDownList> guiDropDownList(new GUIDropDownList());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiDropDownList);
+						}
+						else if (it5->first.as<std::string>() == "GUISlider")
+						{
+							std::shared_ptr<GUISlider> guiSlider(new GUISlider());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiSlider);
+						}
+						else if (it5->first.as<std::string>() == "GUILine")
+						{
+							std::shared_ptr<GUILine> guiLine(new GUILine());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "")
+								{
+
+								}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiLine);
+						}
+						else if (it5->first.as<std::string>() == "GUITreeView")
+						{
+							std::shared_ptr<GUITreeView> guiTreeView(new GUITreeView());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								//if (it6->first.as<std::string>() == "is_highlightable")
+								//{
+								//	guiText->isHighlightable = it6->second.as<bool>();
+								//}
+								//if (it6->first.as<std::string>() == "is_x_stretched_to_panel")
+								//{
+								//	guiText->isXStretchedToPanel = it6->second.as<bool>();
+								//}
+								//else if (it6->first.as<std::string>() == "is_y_stretched_to_panel")
+								//{
+								//	guiText->isYStretchedToPanel = it6->second.as<bool>();
+								//}
+								//else if (it6->first.as<std::string>() == "default_dimensions")
+								//{
+								//	guiText->defaultDimensions.x = it6->second[0].as<double>();
+								//	guiText->defaultDimensions.y = it6->second[1].as<double>();
+								//}
+								//else if (it6->first.as<std::string>() == "position")
+								//{
+								//	guiText->position.x = it6->second[0].as<double>();
+								//	guiText->position.y = it6->second[1].as<double>();
+								//}
+							}
+
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiTreeView);
 						}
 
+						if (guiWidget != nullptr)
+							guiPanel->widgets.emplace(UIDGenerator::getNewUID(), guiWidget);
 					}
 
-					guiPanel->widgets.emplace("Widget (ID:" + std::to_string(UIDGenerator::getNewUID()) + ")", guiWidget);
+					if (guiPanelTabGroup->activeGuiPanelName == "")
+						guiPanelTabGroup->activeGuiPanelName = guiPanel->name;
 
+					guiPanelTabGroup->guiPanels.emplace(guiPanel->name, guiPanel);
 				}
-
 			}
 
-			this->guiPanels.emplace("Panel (ID:" + std::to_string(UIDGenerator::getNewUID()) + ")", guiPanel);
+			this->guiPanelTabGroups.emplace(guiPanelTabGroup->name, guiPanelTabGroup);
+		}
+		else if (it3->first.as<std::string>() == "follow_target_entity_name")
+		{
+			this->followTargetEntityName = it3->second.as<std::string>();
+			this->isFollowingEntity = true;
+		}
+		else if (it3->first.as<std::string>() == "follow_offset")
+		{
+			this->followOffset.x = it3->second[0].as<double>();
+			this->followOffset.y = it3->second[1].as<double>();
 		}
 	}
 
@@ -135,42 +411,66 @@ void Omnia::GUIText::generateImage()
 
 void Omnia::GUI::updateImage()
 {
-	/* Temporary for a single GUIText*/
-	if (this->guiPanels.size() == 1)
+	for (auto guiPanelTabGroup : this->guiPanelTabGroups)
 	{
-		for (auto guiPanel : this->guiPanels)
+		std::shared_ptr<GUIPanel> guiPanel = guiPanelTabGroup.second->guiPanels.at(guiPanelTabGroup.second->activeGuiPanelName);
+
+		if (guiPanel->widgets.size() == 1)
 		{
-			if (guiPanel.second->widgets.size() == 1)
+			for (auto widget : guiPanel->widgets)
 			{
-				for (auto widget : guiPanel.second->widgets)
-				{
-					this->image = widget.second->guiText->image;
-				}
+				this->image = widget.second->image;
 			}
 		}
 	}
 
 	this->setDimensions(this->image->getWidth(), this->image->getHeight(), 0);
-
-	/*ToDo*/
-
 }
 
-void Omnia::GUI::setText(std::string text)
+void Omnia::GUI::setAsText(std::string text)
 {
-	/* Basic temporary implementation for a text only GUI*/
-	if (this->guiPanels.size() == 1)
+
+	if (this->guiPanelTabGroups.size() > 0)
 	{
-		for (auto guiPanel : this->guiPanels)
+		if (this->guiPanelTabGroups.size() == 1)
 		{
-			if (guiPanel.second->widgets.size() == 1)
+			for (auto guiPanelTabGroup : this->guiPanelTabGroups)
 			{
-				for (auto widget : guiPanel.second->widgets)
+				if (guiPanelTabGroup.second->guiPanels.size() == 1)
 				{
-					widget.second->guiText->setText(text);
+					for (auto guiPanel : guiPanelTabGroup.second->guiPanels)
+					{
+						if (guiPanel.second->widgets.size() == 1)
+						{
+							for (auto widget : guiPanel.second->widgets)
+							{
+								if (widget.second->widgetType == GUIText::TYPE_STRING)
+								{
+									std::shared_ptr<GUIWidget> guiWidget = widget.second;
+									std::shared_ptr<GUIText> guiText = std::dynamic_pointer_cast<GUIText>(guiWidget);
+									guiText->setText(text);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
+	}
+	else
+	{
+		//std::shared_ptr<GUIPanel> guiPanel(new GUIPanel());
+		//std::shared_ptr<GUIPanelTabGroup> guiPanelTabGroup(new GUIPanelTabGroup());
+		//std::shared_ptr<GUIText> guiText(new GUIText());
+
+		////guiText->size;
+		////guiText->font;
+		////guiText->colour;
+		////guiText->setText(text);
+
+		//guiPanel->name = "Text";
+		//guiPanel->widgets.emplace(guiText->id, guiText);
+		//this->guiPanelTabGroups.emplace(guiPanel->name, guiPanelTabGroup);
 	}
 
 	this->updateImage();

@@ -250,7 +250,7 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def("rotate_y", &Omnia::Transform::rotateY)
 		.def("rotate_z", &Omnia::Transform::rotateZ);
 	pybind11::class_<Omnia::GUI, Omnia::RenderableComponent, std::shared_ptr<Omnia::GUI>>(m, Omnia::GUI::TYPE_STRING)
-		.def("set_text", &Omnia::GUI::setText);
+		.def("set_as_text", &Omnia::GUI::setAsText);
 	pybind11::class_<Omnia::Viewport, Omnia::Component, std::shared_ptr<Omnia::Viewport>>(m, Omnia::Viewport::TYPE_STRING);
 
 	/*Utility classes*/

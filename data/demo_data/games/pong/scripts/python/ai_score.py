@@ -10,6 +10,6 @@ class omnia_script:
         if omnia.query_event_count("AI won") > 0:
             self.score += 1
 
-        omnia.get_component("GUI").set_text("AI: " + str(self.score))
+        omnia.get_component("GUI").set_as_text("AI: " + str(self.score))
         pass
     

@@ -41,7 +41,6 @@ class omnia_script:
 
         #When the ball goes past the posts
         if ball_transform.translation.x < left_post_transform.translation.x or ball_transform.translation.x > right_post_transform.translation.x:
-            omnia_script.reset_ball(self)
             ball_speed = math.sqrt(ball_physics_body.linear_velocity.x * ball_physics_body.linear_velocity.x + 
               ball_physics_body.linear_velocity.y * ball_physics_body.linear_velocity.y)
 
@@ -49,6 +48,8 @@ class omnia_script:
                 omnia.publish_event("AI won", {"ball_speed": ball_speed})
             if ball_transform.translation.x > right_post_transform.translation.x:
                 omnia.publish_event("Player won", {"ball_speed": ball_speed})
+
+            omnia_script.reset_ball(self)
         
         #When the ball collides with the paddles
         if ((collisions.is_colliding("Ball", "Paddle1") and ball_physics_body.linear_velocity.x < 0.0) or 

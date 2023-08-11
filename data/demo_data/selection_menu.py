@@ -37,7 +37,7 @@ class omnia_script:
             project_print_string += project_selection_letters[i] + ": " + project_names_list[i] + "\n"
         
         gui = omnia.get_component("GUI")
-        gui.set_text(
+        gui.set_as_text(
             """Select one of the following by pressing the corresponding letter key
 
 """ + project_print_string)

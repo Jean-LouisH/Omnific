@@ -14,8 +14,6 @@ SceneLayer:
       translation: [0, 0, 0]
     Sprite:
       image: "Image::#CCCCCC"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/debug_restart.py"]
   Entity:
     name: "Viewport"
     Viewport:
@@ -36,10 +34,6 @@ SceneLayer:
     Camera: "default"
     ScriptCollection:
       Python: ["games/pong/scripts/python/camera_shake.py"]
-  Entity:
-    name: "System"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/return_to_main.py"]
   Entity:
     name: "Game Mechanics"
     ScriptCollection:
@@ -64,13 +58,15 @@ SceneLayer:
     parent: "Paddle1"
     Transform:
       translation: [0.0, 1.0, 0.0]
-      scale: [0.5, 0.5, 0.5]
+      scale: [0.05, 0.05, 0.05]
     GUI:
-      GUIPanel:
-        GUIWidget:
-          GUIText:
+      GUIPanelTabGroup:
+        name: "Score"
+        GUIPanel:
+          name: "Text"
+          GUIText: 
             text: "a"
-            font: ["sample/fonts/Lato-Regular.ttf", 16]
+            font: ["games/pong/fonts/Lato-Regular.ttf", 32]
             colour: [255, 0, 0, 255]
     ScriptCollection:
       Python: ["games/pong/scripts/python/player_score.py"]
@@ -94,13 +90,15 @@ SceneLayer:
     parent: "Paddle2"
     Transform:
       translation: [0.0, 1.0, 0.0]
-      scale: [0.5, 0.5, 0.5]
+      scale: [0.05, 0.05, 0.05]
     GUI:
-      GUIPanel:
-        GUIWidget:
-          GUIText:
-            text: "a"
-            font: ["sample/fonts/Lato-Regular.ttf", 16]
+      GUIPanelTabGroup:
+        name: "Score"
+        GUIPanel:
+          name: "Text"
+          GUIText: 
+            text: "b"
+            font: ["games/pong/fonts/Lato-Regular.ttf", 32]
             colour: [0, 0, 255, 255]
     ScriptCollection:
       Python: ["games/pong/scripts/python/ai_score.py"]
