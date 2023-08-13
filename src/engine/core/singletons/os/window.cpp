@@ -209,6 +209,23 @@ glm::vec2 Omnia::Window::getWindowSize()
 	return windowSize;
 }
 
+glm::vec2 Omnia::Window::getWindowPosition()
+{
+	glm::vec2 windowPosition;
+
+	if (this->sdlWindow != nullptr)
+	{
+		int x = 0;
+		int y = 0;
+
+		SDL_GetWindowPosition(this->sdlWindow.get(), &x, &y);
+		windowPosition.x = x;
+		windowPosition.y = y;
+	}
+	
+	return windowPosition;
+}
+
 SDL_Window* Omnia::Window::getSDLWindow()
 {
 	return this->sdlWindow.get();

@@ -50,6 +50,7 @@ namespace Omnia
 		void hide();
 		void show();
 		glm::vec2 getWindowSize();
+		glm::vec2 getWindowPosition();
 
 		SDL_Window* getSDLWindow();
 		SDL_GLContext getSDLGLContext();
