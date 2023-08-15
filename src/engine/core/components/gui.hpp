@@ -49,8 +49,21 @@ namespace Omnia
 		bool isClickable = false;
 		bool isHighlightable = false;
 		bool isAnchored = false;
-		bool isPressed = false;
-		bool isHovered = false;
+
+		struct DetectedInputs
+		{
+			bool isHovered = false;
+			bool isLeftMouseButtonOnPress = false;
+			bool isLeftMouseButtonOnRelease = false;
+			bool isLeftMouseButtonDoubleClicked = false;
+			bool isMiddleMouseButtonOnPress = false;
+			bool isMiddleMouseButtonOnRelease = false;
+			bool isMiddleMouseButtonDoubleClicked = false;
+			bool isRightMouseButtonOnPress = false;
+			bool isRightMouseButtonOnRelease = false;
+			bool isRightMouseButtonDoubleClicked = false;
+		} detectedInputs;
+
 		bool isXStretchedToPanel = false;
 		bool isYStretchedToPanel = false;
 		glm::vec2 defaultDimensions;
@@ -234,6 +247,9 @@ namespace Omnia
 	public:
 		std::string name;
 		std::unordered_map<UID, std::shared_ptr<GUIWidget>> widgets;
+
+		/* Denoted in the image pixel position of the top view of the panel
+		   where an increasing y value travels from top to bottom. */
 		float verticalSliderPosition = 0.0;
 		float horizontalSliderPosition = 0.0;
 	};
@@ -272,6 +288,7 @@ namespace Omnia
 		virtual void deserialize(YAML::Node yamlNode);
 		void setAsText(std::string text);
 	private:
+		glm::vec2 position;
 		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> guiPanelTabGroups;
 
 		void updateImage();
