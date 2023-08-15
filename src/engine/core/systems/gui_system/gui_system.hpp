@@ -46,16 +46,9 @@ namespace Omnia
 		}
 
 		virtual void initialize() override;
-		virtual void onLogic(std::shared_ptr<Scene> scene) override;
+		virtual void onEarly(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
-		void orderGUIComponentsByHierarchy();
-		void positionGUIComponentsByHierarchy();
-		bool isCursorHoveringOverGUIComponent(ComponentID componentID);
-		//bool isCursorInInputStateOnGUIComponent(
-		//	ComponentID componentID, 
-		//	InputCode inputCode, 
-		//	InputButtonMode inputButtonMode);
 	};
 }
 

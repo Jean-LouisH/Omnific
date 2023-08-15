@@ -38,9 +38,8 @@ void Omnia::GUISystem::initialize()
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
+void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
 	Input& hid = OS::getInput();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
@@ -49,12 +48,7 @@ void Omnia::GUISystem::onLogic(std::shared_ptr<Scene> scene)
 	{
 		numbers.emplace((std::string)"drop_file_window_id", (double)hid.getDropFileWindowID());
 		strings.emplace((std::string)"drop_file_path", hid.getDropFilePath());
-	}
-
-	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
-	{
-		if (hid.isDropFileDetected())
-			EventBus::publish("file dropped on window", numbers, strings);
+		EventBus::publish("file dropped on window", numbers, strings);
 	}
 }
 
@@ -62,26 +56,3 @@ void Omnia::GUISystem::finalize()
 {
 	this->isInitialized = false;
 }
-
-void Omnia::GUISystem::orderGUIComponentsByHierarchy()
-{
-
-}
-
-void Omnia::GUISystem::positionGUIComponentsByHierarchy()
-{
-
-}
-
-bool Omnia::GUISystem::isCursorHoveringOverGUIComponent(ComponentID componentID)
-{
-	return false;
-}
-
-//bool Omnia::GUISystem::isCursorInInputStateOnGUIComponent(
-//	ComponentID componentID,
-//	InputCode inputCode,
-//	InputButtonMode inputButtonMode)
-//{
-//	return false;
-//}
