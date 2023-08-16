@@ -71,6 +71,28 @@ namespace Omnia
 		std::shared_ptr<Image> image;
 	};
 
+	class OMNIA_ENGINE_API GUIImage : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUIImage";
+		GUIImage()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+	};
+
+	class OMNIA_ENGINE_API GUIColour : public GUIWidget
+	{
+	public:
+		static constexpr const char* TYPE_STRING = "GUIColour";
+		GUIColour()
+		{
+			this->widgetType = TYPE_STRING;
+		};
+
+		std::shared_ptr<Colour> colour;
+	};
+
 	class OMNIA_ENGINE_API GUIText : public GUIWidget
 	{
 	public:
@@ -288,6 +310,7 @@ namespace Omnia
 		virtual void deserialize(YAML::Node yamlNode);
 		void setAsText(std::string text);
 	private:
+		/* In pixels. */
 		glm::vec2 position;
 		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> guiPanelTabGroups;
 
