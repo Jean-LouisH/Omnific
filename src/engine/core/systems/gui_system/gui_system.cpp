@@ -27,6 +27,7 @@
 #include <core/components/gui.hpp>
 #include <core/components/transform.hpp>
 #include <core/components/viewport.hpp>
+#include <core/components/camera.hpp>
 
 Omnia::GUISystem::~GUISystem()
 {
@@ -71,18 +72,35 @@ void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
 			if (gui->isFollowingEntity)
 			{
 				std::shared_ptr<Entity> followedEntity = sceneLayer.second->getEntityByName(gui->followTargetEntityName);
+				
+				/* If the Entity is not in the current SceneLayer, check 
+				   through every other SceneLayer in the Scene. */
+				if (followedEntity == nullptr)
+				{
+					for (auto sceneLayer : scene->getSceneLayers())
+					{
+						followedEntity = sceneLayer.second->getEntityByName(gui->followTargetEntityName);
+						if (followedEntity != nullptr)
+						{
+							break;
+						}
+					}
+				}
+
 				std::shared_ptr<Transform> followedEntityTransform = sceneLayer.second->getComponentByType<Transform>(followedEntity->getID());
 				std::vector<std::shared_ptr<Viewport>> uiViewports = sceneLayer.second->getComponentsByType<Viewport>();
+				std::shared_ptr<Camera> camera;
 				std::shared_ptr<Transform> cameraTransform;
 
 				for (int i = 0; i < uiViewports.size(); i++)
 				{
 					std::shared_ptr<Viewport> uiViewport = uiViewports[i];
 					std::shared_ptr<Entity> cameraEntity = sceneLayer.second->getEntityByName(uiViewport->getCameraEntityName());
+					camera = sceneLayer.second->getComponentByType<Camera>(cameraEntity->getID());
 					cameraTransform = sceneLayer.second->getComponentByType<Transform>(cameraEntity->getID());
 				}
 
-				if (cameraTransform != nullptr)
+				if (camera != nullptr && cameraTransform != nullptr)
 				{
 					/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
 
