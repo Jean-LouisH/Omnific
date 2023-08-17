@@ -31,7 +31,7 @@
 #include <core/assets/image.hpp>
 #include <core/assets/shader.hpp>
 #include <core/scene/scene.hpp>
-#include "../scene_layer_renderable.hpp"
+#include "../renderable_layer.hpp"
 #include "core/utilities/aliases.hpp"
 #include <string>
 #include <map>
@@ -58,7 +58,7 @@ namespace Omnia
 		void enableBlending();
 		void disableBlending();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::map<SceneLayerID, std::vector<SceneLayerRenderable>> sceneLayerRenderableLists);
+		void submit(std::vector<std::vector<RenderableLayer>> renderableLayerLists);
 		void swapBuffers();
 		std::string getRenderingBackendName();
 	private:

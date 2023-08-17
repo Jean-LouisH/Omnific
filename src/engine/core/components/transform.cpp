@@ -86,6 +86,9 @@ std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
 	std::shared_ptr<Transform> rootTransform;
 	int rootTransformIndex;
 
+	if (this->componentHierarchy.size() == 0)
+		this->componentHierarchy.push_back(std::shared_ptr<Transform>(this));
+
 	for (int i = this->componentHierarchy.size() - 1;
 		i >= 0;
 		i--)

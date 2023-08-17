@@ -310,8 +310,6 @@ namespace Omnia
 		virtual void deserialize(YAML::Node yamlNode);
 		void setAsText(std::string text);
 	private:
-		/* In pixels. */
-		glm::vec2 position;
 		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> guiPanelTabGroups;
 
 		void updateImage();

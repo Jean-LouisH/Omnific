@@ -16,7 +16,7 @@ SceneLayer:
   Entity:
     name: "Project List"
     Transform:
-      translation: [0.0, 0.0, 0]
+      translation: [0.0, 0.0, 0.0]
     ScriptCollection:
       Python: ["selection_menu.py"]
     GUI:

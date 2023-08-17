@@ -31,7 +31,7 @@
 #include "core/utilities/aliases.hpp"
 #include "opengl_rendering_backend/opengl_rendering_backend.hpp"
 #include "entity_renderable.hpp"
-#include "scene_layer_renderable.hpp"
+#include "renderable_layer.hpp"
 #include <memory>
 #include <map>
 #include <core/singletons/os/os.hpp>
@@ -80,7 +80,7 @@ namespace Omnia
 		std::string getRenderingBackendName();
 	private:
 		std::shared_ptr<OpenGLRenderingBackend> openglBackend;
-		std::map<SceneLayerID, std::vector<SceneLayerRenderable>> sceneLayerRenderableLists;
+		std::vector<std::vector<RenderableLayer>> renderableLayerLists;
 		SceneID activeSceneID = 0;
 
 		void onWindowResize();

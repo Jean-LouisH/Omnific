@@ -66,6 +66,7 @@ void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
 		for (int i = 0; i < guis.size(); i++)
 		{
 			std::shared_ptr<GUI> gui = guis[i];
+			std::shared_ptr<Transform> guiTransform = sceneLayer.second->getComponentByType<Transform>(gui->getEntityID());
 			float mouseDetectionAccuracyRange = 0.1;
 
 			/* To enforce the GUI following a target Entity by an offset. */
@@ -122,7 +123,8 @@ void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
 				
 				for (auto widget : activeGUIPanel->widgets)
 				{
-					glm::vec2 widgetGlobalPosition = gui->position + guiPanelTabGroupPosition + widget.second->position;
+					glm::vec2 guiPosition = guiTransform->translation;
+					glm::vec2 widgetGlobalPosition = guiPosition + guiPanelTabGroupPosition + widget.second->position;
 					widget.second->detectedInputs = { 0 };
 
 					/* If the mouse is at least hovering over the GUI widget. */

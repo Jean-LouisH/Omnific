@@ -105,29 +105,28 @@ void Omnia::OpenGLRenderingBackend::disableBlending()
 	glDisable(GL_BLEND);
 }
 
-void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<SceneLayerRenderable>> sceneLayerRenderableLists)
+void Omnia::OpenGLRenderingBackend::submit(std::vector<std::vector<RenderableLayer>> renderableLayerLists)
 {
-
-	for (auto it = sceneLayerRenderableLists.begin(); it != sceneLayerRenderableLists.end(); it++)
+	for (int i = 0; i < renderableLayerLists.size(); i++)
 	{
 
-		std::vector<SceneLayerRenderable> sceneLayerRenderableList = it->second;
-		SceneLayerRenderable* sceneLayerRenderableListData = sceneLayerRenderableList.data();
-		size_t sceneLayerRenderableListCount = sceneLayerRenderableList.size();
+		std::vector<RenderableLayer> renderableLayerList = renderableLayerLists[i];
+		RenderableLayer* renderableLayerListData = renderableLayerList.data();
+		size_t renderableLayerListCount = renderableLayerList.size();
 
-		for (size_t i = 0; i < sceneLayerRenderableListCount; i++)
+		for (size_t i = 0; i < renderableLayerListCount; i++)
 		{
 
-			SceneLayerRenderable& sceneLayerRenderable = sceneLayerRenderableListData[i];
+			RenderableLayer& renderableLayer = renderableLayerListData[i];
 
-			if (sceneLayerRenderable.camera->getIsStreaming())
+			if (renderableLayer.camera->getIsStreaming())
 			{
-				EntityRenderable* entityRenderablesData = sceneLayerRenderable.entityRenderables.data();
-				size_t entityRenderablesCount = sceneLayerRenderable.entityRenderables.size();
-				glm::mat4 worldToViewMatrix = glm::inverse(sceneLayerRenderable.cameraTransform->getTransformMatrix());
-				glm::mat4 viewToProjectionMatrix = sceneLayerRenderable.camera->getViewToProjectionMatrix();
+				EntityRenderable* entityRenderablesData = renderableLayer.entityRenderables.data();
+				size_t entityRenderablesCount = renderableLayer.entityRenderables.size();
+				glm::mat4 worldToViewMatrix = glm::inverse(renderableLayer.cameraTransform->getTransformMatrix());
+				glm::mat4 viewToProjectionMatrix = renderableLayer.camera->getViewToProjectionMatrix();
 
-				if (sceneLayerRenderable.is2D)
+				if (renderableLayer.is2D)
 				{
 					this->disableDepthTest();
 				}
@@ -137,7 +136,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 					this->enableDepthTest();
 				}
 
-				if (sceneLayerRenderable.camera->getIsWireframeMode())
+				if (renderableLayer.camera->getIsWireframeMode())
 					this->enableWireframeMode();
 				else
 					this->disableWireframeMode();
@@ -148,10 +147,10 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 				std::vector<std::shared_ptr<Light>> activeLights;
 				std::vector<std::shared_ptr<Transform>> activeLightTransforms;
 
-				if (sceneLayerRenderable.lights.size() > 0)
+				if (renderableLayer.lights.size() > 0)
 				{
-					activeLights = sceneLayerRenderable.lights;
-					activeLightTransforms = sceneLayerRenderable.lightTransforms;
+					activeLights = renderableLayer.lights;
+					activeLightTransforms = renderableLayer.lightTransforms;
 				}
 				else
 				{
@@ -227,6 +226,19 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 						if (shader != nullptr)
 						{
 							AssetID shaderID = shader->getID();
+							std::string defaultVertexInput;
+							std::string defaultFragmentInput;
+
+							if (renderableLayer.is2D)
+							{
+								defaultVertexInput = OpenGLBuiltInShaders::Vertex::dimension_2;
+								defaultFragmentInput = OpenGLBuiltInShaders::Fragment::dimension_2;
+							}
+							else
+							{
+								defaultVertexInput = OpenGLBuiltInShaders::Vertex::dimension_3;
+								defaultFragmentInput = OpenGLBuiltInShaders::Fragment::dimension_3;
+							}
 
 							if (!this->shaderPrograms.count(shaderID))
 							{
@@ -235,15 +247,15 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 								if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
 								{
 									completeShader = std::shared_ptr<Shader>(new Shader(
-										OpenGLBuiltInShaders::Vertex::dimension_3,
-										OpenGLBuiltInShaders::Fragment::dimension_3,
+										defaultVertexInput,
+										defaultFragmentInput,
 										false,
 										false));
 								}
 								else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
 								{
 									completeShader = std::shared_ptr<Shader>(new Shader(
-										OpenGLBuiltInShaders::Vertex::dimension_3,
+										defaultVertexInput,
 										shader->getFragmentSource(),
 										false,
 										false));
@@ -252,7 +264,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 								{
 									completeShader = std::shared_ptr<Shader>(new Shader(
 										shader->getVertexSource(),
-										OpenGLBuiltInShaders::Fragment::dimension_3,
+										defaultFragmentInput,
 										false,
 										false));
 								}
@@ -268,7 +280,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 
 							shaderProgram = this->shaderPrograms.at(shaderID);
 						}
-						else if (!sceneLayerRenderable.is2D)
+						else if (!renderableLayer.is2D)
 						{
 							shaderProgram = this->builtInShaderProgram3D;
 						}
@@ -321,9 +333,9 @@ void Omnia::OpenGLRenderingBackend::submit(std::map<SceneLayerID, std::vector<Sc
 						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
 						shaderProgram->setVec3("lightTranslation", lightTransform->translation);
 						shaderProgram->setVec3("lightRotation", lightTransform->rotation);
-						shaderProgram->setVec2("cameraViewport", sceneLayerRenderable.camera->getViewport());
-						shaderProgram->setVec3("cameraTranslation", sceneLayerRenderable.cameraTransform->translation);
-						shaderProgram->setVec3("cameraRotation", sceneLayerRenderable.cameraTransform->rotation);
+						shaderProgram->setVec2("cameraViewport", renderableLayer.camera->getViewport());
+						shaderProgram->setVec3("cameraTranslation", renderableLayer.cameraTransform->translation);
+						shaderProgram->setVec3("cameraRotation", renderableLayer.cameraTransform->rotation);
 						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);
 						shaderProgram->setVec3("entityRotation", entityRenderable.entityTransform->rotation);
 
