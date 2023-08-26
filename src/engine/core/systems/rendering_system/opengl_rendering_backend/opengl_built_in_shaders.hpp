@@ -29,31 +29,39 @@ namespace Omnia
 		namespace Vertex
 		{
 			const char dimension_2[] = R"(
+				//2D vertex shader
+
 				#version 330 core
 				layout (location = 0) in vec3 modelVertexTranslation;
 				layout (location = 2) in vec2 modelVertexUV;
 				out vec3 translation;
 				out vec2 uv;
+				uniform vec3 entityTranslation;
+				uniform vec3 entityRotation;
 				uniform vec2 cameraViewport;
-				uniform vec2 cameraPosition;
-				uniform float cameraRotation;
+				uniform vec3 cameraTranslation;
+				uniform vec3 cameraRotation;
 
 				void main()
 				{
+					translation = modelVertexTranslation;
 					uv = vec2(modelVertexUV.x, modelVertexUV.y);
 
-					float x = (modelVertexTranslation.x - cameraPosition.x) / cameraViewport.x;
-					float y = (modelVertexTranslation.y - cameraPosition.y) / cameraViewport.y;
+					float x = ((entityTranslation.x + translation.x) - cameraTranslation.x) / (cameraViewport.x / 2.0);
+					float y = ((entityTranslation.y + translation.y) - cameraTranslation.y) / (cameraViewport.y / 2.0);
+					float zRotation = entityRotation.z - cameraRotation.z;
 
 					gl_Position = vec4(
-										x * cos(cameraRotation) - y * sin(cameraRotation), 
-										x * sin(cameraRotation) + y * cos(cameraRotation), 
+										x * cos(zRotation) - y * sin(zRotation), 
+										x * sin(zRotation) + y * cos(zRotation), 
 										0.0, 
 										1.0);
 				}	
 			)";
 
 			const char dimension_3[] = R"(
+				//3D vertex shader
+
 				#version 330 core
 				layout (location = 0) in vec3 modelVertexTranslation;
 				layout (location = 1) in vec3 modelNormal;
@@ -86,6 +94,8 @@ namespace Omnia
 		namespace Fragment
 		{
 			const char dimension_2[] = R"(
+				//2D fragment shader
+
 				#version 330 core
 				in vec2 uv;
 				out vec4 colour;
@@ -99,6 +109,8 @@ namespace Omnia
 			)";
 
 			const char dimension_3[] = R"(
+				//3D fragment shader
+
 				#version 330 core
 				in vec3 translation;
 				in vec2 uv;
