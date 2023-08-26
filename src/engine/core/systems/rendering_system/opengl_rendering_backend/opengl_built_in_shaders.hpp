@@ -38,6 +38,7 @@ namespace Omnia
 				out vec2 uv;
 				uniform vec3 entityTranslation;
 				uniform vec3 entityRotation;
+				uniform vec3 entityScale;
 				uniform vec2 cameraViewport;
 				uniform vec3 cameraTranslation;
 				uniform vec3 cameraRotation;
@@ -47,8 +48,8 @@ namespace Omnia
 					translation = modelVertexTranslation;
 					uv = vec2(modelVertexUV.x, modelVertexUV.y);
 
-					float x = ((entityTranslation.x + translation.x) - cameraTranslation.x) / (cameraViewport.x / 2.0);
-					float y = ((entityTranslation.y + translation.y) - cameraTranslation.y) / (cameraViewport.y / 2.0);
+					float x = ((entityTranslation.x + (translation.x * entityScale.x)) - cameraTranslation.x) / (cameraViewport.x / 2.0);
+					float y = ((entityTranslation.y + (translation.y * entityScale.y)) - cameraTranslation.y) / (cameraViewport.y / 2.0);
 					float zRotation = entityRotation.z - cameraRotation.z;
 
 					gl_Position = vec4(

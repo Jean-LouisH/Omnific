@@ -338,6 +338,7 @@ void Omnia::OpenGLRenderingBackend::submit(std::vector<std::vector<RenderableLay
 						shaderProgram->setVec3("cameraRotation", renderableLayer.cameraTransform->rotation);
 						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);
 						shaderProgram->setVec3("entityRotation", entityRenderable.entityTransform->rotation);
+						shaderProgram->setVec3("entityScale", entityRenderable.entityTransform->scale);
 
 						if (vertexArray->getIndexCount() > 0)
 							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
