@@ -22,6 +22,7 @@
 
 #include "opengl_vertex_buffer.hpp"
 #include <core/components/model.hpp>
+#include <core/components/gui.hpp>
 
 Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer()
 {
@@ -45,8 +46,19 @@ Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer(std::shared_ptr<RenderableComponen
 			mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
 			int width = dimensions.x;
 			int height = dimensions.y;
-			int xCentre = width / 2;
-			int yCentre = height / 2;
+			int xCentre;
+			int yCentre;
+
+			if (renderableComponent->isType(GUI::TYPE_STRING))
+			{
+				xCentre = 0;
+				yCentre = 0;
+			}
+			else
+			{
+				xCentre = width / 2;
+				yCentre = height / 2;
+			}
 
 			/* This stretches the mesh dimensions to the renderable component. */
 			mesh->vertices[0].position = glm::vec3(width - xCentre, height - yCentre, 0.0); //top right
