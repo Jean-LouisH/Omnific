@@ -73,7 +73,35 @@ void Omnia::RenderingSystem::finalize()
 void Omnia::RenderingSystem::onWindowResize()
 {
 	glm::vec2 windowSize = OS::getWindow().getWindowSize();
-	this->openglBackend->setViewport(windowSize.x, windowSize.y);
+
+	if (lastDetectedWindowSize.x != windowSize.x ||
+		lastDetectedWindowSize.y != windowSize.y)
+	{
+		int renderableLayerListSize = this->renderableLayerLists.size();
+
+		for (int i = 0; renderableLayerListSize; i++)
+		{
+			std::vector<RenderableLayer> renderableLayers = this->renderableLayerLists.at(renderableLayerListSize - 1);
+			int renderableLayerSize = renderableLayers.size();
+			if (renderableLayerSize > 0)
+			{
+				RenderableLayer& renderableLayer = renderableLayers.at(renderableLayerSize - 1);
+
+				if (renderableLayer.entityRenderables.size() > 0)
+				{
+					EntityRenderable& entityRenderable = renderableLayer.entityRenderables.at(0);
+					if (entityRenderable.renderableComponent->isType(GUI::TYPE_STRING))
+					{
+						renderableLayer.camera->setViewportWidth(windowSize.x);
+						renderableLayer.camera->setViewportHeight(windowSize.y);
+					}
+				}
+			}
+		}
+
+		this->openglBackend->setViewport(windowSize.x, windowSize.y);
+		lastDetectedWindowSize = windowSize;
+	}
 }
 
 void Omnia::RenderingSystem::buildRenderables(std::shared_ptr<Scene> scene)

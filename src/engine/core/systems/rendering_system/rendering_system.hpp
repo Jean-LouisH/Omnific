@@ -82,6 +82,7 @@ namespace Omnia
 		std::shared_ptr<OpenGLRenderingBackend> openglBackend;
 		std::vector<std::vector<RenderableLayer>> renderableLayerLists;
 		SceneID activeSceneID = 0;
+		glm::vec2 lastDetectedWindowSize;
 
 		void onWindowResize();
 		void buildRenderables(std::shared_ptr<Scene> scene);
