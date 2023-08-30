@@ -109,8 +109,8 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								}
 								else if (it6->first.as<std::string>() == "default_dimensions")
 								{
-									guiButton->defaultDimensions.x = it6->second[0].as<double>();
-									guiButton->defaultDimensions.y = it6->second[1].as<double>();
+									guiButton->dimensions.x = it6->second[0].as<double>();
+									guiButton->dimensions.y = it6->second[1].as<double>();
 								}
 								else if (it6->first.as<std::string>() == "position")
 								{
@@ -187,8 +187,8 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								}
 								else if (it6->first.as<std::string>() == "default_dimensions")
 								{
-									guiText->defaultDimensions.x = it6->second[0].as<double>();
-									guiText->defaultDimensions.y = it6->second[1].as<double>();
+									guiText->dimensions.x = it6->second[0].as<double>();
+									guiText->dimensions.y = it6->second[1].as<double>();
 								}
 								else if (it6->first.as<std::string>() == "position")
 								{
@@ -411,15 +411,104 @@ void Omnia::GUIText::generateImage()
 
 void Omnia::GUI::updateImage()
 {
-	for (auto guiPanelTabGroup : this->guiPanelTabGroups)
+	if (this->guiPanelTabGroups.size() == 1)
 	{
-		std::shared_ptr<GUIPanel> guiPanel = guiPanelTabGroup.second->guiPanels.at(guiPanelTabGroup.second->activeGuiPanelName);
-
-		if (guiPanel->widgets.size() == 1)
+		for (auto guiPanelTabGroup : this->guiPanelTabGroups)
 		{
-			for (auto widget : guiPanel->widgets)
+			std::shared_ptr<GUIPanel> guiPanel = guiPanelTabGroup.second->guiPanels.at(guiPanelTabGroup.second->activeGuiPanelName);
+
+			/* If the entire GUI Component is defined by a single GUIWidget, just set the image. */
+			if (guiPanel->widgets.size() == 1)
 			{
-				this->image = widget.second->image;
+				for (auto widget : guiPanel->widgets)
+				{
+					this->image = widget.second->image;
+				}
+			}
+		}
+	}
+	else
+	{
+		/* Generate a single GUI Component image based on all the Widgets on the Panels. */
+		std::shared_ptr<Image> updatedImage;
+		uint8_t* rawPixels;
+		uint8_t colourChannels = 4;
+		glm::vec2 maximumGUITabGroupSidePositions = glm::vec2(0.0);
+
+		for (auto guiPanelTabGroup : this->guiPanelTabGroups)
+		{
+			glm::vec2 guiTabGroupSidePositions = guiPanelTabGroup.second->position + guiPanelTabGroup.second->dimensions;
+			if (guiTabGroupSidePositions.x > maximumGUITabGroupSidePositions.x)
+				maximumGUITabGroupSidePositions.x = guiTabGroupSidePositions.x;
+			if (guiTabGroupSidePositions.y > maximumGUITabGroupSidePositions.y)
+				maximumGUITabGroupSidePositions.y = guiTabGroupSidePositions.y;
+		}
+
+		size_t rawPixelsSize = maximumGUITabGroupSidePositions.x * maximumGUITabGroupSidePositions.y * colourChannels;
+		rawPixels = new uint8_t[rawPixelsSize];
+
+		/* Fill the raw pixels with empty, alpha values. */
+		for (int i = 0; i < rawPixelsSize; i++)
+		{
+			rawPixels[i] = 0;
+		}
+
+		for (auto guiPanelTabGroup : this->guiPanelTabGroups)
+		{
+			if (this->guiPanelTabGroups.size() > 1)
+			{
+				std::shared_ptr<Image> guiPanelTabGroupImage = guiPanelTabGroup.second->image;
+				std::shared_ptr<GUIText> tabNameText(new GUIText());
+
+				//tabNameText->font = font;
+				//tabNameText->size = it6->second[1].as<int>();
+				//tabNameText->wrapLength = it6->second.as<int>();
+				//tabNameText->colour = std::shared_ptr<Colour>(new Colour(
+				//	(uint8_t)it6->second[0].as<int>(),
+				//	(uint8_t)it6->second[1].as<int>(),
+				//	(uint8_t)it6->second[2].as<int>(),
+				//	(uint8_t)it6->second[3].as<int>())
+				//);
+				//tabNameText->text = it6->second.as<std::string>();
+				
+
+				/* Write to raw pixels. */
+				//
+				uint8_t* tabGroupPixels = (uint8_t*)guiPanelTabGroupImage->getData();
+				int tabGroupPixelsSize = guiPanelTabGroupImage->getBytesPerPixel() * guiPanelTabGroupImage->getWidth() * 
+					guiPanelTabGroupImage->getHeight();
+				glm::vec2 tabGroupPosition = guiPanelTabGroup.second->position;
+				glm::vec2 tabGroupDimensions = guiPanelTabGroup.second->dimensions;
+
+				for (int y = 0; y < tabGroupDimensions.y; y++)
+				{
+					for (int x = 0; x < tabGroupDimensions.x; x++)
+					{
+						for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
+						{
+							int rawPixelsIndex = ((y + tabGroupPosition.y) * tabGroupDimensions.x * colourChannels) +
+								((x + tabGroupPosition.x) * colourChannels) + colourChannel;
+							int tabGroupPixelsIndex = (y * tabGroupDimensions.x * colourChannels) +
+								(x * colourChannels) + colourChannel;
+
+							rawPixels[rawPixelsIndex] = tabGroupPixels[tabGroupPixelsIndex];
+						}
+					}
+				}
+			}
+
+			std::shared_ptr<GUIPanel> activeGUIPanel = guiPanelTabGroup.second->guiPanels[guiPanelTabGroup.second->activeGuiPanelName];
+			std::shared_ptr<Image> activeGUIPanelImage = activeGUIPanel->image;
+
+			/* Write to raw pixels. */
+			//
+
+			for (auto widget : activeGUIPanel->widgets)
+			{
+				std::shared_ptr<Image> widgetImage = widget.second->image;
+
+				/* Write to raw pixels. */
+				//
 			}
 		}
 	}

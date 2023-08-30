@@ -33,22 +33,17 @@
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API GUIWidget
+	class OMNIA_ENGINE_API GUIElement
 	{
 	public:
-		GUIWidget()
+		GUIElement()
 		{
 			this->image = std::shared_ptr<Image>(new Image());
-			this->id = UIDGenerator::getNewUID();
+			this->dimensions = glm::vec2(0.0);
+			this->position = glm::vec2(0.0);
 		}
 
-		virtual ~GUIWidget() = default;
-
-		UID id;
-		std::string widgetType;
-		bool isClickable = false;
-		bool isHighlightable = false;
-		bool isAnchored = false;
+		virtual ~GUIElement() = default;
 
 		struct DetectedInputs
 		{
@@ -62,13 +57,32 @@ namespace Omnia
 			bool isRightMouseButtonOnPress = false;
 			bool isRightMouseButtonOnRelease = false;
 			bool isRightMouseButtonDoubleClicked = false;
+
 		} detectedInputs;
 
+		/* The position has an increasing y that approaches the down direction. */
+		glm::vec2 position;
+		glm::vec2 dimensions;
+		std::shared_ptr<Image> image;
+	};
+
+	class OMNIA_ENGINE_API GUIWidget : public GUIElement
+	{
+	public:
+		GUIWidget()
+		{
+			this->id = UIDGenerator::getNewUID();
+		}
+
+		virtual ~GUIWidget() = default;
+
+		UID id;
+		std::string widgetType;
+		bool isClickable = false;
+		bool isHighlightable = false;
+		bool isAnchored = false;
 		bool isXStretchedToPanel = false;
 		bool isYStretchedToPanel = false;
-		glm::vec2 defaultDimensions;
-		glm::vec2 position;
-		std::shared_ptr<Image> image;
 	};
 
 	class OMNIA_ENGINE_API GUIImage : public GUIWidget
@@ -264,7 +278,7 @@ namespace Omnia
 		};
 	};
 
-	class OMNIA_ENGINE_API GUIPanel
+	class OMNIA_ENGINE_API GUIPanel : public GUIElement
 	{
 	public:
 		std::string name;
@@ -276,12 +290,10 @@ namespace Omnia
 		float horizontalSliderPosition = 0.0;
 	};
 
-	class OMNIA_ENGINE_API GUIPanelTabGroup
+	class OMNIA_ENGINE_API GUIPanelTabGroup : public GUIElement
 	{
 	public:
 		std::string name;
-		glm::vec2 position;
-		glm::vec2 dimensions;
 		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> guiPanels;
 		std::string activeGuiPanelName;
 	};

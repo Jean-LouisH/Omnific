@@ -57,8 +57,8 @@ SceneLayer:
     name: "ScoreCount1"
     parent: "Paddle1"
     Transform:
-      translation: [0.1, 0.0, 0.0]
-      scale: [0.05, 0.05, 0.05]
+      translation: [0.0, 40.0, 0.0]
+      scale: [1.0, 1.0, 1.0]
     GUI:
       GUIPanelTabGroup:
         name: "Score"
@@ -89,8 +89,8 @@ SceneLayer:
     name: "ScoreCount2"
     parent: "Paddle2"
     Transform:
-      translation: [200.0, 0.0, 0.0]
-      scale: [0.05, 0.05, 0.05]
+      translation: [0.0, 0.0, 0.0]
+      scale: [1.0, 1.0, 1.0]
     GUI:
       GUIPanelTabGroup:
         name: "Score"

@@ -16,7 +16,7 @@ SceneLayer:
   Entity:
     name: "Project List"
     Transform:
-      translation: [0.0, 0.0, 0.0]
+      translation: [50.0, 0.0, 0.0]
     ScriptCollection:
       Python: ["selection_menu.py"]
     GUI:
@@ -26,7 +26,7 @@ SceneLayer:
           name: "Text"
           GUIText: 
             text: ""
-            font: ["tests/fonts/Lato-Regular.ttf", 40]
+            font: ["tests/fonts/Lato-Regular.ttf", 20]
             colour: [255, 255, 255, 255]
             wrap_length: 1000
   Entity:
