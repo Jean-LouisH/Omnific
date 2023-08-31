@@ -28,12 +28,19 @@ Omnia::Colour::Colour(std::string hex)
 {
 	uint32_t value;
 	std::stringstream ss;
-	ss << std::hex << hex;
+	std::string inputString;
+
+	if (hex[0] == '#')
+		inputString = hex.substr(1, hex.length());
+	else
+		inputString = hex;
+
+	ss << std::hex << inputString;
 	ss >> value;
 
-	if (hex.length() == 6)
+	if (inputString.length() == 6)
 		this->setRGB(value);
-	else if (hex.length() == 8)
+	else if (inputString.length() == 8)
 		this->setRGBA(value);
 
 	this->type = TYPE_STRING;
