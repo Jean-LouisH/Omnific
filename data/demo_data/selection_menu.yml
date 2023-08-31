@@ -27,7 +27,7 @@ SceneLayer:
           GUIText: 
             text: ""
             font: ["tests/fonts/Lato-Regular.ttf", 20]
-            colour: [255, 255, 255, 255]
+            colour: "#FFFFFFFF"
             wrap_length: 1000
   Entity:
     name: "Camera"

@@ -40,18 +40,25 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 				{
 					guiPanelTabGroup->name = it4->second.as<std::string>();
 				}
-				if (it4->first.as<std::string>() == "position")
+				else if (it4->first.as<std::string>() == "position")
 				{
 					guiPanelTabGroup->position.x = it4->second[0].as<double>();
 					guiPanelTabGroup->position.y = it4->second[1].as<double>();
 				}
-				if (it4->first.as<std::string>() == "dimensions")
+				else if (it4->first.as<std::string>() == "dimensions")
 				{
 					guiPanelTabGroup->dimensions.x = it4->second[0].as<double>();
 					guiPanelTabGroup->dimensions.y = it4->second[1].as<double>();
 				}
-
-				if (it4->first.as<std::string>() == "GUIPanel")
+				else if (it4->first.as<std::string>() == "colour")
+				{
+					guiPanelTabGroup->backgroundColour = std::shared_ptr<Colour>(new Colour(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "image")
+				{
+					;
+				}
+				else if (it4->first.as<std::string>() == "GUIPanel")
 				{
 					std::shared_ptr<GUIPanel> guiPanel(new GUIPanel());
 					std::shared_ptr<GUIWidget> guiWidget;
@@ -62,7 +69,25 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 						{
 							guiPanel->name = it5->second.as<std::string>();
 						}
-						if (it5->first.as<std::string>() == "GUIMenuBar")
+						else if (it5->first.as<std::string>() == "position")
+						{
+							guiPanel->position.x = it5->second[0].as<double>();
+							guiPanel->position.y = it5->second[1].as<double>();
+						}
+						else if (it5->first.as<std::string>() == "dimensions")
+						{
+							guiPanel->dimensions.x = it5->second[0].as<double>();
+							guiPanel->dimensions.y = it5->second[1].as<double>();
+						}
+						else if (it5->first.as<std::string>() == "colour")
+						{
+							guiPanel->backgroundColour = std::shared_ptr<Colour>(new Colour(it5->second.as<std::string>()));
+						}
+						else if (it5->first.as<std::string>() == "image")
+						{
+							;
+						}
+						else if (it5->first.as<std::string>() == "GUIMenuBar")
 						{
 							std::shared_ptr<GUIMenuBar> guiMenuBar(new GUIMenuBar());
 
@@ -116,6 +141,18 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								{
 									guiButton->position.x = it6->second[0].as<double>();
 									guiButton->position.y = it6->second[1].as<double>();
+								}
+								else if (it6->first.as<std::string>() == "dimensions")
+								{
+									;
+								}
+								else if (it6->first.as<std::string>() == "colour")
+								{
+									guiButton->backgroundColour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+								}
+								else if (it6->first.as<std::string>() == "image")
+								{
+									;
 								}
 							}
 
@@ -185,17 +222,11 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								{
 									guiText->isYStretchedToPanel = it6->second.as<bool>();
 								}
-								else if (it6->first.as<std::string>() == "default_dimensions")
-								{
-									guiText->dimensions.x = it6->second[0].as<double>();
-									guiText->dimensions.y = it6->second[1].as<double>();
-								}
 								else if (it6->first.as<std::string>() == "position")
 								{
 									guiText->position.x = it6->second[0].as<double>();
 									guiText->position.y = it6->second[1].as<double>();
 								}
-
 								else if (it6->first.as<std::string>() == "text")
 								{
 									guiText->text = it6->second.as<std::string>();
@@ -209,12 +240,7 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								}
 								else if (it6->first.as<std::string>() == "colour")
 								{
-									guiText->colour = std::shared_ptr<Colour>(new Colour(
-										(uint8_t)it6->second[0].as<int>(),
-										(uint8_t)it6->second[1].as<int>(),
-										(uint8_t)it6->second[2].as<int>(),
-										(uint8_t)it6->second[3].as<int>())
-									);
+									guiText->colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 								}
 								else if (it6->first.as<std::string>() == "wrap_length")
 								{
@@ -315,28 +341,7 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 
 							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 							{
-								//if (it6->first.as<std::string>() == "is_highlightable")
-								//{
-								//	guiText->isHighlightable = it6->second.as<bool>();
-								//}
-								//if (it6->first.as<std::string>() == "is_x_stretched_to_panel")
-								//{
-								//	guiText->isXStretchedToPanel = it6->second.as<bool>();
-								//}
-								//else if (it6->first.as<std::string>() == "is_y_stretched_to_panel")
-								//{
-								//	guiText->isYStretchedToPanel = it6->second.as<bool>();
-								//}
-								//else if (it6->first.as<std::string>() == "default_dimensions")
-								//{
-								//	guiText->defaultDimensions.x = it6->second[0].as<double>();
-								//	guiText->defaultDimensions.y = it6->second[1].as<double>();
-								//}
-								//else if (it6->first.as<std::string>() == "position")
-								//{
-								//	guiText->position.x = it6->second[0].as<double>();
-								//	guiText->position.y = it6->second[1].as<double>();
-								//}
+
 							}
 
 							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiTreeView);
@@ -405,6 +410,34 @@ void Omnia::GUIText::generateImage()
 		if (this->font->getSDLTTFFont() != nullptr)
 		{
 			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->wrapLength));
+			this->dimensions = this->image->getDimensions();
+		}
+	}
+}
+
+void Omnia::GUI::normalBlend(
+	uint8_t* lowerImageData,
+	glm::vec2 lowerImagePosition,
+	glm::vec2 lowerImageDimensions,
+	uint8_t* upperImageData,
+	glm::vec2 upperImagePosition,
+	glm::vec2 upperImageDimensions)
+{
+	const uint8_t colourChannels = 4;
+
+	for (int y = 0; y < upperImageDimensions.y; y++)
+	{
+		for (int x = 0; x < upperImageDimensions.x; x++)
+		{
+			for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
+			{
+				int lowerImageIndex = ((y + upperImagePosition.y) * upperImageDimensions.x * colourChannels) +
+					((x + upperImagePosition.x) * colourChannels) + colourChannel;
+				int upperImageIndex = (y * upperImageDimensions.x * colourChannels) +
+					(x * colourChannels) + colourChannel;
+
+				lowerImageData[lowerImageIndex] = upperImageData[upperImageIndex];
+			}
 		}
 	}
 }
@@ -471,44 +504,40 @@ void Omnia::GUI::updateImage()
 				//);
 				//tabNameText->text = it6->second.as<std::string>();
 				
-
-				/* Write to raw pixels. */
-				//
-				uint8_t* tabGroupPixels = (uint8_t*)guiPanelTabGroupImage->getData();
-				int tabGroupPixelsSize = guiPanelTabGroupImage->getBytesPerPixel() * guiPanelTabGroupImage->getWidth() * 
-					guiPanelTabGroupImage->getHeight();
-				glm::vec2 tabGroupPosition = guiPanelTabGroup.second->position;
-				glm::vec2 tabGroupDimensions = guiPanelTabGroup.second->dimensions;
-
-				for (int y = 0; y < tabGroupDimensions.y; y++)
-				{
-					for (int x = 0; x < tabGroupDimensions.x; x++)
-					{
-						for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
-						{
-							int rawPixelsIndex = ((y + tabGroupPosition.y) * tabGroupDimensions.x * colourChannels) +
-								((x + tabGroupPosition.x) * colourChannels) + colourChannel;
-							int tabGroupPixelsIndex = (y * tabGroupDimensions.x * colourChannels) +
-								(x * colourChannels) + colourChannel;
-
-							rawPixels[rawPixelsIndex] = tabGroupPixels[tabGroupPixelsIndex];
-						}
-					}
-				}
+				/* Draw the tab group to the GUI. */
+				this->normalBlend(
+					rawPixels,
+					glm::vec2(0.0),
+					maximumGUITabGroupSidePositions,
+					(uint8_t*)guiPanelTabGroupImage->getData(),
+					guiPanelTabGroup.second->position,
+					guiPanelTabGroup.second->dimensions
+				);
 			}
 
 			std::shared_ptr<GUIPanel> activeGUIPanel = guiPanelTabGroup.second->guiPanels[guiPanelTabGroup.second->activeGuiPanelName];
-			std::shared_ptr<Image> activeGUIPanelImage = activeGUIPanel->image;
 
-			/* Write to raw pixels. */
-			//
+			/* Draw the active GUI panel to the tab group on the GUI. */
+			this->normalBlend(
+				rawPixels,
+				glm::vec2(0.0),
+				maximumGUITabGroupSidePositions,
+				(uint8_t*)activeGUIPanel->image->getData(),
+				activeGUIPanel->position + guiPanelTabGroup.second->position,
+				activeGUIPanel->dimensions
+			);
 
 			for (auto widget : activeGUIPanel->widgets)
 			{
-				std::shared_ptr<Image> widgetImage = widget.second->image;
-
-				/* Write to raw pixels. */
-				//
+				/* Draw the widget to the active GUI panel to the tab group on the GUI. */
+				this->normalBlend(
+					rawPixels,
+					glm::vec2(0.0),
+					maximumGUITabGroupSidePositions,
+					(uint8_t*)widget.second->image->getData(),
+					widget.second->position + activeGUIPanel->position + guiPanelTabGroup.second->position,
+					widget.second->dimensions
+				);
 			}
 		}
 	}

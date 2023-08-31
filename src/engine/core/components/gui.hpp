@@ -64,6 +64,7 @@ namespace Omnia
 		glm::vec2 position;
 		glm::vec2 dimensions;
 		std::shared_ptr<Image> image;
+		std::shared_ptr<Colour> backgroundColour;
 	};
 
 	class OMNIA_ENGINE_API GUIWidget : public GUIElement
@@ -324,6 +325,14 @@ namespace Omnia
 	private:
 		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> guiPanelTabGroups;
 
+		void normalBlend(
+			uint8_t* lowerImageData,
+			glm::vec2 lowerPosition, 
+			glm::vec2 lowerDimensions, 
+			uint8_t* upperImageData,
+			glm::vec2 upperPosition,
+			glm::vec2 upperDimensions
+		);
 		void updateImage();
 	};
 }

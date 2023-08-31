@@ -67,7 +67,7 @@ SceneLayer:
           GUIText: 
             text: "a"
             font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-            colour: [255, 0, 0, 255]
+            colour: "#FF0000FF"
     ScriptCollection:
       Python: ["games/pong/scripts/python/player_score.py"]
   Entity:
@@ -99,7 +99,7 @@ SceneLayer:
           GUIText: 
             text: "b"
             font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-            colour: [0, 0, 255, 255]
+            colour: "#0000FFFF"
     ScriptCollection:
       Python: ["games/pong/scripts/python/ai_score.py"]
   Entity:
