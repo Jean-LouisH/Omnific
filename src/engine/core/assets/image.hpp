@@ -50,6 +50,7 @@ namespace Omnia
 		};
 		Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrapLength);
 		Image(std::shared_ptr<Colour> colour);
+		Image(std::shared_ptr<Colour> colour, int width, int height);
 		Image(uint8_t* data, int width, int height, int colourChannels);
 		Image(std::string filepath);
 
@@ -59,13 +60,22 @@ namespace Omnia
 			clone->id = UIDGenerator::getNewUID();
 			return clone;
 		}
-		void* getData();
+		uint8_t* getData();
 		uint32_t getWidth();
 		uint32_t getHeight();
 		uint32_t getDepth();
 		uint32_t getPitch();
 		glm::vec2 getDimensions();
 		uint8_t getBytesPerPixel();
+
+		static void normalBlend(
+			uint8_t* lowerImageData,
+			glm::vec2 lowerPosition,
+			glm::vec2 lowerDimensions,
+			uint8_t* upperImageData,
+			glm::vec2 upperPosition,
+			glm::vec2 upperDimensions
+		);
 	private:
 		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
 		int width = 0;
@@ -74,7 +84,7 @@ namespace Omnia
 
 		void colourPixel(uint32_t fillColour, int x, int y);
 		void setToDefault();
-		void setToColour(std::shared_ptr<Colour> colour);
+		void setToColour(std::shared_ptr<Colour> colour, int width, int height);
 		void setToParameters(int colourChannels, int width, int height, uint8_t* data);
 	};
 }

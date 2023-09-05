@@ -69,7 +69,14 @@ Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_pt
 
 Omnia::Image::Image(std::shared_ptr<Colour> colour)
 {
-	this->setToColour(colour);
+	int width = 256;
+	int height = 256;
+	this->setToColour(colour, width, height);
+}
+
+Omnia::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
+{
+	this->setToColour(colour, width, height);
 }
 
 Omnia::Image::Image(uint8_t* data, int width, int height, int colourChannels)
@@ -95,7 +102,7 @@ Omnia::Image::Image(std::string filepath)
 		if (token == "default")
 			this->setToDefault();
 		if (token[0] == '#')
-			this->setToColour(std::shared_ptr<Colour>(new Colour(token.substr(1, token.length()))));
+			this->setToColour(std::shared_ptr<Colour>(new Colour(token.substr(1, token.length()))), 256, 256);
 	}
 	else
 	{
@@ -103,7 +110,7 @@ Omnia::Image::Image(std::string filepath)
 	}
 }
 
-void* Omnia::Image::getData()
+uint8_t* Omnia::Image::getData()
 {
 	if (this->data != nullptr)
 		return this->data.get();
@@ -145,6 +152,33 @@ glm::vec2 Omnia::Image::getDimensions()
 uint8_t Omnia::Image::getBytesPerPixel()
 {
 	return this->colourChannels;
+}
+
+void Omnia::Image::normalBlend(
+	uint8_t* lowerImageData,
+	glm::vec2 lowerImagePosition,
+	glm::vec2 lowerImageDimensions,
+	uint8_t* upperImageData,
+	glm::vec2 upperImagePosition,
+	glm::vec2 upperImageDimensions)
+{
+	const uint8_t colourChannels = 4;
+
+	for (int y = 0; y < upperImageDimensions.y; y++)
+	{
+		for (int x = 0; x < upperImageDimensions.x; x++)
+		{
+			for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
+			{
+				int lowerImageIndex = ((y + upperImagePosition.y) * upperImageDimensions.x * colourChannels) +
+					((x + upperImagePosition.x) * colourChannels) + colourChannel;
+				int upperImageIndex = (y * upperImageDimensions.x * colourChannels) +
+					(x * colourChannels) + colourChannel;
+
+				lowerImageData[lowerImageIndex] = upperImageData[upperImageIndex];
+			}
+		}
+	}
 }
 
 void Omnia::Image::colourPixel(uint32_t fillColour, int x, int y)
@@ -196,12 +230,11 @@ void Omnia::Image::setToDefault()
 	}
 }
 
-void Omnia::Image::setToColour(std::shared_ptr<Colour> colour)
+void Omnia::Image::setToColour(std::shared_ptr<Colour> colour, int width, int height)
 {
 	this->type = TYPE_STRING;
-	const uint16_t size = 256;
-	this->height = size;
-	this->width = size;
+	this->width = width;
+	this->height = height;
 	this->colourChannels = 4;
 	size_t dataSize = this->width * this->height * this->colourChannels;
 	const uint32_t fillColour = colour->getRGBA();
