@@ -115,6 +115,21 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 
 							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiContextMenu);
 						}
+						else if (it5->first.as<std::string>() == "GUIColour")
+						{
+							std::shared_ptr<GUIColour> guiColour(new GUIColour());
+
+							for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+							{
+								if (it6->first.as<std::string>() == "colour")
+								{
+									guiColour->backgroundColour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+								}
+							}
+
+							guiColour->updateImage();
+							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiColour);
+						}
 						else if (it5->first.as<std::string>() == "GUIButton")
 						{
 							std::shared_ptr<GUIButton> guiButton(new GUIButton());
@@ -142,9 +157,20 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 									guiButton->position.x = it6->second[0].as<double>();
 									guiButton->position.y = it6->second[1].as<double>();
 								}
-								else if (it6->first.as<std::string>() == "dimensions")
+								else if (it6->first.as<std::string>() == "text")
 								{
-									;
+									guiButton->guiText->text = it6->second.as<std::string>();
+								}
+								else if (it6->first.as<std::string>() == "font")
+								{
+									std::shared_ptr<Omnia::Font> font = OS::getFileAccess().loadAssetByType<Font>(it6->second[0].as<std::string>());
+									*font = Font(font->getName(), it6->second[1].as<int>());
+									guiButton->guiText->font = font;
+									guiButton->guiText->size = it6->second[1].as<int>();
+								}
+								else if (it6->first.as<std::string>() == "text_colour")
+								{
+									guiButton->guiText->colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 								}
 								else if (it6->first.as<std::string>() == "colour")
 								{
@@ -156,6 +182,7 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								}
 							}
 
+							guiButton->updateImage();
 							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiButton);
 						}
 						else if (it5->first.as<std::string>() == "GUIToggleButton")
@@ -248,7 +275,7 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 								}
 							}
 
-							guiText->generateImage();
+							guiText->updateImage();
 							guiWidget = std::dynamic_pointer_cast<GUIWidget>(guiText);
 						}
 						else if (it5->first.as<std::string>() == "GUITiles")
@@ -354,10 +381,12 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 					if (guiPanelTabGroup->activeGuiPanelName == "")
 						guiPanelTabGroup->activeGuiPanelName = guiPanel->name;
 
+					guiPanel->updateImage();
 					guiPanelTabGroup->guiPanels.emplace(guiPanel->name, guiPanel);
 				}
 			}
 
+			guiPanelTabGroup->updateImage();
 			this->guiPanelTabGroups.emplace(guiPanelTabGroup->name, guiPanelTabGroup);
 		}
 		else if (it3->first.as<std::string>() == "follow_target_entity_name")
@@ -375,12 +404,58 @@ void Omnia::GUI::deserialize(YAML::Node yamlNode)
 	this->updateImage();
 }
 
+void Omnia::GUIColour::updateImage()
+{
+	this->image = std::shared_ptr<Image>(new Image(this->backgroundColour, this->dimensions.x, this->dimensions.y));
+}
+
+void Omnia::GUIButton::updateImage()
+{
+	/* The border of the button wraps around the text it contains by an offset. */
+	this->guiText->updateImage();
+	this->dimensions = this->guiText->dimensions + this->buttonSpaceFromText;
+	this->image = std::shared_ptr<Image>(new Image(this->backgroundColour, this->dimensions.x, this->dimensions.y));
+}
+
+void Omnia::GUIPanel::updateImage()
+{
+	glm::vec2 maximumWidgetSidePositions = glm::vec2(0.0);
+
+	for (auto widget : this->widgets)
+	{
+		glm::vec2 guiWidgetSidePositions = widget.second->position + widget.second->dimensions;
+		if (guiWidgetSidePositions.x > maximumWidgetSidePositions.x)
+			maximumWidgetSidePositions.x = guiWidgetSidePositions.x;
+		if (guiWidgetSidePositions.y > maximumWidgetSidePositions.y)
+			maximumWidgetSidePositions.y = guiWidgetSidePositions.y;
+	}
+
+	/* If Widgets take up more space than the Panel dimensions, then 
+	   create the scrollbars for the sides of the panel. */
+	if (maximumWidgetSidePositions.x > this->dimensions.x)
+	{
+
+	}
+
+	if (maximumWidgetSidePositions.y > this->dimensions.y)
+	{
+
+	}
+
+	this->image = std::shared_ptr<Image>(new Image(this->backgroundColour, this->dimensions.x, this->dimensions.y));
+}
+
+void Omnia::GUIPanelTabGroup::updateImage()
+{
+	this->image = std::shared_ptr<Image>(new Image(this->backgroundColour, this->dimensions.x, this->dimensions.y));
+}
+
 void Omnia::GUIText::setText(std::string text)
 {
 	if (text != this->text)
 	{
 		this->text = text;
-		this->generateImage();
+		this->updateImage();
 	}
 }
 
@@ -388,22 +463,22 @@ void Omnia::GUIText::setFont(std::shared_ptr<Omnia::Font> font, uint16_t size_px
 {
 	this->font = font;
 	this->size = size_px;
-	this->generateImage();
+	this->updateImage();
 }
 
 void Omnia::GUIText::setFontSize(uint16_t size_px)
 {
 	this->size = size_px;
-	this->generateImage();
+	this->updateImage();
 }
 
 void Omnia::GUIText::setColour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->colour = std::shared_ptr<Colour>(new Colour(red, green, blue, alpha));
-	this->generateImage();
+	this->updateImage();
 }
 
-void Omnia::GUIText::generateImage()
+void Omnia::GUIText::updateImage()
 {
 	if (this->font != nullptr && this->colour != nullptr)
 	{
@@ -411,33 +486,6 @@ void Omnia::GUIText::generateImage()
 		{
 			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->wrapLength));
 			this->dimensions = this->image->getDimensions();
-		}
-	}
-}
-
-void Omnia::GUI::normalBlend(
-	uint8_t* lowerImageData,
-	glm::vec2 lowerImagePosition,
-	glm::vec2 lowerImageDimensions,
-	uint8_t* upperImageData,
-	glm::vec2 upperImagePosition,
-	glm::vec2 upperImageDimensions)
-{
-	const uint8_t colourChannels = 4;
-
-	for (int y = 0; y < upperImageDimensions.y; y++)
-	{
-		for (int x = 0; x < upperImageDimensions.x; x++)
-		{
-			for (int colourChannel = 0; colourChannel < colourChannels; colourChannel++)
-			{
-				int lowerImageIndex = ((y + upperImagePosition.y) * upperImageDimensions.x * colourChannels) +
-					((x + upperImagePosition.x) * colourChannels) + colourChannel;
-				int upperImageIndex = (y * upperImageDimensions.x * colourChannels) +
-					(x * colourChannels) + colourChannel;
-
-				lowerImageData[lowerImageIndex] = upperImageData[upperImageIndex];
-			}
 		}
 	}
 }
@@ -505,11 +553,11 @@ void Omnia::GUI::updateImage()
 				//tabNameText->text = it6->second.as<std::string>();
 				
 				/* Draw the tab group to the GUI. */
-				this->normalBlend(
+				Image::normalBlend(
 					rawPixels,
 					glm::vec2(0.0),
 					maximumGUITabGroupSidePositions,
-					(uint8_t*)guiPanelTabGroupImage->getData(),
+					guiPanelTabGroupImage->getData(),
 					guiPanelTabGroup.second->position,
 					guiPanelTabGroup.second->dimensions
 				);
@@ -518,11 +566,11 @@ void Omnia::GUI::updateImage()
 			std::shared_ptr<GUIPanel> activeGUIPanel = guiPanelTabGroup.second->guiPanels[guiPanelTabGroup.second->activeGuiPanelName];
 
 			/* Draw the active GUI panel to the tab group on the GUI. */
-			this->normalBlend(
+			Image::normalBlend(
 				rawPixels,
 				glm::vec2(0.0),
 				maximumGUITabGroupSidePositions,
-				(uint8_t*)activeGUIPanel->image->getData(),
+				activeGUIPanel->image->getData(),
 				activeGUIPanel->position + guiPanelTabGroup.second->position,
 				activeGUIPanel->dimensions
 			);
@@ -530,7 +578,7 @@ void Omnia::GUI::updateImage()
 			for (auto widget : activeGUIPanel->widgets)
 			{
 				/* Draw the widget to the active GUI panel to the tab group on the GUI. */
-				this->normalBlend(
+				Image::normalBlend(
 					rawPixels,
 					glm::vec2(0.0),
 					maximumGUITabGroupSidePositions,
@@ -592,4 +640,14 @@ void Omnia::GUI::setAsText(std::string text)
 	}
 
 	this->updateImage();
+}
+
+std::shared_ptr<Omnia::GUIWidget> Omnia::GUI::getWidget(std::string widgetName)
+{
+	std::shared_ptr<GUIWidget> guiWidget;
+
+	if (this->guiWidgetRegistry.count(widgetName))
+		guiWidget = this->guiWidgetRegistry.at(widgetName);
+
+	return guiWidget;
 }

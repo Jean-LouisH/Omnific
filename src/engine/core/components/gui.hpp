@@ -39,6 +39,7 @@ namespace Omnia
 		GUIElement()
 		{
 			this->image = std::shared_ptr<Image>(new Image());
+			this->backgroundColour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
 			this->dimensions = glm::vec2(0.0);
 			this->position = glm::vec2(0.0);
 		}
@@ -73,11 +74,13 @@ namespace Omnia
 		GUIWidget()
 		{
 			this->id = UIDGenerator::getNewUID();
+			this->backgroundColour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
 		}
 
 		virtual ~GUIWidget() = default;
 
 		UID id;
+		std::string widgetName;
 		std::string widgetType;
 		bool isClickable = false;
 		bool isHighlightable = false;
@@ -106,6 +109,8 @@ namespace Omnia
 		};
 
 		std::shared_ptr<Colour> colour;
+
+		void updateImage();
 	};
 
 	class OMNIA_ENGINE_API GUIText : public GUIWidget
@@ -129,7 +134,7 @@ namespace Omnia
 		std::shared_ptr<Colour> colour;
 		bool isEdittable = false;
 
-		void generateImage();
+		void updateImage();
 	};
 
 	class OMNIA_ENGINE_API GUIButton : public GUIWidget
@@ -139,9 +144,14 @@ namespace Omnia
 		GUIButton()
 		{
 			this->widgetType = TYPE_STRING;
+			this->guiText = std::shared_ptr<GUIText>(new GUIText());
+			this->buttonSpaceFromText = glm::vec2(5.0);
 		};
 
-		GUIText guiText;
+		std::shared_ptr<GUIText> guiText;
+		glm::vec2 buttonSpaceFromText;
+
+		void updateImage();
 
 	};
 
@@ -284,11 +294,20 @@ namespace Omnia
 	public:
 		std::string name;
 		std::unordered_map<UID, std::shared_ptr<GUIWidget>> widgets;
+		std::shared_ptr<Colour> scrollbarColour;
+		std::shared_ptr<Colour> scrollbarThumbColour;
+		std::shared_ptr<Colour> scrollbarArrowColour;
+		std::shared_ptr<Image> scrollbarArrowImage;
+		std::shared_ptr<Image> scrollbarScrollbarImage;
+		std::shared_ptr<Image> verticalScrollbarThumbImage;
+		std::shared_ptr<Image> horizontalScrollbarThumbImage;
 
 		/* Denoted in the image pixel position of the top view of the panel
 		   where an increasing y value travels from top to bottom. */
-		float verticalSliderPosition = 0.0;
-		float horizontalSliderPosition = 0.0;
+		uint32_t verticalSliderPosition = 0;
+		uint32_t horizontalSliderPosition = 0;
+
+		void updateImage();
 	};
 
 	class OMNIA_ENGINE_API GUIPanelTabGroup : public GUIElement
@@ -297,6 +316,9 @@ namespace Omnia
 		std::string name;
 		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> guiPanels;
 		std::string activeGuiPanelName;
+		std::shared_ptr<Colour> highlightedTabColour;
+
+		void updateImage();
 	};
 
 	class OMNIA_ENGINE_API GUI : public RenderableComponent
@@ -322,17 +344,11 @@ namespace Omnia
 
 		virtual void deserialize(YAML::Node yamlNode);
 		void setAsText(std::string text);
+		std::shared_ptr<GUIWidget> getWidget(std::string widgetName);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> guiPanelTabGroups;
+		std::unordered_map<std::string, std::shared_ptr<GUIWidget>> guiWidgetRegistry;
 
-		void normalBlend(
-			uint8_t* lowerImageData,
-			glm::vec2 lowerPosition, 
-			glm::vec2 lowerDimensions, 
-			uint8_t* upperImageData,
-			glm::vec2 upperPosition,
-			glm::vec2 upperDimensions
-		);
 		void updateImage();
 	};
 }
