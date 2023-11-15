@@ -23,7 +23,8 @@
 #include "audio_system.hpp"
 #include <core/singletons/os/os.hpp>
 #include <core/assets/audio_stream.hpp>
-
+#include <Libretti.h>
+#include "core/components/audio_listener.hpp"
 #include <core/components/audio_source.hpp>
 
 Omnia::AudioSystem::~AudioSystem()
@@ -36,8 +37,14 @@ void Omnia::AudioSystem::initialize()
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
+	lb_initialize();
 	this->isInitialized = true;
 	OS::getLogger().write("Initialized Audio System.");
+}
+
+void Omnia::AudioSystem::onLogic(std::shared_ptr<Scene> scene)
+{
+	lb_incrementAllPlayTimes(OS::getProfiler().getTimer(LOOP_THREAD_TIMER_NAME)->getDeltaInSeconds());
 }
 
 void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
@@ -46,7 +53,12 @@ void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
 
 	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
 	{
-		
+		std::vector<std::shared_ptr<AudioListener>> audioListeners = it->second->getComponentsByType<AudioListener>();
+
+		if (audioListeners.size() > 0)
+		{
+			std::shared_ptr<AudioListener> audioListener = audioListeners.at(audioListeners.size() - 1); //Get the last AudioListener.
+		}
 	}
 }
 

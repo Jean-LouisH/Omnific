@@ -12,7 +12,7 @@ file(GLOB_RECURSE libretti_headers "./include/[a-zA-Z]*.h")
 include_directories(
 	 "."
      "./include"
-     "../SDL2-2.26.2/include"
+     "../SDL2-2.28.5/include"
 )
 
 add_library(libretti SHARED
@@ -22,7 +22,7 @@ add_library(libretti SHARED
 
  add_definitions(/bigobj)
 
-find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.26.2/lib/x64)
+find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.28.5/lib/x64)
 
 target_link_libraries (libretti
 		${SDL2}
