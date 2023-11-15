@@ -1,0 +1,10 @@
+SceneLayer:
+  name: "Foreground SceneLayer"
+  spatial_dimension: 2
+  Entity:
+    name: "Basic GUI"
+    GUI:
+      GUIPanelTabGroup:
+        name: "Tab"
+    ScriptCollection:
+      Python: ["tests/scripts/python/shader_parameter_control.py"]

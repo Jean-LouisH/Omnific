@@ -5,10 +5,10 @@ project_name_type_pairs = {
     "paper_airplanes": "game",
     "pong": "game",
     "table_tennis": "game",
+    "gui_test": "test",
     "components_demonstration": "test",
     "entity_tree_rotation_demo": "test",
     "event_bus": "test",
-    "imgui_test": "test",
     "loading_models": "test",
     "scene_tree_layers": "test"
     }

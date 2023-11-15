@@ -610,7 +610,7 @@ void Omnia::GUI::setAsText(std::string text)
 						{
 							for (auto widget : guiPanel.second->widgets)
 							{
-								if (widget.second->widgetType == GUIText::TYPE_STRING)
+								if (widget.second->guiElementType == GUIText::TYPE_STRING)
 								{
 									std::shared_ptr<GUIWidget> guiWidget = widget.second;
 									std::shared_ptr<GUIText> guiText = std::dynamic_pointer_cast<GUIText>(guiWidget);

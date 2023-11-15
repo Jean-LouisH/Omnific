@@ -36,8 +36,11 @@ namespace Omnia
 	class OMNIA_ENGINE_API GUIElement
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "GUIElement";
 		GUIElement()
 		{
+			this->name = "GUIElement ID: " + std::to_string(UIDGenerator::getNewUID());
+			this->guiElementType = TYPE_STRING;
 			this->image = std::shared_ptr<Image>(new Image());
 			this->backgroundColour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
 			this->dimensions = glm::vec2(0.0);
@@ -61,6 +64,9 @@ namespace Omnia
 
 		} detectedInputs;
 
+		std::string name;
+		std::string guiElementType;
+
 		/* The position has an increasing y that approaches the down direction. */
 		glm::vec2 position;
 		glm::vec2 dimensions;
@@ -71,17 +77,15 @@ namespace Omnia
 	class OMNIA_ENGINE_API GUIWidget : public GUIElement
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "GUIWidget";
 		GUIWidget()
 		{
-			this->id = UIDGenerator::getNewUID();
 			this->backgroundColour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
+			this->guiElementType = TYPE_STRING;
 		}
 
 		virtual ~GUIWidget() = default;
 
-		UID id;
-		std::string widgetName;
-		std::string widgetType;
 		bool isClickable = false;
 		bool isHighlightable = false;
 		bool isAnchored = false;
@@ -95,7 +99,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIImage";
 		GUIImage()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 	};
 
@@ -105,7 +109,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIColour";
 		GUIColour()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		std::shared_ptr<Colour> colour;
@@ -119,7 +123,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIText";
 		GUIText()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		void setText(std::string text);
@@ -143,7 +147,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIButton";
 		GUIButton()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 			this->guiText = std::shared_ptr<GUIText>(new GUIText());
 			this->buttonSpaceFromText = glm::vec2(5.0);
 		};
@@ -161,7 +165,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIToggleButton";
 		GUIToggleButton()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 	};
@@ -172,7 +176,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIListBox";
 		GUIList()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		std::vector<GUIButton> listItems;
@@ -184,7 +188,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUITree";
 		GUITree()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		std::unordered_map<std::string, GUIButton> items;
@@ -197,7 +201,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIContextMenu";
 		GUIContextMenu()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 	};
@@ -208,7 +212,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIMenuBar";
 		GUIMenuBar()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		std::unordered_map<std::string, GUIContextMenu> menus;
@@ -221,7 +225,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUISpinner";
 		GUISpinner()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 	};
 
@@ -231,7 +235,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUITiles";
 		GUITiles()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 	};
 
@@ -241,7 +245,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUIDropDownList";
 		GUIDropDownList()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		uint64_t currentItemIndex = 0;
@@ -253,7 +257,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUISlider";
 		GUISlider()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 		float currentValue = 0.0;
 		float minimumValue = 0.0;
@@ -272,7 +276,7 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUILine";
 		GUILine()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 
 		glm::vec2 startPoint;
@@ -285,13 +289,20 @@ namespace Omnia
 		static constexpr const char* TYPE_STRING = "GUITreeView";
 		GUITreeView()
 		{
-			this->widgetType = TYPE_STRING;
+			this->guiElementType = TYPE_STRING;
 		};
 	};
 
 	class OMNIA_ENGINE_API GUIPanel : public GUIElement
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "GUIPanel";
+
+		GUIPanel()
+		{
+			this->guiElementType = TYPE_STRING;
+		}
+
 		std::string name;
 		std::unordered_map<UID, std::shared_ptr<GUIWidget>> widgets;
 		std::shared_ptr<Colour> scrollbarColour;
@@ -313,6 +324,13 @@ namespace Omnia
 	class OMNIA_ENGINE_API GUIPanelTabGroup : public GUIElement
 	{
 	public:
+		static constexpr const char* TYPE_STRING = "GUIPanelTabGroup";
+
+		GUIPanelTabGroup()
+		{
+			this->guiElementType = TYPE_STRING;
+		}
+
 		std::string name;
 		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> guiPanels;
 		std::string activeGuiPanelName;
