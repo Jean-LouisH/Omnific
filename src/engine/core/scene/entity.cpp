@@ -22,18 +22,18 @@
 
 #include "entity.hpp"
 
-void Omnia::Entity::setName(std::string name)
+void Omnia::Entity::set_name(std::string name)
 {
-	if (!this->isAttachedToSceneLayer)
+	if (!this->is_attached_to_scene_layer)
 		this->name = name;
 }
 
-std::string Omnia::Entity::getName()
+std::string Omnia::Entity::get_name()
 {
 	return this->name;
 }
 
-Omnia::EntityID Omnia::Entity::getID()
+Omnia::EntityID Omnia::Entity::get_id()
 {
 	return this->id;
 }

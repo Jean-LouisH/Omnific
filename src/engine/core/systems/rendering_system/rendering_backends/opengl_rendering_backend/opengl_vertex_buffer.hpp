@@ -41,11 +41,11 @@ namespace Omnia
 		OpenGLVertexBuffer(std::shared_ptr<Asset> asset);
 		~OpenGLVertexBuffer();
 		void bind();
-		void deleteVertexBuffer();
-		unsigned int getVertexCount();
+		void delete_vertex_buffer();
+		unsigned int get_vertex_count();
 	private:
-		GLuint vertexBufferID = 0;
-		GLsizei vertexCount = 0;
+		GLuint vertex_buffer_id = 0;
+		GLsizei vertex_count = 0;
 	};
 }
 

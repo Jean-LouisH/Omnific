@@ -31,12 +31,12 @@ namespace Omnia
 	class OMNIA_ENGINE_API Platform
 	{
 	public:
-		uint8_t getLogicalCoreCount();
+		uint8_t get_logical_core_count();
 		/* In Bytes */
-		uint32_t getL1CacheLineSize();
+		uint32_t get_l1cache_line_size();
 		/* In MegaBytes */
-		uint32_t getSystemRAM();
-		std::string getOSName();
+		uint32_t get_system_ram();
+		std::string get_osname();
 	private:
 	};
 }

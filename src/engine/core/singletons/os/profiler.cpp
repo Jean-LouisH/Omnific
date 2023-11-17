@@ -24,82 +24,82 @@
 #include "core/utilities/constants.hpp"
 #include <core/singletons/os/os.hpp>
 
-uint64_t Omnia::HiResTimer::getDeltaInNanoseconds()
+uint64_t Omnia::HiResTimer::get_delta_in_nanoseconds()
 {
 	return this->delta;
 }
 
-uint64_t Omnia::HiResTimer::getDelta()
+uint64_t Omnia::HiResTimer::get_delta()
 {
 	return this->delta / NS_IN_MS;
 }
 
-float Omnia::HiResTimer::getDeltaInSeconds()
+float Omnia::HiResTimer::get_delta_in_seconds()
 {
 	return this->delta / NS_IN_S;
 }
 
-void Omnia::HiResTimer::setStart()
+void Omnia::HiResTimer::set_start()
 {
 	this->start = std::chrono::high_resolution_clock::now();
 }
 
-void Omnia::HiResTimer::setEnd()
+void Omnia::HiResTimer::set_end()
 {
 	this->end = std::chrono::high_resolution_clock::now();
 	this->delta = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 }
 
-void Omnia::Profiler::addTimer(std::string timerName, bool isRemovable)
+void Omnia::Profiler::add_timer(std::string timer_name, bool is_removable)
 {
-	this->timers.emplace(timerName, std::shared_ptr<HiResTimer>(new HiResTimer()));
-	this->isRemovableMap.emplace(timerName, isRemovable);
-	OS::getLogger().write("Added HiResTimer to Profiler: \"" + timerName + "\"");
+	this->timers.emplace(timer_name, std::shared_ptr<HiResTimer>(new HiResTimer()));
+	this->is_removable_map.emplace(timer_name, is_removable);
+	OS::get_logger().write("Added HiResTimer to Profiler: \"" + timer_name + "\"");
 }
 
-void Omnia::Profiler::removeTimer(std::string timerName)
+void Omnia::Profiler::remove_timer(std::string timer_name)
 {
-	if (this->isRemovableMap.count(timerName))
+	if (this->is_removable_map.count(timer_name))
 	{
-		if (this->isRemovableMap.at(timerName))
+		if (this->is_removable_map.at(timer_name))
 		{
-			this->timers.erase(timerName);
-			this->isRemovableMap.erase(timerName);
+			this->timers.erase(timer_name);
+			this->is_removable_map.erase(timer_name);
 		}
 	}
 }
 
-std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::getTimer(std::string timerName)
+std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::get_timer(std::string timer_name)
 {
 	std::shared_ptr<HiResTimer> timer;
 
-	if (this->timers.count(timerName) > 0)
-		timer = this->timers.at(timerName);
+	if (this->timers.count(timer_name) > 0)
+		timer = this->timers.at(timer_name);
 
 	return timer;
 }
 
-void Omnia::Profiler::incrementFrameCount()
+void Omnia::Profiler::increment_frame_count()
 {
-	this->frameCount++;
+	this->frame_count++;
 }
 
-void Omnia::Profiler::incrementLagCount(uint64_t deltaTime_ms)
+void Omnia::Profiler::increment_lag_count(uint64_t delta_time_ms)
 {
-	this->lag += deltaTime_ms;
+	this->lag += delta_time_ms;
 }
 
-void Omnia::Profiler::decrementLagCount(uint64_t deltaTime_ms)
+void Omnia::Profiler::decrement_lag_count(uint64_t delta_time_ms)
 {
-	this->lag -= deltaTime_ms;
+	this->lag -= delta_time_ms;
 }
 
-uint64_t Omnia::Profiler::getLagCount()
+uint64_t Omnia::Profiler::get_lag_count()
 {
 	return this->lag;
 }
 
-uint16_t Omnia::Profiler::getFPS()
+uint16_t Omnia::Profiler::get_fps()
 {
-	return (1.0 / (this->getTimer("frame")->getDeltaInNanoseconds() / NS_IN_S));
+	return (1.0 / (this->get_timer("frame")->get_delta_in_nanoseconds() / NS_IN_S));
 }

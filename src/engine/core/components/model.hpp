@@ -49,18 +49,18 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Model* clone = new Model(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
 		std::shared_ptr<Mesh> mesh;
 		std::shared_ptr<Material> material;
 		std::shared_ptr<Rig> rig;
-		std::vector<std::shared_ptr<SkeletalAnimation>> skeletalAnimations;
+		std::vector<std::shared_ptr<SkeletalAnimation>> skeletal_animations;
 
-		virtual void deserialize(YAML::Node yamlNode);
-		void setToCube();
-		void setToTexturedCube(std::shared_ptr<Material> material);
+		virtual void deserialize(YAML::Node yaml_node);
+		void set_to_cube();
+		void set_to_textured_cube(std::shared_ptr<Material> material);
 	private:
 	};
 }

@@ -28,36 +28,36 @@
 
 void Omnia::Logger::write(std::string message)
 {
-	std::string timeStampedMessage = this->timeStamp(message);
+	std::string time_stamped_message = this->time_stamp(message);
 #ifdef _DEBUG
-	std::cout << timeStampedMessage << std::endl;
+	std::cout << time_stamped_message << std::endl;
 #endif
-	this->logs.push_back(timeStampedMessage);
+	this->logs.push_back(time_stamped_message);
 }
 
-void Omnia::Logger::writeToFile(std::string message)
+void Omnia::Logger::write_to_file(std::string message)
 {
-	std::string timeStampedMessage = this->timeStamp(message);
+	std::string time_stamped_message = this->time_stamp(message);
 
 
 
-	this->logs.push_back(timeStampedMessage);
+	this->logs.push_back(time_stamped_message);
 }
 
-std::string Omnia::Logger::getLastMessage()
+std::string Omnia::Logger::get_last_message()
 {
 	return this->logs.at(this->logs.size() - 1);
 }
 
-std::vector<std::string> Omnia::Logger::getLogs()
+std::vector<std::string> Omnia::Logger::get_logs()
 {
 	return this->logs;
 }
 
-std::string Omnia::Logger::timeStamp(std::string message)
+std::string Omnia::Logger::time_stamp(std::string message)
 {
 	auto now = std::chrono::system_clock::now();
-	std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
-	std::string result = std::ctime(&currentTime);
+	std::time_t current_time = std::chrono::system_clock::to_time_t(now);
+	std::string result = std::ctime(&current_time);
 	return 	"[" + result.substr(0, result.find("\n")) + "]: " + message;
 }

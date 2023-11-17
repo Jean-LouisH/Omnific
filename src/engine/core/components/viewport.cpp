@@ -22,33 +22,33 @@
 
 #include "viewport.hpp"
 
-void Omnia::Viewport::deserialize(YAML::Node yamlNode)
+void Omnia::Viewport::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "camera_entity")
 		{
-			this->setCameraEntityName(it3->second.as<std::string>());
+			this->set_camera_entity_name(it3->second.as<std::string>());
 		}
 	}
 }
 
-std::string Omnia::Viewport::getCameraEntityName()
+std::string Omnia::Viewport::get_camera_entity_name()
 {
-	return this->cameraEntityName;
+	return this->camera_entity_name;
 }
 
-void Omnia::Viewport::setCameraEntityName(std::string cameraEntityName)
+void Omnia::Viewport::set_camera_entity_name(std::string camera_entity_name)
 {
-	this->cameraEntityName = cameraEntityName;
+	this->camera_entity_name = camera_entity_name;
 }
 
-glm::vec2 Omnia::Viewport::getDimensions()
+glm::vec2 Omnia::Viewport::get_dimensions()
 {
 	return  this->dimensions;
 }
 
-void Omnia::Viewport::setDimensions(uint32_t width, uint32_t height)
+void Omnia::Viewport::set_dimensions(uint32_t width, uint32_t height)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;

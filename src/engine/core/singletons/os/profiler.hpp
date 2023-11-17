@@ -34,12 +34,12 @@ namespace Omnia
 	class OMNIA_ENGINE_API HiResTimer
 	{
 	public:
-		uint64_t getDeltaInNanoseconds();
+		uint64_t get_delta_in_nanoseconds();
 		/* Returns delta time in Milliseconds */
-		uint64_t getDelta();
-		float getDeltaInSeconds();
-		void setStart();
-		void setEnd();
+		uint64_t get_delta();
+		float get_delta_in_seconds();
+		void set_start();
+		void set_end();
 	private:
 		uint64_t delta = 0; //In nanoseconds.
 		std::chrono::time_point<std::chrono::steady_clock> start;
@@ -49,21 +49,21 @@ namespace Omnia
 	class OMNIA_ENGINE_API Profiler
 	{
 	public:
-		void addTimer(std::string timerName, bool isRemovable= true);
-		void removeTimer(std::string timerName);
-		std::shared_ptr<HiResTimer> getTimer(std::string timerName);
+		void add_timer(std::string timer_name, bool is_removable= true);
+		void remove_timer(std::string timer_name);
+		std::shared_ptr<HiResTimer> get_timer(std::string timer_name);
 
-		void incrementFrameCount();
-		void incrementLagCount(uint64_t deltaTime);
-		void decrementLagCount(uint64_t deltaTime);
+		void increment_frame_count();
+		void increment_lag_count(uint64_t delta_time);
+		void decrement_lag_count(uint64_t delta_time);
 		/* In milliseconds */
-		uint64_t getLagCount();
-		uint16_t getFPS();
+		uint64_t get_lag_count();
+		uint16_t get_fps();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<HiResTimer>> timers;
-		std::unordered_map<std::string, bool> isRemovableMap;
+		std::unordered_map<std::string, bool> is_removable_map;
 		/* In milliseconds */
 		uint64_t lag = 0;
-		uint64_t frameCount = 0;
+		uint64_t frame_count = 0;
 	};
 }

@@ -36,19 +36,19 @@ namespace Omnia
 		{ 
 			this->type = TYPE_STRING;
 		};
-		Shader(std::string vertexSourceInput, std::string fragmentSourceInput, bool isVertexFilepath = true, bool isFragmentFilepath = true);
+		Shader(std::string vertex_source_input, std::string fragment_source_input, bool is_vertex_filepath = true, bool is_fragment_filepath = true);
 
 		virtual Registerable* instance() override
 		{
 			Shader* clone = new Shader(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
-		std::string getVertexSource();
-		std::string getFragmentSource();
+		std::string get_vertex_source();
+		std::string get_fragment_source();
 	private:
-		std::string vertexSource;
-		std::string fragmentSource;
+		std::string vertex_source;
+		std::string fragment_source;
 	};
 }

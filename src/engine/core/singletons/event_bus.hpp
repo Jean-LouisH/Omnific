@@ -56,9 +56,9 @@ namespace Omnia
 		/*Event data is read only to prevent multiple Systems or Scripts
 		from overwriting it directly from reference from the EventQueue.*/
 
-		std::string getName();
-		uint64_t getTimestamp();
-		Parameters getParameters();
+		std::string get_name();
+		uint64_t get_timestamp();
+		Parameters get_parameters();
 
 	private:
 		std::string name;
@@ -87,13 +87,13 @@ namespace Omnia
 			std::string name);
 
 		static std::vector<Event> query(std::string name);
-		static uint64_t queryCount(std::string name);
-		static EventBus* getInstance();
+		static uint64_t query_count(std::string name);
+		static EventBus* get_instance();
 	private:
 		static EventBus* instance;
 		std::unordered_map<std::string, std::vector<Event>> events;
 
 		static void clear();
-		static void publishWithParameters(std::string name, Event::Parameters parameters);
+		static void publish_with_parameters(std::string name, Event::Parameters parameters);
 	};
 }

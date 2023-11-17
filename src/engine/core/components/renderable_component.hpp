@@ -34,21 +34,21 @@ namespace Omnia
 	class OMNIA_ENGINE_API ShaderParameters
 	{
 	public:
-		void setIntUniform(std::string uniformName, int value);
-		void setBoolUniform(std::string uniformName, bool value);
-		void setFloatUniform(std::string uniformName, float value);
-		void setVec2Uniform(std::string uniformName, glm::vec2 value);
-		void setVec3Uniform(std::string uniformName, glm::vec3 value);
-		void setVec4Uniform(std::string uniformName, glm::vec4 value);
-		void setMat4Uniform(std::string uniformName, glm::mat4 value);
+		void set_int_uniform(std::string uniform_name, int value);
+		void set_bool_uniform(std::string uniform_name, bool value);
+		void set_float_uniform(std::string uniform_name, float value);
+		void set_vec2_uniform(std::string uniform_name, glm::vec2 value);
+		void set_vec3_uniform(std::string uniform_name, glm::vec3 value);
+		void set_vec4_uniform(std::string uniform_name, glm::vec4 value);
+		void set_mat4_uniform(std::string uniform_name, glm::mat4 value);
 
-		std::unordered_map<std::string, int> intUniforms;
-		std::unordered_map<std::string, bool> boolUniforms;
-		std::unordered_map<std::string, float> floatUniforms;
-		std::unordered_map<std::string, glm::vec2> vec2Uniforms;
-		std::unordered_map<std::string, glm::vec3> vec3Uniforms;
-		std::unordered_map<std::string, glm::vec4> vec4Uniforms;
-		std::unordered_map<std::string, glm::mat4> mat4Uniforms;
+		std::unordered_map<std::string, int> int_uniforms;
+		std::unordered_map<std::string, bool> bool_uniforms;
+		std::unordered_map<std::string, float> float_uniforms;
+		std::unordered_map<std::string, glm::vec2> vec2_uniforms;
+		std::unordered_map<std::string, glm::vec3> vec3_uniforms;
+		std::unordered_map<std::string, glm::vec4> vec4_uniforms;
+		std::unordered_map<std::string, glm::mat4> mat4_uniforms;
 	private:
 
 	};
@@ -67,51 +67,51 @@ namespace Omnia
 		RenderableComponent()
 		{
 			this->type = TYPE_STRING;
-			this->shaderParameters = std::shared_ptr<ShaderParameters>(new ShaderParameters());
+			this->shader_parameters = std::shared_ptr<ShaderParameters>(new ShaderParameters());
 		};
 		static constexpr const char* TYPE_STRING = "RenderableComponent";
 
 		virtual Registerable* instance() override
 		{
 			RenderableComponent* clone = new RenderableComponent(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
-		virtual void deserialize(YAML::Node yamlNode);
-		void setDimensions(float width, float height);
-		void setDimensions(float width, float height, float depth);
-		void setShader(std::shared_ptr<Shader> shader);
-		void setOverridingShader(std::shared_ptr<Shader> overridingShader);
-		void setAlpha(uint8_t value);
-		void setToNoFaceCulling();
-		void setToFrontFaceCulling();
-		void setToBackFaceCulling();
-		void setToFrontAndBackFaceCulling();
-		uint8_t getAlpha();
-		float getAlphaInPercentage();
-		bool isNoFaceCulling();
-		bool isFrontFaceCulling();
-		bool isBackFaceCulling();
-		bool isFrontAndBackFaceCulling();
+		virtual void deserialize(YAML::Node yaml_node);
+		void set_dimensions(float width, float height);
+		void set_dimensions(float width, float height, float depth);
+		void set_shader(std::shared_ptr<Shader> shader);
+		void set_overriding_shader(std::shared_ptr<Shader> overriding_shader);
+		void set_alpha(uint8_t value);
+		void set_to_no_face_culling();
+		void set_to_front_face_culling();
+		void set_to_back_face_culling();
+		void set_to_front_and_back_face_culling();
+		uint8_t get_alpha();
+		float get_alpha_in_percentage();
+		bool is_no_face_culling();
+		bool is_front_face_culling();
+		bool is_back_face_culling();
+		bool is_front_and_back_face_culling();
 		void hide();
 		void show();
-		CullMode getCullMode();
-		std::shared_ptr<Image> getImage();
-		std::shared_ptr<Shader> getShader();
-		std::shared_ptr<Shader> getOverridingShader();
-		bool isRenderable() override;
-		glm::vec3 getDimensions();
+		CullMode get_cull_mode();
+		std::shared_ptr<Image> get_image();
+		std::shared_ptr<Shader> get_shader();
+		std::shared_ptr<Shader> get_overriding_shader();
+		bool is_renderable() override;
+		glm::vec3 get_dimensions();
 
-		std::shared_ptr<ShaderParameters> shaderParameters;
+		std::shared_ptr<ShaderParameters> shader_parameters;
 	protected:
 		glm::vec3 dimensions;
 		uint8_t alpha = 255;
-		CullMode cullMode = CullMode::NONE;
+		CullMode cull_mode = CullMode::NONE;
 		std::shared_ptr<Image> image;
 		std::shared_ptr<Shader> shader;
-		std::shared_ptr<Shader> overridingShader;
+		std::shared_ptr<Shader> overriding_shader;
 	private:
-		void buildUniformReferencesFromShader(std::shared_ptr<Shader> shader);
+		void build_uniform_references_from_shader(std::shared_ptr<Shader> shader);
 	};
 }

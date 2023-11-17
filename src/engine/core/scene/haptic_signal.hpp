@@ -32,12 +32,12 @@ namespace Omnia
 	class OMNIA_ENGINE_API HapticSignal
 	{
 	public:
-		HapticSignal(PlayerID playerID, float strength_pct, uint16_t duration_ms);
-		PlayerID getPlayerID();
-		float getStrength();
-		uint16_t getDuration();
+		HapticSignal(PlayerID player_id, float strength_pct, uint16_t duration_ms);
+		PlayerID get_player_id();
+		float get_strength();
+		uint16_t get_duration();
 	private:
-		PlayerID playerID = 0;
+		PlayerID player_id = 0;
 		float strength_pct = 0.0;
 		uint16_t duration_ms = 0;
 	};

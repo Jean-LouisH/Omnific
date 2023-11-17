@@ -34,32 +34,32 @@ Omnia::AnimationSystem::~AnimationSystem()
 
 void Omnia::AnimationSystem::initialize()
 {
-	this->isInitialized = true;
-	OS::getLogger().write("Initialized Animation System");
+	this->is_initialized = true;
+	OS::get_logger().write("Initialized Animation System");
 }
 
-void Omnia::AnimationSystem::onCompute(std::shared_ptr<Scene> scene)
+void Omnia::AnimationSystem::on_compute(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 
-	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
+	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
 	{
-		this->updateSpriteContainers(it->second);
+		this->update_sprite_containers(it->second);
 	}
 }
 
 void Omnia::AnimationSystem::finalize()
 {
-	this->isInitialized = false;
+	this->is_initialized = false;
 }
 
-void Omnia::AnimationSystem::updateSpriteContainers(std::shared_ptr<SceneLayer> sceneLayer)
+void Omnia::AnimationSystem::update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const uint32_t msPerComputeUpdate = Configuration::getInstance()->timeSettings.msPerComputeUpdate;
-	std::vector<std::shared_ptr<Sprite>> spriteContainers = sceneLayer->getComponentsByType<Sprite>();
+	const uint32_t ms_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update;
+	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();
 
-	for (size_t i = 0; i < spriteContainers.size(); i++)
+	for (size_t i = 0; i < sprite_containers.size(); i++)
 	{
-		spriteContainers.at(i)->update(msPerComputeUpdate * 1.0 / MS_IN_S);
+		sprite_containers.at(i)->update(ms_per_compute_update * 1.0 / MS_IN_S);
 	}
 }

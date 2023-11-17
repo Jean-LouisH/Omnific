@@ -24,15 +24,15 @@
 
 Omnia::OpenGLVertexArray::OpenGLVertexArray()
 {
-	glGenVertexArrays(1, &this->vertexArrayID);
+	glGenVertexArrays(1, &this->vertex_array_id);
 }
 
 Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Asset> asset)
 {
-	glGenVertexArrays(1, &this->vertexArrayID);
+	glGenVertexArrays(1, &this->vertex_array_id);
 	this->bind();
-	this->vertexBuffer = std::shared_ptr<OpenGLVertexBuffer>(new OpenGLVertexBuffer(asset));
-	this->indexBuffer = std::shared_ptr<OpenGLIndexBuffer>(new OpenGLIndexBuffer(asset));
+	this->vertex_buffer = std::shared_ptr<OpenGLVertexBuffer>(new OpenGLVertexBuffer(asset));
+	this->index_buffer = std::shared_ptr<OpenGLIndexBuffer>(new OpenGLIndexBuffer(asset));
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -55,12 +55,12 @@ Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Asset> asset)
 
 Omnia::OpenGLVertexArray::~OpenGLVertexArray()
 {
-	this->deleteVertexArray();
+	this->delete_vertex_array();
 }
 
 void Omnia::OpenGLVertexArray::bind()
 {
-	glBindVertexArray(this->vertexArrayID);
+	glBindVertexArray(this->vertex_array_id);
 }
 
 void Omnia::OpenGLVertexArray::unbind()
@@ -68,17 +68,17 @@ void Omnia::OpenGLVertexArray::unbind()
 	glBindVertexArray(0);
 }
 
-void Omnia::OpenGLVertexArray::deleteVertexArray()
+void Omnia::OpenGLVertexArray::delete_vertex_array()
 {
-	glDeleteVertexArrays(1, &this->vertexArrayID);
+	glDeleteVertexArrays(1, &this->vertex_array_id);
 }
 
-unsigned int Omnia::OpenGLVertexArray::getIndexCount()
+unsigned int Omnia::OpenGLVertexArray::get_index_count()
 {
-	return this->indexBuffer->getIndexCount();
+	return this->index_buffer->get_index_count();
 }
 
-unsigned int Omnia::OpenGLVertexArray::getVertexCount()
+unsigned int Omnia::OpenGLVertexArray::get_vertex_count()
 {
-	return this->vertexBuffer->getVertexCount();
+	return this->vertex_buffer->get_vertex_count();
 }

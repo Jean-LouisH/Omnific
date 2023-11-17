@@ -33,39 +33,39 @@ void Omnia::OS::initialize(
 	char* argv[]
 )
 {
-	OS* newInstance = getInstance();
+	OS* new_instance = get_instance();
 
-	std::vector<std::string> commandLineArguments;
+	std::vector<std::string> command_line_arguments;
 
 	for (int i = 0; i < argc; i++)
-		commandLineArguments.push_back(argv[i]);
+		command_line_arguments.push_back(argv[i]);
 
-	newInstance->sharedLibraryAccess = std::unique_ptr<SharedLibraryAccess>(new SharedLibraryAccess());
-	newInstance->logger = std::unique_ptr<Logger>(new Logger());
-	newInstance->input = std::unique_ptr<Input>(new Input());
-	newInstance->fileAccess = std::unique_ptr<FileAccess>(new FileAccess(commandLineArguments[0]));
-	newInstance->networkAccess = std::unique_ptr<NetworkAccess>(new NetworkAccess());
-	newInstance->profiler = std::unique_ptr<Profiler>(new Profiler());
-	newInstance->platform = std::unique_ptr<Platform>(new Platform());
-	newInstance->threadPool = std::unique_ptr<ThreadPool>(new ThreadPool());
-	newInstance->window = std::unique_ptr<Window>(new Window());
-	newInstance->runTimer = std::unique_ptr<HiResTimer>(new HiResTimer());
-	newInstance->runTimer->setStart();
+	new_instance->shared_library_access = std::unique_ptr<SharedLibraryAccess>(new SharedLibraryAccess());
+	new_instance->logger = std::unique_ptr<Logger>(new Logger());
+	new_instance->input = std::unique_ptr<Input>(new Input());
+	new_instance->file_access = std::unique_ptr<FileAccess>(new FileAccess(command_line_arguments[0]));
+	new_instance->network_access = std::unique_ptr<NetworkAccess>(new NetworkAccess());
+	new_instance->profiler = std::unique_ptr<Profiler>(new Profiler());
+	new_instance->platform = std::unique_ptr<Platform>(new Platform());
+	new_instance->thread_pool = std::unique_ptr<ThreadPool>(new ThreadPool());
+	new_instance->window = std::unique_ptr<Window>(new Window());
+	new_instance->run_timer = std::unique_ptr<HiResTimer>(new HiResTimer());
+	new_instance->run_timer->set_start();
 
-	newInstance->commandLineArguments = commandLineArguments;
+	new_instance->command_line_arguments = command_line_arguments;
 }
 
-bool Omnia::OS::createWindow(std::string title,
+bool Omnia::OS::create_window(std::string title,
 	uint16_t width,
 	uint16_t height,
-	bool isFullscreen,
-	std::string renderingContext)
+	bool is_fullscreen,
+	std::string rendering_context)
 {
-	bool isSuccessful = !(bool)SDL_Init(SDL_INIT_EVERYTHING);
+	bool is_successful = !(bool)SDL_Init(SDL_INIT_EVERYTHING);
 
-	if (isSuccessful)
+	if (is_successful)
 	{
-		getInstance()->window->initialize(title, width, height, isFullscreen, renderingContext);
+		get_instance()->window->initialize(title, width, height, is_fullscreen, rendering_context);
 
 		if (TTF_Init() == -1)
 			printf("TTF_Init: %s\n", TTF_GetError());
@@ -77,21 +77,21 @@ bool Omnia::OS::createWindow(std::string title,
 			SDL_GetError);
 	}
 
-	return isSuccessful;
+	return is_successful;
 }
 
-void Omnia::OS::yieldThisThread()
+void Omnia::OS::yield_this_thread()
 {
 	std::this_thread::yield();
 }
 
-void Omnia::OS::sleepThisThreadFor(int duration)
+void Omnia::OS::sleep_this_thread_for(int duration)
 {
 	if (duration > 0)
 		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
 }
 
-void Omnia::OS::showErrorBox(std::string title, std::string message)
+void Omnia::OS::show_error_box(std::string title, std::string message)
 {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
 		title.c_str(),
@@ -104,72 +104,72 @@ void Omnia::OS::finalize()
 {
 	TTF_Quit();
 	SDL_Quit();
-	getInstance()->getThreadPool().finalize();
-	delete getInstance();
+	get_instance()->get_thread_pool().finalize();
+	delete get_instance();
 	instance = nullptr;
 }
 
-Omnia::SharedLibraryAccess& Omnia::OS::getSharedLibraryAccess()
+Omnia::SharedLibraryAccess& Omnia::OS::get_shared_library_access()
 {
-	return *getInstance()->sharedLibraryAccess;
+	return *get_instance()->shared_library_access;
 }
 
-Omnia::Window& Omnia::OS::getWindow()
+Omnia::Window& Omnia::OS::get_window()
 {
-	return *getInstance()->window;
+	return *get_instance()->window;
 }
 
-Omnia::Input& Omnia::OS::getInput()
+Omnia::Input& Omnia::OS::get_input()
 {
-	return *getInstance()->input;
+	return *get_instance()->input;
 }
 
-Omnia::Logger& Omnia::OS::getLogger()
+Omnia::Logger& Omnia::OS::get_logger()
 {
-	return *getInstance()->logger;
+	return *get_instance()->logger;
 }
 
-Omnia::FileAccess& Omnia::OS::getFileAccess()
+Omnia::FileAccess& Omnia::OS::get_file_access()
 {
-	return *getInstance()->fileAccess;
+	return *get_instance()->file_access;
 }
 
-Omnia::NetworkAccess& Omnia::OS::getNetworkAccess()
+Omnia::NetworkAccess& Omnia::OS::get_network_access()
 {
-	return *getInstance()->networkAccess;
+	return *get_instance()->network_access;
 }
 
-Omnia::Profiler& Omnia::OS::getProfiler()
+Omnia::Profiler& Omnia::OS::get_profiler()
 {
-	return *getInstance()->profiler;
+	return *get_instance()->profiler;
 }
 
-Omnia::Platform& Omnia::OS::getPlatform()
+Omnia::Platform& Omnia::OS::get_platform()
 {
-	return *getInstance()->platform;
+	return *get_instance()->platform;
 }
 
-Omnia::ThreadPool& Omnia::OS::getThreadPool()
+Omnia::ThreadPool& Omnia::OS::get_thread_pool()
 {
-	return *getInstance()->threadPool;
+	return *get_instance()->thread_pool;
 }
 
-Omnia::HiResTimer& Omnia::OS::getRunTimer()
+Omnia::HiResTimer& Omnia::OS::get_run_timer()
 {
-	return *getInstance()->runTimer;
+	return *get_instance()->run_timer;
 }
 
-std::vector<std::string> Omnia::OS::getArgs()
+std::vector<std::string> Omnia::OS::get_args()
 {
-	return getInstance()->commandLineArguments;
+	return get_instance()->command_line_arguments;
 }
 
-void Omnia::OS::addGameControllerMappings(std::string mappingFilepath)
+void Omnia::OS::add_game_controller_mappings(std::string mapping_filepath)
 {
-	SDL_GameControllerAddMappingsFromFile(mappingFilepath.c_str());
+	SDL_GameControllerAddMappingsFromFile(mapping_filepath.c_str());
 }
 
-Omnia::OS* Omnia::OS::getInstance()
+Omnia::OS* Omnia::OS::get_instance()
 {
 	if (instance == nullptr)
 		instance = new OS();

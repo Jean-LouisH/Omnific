@@ -35,42 +35,42 @@
 
 void* Omnia::SharedLibraryAccess::open(std::string filename)
 {
-	void* sharedLibrary = NULL;
+	void* shared_library = NULL;
 
 #ifdef _WIN32
-	sharedLibrary = LoadLibraryA((filename + ".dll").c_str());
+	shared_library = LoadLibraryA((filename + ".dll").c_str());
 #else
-	sharedLibrary = dlopen((filename + ".so").c_str(), RTLD_NOW);
+	shared_library = dlopen((filename + ".so").c_str(), RTLD_NOW);
 #endif
-	//OS::getLogger().write("Opened shared library: " + filename);
-	return sharedLibrary;
+	//OS::get_logger().write("Opened shared library: " + filename);
+	return shared_library;
 }
 
-void Omnia::SharedLibraryAccess::close(void* dynamicLibraryHandle)
+void Omnia::SharedLibraryAccess::close(void* dynamic_library_handle)
 {
-	if (dynamicLibraryHandle != nullptr)
+	if (dynamic_library_handle != nullptr)
 	{
 #ifdef _WIN32
-		FreeLibrary((HMODULE)dynamicLibraryHandle);
+		FreeLibrary((HMODULE)dynamic_library_handle);
 #else
-		dlclose(dynamicLibraryHandle);
+		dlclose(dynamic_library_handle);
 #endif
 		std::stringstream ss;
-		ss << std::hex << (uint64_t)dynamicLibraryHandle;
-		//OS::getLogger().write("Closed shared library at address: 0x" + ss.str());
+		ss << std::hex << (uint64_t)dynamic_library_handle;
+		//OS::get_logger().write("Closed shared library at address: 0x" + ss.str());
 	}
 }
 
-void* Omnia::SharedLibraryAccess::getProcedure(void* dynamicLibraryHandle, std::string procedureName)
+void* Omnia::SharedLibraryAccess::get_procedure(void* dynamic_library_handle, std::string procedure_name)
 {
-	if (procedureName == "")
+	if (procedure_name == "")
 	{
 		return nullptr;
 	}
 
 #ifdef _WIN32
-	return GetProcAddress((HMODULE)dynamicLibraryHandle, procedureName.c_str());
+	return GetProcAddress((HMODULE)dynamic_library_handle, procedure_name.c_str());
 #else
-	return dlsym(dynamicLibraryHandle, procedureName.c_str());
+	return dlsym(dynamic_library_handle, procedure_name.c_str());
 #endif
 }

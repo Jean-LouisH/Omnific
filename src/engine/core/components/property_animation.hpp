@@ -34,16 +34,16 @@ namespace Omnia
 	{
 	public:
 		float value = 0.0;
-		std::vector<float> keyFrames;
+		std::vector<float> key_frames;
 		float duration = 0.0;
-		float playbackSpeedPercentage = 1.0;
+		float playback_speed_percentage = 1.0;
 		float delay = 0.0;
 		float progress = 0.0;
-		float maximumValue = 0.0;
-		float minimumValue = 0.0;
+		float maximum_value = 0.0;
+		float minimum_value = 0.0;
 		uint8_t repeats = 0;
-		uint8_t repeatCount = 0;
-		bool isPlaying = false;
+		uint8_t repeat_count = 0;
+		bool is_playing = false;
 
 		PropertyAnimation()
 		{
@@ -54,10 +54,10 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			PropertyAnimation* clone = new PropertyAnimation(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
+		virtual void deserialize(YAML::Node yaml_node);
 	private:
 	};
 }

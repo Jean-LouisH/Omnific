@@ -26,7 +26,7 @@ Omnia::ClassRegistry* Omnia::ClassRegistry::instance = nullptr;
 
 void Omnia::ClassRegistry::initialize()
 {
-	getInstance()->addClassDefinitions();
+	get_instance()->add_class_definitions();
 }
 
 void Omnia::ClassRegistry::finalize()
@@ -34,7 +34,7 @@ void Omnia::ClassRegistry::finalize()
 
 }
 
-Omnia::ClassRegistry* Omnia::ClassRegistry::getInstance()
+Omnia::ClassRegistry* Omnia::ClassRegistry::get_instance()
 {
 	if (instance == nullptr)
 		instance = new ClassRegistry();

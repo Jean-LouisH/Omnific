@@ -49,22 +49,22 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Transform* clone = new Transform(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void translateX(float offset);
-		void translateY(float offset);
-		void translateZ(float offset);
-		void rotateX(float angle);
-		void rotateY(float angle);
-		void rotateZ(float angle);
-		float calculateDistanceFrom(glm::vec3 position);
-		float calculateAzimuthFrom(glm::vec3 position);
-		float calculateElevationFrom(glm::vec3 position);
-		std::shared_ptr<Transform> getGlobalTransform();
-		glm::mat4 getTransformMatrix();
+		virtual void deserialize(YAML::Node yaml_node);
+		void translate_x(float offset);
+		void translate_y(float offset);
+		void translate_z(float offset);
+		void rotate_x(float angle);
+		void rotate_y(float angle);
+		void rotate_z(float angle);
+		float calculate_distance_from(glm::vec3 position);
+		float calculate_azimuth_from(glm::vec3 position);
+		float calculate_elevation_from(glm::vec3 position);
+		std::shared_ptr<Transform> get_global_transform();
+		glm::mat4 get_transform_matrix();
 	private:
-		std::shared_ptr<Transform> globalTransform;
+		std::shared_ptr<Transform> global_transform;
 	};
 }

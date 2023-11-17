@@ -34,22 +34,22 @@ Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<Asset> asset)
 
 	if (asset != nullptr)
 	{
-		if (asset->isType(Mesh::TYPE_STRING))
+		if (asset->is_type(Mesh::TYPE_STRING))
 		{
 			mesh = std::dynamic_pointer_cast<Mesh>(asset);
 		}
-		else if (asset->isType(Image::TYPE_STRING))
+		else if (asset->is_type(Image::TYPE_STRING))
 		{
 			mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
 		}
 
 		if (mesh != nullptr)
 		{
-			if (mesh->getIsIndexed())
+			if (mesh->get_is_indexed())
 			{
-				this->indexCount = mesh->indices.size();
-				glGenBuffers(1, &this->indexBufferID);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
+				this->index_count = mesh->indices.size();
+				glGenBuffers(1, &this->index_buffer_id);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_buffer_id);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
 					&mesh->indices[0], GL_STATIC_DRAW);
 			}
@@ -59,20 +59,20 @@ Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<Asset> asset)
 
 Omnia::OpenGLIndexBuffer::~OpenGLIndexBuffer()
 {
-	this->deleteIndexBuffer();
+	this->delete_index_buffer();
 }
 
 void Omnia::OpenGLIndexBuffer::bind()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_buffer_id);
 }
 
-void Omnia::OpenGLIndexBuffer::deleteIndexBuffer()
+void Omnia::OpenGLIndexBuffer::delete_index_buffer()
 {
-	glDeleteBuffers(1, &this->indexBufferID);
+	glDeleteBuffers(1, &this->index_buffer_id);
 }
 
-unsigned int Omnia::OpenGLIndexBuffer::getIndexCount()
+unsigned int Omnia::OpenGLIndexBuffer::get_index_count()
 {
-	return this->indexCount;
+	return this->index_count;
 }

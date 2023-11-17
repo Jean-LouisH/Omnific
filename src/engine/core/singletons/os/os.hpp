@@ -47,49 +47,49 @@ namespace Omnia
 			char* argv[]
 		);
 
-		static bool createWindow(std::string title,
+		static bool create_window(std::string title,
 			uint16_t width,
 			uint16_t height,
-			bool isFullscreen,
-			std::string renderingContext);
+			bool is_fullscreen,
+			std::string rendering_context);
 
-		static void yieldThisThread();
+		static void yield_this_thread();
 		/* Duration in milliseconds */
-		static void sleepThisThreadFor(int duration);
+		static void sleep_this_thread_for(int duration);
 
-		static void showErrorBox(std::string title, std::string message);
+		static void show_error_box(std::string title, std::string message);
 
 		static void finalize();
 
-		static SharedLibraryAccess& getSharedLibraryAccess();
-		static Window& getWindow();
-		static Input& getInput();
-		static Logger& getLogger();
-		static FileAccess& getFileAccess();
-		static NetworkAccess& getNetworkAccess();
-		static Profiler& getProfiler();
-		static Platform& getPlatform();
-		static ThreadPool& getThreadPool();
+		static SharedLibraryAccess& get_shared_library_access();
+		static Window& get_window();
+		static Input& get_input();
+		static Logger& get_logger();
+		static FileAccess& get_file_access();
+		static NetworkAccess& get_network_access();
+		static Profiler& get_profiler();
+		static Platform& get_platform();
+		static ThreadPool& get_thread_pool();
 
-		static HiResTimer& getRunTimer();
-		static std::vector<std::string> getArgs();
-		static void addGameControllerMappings(std::string mappingFilepath);
+		static HiResTimer& get_run_timer();
+		static std::vector<std::string> get_args();
+		static void add_game_controller_mappings(std::string mapping_filepath);
 	private:
 		static OS* instance;
 
-		std::vector<std::string> commandLineArguments;
+		std::vector<std::string> command_line_arguments;
 
-		std::unique_ptr<SharedLibraryAccess> sharedLibraryAccess;
-		std::unique_ptr<HiResTimer> runTimer;
+		std::unique_ptr<SharedLibraryAccess> shared_library_access;
+		std::unique_ptr<HiResTimer> run_timer;
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Input> input;
 		std::unique_ptr<Logger> logger;
-		std::unique_ptr<FileAccess> fileAccess;
-		std::unique_ptr<NetworkAccess> networkAccess;
+		std::unique_ptr<FileAccess> file_access;
+		std::unique_ptr<NetworkAccess> network_access;
 		std::unique_ptr<Profiler> profiler;
 		std::unique_ptr<Platform> platform;
-		std::unique_ptr<ThreadPool> threadPool;
+		std::unique_ptr<ThreadPool> thread_pool;
 
-		static OS* getInstance();
+		static OS* get_instance();
 	};
 }

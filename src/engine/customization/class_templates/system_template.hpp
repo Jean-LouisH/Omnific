@@ -38,30 +38,30 @@ namespace Omnia
 			/* Set the Registerable type to the class TYPE_STRING. */
 			this->type = TYPE_STRING;
 
-			/* Set the threadType to update or output. */
-			this->threadType = ThreadType::UPDATE;
-			//this->threadType = ThreadType::OUTPUT;
+			/* Set the thread_type to update or output. */
+			this->thread_type = ThreadType::UPDATE;
+			//this->thread_type = ThreadType::OUTPUT;
 		};
 
 		/* Make a copy function specifically for this class. */
 		virtual Registerable* instance() override
 		{
 			SystemTemplate* clone = new SystemTemplate(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
 		/* Uncomment the methods needed to override. */
 
 		//virtual void initialize();
-		//virtual void onStart(std::shared_ptr<Scene> scene);
-		//virtual void onInput(std::shared_ptr<Scene> scene);
-		//virtual void onEarly(std::shared_ptr<Scene> scene);
-		//virtual void onLogic(std::shared_ptr<Scene> scene);
-		//virtual void onCompute(std::shared_ptr<Scene> scene);
-		//virtual void onLate(std::shared_ptr<Scene> scene);
-		//virtual void onOutput(std::shared_ptr<Scene> scene);
-		//virtual void onFinish(std::shared_ptr<Scene> scene);
+		//virtual void on_start(std::shared_ptr<Scene> scene);
+		//virtual void on_input(std::shared_ptr<Scene> scene);
+		//virtual void on_early(std::shared_ptr<Scene> scene);
+		//virtual void on_logic(std::shared_ptr<Scene> scene);
+		//virtual void on_compute(std::shared_ptr<Scene> scene);
+		//virtual void on_late(std::shared_ptr<Scene> scene);
+		//virtual void on_output(std::shared_ptr<Scene> scene);
+		//virtual void on_finish(std::shared_ptr<Scene> scene);
 		//virtual void finalize();
 
 	private:

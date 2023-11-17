@@ -38,17 +38,17 @@ Omnia::Event::Event(std::string name, uint64_t timestamp)
 	this->timestamp = timestamp;
 }
 
-std::string Omnia::Event::getName()
+std::string Omnia::Event::get_name()
 {
 	return this->name;
 }
 
-uint64_t Omnia::Event::getTimestamp()
+uint64_t Omnia::Event::get_timestamp()
 {
 	return this->timestamp;
 }
 
-Omnia::Event::Parameters Omnia::Event::getParameters()
+Omnia::Event::Parameters Omnia::Event::get_parameters()
 {
 	return this->parameters;
 }
@@ -58,98 +58,98 @@ void Omnia::EventBus::publish(
 	std::unordered_map<std::string, double> numbers,
 	std::unordered_map<std::string, std::string> strings)
 {
-	EventBus* eventBus = EventBus::getInstance();
+	EventBus* event_bus = EventBus::get_instance();
 	Event::Parameters parameters = { numbers, strings };
-	eventBus->publishWithParameters(name, parameters);
+	event_bus->publish_with_parameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, double> numbers)
 {
-	EventBus* eventBus = EventBus::getInstance();
+	EventBus* event_bus = EventBus::get_instance();
 	Event::Parameters parameters;
 	parameters.numbers = numbers;
-	eventBus->publishWithParameters(name, parameters);
+	event_bus->publish_with_parameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, std::string> strings)
 {
-	EventBus* eventBus = EventBus::getInstance();
+	EventBus* event_bus = EventBus::get_instance();
 	Event::Parameters parameters;
 	parameters.strings = strings;
-	eventBus->publishWithParameters(name, parameters);
+	event_bus->publish_with_parameters(name, parameters);
 }
 
 void Omnia::EventBus::publish(
 	std::string name)
 {
-	EventBus* eventBus = EventBus::getInstance();
-	std::vector<Event> eventsList;
+	EventBus* event_bus = EventBus::get_instance();
+	std::vector<Event> events_list;
 
-	OS::getRunTimer().setEnd();
+	OS::get_run_timer().set_end();
 
-	if (eventBus->events.count(name))
-		eventsList = eventBus->events.at(name);
+	if (event_bus->events.count(name))
+		events_list = event_bus->events.at(name);
 
-	eventsList.push_back(Event(
+	events_list.push_back(Event(
 		name,
-		OS::getRunTimer().getDeltaInNanoseconds()));
+		OS::get_run_timer().get_delta_in_nanoseconds()));
 
-	eventBus->events.emplace(name, eventsList);
+	event_bus->events.emplace(name, events_list);
 }
 
 void Omnia::EventBus::clear()
 {
-	EventBus* eventBus = EventBus::getInstance();
-	eventBus->events.clear();
+	EventBus* event_bus = EventBus::get_instance();
+	event_bus->events.clear();
 }
 
 std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 {
-	EventBus* eventBus = EventBus::getInstance();
-	std::vector<Event> queryResults;
+	EventBus* event_bus = EventBus::get_instance();
+	std::vector<Event> query_results;
 
-	if (eventBus->events.count(name))
-		queryResults = eventBus->events.at(name);
+	if (event_bus->events.count(name))
+		query_results = event_bus->events.at(name);
 
-	return queryResults;
+	return query_results;
 }
 
-uint64_t Omnia::EventBus::queryCount(std::string name)
+uint64_t Omnia::EventBus::query_count(std::string name)
 {
-	EventBus* eventBus = EventBus::getInstance();
-	return eventBus->query(name).size();
+	EventBus* event_bus = EventBus::get_instance();
+	return event_bus->query(name).size();
 }
 
-void Omnia::EventBus::publishWithParameters(std::string name, Event::Parameters parameters)
+void Omnia::EventBus::publish_with_parameters(std::string name, Event::Parameters parameters)
 {
-	EventBus* eventBus = EventBus::getInstance();
-	std::vector<Event> eventsList;
+	EventBus* event_bus = EventBus::get_instance();
+	std::vector<Event> events_list;
 
-	OS::getRunTimer().setEnd();
+	OS::get_run_timer().set_end();
 
-	if (eventBus->events.count(name))
-		eventsList = eventBus->events.at(name);
+	if (event_bus->events.count(name))
+		events_list = event_bus->events.at(name);
 
-	eventsList.push_back(Event(
+	events_list.push_back(Event(
 		name,
-		OS::getRunTimer().getDeltaInNanoseconds(),
+		OS::get_run_timer().get_delta_in_nanoseconds(),
 		parameters));
 
-	if (eventBus->events.count(name))
+	if (event_bus->events.count(name))
 	{
-		eventBus->events.at(name) = eventsList;
+		event_bus->events.at(name) = events_list;
 	}
 	else
 	{
-		eventBus->events.emplace(name, eventsList);
+		event_bus->events.emplace(name, events_list);
 	}
 }
 
-Omnia::EventBus* Omnia::EventBus::getInstance()
+Omnia::EventBus* Omnia::EventBus::get_instance()
 {
 	if (instance == nullptr)
 	{

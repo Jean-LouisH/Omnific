@@ -34,9 +34,9 @@ namespace Omnia
 	public:
 		Registerable();
 		virtual Registerable* instance();
-		std::string getType();
-		UID getID();
-		bool isType(std::string typeString);
+		std::string get_type();
+		UID get_id();
+		bool is_type(std::string type_string);
 	protected:
 		UID id = 0;
 		std::string type;

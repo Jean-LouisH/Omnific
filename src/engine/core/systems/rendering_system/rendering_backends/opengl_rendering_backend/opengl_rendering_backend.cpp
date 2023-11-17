@@ -30,35 +30,35 @@
 
 void Omnia::OpenGLRenderingBackend::initialize()
 {
-	Window& window = OS::getWindow();
-	window.initializeWindowContext("opengl");
+	Window& window = OS::get_window();
+	window.initialize_window_context("opengl");
 
 	if ((!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)))
 	{
-		OS::getLogger().write("GLAD failed to initialize.");
+		OS::get_logger().write("GLAD failed to initialize.");
 	}
 	else
 	{
-		this->builtInShaderProgram2D = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
-			this->getDefault2DVertexInput(),
-			this->getDefault2DFragmentInput(),
+		this->built_in_shader_program2_d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
+			this->get_default2_dvertex_input(),
+			this->get_default2_dfragment_input(),
 			false,
 			false))));
 
-		this->builtInShaderProgram3D = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
-			this->getDefault3DVertexInput(),
-			this->getDefault3DFragmentInput(),
+		this->built_in_shader_program3_d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
+			this->get_default3_dvertex_input(),
+			this->get_default3_dfragment_input(),
 			false,
 			false))));
 
-		glm::vec2 windowSize = window.getWindowSize();
-		this->setViewport(windowSize.x, windowSize.y);
-		OS::getLogger().write((std::string)("Rendering Backend initialized with ") +
+		glm::vec2 window_size = window.get_window_size();
+		this->set_viewport(window_size.x, window_size.y);
+		OS::get_logger().write((std::string)("Rendering Backend initialized with ") +
 			"OpenGL " + (char*)glGetString(GL_VERSION));
 	}
 }
 
-void Omnia::OpenGLRenderingBackend::clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnia::OpenGLRenderingBackend::clear_colour_buffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	glClearColor(
 		(float)(red) / 255.0, 
@@ -68,98 +68,98 @@ void Omnia::OpenGLRenderingBackend::clearColourBuffer(uint8_t red, uint8_t green
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Omnia::OpenGLRenderingBackend::clearDepthBuffer()
+void Omnia::OpenGLRenderingBackend::clear_depth_buffer()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Omnia::OpenGLRenderingBackend::enableDepthTest()
+void Omnia::OpenGLRenderingBackend::enable_depth_test()
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 }
 
-void Omnia::OpenGLRenderingBackend::disableDepthTest()
+void Omnia::OpenGLRenderingBackend::disable_depth_test()
 {
 	glDisable(GL_DEPTH_TEST);
 }
 
-void Omnia::OpenGLRenderingBackend::enableWireframeMode()
+void Omnia::OpenGLRenderingBackend::enable_wireframe_mode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void Omnia::OpenGLRenderingBackend::disableWireframeMode()
+void Omnia::OpenGLRenderingBackend::disable_wireframe_mode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Omnia::OpenGLRenderingBackend::enableBlending()
+void Omnia::OpenGLRenderingBackend::enable_blending()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Omnia::OpenGLRenderingBackend::disableBlending()
+void Omnia::OpenGLRenderingBackend::disable_blending()
 {
 	glDisable(GL_BLEND);
 }
 
-void Omnia::OpenGLRenderingBackend::setViewport(uint32_t width, uint32_t height)
+void Omnia::OpenGLRenderingBackend::set_viewport(uint32_t width, uint32_t height)
 {
 	glViewport(0, 0, width, height);
 }
 
-void Omnia::OpenGLRenderingBackend::swapBuffers()
+void Omnia::OpenGLRenderingBackend::swap_buffers()
 {
-	SDL_GL_SwapWindow(OS::getWindow().getSDLWindow());
+	SDL_GL_SwapWindow(OS::get_window().get_sdlwindow());
 }
 
-std::string Omnia::OpenGLRenderingBackend::getRenderingBackendName()
+std::string Omnia::OpenGLRenderingBackend::get_rendering_backend_name()
 {
 	return "opengl";
 }
 
-std::string Omnia::OpenGLRenderingBackend::getDefault2DVertexInput()
+std::string Omnia::OpenGLRenderingBackend::get_default2_dvertex_input()
 {
 	return OpenGLBuiltInShaders::Vertex::dimension_2;
 }
 
-std::string Omnia::OpenGLRenderingBackend::getDefault2DFragmentInput()
+std::string Omnia::OpenGLRenderingBackend::get_default2_dfragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::dimension_2;
 }
 
-std::string Omnia::OpenGLRenderingBackend::getDefault3DVertexInput()
+std::string Omnia::OpenGLRenderingBackend::get_default3_dvertex_input()
 {
 	return OpenGLBuiltInShaders::Vertex::dimension_3;
 }
 
-std::string Omnia::OpenGLRenderingBackend::getDefault3DFragmentInput()
+std::string Omnia::OpenGLRenderingBackend::get_default3_dfragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::dimension_3;
 }
 
-std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::getTexture(std::shared_ptr<Asset> asset)
+std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture(std::shared_ptr<Asset> asset)
 {
 	std::shared_ptr<OpenGLTexture> texture;
 	std::shared_ptr<Image> image = std::dynamic_pointer_cast<Image>(asset);
 
 	if (image != nullptr)
 	{
-		AssetID assetID = image->getID();
+		AssetID asset_id = image->get_id();
 
-		if (this->textures.count(assetID) == 0)
+		if (this->textures.count(asset_id) == 0)
 		{
-			this->textures.emplace(assetID, std::shared_ptr<OpenGLTexture>(new OpenGLTexture(image)));
-			this->missedFrameCounts.emplace(assetID, 0);
+			this->textures.emplace(asset_id, std::shared_ptr<OpenGLTexture>(new OpenGLTexture(image)));
+			this->missed_frame_counts.emplace(asset_id, 0);
 		}
 		else
 		{
-			this->missedFrameCounts.at(assetID) = 0;
+			this->missed_frame_counts.at(asset_id) = 0;
 		}
 
-		texture = this->textures.at(assetID);
+		texture = this->textures.at(asset_id);
 	}
 	else
 	{
@@ -169,46 +169,46 @@ std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::getTexture(
 	return texture;
 }
 
-std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::getVertexArray(std::shared_ptr<Asset> asset)
+std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::get_vertex_array(std::shared_ptr<Asset> asset)
 {
-	AssetID assetID;
+	AssetID asset_id;
 	
 	if (asset != nullptr)
-		assetID = asset->getID();
+		asset_id = asset->get_id();
 
-	if (this->vertexArrays.count(assetID) == 0)
+	if (this->vertex_arrays.count(asset_id) == 0)
 	{
-		this->vertexArrays.emplace(assetID, std::shared_ptr<OpenGLVertexArray>(new OpenGLVertexArray(asset)));
-		this->missedFrameCounts.emplace(assetID, 0);
+		this->vertex_arrays.emplace(asset_id, std::shared_ptr<OpenGLVertexArray>(new OpenGLVertexArray(asset)));
+		this->missed_frame_counts.emplace(asset_id, 0);
 	}
 	else
 	{
-		this->missedFrameCounts.at(assetID) = 0;
+		this->missed_frame_counts.at(asset_id) = 0;
 	}
 
-	return this->vertexArrays.at(assetID);
+	return this->vertex_arrays.at(asset_id);
 }
 
-void Omnia::OpenGLRenderingBackend::collectGarbage()
+void Omnia::OpenGLRenderingBackend::collect_garbage()
 {
-	std::vector<AssetID> assetsToDelete;
+	std::vector<AssetID> assets_to_delete;
 
-	for (auto it = this->missedFrameCounts.begin(); it != this->missedFrameCounts.end(); it++)
+	for (auto it = this->missed_frame_counts.begin(); it != this->missed_frame_counts.end(); it++)
 	{
-		if (this->missedFrameCounts.at(it->first) > this->allowableMissedFrames)
+		if (this->missed_frame_counts.at(it->first) > this->allowable_missed_frames)
 		{
 			if (this->textures.count(it->first) > 0)
 				this->textures.erase(it->first);
-			if (this->vertexArrays.count(it->first) > 0)
-				this->vertexArrays.erase(it->first);
+			if (this->vertex_arrays.count(it->first) > 0)
+				this->vertex_arrays.erase(it->first);
 
-			assetsToDelete.push_back(it->first);
+			assets_to_delete.push_back(it->first);
 		}
 	}
 
-	for (size_t i = 0; i < assetsToDelete.size(); i++)
-		this->missedFrameCounts.erase(assetsToDelete.at(i));
+	for (size_t i = 0; i < assets_to_delete.size(); i++)
+		this->missed_frame_counts.erase(assets_to_delete.at(i));
 
-	for (auto it = this->missedFrameCounts.begin(); it != this->missedFrameCounts.end(); it++)
-		this->missedFrameCounts.at(it->first)++;
+	for (auto it = this->missed_frame_counts.begin(); it != this->missed_frame_counts.end(); it++)
+		this->missed_frame_counts.at(it->first)++;
 }

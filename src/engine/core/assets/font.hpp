@@ -47,13 +47,13 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Font* clone = new Font(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		TTF_Font* getSDLTTFFont();
-		uint16_t getFontSize();
+		TTF_Font* get_sdlttffont();
+		uint16_t get_font_size();
 	private:
 		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
-		uint16_t fontSize = 0;
+		uint16_t font_size = 0;
 	};
 }

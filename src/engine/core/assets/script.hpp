@@ -38,16 +38,16 @@ namespace Omnia
         Script(std::string filepath);
         
         /*Sets the language name only once.*/
-        void setLanguageName(std::string languageName);
-        std::string getLanguageName();
+        void set_language_name(std::string language_name);
+        std::string get_language_name();
 
         virtual Registerable* instance() override
         {
             Script* clone = new Script(*this);
-            clone->id = UIDGenerator::getNewUID();
+            clone->id = UIDGenerator::get_new_uid();
             return clone;
         }
     private:
-        std::string languageName;
+        std::string language_name;
     };
 }

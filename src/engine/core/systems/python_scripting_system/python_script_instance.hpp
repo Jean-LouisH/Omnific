@@ -33,13 +33,13 @@ namespace Omnia
 	class PythonScriptInstance
 	{
 	public:
-		void setData(pybind11::object newObject);
-		void setCallable(std::string methodName);
-		pybind11::object test(std::string methodName);
-		void call(std::string methodName);
-		bool hasCallable(std::string methodName);
+		void set_data(pybind11::object new_object);
+		void set_callable(std::string method_name);
+		pybind11::object test(std::string method_name);
+		void call(std::string method_name);
+		bool has_callable(std::string method_name);
 	private:
 		pybind11::object data;
-		std::set<std::string> callableMethods;
+		std::set<std::string> callable_methods;
 	};
 }

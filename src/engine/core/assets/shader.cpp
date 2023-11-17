@@ -24,40 +24,40 @@
 #include <core/singletons/uid_generator.hpp>
 #include <core/singletons/os/os.hpp>
 
-Omnia::Shader::Shader(std::string vertexSourceInput, std::string fragmentSourceInput, bool isVertexFilepath, bool isFragmentFilepath)
+Omnia::Shader::Shader(std::string vertex_source_input, std::string fragment_source_input, bool is_vertex_filepath, bool is_fragment_filepath)
 {
 	this->type = TYPE_STRING;
 
-	if (isVertexFilepath)
+	if (is_vertex_filepath)
 	{
-		this->vertexSource = OS::getFileAccess().readString(vertexSourceInput);
+		this->vertex_source = OS::get_file_access().read_string(vertex_source_input);
 	}
 	else
 	{
-		this->vertexSource = vertexSourceInput;
+		this->vertex_source = vertex_source_input;
 	}
 
-	if (isFragmentFilepath)
+	if (is_fragment_filepath)
 	{
-		this->fragmentSource = OS::getFileAccess().readString(fragmentSourceInput);
+		this->fragment_source = OS::get_file_access().read_string(fragment_source_input);
 	}
 	else
 	{
-		this->fragmentSource = fragmentSourceInput;
+		this->fragment_source = fragment_source_input;
 	}
 
-	if (isVertexFilepath && isFragmentFilepath)
+	if (is_vertex_filepath && is_fragment_filepath)
 	{
-		this->setName(vertexSourceInput + ", " + fragmentSourceInput);
+		this->set_name(vertex_source_input + ", " + fragment_source_input);
 	}
 }
 
-std::string Omnia::Shader::getVertexSource()
+std::string Omnia::Shader::get_vertex_source()
 {
-	return this->vertexSource;
+	return this->vertex_source;
 }
 
-std::string Omnia::Shader::getFragmentSource()
+std::string Omnia::Shader::get_fragment_source()
 {
-	return this->fragmentSource;
+	return this->fragment_source;
 }

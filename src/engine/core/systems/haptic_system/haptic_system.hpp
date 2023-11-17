@@ -53,19 +53,19 @@ namespace Omnia
 		}
 
 		virtual void initialize() override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void on_late(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 		typedef struct HapticPlayback
 		{
 			HiResTimer timer;
 			uint16_t duration_ms;
-			bool isPlaying;
+			bool is_playing;
 		};
-		std::unordered_map<PlayerID, HapticPlayback> hapticPlaybacks;
+		std::unordered_map<PlayerID, HapticPlayback> haptic_playbacks;
 
-		void rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics);
-		void stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics);
+		void rumble(HapticSignal& haptic_signal, std::vector<SDL_Haptic*> haptics);
+		void stop_rumble(PlayerID player_id, std::vector<SDL_Haptic*> haptics);
 	};
 }
 

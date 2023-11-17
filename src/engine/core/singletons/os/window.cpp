@@ -24,101 +24,101 @@
 #include <stdint.h>
 #include "core/singletons/os/os.hpp"
 
-void Omnia::Window::initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext)
+void Omnia::Window::initialize(std::string title, uint16_t width, uint16_t height, bool is_fullscreen, std::string rendering_context)
 {
-	uint64_t renderingContextFlag = 0x0;
+	uint64_t rendering_context_flag = 0x0;
 
-	if (renderingContext == "opengl")
-		renderingContextFlag = SDL_WINDOW_OPENGL;
+	if (rendering_context == "opengl")
+		rendering_context_flag = SDL_WINDOW_OPENGL;
 
-	this->sdlWindow = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
+	this->sdl_window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
 		title.c_str(),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width,
 		height,
-		SDL_WINDOW_FULLSCREEN_DESKTOP & isFullscreen | renderingContextFlag), SDL_DestroyWindow);
+		SDL_WINDOW_FULLSCREEN_DESKTOP & is_fullscreen | rendering_context_flag), SDL_DestroyWindow);
 
 	SDL_DisableScreenSaver();
-	SDL_GetCurrentDisplayMode(0, this->sdlDisplayMode.get());
-	this->isFullscreen = isFullscreen;
+	SDL_GetCurrentDisplayMode(0, this->sdl_display_mode.get());
+	this->is_fullscreen = is_fullscreen;
 }
 
-void Omnia::Window::initializeWindowContext(std::string renderingContext)
+void Omnia::Window::initialize_window_context(std::string rendering_context)
 {
-	if (renderingContext == "opengl")
-		this->sdlGlContext = SDL_GL_CreateContext(this->sdlWindow.get());
+	if (rendering_context == "opengl")
+		this->sdl_gl_context = SDL_GL_CreateContext(this->sdl_window.get());
 }
 
-void Omnia::Window::setToWindowed(uint16_t width_px, uint16_t height_px)
+void Omnia::Window::set_to_windowed(uint16_t width_px, uint16_t height_px)
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_SetWindowFullscreen(this->sdlWindow.get(), 0);
-		SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
-		OS::getLogger().write("Set Window to windowed.");
+		SDL_SetWindowFullscreen(this->sdl_window.get(), 0);
+		SDL_SetWindowSize(this->sdl_window.get(), width_px, height_px);
+		OS::get_logger().write("Set Window to windowed.");
 	}
 }
 
-void Omnia::Window::setToFullscreen()
+void Omnia::Window::set_to_fullscreen()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_SetWindowDisplayMode(this->sdlWindow.get(), this->sdlDisplayMode.get());
-		SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN);
-		OS::getLogger().write("Set Window to fullscreen.");
+		SDL_SetWindowDisplayMode(this->sdl_window.get(), this->sdl_display_mode.get());
+		SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN);
+		OS::get_logger().write("Set Window to fullscreen.");
 	}
 }
 
-void Omnia::Window::toggleWindowedFullscreen()
+void Omnia::Window::toggle_windowed_fullscreen()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		this->isFullscreen = !isFullscreen;
+		this->is_fullscreen = !is_fullscreen;
 
-		if (this->isFullscreen)
+		if (this->is_fullscreen)
 		{
-			SDL_SetWindowFullscreen(this->sdlWindow.get(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-			OS::getLogger().write("Set Window to windowed fullscreen.");
+			SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+			OS::get_logger().write("Set Window to windowed fullscreen.");
 		}
 		else
 		{
-			SDL_SetWindowFullscreen(this->sdlWindow.get(), 0);
+			SDL_SetWindowFullscreen(this->sdl_window.get(), 0);
 			SDL_SetWindowPosition(
-				this->sdlWindow.get(),
+				this->sdl_window.get(),
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED);
-			OS::getLogger().write("Set Window to windowed.");
+			OS::get_logger().write("Set Window to windowed.");
 		}
 
-		SDL_ShowCursor(!this->isFullscreen);
+		SDL_ShowCursor(!this->is_fullscreen);
 	}
 }
 
 void Omnia::Window::resize(uint16_t width_px, uint16_t height_px)
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_SetWindowSize(this->sdlWindow.get(), width_px, height_px);
-		SDL_SetWindowPosition(this->sdlWindow.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-		OS::getLogger().write("Resized Window to: " + std::to_string(width_px) + "x" + std::to_string(height_px));
+		SDL_SetWindowSize(this->sdl_window.get(), width_px, height_px);
+		SDL_SetWindowPosition(this->sdl_window.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		OS::get_logger().write("Resized Window to: " + std::to_string(width_px) + "x" + std::to_string(height_px));
 	}
 }
 
-void Omnia::Window::changeTitle(const char* title)
+void Omnia::Window::change_title(const char* title)
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_SetWindowTitle(this->sdlWindow.get(), title);
-		OS::getLogger().write("Changed Window title to: \"" + (std::string)title + "\"");
+		SDL_SetWindowTitle(this->sdl_window.get(), title);
+		OS::get_logger().write("Changed Window title to: \"" + (std::string)title + "\"");
 	}
 }
 
-void Omnia::Window::changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch)
+void Omnia::Window::change_icon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch)
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_Surface* sdlSurface = SDL_CreateRGBSurfaceFrom(
+		SDL_Surface* sdl_surface = SDL_CreateRGBSurfaceFrom(
 			data,
 			width,
 			height,
@@ -129,109 +129,109 @@ void Omnia::Window::changeIcon(void* data, uint32_t width, uint32_t height, uint
 			0,
 			0);
 
-		if (sdlSurface != nullptr)
+		if (sdl_surface != nullptr)
 		{
-			SDL_SetWindowIcon(this->sdlWindow.get(), sdlSurface);
-			SDL_FreeSurface(sdlSurface);
-			OS::getLogger().write("Changed Window icon.");
+			SDL_SetWindowIcon(this->sdl_window.get(), sdl_surface);
+			SDL_FreeSurface(sdl_surface);
+			OS::get_logger().write("Changed Window icon.");
 		}
 	}
 }
 
 void Omnia::Window::maximize()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_MaximizeWindow(this->sdlWindow.get());
-		OS::getLogger().write("Maximized Window.");
+		SDL_MaximizeWindow(this->sdl_window.get());
+		OS::get_logger().write("Maximized Window.");
 	}
 }
 
 void Omnia::Window::minimize()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_MinimizeWindow(this->sdlWindow.get());
-		OS::getLogger().write("Minimized Window.");
+		SDL_MinimizeWindow(this->sdl_window.get());
+		OS::get_logger().write("Minimized Window.");
 	}
 }
 
 void Omnia::Window::raise()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_RaiseWindow(this->sdlWindow.get());
-		OS::getLogger().write("Raised Window.");
+		SDL_RaiseWindow(this->sdl_window.get());
+		OS::get_logger().write("Raised Window.");
 	}
 }
 
 void Omnia::Window::restore()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_RestoreWindow(this->sdlWindow.get());
-		OS::getLogger().write("Restored Window.");
+		SDL_RestoreWindow(this->sdl_window.get());
+		OS::get_logger().write("Restored Window.");
 	}
 }
 
 void Omnia::Window::hide()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_HideWindow(this->sdlWindow.get());
-		OS::getLogger().write("Hid Window.");
+		SDL_HideWindow(this->sdl_window.get());
+		OS::get_logger().write("Hid Window.");
 	}
 }
 
 void Omnia::Window::show()
 {
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
-		SDL_ShowWindow(this->sdlWindow.get());
-		OS::getLogger().write("Showed Window.");
+		SDL_ShowWindow(this->sdl_window.get());
+		OS::get_logger().write("Showed Window.");
 	}
 }
 
-glm::vec2 Omnia::Window::getWindowSize()
+glm::vec2 Omnia::Window::get_window_size()
 {
-	glm::vec2 windowSize;
+	glm::vec2 window_size;
 
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
 		int width = 0;
 		int height = 0;
 
-		SDL_GetWindowSize(this->sdlWindow.get(), &width, &height);
-		windowSize.x = width;
-		windowSize.y = height;
+		SDL_GetWindowSize(this->sdl_window.get(), &width, &height);
+		window_size.x = width;
+		window_size.y = height;
 	}
 
-	return windowSize;
+	return window_size;
 }
 
-glm::vec2 Omnia::Window::getWindowPosition()
+glm::vec2 Omnia::Window::get_window_position()
 {
-	glm::vec2 windowPosition;
+	glm::vec2 window_position;
 
-	if (this->sdlWindow != nullptr)
+	if (this->sdl_window != nullptr)
 	{
 		int x = 0;
 		int y = 0;
 
-		SDL_GetWindowPosition(this->sdlWindow.get(), &x, &y);
-		windowPosition.x = x;
-		windowPosition.y = y;
+		SDL_GetWindowPosition(this->sdl_window.get(), &x, &y);
+		window_position.x = x;
+		window_position.y = y;
 	}
 	
-	return windowPosition;
+	return window_position;
 }
 
-SDL_Window* Omnia::Window::getSDLWindow()
+SDL_Window* Omnia::Window::get_sdlwindow()
 {
-	return this->sdlWindow.get();
+	return this->sdl_window.get();
 }
 
-SDL_GLContext Omnia::Window::getSDLGLContext()
+SDL_GLContext Omnia::Window::get_sdlglcontext()
 {
-	return this->sdlGlContext;
+	return this->sdl_gl_context;
 }

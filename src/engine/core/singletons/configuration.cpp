@@ -27,15 +27,15 @@ Omnia::Configuration* Omnia::Configuration::instance = nullptr;
 
 #include <yaml-cpp/yaml.h>
 
-void Omnia::Configuration::loadFromFile(std::string bootFilepath)
+void Omnia::Configuration::load_from_file(std::string boot_filepath)
 {
-	Configuration* configuration = Configuration::getInstance();
+	Configuration* configuration = Configuration::get_instance();
 
 	try
 	{
-		YAML::Node yamlNode = YAML::LoadFile(bootFilepath);
+		YAML::Node yaml_node = YAML::LoadFile(boot_filepath);
 
-		for (YAML::const_iterator it0 = yamlNode.begin(); it0 != yamlNode.end(); ++it0)
+		for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
 		{
 			if (it0->first.as<std::string>() == "metadata")
 			{
@@ -55,11 +55,11 @@ void Omnia::Configuration::loadFromFile(std::string bootFilepath)
 					}
 					else if (it1->first.as<std::string>() == "icon_filepath")
 					{
-						configuration->metadata.iconFilepath = it1->second.as<std::string>();
+						configuration->metadata.icon_filepath = it1->second.as<std::string>();
 					}
 					else if (it1->first.as<std::string>() == "entry_scene_filepath")
 					{
-						configuration->metadata.entrySceneFilepath = it1->second.as<std::string>();
+						configuration->metadata.entry_scene_filepath = it1->second.as<std::string>();
 					}
 				}
 			}
@@ -69,23 +69,23 @@ void Omnia::Configuration::loadFromFile(std::string bootFilepath)
 				{
 					if (it1->first.as<std::string>() == "width")
 					{
-						configuration->windowSettings.width = it1->second.as<int>();
+						configuration->window_settings.width = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "height")
 					{
-						configuration->windowSettings.height = it1->second.as<int>();
+						configuration->window_settings.height = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "fullscreen")
 					{
-						configuration->windowSettings.isStartingFullscreen = it1->second.as<bool>();
+						configuration->window_settings.is_starting_fullscreen = it1->second.as<bool>();
 					}
 					else if (it1->first.as<std::string>() == "maximized")
 					{
-						configuration->windowSettings.isStartingMaximized = it1->second.as<bool>();
+						configuration->window_settings.is_starting_maximized = it1->second.as<bool>();
 					}
 					else if (it1->first.as<std::string>() == "resizable")
 					{
-						configuration->windowSettings.isResizable = it1->second.as<bool>();
+						configuration->window_settings.is_resizable = it1->second.as<bool>();
 					}
 				}
 			}
@@ -95,27 +95,27 @@ void Omnia::Configuration::loadFromFile(std::string bootFilepath)
 				{
 					if (it1->first.as<std::string>() == "target_fps")
 					{
-						configuration->timeSettings.targetFPS = it1->second.as<int>();
+						configuration->time_settings.target_fps = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "ms_per_compute_update")
 					{
-						configuration->timeSettings.msPerComputeUpdate = it1->second.as<int>();
+						configuration->time_settings.ms_per_compute_update = it1->second.as<int>();
 					}
 				}
 			}
 		}
 
-		configuration->isLoaded = true;
+		configuration->is_loaded = true;
 
-		OS::getLogger().write("Successfully loaded Configuration.");
+		OS::get_logger().write("Successfully loaded Configuration.");
 	}
 	catch (int e)
 	{
-		configuration->isLoaded = false;
+		configuration->is_loaded = false;
 	}
 }
 
-Omnia::Configuration* Omnia::Configuration::getInstance()
+Omnia::Configuration* Omnia::Configuration::get_instance()
 {
 	if (instance == nullptr)
 		instance = new Configuration();

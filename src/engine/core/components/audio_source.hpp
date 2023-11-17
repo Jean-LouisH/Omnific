@@ -49,34 +49,34 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			AudioSource* clone = new AudioSource(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
-		virtual void deserialize(YAML::Node yamlNode);
-		void addAudio(std::shared_ptr<Audio> audio);
-		void clearAudio();
-		void removeAudio(std::string audioName);
-		void playAudio(std::string audioName);
+		virtual void deserialize(YAML::Node yaml_node);
+		void add_audio(std::shared_ptr<Audio> audio);
+		void clear_audio();
+		void remove_audio(std::string audio_name);
+		void play_audio(std::string audio_name);
 		void play();
 		void pause();
 		void stop();
 		void reset();
-		uint16_t getRepeatCount();
-		void jump(float timePoint);
-		void setVolume(float value);
-		void setPanning(float value);
-		float getVolume();
-		float getCurrentPlaybackTime();
-		std::vector<std::string> getAudioNames();
-		std::shared_ptr<Audio> getActiveAudio();
-		std::shared_ptr<Audio> getAudioByName(std::string audioName);
+		uint16_t get_repeat_count();
+		void jump(float time_point);
+		void set_volume(float value);
+		void set_panning(float value);
+		float get_volume();
+		float get_current_playback_time();
+		std::vector<std::string> get_audio_names();
+		std::shared_ptr<Audio> get_active_audio();
+		std::shared_ptr<Audio> get_audio_by_name(std::string audio_name);
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Audio>> audioCollection;
+		std::unordered_map<std::string, std::shared_ptr<Audio>> audio_collection;
 		lb_Libretti* libretti;
-		std::string activeAudioName;
+		std::string active_audio_name;
 
-		bool isPlayingSynthesized = false;
+		bool is_playing_synthesized = false;
 
 		float normalize(float value);
 	};

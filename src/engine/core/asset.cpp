@@ -29,12 +29,12 @@ Omnia::Asset::Asset()
 	this->type = TYPE_STRING;
 }
 
-void Omnia::Asset::setName(std::string name)
+void Omnia::Asset::set_name(std::string name)
 {
 	this->name = name;
 }
 
-std::string Omnia::Asset::getName()
+std::string Omnia::Asset::get_name()
 {
 	return this->name;
 }

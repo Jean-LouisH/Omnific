@@ -37,8 +37,8 @@ namespace Omnia
 
 		Asset();
 		virtual ~Asset() = default;
-		void setName(std::string name);
-		std::string getName();
+		void set_name(std::string name);
+		std::string get_name();
 	private:
 		std::string name = "";
 	};

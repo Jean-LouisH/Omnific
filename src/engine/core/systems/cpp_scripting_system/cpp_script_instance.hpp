@@ -70,14 +70,14 @@ namespace Omnia
             return clone;
         }
 
-        virtual void onStart();
-        virtual void onInput();
-        virtual void onEarly();
-        virtual void onLogic();
-        virtual void onCompute();
-        virtual void onLate();
-        virtual void onOutput();
-        virtual void onFinish();
+        virtual void on_start();
+        virtual void on_input();
+        virtual void on_early();
+        virtual void on_logic();
+        virtual void on_compute();
+        virtual void on_late();
+        virtual void on_output();
+        virtual void on_finish();
     protected:
         std::string type;
     private:

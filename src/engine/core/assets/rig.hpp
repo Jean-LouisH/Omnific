@@ -38,7 +38,7 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Rig* clone = new Rig(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 	private:

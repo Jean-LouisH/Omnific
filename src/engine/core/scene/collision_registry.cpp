@@ -23,68 +23,68 @@
 #include "collision_registry.hpp"
 
 
-void Omnia::CollisionRegistry::addOrUpdate(std::shared_ptr<Collision> collision)
+void Omnia::CollisionRegistry::add_or_update(std::shared_ptr<Collision> collision)
 {
-	std::string collisionEntityName = collision->colliderName;
-	std::string otherCollisionEntityName = collision->otherColliderName;
+	std::string collision_entity_name = collision->collider_name;
+	std::string other_collision_entity_name = collision->other_collider_name;
 
-	if (!this->collisions.count(collisionEntityName))
+	if (!this->collisions.count(collision_entity_name))
 	{
-		std::unordered_map<OtherColliderName, std::shared_ptr<Collision>> collisionEntry;
-		collisionEntry.emplace(otherCollisionEntityName, collision);
-		this->collisions.emplace(collisionEntityName, collisionEntry);
+		std::unordered_map<OtherColliderName, std::shared_ptr<Collision>> collision_entry;
+		collision_entry.emplace(other_collision_entity_name, collision);
+		this->collisions.emplace(collision_entity_name, collision_entry);
 	}
 	else
 	{
-		this->collisions.at(collisionEntityName).emplace(otherCollisionEntityName, collision);
+		this->collisions.at(collision_entity_name).emplace(other_collision_entity_name, collision);
 	}
 }
 
-void Omnia::CollisionRegistry::remove(std::string colliderName, std::string otherColliderName)
+void Omnia::CollisionRegistry::remove(std::string collider_name, std::string other_collider_name)
 {
-	if (this->collisions.count(colliderName))
-		if (this->collisions.at(colliderName).count(otherColliderName))
-			this->collisions.at(colliderName).erase(otherColliderName);
+	if (this->collisions.count(collider_name))
+		if (this->collisions.at(collider_name).count(other_collider_name))
+			this->collisions.at(collider_name).erase(other_collider_name);
 }
 
-std::shared_ptr<Omnia::Collision> Omnia::CollisionRegistry::query(std::string colliderName, std::string otherColliderName)
+std::shared_ptr<Omnia::Collision> Omnia::CollisionRegistry::query(std::string collider_name, std::string other_collider_name)
 {
 	std::shared_ptr<Collision> collision;
 
-	if (this->collisions.count(colliderName))
+	if (this->collisions.count(collider_name))
 	{
-		if (this->collisions.at(colliderName).count(otherColliderName))
+		if (this->collisions.at(collider_name).count(other_collider_name))
 		{
-			collision = this->collisions.at(colliderName).at(otherColliderName);
+			collision = this->collisions.at(collider_name).at(other_collider_name);
 		}
 	}
-	else if (this->collisions.count(otherColliderName))
+	else if (this->collisions.count(other_collider_name))
 	{
-		if (this->collisions.at(otherColliderName).count(colliderName))
+		if (this->collisions.at(other_collider_name).count(collider_name))
 		{
-			collision = this->collisions.at(otherColliderName).at(colliderName);
+			collision = this->collisions.at(other_collider_name).at(collider_name);
 		}
 	}
 
 	return collision;
 }
 
-std::unordered_map<std::string, std::shared_ptr<Omnia::Collision>> Omnia::CollisionRegistry::queryAll(std::string colliderName)
+std::unordered_map<std::string, std::shared_ptr<Omnia::Collision>> Omnia::CollisionRegistry::query_all(std::string collider_name)
 {
-	std::unordered_map<std::string, std::shared_ptr<Collision>> collisionEntries;
+	std::unordered_map<std::string, std::shared_ptr<Collision>> collision_entries;
 
-	if (this->collisions.count(colliderName))
-		collisionEntries = this->collisions.at(colliderName);
+	if (this->collisions.count(collider_name))
+		collision_entries = this->collisions.at(collider_name);
 
-	return collisionEntries;
+	return collision_entries;
 }
 
-bool Omnia::CollisionRegistry::isColliding(std::string colliderName, std::string otherColliderName)
+bool Omnia::CollisionRegistry::is_colliding(std::string collider_name, std::string other_collider_name)
 {
-	return (this->query(colliderName, otherColliderName) != nullptr);
+	return (this->query(collider_name, other_collider_name) != nullptr);
 }
 
-uint64_t Omnia::CollisionRegistry::getCollisionCount(std::string colliderName)
+uint64_t Omnia::CollisionRegistry::get_collision_count(std::string collider_name)
 {
-	return (uint64_t)(this->queryAll(colliderName).size());
+	return (uint64_t)(this->query_all(collider_name).size());
 }

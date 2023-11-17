@@ -27,15 +27,15 @@ Omnia::Mesh::Mesh(std::string filepath)
 {
     this->type = TYPE_STRING;
 	if (filepath == "Mesh::cube")
-		this->setToCube();
+		this->set_to_cube();
     else if (filepath == "Mesh::quad")
-        this->setToQuad();
+        this->set_to_quad();
     else if (filepath == "Mesh::plane")
-        this->setToPlane();
+        this->set_to_plane();
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<float> textureCoords)
+    std::vector<float> texture_coords)
 {
     std::vector<float> normals;
     std::vector<float> tangents;
@@ -43,8 +43,8 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<uint32_t> indices;
 
     this->type = TYPE_STRING;
-    this->populateData(positions,
-        textureCoords,
+    this->populate_data(positions,
+        texture_coords,
         normals,
         tangents,
         bitangents,
@@ -52,7 +52,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<float> textureCoords,
+    std::vector<float> texture_coords,
     std::vector<float> normals)
 {
     std::vector<float> tangents;
@@ -60,8 +60,8 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<uint32_t> indices;
 
     this->type = TYPE_STRING;
-    this->populateData(positions,
-        textureCoords,
+    this->populate_data(positions,
+        texture_coords,
         normals,
         tangents,
         bitangents,
@@ -69,7 +69,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<float> textureCoords,
+    std::vector<float> texture_coords,
     std::vector<uint32_t> indices)
 {
     std::vector<float> normals;
@@ -77,8 +77,8 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> bitangents;
 
     this->type = TYPE_STRING;
-    this->populateData(positions,
-        textureCoords,
+    this->populate_data(positions,
+        texture_coords,
         normals,
         tangents,
         bitangents,
@@ -86,7 +86,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<float> textureCoords,
+    std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<uint32_t> indices)
 {
@@ -94,8 +94,8 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> bitangents;
 
     this->type = TYPE_STRING;
-    this->populateData(positions,
-        textureCoords,
+    this->populate_data(positions,
+        texture_coords,
         normals,
         tangents,
         bitangents,
@@ -103,29 +103,29 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
 }
 
 Omnia::Mesh::Mesh(std::vector<float> positions,
-    std::vector<float> textureCoords,
+    std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<float> tangents,
     std::vector<float> bitangents,
     std::vector<uint32_t> indices)
 {
     this->type = TYPE_STRING;
-    this->populateData(positions,
-        textureCoords,
+    this->populate_data(positions,
+        texture_coords,
         normals,
         tangents,
         bitangents,
         indices);
 }
 
-bool Omnia::Mesh::getIsIndexed()
+bool Omnia::Mesh::get_is_indexed()
 {
-    return this->isIndexed;
+    return this->is_indexed;
 }
 
-void Omnia::Mesh::setToCube()
+void Omnia::Mesh::set_to_cube()
 {
-    const std::vector<float> cubePositions = 
+    const std::vector<float> cube_positions = 
     {
       -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5,
       -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
@@ -146,7 +146,7 @@ void Omnia::Mesh::setToCube()
       -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5
     };
 
-    const std::vector<float> cubeTextureCoords =
+    const std::vector<float> cube_texture_coords =
     {
       0, 0, 1, 0, 1, 1,
       0, 0, 1, 1, 0, 1,
@@ -172,12 +172,12 @@ void Omnia::Mesh::setToCube()
     std::vector<float> bitangents;
     std::vector<uint32_t> indices;
 
-    this->populateData(cubePositions, cubeTextureCoords, normals, tangents, bitangents, indices);
+    this->populate_data(cube_positions, cube_texture_coords, normals, tangents, bitangents, indices);
 }
 
-void Omnia::Mesh::setToQuad()
+void Omnia::Mesh::set_to_quad()
 {
-    const std::vector<float> quadPositions =
+    const std::vector<float> quad_positions =
     {
         0.5f,  0.5f, 0.0f,
         0.5f, -0.5f, 0.0f,
@@ -185,7 +185,7 @@ void Omnia::Mesh::setToQuad()
        -0.5f,  0.5f, 0.0f,
     };
 
-    const std::vector<float> quadTextureCoords =
+    const std::vector<float> quad_texture_coords =
     {
         1, 1,
         1, 0,
@@ -193,7 +193,7 @@ void Omnia::Mesh::setToQuad()
         0, 1
     };
 
-    const std::vector<uint32_t> quadIndices =
+    const std::vector<uint32_t> quad_indices =
     {
         0, 1, 3,
         1, 2, 3
@@ -203,22 +203,22 @@ void Omnia::Mesh::setToQuad()
     std::vector<float> tangents;
     std::vector<float> bitangents;
 
-    this->populateData(quadPositions, quadTextureCoords, normals, tangents, bitangents, quadIndices);
+    this->populate_data(quad_positions, quad_texture_coords, normals, tangents, bitangents, quad_indices);
 }
 
-void Omnia::Mesh::setToPlane()
+void Omnia::Mesh::set_to_plane()
 {
-    const std::vector<float> planePositions =
+    const std::vector<float> plane_positions =
     {
 
     };
 
-    const std::vector<float> planeTextureCoords =
+    const std::vector<float> plane_texture_coords =
     {
 
     };
 
-    const std::vector<uint32_t> planeIndices =
+    const std::vector<uint32_t> plane_indices =
     {
 
     };
@@ -227,25 +227,25 @@ void Omnia::Mesh::setToPlane()
     std::vector<float> tangents;
     std::vector<float> bitangents;
 
-    this->populateData(planePositions, planeTextureCoords, normals, tangents, bitangents, planeIndices);
+    this->populate_data(plane_positions, plane_texture_coords, normals, tangents, bitangents, plane_indices);
 }
 
-void Omnia::Mesh::populateData(
+void Omnia::Mesh::populate_data(
     std::vector<float> positions,
-    std::vector<float> textureCoords,
+    std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<float> tangents,
     std::vector<float> bitangents,
     std::vector<uint32_t> indices)
 {
-    uint8_t vec3Stride = 3;
-    uint8_t vec2Stride = 2;
+    uint8_t vec3_stride = 3;
+    uint8_t vec2_stride = 2;
 
     if (positions.size() != 0)
     {
-        if (textureCoords.size() == 0)
+        if (texture_coords.size() == 0)
             for (size_t i = 0; i < positions.size(); i++)
-                textureCoords.push_back(0.0);
+                texture_coords.push_back(0.0);
 
         if (normals.size() == 0)
             for (size_t i = 0; i < positions.size(); i++)
@@ -260,29 +260,29 @@ void Omnia::Mesh::populateData(
                 bitangents.push_back(0.0);
 
         if (indices.size() == 0)
-            this->isIndexed = false;
+            this->is_indexed = false;
         else
             this->indices = indices;
 
-        size_t vertexCount = positions.size() / vec3Stride;
-        float* positionsData = positions.data();
-        float* textureCoordsData = textureCoords.data();
-        float* normalsData = normals.data();
+        size_t vertex_count = positions.size() / vec3_stride;
+        float* positions_data = positions.data();
+        float* texture_coords_data = texture_coords.data();
+        float* normals_data = normals.data();
 
-        for (size_t i = 0; i < vertexCount; i++)
+        for (size_t i = 0; i < vertex_count; i++)
         {
             Vertex vertex;
             vertex.position = {
-                positionsData[i * vec3Stride + 0],
-                positionsData[i * vec3Stride + 1],
-                positionsData[i * vec3Stride + 2] };
+                positions_data[i * vec3_stride + 0],
+                positions_data[i * vec3_stride + 1],
+                positions_data[i * vec3_stride + 2] };
             vertex.uv = {
-                textureCoordsData[i * vec2Stride + 0],
-                textureCoordsData[i * vec2Stride + 1] };
+                texture_coords_data[i * vec2_stride + 0],
+                texture_coords_data[i * vec2_stride + 1] };
             vertex.normal = {
-                normalsData[i * vec3Stride + 0],
-                normalsData[i * vec3Stride + 1],
-                normalsData[i * vec3Stride + 2] };
+                normals_data[i * vec3_stride + 0],
+                normals_data[i * vec3_stride + 1],
+                normals_data[i * vec3_stride + 2] };
             this->vertices.push_back(vertex);
         }
     }

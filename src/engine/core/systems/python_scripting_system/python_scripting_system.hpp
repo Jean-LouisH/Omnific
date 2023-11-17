@@ -56,32 +56,32 @@ namespace Omnia
 
 		virtual void initialize() override;
 		virtual void finalize() override;
-		virtual void onStart(std::shared_ptr<Scene> scene) override;
-		virtual void onInput(std::shared_ptr<Scene> scene) override;
-		virtual void onEarly(std::shared_ptr<Scene> scene) override;
-		virtual void onLogic(std::shared_ptr<Scene> scene) override;
-		virtual void onCompute(std::shared_ptr<Scene> scene) override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
-		virtual void onFinish(std::shared_ptr<Scene> scene) override;
+		virtual void on_start(std::shared_ptr<Scene> scene) override;
+		virtual void on_input(std::shared_ptr<Scene> scene) override;
+		virtual void on_early(std::shared_ptr<Scene> scene) override;
+		virtual void on_logic(std::shared_ptr<Scene> scene) override;
+		virtual void on_compute(std::shared_ptr<Scene> scene) override;
+		virtual void on_late(std::shared_ptr<Scene> scene) override;
+		virtual void on_finish(std::shared_ptr<Scene> scene) override;
 
-		void executeCommand(std::string command);
-		void loadScriptModules(std::shared_ptr<Scene> scene);
+		void execute_command(std::string command);
+		void load_script_modules(std::shared_ptr<Scene> scene);
 	private:
-		bool isVMStarted = false;
-		bool hasModulesLoadedOnThisUpdate = false;
-		std::unordered_map<std::string, PythonScriptInstance> pythonScriptInstances;
+		bool is_vmstarted = false;
+		bool has_modules_loaded_on_this_update = false;
+		std::unordered_map<std::string, PythonScriptInstance> python_script_instances;
 
-		void executeQueuedMethods(
-			std::queue<EntityID> entityQueue,
-			std::shared_ptr<SceneLayer> sceneLayer,
-			const char* methodName);
-		void executeUpdateMethods(
-			std::shared_ptr<SceneLayer> sceneLayer,
-			const char* methodName);
-		void bindAndCall(std::shared_ptr<ScriptCollection> scriptCollection,
-			SceneLayerID sceneLayerID,
-			EntityID entityID,
-			const char* methodName);
+		void execute_queued_methods(
+			std::queue<EntityID> entity_queue,
+			std::shared_ptr<SceneLayer> scene_layer,
+			const char* method_name);
+		void execute_update_methods(
+			std::shared_ptr<SceneLayer> scene_layer,
+			const char* method_name);
+		void bind_and_call(std::shared_ptr<ScriptCollection> script_collection,
+			SceneLayerID scene_layer_id,
+			EntityID entity_id,
+			const char* method_name);
 	};
 }
 

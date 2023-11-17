@@ -4,9 +4,9 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-void Omnia::Transform::deserialize(YAML::Node yamlNode)
+void Omnia::Transform::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "translation")
 		{
@@ -29,37 +29,37 @@ void Omnia::Transform::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::Transform::translateX(float offset)
+void Omnia::Transform::translate_x(float offset)
 {
 	this->translation.x += offset;
 }
 
-void Omnia::Transform::translateY(float offset)
+void Omnia::Transform::translate_y(float offset)
 {
 	this->translation.y += offset;
 }
 
-void Omnia::Transform::translateZ(float offset)
+void Omnia::Transform::translate_z(float offset)
 {
 	this->translation.z += offset;
 }
 
-void Omnia::Transform::rotateX(float angle)
+void Omnia::Transform::rotate_x(float angle)
 {
 	this->rotation.x += angle;
 }
 
-void Omnia::Transform::rotateY(float angle)
+void Omnia::Transform::rotate_y(float angle)
 {
 	this->rotation.y += angle;
 }
 
-void Omnia::Transform::rotateZ(float angle)
+void Omnia::Transform::rotate_z(float angle)
 {
 	this->rotation.z += angle;
 }
 
-float Omnia::Transform::calculateDistanceFrom(glm::vec3 position)
+float Omnia::Transform::calculate_distance_from(glm::vec3 position)
 {
 	return sqrt(
 		pow(position.x - this->translation.x, 2) + 
@@ -68,83 +68,83 @@ float Omnia::Transform::calculateDistanceFrom(glm::vec3 position)
 	);
 }
 
-float Omnia::Transform::calculateAzimuthFrom(glm::vec3 position)
+float Omnia::Transform::calculate_azimuth_from(glm::vec3 position)
 {
 	return atan2(position.y - this->translation.y, position.z - this->translation.z);
 }
 
-float Omnia::Transform::calculateElevationFrom(glm::vec3 position)
+float Omnia::Transform::calculate_elevation_from(glm::vec3 position)
 {
 	return atan2(position.x - this->translation.x, position.z - this->translation.z);
 }
 
-std::shared_ptr<Omnia::Transform> Omnia::Transform::getGlobalTransform()
+std::shared_ptr<Omnia::Transform> Omnia::Transform::get_global_transform()
 {
-	if (this->globalTransform == nullptr)
-		this->globalTransform = std::shared_ptr<Transform>(new Transform());
+	if (this->global_transform == nullptr)
+		this->global_transform = std::shared_ptr<Transform>(new Transform());
 
-	std::shared_ptr<Transform> rootTransform;
-	int rootTransformIndex;
+	std::shared_ptr<Transform> root_transform;
+	int root_transform_index;
 
-	if (this->componentHierarchy.size() == 0)
-		this->componentHierarchy.push_back(std::shared_ptr<Transform>(this));
+	if (this->component_hierarchy.size() == 0)
+		this->component_hierarchy.push_back(std::shared_ptr<Transform>(this));
 
-	for (int i = this->componentHierarchy.size() - 1;
+	for (int i = this->component_hierarchy.size() - 1;
 		i >= 0;
 		i--)
 	{
-		rootTransform = std::dynamic_pointer_cast<Transform>(this->componentHierarchy[i]);
-		if (rootTransform != nullptr)
+		root_transform = std::dynamic_pointer_cast<Transform>(this->component_hierarchy[i]);
+		if (root_transform != nullptr)
 		{
-			rootTransformIndex = i;
+			root_transform_index = i;
 			break;
 		}
 	}
 
-	this->globalTransform->translation = rootTransform->translation;
-	this->globalTransform->rotation = rootTransform->rotation;
-	this->globalTransform->scale = rootTransform->scale;
+	this->global_transform->translation = root_transform->translation;
+	this->global_transform->rotation = root_transform->rotation;
+	this->global_transform->scale = root_transform->scale;
 
-	for (int i = rootTransformIndex - 1; 
+	for (int i = root_transform_index - 1; 
 		i >= 0; 
 		i--)
 	{
-		std::shared_ptr<Transform> localTransform = std::dynamic_pointer_cast<Transform>(this->componentHierarchy[i]);
+		std::shared_ptr<Transform> local_transform = std::dynamic_pointer_cast<Transform>(this->component_hierarchy[i]);
 
-		if (localTransform != nullptr)
+		if (local_transform != nullptr)
 		{
-			glm::vec3 radiansRotation = glm::vec3(
-				glm::radians(this->globalTransform->rotation.x),
-				glm::radians(this->globalTransform->rotation.y),
-				glm::radians(this->globalTransform->rotation.z)
+			glm::vec3 radians_rotation = glm::vec3(
+				glm::radians(this->global_transform->rotation.x),
+				glm::radians(this->global_transform->rotation.y),
+				glm::radians(this->global_transform->rotation.z)
 			);
 
-			glm::vec3 distanceVector = localTransform->translation - globalTransform->translation;
-			float distance = glm::length(distanceVector);
-			glm::vec3 direction = glm::normalize(distanceVector);
+			glm::vec3 distance_vector = local_transform->translation - global_transform->translation;
+			float distance = glm::length(distance_vector);
+			glm::vec3 direction = glm::normalize(distance_vector);
 
 			if (!(std::isnan(direction.x) || std::isnan(direction.y) || std::isnan(direction.z)))
 			{
-				direction = glm::rotateX(direction, radiansRotation.x);
-				direction = glm::rotateY(direction, radiansRotation.y);
-				direction = glm::rotateZ(direction, radiansRotation.z);
-				this->globalTransform->translation += direction * distance;
+				direction = glm::rotateX(direction, radians_rotation.x);
+				direction = glm::rotateY(direction, radians_rotation.y);
+				direction = glm::rotateZ(direction, radians_rotation.z);
+				this->global_transform->translation += direction * distance;
 			}
 
-			this->globalTransform->rotation += localTransform->rotation;
-			this->globalTransform->scale *= localTransform->scale;
+			this->global_transform->rotation += local_transform->rotation;
+			this->global_transform->scale *= local_transform->scale;
 		}
 	}
 
-	return this->globalTransform;
+	return this->global_transform;
 }
 
-glm::mat4 Omnia::Transform::getTransformMatrix()
+glm::mat4 Omnia::Transform::get_transform_matrix()
 {
-	glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0f), this->translation);
-	transformMatrix = glm::rotate(transformMatrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	transformMatrix = glm::rotate(transformMatrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	transformMatrix = glm::rotate(transformMatrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	transformMatrix = glm::scale(transformMatrix, this->scale);
-	return transformMatrix;
+	glm::mat4 transform_matrix = glm::translate(glm::mat4(1.0f), this->translation);
+	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	transform_matrix = glm::scale(transform_matrix, this->scale);
+	return transform_matrix;
 }

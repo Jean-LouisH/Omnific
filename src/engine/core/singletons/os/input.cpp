@@ -24,163 +24,163 @@
 
 Omnia::Input::Input()
 {
-	this->controllerButtonsByString.emplace("dpad_left", SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-	this->controllerButtonsByString.emplace("dpad_right", SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
-	this->controllerButtonsByString.emplace("dpad_up", SDL_CONTROLLER_BUTTON_DPAD_UP);
-	this->controllerButtonsByString.emplace("dpad_down", SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-	this->controllerButtonsByString.emplace("button_extra", SDL_CONTROLLER_BUTTON_BACK);
-	this->controllerButtonsByString.emplace("button_menu", SDL_CONTROLLER_BUTTON_START);
-	this->controllerButtonsByString.emplace("button_x", SDL_CONTROLLER_BUTTON_X);
-	this->controllerButtonsByString.emplace("button_y", SDL_CONTROLLER_BUTTON_Y);
-	this->controllerButtonsByString.emplace("button_a", SDL_CONTROLLER_BUTTON_A);
-	this->controllerButtonsByString.emplace("button_b", SDL_CONTROLLER_BUTTON_B);
-	this->controllerButtonsByString.emplace("left_shoulder_button", SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-	this->controllerButtonsByString.emplace("left_stick_button", SDL_CONTROLLER_BUTTON_LEFTSTICK);
-	this->controllerButtonsByString.emplace("right_shoulder_button", SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-	this->controllerButtonsByString.emplace("right_stick_button", SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+	this->controller_buttons_by_string.emplace("dpad_left", SDL_CONTROLLER_BUTTON_DPAD_LEFT);
+	this->controller_buttons_by_string.emplace("dpad_right", SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
+	this->controller_buttons_by_string.emplace("dpad_up", SDL_CONTROLLER_BUTTON_DPAD_UP);
+	this->controller_buttons_by_string.emplace("dpad_down", SDL_CONTROLLER_BUTTON_DPAD_DOWN);
+	this->controller_buttons_by_string.emplace("button_extra", SDL_CONTROLLER_BUTTON_BACK);
+	this->controller_buttons_by_string.emplace("button_menu", SDL_CONTROLLER_BUTTON_START);
+	this->controller_buttons_by_string.emplace("button_x", SDL_CONTROLLER_BUTTON_X);
+	this->controller_buttons_by_string.emplace("button_y", SDL_CONTROLLER_BUTTON_Y);
+	this->controller_buttons_by_string.emplace("button_a", SDL_CONTROLLER_BUTTON_A);
+	this->controller_buttons_by_string.emplace("button_b", SDL_CONTROLLER_BUTTON_B);
+	this->controller_buttons_by_string.emplace("left_shoulder_button", SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
+	this->controller_buttons_by_string.emplace("left_stick_button", SDL_CONTROLLER_BUTTON_LEFTSTICK);
+	this->controller_buttons_by_string.emplace("right_shoulder_button", SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
+	this->controller_buttons_by_string.emplace("right_stick_button", SDL_CONTROLLER_BUTTON_RIGHTSTICK);
 
-	this->controllerAxisEventsByString.emplace("left_axis_x", SDL_CONTROLLER_AXIS_LEFTX);
-	this->controllerAxisEventsByString.emplace("left_axis_y", SDL_CONTROLLER_AXIS_LEFTY);
-	this->controllerAxisEventsByString.emplace("right_axis_x", SDL_CONTROLLER_AXIS_RIGHTX);
-	this->controllerAxisEventsByString.emplace("right_axis_y", SDL_CONTROLLER_AXIS_RIGHTY);
-	this->controllerAxisEventsByString.emplace("left_trigger", SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-	this->controllerAxisEventsByString.emplace("right_trigger", SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+	this->controller_axis_events_by_string.emplace("left_axis_x", SDL_CONTROLLER_AXIS_LEFTX);
+	this->controller_axis_events_by_string.emplace("left_axis_y", SDL_CONTROLLER_AXIS_LEFTY);
+	this->controller_axis_events_by_string.emplace("right_axis_x", SDL_CONTROLLER_AXIS_RIGHTX);
+	this->controller_axis_events_by_string.emplace("right_axis_y", SDL_CONTROLLER_AXIS_RIGHTY);
+	this->controller_axis_events_by_string.emplace("left_trigger", SDL_CONTROLLER_AXIS_TRIGGERLEFT);
+	this->controller_axis_events_by_string.emplace("right_trigger", SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
 
-	this->keyboardEventsByString.emplace("escape", SDLK_ESCAPE);
-	this->keyboardEventsByString.emplace("f1", SDLK_F1);
-	this->keyboardEventsByString.emplace("f2", SDLK_F2);
-	this->keyboardEventsByString.emplace("f3", SDLK_F3);
-	this->keyboardEventsByString.emplace("f4", SDLK_F4);
-	this->keyboardEventsByString.emplace("f5", SDLK_F5);
-	this->keyboardEventsByString.emplace("f6", SDLK_F6);
-	this->keyboardEventsByString.emplace("f7", SDLK_F7);
-	this->keyboardEventsByString.emplace("f8", SDLK_F8);
-	this->keyboardEventsByString.emplace("f9", SDLK_F9);
-	this->keyboardEventsByString.emplace("f10", SDLK_F10);
-	this->keyboardEventsByString.emplace("f11", SDLK_F11);
-	this->keyboardEventsByString.emplace("f12", SDLK_F12);
-	this->keyboardEventsByString.emplace("printscreen", SDLK_PRINTSCREEN);
-	this->keyboardEventsByString.emplace("pause", SDLK_PAUSE);
-	this->keyboardEventsByString.emplace("insert", SDLK_INSERT);
-	this->keyboardEventsByString.emplace("delete", SDLK_DELETE);
-	this->keyboardEventsByString.emplace("home", SDLK_HOME);
-	this->keyboardEventsByString.emplace("page_up", SDLK_PAGEUP);
-	this->keyboardEventsByString.emplace("page_down", SDLK_PAGEDOWN);
-	this->keyboardEventsByString.emplace("end", SDLK_END);
-	this->keyboardEventsByString.emplace("backquote", SDLK_BACKQUOTE);
-	this->keyboardEventsByString.emplace("1", SDLK_1);
-	this->keyboardEventsByString.emplace("2", SDLK_2);
-	this->keyboardEventsByString.emplace("3", SDLK_3);
-	this->keyboardEventsByString.emplace("4", SDLK_4);
-	this->keyboardEventsByString.emplace("5", SDLK_5);
-	this->keyboardEventsByString.emplace("6", SDLK_6);
-	this->keyboardEventsByString.emplace("7", SDLK_7);
-	this->keyboardEventsByString.emplace("8", SDLK_8);
-	this->keyboardEventsByString.emplace("9", SDLK_9);
-	this->keyboardEventsByString.emplace("0", SDLK_0);
-	this->keyboardEventsByString.emplace("-", SDLK_MINUS);
-	this->keyboardEventsByString.emplace("+", SDLK_PLUS);
-	this->keyboardEventsByString.emplace("backspace", SDLK_BACKSPACE);
-	this->keyboardEventsByString.emplace("num_lock", SDLK_NUMLOCKCLEAR);
-	this->keyboardEventsByString.emplace("forward_slash", SDLK_SLASH);
-	this->keyboardEventsByString.emplace("asterisk", SDLK_ASTERISK);
-	this->keyboardEventsByString.emplace("keypad_minus", SDLK_KP_MINUS);
-	this->keyboardEventsByString.emplace("keypad_plus", SDLK_KP_PLUS);
-	this->keyboardEventsByString.emplace("keypad_enter", SDLK_KP_ENTER);
-	this->keyboardEventsByString.emplace("keypad_1", SDLK_KP_1);
-	this->keyboardEventsByString.emplace("keypad_2", SDLK_KP_2);
-	this->keyboardEventsByString.emplace("keypad_3", SDLK_KP_3);
-	this->keyboardEventsByString.emplace("keypad_4", SDLK_KP_4);
-	this->keyboardEventsByString.emplace("keypad_5", SDLK_KP_5);
-	this->keyboardEventsByString.emplace("keypad_6", SDLK_KP_6);
-	this->keyboardEventsByString.emplace("keypad_7", SDLK_KP_7);
-	this->keyboardEventsByString.emplace("keypad_8", SDLK_KP_8);
-	this->keyboardEventsByString.emplace("keypad_9", SDLK_KP_9);
-	this->keyboardEventsByString.emplace("keypad_0", SDLK_KP_0);
-	this->keyboardEventsByString.emplace("keypad_period", SDLK_KP_PERIOD);
-	this->keyboardEventsByString.emplace("tab", SDLK_TAB);
-	this->keyboardEventsByString.emplace("q", SDLK_q);
-	this->keyboardEventsByString.emplace("w", SDLK_w);
-	this->keyboardEventsByString.emplace("e", SDLK_e);
-	this->keyboardEventsByString.emplace("r", SDLK_r);
-	this->keyboardEventsByString.emplace("t", SDLK_t);
-	this->keyboardEventsByString.emplace("y", SDLK_y);
-	this->keyboardEventsByString.emplace("u", SDLK_u);
-	this->keyboardEventsByString.emplace("i", SDLK_i);
-	this->keyboardEventsByString.emplace("o", SDLK_o);
-	this->keyboardEventsByString.emplace("p", SDLK_p);
-	this->keyboardEventsByString.emplace("a", SDLK_a);
-	this->keyboardEventsByString.emplace("s", SDLK_s);
-	this->keyboardEventsByString.emplace("d", SDLK_d);
-	this->keyboardEventsByString.emplace("f", SDLK_f);
-	this->keyboardEventsByString.emplace("g", SDLK_g);
-	this->keyboardEventsByString.emplace("h", SDLK_h);
-	this->keyboardEventsByString.emplace("j", SDLK_j);
-	this->keyboardEventsByString.emplace("k", SDLK_k);
-	this->keyboardEventsByString.emplace("l", SDLK_l);
-	this->keyboardEventsByString.emplace("z", SDLK_z);
-	this->keyboardEventsByString.emplace("x", SDLK_x);
-	this->keyboardEventsByString.emplace("c", SDLK_c);
-	this->keyboardEventsByString.emplace("v", SDLK_v);
-	this->keyboardEventsByString.emplace("b", SDLK_b);
-	this->keyboardEventsByString.emplace("n", SDLK_n);
-	this->keyboardEventsByString.emplace("m", SDLK_m);
-	this->keyboardEventsByString.emplace("left_square_bracket", SDLK_LEFTBRACKET);
-	this->keyboardEventsByString.emplace("right_square_bracket", SDLK_RIGHTBRACKET);
-	this->keyboardEventsByString.emplace("semicolon", SDLK_SEMICOLON);
-	this->keyboardEventsByString.emplace("quote", SDLK_QUOTE);
-	this->keyboardEventsByString.emplace("backslash", SDLK_BACKSLASH);
-	this->keyboardEventsByString.emplace("enter", SDLK_RETURN);
-	this->keyboardEventsByString.emplace("comma", SDLK_COMMA);
-	this->keyboardEventsByString.emplace("period", SDLK_PERIOD);
-	this->keyboardEventsByString.emplace("left_shift", SDLK_LSHIFT);
-	this->keyboardEventsByString.emplace("right_shift", SDLK_RSHIFT);
-	this->keyboardEventsByString.emplace("left_control", SDLK_LCTRL);
-	this->keyboardEventsByString.emplace("right_control", SDLK_RCTRL);
-	this->keyboardEventsByString.emplace("function", SDLK_f);
-	this->keyboardEventsByString.emplace("os", SDLK_LGUI);
-	this->keyboardEventsByString.emplace("left_alt", SDLK_LALT);
-	this->keyboardEventsByString.emplace("space", SDLK_SPACE);
-	this->keyboardEventsByString.emplace("right_alt", SDLK_RALT);
-	this->keyboardEventsByString.emplace("left", SDLK_LEFT);
-	this->keyboardEventsByString.emplace("up", SDLK_UP);
-	this->keyboardEventsByString.emplace("right", SDLK_RIGHT);
-	this->keyboardEventsByString.emplace("down", SDLK_DOWN);
+	this->keyboard_events_by_string.emplace("escape", SDLK_ESCAPE);
+	this->keyboard_events_by_string.emplace("f1", SDLK_F1);
+	this->keyboard_events_by_string.emplace("f2", SDLK_F2);
+	this->keyboard_events_by_string.emplace("f3", SDLK_F3);
+	this->keyboard_events_by_string.emplace("f4", SDLK_F4);
+	this->keyboard_events_by_string.emplace("f5", SDLK_F5);
+	this->keyboard_events_by_string.emplace("f6", SDLK_F6);
+	this->keyboard_events_by_string.emplace("f7", SDLK_F7);
+	this->keyboard_events_by_string.emplace("f8", SDLK_F8);
+	this->keyboard_events_by_string.emplace("f9", SDLK_F9);
+	this->keyboard_events_by_string.emplace("f10", SDLK_F10);
+	this->keyboard_events_by_string.emplace("f11", SDLK_F11);
+	this->keyboard_events_by_string.emplace("f12", SDLK_F12);
+	this->keyboard_events_by_string.emplace("printscreen", SDLK_PRINTSCREEN);
+	this->keyboard_events_by_string.emplace("pause", SDLK_PAUSE);
+	this->keyboard_events_by_string.emplace("insert", SDLK_INSERT);
+	this->keyboard_events_by_string.emplace("delete", SDLK_DELETE);
+	this->keyboard_events_by_string.emplace("home", SDLK_HOME);
+	this->keyboard_events_by_string.emplace("page_up", SDLK_PAGEUP);
+	this->keyboard_events_by_string.emplace("page_down", SDLK_PAGEDOWN);
+	this->keyboard_events_by_string.emplace("end", SDLK_END);
+	this->keyboard_events_by_string.emplace("backquote", SDLK_BACKQUOTE);
+	this->keyboard_events_by_string.emplace("1", SDLK_1);
+	this->keyboard_events_by_string.emplace("2", SDLK_2);
+	this->keyboard_events_by_string.emplace("3", SDLK_3);
+	this->keyboard_events_by_string.emplace("4", SDLK_4);
+	this->keyboard_events_by_string.emplace("5", SDLK_5);
+	this->keyboard_events_by_string.emplace("6", SDLK_6);
+	this->keyboard_events_by_string.emplace("7", SDLK_7);
+	this->keyboard_events_by_string.emplace("8", SDLK_8);
+	this->keyboard_events_by_string.emplace("9", SDLK_9);
+	this->keyboard_events_by_string.emplace("0", SDLK_0);
+	this->keyboard_events_by_string.emplace("-", SDLK_MINUS);
+	this->keyboard_events_by_string.emplace("+", SDLK_PLUS);
+	this->keyboard_events_by_string.emplace("backspace", SDLK_BACKSPACE);
+	this->keyboard_events_by_string.emplace("num_lock", SDLK_NUMLOCKCLEAR);
+	this->keyboard_events_by_string.emplace("forward_slash", SDLK_SLASH);
+	this->keyboard_events_by_string.emplace("asterisk", SDLK_ASTERISK);
+	this->keyboard_events_by_string.emplace("keypad_minus", SDLK_KP_MINUS);
+	this->keyboard_events_by_string.emplace("keypad_plus", SDLK_KP_PLUS);
+	this->keyboard_events_by_string.emplace("keypad_enter", SDLK_KP_ENTER);
+	this->keyboard_events_by_string.emplace("keypad_1", SDLK_KP_1);
+	this->keyboard_events_by_string.emplace("keypad_2", SDLK_KP_2);
+	this->keyboard_events_by_string.emplace("keypad_3", SDLK_KP_3);
+	this->keyboard_events_by_string.emplace("keypad_4", SDLK_KP_4);
+	this->keyboard_events_by_string.emplace("keypad_5", SDLK_KP_5);
+	this->keyboard_events_by_string.emplace("keypad_6", SDLK_KP_6);
+	this->keyboard_events_by_string.emplace("keypad_7", SDLK_KP_7);
+	this->keyboard_events_by_string.emplace("keypad_8", SDLK_KP_8);
+	this->keyboard_events_by_string.emplace("keypad_9", SDLK_KP_9);
+	this->keyboard_events_by_string.emplace("keypad_0", SDLK_KP_0);
+	this->keyboard_events_by_string.emplace("keypad_period", SDLK_KP_PERIOD);
+	this->keyboard_events_by_string.emplace("tab", SDLK_TAB);
+	this->keyboard_events_by_string.emplace("q", SDLK_q);
+	this->keyboard_events_by_string.emplace("w", SDLK_w);
+	this->keyboard_events_by_string.emplace("e", SDLK_e);
+	this->keyboard_events_by_string.emplace("r", SDLK_r);
+	this->keyboard_events_by_string.emplace("t", SDLK_t);
+	this->keyboard_events_by_string.emplace("y", SDLK_y);
+	this->keyboard_events_by_string.emplace("u", SDLK_u);
+	this->keyboard_events_by_string.emplace("i", SDLK_i);
+	this->keyboard_events_by_string.emplace("o", SDLK_o);
+	this->keyboard_events_by_string.emplace("p", SDLK_p);
+	this->keyboard_events_by_string.emplace("a", SDLK_a);
+	this->keyboard_events_by_string.emplace("s", SDLK_s);
+	this->keyboard_events_by_string.emplace("d", SDLK_d);
+	this->keyboard_events_by_string.emplace("f", SDLK_f);
+	this->keyboard_events_by_string.emplace("g", SDLK_g);
+	this->keyboard_events_by_string.emplace("h", SDLK_h);
+	this->keyboard_events_by_string.emplace("j", SDLK_j);
+	this->keyboard_events_by_string.emplace("k", SDLK_k);
+	this->keyboard_events_by_string.emplace("l", SDLK_l);
+	this->keyboard_events_by_string.emplace("z", SDLK_z);
+	this->keyboard_events_by_string.emplace("x", SDLK_x);
+	this->keyboard_events_by_string.emplace("c", SDLK_c);
+	this->keyboard_events_by_string.emplace("v", SDLK_v);
+	this->keyboard_events_by_string.emplace("b", SDLK_b);
+	this->keyboard_events_by_string.emplace("n", SDLK_n);
+	this->keyboard_events_by_string.emplace("m", SDLK_m);
+	this->keyboard_events_by_string.emplace("left_square_bracket", SDLK_LEFTBRACKET);
+	this->keyboard_events_by_string.emplace("right_square_bracket", SDLK_RIGHTBRACKET);
+	this->keyboard_events_by_string.emplace("semicolon", SDLK_SEMICOLON);
+	this->keyboard_events_by_string.emplace("quote", SDLK_QUOTE);
+	this->keyboard_events_by_string.emplace("backslash", SDLK_BACKSLASH);
+	this->keyboard_events_by_string.emplace("enter", SDLK_RETURN);
+	this->keyboard_events_by_string.emplace("comma", SDLK_COMMA);
+	this->keyboard_events_by_string.emplace("period", SDLK_PERIOD);
+	this->keyboard_events_by_string.emplace("left_shift", SDLK_LSHIFT);
+	this->keyboard_events_by_string.emplace("right_shift", SDLK_RSHIFT);
+	this->keyboard_events_by_string.emplace("left_control", SDLK_LCTRL);
+	this->keyboard_events_by_string.emplace("right_control", SDLK_RCTRL);
+	this->keyboard_events_by_string.emplace("function", SDLK_f);
+	this->keyboard_events_by_string.emplace("os", SDLK_LGUI);
+	this->keyboard_events_by_string.emplace("left_alt", SDLK_LALT);
+	this->keyboard_events_by_string.emplace("space", SDLK_SPACE);
+	this->keyboard_events_by_string.emplace("right_alt", SDLK_RALT);
+	this->keyboard_events_by_string.emplace("left", SDLK_LEFT);
+	this->keyboard_events_by_string.emplace("up", SDLK_UP);
+	this->keyboard_events_by_string.emplace("right", SDLK_RIGHT);
+	this->keyboard_events_by_string.emplace("down", SDLK_DOWN);
 }
 
-bool Omnia::Input::isOnPress(std::string inputCode)
+bool Omnia::Input::is_on_press(std::string input_code)
 {
-	std::vector<std::string> inputCodes;
-	inputCodes.push_back(inputCode);
-	return this->isOnPress(inputCodes);
+	std::vector<std::string> input_codes;
+	input_codes.push_back(input_code);
+	return this->is_on_press(input_codes);
 }
 
-bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes)
+bool Omnia::Input::is_on_press(std::vector<std::string> input_codes)
 {
-	return this->isOnPress(inputCodes, 0);
+	return this->is_on_press(input_codes, 0);
 }
 
-bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnia::Input::is_on_press(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < inputCodes.size(); i++)
+	for (int i = 0; i < input_codes.size(); i++)
 	{
-		std::string inputCode = inputCodes.at(i);
+		std::string input_code = input_codes.at(i);
 
-		if (this->keyboardEventsByString.count(inputCode))
+		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
-			if (this->keyboardEvents.count(sdlKeyCode))
-				if (this->keyboardEvents.at(sdlKeyCode).type == SDL_KEYDOWN)
+			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
+			if (this->keyboard_events.count(sdl_key_code))
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN)
 					return true;
 		}
 
-		if (this->controllerButtonsByString.count(inputCode))
+		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controllerButtonCode = this->controllerButtonsByString.at(inputCode);
-			if (this->controllerButtonEvents.count(controllerButtonCode))
-				if (this->getControllerPlayerMap().count(playerID))
-					if (this->controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONDOWN &&
-						this->controllerButtonEvents.at(controllerButtonCode).which == this->getControllerPlayerMap().at(playerID))
+			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			if (this->controller_button_events.count(controller_button_code))
+				if (this->get_controller_player_map().count(player_id))
+					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
 		}
 	}
@@ -188,21 +188,21 @@ bool Omnia::Input::isOnPress(std::vector<std::string> inputCodes, PlayerID playe
 	return false;
 }
 
-bool Omnia::Input::isOnDoublePress(std::string inputCode, unsigned int timeInterval)
+bool Omnia::Input::is_on_double_press(std::string input_code, unsigned int time_interval)
 {
-	std::vector<std::string> inputCodes;
-	inputCodes.push_back(inputCode);
-	return this->isOnDoublePress(inputCodes, timeInterval);
+	std::vector<std::string> input_codes;
+	input_codes.push_back(input_code);
+	return this->is_on_double_press(input_codes, time_interval);
 }
 
-bool Omnia::Input::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timeInterval)
+bool Omnia::Input::is_on_double_press(std::vector<std::string> input_codes, unsigned int time_interval)
 {
-	return this->isOnDoublePress(inputCodes, timeInterval, 0);
+	return this->is_on_double_press(input_codes, time_interval, 0);
 }
 
-bool Omnia::Input::isOnDoublePress(std::vector<std::string> inputCodes, unsigned int timerInterval, PlayerID playerID)
+bool Omnia::Input::is_on_double_press(std::vector<std::string> input_codes, unsigned int timer_interval, PlayerID player_id)
 {
-	for (int i = 0; i < inputCodes.size(); i++)
+	for (int i = 0; i < input_codes.size(); i++)
 	{
 
 	}
@@ -210,37 +210,37 @@ bool Omnia::Input::isOnDoublePress(std::vector<std::string> inputCodes, unsigned
 	return false;
 }
 
-bool Omnia::Input::isPressed(std::string inputCode)
+bool Omnia::Input::is_pressed(std::string input_code)
 {
-	std::vector<std::string> inputCodes;
-	inputCodes.push_back(inputCode);
-	return this->isPressed(inputCodes);
+	std::vector<std::string> input_codes;
+	input_codes.push_back(input_code);
+	return this->is_pressed(input_codes);
 }
 
-bool Omnia::Input::isPressed(std::vector<std::string> inputCodes)
+bool Omnia::Input::is_pressed(std::vector<std::string> input_codes)
 {
-	return isPressed(inputCodes, 0);
+	return is_pressed(input_codes, 0);
 }
 
-bool Omnia::Input::isPressed(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnia::Input::is_pressed(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < inputCodes.size(); i++)
+	for (int i = 0; i < input_codes.size(); i++)
 	{
-		std::string inputCode = inputCodes.at(i);
+		std::string input_code = input_codes.at(i);
 
-		if (this->keyboardEventsByString.count(inputCode))
+		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
-			if (this->heldKeys.count(sdlKeyCode))
+			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
+			if (this->held_keys.count(sdl_key_code))
 				return true;
 		}
 
-		if (this->controllerButtonsByString.count(inputCode))
+		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controllerButtonCode = this->controllerButtonsByString.at(inputCode);
-			if (this->heldControllerButtons.count(controllerButtonCode))
-				if (this->getControllerPlayerMap().count(playerID))
-					if (this->heldControllerButtons.at(controllerButtonCode) == this->getControllerPlayerMap().at(playerID))
+			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			if (this->held_controller_buttons.count(controller_button_code))
+				if (this->get_controller_player_map().count(player_id))
+					if (this->held_controller_buttons.at(controller_button_code) == this->get_controller_player_map().at(player_id))
 						return true;
 		}
 	}
@@ -248,39 +248,39 @@ bool Omnia::Input::isPressed(std::vector<std::string> inputCodes, PlayerID playe
 	return false;
 }
 
-bool Omnia::Input::isOnRelease(std::string inputCode)
+bool Omnia::Input::is_on_release(std::string input_code)
 {
-	std::vector<std::string> inputCodes;
-	inputCodes.push_back(inputCode);
-	return this->isOnRelease(inputCodes);
+	std::vector<std::string> input_codes;
+	input_codes.push_back(input_code);
+	return this->is_on_release(input_codes);
 }
 
-bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes)
+bool Omnia::Input::is_on_release(std::vector<std::string> input_codes)
 {
-	return this->isOnRelease(inputCodes, 0);
+	return this->is_on_release(input_codes, 0);
 }
 
-bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID playerID)
+bool Omnia::Input::is_on_release(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < inputCodes.size(); i++)
+	for (int i = 0; i < input_codes.size(); i++)
 	{
-		std::string inputCode = inputCodes.at(i);
+		std::string input_code = input_codes.at(i);
 
-		if (this->keyboardEventsByString.count(inputCode))
+		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Keycode sdlKeyCode = this->keyboardEventsByString.at(inputCode);
-			if (this->keyboardEvents.count(sdlKeyCode))
-				if (this->keyboardEvents.at(sdlKeyCode).type == SDL_KEYUP)
+			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
+			if (this->keyboard_events.count(sdl_key_code))
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYUP)
 					return true;
 		}
 
-		if (this->controllerButtonsByString.count(inputCode))
+		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controllerButtonCode = this->controllerButtonsByString.at(inputCode);
-			if (this->controllerButtonEvents.count(controllerButtonCode))
-				if (this->getControllerPlayerMap().count(playerID))
-					if (this->controllerButtonEvents.at(controllerButtonCode).type == SDL_CONTROLLERBUTTONUP &&
-						this->controllerButtonEvents.at(controllerButtonCode).which == this->getControllerPlayerMap().at(playerID))
+			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			if (this->controller_button_events.count(controller_button_code))
+				if (this->get_controller_player_map().count(player_id))
+					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
 		}
 	}
@@ -288,309 +288,309 @@ bool Omnia::Input::isOnRelease(std::vector<std::string> inputCodes, PlayerID pla
 	return false;
 }
 
-bool Omnia::Input::isReleased(std::string inputCode)
+bool Omnia::Input::is_released(std::string input_code)
 {
-	return !this->isPressed(inputCode);
+	return !this->is_pressed(input_code);
 }
 
-bool Omnia::Input::isReleased(std::string inputCode, PlayerID playerID)
+bool Omnia::Input::is_released(std::string input_code, PlayerID player_id)
 {
-	std::vector<std::string> inputCodes;
-	inputCodes.push_back(inputCode);
-	return !this->isPressed(inputCodes, playerID);
+	std::vector<std::string> input_codes;
+	input_codes.push_back(input_code);
+	return !this->is_pressed(input_codes, player_id);
 }
 
-float Omnia::Input::getAxis(std::string inputCode)
+float Omnia::Input::get_axis(std::string input_code)
 {
-	return this->getAxis(inputCode, 0);
+	return this->get_axis(input_code, 0);
 }
 
-float Omnia::Input::getAxis(std::string inputCode, PlayerID playerID)
+float Omnia::Input::get_axis(std::string input_code, PlayerID player_id)
 {
 	float axis = 0.0;
 
-	if (this->controllerAxisEventsByString.count(inputCode))
+	if (this->controller_axis_events_by_string.count(input_code))
 	{
-		SDL_GameControllerAxis controllerAxisCode = this->controllerAxisEventsByString.at(inputCode);
-		if (controllerAxisEvents.count(controllerAxisCode))
-			if (this->getControllerPlayerMap().count(playerID))
-				if (controllerAxisEvents.at(controllerAxisCode).which == this->getControllerPlayerMap().at(playerID))
-					axis = (double)(controllerAxisEvents.at(controllerAxisCode).value) / pow(2.0, 15.0);
+		SDL_GameControllerAxis controller_axis_code = this->controller_axis_events_by_string.at(input_code);
+		if (controller_axis_events.count(controller_axis_code))
+			if (this->get_controller_player_map().count(player_id))
+				if (controller_axis_events.at(controller_axis_code).which == this->get_controller_player_map().at(player_id))
+					axis = (double)(controller_axis_events.at(controller_axis_code).value) / pow(2.0, 15.0);
 
-		if (inputCode == "left_axis_y" || inputCode == "right_axis_y")
+		if (input_code == "left_axis_y" || input_code == "right_axis_y")
 			axis *= -1.0;
 	}
 
 	return axis;
 }
 
-bool Omnia::Input::isLeftMouseButtonOnPress()
+bool Omnia::Input::is_left_mouse_button_on_press()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
+	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::Input::isLeftMouseButtonOnRelease()
+bool Omnia::Input::is_left_mouse_button_on_release()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
+	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::Input::isLeftMouseButtonDoubleClicked()
+bool Omnia::Input::is_left_mouse_button_double_clicked()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_LEFT &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
-		this->mouseButtonEvent.clicks == 2;
+	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
+		this->mouse_button_event.clicks == 2;
 }
 
-bool Omnia::Input::isMiddleMouseButtonOnPress()
+bool Omnia::Input::is_middle_mouse_button_on_press()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
+	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::Input::isMiddleMouseButtonOnRelease()
+bool Omnia::Input::is_middle_mouse_button_on_release()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
+	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::Input::isMiddleMouseButtonDoubleClicked()
+bool Omnia::Input::is_middle_mouse_button_double_clicked()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_MIDDLE &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
-		this->mouseButtonEvent.clicks == 2;
+	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
+		this->mouse_button_event.clicks == 2;
 }
 
-bool Omnia::Input::isRightMouseButtonOnPress()
+bool Omnia::Input::is_right_mouse_button_on_press()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONDOWN;
+	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::Input::isRightMouseButtonOnRelease()
+bool Omnia::Input::is_right_mouse_button_on_release()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP;
+	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::Input::isRightMouseButtonDoubleClicked()
+bool Omnia::Input::is_right_mouse_button_double_clicked()
 {
-	return this->mouseButtonEvent.button == SDL_BUTTON_RIGHT &&
-		this->mouseButtonEvent.type == SDL_MOUSEBUTTONUP &&
-		this->mouseButtonEvent.clicks == 2;
+	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
+		this->mouse_button_event.clicks == 2;
 }
 
-glm::vec2 Omnia::Input::getMousePosition()
+glm::vec2 Omnia::Input::get_mouse_position()
 {
 	glm::vec2 vector2;
-	vector2.x = this->mouseMotionEvent.x;
-	vector2.y = this->mouseMotionEvent.y;
+	vector2.x = this->mouse_motion_event.x;
+	vector2.y = this->mouse_motion_event.y;
 	return vector2;
 }
 
-glm::vec2 Omnia::Input::getMouseWheelVelocity()
+glm::vec2 Omnia::Input::get_mouse_wheel_velocity()
 {
 	glm::vec2 vector2;
-	vector2.x = this->mouseWheelEvent.x;
-	vector2.y = this->mouseWheelEvent.y;
+	vector2.x = this->mouse_wheel_event.x;
+	vector2.y = this->mouse_wheel_event.y;
 	return vector2;
 }
 
-glm::vec2 Omnia::Input::getMouseMotionVelocity()
+glm::vec2 Omnia::Input::get_mouse_motion_velocity()
 {
 	glm::vec2 vector2;
-	vector2.x = this->mouseMotionEvent.xrel;
-	vector2.y = this->mouseMotionEvent.yrel;
+	vector2.x = this->mouse_motion_event.xrel;
+	vector2.y = this->mouse_motion_event.yrel;
 	return vector2;
 }
 
-bool Omnia::Input::isDropFileDetected()
+bool Omnia::Input::is_drop_file_detected()
 {
-	return this->dropEvent.type == SDL_DROPFILE;
+	return this->drop_event.type == SDL_DROPFILE;
 }
 
-std::string Omnia::Input::getDropFilePath()
+std::string Omnia::Input::get_drop_file_path()
 {
-	return this->dropEvent.file;
+	return this->drop_event.file;
 }
 
-uint32_t Omnia::Input::getDropFileWindowID()
+uint32_t Omnia::Input::get_drop_file_window_id()
 {
-	uint32_t dropFileWindowID = -1;
+	uint32_t drop_file_window_id = -1;
 
-	if (this->isDropFileDetected())
-		dropFileWindowID = this->dropEvent.windowID;
+	if (this->is_drop_file_detected())
+		drop_file_window_id = this->drop_event.windowID;
 
-	return dropFileWindowID;
+	return drop_file_window_id;
 }
 
 void Omnia::Input::clear()
 {
-	//this->controllerAxisEvents.clear();
-	this->controllerButtonEvents.clear();
-	this->keyboardEvents.clear();
+	//this->controller_axis_events.clear();
+	this->controller_button_events.clear();
+	this->keyboard_events.clear();
 
-	if (dropEvent.file != NULL)
+	if (drop_event.file != NULL)
 	{
-		SDL_free(dropEvent.file);
-		dropEvent = { 0 };
+		SDL_free(drop_event.file);
+		drop_event = { 0 };
 	}
 
-	this->hasDetectedInputChanges = false;
+	this->has_detected_input_changes = false;
 }
 
-void Omnia::Input::detectGameControllers()
+void Omnia::Input::detect_game_controllers()
 {
-	if (SDL_NumJoysticks() != this->gameControllers.size())
+	if (SDL_NumJoysticks() != this->game_controllers.size())
 	{
-		for (int i = 0; i < this->gameControllers.size(); ++i)
+		for (int i = 0; i < this->game_controllers.size(); ++i)
 		{
-			SDL_GameControllerClose(this->gameControllers.at(i));
+			SDL_GameControllerClose(this->game_controllers.at(i));
 			SDL_HapticClose(this->haptics.at(i));
 		}
 
-		this->gameControllers.clear();
+		this->game_controllers.clear();
 		this->haptics.clear();
-		this->controllerPlayerMap.clear();
+		this->controller_player_map.clear();
 
 		for (int i = 0; i < SDL_NumJoysticks(); ++i)
 		{
 			if (SDL_IsGameController(i))
 			{
-				SDL_GameController* newController = SDL_GameControllerOpen(i);
-				SDL_Joystick* joystick = SDL_GameControllerGetJoystick(newController);
-				this->controllerPlayerMap.emplace(i, SDL_JoystickInstanceID(joystick));
-				this->gameControllers.push_back(newController);
+				SDL_GameController* new_controller = SDL_GameControllerOpen(i);
+				SDL_Joystick* joystick = SDL_GameControllerGetJoystick(new_controller);
+				this->controller_player_map.emplace(i, SDL_JoystickInstanceID(joystick));
+				this->game_controllers.push_back(new_controller);
 				this->haptics.push_back(SDL_HapticOpenFromJoystick(joystick));
-				this->newlyLoadedPlayerIDs.push(i);
+				this->newly_loaded_player_ids.push(i);
 				SDL_HapticRumbleInit(this->haptics.back());
-				if (!this->gameControllers.back())
+				if (!this->game_controllers.back())
 					fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
 			}
 		}
 	}
 }
 
-void Omnia::Input::pollInputEvents()
+void Omnia::Input::poll_input_events()
 {
 	SDL_Event SDLEvents;
 
 	this->clear();
-	this->hasDetectedInputChanges = false;
+	this->has_detected_input_changes = false;
 
 	while (SDL_PollEvent(&SDLEvents))
 	{
 		switch (SDLEvents.type)
 		{
 		case SDL_QUIT:
-			this->shutdownRequest = true;
+			this->shutdown_request = true;
 			break;
 
 		case SDL_KEYDOWN:
-			this->heldKeys.insert(SDLEvents.key.keysym.sym);
-			this->keyboardEvents.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
-			this->hasDetectedInputChanges = true;
+			this->held_keys.insert(SDLEvents.key.keysym.sym);
+			this->keyboard_events.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
+			this->has_detected_input_changes = true;
 			break;
 		case SDL_KEYUP:
-			this->heldKeys.erase(SDLEvents.key.keysym.sym);
-			this->keyboardEvents.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
-			this->hasDetectedInputChanges = true;
+			this->held_keys.erase(SDLEvents.key.keysym.sym);
+			this->keyboard_events.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 		case SDL_MOUSEBUTTONUP:
-			this->mouseButtonEvent = SDLEvents.button;
-			this->hasDetectedInputChanges = true;
+			this->mouse_button_event = SDLEvents.button;
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_MOUSEMOTION:
-			this->mouseMotionEvent = SDLEvents.motion;
-			this->hasDetectedInputChanges = true;
+			this->mouse_motion_event = SDLEvents.motion;
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_MOUSEWHEEL:
-			this->mouseWheelEvent = SDLEvents.wheel;
-			this->hasDetectedInputChanges = true;
+			this->mouse_wheel_event = SDLEvents.wheel;
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_CONTROLLERBUTTONDOWN:
-			this->heldControllerButtons.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton.which);
-			this->controllerButtonEvents.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
-			this->hasDetectedInputChanges = true;
+			this->held_controller_buttons.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton.which);
+			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
+			this->has_detected_input_changes = true;
 			break;
 		case SDL_CONTROLLERBUTTONUP:
-			this->heldControllerButtons.erase((SDL_GameControllerButton)SDLEvents.cbutton.button);
-			this->controllerButtonEvents.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
-			this->hasDetectedInputChanges = true;
+			this->held_controller_buttons.erase((SDL_GameControllerButton)SDLEvents.cbutton.button);
+			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
-			if (!this->controllerAxisEvents.count((SDL_GameControllerAxis)SDLEvents.caxis.axis))
-				this->controllerAxisEvents.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
+			if (!this->controller_axis_events.count((SDL_GameControllerAxis)SDLEvents.caxis.axis))
+				this->controller_axis_events.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
 			else
-				this->controllerAxisEvents.at((SDL_GameControllerAxis)SDLEvents.caxis.axis) = SDLEvents.caxis;
-			this->hasDetectedInputChanges = true;
+				this->controller_axis_events.at((SDL_GameControllerAxis)SDLEvents.caxis.axis) = SDLEvents.caxis;
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_DROPFILE:
-			this->dropEvent = SDLEvents.drop;
-			this->hasDetectedInputChanges = true;
+			this->drop_event = SDLEvents.drop;
+			this->has_detected_input_changes = true;
 			break;
 		}
 	}
 }
 
-bool Omnia::Input::hasRequestedShutdown()
+bool Omnia::Input::has_requested_shutdown()
 {
-	bool result = this->shutdownRequest;
-	this->shutdownRequest = false;
+	bool result = this->shutdown_request;
+	this->shutdown_request = false;
 	return result;
 }
 
-bool Omnia::Input::hasRequestedRestart()
+bool Omnia::Input::has_requested_restart()
 {
-	bool result = this->restartRequest;
-	this->restartRequest = false;
+	bool result = this->restart_request;
+	this->restart_request = false;
 	return result;
 }
 
-void Omnia::Input::requestShutdown()
+void Omnia::Input::request_shutdown()
 {
-	this->shutdownRequest = true;
+	this->shutdown_request = true;
 }
 
-void Omnia::Input::requestRestart()
+void Omnia::Input::request_restart()
 {
-	this->restartRequest = true;
+	this->restart_request = true;
 }
 
-bool Omnia::Input::getHasDetectedInputChanges()
+bool Omnia::Input::get_has_detected_input_changes()
 {
-	return this->hasDetectedInputChanges;
+	return this->has_detected_input_changes;
 }
 
-bool Omnia::Input::hasRequestedCommandLine()
+bool Omnia::Input::has_requested_command_line()
 {
-	bool backquoteReleased = false;
+	bool backquote_released = false;
 
-	if (this->keyboardEvents.count(SDLK_BACKQUOTE))
-		backquoteReleased = this->keyboardEvents.at(SDLK_BACKQUOTE).type == SDL_KEYUP;
+	if (this->keyboard_events.count(SDLK_BACKQUOTE))
+		backquote_released = this->keyboard_events.at(SDLK_BACKQUOTE).type == SDL_KEYUP;
 
-	return backquoteReleased;	 
+	return backquote_released;	 
 }
 
-std::vector<SDL_Haptic*> Omnia::Input::getHaptics()
+std::vector<SDL_Haptic*> Omnia::Input::get_haptics()
 {
 	return this->haptics;
 }
 
-std::unordered_map<Omnia::PlayerID, SDL_JoystickID> Omnia::Input::getControllerPlayerMap()
+std::unordered_map<Omnia::PlayerID, SDL_JoystickID> Omnia::Input::get_controller_player_map()
 {
-	return this->controllerPlayerMap;
+	return this->controller_player_map;
 }
 
-std::queue<Omnia::PlayerID>& Omnia::Input::getNewlyLoadedPlayerIDs()
+std::queue<Omnia::PlayerID>& Omnia::Input::get_newly_loaded_player_ids()
 {
-	return this->newlyLoadedPlayerIDs;
+	return this->newly_loaded_player_ids;
 }

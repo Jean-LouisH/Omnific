@@ -30,88 +30,88 @@ typedef void(ScriptProcedure)(void);
 
 void Omnia::CPPScriptingSystem::initialize()
 {
-	Logger& logger = OS::getLogger();
+	Logger& logger = OS::get_logger();
 	logger.write("Initializing C++ Scripting System...");
 }
 
-void Omnia::CPPScriptingSystem::loadScriptModules(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
-		this->dynamicLibraryHandle = OS::getSharedLibraryAccess().open(this->nativeAssemblyFilename);
-		this->execute("loadScriptInstances");
+		this->dynamic_library_handle = OS::get_shared_library_access().open(this->native_assembly_filename);
+		this->execute("load_script_instances");
 	}
 }
 
-void Omnia::CPPScriptingSystem::onStart(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onStart");
+		this->execute("on_start");
 }
 
-void Omnia::CPPScriptingSystem::onInput(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onInput");
+		this->execute("on_input");
 }
 
-void Omnia::CPPScriptingSystem::onEarly(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_early(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onEarly");
+		this->execute("on_early");
 }
 
-void Omnia::CPPScriptingSystem::onLogic(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onLogic");
+		this->execute("on_logic");
 }
 
-void Omnia::CPPScriptingSystem::onCompute(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onCompute");
+		this->execute("on_compute");
 }
 
-void Omnia::CPPScriptingSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_late(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onLate");
+		this->execute("on_late");
 }
 
-void Omnia::CPPScriptingSystem::onFinish(std::shared_ptr<Scene> scene)
+void Omnia::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 {
-	if (this->hasSceneChanged(scene))
-		this->loadScriptModules(scene);
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
 
 	if (scene != nullptr)
-		this->execute("onFinish");
+		this->execute("on_finish");
 }
 
-void Omnia::CPPScriptingSystem::execute(std::string methodName)
+void Omnia::CPPScriptingSystem::execute(std::string method_name)
 {
-	if (this->dynamicLibraryHandle != nullptr)
+	if (this->dynamic_library_handle != nullptr)
 	{
 		ScriptProcedure* procedure =
-			(ScriptProcedure*)OS::getSharedLibraryAccess().getProcedure(this->dynamicLibraryHandle, methodName.c_str());
+			(ScriptProcedure*)OS::get_shared_library_access().get_procedure(this->dynamic_library_handle, method_name.c_str());
 
 		if (procedure != nullptr)
 			procedure();
@@ -120,5 +120,5 @@ void Omnia::CPPScriptingSystem::execute(std::string methodName)
 
 void Omnia::CPPScriptingSystem::finalize()
 {
-	OS::getSharedLibraryAccess().close(this->dynamicLibraryHandle);
+	OS::get_shared_library_access().close(this->dynamic_library_handle);
 }

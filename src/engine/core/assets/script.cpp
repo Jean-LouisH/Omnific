@@ -25,16 +25,16 @@
 Omnia::Script::Script(std::string filepath)
 {
 	this->type = this->TYPE_STRING;
-	this->setName(filepath);
+	this->set_name(filepath);
 }
 
-void Omnia::Script::setLanguageName(std::string languageName)
+void Omnia::Script::set_language_name(std::string language_name)
 {
-	if (this->languageName == "")
-		this->languageName = languageName;
+	if (this->language_name == "")
+		this->language_name = language_name;
 }
 
-std::string Omnia::Script::getLanguageName()
+std::string Omnia::Script::get_language_name()
 {
-	return this->languageName;
+	return this->language_name;
 }

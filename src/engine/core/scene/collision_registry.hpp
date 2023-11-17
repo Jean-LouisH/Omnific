@@ -40,12 +40,12 @@ namespace Omnia
 		{
 			collisions.reserve(32);
 		}
-		void addOrUpdate(std::shared_ptr<Collision> collision);
-		void remove(std::string colliderName, std::string otherColliderName);
-		std::shared_ptr<Collision> query(std::string colliderName, std::string otherColliderName);
-		std::unordered_map<std::string, std::shared_ptr<Collision>> queryAll(std::string colliderName);
-		bool isColliding(std::string colliderName, std::string otherColliderName);
-		uint64_t getCollisionCount(std::string colliderName);
+		void add_or_update(std::shared_ptr<Collision> collision);
+		void remove(std::string collider_name, std::string other_collider_name);
+		std::shared_ptr<Collision> query(std::string collider_name, std::string other_collider_name);
+		std::unordered_map<std::string, std::shared_ptr<Collision>> query_all(std::string collider_name);
+		bool is_colliding(std::string collider_name, std::string other_collider_name);
+		uint64_t get_collision_count(std::string collider_name);
 	private:
 		std::unordered_map<ColliderName, std::unordered_map<OtherColliderName, std::shared_ptr<Collision>>> collisions;
 	};

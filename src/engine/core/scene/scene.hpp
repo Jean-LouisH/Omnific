@@ -45,32 +45,32 @@ namespace Omnia
 		Scene(std::string filepath);
 		Scene(std::string filepath, std::string name);
 
-		void serializeTo(std::string filepath);
-		void deserializeFrom(std::string filepath);
-		void deserializeFrom(std::string filepath, std::string name);
+		void serialize_to(std::string filepath);
+		void deserialize_from(std::string filepath);
+		void deserialize_from(std::string filepath, std::string name);
 		void reload();
 
-		void addSceneLayer(std::shared_ptr<SceneLayer> sceneLayer);
-		void addEmptySceneLayer();
-		void removeSceneLayer(SceneLayerID sceneLayerID);
+		void add_scene_layer(std::shared_ptr<SceneLayer> scene_layer);
+		void add_empty_scene_layer();
+		void remove_scene_layer(SceneLayerID scene_layer_id);
 
-		std::string getName();
-		std::shared_ptr<SceneLayer> getSceneLayer(SceneLayerID sceneLayer);
-		std::shared_ptr<SceneLayer> getSceneLayerByName(std::string name);
-		std::shared_ptr<SceneLayer> getLastSceneLayer();
-		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& getSceneLayers();
+		std::string get_name();
+		std::shared_ptr<SceneLayer> get_scene_layer(SceneLayerID scene_layer);
+		std::shared_ptr<SceneLayer> get_scene_layer_by_name(std::string name);
+		std::shared_ptr<SceneLayer> get_last_scene_layer();
+		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& get_scene_layers();
 
-		SceneID getID();
+		SceneID get_id();
 	private:
 		SceneID id = 0;
 		std::string name;
-		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>> sceneLayers;
-		SceneLayerID lastSceneLayerID = 0;
+		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>> scene_layers;
+		SceneLayerID last_scene_layer_id = 0;
 
-		std::shared_ptr<SceneLayer> loadGLTF(std::string filepath);
-		std::vector<uint8_t> readGLTFBuffer(std::vector<unsigned char> bufferData, tinygltf::BufferView bufferView);
-		std::vector<float> readGLTFPrimitiveAttribute(tinygltf::Model model, std::string attributeName, size_t index);
-		std::vector<uint32_t> readGLTFPrimitiveIndices(tinygltf::Model model, size_t index);
-		std::shared_ptr<Image> readGLTFImage(tinygltf::Model model, int textureIndex);
+		std::shared_ptr<SceneLayer> load_gltf(std::string filepath);
+		std::vector<uint8_t> read_gltfbuffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view);
+		std::vector<float> read_gltfprimitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index);
+		std::vector<uint32_t> read_gltfprimitive_indices(tinygltf::Model model, size_t index);
+		std::shared_ptr<Image> read_gltfimage(tinygltf::Model model, int texture_index);
 	};
 }

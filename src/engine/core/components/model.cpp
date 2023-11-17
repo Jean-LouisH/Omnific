@@ -24,13 +24,13 @@
 #include <core/scene/scene.hpp>
 #include <core/singletons/os/os.hpp>
 
-void Omnia::Model::deserialize(YAML::Node yamlNode)
+void Omnia::Model::deserialize(YAML::Node yaml_node)
 {
-	RenderableComponent::deserialize(yamlNode);
+	RenderableComponent::deserialize(yaml_node);
 
 	this->material = std::shared_ptr<Material>(new Material());
 
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "mesh")
 		{
@@ -53,14 +53,14 @@ void Omnia::Model::deserialize(YAML::Node yamlNode)
 	}
 }
 
-void Omnia::Model::setToCube()
+void Omnia::Model::set_to_cube()
 {
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo = std::shared_ptr<Image>(new Image("Image::default"));
 }
 
-void Omnia::Model::setToTexturedCube(std::shared_ptr<Material> material)
+void Omnia::Model::set_to_textured_cube(std::shared_ptr<Material> material)
 {
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
 	this->material = material;

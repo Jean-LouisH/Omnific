@@ -54,20 +54,20 @@ namespace Omnia
 
 		virtual void initialize() override;
 		virtual void finalize() override;
-		virtual void onStart(std::shared_ptr<Scene> scene) override;
-		virtual void onInput(std::shared_ptr<Scene> scene) override;
-		virtual void onEarly(std::shared_ptr<Scene> scene) override;
-		virtual void onLogic(std::shared_ptr<Scene> scene) override;
-		virtual void onCompute(std::shared_ptr<Scene> scene) override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
-		virtual void onFinish(std::shared_ptr<Scene> scene) override;
+		virtual void on_start(std::shared_ptr<Scene> scene) override;
+		virtual void on_input(std::shared_ptr<Scene> scene) override;
+		virtual void on_early(std::shared_ptr<Scene> scene) override;
+		virtual void on_logic(std::shared_ptr<Scene> scene) override;
+		virtual void on_compute(std::shared_ptr<Scene> scene) override;
+		virtual void on_late(std::shared_ptr<Scene> scene) override;
+		virtual void on_finish(std::shared_ptr<Scene> scene) override;
 
-		void loadScriptModules(std::shared_ptr<Scene> scene);
+		void load_script_modules(std::shared_ptr<Scene> scene);
 	private:
-		void* dynamicLibraryHandle = nullptr;
-		std::string nativeAssemblyFilename = "omnia_cpp_script_assembly";
+		void* dynamic_library_handle = nullptr;
+		std::string native_assembly_filename = "omnia_cpp_script_assembly";
 
-		void execute(std::string methodName);
+		void execute(std::string method_name);
 	};
 }
 

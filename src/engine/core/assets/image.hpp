@@ -55,45 +55,45 @@ namespace Omnia
 		{ 
 			this->type = TYPE_STRING;
 		};
-		Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrapLength);
+		Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrap_length);
 		Image(std::shared_ptr<Colour> colour);
 		Image(std::shared_ptr<Colour> colour, int width, int height);
-		Image(uint8_t* data, int width, int height, int colourChannels);
+		Image(uint8_t* data, int width, int height, int colour_channels);
 		Image(std::string filepath);
 
 		virtual Registerable* instance() override
 		{
 			Image* clone = new Image(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		uint8_t* getData();
-		uint32_t getWidth();
-		uint32_t getHeight();
-		uint32_t getDepth();
-		uint32_t getPitch();
-		glm::vec2 getDimensions();
-		uint8_t getBytesPerPixel();
-		Alignment getAlignment();
+		uint8_t* get_data();
+		uint32_t get_width();
+		uint32_t get_height();
+		uint32_t get_depth();
+		uint32_t get_pitch();
+		glm::vec2 get_dimensions();
+		uint8_t get_bytes_per_pixel();
+		Alignment get_alignment();
 
-		static void normalBlend(
-			uint8_t* lowerImageData,
-			glm::vec2 lowerPosition,
-			glm::vec2 lowerDimensions,
-			uint8_t* upperImageData,
-			glm::vec2 upperPosition,
-			glm::vec2 upperDimensions
+		static void normal_blend(
+			uint8_t* lower_image_data,
+			glm::vec2 lower_position,
+			glm::vec2 lower_dimensions,
+			uint8_t* upper_image_data,
+			glm::vec2 upper_position,
+			glm::vec2 upper_dimensions
 		);
 	private:
 		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
 		int width = 0;
 		int height = 0;
-		int colourChannels = 0;
+		int colour_channels = 0;
 		Alignment alignment;
 
-		void colourPixel(uint32_t fillColour, int x, int y);
-		void setToDefault();
-		void setToColour(std::shared_ptr<Colour> colour, int width, int height);
-		void setToParameters(int colourChannels, int width, int height, uint8_t* data);
+		void colour_pixel(uint32_t fill_colour, int x, int y);
+		void set_to_default();
+		void set_to_colour(std::shared_ptr<Colour> colour, int width, int height);
+		void set_to_parameters(int colour_channels, int width, int height, uint8_t* data);
 	};
 }

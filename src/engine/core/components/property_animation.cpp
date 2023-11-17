@@ -22,9 +22,9 @@
 
 #include "property_animation.hpp"
 
-void Omnia::PropertyAnimation::deserialize(YAML::Node yamlNode)
+void Omnia::PropertyAnimation::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "default")
 		{

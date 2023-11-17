@@ -28,27 +28,27 @@ Omnia::Colour::Colour(std::string hex)
 {
 	uint32_t value;
 	std::stringstream ss;
-	std::string inputString;
+	std::string input_string;
 
 	if (hex[0] == '#')
-		inputString = hex.substr(1, hex.length());
+		input_string = hex.substr(1, hex.length());
 	else
-		inputString = hex;
+		input_string = hex;
 
-	ss << std::hex << inputString;
+	ss << std::hex << input_string;
 	ss >> value;
 
-	if (inputString.length() == 6)
-		this->setRGB(value);
-	else if (inputString.length() == 8)
-		this->setRGBA(value);
+	if (input_string.length() == 6)
+		this->set_rgb(value);
+	else if (input_string.length() == 8)
+		this->set_rgba(value);
 
 	this->type = TYPE_STRING;
 }
 
 Omnia::Colour::Colour(uint32_t value)
 {
-	this->setRGBA(value);
+	this->set_rgba(value);
 	this->type = TYPE_STRING;
 }
 
@@ -70,28 +70,28 @@ Omnia::Colour::Colour(double red, double green, double blue, double alpha)
 	this->type = TYPE_STRING;
 }
 
-uint8_t Omnia::Colour::getRed()
+uint8_t Omnia::Colour::get_red()
 {
 	return (uint8_t)(this->red * 255.0);
 }
 
-uint8_t Omnia::Colour::getGreen()
+uint8_t Omnia::Colour::get_green()
 {
 	return (uint8_t)(this->green * 255.0);
 }
 
 
-uint8_t Omnia::Colour::getBlue()
+uint8_t Omnia::Colour::get_blue()
 {
 	return (uint8_t)(this->blue * 255.0);
 }
 
-uint8_t Omnia::Colour::getAlpha()
+uint8_t Omnia::Colour::get_alpha()
 {
 	return (uint8_t)(this->alpha * 255.0);
 }
 
-void Omnia::Colour::setRGB(uint32_t value)
+void Omnia::Colour::set_rgb(uint32_t value)
 {
 	this->red = ((value & 0xFF0000) >> 16) / 255.0;
 	this->green = ((value & 0x00FF00) >> 8) / 255.0;
@@ -99,7 +99,7 @@ void Omnia::Colour::setRGB(uint32_t value)
 	this->alpha = 1.0;
 }
 
-void Omnia::Colour::setRGBA(uint32_t value)
+void Omnia::Colour::set_rgba(uint32_t value)
 {
 	this->red = ((value & 0xFF000000) >> 24) / 255.0;
 	this->green = ((value & 0x00FF0000) >> 16) / 255.0;
@@ -107,17 +107,17 @@ void Omnia::Colour::setRGBA(uint32_t value)
 	this->alpha = ((value & 0x000000FF) >> 0) / 255.0;
 }
 
-uint32_t Omnia::Colour::getRGB()
+uint32_t Omnia::Colour::get_rgb()
 {
-	return (uint32_t)((this->getRed() << 16) + (this->getGreen() << 8) + (this->getBlue() << 0));
+	return (uint32_t)((this->get_red() << 16) + (this->get_green() << 8) + (this->get_blue() << 0));
 }
 
-uint32_t Omnia::Colour::getRGBA()
+uint32_t Omnia::Colour::get_rgba()
 {
-	return (uint32_t)((this->getRed() << 24) + (this->getGreen() << 16) + (this->getBlue() << 8) + (this->getAlpha() << 0));
+	return (uint32_t)((this->get_red() << 24) + (this->get_green() << 16) + (this->get_blue() << 8) + (this->get_alpha() << 0));
 }
 
-glm::vec4 Omnia::Colour::getRGBAInVec4()
+glm::vec4 Omnia::Colour::get_rgbain_vec4()
 {
 	return glm::vec4(this->red, this->green, this->blue, this->alpha);
 }

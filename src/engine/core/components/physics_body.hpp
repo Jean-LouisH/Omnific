@@ -35,41 +35,41 @@ namespace Omnia
 		PhysicsBody()
 		{
 			this->type = TYPE_STRING;
-			this->dragRatio = glm::vec3(0.0001, 1.0, 0.0001);
+			this->drag_ratio = glm::vec3(0.0001, 1.0, 0.0001);
 			this->reload();
 		};
 		static constexpr const char* TYPE_STRING = "PhysicsBody";
 
-		bool isRigidBody = true;
+		bool is_rigid_body = true;
 
 		float mass = 1.0;
-		float frictionRatio = 1.0;
-		float angularDragRatio = 1.0;
-		float angularVelocity = 0.0;
-		float gravityScale = 1.0;
-		float elasticityRatio = 0.01;
-		glm::vec3 dragRatio;
-		glm::vec3 linearVelocity;
-		glm::vec3 snapDirection;
-		glm::vec3 upDirection;
+		float friction_ratio = 1.0;
+		float angular_drag_ratio = 1.0;
+		float angular_velocity = 0.0;
+		float gravity_scale = 1.0;
+		float elasticity_ratio = 0.01;
+		glm::vec3 drag_ratio;
+		glm::vec3 linear_velocity;
+		glm::vec3 snap_direction;
+		glm::vec3 up_direction;
 
 		virtual Registerable* instance() override
 		{
 			PhysicsBody* clone = new PhysicsBody(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void accelerate(glm::vec3 acceleration, float maximumSpeed);
-		void accelerate(glm::vec3 direction, float acceleration, float maximumSpeed);
-		void accelerateX(float acceleration, float maximumSpeed);
-		void accelerateY(float acceleration, float maximumSpeed);
-		void accelerateZ(float acceleration, float maximumSpeed);
+		virtual void deserialize(YAML::Node yaml_node);
+		void accelerate(glm::vec3 acceleration, float maximum_speed);
+		void accelerate(glm::vec3 direction, float acceleration, float maximum_speed);
+		void accelerate_x(float acceleration, float maximum_speed);
+		void accelerate_y(float acceleration, float maximum_speed);
+		void accelerate_z(float acceleration, float maximum_speed);
 		void decelerate(float deceleration);
-		void decelerateX(float deceleration);
-		void decelerateY(float deceleration);
-		void decelerateZ(float deceleration);
-		void move(glm::vec3 linearVelocity, glm::vec3 snapDirection, glm::vec3 upDirection);
+		void decelerate_x(float deceleration);
+		void decelerate_y(float deceleration);
+		void decelerate_z(float deceleration);
+		void move(glm::vec3 linear_velocity, glm::vec3 snap_direction, glm::vec3 up_direction);
 		void reload();
 	private:
 	};

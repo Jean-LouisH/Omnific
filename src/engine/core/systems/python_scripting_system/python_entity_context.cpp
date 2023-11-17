@@ -25,52 +25,52 @@
 
 Omnia::PythonEntityContext* Omnia::PythonEntityContext::instance = nullptr;
 
-void Omnia::PythonEntityContext::bindEntity(SceneLayerID sceneLayerID, EntityID entityID)
+void Omnia::PythonEntityContext::bind_entity(SceneLayerID scene_layer_id, EntityID entity_id)
 {
-	getInstance()->boundSceneLayerID = sceneLayerID;
-	getInstance()->boundEntityID = entityID;
+	get_instance()->bound_scene_layer_id = scene_layer_id;
+	get_instance()->bound_entity_id = entity_id;
 }
 
-bool Omnia::PythonEntityContext::hasComponent(std::string type)
+bool Omnia::PythonEntityContext::has_component(std::string type)
 {
-	return getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID)->componentIDs.count(type) > 0;
+	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->component_ids.count(type) > 0;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::PythonEntityContext::getEntity()
+std::shared_ptr<Omnia::Entity> Omnia::PythonEntityContext::get_entity()
 {
-	return getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID);
+	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::PythonEntityContext::getScene()
+std::shared_ptr<Omnia::Scene> Omnia::PythonEntityContext::get_scene()
 {
-	return SceneStorage::getActiveScene();
+	return SceneStorage::get_active_scene();
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::PythonEntityContext::getSceneLayer()
+std::shared_ptr<Omnia::SceneLayer> Omnia::PythonEntityContext::get_scene_layer()
 {
-	return getInstance()->getScene()->getSceneLayers().at(getInstance()->boundSceneLayerID);
+	return get_instance()->get_scene()->get_scene_layers().at(get_instance()->bound_scene_layer_id);
 }
 
-std::shared_ptr<Omnia::Component> Omnia::PythonEntityContext::getComponent(std::string type)
+std::shared_ptr<Omnia::Component> Omnia::PythonEntityContext::get_component(std::string type)
 {
 	std::shared_ptr<Component> component(new Component());
 
-	std::shared_ptr<Entity> entity = getInstance()->getSceneLayer()->getEntity(getInstance()->boundEntityID);
-	std::vector<std::shared_ptr<Component>>& components = getInstance()->getSceneLayer()->getComponents();
+	std::shared_ptr<Entity> entity = get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
+	std::vector<std::shared_ptr<Component>>& components = get_instance()->get_scene_layer()->get_components();
 
 	for (int i = 0; i < components.size(); i++)
-		if (components.at(i)->getID() == entity->componentIDs.at(type))
+		if (components.at(i)->get_id() == entity->component_ids.at(type))
 			component = components.at(i);
 
 	return component;
 }
 
-float Omnia::PythonEntityContext::getTimeDelta()
+float Omnia::PythonEntityContext::get_time_delta()
 {
-	return OS::getProfiler().getTimer("update_frame")->getDeltaInSeconds();
+	return OS::get_profiler().get_timer("update_frame")->get_delta_in_seconds();
 }
 
-Omnia::PythonEntityContext* Omnia::PythonEntityContext::getInstance()
+Omnia::PythonEntityContext* Omnia::PythonEntityContext::get_instance()
 {
 	if (instance == nullptr)
 		instance = new PythonEntityContext();

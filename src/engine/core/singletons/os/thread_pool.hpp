@@ -35,13 +35,13 @@ namespace Omnia
 	{
 	public:
 		void initialize();
-		void setAllowableThreadCount(int threadCount);
+		void set_allowable_thread_count(int thread_count);
 		void finalize();
 	private:
 		std::vector<std::thread*> threads;
-		uint64_t allowableThreadCount;
-		bool isFinished = false;
+		uint64_t allowable_thread_count;
+		bool is_finished = false;
 
-		void runWorkerThread();
+		void run_worker_thread();
 	};
 }

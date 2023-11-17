@@ -39,7 +39,7 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Material* clone = new Material(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 

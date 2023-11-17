@@ -43,18 +43,18 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			AudioStream* clone = new AudioStream(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		std::shared_ptr<Mix_Chunk> getSDLMixChunk();
-		std::shared_ptr<Mix_Music> getSDLMixMusic();
-		bool getIsMusic();
+		std::shared_ptr<Mix_Chunk> get_sdlmix_chunk();
+		std::shared_ptr<Mix_Music> get_sdlmix_music();
+		bool get_is_music();
 
-		float getPlaybackLength() override;
-		std::vector<uint16_t> getSpectrumData() override;
+		float get_playback_length() override;
+		std::vector<uint16_t> get_spectrum_data() override;
 	private:
-		bool isMusic = false;
+		bool is_music = false;
 		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
-		std::shared_ptr<Mix_Chunk> soundFX = {nullptr, Mix_FreeChunk};
+		std::shared_ptr<Mix_Chunk> sound_fx = {nullptr, Mix_FreeChunk};
 	};
 }

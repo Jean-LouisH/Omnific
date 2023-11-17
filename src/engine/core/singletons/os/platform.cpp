@@ -23,22 +23,22 @@
 #include "platform.hpp"
 #include <SDL.h>
 
-uint8_t Omnia::Platform::getLogicalCoreCount()
+uint8_t Omnia::Platform::get_logical_core_count()
 {
 	return SDL_GetCPUCount();
 }
 
-uint32_t Omnia::Platform::getL1CacheLineSize()
+uint32_t Omnia::Platform::get_l1cache_line_size()
 {
 	return SDL_GetCPUCacheLineSize();
 }
 
-uint32_t Omnia::Platform::getSystemRAM()
+uint32_t Omnia::Platform::get_system_ram()
 {
 	return SDL_GetSystemRAM();
 }
 
-std::string Omnia::Platform::getOSName()
+std::string Omnia::Platform::get_osname()
 {
 	return SDL_GetPlatform();
 }

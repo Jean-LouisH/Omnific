@@ -67,12 +67,12 @@ namespace Omnia
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 
 		void initialize();
-		void runLoop(std::shared_ptr<HiResTimer> loopProcessTimer);
-		void sleepThisThreadForRemainingTime(uint32_t targetFPS, std::shared_ptr<HiResTimer> runTimer);
+		void run_loop(std::shared_ptr<HiResTimer> loop_process_timer);
+		void sleep_this_thread_for_remaining_time(uint32_t target_fps, std::shared_ptr<HiResTimer> run_timer);
 		void finalize();
 
 		template<class T>
-		std::shared_ptr<T> getSystem()
+		std::shared_ptr<T> get_system()
 		{
 			std::shared_ptr<T> system;
 

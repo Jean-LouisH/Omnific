@@ -47,24 +47,24 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Colour* clone = new Colour(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
-		uint8_t getRed();
-		uint8_t getGreen();
-		uint8_t getBlue();
-		uint8_t getAlpha();
-		uint32_t getRGB();
-		uint32_t getRGBA();
-		glm::vec4 getRGBAInVec4();
+		uint8_t get_red();
+		uint8_t get_green();
+		uint8_t get_blue();
+		uint8_t get_alpha();
+		uint32_t get_rgb();
+		uint32_t get_rgba();
+		glm::vec4 get_rgbain_vec4();
 	private:
 		float red = 1.0;
 		float green = 1.0;
 		float blue = 1.0;
 		float alpha = 1.0;
 
-		void setRGB(uint32_t value);
-		void setRGBA(uint32_t value);
+		void set_rgb(uint32_t value);
+		void set_rgba(uint32_t value);
 	};
 }

@@ -25,27 +25,27 @@
 
 Omnia::Registerable::Registerable()
 {
-	this->id = UIDGenerator::getNewUID();
+	this->id = UIDGenerator::get_new_uid();
 }
 
 Omnia::Registerable* Omnia::Registerable::instance()
 {
 	Registerable* clone = new Registerable(*this);
-	clone->id = UIDGenerator::getNewUID();
+	clone->id = UIDGenerator::get_new_uid();
 	return clone;
 }
 
-std::string Omnia::Registerable::getType()
+std::string Omnia::Registerable::get_type()
 {
 	return this->type;
 }
 
-Omnia::UID Omnia::Registerable::getID()
+Omnia::UID Omnia::Registerable::get_id()
 {
 	return this->id;
 }
 
-bool Omnia::Registerable::isType(std::string typeString)
+bool Omnia::Registerable::is_type(std::string type_string)
 {
-	return this->type == typeString;
+	return this->type == type_string;
 }

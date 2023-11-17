@@ -36,76 +36,76 @@ Omnia::GUISystem::~GUISystem()
 
 void Omnia::GUISystem::initialize()
 {
-	this->isInitialized = true;
-	OS::getLogger().write("Initialized GUI System.");
+	this->is_initialized = true;
+	OS::get_logger().write("Initialized GUI System.");
 	if (TTF_Init() == -1)
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
+void Omnia::GUISystem::on_early(std::shared_ptr<Scene> scene)
 {
-	Input& input = OS::getInput();
+	Input& input = OS::get_input();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
 
 	/* Sends an Engine loop event for a detected file drop. */
-	if (input.isDropFileDetected())
+	if (input.is_drop_file_detected())
 	{
-		numbers.emplace((std::string)"drop_file_window_id", (double)input.getDropFileWindowID());
-		strings.emplace((std::string)"drop_file_path", input.getDropFilePath());
+		numbers.emplace((std::string)"drop_file_window_id", (double)input.get_drop_file_window_id());
+		strings.emplace((std::string)"drop_file_path", input.get_drop_file_path());
 		EventBus::publish("file dropped on window", numbers, strings);
 	}
 
 	/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
-	glm::vec2 mousePosition = input.getMousePosition();
+	glm::vec2 mouse_position = input.get_mouse_position();
 
-	for (auto sceneLayer : scene->getSceneLayers())
+	for (auto scene_layer : scene->get_scene_layers())
 	{
-		std::vector<std::shared_ptr<GUI>> guis = sceneLayer.second->getComponentsByType<GUI>();
+		std::vector<std::shared_ptr<GUI>> guis = scene_layer.second->get_components_by_type<GUI>();
 
 		for (int i = 0; i < guis.size(); i++)
 		{
 			std::shared_ptr<GUI> gui = guis[i];
-			std::shared_ptr<Transform> guiTransform = sceneLayer.second->getComponentByType<Transform>(gui->getEntityID());
-			float mouseDetectionAccuracyRange = 0.1;
+			std::shared_ptr<Transform> gui_transform = scene_layer.second->get_component_by_type<Transform>(gui->get_entity_id());
+			float mouse_detection_accuracy_range = 0.1;
 
 			/* To enforce the GUI following a target Entity by an offset. */
-			if (gui->isFollowingEntity)
+			if (gui->is_following_entity)
 			{
-				std::shared_ptr<Entity> followedEntity = sceneLayer.second->getEntityByName(gui->followTargetEntityName);
+				std::shared_ptr<Entity> followed_entity = scene_layer.second->get_entity_by_name(gui->follow_target_entity_name);
 				
 				/* If the Entity is not in the current SceneLayer, check 
 				   through every other SceneLayer in the Scene. */
-				if (followedEntity == nullptr)
+				if (followed_entity == nullptr)
 				{
-					for (auto sceneLayer : scene->getSceneLayers())
+					for (auto scene_layer : scene->get_scene_layers())
 					{
-						followedEntity = sceneLayer.second->getEntityByName(gui->followTargetEntityName);
-						if (followedEntity != nullptr)
+						followed_entity = scene_layer.second->get_entity_by_name(gui->follow_target_entity_name);
+						if (followed_entity != nullptr)
 						{
 							break;
 						}
 					}
 				}
 
-				std::shared_ptr<Transform> followedEntityTransform = sceneLayer.second->getComponentByType<Transform>(followedEntity->getID());
-				std::vector<std::shared_ptr<Viewport>> uiViewports = sceneLayer.second->getComponentsByType<Viewport>();
+				std::shared_ptr<Transform> followed_entity_transform = scene_layer.second->get_component_by_type<Transform>(followed_entity->get_id());
+				std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer.second->get_components_by_type<Viewport>();
 				std::shared_ptr<Camera> camera;
-				std::shared_ptr<Transform> cameraTransform;
+				std::shared_ptr<Transform> camera_transform;
 
-				for (int i = 0; i < uiViewports.size(); i++)
+				for (int i = 0; i < ui_viewports.size(); i++)
 				{
-					std::shared_ptr<Viewport> uiViewport = uiViewports[i];
-					std::shared_ptr<Entity> cameraEntity = sceneLayer.second->getEntityByName(uiViewport->getCameraEntityName());
-					camera = sceneLayer.second->getComponentByType<Camera>(cameraEntity->getID());
-					cameraTransform = sceneLayer.second->getComponentByType<Transform>(cameraEntity->getID());
+					std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
+					std::shared_ptr<Entity> camera_entity = scene_layer.second->get_entity_by_name(ui_viewport->get_camera_entity_name());
+					camera = scene_layer.second->get_component_by_type<Camera>(camera_entity->get_id());
+					camera_transform = scene_layer.second->get_component_by_type<Transform>(camera_entity->get_id());
 				}
 
-				if (camera != nullptr && cameraTransform != nullptr)
+				if (camera != nullptr && camera_transform != nullptr)
 				{
 					/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
 
-					if (sceneLayer.second->is2D)
+					if (scene_layer.second->is2_d)
 					{
 
 					}
@@ -116,30 +116,30 @@ void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (auto guiPanelTabGroups : gui->guiPanelTabGroups)
+			for (auto gui_panel_tab_groups : gui->gui_panel_tab_groups)
 			{
-				std::shared_ptr<GUIPanel> activeGUIPanel = guiPanelTabGroups.second->guiPanels[guiPanelTabGroups.second->activeGuiPanelName];
-				glm::vec2 guiPanelTabGroupPosition = guiPanelTabGroups.second->position;
+				std::shared_ptr<GUIPanel> active_guipanel = gui_panel_tab_groups.second->gui_panels[gui_panel_tab_groups.second->active_gui_panel_name];
+				glm::vec2 gui_panel_tab_group_position = gui_panel_tab_groups.second->position;
 				
-				for (auto widget : activeGUIPanel->widgets)
+				for (auto widget : active_guipanel->widgets)
 				{
-					glm::vec2 guiPosition = guiTransform->translation;
-					glm::vec2 widgetGlobalPosition = guiPosition + guiPanelTabGroupPosition + widget.second->position;
-					widget.second->detectedInputs = { 0 };
+					glm::vec2 gui_position = gui_transform->translation;
+					glm::vec2 widget_global_position = gui_position + gui_panel_tab_group_position + widget.second->position;
+					widget.second->detected_inputs = { 0 };
 
 					/* If the mouse is at least hovering over the GUI widget. */
-					if (glm::length(mousePosition - widgetGlobalPosition) < mouseDetectionAccuracyRange)
+					if (glm::length(mouse_position - widget_global_position) < mouse_detection_accuracy_range)
 					{
-						widget.second->detectedInputs.isHovered = true;
-						widget.second->detectedInputs.isLeftMouseButtonOnPress = input.isLeftMouseButtonOnPress();
-						widget.second->detectedInputs.isLeftMouseButtonOnRelease = input.isLeftMouseButtonOnRelease();
-						widget.second->detectedInputs.isLeftMouseButtonDoubleClicked = input.isLeftMouseButtonDoubleClicked();
-						widget.second->detectedInputs.isMiddleMouseButtonOnPress = input.isMiddleMouseButtonOnPress();
-						widget.second->detectedInputs.isMiddleMouseButtonOnRelease = input.isMiddleMouseButtonOnRelease();
-						widget.second->detectedInputs.isMiddleMouseButtonDoubleClicked = input.isMiddleMouseButtonDoubleClicked();
-						widget.second->detectedInputs.isRightMouseButtonOnPress = input.isRightMouseButtonOnPress();
-						widget.second->detectedInputs.isRightMouseButtonOnRelease = input.isRightMouseButtonOnRelease();
-						widget.second->detectedInputs.isRightMouseButtonDoubleClicked = input.isRightMouseButtonDoubleClicked();
+						widget.second->detected_inputs.is_hovered = true;
+						widget.second->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
+						widget.second->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
+						widget.second->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
+						widget.second->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
+						widget.second->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
+						widget.second->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
+						widget.second->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
+						widget.second->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
+						widget.second->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
 					}
 				}
 			}
@@ -149,5 +149,5 @@ void Omnia::GUISystem::onEarly(std::shared_ptr<Scene> scene)
 
 void Omnia::GUISystem::finalize()
 {
-	this->isInitialized = false;
+	this->is_initialized = false;
 }

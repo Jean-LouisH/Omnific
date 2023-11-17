@@ -45,10 +45,10 @@ namespace Omnia
 		}
 
 		virtual void initialize() override;
-		virtual void onCompute(std::shared_ptr<Scene> scene) override;
+		virtual void on_compute(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
-		void updateSpriteContainers(std::shared_ptr<SceneLayer> sceneLayer);
+		void update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer);
 	};
 }
 

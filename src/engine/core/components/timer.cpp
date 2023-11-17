@@ -22,9 +22,9 @@
 
 #include "timer.hpp"
 
-void Omnia::Timer::deserialize(YAML::Node yamlNode)
+void Omnia::Timer::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "")
 		{
@@ -35,23 +35,23 @@ void Omnia::Timer::deserialize(YAML::Node yamlNode)
 
 void Omnia::Timer::start(float time)
 {
-	this->startTime = time;
-	this->currentTime = startTime;
-	this->isActive = true;
+	this->start_time = time;
+	this->current_time = start_time;
+	this->is_active = true;
 }
 
-void Omnia::Timer::update(float deltaTime)
+void Omnia::Timer::update(float delta_time)
 {
-	if (this->isActive && this->currentTime > 0.0)
-		this->currentTime -= deltaTime;
+	if (this->is_active && this->current_time > 0.0)
+		this->current_time -= delta_time;
 }
 
 void Omnia::Timer::stop()
 {
-	this->isActive = false;
+	this->is_active = false;
 }
 
-bool Omnia::Timer::isFinished()
+bool Omnia::Timer::is_finished()
 {
-	return this->currentTime <= 0.0;
+	return this->current_time <= 0.0;
 }

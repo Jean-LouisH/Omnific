@@ -34,27 +34,27 @@ namespace Omnia
 	class OMNIA_ENGINE_API SceneStorage
 	{
 	public:
-		static void preLoadScene(std::shared_ptr<Scene> scene);
-		static void preLoadScene(std::string filepath);
-		static void changeToScene(std::shared_ptr<Scene> scene);
-		static void changeToScene(std::string sceneName);
-		static void loadScene(std::shared_ptr<Scene> scene);
-		static void loadScene(std::string sceneName);
-		static void removeScene(std::string sceneName);
-		static void reloadActiveScene();
-		static std::shared_ptr<Scene> getActiveScene();
-		static std::string getActiveSceneName();
-		static bool hasNoScenes();
-		static bool hasScene(std::string sceneName);
-		static bool hasActiveSceneChanged();
-		static void clearScenes();
-		static std::shared_ptr<Scene> getSceneByName(std::string sceneName);
-		static SceneStorage* getInstance();
+		static void pre_load_scene(std::shared_ptr<Scene> scene);
+		static void pre_load_scene(std::string filepath);
+		static void change_to_scene(std::shared_ptr<Scene> scene);
+		static void change_to_scene(std::string scene_name);
+		static void load_scene(std::shared_ptr<Scene> scene);
+		static void load_scene(std::string scene_name);
+		static void remove_scene(std::string scene_name);
+		static void reload_active_scene();
+		static std::shared_ptr<Scene> get_active_scene();
+		static std::string get_active_scene_name();
+		static bool has_no_scenes();
+		static bool has_scene(std::string scene_name);
+		static bool has_active_scene_changed();
+		static void clear_scenes();
+		static std::shared_ptr<Scene> get_scene_by_name(std::string scene_name);
+		static SceneStorage* get_instance();
 	private:
 		static SceneStorage* instance;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
-		std::unordered_map<std::string, std::shared_ptr<Scene>> removedScenes;
-		std::string activeSceneName;
-		bool activeSceneChanged = false;
+		std::unordered_map<std::string, std::shared_ptr<Scene>> removed_scenes;
+		std::string active_scene_name;
+		bool active_scene_changed = false;
 	};
 }

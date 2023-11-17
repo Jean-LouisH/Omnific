@@ -43,12 +43,12 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Audio* clone = new Audio(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
-		virtual float getPlaybackLength();
-		virtual std::vector<uint16_t> getSpectrumData();
+		virtual float get_playback_length();
+		virtual std::vector<uint16_t> get_spectrum_data();
 
 	private:
 	};

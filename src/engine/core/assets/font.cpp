@@ -24,18 +24,18 @@
 
 Omnia::Font::Font(std::string filepath)
 {
-	this->fontSize = 16;
-	this->setName(filepath);
+	this->font_size = 16;
+	this->set_name(filepath);
 	this->type = TYPE_STRING;
-	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->fontSize), TTF_CloseFont);
+	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
 }
 
 Omnia::Font::Font(std::string filepath, uint16_t size_px)
 {
-	this->fontSize = size_px;
-	this->setName(filepath);
+	this->font_size = size_px;
+	this->set_name(filepath);
 	this->type = TYPE_STRING;
-	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->fontSize), TTF_CloseFont);
+	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
 }
 
 Omnia::Font::Font(TTF_Font* font)
@@ -44,12 +44,12 @@ Omnia::Font::Font(TTF_Font* font)
 	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
-TTF_Font* Omnia::Font::getSDLTTFFont()
+TTF_Font* Omnia::Font::get_sdlttffont()
 {
 	return this->font.get();
 }
 
-uint16_t Omnia::Font::getFontSize()
+uint16_t Omnia::Font::get_font_size()
 {
-	return this->fontSize;
+	return this->font_size;
 }

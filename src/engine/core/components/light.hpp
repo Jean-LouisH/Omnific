@@ -41,26 +41,26 @@ namespace Omnia
 		{
 			this->type = TYPE_STRING;
 			this->colour = std::shared_ptr<Colour>(new Colour(1.0, 1.0, 1.0, 1.0));
-			this->shadowColour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
+			this->shadow_colour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
 		};
 		static constexpr const char* TYPE_STRING = "Light";
 
 		LightMode mode = LightMode::DIRECTIONAL;
 		std::shared_ptr<Colour> colour;
-		std::shared_ptr<Colour> shadowColour;
+		std::shared_ptr<Colour> shadow_colour;
 		float intensity = 1.0;
 		float attenuation = 0.0;
 		float range = 0.0;
 		float angle = 45.0;
-		bool isShadowEnabled = false;
+		bool is_shadow_enabled = false;
 
 		virtual Registerable* instance() override
 		{
 			Light* clone = new Light(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
+		virtual void deserialize(YAML::Node yaml_node);
 	private:
 	};
 }

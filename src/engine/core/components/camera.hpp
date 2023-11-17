@@ -38,39 +38,39 @@ namespace Omnia
 		Camera()
 		{
 			this->type = TYPE_STRING;
-			this->setViewportHeight(480);
+			this->set_viewport_height(480);
 		};
 
 		virtual Registerable* instance() override
 		{
 			Camera* clone = new Camera(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void resetAspect();
-		void toggleWireframeMode();
-		glm::vec2 getViewport();
-		bool getIsStreaming();
-		bool getIsWireframeMode();
-		void setViewportWidth(uint32_t width);
-		void setViewportHeight(uint32_t height);
-		void setLimits(float left, float bottom, float top, float right);
-		void setKeepAspect(bool value);
-		void setIsStreaming(bool value);
-		void setWireframeMode(bool value);
-		glm::mat4 getViewToProjectionMatrix();
+		virtual void deserialize(YAML::Node yaml_node);
+		void reset_aspect();
+		void toggle_wireframe_mode();
+		glm::vec2 get_viewport();
+		bool get_is_streaming();
+		bool get_is_wireframe_mode();
+		void set_viewport_width(uint32_t width);
+		void set_viewport_height(uint32_t height);
+		void set_limits(float left, float bottom, float top, float right);
+		void set_keep_aspect(bool value);
+		void set_is_streaming(bool value);
+		void set_wireframe_mode(bool value);
+		glm::mat4 get_view_to_projection_matrix();
 	private:
-		const float defaultAspect = 1920.0 / 1080.0;
-		float aspect = defaultAspect;
-		float fieldOfView = 45.0;
-		float nearPlane = 0.1;
-		float farPlane = 1000.0;
-		glm::vec2 minLimit;
-		glm::vec2 maxLimit;
+		const float default_aspect = 1920.0 / 1080.0;
+		float aspect = default_aspect;
+		float field_of_view = 45.0;
+		float near_plane = 0.1;
+		float far_plane = 1000.0;
+		glm::vec2 min_limit;
+		glm::vec2 max_limit;
 		glm::vec2 viewport;
-		bool keepAspect = true;
-		bool isStreaming = true;
-		bool isWireFrame = false;
+		bool keep_aspect = true;
+		bool is_streaming = true;
+		bool is_wire_frame = false;
 	};
 }

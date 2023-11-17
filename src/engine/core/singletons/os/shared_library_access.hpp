@@ -31,8 +31,8 @@ namespace Omnia
     {
     public:
         void* open(std::string filename);
-        void close(void* dynamicLibraryHandle);
-        void* getProcedure(void* dynamicLibraryHandle, std::string procedureName);
+        void close(void* dynamic_library_handle);
+        void* get_procedure(void* dynamic_library_handle, std::string procedure_name);
     private:
     };
 }

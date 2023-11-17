@@ -45,15 +45,15 @@ Omnia::RenderingSystem::RenderingSystem()
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	OS::createWindow("",
+	OS::create_window("",
 		640,
 		480,
 		false,
-		this->getRenderingBackendName());
+		this->get_rendering_backend_name());
 
-	this->dummyLight = std::shared_ptr<Light>(new Light());
-	this->dummyLightTransform = std::shared_ptr<Transform>(new Transform());
-	this->openglBackend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
+	this->dummy_light = std::shared_ptr<Light>(new Light());
+	this->dummy_light_transform = std::shared_ptr<Transform>(new Transform());
+	this->opengl_backend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
 	this->type = TYPE_STRING;
 }
 
@@ -65,104 +65,104 @@ Omnia::RenderingSystem::~RenderingSystem()
 void Omnia::RenderingSystem::initialize()
 {
 	Image image = Image(
-		OS::getFileAccess().getDataDirectoryPath() + Configuration::getInstance()->metadata.iconFilepath);
-	OS::getWindow().changeIcon(
-		image.getData(),
-		image.getWidth(),
-		image.getHeight(),
-		image.getDepth(),
-		image.getPitch());
+		OS::get_file_access().get_data_directory_path() + Configuration::get_instance()->metadata.icon_filepath);
+	OS::get_window().change_icon(
+		image.get_data(),
+		image.get_width(),
+		image.get_height(),
+		image.get_depth(),
+		image.get_pitch());
 
-	this->openglBackend->initialize();
-	this->isInitialized = true;
+	this->opengl_backend->initialize();
+	this->is_initialized = true;
 }
 
-void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 {
-	this->onWindowResize();
+	this->on_window_resize();
 
-	if (this->hasSceneChanged(scene))
-		this->buildRenderables(scene);
+	if (this->has_scene_changed(scene))
+		this->build_renderables(scene);
 
-	this->openglBackend->clearColourBuffer(0, 0, 0, 255);
+	this->opengl_backend->clear_colour_buffer(0, 0, 0, 255);
 
-	for (int i = 0; i < this->renderableLayerLists.size(); i++)
+	for (int i = 0; i < this->renderable_layer_lists.size(); i++)
 	{
-		std::vector<RenderableLayer> renderableLayerList = this->renderableLayerLists[i];
-		RenderableLayer* renderableLayerListData = renderableLayerList.data();
-		size_t renderableLayerListCount = renderableLayerList.size();
+		std::vector<RenderableLayer> renderable_layer_list = this->renderable_layer_lists[i];
+		RenderableLayer* renderable_layer_list_data = renderable_layer_list.data();
+		size_t renderable_layer_list_count = renderable_layer_list.size();
 
-		for (size_t j = 0; j < renderableLayerListCount; j++)
+		for (size_t j = 0; j < renderable_layer_list_count; j++)
 		{
-			RenderableLayer& renderableLayer = renderableLayerListData[j];
+			RenderableLayer& renderable_layer = renderable_layer_list_data[j];
 
-			if (renderableLayer.camera->getIsStreaming())
+			if (renderable_layer.camera->get_is_streaming())
 			{
-				EntityRenderable* entityRenderablesData = renderableLayer.entityRenderables.data();
-				size_t entityRenderablesCount = renderableLayer.entityRenderables.size();
-				glm::mat4 worldToViewMatrix = glm::inverse(renderableLayer.cameraTransform->getTransformMatrix());
-				glm::mat4 viewToProjectionMatrix = renderableLayer.camera->getViewToProjectionMatrix();
+				EntityRenderable* entity_renderables_data = renderable_layer.entity_renderables.data();
+				size_t entity_renderables_count = renderable_layer.entity_renderables.size();
+				glm::mat4 world_to_view_matrix = glm::inverse(renderable_layer.camera_transform->get_transform_matrix());
+				glm::mat4 view_to_projection_matrix = renderable_layer.camera->get_view_to_projection_matrix();
 
-				if (renderableLayer.is2D)
+				if (renderable_layer.is2_d)
 				{
-					this->openglBackend->disableDepthTest();
+					this->opengl_backend->disable_depth_test();
 				}
 				else
 				{
-					this->openglBackend->clearDepthBuffer();
-					this->openglBackend->enableDepthTest();
+					this->opengl_backend->clear_depth_buffer();
+					this->opengl_backend->enable_depth_test();
 				}
 
-				if (renderableLayer.camera->getIsWireframeMode())
-					this->openglBackend->enableWireframeMode();
+				if (renderable_layer.camera->get_is_wireframe_mode())
+					this->opengl_backend->enable_wireframe_mode();
 				else
-					this->openglBackend->disableWireframeMode();
+					this->opengl_backend->disable_wireframe_mode();
 
 				/* Memory allocated out of the tight loop. */
-				std::shared_ptr<Transform> globalTransform(new Transform());
+				std::shared_ptr<Transform> global_transform(new Transform());
 
-				std::vector<std::shared_ptr<Light>> activeLights;
-				std::vector<std::shared_ptr<Transform>> activeLightTransforms;
+				std::vector<std::shared_ptr<Light>> active_lights;
+				std::vector<std::shared_ptr<Transform>> active_light_transforms;
 
-				if (renderableLayer.lights.size() > 0)
+				if (renderable_layer.lights.size() > 0)
 				{
-					activeLights = renderableLayer.lights;
-					activeLightTransforms = renderableLayer.lightTransforms;
+					active_lights = renderable_layer.lights;
+					active_light_transforms = renderable_layer.light_transforms;
 				}
 				else
 				{
-					activeLights.push_back(this->dummyLight);
-					activeLightTransforms.push_back(this->dummyLightTransform);
+					active_lights.push_back(this->dummy_light);
+					active_light_transforms.push_back(this->dummy_light_transform);
 				}
 
-				size_t lightsCount = activeLights.size();
+				size_t lights_count = active_lights.size();
 
 				/* Forward Rendering */
-				for (size_t k = 0; k < lightsCount; k++)
+				for (size_t k = 0; k < lights_count; k++)
 				{
-					std::shared_ptr<Light> light = activeLights[k];
-					std::shared_ptr<Transform> lightTransform = activeLightTransforms[k];
+					std::shared_ptr<Light> light = active_lights[k];
+					std::shared_ptr<Transform> light_transform = active_light_transforms[k];
 
-					for (size_t l = 0; l < entityRenderablesCount; l++)
+					for (size_t l = 0; l < entity_renderables_count; l++)
 					{
-						EntityRenderable& entityRenderable = entityRenderablesData[l];
-						std::shared_ptr<Shader> shader = entityRenderable.overridingShader;
-						std::shared_ptr<ShaderParameters> shaderParameters = entityRenderable.overridingShaderParameters;
+						EntityRenderable& entity_renderable = entity_renderables_data[l];
+						std::shared_ptr<Shader> shader = entity_renderable.overriding_shader;
+						std::shared_ptr<ShaderParameters> shader_parameters = entity_renderable.overriding_shader_parameters;
 
-						if (shader == nullptr && shaderParameters == nullptr)
+						if (shader == nullptr && shader_parameters == nullptr)
 						{
-							shader = entityRenderable.renderableComponent->getShader();
-							shaderParameters = entityRenderable.renderableComponent->shaderParameters;
+							shader = entity_renderable.renderable_component->get_shader();
+							shader_parameters = entity_renderable.renderable_component->shader_parameters;
 						}
 
-						globalTransform = entityRenderable.entityTransform->getGlobalTransform();
-						glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
-						glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
-						float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
-						const float cullAlphaThreshold = 1.0 - 0.001;
-						RenderableComponent::CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
+						global_transform = entity_renderable.entity_transform->get_global_transform();
+						glm::mat4 model_to_world_matrix = global_transform->get_transform_matrix();
+						glm::mat4 mvp = view_to_projection_matrix * world_to_view_matrix * model_to_world_matrix;
+						float alpha = entity_renderable.renderable_component->get_alpha_in_percentage();
+						const float cull_alpha_threshold = 1.0 - 0.001;
+						RenderableComponent::CullMode cull_mode = entity_renderable.renderable_component->get_cull_mode();
 
-						switch (cullMode)
+						switch (cull_mode)
 						{
 							case RenderableComponent::CullMode::NONE:
 							case RenderableComponent::CullMode::BACK: glCullFace(GL_BACK); break;
@@ -170,345 +170,345 @@ void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
 							case RenderableComponent::CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
 						}
 
-						if (cullMode == RenderableComponent::CullMode::NONE)
+						if (cull_mode == RenderableComponent::CullMode::NONE)
 							glDisable(GL_CULL_FACE);
 						else
 							glEnable(GL_CULL_FACE);
 
-						this->openglBackend->enableBlending();
+						this->opengl_backend->enable_blending();
 
-						std::shared_ptr<OpenGLVertexArray> vertexArray;
-						if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
+						std::shared_ptr<OpenGLVertexArray> vertex_array;
+						if (entity_renderable.renderable_component->is_type(Model::TYPE_STRING))
 						{
-							std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->mesh;
-							vertexArray = this->openglBackend->getVertexArray(mesh);
+							std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Model>(entity_renderable.renderable_component)->mesh;
+							vertex_array = this->opengl_backend->get_vertex_array(mesh);
 						}
 						else
 						{
-							vertexArray = this->openglBackend->getVertexArray(entityRenderable.renderableComponent->getImage());
+							vertex_array = this->opengl_backend->get_vertex_array(entity_renderable.renderable_component->get_image());
 						}
-						vertexArray->bind();
+						vertex_array->bind();
 
-						if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
+						if (entity_renderable.renderable_component->is_type(Model::TYPE_STRING))
 						{
 							std::shared_ptr<Material> material =
-								std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->material;
+								std::dynamic_pointer_cast<Model>(entity_renderable.renderable_component)->material;
 
-							this->openglBackend->getTexture(material->albedo)->bind(OpenGLTexture::Unit::_0);
-							this->openglBackend->getTexture(material->metallicity)->bind(OpenGLTexture::Unit::_1);
-							this->openglBackend->getTexture(material->roughness)->bind(OpenGLTexture::Unit::_2);
-							this->openglBackend->getTexture(material->emission)->bind(OpenGLTexture::Unit::_3);
-							this->openglBackend->getTexture(material->normal)->bind(OpenGLTexture::Unit::_4);
-							this->openglBackend->getTexture(material->occlusion)->bind(OpenGLTexture::Unit::_5);
+							this->opengl_backend->get_texture(material->albedo)->bind(OpenGLTexture::Unit::_0);
+							this->opengl_backend->get_texture(material->metallicity)->bind(OpenGLTexture::Unit::_1);
+							this->opengl_backend->get_texture(material->roughness)->bind(OpenGLTexture::Unit::_2);
+							this->opengl_backend->get_texture(material->emission)->bind(OpenGLTexture::Unit::_3);
+							this->opengl_backend->get_texture(material->normal)->bind(OpenGLTexture::Unit::_4);
+							this->opengl_backend->get_texture(material->occlusion)->bind(OpenGLTexture::Unit::_5);
 						}
 						else
 						{
-							this->openglBackend->getTexture(entityRenderable.renderableComponent->getImage())->bind(OpenGLTexture::Unit::_0);
+							this->opengl_backend->get_texture(entity_renderable.renderable_component->get_image())->bind(OpenGLTexture::Unit::_0);
 						}
 
-						std::shared_ptr<OpenGLShaderProgram> shaderProgram;
+						std::shared_ptr<OpenGLShaderProgram> shader_program;
 
 						if (shader != nullptr)
 						{
-							AssetID shaderID = shader->getID();
-							std::string defaultVertexInput;
-							std::string defaultFragmentInput;
+							AssetID shader_id = shader->get_id();
+							std::string default_vertex_input;
+							std::string default_fragment_input;
 
-							if (renderableLayer.is2D)
+							if (renderable_layer.is2_d)
 							{
-								defaultVertexInput = this->openglBackend->getDefault2DVertexInput();
-								defaultFragmentInput = this->openglBackend->getDefault2DFragmentInput();
+								default_vertex_input = this->opengl_backend->get_default2_dvertex_input();
+								default_fragment_input = this->opengl_backend->get_default2_dfragment_input();
 							}
 							else
 							{
-								defaultVertexInput = this->openglBackend->getDefault3DVertexInput();
-								defaultFragmentInput = this->openglBackend->getDefault3DFragmentInput();
+								default_vertex_input = this->opengl_backend->get_default3_dvertex_input();
+								default_fragment_input = this->opengl_backend->get_default3_dfragment_input();
 							}
 
-							if (!this->openglBackend->shaderPrograms.count(shaderID))
+							if (!this->opengl_backend->shader_programs.count(shader_id))
 							{
-								std::shared_ptr<Shader> completeShader;
+								std::shared_ptr<Shader> complete_shader;
 
-								if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
+								if (shader->get_vertex_source() == "" && shader->get_fragment_source() == "")
 								{
-									completeShader = std::shared_ptr<Shader>(new Shader(
-										defaultVertexInput,
-										defaultFragmentInput,
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										default_vertex_input,
+										default_fragment_input,
 										false,
 										false));
 								}
-								else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
+								else if (shader->get_vertex_source() == "" && shader->get_fragment_source() != "")
 								{
-									completeShader = std::shared_ptr<Shader>(new Shader(
-										defaultVertexInput,
-										shader->getFragmentSource(),
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										default_vertex_input,
+										shader->get_fragment_source(),
 										false,
 										false));
 								}
-								else if (shader->getVertexSource() != "" && shader->getFragmentSource() == "")
+								else if (shader->get_vertex_source() != "" && shader->get_fragment_source() == "")
 								{
-									completeShader = std::shared_ptr<Shader>(new Shader(
-										shader->getVertexSource(),
-										defaultFragmentInput,
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										shader->get_vertex_source(),
+										default_fragment_input,
 										false,
 										false));
 								}
 								else
 								{
-									completeShader = shader;
+									complete_shader = shader;
 								}
 
-								this->openglBackend->shaderPrograms.emplace(
-									shaderID,
-									std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(completeShader)));
+								this->opengl_backend->shader_programs.emplace(
+									shader_id,
+									std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(complete_shader)));
 							}
 
-							shaderProgram = this->openglBackend->shaderPrograms.at(shaderID);
+							shader_program = this->opengl_backend->shader_programs.at(shader_id);
 						}
-						else if (!renderableLayer.is2D)
+						else if (!renderable_layer.is2_d)
 						{
-							shaderProgram = this->openglBackend->builtInShaderProgram3D;
+							shader_program = this->opengl_backend->built_in_shader_program3_d;
 						}
 						else
 						{
-							shaderProgram = this->openglBackend->builtInShaderProgram2D;
+							shader_program = this->opengl_backend->built_in_shader_program2_d;
 						}
 
-						shaderProgram->use();
+						shader_program->use();
 
 						/* Custom uniforms. */
-						for (auto const& intUniformPair : shaderParameters->intUniforms)
-							shaderProgram->setInt(intUniformPair.first, intUniformPair.second);
+						for (auto const& int_uniform_pair : shader_parameters->int_uniforms)
+							shader_program->set_int(int_uniform_pair.first, int_uniform_pair.second);
 
-						for (auto const& boolUniformPair : shaderParameters->boolUniforms)
-							shaderProgram->setBool(boolUniformPair.first, boolUniformPair.second);
+						for (auto const& bool_uniform_pair : shader_parameters->bool_uniforms)
+							shader_program->set_bool(bool_uniform_pair.first, bool_uniform_pair.second);
 
-						for (auto const& floatUniformPair : shaderParameters->floatUniforms)
-							shaderProgram->setFloat(floatUniformPair.first, floatUniformPair.second);
+						for (auto const& float_uniform_pair : shader_parameters->float_uniforms)
+							shader_program->set_float(float_uniform_pair.first, float_uniform_pair.second);
 
-						for (auto const& vec2UniformPair : shaderParameters->vec2Uniforms)
-							shaderProgram->setVec2(vec2UniformPair.first, vec2UniformPair.second);
+						for (auto const& vec2_uniform_pair : shader_parameters->vec2_uniforms)
+							shader_program->set_vec2(vec2_uniform_pair.first, vec2_uniform_pair.second);
 
-						for (auto const& vec3UniformPair : shaderParameters->vec3Uniforms)
-							shaderProgram->setVec3(vec3UniformPair.first, vec3UniformPair.second);
+						for (auto const& vec3_uniform_pair : shader_parameters->vec3_uniforms)
+							shader_program->set_vec3(vec3_uniform_pair.first, vec3_uniform_pair.second);
 
-						for (auto const& vec4UniformPair : shaderParameters->vec4Uniforms)
-							shaderProgram->setVec4(vec4UniformPair.first, vec4UniformPair.second);
+						for (auto const& vec4_uniform_pair : shader_parameters->vec4_uniforms)
+							shader_program->set_vec4(vec4_uniform_pair.first, vec4_uniform_pair.second);
 
-						for (auto const& mat4UniformPair : shaderParameters->mat4Uniforms)
-							shaderProgram->setMat4(mat4UniformPair.first, mat4UniformPair.second);
+						for (auto const& mat4_uniform_pair : shader_parameters->mat4_uniforms)
+							shader_program->set_mat4(mat4_uniform_pair.first, mat4_uniform_pair.second);
 
 						/* Standard uniforms */
-						shaderProgram->setMat4("mvp", mvp);
-						shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
-						shaderProgram->setMat4("worldToModelMatrix", glm::inverse(modelToWorldMatrix));
-						shaderProgram->setInt("albedoTextureSampler", 0);
-						shaderProgram->setInt("metallicityTextureSampler", 1);
-						shaderProgram->setInt("roughnessTextureSampler", 2);
-						shaderProgram->setInt("emissionTextureSampler", 3);
-						shaderProgram->setInt("normalTextureSampler", 4);
-						shaderProgram->setInt("occlusionTextureSampler", 5);
-						shaderProgram->setFloat("alpha", alpha);
-						shaderProgram->setInt("lightMode", (int)light->mode);
-						shaderProgram->setVec4("lightColour", light->colour->getRGBAInVec4());
-						shaderProgram->setVec4("shadowColour", light->shadowColour->getRGBAInVec4());
-						shaderProgram->setFloat("lightIntensity", light->intensity);
-						shaderProgram->setFloat("lightAttenuation", light->attenuation);
-						shaderProgram->setFloat("lightRange", light->range);
-						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
-						shaderProgram->setVec3("lightTranslation", lightTransform->translation);
-						shaderProgram->setVec3("lightRotation", lightTransform->rotation);
-						shaderProgram->setVec2("cameraViewport", renderableLayer.camera->getViewport());
-						shaderProgram->setVec3("cameraTranslation", renderableLayer.cameraTransform->translation);
-						shaderProgram->setVec3("cameraRotation", renderableLayer.cameraTransform->rotation);
-						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);
-						shaderProgram->setVec3("entityRotation", entityRenderable.entityTransform->rotation);
-						shaderProgram->setVec3("entityScale", entityRenderable.entityTransform->scale);
+						shader_program->set_mat4("mvp", mvp);
+						shader_program->set_mat4("model_to_world_matrix", model_to_world_matrix);
+						shader_program->set_mat4("world_to_model_matrix", glm::inverse(model_to_world_matrix));
+						shader_program->set_int("albedo_texture_sampler", 0);
+						shader_program->set_int("metallicity_texture_sampler", 1);
+						shader_program->set_int("roughness_texture_sampler", 2);
+						shader_program->set_int("emission_texture_sampler", 3);
+						shader_program->set_int("normal_texture_sampler", 4);
+						shader_program->set_int("occlusion_texture_sampler", 5);
+						shader_program->set_float("alpha", alpha);
+						shader_program->set_int("light_mode", (int)light->mode);
+						shader_program->set_vec4("light_colour", light->colour->get_rgbain_vec4());
+						shader_program->set_vec4("shadow_colour", light->shadow_colour->get_rgbain_vec4());
+						shader_program->set_float("light_intensity", light->intensity);
+						shader_program->set_float("light_attenuation", light->attenuation);
+						shader_program->set_float("light_range", light->range);
+						shader_program->set_bool("is_shadow_enabled", light->is_shadow_enabled);
+						shader_program->set_vec3("light_translation", light_transform->translation);
+						shader_program->set_vec3("light_rotation", light_transform->rotation);
+						shader_program->set_vec2("camera_viewport", renderable_layer.camera->get_viewport());
+						shader_program->set_vec3("camera_translation", renderable_layer.camera_transform->translation);
+						shader_program->set_vec3("camera_rotation", renderable_layer.camera_transform->rotation);
+						shader_program->set_vec3("entity_translation", entity_renderable.entity_transform->translation);
+						shader_program->set_vec3("entity_rotation", entity_renderable.entity_transform->rotation);
+						shader_program->set_vec3("entity_scale", entity_renderable.entity_transform->scale);
 
-						if (vertexArray->getIndexCount() > 0)
-							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
+						if (vertex_array->get_index_count() > 0)
+							glDrawElements(GL_TRIANGLES, (GLsizei)vertex_array->get_index_count(), GL_UNSIGNED_INT, 0);
 						else
-							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
+							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertex_array->get_vertex_count());
 
-						vertexArray->unbind();
-						this->openglBackend->disableBlending();
+						vertex_array->unbind();
+						this->opengl_backend->disable_blending();
 					}
 				}
 			}
 		}
 	}
 
-	this->openglBackend->collectGarbage();
-	this->openglBackend->swapBuffers();
+	this->opengl_backend->collect_garbage();
+	this->opengl_backend->swap_buffers();
 }
 
 void Omnia::RenderingSystem::finalize()
 {
-	if (this->isInitialized)
+	if (this->is_initialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
-	this->isInitialized = false;
+	this->is_initialized = false;
 }
 
-void Omnia::RenderingSystem::onWindowResize()
+void Omnia::RenderingSystem::on_window_resize()
 {
-	glm::vec2 windowSize = OS::getWindow().getWindowSize();
+	glm::vec2 window_size = OS::get_window().get_window_size();
 
-	if (lastDetectedWindowSize.x != windowSize.x ||
-		lastDetectedWindowSize.y != windowSize.y)
+	if (last_detected_window_size.x != window_size.x ||
+		last_detected_window_size.y != window_size.y)
 	{
-		int renderableLayerListSize = this->renderableLayerLists.size();
+		int renderable_layer_list_size = this->renderable_layer_lists.size();
 
-		for (int i = 0; renderableLayerListSize; i++)
+		for (int i = 0; renderable_layer_list_size; i++)
 		{
-			std::vector<RenderableLayer> renderableLayers = this->renderableLayerLists.at(renderableLayerListSize - 1);
-			int renderableLayerSize = renderableLayers.size();
-			if (renderableLayerSize > 0)
+			std::vector<RenderableLayer> renderable_layers = this->renderable_layer_lists.at(renderable_layer_list_size - 1);
+			int renderable_layer_size = renderable_layers.size();
+			if (renderable_layer_size > 0)
 			{
-				RenderableLayer& renderableLayer = renderableLayers.at(renderableLayerSize - 1);
+				RenderableLayer& renderable_layer = renderable_layers.at(renderable_layer_size - 1);
 
-				if (renderableLayer.entityRenderables.size() > 0)
+				if (renderable_layer.entity_renderables.size() > 0)
 				{
-					EntityRenderable& entityRenderable = renderableLayer.entityRenderables.at(0);
-					if (entityRenderable.renderableComponent->isType(GUI::TYPE_STRING))
+					EntityRenderable& entity_renderable = renderable_layer.entity_renderables.at(0);
+					if (entity_renderable.renderable_component->is_type(GUI::TYPE_STRING))
 					{
-						renderableLayer.camera->setViewportWidth(windowSize.x);
-						renderableLayer.camera->setViewportHeight(windowSize.y);
+						renderable_layer.camera->set_viewport_width(window_size.x);
+						renderable_layer.camera->set_viewport_height(window_size.y);
 					}
 				}
 			}
 		}
 
-		this->openglBackend->setViewport(windowSize.x, windowSize.y);
-		lastDetectedWindowSize = windowSize;
+		this->opengl_backend->set_viewport(window_size.x, window_size.y);
+		last_detected_window_size = window_size;
 	}
 }
 
-void Omnia::RenderingSystem::buildRenderables(std::shared_ptr<Scene> scene)
+void Omnia::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 {
-	this->renderableLayerLists.clear();
+	this->renderable_layer_lists.clear();
 
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
-	std::vector<std::shared_ptr<RenderableComponent>> guiRenderableComponents;
-	std::vector<std::shared_ptr<SceneLayer>> guiSceneLayers;
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
+	std::vector<std::shared_ptr<RenderableComponent>> gui_renderable_components;
+	std::vector<std::shared_ptr<SceneLayer>> gui_scene_layers;
 
-	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
+	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
 	{
-		std::shared_ptr<SceneLayer> sceneLayer = it->second;
-		std::vector<RenderableLayer> renderableLayerList;
+		std::shared_ptr<SceneLayer> scene_layer = it->second;
+		std::vector<RenderableLayer> renderable_layer_list;
 
-		std::vector<std::shared_ptr<Viewport>> uiViewports = sceneLayer->getComponentsByType<Viewport>();
-		std::vector<size_t> renderOrderIndexCache = sceneLayer->getRenderOrderIndexCache();
+		std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer->get_components_by_type<Viewport>();
+		std::vector<size_t> render_order_index_cache = scene_layer->get_render_order_index_cache();
 
 		/* One or more Viewport RenderableLayers for each SceneLayer. */
-		for (int i = 0; i < uiViewports.size(); i++)
+		for (int i = 0; i < ui_viewports.size(); i++)
 		{
-			std::shared_ptr<Viewport> uiViewport = uiViewports.at(i);
-			std::shared_ptr<Entity> cameraEntity = sceneLayer->getEntityByName(uiViewport->getCameraEntityName());
-			std::shared_ptr<Camera> camera = sceneLayer->getComponentByType<Camera>(cameraEntity->getID());
-			RenderableLayer renderableLayer;
-			std::shared_ptr<Transform> cameraTransform = sceneLayer->getComponentByType<Transform>(camera->getEntityID());
+			std::shared_ptr<Viewport> ui_viewport = ui_viewports.at(i);
+			std::shared_ptr<Entity> camera_entity = scene_layer->get_entity_by_name(ui_viewport->get_camera_entity_name());
+			std::shared_ptr<Camera> camera = scene_layer->get_component_by_type<Camera>(camera_entity->get_id());
+			RenderableLayer renderable_layer;
+			std::shared_ptr<Transform> camera_transform = scene_layer->get_component_by_type<Transform>(camera->get_entity_id());
 
-			renderableLayer.is2D = sceneLayer->is2D;
-			renderableLayer.camera = camera;
-			renderableLayer.cameraTransform = cameraTransform;
+			renderable_layer.is2_d = scene_layer->is2_d;
+			renderable_layer.camera = camera;
+			renderable_layer.camera_transform = camera_transform;
 
-			for (std::shared_ptr<Light> light : sceneLayer->getComponentsByType<Light>())
+			for (std::shared_ptr<Light> light : scene_layer->get_components_by_type<Light>())
 			{
-				renderableLayer.lights.push_back(light);
-				renderableLayer.lightTransforms.push_back(sceneLayer->getComponentByType<Transform>(light->getEntityID()));
+				renderable_layer.lights.push_back(light);
+				renderable_layer.light_transforms.push_back(scene_layer->get_component_by_type<Transform>(light->get_entity_id()));
 			}
 
 			/* Entity RenderableLayer for each Viewport*/
-			for (int i = 0; i < renderOrderIndexCache.size(); i++)
+			for (int i = 0; i < render_order_index_cache.size(); i++)
 			{
-				EntityRenderable entityRenderable;
-				std::shared_ptr<RenderableComponent> renderableComponent =
-					std::dynamic_pointer_cast<RenderableComponent>(sceneLayer->getComponents().at(renderOrderIndexCache.at(i)));
+				EntityRenderable entity_renderable;
+				std::shared_ptr<RenderableComponent> renderable_component =
+					std::dynamic_pointer_cast<RenderableComponent>(scene_layer->get_components().at(render_order_index_cache.at(i)));
 
 				/* GUI Components are deferred to a final RenderableLayer, 
 				   while other RenderableComponents are in the usual order. */
-				if (renderableComponent->isType(GUI::TYPE_STRING))
+				if (renderable_component->is_type(GUI::TYPE_STRING))
 				{
-					guiRenderableComponents.push_back(renderableComponent);
-					guiSceneLayers.push_back(sceneLayer);
+					gui_renderable_components.push_back(renderable_component);
+					gui_scene_layers.push_back(scene_layer);
 				}
 				else
 				{
-					std::shared_ptr<Entity> entity = sceneLayer->getEntity(renderableComponent->getEntityID());
+					std::shared_ptr<Entity> entity = scene_layer->get_entity(renderable_component->get_entity_id());
 
-					entityRenderable.entityTransform = sceneLayer->getComponentByType<Transform>(entity->getID());
-					entityRenderable.renderableComponent = renderableComponent;
+					entity_renderable.entity_transform = scene_layer->get_component_by_type<Transform>(entity->get_id());
+					entity_renderable.renderable_component = renderable_component;
 
-					std::shared_ptr<Entity> topEntity = entity;
-					EntityID parentEntityID = entity->parentID;
+					std::shared_ptr<Entity> top_entity = entity;
+					EntityID parent_entity_id = entity->parent_id;
 
-					while (parentEntityID != 0)
+					while (parent_entity_id != 0)
 					{
-						topEntity = sceneLayer->getEntity(parentEntityID);
-						parentEntityID = topEntity->parentID;
+						top_entity = scene_layer->get_entity(parent_entity_id);
+						parent_entity_id = top_entity->parent_id;
 					}
 
-					if (topEntity->renderableComponentID != 0)
+					if (top_entity->renderable_component_id != 0)
 					{
-						std::shared_ptr<RenderableComponent> renderableComponent =
-							std::dynamic_pointer_cast<RenderableComponent>(sceneLayer->getComponentByID(topEntity->renderableComponentID));
+						std::shared_ptr<RenderableComponent> renderable_component =
+							std::dynamic_pointer_cast<RenderableComponent>(scene_layer->get_component_by_id(top_entity->renderable_component_id));
 
-						std::shared_ptr<Shader> overridingShader = renderableComponent->getOverridingShader();
+						std::shared_ptr<Shader> overriding_shader = renderable_component->get_overriding_shader();
 
-						if (overridingShader != nullptr)
+						if (overriding_shader != nullptr)
 						{
-							entityRenderable.overridingShader = overridingShader;
-							entityRenderable.overridingShaderParameters = renderableComponent->shaderParameters;
+							entity_renderable.overriding_shader = overriding_shader;
+							entity_renderable.overriding_shader_parameters = renderable_component->shader_parameters;
 						}
 					}
 
-					renderableLayer.entityRenderables.push_back(entityRenderable);
+					renderable_layer.entity_renderables.push_back(entity_renderable);
 				}
 			}
-			renderableLayerList.push_back(renderableLayer);
+			renderable_layer_list.push_back(renderable_layer);
 		}
 
-		this->renderableLayerLists.push_back(renderableLayerList);
+		this->renderable_layer_lists.push_back(renderable_layer_list);
 	}
 
 	/* Put the deferred GUIs on a final RenderableLayer to be rendered last. */
-	RenderableLayer renderableLayer;
-	std::vector<RenderableLayer> renderableLayerList;
+	RenderableLayer renderable_layer;
+	std::vector<RenderableLayer> renderable_layer_list;
 	std::shared_ptr<Camera> camera(new Camera());
-	std::shared_ptr<Transform> cameraTransform(new Transform());
-	glm::vec2 windowSize = OS::getWindow().getWindowSize();
+	std::shared_ptr<Transform> camera_transform(new Transform());
+	glm::vec2 window_size = OS::get_window().get_window_size();
 
 	/* a virtual Camera for the GUI. */
-	camera->setViewportWidth(windowSize.x);
-	camera->setViewportHeight(windowSize.y);
-	camera->setIsStreaming(true);
-	camera->setWireframeMode(false);
-	cameraTransform->translation.x = windowSize.x / 2.0;
-	cameraTransform->translation.y = windowSize.y / 2.0;
+	camera->set_viewport_width(window_size.x);
+	camera->set_viewport_height(window_size.y);
+	camera->set_is_streaming(true);
+	camera->set_wireframe_mode(false);
+	camera_transform->translation.x = window_size.x / 2.0;
+	camera_transform->translation.y = window_size.y / 2.0;
 
-	renderableLayer.is2D = true;
-	renderableLayer.camera = camera;
-	renderableLayer.cameraTransform = cameraTransform;
+	renderable_layer.is2_d = true;
+	renderable_layer.camera = camera;
+	renderable_layer.camera_transform = camera_transform;
 
-	for (int i = 0; i < guiRenderableComponents.size(); i++)
+	for (int i = 0; i < gui_renderable_components.size(); i++)
 	{
-		EntityRenderable entityRenderable;
-		std::shared_ptr<RenderableComponent> guiRenderableComponent = guiRenderableComponents[i];
-		std::shared_ptr<SceneLayer> guiSceneLayer = guiSceneLayers[i];
-		std::shared_ptr<Entity> entity = guiSceneLayer->getEntity(guiRenderableComponent->getEntityID());
+		EntityRenderable entity_renderable;
+		std::shared_ptr<RenderableComponent> gui_renderable_component = gui_renderable_components[i];
+		std::shared_ptr<SceneLayer> gui_scene_layer = gui_scene_layers[i];
+		std::shared_ptr<Entity> entity = gui_scene_layer->get_entity(gui_renderable_component->get_entity_id());
 
-		entityRenderable.entityTransform = guiSceneLayer->getComponentByType<Transform>(entity->getID());
-		entityRenderable.renderableComponent = guiRenderableComponent;
-		renderableLayer.entityRenderables.push_back(entityRenderable);
+		entity_renderable.entity_transform = gui_scene_layer->get_component_by_type<Transform>(entity->get_id());
+		entity_renderable.renderable_component = gui_renderable_component;
+		renderable_layer.entity_renderables.push_back(entity_renderable);
 	}
 
 	/* There is only a single virtual Viewport, so one RenderableLayer. */
-	renderableLayerList.push_back(renderableLayer);
-	this->renderableLayerLists.push_back(renderableLayerList);
+	renderable_layer_list.push_back(renderable_layer);
+	this->renderable_layer_lists.push_back(renderable_layer_list);
 }
 
-std::string Omnia::RenderingSystem::getRenderingBackendName()
+std::string Omnia::RenderingSystem::get_rendering_backend_name()
 {
-	return this->openglBackend->getRenderingBackendName();
+	return this->opengl_backend->get_rendering_backend_name();
 }

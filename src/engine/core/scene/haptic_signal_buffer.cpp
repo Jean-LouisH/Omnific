@@ -23,36 +23,36 @@
 #include "haptic_signal_buffer.hpp"
 
 
-void Omnia::HapticSignalBuffer::publish(PlayerID playerID, float strength_pct, uint16_t duration_ms)
+void Omnia::HapticSignalBuffer::publish(PlayerID player_id, float strength_pct, uint16_t duration_ms)
 {
-	std::queue<HapticSignal> hapticSignalQueue;
-	HapticSignal newHapticSignal = HapticSignal(playerID, strength_pct, duration_ms);
+	std::queue<HapticSignal> haptic_signal_queue;
+	HapticSignal new_haptic_signal = HapticSignal(player_id, strength_pct, duration_ms);
 
-	if (this->hapticSignals.count(playerID) == 0)
+	if (this->haptic_signals.count(player_id) == 0)
 	{
-		hapticSignalQueue.push(newHapticSignal);
-		this->hapticSignals.emplace(playerID, hapticSignalQueue);
+		haptic_signal_queue.push(new_haptic_signal);
+		this->haptic_signals.emplace(player_id, haptic_signal_queue);
 	}
 	else
 	{
-		hapticSignalQueue = this->hapticSignals.at(playerID);
-		hapticSignalQueue.push(newHapticSignal);
-		this->hapticSignals.at(playerID) = hapticSignalQueue;
+		haptic_signal_queue = this->haptic_signals.at(player_id);
+		haptic_signal_queue.push(new_haptic_signal);
+		this->haptic_signals.at(player_id) = haptic_signal_queue;
 	}
 
 }
 
 void Omnia::HapticSignalBuffer::clear()
 {
-	this->hapticSignals.clear();
+	this->haptic_signals.clear();
 }
 
-std::unordered_map<Omnia::PlayerID, std::queue<Omnia::HapticSignal>>& Omnia::HapticSignalBuffer::getHapticSignals()
+std::unordered_map<Omnia::PlayerID, std::queue<Omnia::HapticSignal>>& Omnia::HapticSignalBuffer::get_haptic_signals()
 {
-	return this->hapticSignals;
+	return this->haptic_signals;
 }
 
-std::queue<Omnia::HapticSignal>& Omnia::HapticSignalBuffer::query(PlayerID playerID)
+std::queue<Omnia::HapticSignal>& Omnia::HapticSignalBuffer::query(PlayerID player_id)
 {
-	return this->hapticSignals.at(playerID);
+	return this->haptic_signals.at(player_id);
 }

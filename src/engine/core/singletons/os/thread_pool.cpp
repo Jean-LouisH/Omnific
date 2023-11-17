@@ -26,23 +26,23 @@
 
 void Omnia::ThreadPool::initialize()
 {
-	int threadCount = OS::getPlatform().getLogicalCoreCount();
+	int thread_count = OS::get_platform().get_logical_core_count();
 
-	for (int i = 0; i < (threadCount); i++)
-		this->threads.push_back(new std::thread(&ThreadPool::runWorkerThread, this));
+	for (int i = 0; i < (thread_count); i++)
+		this->threads.push_back(new std::thread(&ThreadPool::run_worker_thread, this));
 
-	this->allowableThreadCount = threadCount;
+	this->allowable_thread_count = thread_count;
 }
 
-void Omnia::ThreadPool::setAllowableThreadCount(int threadCount)
+void Omnia::ThreadPool::set_allowable_thread_count(int thread_count)
 {
-	if (threadCount > 0 && threadCount <= this->threads.size())
-		this->allowableThreadCount = threadCount;
+	if (thread_count > 0 && thread_count <= this->threads.size())
+		this->allowable_thread_count = thread_count;
 }
 
 void Omnia::ThreadPool::finalize()
 {
-	this->isFinished = true;
+	this->is_finished = true;
 
 	for (std::thread* thread : this->threads)
 	{
@@ -54,11 +54,11 @@ void Omnia::ThreadPool::finalize()
 	}
 }
 
-void Omnia::ThreadPool::runWorkerThread()
+void Omnia::ThreadPool::run_worker_thread()
 {
-	while (!this->isFinished)
+	while (!this->is_finished)
 	{
 		/* Placeholder */
-		OS::sleepThisThreadFor(1000);
+		OS::sleep_this_thread_for(1000);
 	}
 }

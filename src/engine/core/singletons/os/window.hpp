@@ -35,29 +35,29 @@ namespace Omnia
 	class OMNIA_ENGINE_API Window
 	{
 	public:
-		void initialize(std::string title, uint16_t width, uint16_t height, bool isFullscreen, std::string renderingContext);
-		void initializeWindowContext(std::string renderingContext);
-		void setToWindowed(uint16_t width, uint16_t height);
-		void setToFullscreen();
-		void toggleWindowedFullscreen();
+		void initialize(std::string title, uint16_t width, uint16_t height, bool is_fullscreen, std::string rendering_context);
+		void initialize_window_context(std::string rendering_context);
+		void set_to_windowed(uint16_t width, uint16_t height);
+		void set_to_fullscreen();
+		void toggle_windowed_fullscreen();
 		void resize(uint16_t width, uint16_t height);
-		void changeTitle(const char* title);
-		void changeIcon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
+		void change_title(const char* title);
+		void change_icon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch);
 		void maximize();
 		void minimize();
 		void raise();
 		void restore();
 		void hide();
 		void show();
-		glm::vec2 getWindowSize();
-		glm::vec2 getWindowPosition();
+		glm::vec2 get_window_size();
+		glm::vec2 get_window_position();
 
-		SDL_Window* getSDLWindow();
-		SDL_GLContext getSDLGLContext();
+		SDL_Window* get_sdlwindow();
+		SDL_GLContext get_sdlglcontext();
 	private:
-		std::shared_ptr<SDL_Window> sdlWindow = {nullptr, SDL_DestroyWindow};
-		SDL_GLContext sdlGlContext;
-		std::shared_ptr<SDL_DisplayMode> sdlDisplayMode;
-		bool isFullscreen;
+		std::shared_ptr<SDL_Window> sdl_window = {nullptr, SDL_DestroyWindow};
+		SDL_GLContext sdl_gl_context;
+		std::shared_ptr<SDL_DisplayMode> sdl_display_mode;
+		bool is_fullscreen;
 	};
 }

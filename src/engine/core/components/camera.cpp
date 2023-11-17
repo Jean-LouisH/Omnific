@@ -25,18 +25,18 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <core/singletons/os/os.hpp>
 
-void Omnia::Camera::deserialize(YAML::Node yamlNode)
+void Omnia::Camera::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "viewport_px")
 		{
-			this->setViewportHeight(it3->second[1].as<double>());
-			this->setViewportWidth(it3->second[0].as<double>());
+			this->set_viewport_height(it3->second[1].as<double>());
+			this->set_viewport_width(it3->second[0].as<double>());
 		}
 		else if (it3->first.as<std::string>() == "limits_px")
 		{
-			this->setLimits(
+			this->set_limits(
 				it3->second[0].as<double>(),
 				it3->second[1].as<double>(),
 				it3->second[2].as<double>(),
@@ -45,86 +45,86 @@ void Omnia::Camera::deserialize(YAML::Node yamlNode)
 		}
 		else if (it3->first.as<std::string>() == "keep_aspect")
 		{
-			this->setKeepAspect(it3->second.as<bool>());
+			this->set_keep_aspect(it3->second.as<bool>());
 		}
 		else if (it3->first.as<std::string>() == "is_streaming")
 		{
-			this->setIsStreaming(it3->second.as<bool>());
+			this->set_is_streaming(it3->second.as<bool>());
 		}
 		else if (it3->first.as<std::string>() == "wireframe_mode")
 		{
-			this->setWireframeMode(it3->second.as<bool>());
+			this->set_wireframe_mode(it3->second.as<bool>());
 		}
 	}
 }
 
-void Omnia::Camera::resetAspect()
+void Omnia::Camera::reset_aspect()
 {
-	this->aspect = defaultAspect;
+	this->aspect = default_aspect;
 }
 
-void Omnia::Camera::toggleWireframeMode()
+void Omnia::Camera::toggle_wireframe_mode()
 {
-	if (this->getIsWireframeMode())
-		this->setWireframeMode(false);
+	if (this->get_is_wireframe_mode())
+		this->set_wireframe_mode(false);
 	else
-		this->setWireframeMode(true);
+		this->set_wireframe_mode(true);
 }
 
-glm::vec2 Omnia::Camera::getViewport()
+glm::vec2 Omnia::Camera::get_viewport()
 {
 	return glm::vec2(this->viewport.x, this->viewport.y);
 }
 
-bool Omnia::Camera::getIsStreaming()
+bool Omnia::Camera::get_is_streaming()
 {
-	return this->isStreaming;
+	return this->is_streaming;
 }
 
-bool Omnia::Camera::getIsWireframeMode()
+bool Omnia::Camera::get_is_wireframe_mode()
 {
-	return this->isWireFrame;
+	return this->is_wire_frame;
 }
 
-void Omnia::Camera::setViewportWidth(uint32_t width_px)
+void Omnia::Camera::set_viewport_width(uint32_t width_px)
 {
 	this->viewport.x = width_px;
-	if (keepAspect)
+	if (keep_aspect)
 		this->viewport.y = (uint32_t)((double)width_px / aspect);
 }
 
-void Omnia::Camera::setViewportHeight(uint32_t height_px)
+void Omnia::Camera::set_viewport_height(uint32_t height_px)
 {
 	this->viewport.y = height_px;
-	if (keepAspect)
+	if (keep_aspect)
 		this->viewport.x = (uint32_t)((double)height_px * aspect);
 }
 
-void Omnia::Camera::setLimits(float left, float bottom, float top, float right)
+void Omnia::Camera::set_limits(float left, float bottom, float top, float right)
 {
-	this->minLimit.x = left;
-	this->minLimit.y = bottom;
-	this->maxLimit.x = right;
-	this->maxLimit.y = top;
+	this->min_limit.x = left;
+	this->min_limit.y = bottom;
+	this->max_limit.x = right;
+	this->max_limit.y = top;
 }
 
-void Omnia::Camera::setKeepAspect(bool value)
+void Omnia::Camera::set_keep_aspect(bool value)
 {
-	this->keepAspect = value;
+	this->keep_aspect = value;
 }
 
-void Omnia::Camera::setIsStreaming(bool value)
+void Omnia::Camera::set_is_streaming(bool value)
 {
-	this->isStreaming = value;
+	this->is_streaming = value;
 }
 
-void Omnia::Camera::setWireframeMode(bool value)
+void Omnia::Camera::set_wireframe_mode(bool value)
 {
-	this->isWireFrame = value;
+	this->is_wire_frame = value;
 }
 
-glm::mat4 Omnia::Camera::getViewToProjectionMatrix()
+glm::mat4 Omnia::Camera::get_view_to_projection_matrix()
 {
-	glm::vec2 windowSize = OS::getWindow().getWindowSize();
-	return glm::perspective(glm::radians(this->fieldOfView), (float)windowSize.x / (float)windowSize.y, this->nearPlane, this->farPlane);
+	glm::vec2 window_size = OS::get_window().get_window_size();
+	return glm::perspective(glm::radians(this->field_of_view), (float)window_size.x / (float)window_size.y, this->near_plane, this->far_plane);
 }

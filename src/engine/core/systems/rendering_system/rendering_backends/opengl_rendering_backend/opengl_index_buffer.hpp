@@ -41,11 +41,11 @@ namespace Omnia
 		OpenGLIndexBuffer(std::shared_ptr<Asset> asset);
 		~OpenGLIndexBuffer();
 		void bind();
-		void deleteIndexBuffer();
-		unsigned int getIndexCount();
+		void delete_index_buffer();
+		unsigned int get_index_count();
 	private:
-		GLuint indexBufferID = 0;
-		GLsizei indexCount = 0;
+		GLuint index_buffer_id = 0;
+		GLsizei index_count = 0;
 	};
 }
 

@@ -41,17 +41,17 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Timer* clone = new Timer(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
+		virtual void deserialize(YAML::Node yaml_node);
 		void start(float time);
-		void update(float deltaTime);
+		void update(float delta_time);
 		void stop();
-		bool isFinished();
+		bool is_finished();
 	private:
-		bool isActive = false;
-		float startTime = 0.0;
-		float currentTime = 0.0;
+		bool is_active = false;
+		float start_time = 0.0;
+		float current_time = 0.0;
 	};
 }

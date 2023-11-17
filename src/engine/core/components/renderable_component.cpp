@@ -23,44 +23,44 @@
 #include "renderable_component.hpp"
 #include <core/singletons/os/os.hpp>
 
-void Omnia::ShaderParameters::setIntUniform(std::string uniformName, int value)
+void Omnia::ShaderParameters::set_int_uniform(std::string uniform_name, int value)
 {
-	this->intUniforms[uniformName] = value;
+	this->int_uniforms[uniform_name] = value;
 }
 
-void Omnia::ShaderParameters::setBoolUniform(std::string uniformName, bool value)
+void Omnia::ShaderParameters::set_bool_uniform(std::string uniform_name, bool value)
 {
-	this->boolUniforms[uniformName] = value;
+	this->bool_uniforms[uniform_name] = value;
 }
 
-void Omnia::ShaderParameters::setFloatUniform(std::string uniformName, float value)
+void Omnia::ShaderParameters::set_float_uniform(std::string uniform_name, float value)
 {
-	this->floatUniforms[uniformName] = value;
+	this->float_uniforms[uniform_name] = value;
 }
 
-void Omnia::ShaderParameters::setVec2Uniform(std::string uniformName, glm::vec2 value)
+void Omnia::ShaderParameters::set_vec2_uniform(std::string uniform_name, glm::vec2 value)
 {
-	this->vec2Uniforms[uniformName] = value;
+	this->vec2_uniforms[uniform_name] = value;
 }
 
-void Omnia::ShaderParameters::setVec3Uniform(std::string uniformName, glm::vec3 value)
+void Omnia::ShaderParameters::set_vec3_uniform(std::string uniform_name, glm::vec3 value)
 {
-	this->vec3Uniforms[uniformName] = value;
+	this->vec3_uniforms[uniform_name] = value;
 }
 
-void Omnia::ShaderParameters::setVec4Uniform(std::string uniformName, glm::vec4 value)
+void Omnia::ShaderParameters::set_vec4_uniform(std::string uniform_name, glm::vec4 value)
 {
-	this->vec4Uniforms[uniformName] = value;
+	this->vec4_uniforms[uniform_name] = value;
 }
 
-void Omnia::ShaderParameters::setMat4Uniform(std::string uniformName, glm::mat4 value)
+void Omnia::ShaderParameters::set_mat4_uniform(std::string uniform_name, glm::mat4 value)
 {
-	this->mat4Uniforms[uniformName] = value;
+	this->mat4_uniforms[uniform_name] = value;
 }
 
-void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
+void Omnia::RenderableComponent::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "shader" || it3->first.as<std::string>() == "overriding_shader")
 		{
@@ -82,103 +82,103 @@ void Omnia::RenderableComponent::deserialize(YAML::Node yamlNode)
 			std::shared_ptr<Shader> shader(new Shader(vertex, fragment));
 
 			if (it3->first.as<std::string>() == "shader")
-				this->setShader(shader);
+				this->set_shader(shader);
 			else
-				this->setOverridingShader(shader);
+				this->set_overriding_shader(shader);
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
-			this->setDimensions(
+			this->set_dimensions(
 				it3->second[0].as<double>(),
 				it3->second[1].as<double>(),
 				it3->second[2].as<double>());
 		}
 		else if (it3->first.as<std::string>() == "alpha")
 		{
-			this->setAlpha((uint8_t)(it3->second.as<double>() * 255.0));
+			this->set_alpha((uint8_t)(it3->second.as<double>() * 255.0));
 		}
 	}
 }
 
-void Omnia::RenderableComponent::setDimensions(float width, float height)
+void Omnia::RenderableComponent::set_dimensions(float width, float height)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 }
 
-void Omnia::RenderableComponent::setDimensions(float width, float height, float depth)
+void Omnia::RenderableComponent::set_dimensions(float width, float height, float depth)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 	this->dimensions.z = depth;
 }
 
-void Omnia::RenderableComponent::setShader(std::shared_ptr<Shader> shader)
+void Omnia::RenderableComponent::set_shader(std::shared_ptr<Shader> shader)
 {
-	if (this->overridingShader == nullptr)
-		this->buildUniformReferencesFromShader(shader);
+	if (this->overriding_shader == nullptr)
+		this->build_uniform_references_from_shader(shader);
 	this->shader = shader;
 }
 
-void Omnia::RenderableComponent::setOverridingShader(std::shared_ptr<Shader> overridingShader)
+void Omnia::RenderableComponent::set_overriding_shader(std::shared_ptr<Shader> overriding_shader)
 {
-	this->buildUniformReferencesFromShader(overridingShader);
-	this->overridingShader = overridingShader;
+	this->build_uniform_references_from_shader(overriding_shader);
+	this->overriding_shader = overriding_shader;
 }
 
-void Omnia::RenderableComponent::setAlpha(uint8_t value)
+void Omnia::RenderableComponent::set_alpha(uint8_t value)
 {
 	this->alpha = value;
 }
 
-void Omnia::RenderableComponent::setToNoFaceCulling()
+void Omnia::RenderableComponent::set_to_no_face_culling()
 {
-	this->cullMode = CullMode::NONE;
+	this->cull_mode = CullMode::NONE;
 }
 
-void Omnia::RenderableComponent::setToFrontFaceCulling()
+void Omnia::RenderableComponent::set_to_front_face_culling()
 {
-	this->cullMode = CullMode::FRONT;
+	this->cull_mode = CullMode::FRONT;
 }
 
-void Omnia::RenderableComponent::setToBackFaceCulling()
+void Omnia::RenderableComponent::set_to_back_face_culling()
 {
-	this->cullMode = CullMode::BACK;
+	this->cull_mode = CullMode::BACK;
 }
 
-void Omnia::RenderableComponent::setToFrontAndBackFaceCulling()
+void Omnia::RenderableComponent::set_to_front_and_back_face_culling()
 {
-	this->cullMode = CullMode::FRONT_AND_BACK;
+	this->cull_mode = CullMode::FRONT_AND_BACK;
 }
 
-uint8_t Omnia::RenderableComponent::getAlpha()
+uint8_t Omnia::RenderableComponent::get_alpha()
 {
 	return this->alpha;
 }
 
-float Omnia::RenderableComponent::getAlphaInPercentage()
+float Omnia::RenderableComponent::get_alpha_in_percentage()
 {
 	return (this->alpha / 255.0);
 }
 
-bool Omnia::RenderableComponent::isNoFaceCulling()
+bool Omnia::RenderableComponent::is_no_face_culling()
 {
-	return this->cullMode == CullMode::NONE;
+	return this->cull_mode == CullMode::NONE;
 }
 
-bool Omnia::RenderableComponent::isFrontFaceCulling()
+bool Omnia::RenderableComponent::is_front_face_culling()
 {
-	return this->cullMode == CullMode::FRONT;
+	return this->cull_mode == CullMode::FRONT;
 }
 
-bool Omnia::RenderableComponent::isBackFaceCulling()
+bool Omnia::RenderableComponent::is_back_face_culling()
 {
-	return this->cullMode == CullMode::BACK;
+	return this->cull_mode == CullMode::BACK;
 }
 
-bool Omnia::RenderableComponent::isFrontAndBackFaceCulling()
+bool Omnia::RenderableComponent::is_front_and_back_face_culling()
 {
-	return this->cullMode == CullMode::FRONT_AND_BACK;
+	return this->cull_mode == CullMode::FRONT_AND_BACK;
 }
 
 void Omnia::RenderableComponent::hide()
@@ -191,37 +191,37 @@ void Omnia::RenderableComponent::show()
 	this->alpha = 255;
 }
 
-Omnia::RenderableComponent::CullMode Omnia::RenderableComponent::getCullMode()
+Omnia::RenderableComponent::CullMode Omnia::RenderableComponent::get_cull_mode()
 {
-	return this->cullMode;
+	return this->cull_mode;
 }
 
-std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::getImage()
+std::shared_ptr<Omnia::Image> Omnia::RenderableComponent::get_image()
 {
 	return this->image;
 }
 
-std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getShader()
+std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::get_shader()
 {
 	return this->shader;
 }
 
-std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::getOverridingShader()
+std::shared_ptr<Omnia::Shader> Omnia::RenderableComponent::get_overriding_shader()
 {
-	return this->overridingShader;
+	return this->overriding_shader;
 }
 
-glm::vec3 Omnia::RenderableComponent::getDimensions()
+glm::vec3 Omnia::RenderableComponent::get_dimensions()
 {
 	return this->dimensions;
 }
 
-bool Omnia::RenderableComponent::isRenderable()
+bool Omnia::RenderableComponent::is_renderable()
 {
 	return true;
 }
 
-void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_ptr<Shader> shader)
+void Omnia::RenderableComponent::build_uniform_references_from_shader(std::shared_ptr<Shader> shader)
 {
 	/* Parse GLSL shader sources for uniform declaration statements */
 
@@ -234,14 +234,14 @@ void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_pt
 
 	std::string keyword;
 	std::string type;
-	std::string uniformName;
+	std::string uniform_name;
 	ParseState state = ParseState::READING_KEYWORD;
 
-	std::string concatenatedSources = shader->getVertexSource() + shader->getFragmentSource();
+	std::string concatenated_sources = shader->get_vertex_source() + shader->get_fragment_source();
 
-	for (int i = 0; i < concatenatedSources.size(); i++)
+	for (int i = 0; i < concatenated_sources.size(); i++)
 	{
-		char c = concatenatedSources[i];
+		char c = concatenated_sources[i];
 
 		if (c == ' ')
 		{
@@ -255,23 +255,23 @@ void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_pt
 		else if (c == ';')
 		{
 			if (type == "int")
-				this->shaderParameters->intUniforms.emplace(uniformName, 0);
+				this->shader_parameters->int_uniforms.emplace(uniform_name, 0);
 			if (type == "bool")
-				this->shaderParameters->boolUniforms.emplace(uniformName, false);
+				this->shader_parameters->bool_uniforms.emplace(uniform_name, false);
 			if (type == "float")
-				this->shaderParameters->floatUniforms.emplace(uniformName, 0.0);
+				this->shader_parameters->float_uniforms.emplace(uniform_name, 0.0);
 			if (type == "vec2")
-				this->shaderParameters->vec2Uniforms.emplace(uniformName, glm::vec2());
+				this->shader_parameters->vec2_uniforms.emplace(uniform_name, glm::vec2());
 			if (type == "vec3")
-				this->shaderParameters->vec3Uniforms.emplace(uniformName, glm::vec3());
+				this->shader_parameters->vec3_uniforms.emplace(uniform_name, glm::vec3());
 			if (type == "vec4")
-				this->shaderParameters->vec4Uniforms.emplace(uniformName, glm::vec4());
+				this->shader_parameters->vec4_uniforms.emplace(uniform_name, glm::vec4());
 			if (type == "mat4")
-				this->shaderParameters->mat4Uniforms.emplace(uniformName, glm::mat4());
+				this->shader_parameters->mat4_uniforms.emplace(uniform_name, glm::mat4());
 
 			keyword = "";
 			type = "";
-			uniformName = "";
+			uniform_name = "";
 
 			state = ParseState::READING_KEYWORD;
 		}
@@ -289,7 +289,7 @@ void Omnia::RenderableComponent::buildUniformReferencesFromShader(std::shared_pt
 		}
 		else if (state == ParseState::READING_UNIFORM_NAME)
 		{
-			uniformName.push_back(c);
+			uniform_name.push_back(c);
 		}
 	}
 }

@@ -22,9 +22,9 @@
 
 #include "collider.hpp"
 
-void Omnia::Collider::deserialize(YAML::Node yamlNode)
+void Omnia::Collider::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "default")
 		{
@@ -32,40 +32,40 @@ void Omnia::Collider::deserialize(YAML::Node yamlNode)
 		}
 		else if (it3->first.as<std::string>() == "dimensions")
 		{
-			this->setDimensions(
+			this->set_dimensions(
 				it3->second[0].as<double>(),
 				it3->second[1].as<double>(),
 				it3->second[2].as<double>());
 		}
 		else if (it3->first.as<std::string>() == "is_trigger_only")
 		{
-			this->isTriggerOnly = it3->second.as<bool>();
+			this->is_trigger_only = it3->second.as<bool>();
 		}
 	}
 }
 
-void Omnia::Collider::setDimensions(float width, float height, float depth)
+void Omnia::Collider::set_dimensions(float width, float height, float depth)
 {
 	this->box.aabb.min = {-(width / 2.0), -(height / 2.0), -(depth / 2.0) };
 	this->box.aabb.max = { (width / 2.0), (height / 2.0), (depth / 2.0) };
 }
 
-void Omnia::Collider::setColliderType(ColliderType colliderType)
+void Omnia::Collider::set_collider_type(ColliderType collider_type)
 {
-	this->colliderType = colliderType;
+	this->collider_type = collider_type;
 }
 
-bool Omnia::Collider::isColliderType(ColliderType colliderType)
+bool Omnia::Collider::is_collider_type(ColliderType collider_type)
 {
-	return this->colliderType == colliderType;
+	return this->collider_type == collider_type;
 }
 
-bool Omnia::Collider::hasEntityEntered(EntityID entityID)
+bool Omnia::Collider::has_entity_entered(EntityID entity_id)
 {
-	return this->enteringEntityIDs.count(entityID);
+	return this->entering_entity_ids.count(entity_id);
 }
 
-bool Omnia::Collider::hasEntityWithTagEntered(std::string entityTag)
+bool Omnia::Collider::has_entity_with_tag_entered(std::string entity_tag)
 {
-	return this->enteringEntityTags.count(entityTag);
+	return this->entering_entity_tags.count(entity_tag);
 }

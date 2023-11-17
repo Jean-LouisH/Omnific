@@ -42,53 +42,53 @@ namespace Omnia
 			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "Sprite";
-		std::string currentFrameSequenceName = "";
+		std::string current_frame_sequence_name = "";
 
-		bool isXBillboarded = false;
-		bool isYBillboarded = false;
+		bool is_xbillboarded = false;
+		bool is_ybillboarded = false;
 
 		virtual Registerable* instance() override
 		{
 			Sprite* clone = new Sprite(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void addImage(std::shared_ptr<Image> image);
-		void addEmptyFrameSequence(std::string frameSequenceName);
-		void addFrameSequence(std::string frameSequenceName, std::vector<std::shared_ptr<Image>> frameSequence);
-		void addImageToFrameSequence(std::string frameSequenceName, std::shared_ptr<Image> frame);
-		void clearFrameSequences();
+		virtual void deserialize(YAML::Node yaml_node);
+		void add_image(std::shared_ptr<Image> image);
+		void add_empty_frame_sequence(std::string frame_sequence_name);
+		void add_frame_sequence(std::string frame_sequence_name, std::vector<std::shared_ptr<Image>> frame_sequence);
+		void add_image_to_frame_sequence(std::string frame_sequence_name, std::shared_ptr<Image> frame);
+		void clear_frame_sequences();
 
-		void setAnimationSpeed(float value_fps);
-		float getAnimationSpeed();
+		void set_animation_speed(float value_fps);
+		float get_animation_speed();
 
 		void update(float delta_s);
 
-		void play(std::string frameSequenceName);
+		void play(std::string frame_sequence_name);
 		void play();
 		void pause();
 		void stop();
 
-		void setBackwards();
-		void setForwards();
+		void set_backwards();
+		void set_forwards();
 
-		void flipVertically();
-		void flipHorizontally();
+		void flip_vertically();
+		void flip_horizontally();
 
-		std::shared_ptr<Image> getCurrentFrame();
-		std::vector<std::string> getFrameSequenceNames();
-		std::vector<std::shared_ptr<Image>> getFrameSequenceByName(std::string frameSequenceName);
-		std::vector<std::shared_ptr<Image>> getCurrentFrameSequence();
+		std::shared_ptr<Image> get_current_frame();
+		std::vector<std::string> get_frame_sequence_names();
+		std::vector<std::shared_ptr<Image>> get_frame_sequence_by_name(std::string frame_sequence_name);
+		std::vector<std::shared_ptr<Image>> get_current_frame_sequence();
 	private:
-		std::unordered_map<std::string, std::vector<std::shared_ptr<Image>>> frameSequences;
-		float animationSpeedInFPS = 12.0;
-		float frameTime = 0.0;
-		uint16_t currentFrameIndex = 0;
-		glm::vec3 billboardOffsetRotation = {0.0, 0.0, 0.0};
-		bool isPlaying = false;
-		bool isBackwards = false;
-		bool isFlippedVertically = false;
-		bool isFlippedHorizontally = false;
+		std::unordered_map<std::string, std::vector<std::shared_ptr<Image>>> frame_sequences;
+		float animation_speed_in_fps = 12.0;
+		float frame_time = 0.0;
+		uint16_t current_frame_index = 0;
+		glm::vec3 billboard_offset_rotation = {0.0, 0.0, 0.0};
+		bool is_playing = false;
+		bool is_backwards = false;
+		bool is_flipped_vertically = false;
+		bool is_flipped_horizontally = false;
 	};
 }

@@ -22,12 +22,12 @@
 
 #include "audio.hpp"
 
-float Omnia::Audio::getPlaybackLength()
+float Omnia::Audio::get_playback_length()
 {
 	return 0.0;
 }
 
-std::vector<uint16_t> Omnia::Audio::getSpectrumData()
+std::vector<uint16_t> Omnia::Audio::get_spectrum_data()
 {
 	std::vector<uint16_t> spectrum;
 	return spectrum;

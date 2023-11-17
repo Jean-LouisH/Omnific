@@ -53,20 +53,20 @@ namespace Omnia
 		}
 
 		virtual void initialize() override;
-		virtual void onLate(std::shared_ptr<Scene> scene) override;
+		virtual void on_late(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
-		std::string getRenderingBackendName();
+		std::string get_rendering_backend_name();
 	private:
-		std::shared_ptr<OpenGLRenderingBackend> openglBackend;
-		std::vector<std::vector<RenderableLayer>> renderableLayerLists;
-		SceneID activeSceneID = 0;
-		glm::vec2 lastDetectedWindowSize;
+		std::shared_ptr<OpenGLRenderingBackend> opengl_backend;
+		std::vector<std::vector<RenderableLayer>> renderable_layer_lists;
+		SceneID active_scene_id = 0;
+		glm::vec2 last_detected_window_size;
 
-		std::shared_ptr<Light> dummyLight;
-		std::shared_ptr<Transform> dummyLightTransform;
+		std::shared_ptr<Light> dummy_light;
+		std::shared_ptr<Transform> dummy_light_transform;
 
-		void onWindowResize();
-		void buildRenderables(std::shared_ptr<Scene> scene);
+		void on_window_resize();
+		void build_renderables(std::shared_ptr<Scene> scene);
 	};
 }
 

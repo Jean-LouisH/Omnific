@@ -42,26 +42,26 @@ namespace Omnia
 	class OMNIA_ENGINE_API CPPEntityContext
 	{
 	public:
-		static void bindEntity(SceneLayerID sceneLayerID, EntityID entityID);
-		static bool hasComponent(std::string type);
-		static std::shared_ptr<Entity> getEntity();
-		static std::shared_ptr<Scene> getScene();
-		static std::shared_ptr<SceneLayer> getSceneLayer();
-		static std::shared_ptr<Component> getComponent(std::string type);
-		static float getTimeDelta();
+		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);
+		static bool has_component(std::string type);
+		static std::shared_ptr<Entity> get_entity();
+		static std::shared_ptr<Scene> get_scene();
+		static std::shared_ptr<SceneLayer> get_scene_layer();
+		static std::shared_ptr<Component> get_component(std::string type);
+		static float get_time_delta();
 
-		static CPPEntityContext* getInstance();
+		static CPPEntityContext* get_instance();
 
 		template <class T>
-		static std::shared_ptr<T> getComponentByType()
+		static std::shared_ptr<T> get_component_by_type()
 		{
-			return std::dynamic_pointer_cast<T>(getInstance()->getComponent(T::TYPE_STRING));
+			return std::dynamic_pointer_cast<T>(get_instance()->get_component(T::TYPE_STRING));
 		}
 	private:
 		static CPPEntityContext* instance;
 
-		SceneLayerID boundSceneLayerID = 0;
-		EntityID boundEntityID = 0;
+		SceneLayerID bound_scene_layer_id = 0;
+		EntityID bound_entity_id = 0;
 	};
 }
 

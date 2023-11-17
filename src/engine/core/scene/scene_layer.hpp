@@ -44,82 +44,82 @@ namespace Omnia
 	class OMNIA_ENGINE_API SceneLayer
 	{
 	public:
-		bool is2D = false;
+		bool is2_d = false;
 		std::string name;
 
 		SceneLayer();
 
-		void addEntity(std::shared_ptr<Entity> entity);
-		void addEmptyEntity();
-		void setEntityName(EntityID entityID, std::string name);
-		void addEntityTag(EntityID entityID, std::string tag);
-		void addComponent(EntityID entityID, std::shared_ptr<Component> component);
-		void addComponentToLastEntity(std::shared_ptr<Component> component);
+		void add_entity(std::shared_ptr<Entity> entity);
+		void add_empty_entity();
+		void set_entity_name(EntityID entity_id, std::string name);
+		void add_entity_tag(EntityID entity_id, std::string tag);
+		void add_component(EntityID entity_id, std::shared_ptr<Component> component);
+		void add_component_to_last_entity(std::shared_ptr<Component> component);
 
-		void removeEntity(EntityID entityID);
-		void removeComponent(EntityID entityID, std::string type);
+		void remove_entity(EntityID entity_id);
+		void remove_component(EntityID entity_id, std::string type);
 
-		void clearStartEntityQueue();
-		void clearFinishEntityQueue();
+		void clear_start_entity_queue();
+		void clear_finish_entity_queue();
 
-		std::queue<EntityID> getStartEntityQueue();
-		std::queue<EntityID> getFinishEntityQueue();
+		std::queue<EntityID> get_start_entity_queue();
+		std::queue<EntityID> get_finish_entity_queue();
 
-		std::vector<std::shared_ptr<Component>> getComponents();
-		std::vector<size_t> getRenderOrderIndexCache();
-		std::unordered_map<std::string, std::vector<size_t>> getComponentIndexCaches();
-		std::shared_ptr<Entity> getEntity(EntityID entityID);
-		std::shared_ptr<Entity> getEntityByName(std::string name);
-		std::shared_ptr<Entity> getLastEntity();
-		std::unordered_map<EntityID, std::shared_ptr<Entity>>& getEntities();
-		std::shared_ptr<Component> getComponentByID(ComponentID componentID);
-		std::shared_ptr<Component> getComponent(std::string type, EntityID entityID);
-		std::vector<std::shared_ptr<Component>> getComponentHierarchy(std::string type, EntityID entityID);
-		std::shared_ptr<CollisionRegistry> getCollisionRegistry();
-		std::shared_ptr<HapticSignalBuffer> getHapticSignalBuffer();
-		SceneLayerID getID();
-		std::string getName();
+		std::vector<std::shared_ptr<Component>> get_components();
+		std::vector<size_t> get_render_order_index_cache();
+		std::unordered_map<std::string, std::vector<size_t>> get_component_index_caches();
+		std::shared_ptr<Entity> get_entity(EntityID entity_id);
+		std::shared_ptr<Entity> get_entity_by_name(std::string name);
+		std::shared_ptr<Entity> get_last_entity();
+		std::unordered_map<EntityID, std::shared_ptr<Entity>>& get_entities();
+		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
+		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
+		std::vector<std::shared_ptr<Component>> get_component_hierarchy(std::string type, EntityID entity_id);
+		std::shared_ptr<CollisionRegistry> get_collision_registry();
+		std::shared_ptr<HapticSignalBuffer> get_haptic_signal_buffer();
+		SceneLayerID get_id();
+		std::string get_name();
 
 		template <class T>
-		std::shared_ptr<T> getComponentByType(EntityID entityID)
+		std::shared_ptr<T> get_component_by_type(EntityID entity_id)
 		{
-			return std::dynamic_pointer_cast<T>(this->getComponent(T::TYPE_STRING, entityID));
+			return std::dynamic_pointer_cast<T>(this->get_component(T::TYPE_STRING, entity_id));
 		}
 
 		template <class T>
-		std::vector<std::shared_ptr<T>> getComponentHierarchyByType(EntityID entityID, bool replaceMissingComponents = true)
+		std::vector<std::shared_ptr<T>> get_component_hierarchy_by_type(EntityID entity_id, bool replace_missing_components = true)
 		{
-			std::vector<std::shared_ptr<T>> typedComponentHierarchy;
-			std::vector<std::shared_ptr<Component>> componentHierarchy = this->getComponentHierarchy(T::TYPE_STRING, entityID);
+			std::vector<std::shared_ptr<T>> typed_component_hierarchy;
+			std::vector<std::shared_ptr<Component>> component_hierarchy = this->get_component_hierarchy(T::TYPE_STRING, entity_id);
 
-			for (std::shared_ptr<Component> component : componentHierarchy)
+			for (std::shared_ptr<Component> component : component_hierarchy)
 			{
-				std::shared_ptr<T> typedComponent = std::dynamic_pointer_cast<T>(component);
-				if (typedComponent == nullptr && replaceMissingComponents)
-					typedComponent = std::shared_ptr<T>(new T());
-				typedComponentHierarchy.push_back(typedComponent);
+				std::shared_ptr<T> typed_component = std::dynamic_pointer_cast<T>(component);
+				if (typed_component == nullptr && replace_missing_components)
+					typed_component = std::shared_ptr<T>(new T());
+				typed_component_hierarchy.push_back(typed_component);
 			}
 
-			return typedComponentHierarchy;
+			return typed_component_hierarchy;
 		}
 
 		template <class T>
-		std::vector<std::shared_ptr<T>> getComponentsByType()
+		std::vector<std::shared_ptr<T>> get_components_by_type()
 		{
-			std::vector<std::shared_ptr<T>> componentsByType;
-			std::vector<std::shared_ptr<Component>> components = this->getComponents();
-			std::vector<size_t> componentIndices;
-			std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches = this->getComponentIndexCaches();
+			std::vector<std::shared_ptr<T>> components_by_type;
+			std::vector<std::shared_ptr<Component>> components = this->get_components();
+			std::vector<size_t> component_indices;
+			std::unordered_map<std::string, std::vector<size_t>> component_index_caches = this->get_component_index_caches();
 
-			if (componentIndexCaches.count(T::TYPE_STRING))
-				componentIndices = componentIndexCaches.at(T::TYPE_STRING);
+			if (component_index_caches.count(T::TYPE_STRING))
+				component_indices = component_index_caches.at(T::TYPE_STRING);
 
-			size_t componentIndexCount = componentIndices.size();
+			size_t component_index_count = component_indices.size();
 
-			for (size_t i = 0; i < componentIndexCount; i++)
-				componentsByType.push_back(std::dynamic_pointer_cast<T>(components.at(componentIndices.at(i))));
+			for (size_t i = 0; i < component_index_count; i++)
+				components_by_type.push_back(std::dynamic_pointer_cast<T>(components.at(component_indices.at(i))));
 
-			return componentsByType;
+			return components_by_type;
 		}
 	private:
 		SceneLayerID id = 0;
@@ -128,22 +128,22 @@ namespace Omnia
 		when Components invoke changes in other Components
 		attached to the Entity.*/
 		std::unordered_map<EntityID, std::shared_ptr<Entity>> entities;
-		std::unordered_map<std::string, EntityID> entityNames;
-		std::unordered_map<std::string, EntityID> entityTags;
+		std::unordered_map<std::string, EntityID> entity_names;
+		std::unordered_map<std::string, EntityID> entity_tags;
 
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
 		std::vector<std::shared_ptr<Component>> components;
 
-		std::queue<EntityID> startEntitiesQueue;
-		std::queue<EntityID> finishEntitiesQueue;
+		std::queue<EntityID> start_entities_queue;
+		std::queue<EntityID> finish_entities_queue;
 
-		EntityID lastEntityID = 0;
+		EntityID last_entity_id = 0;
 
-		std::shared_ptr<CollisionRegistry> collisionRegistry;
-		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer;
+		std::shared_ptr<CollisionRegistry> collision_registry;
+		std::shared_ptr<HapticSignalBuffer> haptic_signal_buffer;
 
-		std::unordered_map<std::string, std::vector<size_t>> componentIndexCaches;
-		std::vector<size_t> renderOrderIndexCache;
+		std::unordered_map<std::string, std::vector<size_t>> component_index_caches;
+		std::vector<size_t> render_order_index_cache;
 	};
 }

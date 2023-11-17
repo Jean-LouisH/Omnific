@@ -36,12 +36,12 @@ namespace Omnia
 	class RenderableLayer
 	{
 	public:
-		bool is2D = false;
+		bool is2_d = false;
 		std::shared_ptr<Camera> camera;
-		std::shared_ptr<Transform> cameraTransform;
+		std::shared_ptr<Transform> camera_transform;
 		std::vector<std::shared_ptr<Light>> lights;
-		std::vector<std::shared_ptr<Transform>> lightTransforms;
-		std::vector<EntityRenderable> entityRenderables;
+		std::vector<std::shared_ptr<Transform>> light_transforms;
+		std::vector<EntityRenderable> entity_renderables;
 	private:
 	};
 }

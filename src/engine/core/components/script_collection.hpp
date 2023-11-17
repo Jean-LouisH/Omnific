@@ -43,10 +43,10 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			ScriptCollection* clone = new ScriptCollection(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
+		virtual void deserialize(YAML::Node yaml_node);
 	private:
 	};
 }

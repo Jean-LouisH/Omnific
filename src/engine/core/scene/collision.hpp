@@ -32,21 +32,21 @@ namespace Omnia
 {
 	typedef struct OMNIA_ENGINE_API Collision
 	{
-		EntityID colliderEntityID = 0;
-		std::string colliderName;
-		EntityID otherColliderEntityID = 0;
-		std::string otherColliderName;
-		glm::vec3 attackAngle;
-		bool hasPhysicsBody = false;
-		bool hasOtherPhysicsBody = false;
-		bool isTriggerOnly = false;
-		double elasticityRatio = 0.0;
+		EntityID collider_entity_id = 0;
+		std::string collider_name;
+		EntityID other_collider_entity_id = 0;
+		std::string other_collider_name;
+		glm::vec3 attack_angle;
+		bool has_physics_body = false;
+		bool has_other_physics_body = false;
+		bool is_trigger_only = false;
+		double elasticity_ratio = 0.0;
 		double mass = 0.0;
-		glm::vec3 linearVelocity;
+		glm::vec3 linear_velocity;
 		glm::vec3 rotation;
-		double otherElasticityRatio = 0.0;
-		double otherMass = 0.0;
-		glm::vec3 otherLinearVelocity;
-		glm::vec3 otherRotation;
+		double other_elasticity_ratio = 0.0;
+		double other_mass = 0.0;
+		glm::vec3 other_linear_velocity;
+		glm::vec3 other_rotation;
 	};
 }

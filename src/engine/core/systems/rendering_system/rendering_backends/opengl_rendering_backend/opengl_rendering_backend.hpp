@@ -42,33 +42,33 @@ namespace Omnia
 	class OpenGLRenderingBackend
 	{
 	public:
-		std::unordered_map<AssetID, std::shared_ptr<OpenGLShaderProgram>> shaderPrograms;
-		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram2D;
-		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram3D;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLShaderProgram>> shader_programs;
+		std::shared_ptr<OpenGLShaderProgram> built_in_shader_program2_d;
+		std::shared_ptr<OpenGLShaderProgram> built_in_shader_program3_d;
 		std::unordered_map<AssetID, std::shared_ptr<OpenGLTexture>> textures;
-		std::unordered_map<AssetID, std::shared_ptr<OpenGLVertexArray>> vertexArrays;
-		uint8_t allowableMissedFrames = 0;
-		std::unordered_map<AssetID, uint8_t> missedFrameCounts;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLVertexArray>> vertex_arrays;
+		uint8_t allowable_missed_frames = 0;
+		std::unordered_map<AssetID, uint8_t> missed_frame_counts;
 
 		void initialize();
-		void clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
-		void clearDepthBuffer();
-		void enableDepthTest();
-		void disableDepthTest();
-		void enableWireframeMode();
-		void disableWireframeMode();
-		void enableBlending();
-		void disableBlending();
-		void setViewport(uint32_t width, uint32_t height);
-		void swapBuffers();
-		std::string getRenderingBackendName();
-		std::string getDefault2DVertexInput();
-		std::string getDefault2DFragmentInput();
-		std::string getDefault3DVertexInput();
-		std::string getDefault3DFragmentInput();
-		std::shared_ptr<OpenGLTexture> getTexture(std::shared_ptr<Asset> asset);
-		std::shared_ptr<OpenGLVertexArray> getVertexArray(std::shared_ptr<Asset> asset);
-		void collectGarbage();
+		void clear_colour_buffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		void clear_depth_buffer();
+		void enable_depth_test();
+		void disable_depth_test();
+		void enable_wireframe_mode();
+		void disable_wireframe_mode();
+		void enable_blending();
+		void disable_blending();
+		void set_viewport(uint32_t width, uint32_t height);
+		void swap_buffers();
+		std::string get_rendering_backend_name();
+		std::string get_default2_dvertex_input();
+		std::string get_default2_dfragment_input();
+		std::string get_default3_dvertex_input();
+		std::string get_default3_dfragment_input();
+		std::shared_ptr<OpenGLTexture> get_texture(std::shared_ptr<Asset> asset);
+		std::shared_ptr<OpenGLVertexArray> get_vertex_array(std::shared_ptr<Asset> asset);
+		void collect_garbage();
 	private:
 	};
 }

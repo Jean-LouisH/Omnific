@@ -53,65 +53,65 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::FileAccess>(m, "FileAccess");
 
 	pybind11::class_<Omnia::Input>(m, "Input")
-		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnia::Input::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnia::Input::isOnPress))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::Input::isOnPress))
-		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnia::Input::isOnDoublePress))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::Input::isOnDoublePress))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::Input::isOnDoublePress))
-		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnia::Input::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnia::Input::isPressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::Input::isPressed))
-		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnia::Input::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnia::Input::isOnRelease))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::Input::isOnRelease))
-		.def("is_released", pybind11::overload_cast<std::string>(&Omnia::Input::isReleased))
-		.def("is_released", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::Input::isReleased))
-		.def("get_axis", pybind11::overload_cast<std::string>(&Omnia::Input::getAxis))
-		.def("get_axis", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::Input::getAxis))
-		.def("is_left_mouse_button_on_press", &Omnia::Input::isLeftMouseButtonOnPress)
-		.def("is_left_mouse_button_on_release", &Omnia::Input::isLeftMouseButtonOnRelease)
-		.def("is_left_mouse_button_double_clicked", &Omnia::Input::isLeftMouseButtonDoubleClicked)
-		.def("is_middle_mouse_button_on_press", &Omnia::Input::isMiddleMouseButtonOnPress)
-		.def("is_middle_mouse_button_on_release", &Omnia::Input::isMiddleMouseButtonOnRelease)
-		.def("is_middle_mouse_button_double_clicked", &Omnia::Input::isMiddleMouseButtonDoubleClicked)
-		.def("is_right_mouse_button_on_press", &Omnia::Input::isRightMouseButtonOnPress)
-		.def("is_right_mouse_button_on_release", &Omnia::Input::isRightMouseButtonOnRelease)
-		.def("is_right_mouse_button_double_clicked", &Omnia::Input::isRightMouseButtonDoubleClicked)
-		.def("get_mouse_position", &Omnia::Input::getMousePosition)
-		.def("get_mouse_wheel_velocity", &Omnia::Input::getMouseWheelVelocity)
-		.def("get_mouse_motion_velocity", &Omnia::Input::getMouseMotionVelocity)
-		.def("request_shutdown", &Omnia::Input::requestShutdown)
-		.def("request_restart", &Omnia::Input::requestRestart);
+		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnia::Input::is_on_press))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnia::Input::is_on_press))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::Input::is_on_press))
+		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnia::Input::is_on_double_press))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::Input::is_on_double_press))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnia::Input::is_on_double_press))
+		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnia::Input::is_pressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnia::Input::is_pressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::Input::is_pressed))
+		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnia::Input::is_on_release))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnia::Input::is_on_release))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnia::PlayerID>(&Omnia::Input::is_on_release))
+		.def("is_released", pybind11::overload_cast<std::string>(&Omnia::Input::is_released))
+		.def("is_released", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::Input::is_released))
+		.def("get_axis", pybind11::overload_cast<std::string>(&Omnia::Input::get_axis))
+		.def("get_axis", pybind11::overload_cast<std::string, Omnia::PlayerID>(&Omnia::Input::get_axis))
+		.def("is_left_mouse_button_on_press", &Omnia::Input::is_left_mouse_button_on_press)
+		.def("is_left_mouse_button_on_release", &Omnia::Input::is_left_mouse_button_on_release)
+		.def("is_left_mouse_button_double_clicked", &Omnia::Input::is_left_mouse_button_double_clicked)
+		.def("is_middle_mouse_button_on_press", &Omnia::Input::is_middle_mouse_button_on_press)
+		.def("is_middle_mouse_button_on_release", &Omnia::Input::is_middle_mouse_button_on_release)
+		.def("is_middle_mouse_button_double_clicked", &Omnia::Input::is_middle_mouse_button_double_clicked)
+		.def("is_right_mouse_button_on_press", &Omnia::Input::is_right_mouse_button_on_press)
+		.def("is_right_mouse_button_on_release", &Omnia::Input::is_right_mouse_button_on_release)
+		.def("is_right_mouse_button_double_clicked", &Omnia::Input::is_right_mouse_button_double_clicked)
+		.def("get_mouse_position", &Omnia::Input::get_mouse_position)
+		.def("get_mouse_wheel_velocity", &Omnia::Input::get_mouse_wheel_velocity)
+		.def("get_mouse_motion_velocity", &Omnia::Input::get_mouse_motion_velocity)
+		.def("request_shutdown", &Omnia::Input::request_shutdown)
+		.def("request_restart", &Omnia::Input::request_restart);
 
 	pybind11::class_<Omnia::Logger>(m, "Logger")
 		.def("write", &Omnia::Logger::write)
-		.def("write_to_file", &Omnia::Logger::writeToFile)
-		.def("get_last_message", &Omnia::Logger::getLastMessage)
-		.def("get_logs", &Omnia::Logger::getLogs);
+		.def("write_to_file", &Omnia::Logger::write_to_file)
+		.def("get_last_message", &Omnia::Logger::get_last_message)
+		.def("get_logs", &Omnia::Logger::get_logs);
 
 	pybind11::class_<Omnia::NetworkAccess>(m, "NetworkAccess");
 
 	pybind11::class_<Omnia::Platform>(m, "Platform")
-		.def("get_logical_core_count", &Omnia::Platform::getLogicalCoreCount)
-		.def("get_l1_cache_line_size", &Omnia::Platform::getL1CacheLineSize)
-		.def("get_system_ram", &Omnia::Platform::getSystemRAM)
-		.def("get_os_name", &Omnia::Platform::getOSName);
+		.def("get_logical_core_count", &Omnia::Platform::get_logical_core_count)
+		.def("get_l1_cache_line_size", &Omnia::Platform::get_l1cache_line_size)
+		.def("get_system_ram", &Omnia::Platform::get_system_ram)
+		.def("get_os_name", &Omnia::Platform::get_osname);
 
 	pybind11::class_<Omnia::Profiler>(m, "Profiler")
-		.def("add_timer", &Omnia::Profiler::addTimer)
-		.def("get_timer", &Omnia::Profiler::getTimer)
-		.def("get_fps", &Omnia::Profiler::getFPS);
+		.def("add_timer", &Omnia::Profiler::add_timer)
+		.def("get_timer", &Omnia::Profiler::get_timer)
+		.def("get_fps", &Omnia::Profiler::get_fps);
 
 	pybind11::class_<Omnia::ThreadPool>(m, "ThreadPool");
 
 	pybind11::class_<Omnia::Window>(m, "Window")
-		.def("set_to_windowed", &Omnia::Window::setToWindowed)
-		.def("set_to_fullscreen", &Omnia::Window::setToFullscreen)
-		.def("toggle_windowed_fullscreen", &Omnia::Window::toggleWindowedFullscreen)
+		.def("set_to_windowed", &Omnia::Window::set_to_windowed)
+		.def("set_to_fullscreen", &Omnia::Window::set_to_fullscreen)
+		.def("toggle_windowed_fullscreen", &Omnia::Window::toggle_windowed_fullscreen)
 		.def("resize", &Omnia::Window::resize)
-		.def("change_title", &Omnia::Window::changeTitle)
-		.def("change_icon", &Omnia::Window::changeIcon)
+		.def("change_title", &Omnia::Window::change_title)
+		.def("change_icon", &Omnia::Window::change_icon)
 		.def("maximize", &Omnia::Window::maximize)
 		.def("minimize", &Omnia::Window::minimize)
 		.def("raise", &Omnia::Window::raise)
@@ -122,71 +122,71 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	/*Scene classes*/
 
 	pybind11::class_<Omnia::Entity, std::shared_ptr<Omnia::Entity>>(m, "Entity")
-		.def("get_id", &Omnia::Entity::getID)
-		.def("get_name", &Omnia::Entity::getName)
-		.def_readwrite("parentID", &Omnia::Entity::parentID)
-		.def_readwrite("childIDs", &Omnia::Entity::childIDs)
+		.def("get_id", &Omnia::Entity::get_id)
+		.def("get_name", &Omnia::Entity::get_name)
+		.def_readwrite("parent_id", &Omnia::Entity::parent_id)
+		.def_readwrite("child_ids", &Omnia::Entity::child_ids)
 		.def_readwrite("tags", &Omnia::Entity::tags);
 
 	pybind11::class_<Omnia::SceneLayer, std::shared_ptr<Omnia::SceneLayer>>(m, "SceneLayer")
-		.def("add_entity", &Omnia::SceneLayer::addEntity)
-		.def("add_empty_entity", &Omnia::SceneLayer::addEmptyEntity)
-		.def("add_component", &Omnia::SceneLayer::addComponent)
-		.def("add_component_to_last_entity", &Omnia::SceneLayer::addComponentToLastEntity)
-		.def("remove_entity", &Omnia::SceneLayer::removeEntity)
-		.def("remove_component", &Omnia::SceneLayer::removeComponent)
-		.def("get_component", pybind11::overload_cast<std::string, Omnia::EntityID>(&Omnia::SceneLayer::getComponent))
-		.def("get_components", &Omnia::SceneLayer::getComponents)
-		.def("get_entity", &Omnia::SceneLayer::getEntity)
-		.def("get_entity_by_name", &Omnia::SceneLayer::getEntityByName)
-		.def("get_last_entity", &Omnia::SceneLayer::getLastEntity)
-		.def("get_entities", &Omnia::SceneLayer::getEntities)
-		.def("get_collision_registry", &Omnia::SceneLayer::getCollisionRegistry)
-		.def("get_haptic_signal_buffer", &Omnia::SceneLayer::getHapticSignalBuffer)
-		.def("get_id", &Omnia::SceneLayer::getID);
+		.def("add_entity", &Omnia::SceneLayer::add_entity)
+		.def("add_empty_entity", &Omnia::SceneLayer::add_empty_entity)
+		.def("add_component", &Omnia::SceneLayer::add_component)
+		.def("add_component_to_last_entity", &Omnia::SceneLayer::add_component_to_last_entity)
+		.def("remove_entity", &Omnia::SceneLayer::remove_entity)
+		.def("remove_component", &Omnia::SceneLayer::remove_component)
+		.def("get_component", pybind11::overload_cast<std::string, Omnia::EntityID>(&Omnia::SceneLayer::get_component))
+		.def("get_components", &Omnia::SceneLayer::get_components)
+		.def("get_entity", &Omnia::SceneLayer::get_entity)
+		.def("get_entity_by_name", &Omnia::SceneLayer::get_entity_by_name)
+		.def("get_last_entity", &Omnia::SceneLayer::get_last_entity)
+		.def("get_entities", &Omnia::SceneLayer::get_entities)
+		.def("get_collision_registry", &Omnia::SceneLayer::get_collision_registry)
+		.def("get_haptic_signal_buffer", &Omnia::SceneLayer::get_haptic_signal_buffer)
+		.def("get_id", &Omnia::SceneLayer::get_id);
 
 	pybind11::class_<Omnia::Collision, std::shared_ptr<Omnia::Collision>>(m, "Collision")
-		.def_readwrite("collider_entity_id", &Omnia::Collision::colliderEntityID)
-		.def_readwrite("collider_name", &Omnia::Collision::colliderName)
-		.def_readwrite("other_collider_entity_id", &Omnia::Collision::otherColliderEntityID)
-		.def_readwrite("other_collider_name", &Omnia::Collision::otherColliderName)
-		.def_readwrite("attack_angle", &Omnia::Collision::attackAngle)
-		.def_readwrite("elasticity_ratio", &Omnia::Collision::elasticityRatio)
+		.def_readwrite("collider_entity_id", &Omnia::Collision::collider_entity_id)
+		.def_readwrite("collider_name", &Omnia::Collision::collider_name)
+		.def_readwrite("other_collider_entity_id", &Omnia::Collision::other_collider_entity_id)
+		.def_readwrite("other_collider_name", &Omnia::Collision::other_collider_name)
+		.def_readwrite("attack_angle", &Omnia::Collision::attack_angle)
+		.def_readwrite("elasticity_ratio", &Omnia::Collision::elasticity_ratio)
 		.def_readwrite("mass", &Omnia::Collision::mass)
-		.def_readwrite("linear_velocity", &Omnia::Collision::linearVelocity)
+		.def_readwrite("linear_velocity", &Omnia::Collision::linear_velocity)
 		.def_readwrite("rotation", &Omnia::Collision::rotation)
-		.def_readwrite("other_elasticity_ratio", &Omnia::Collision::otherElasticityRatio)
-		.def_readwrite("other_mass", &Omnia::Collision::otherMass)
-		.def_readwrite("other_linear_velocity", &Omnia::Collision::otherLinearVelocity)
-		.def_readwrite("other_rotation", &Omnia::Collision::otherRotation);
+		.def_readwrite("other_elasticity_ratio", &Omnia::Collision::other_elasticity_ratio)
+		.def_readwrite("other_mass", &Omnia::Collision::other_mass)
+		.def_readwrite("other_linear_velocity", &Omnia::Collision::other_linear_velocity)
+		.def_readwrite("other_rotation", &Omnia::Collision::other_rotation);
 
 	pybind11::class_<Omnia::CollisionRegistry, std::shared_ptr<Omnia::CollisionRegistry>>(m, "CollisionRegistry")
-		.def("add_or_update", &Omnia::CollisionRegistry::addOrUpdate)
+		.def("add_or_update", &Omnia::CollisionRegistry::add_or_update)
 		.def("remove", &Omnia::CollisionRegistry::remove)
 		.def("query", &Omnia::CollisionRegistry::query, pybind11::return_value_policy::reference)
-		.def("query_all", &Omnia::CollisionRegistry::queryAll)
-		.def("is_colliding", &Omnia::CollisionRegistry::isColliding)
-		.def("get_collision_count", &Omnia::CollisionRegistry::getCollisionCount);
+		.def("query_all", &Omnia::CollisionRegistry::query_all)
+		.def("is_colliding", &Omnia::CollisionRegistry::is_colliding)
+		.def("get_collision_count", &Omnia::CollisionRegistry::get_collision_count);
 
 	pybind11::class_<Omnia::HapticSignal>(m, "HapticSignal")
 		.def(pybind11::init<Omnia::PlayerID, float, uint16_t>())
-		.def("get_duration", &Omnia::HapticSignal::getDuration)
-		.def("get_player_id", &Omnia::HapticSignal::getPlayerID)
-		.def("get_strength", &Omnia::HapticSignal::getStrength);
+		.def("get_duration", &Omnia::HapticSignal::get_duration)
+		.def("get_player_id", &Omnia::HapticSignal::get_player_id)
+		.def("get_strength", &Omnia::HapticSignal::get_strength);
 
 	pybind11::class_<Omnia::HapticSignalBuffer, std::shared_ptr<Omnia::HapticSignalBuffer>>(m, "HapticSignalBuffer")
 		.def("publish", &Omnia::HapticSignalBuffer::publish)
 		.def("query", &Omnia::HapticSignalBuffer::query)
-		.def("get_haptic_signals", &Omnia::HapticSignalBuffer::getHapticSignals)
+		.def("get_haptic_signals", &Omnia::HapticSignalBuffer::get_haptic_signals)
 		.def("clear", &Omnia::HapticSignalBuffer::clear);
 
 	/*Asset classes*/
 
 	pybind11::class_<Omnia::Asset, std::shared_ptr<Omnia::Asset>>(m, "Asset")
-		.def("get_id", &Omnia::Asset::getID)
-		.def("set_name", &Omnia::Asset::setName)
-		.def("get_name", &Omnia::Asset::getName)
-		.def("get_type", &Omnia::Asset::getType);
+		.def("get_id", &Omnia::Asset::get_id)
+		.def("set_name", &Omnia::Asset::set_name)
+		.def("get_name", &Omnia::Asset::get_name)
+		.def("get_type", &Omnia::Asset::get_type);
 
 	pybind11::class_<Omnia::AudioStream, Omnia::Asset, std::shared_ptr<Omnia::AudioStream>>(m, Omnia::AudioStream::TYPE_STRING);
 	pybind11::class_<Omnia::Font, Omnia::Asset, std::shared_ptr<Omnia::Font>>(m, Omnia::Font::TYPE_STRING);
@@ -195,47 +195,47 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 
 	/*Component classes*/
 	pybind11::class_<Omnia::Component, std::shared_ptr<Omnia::Component>>(m, Omnia::Component::TYPE_STRING)
-		.def("set_entity_id", &Omnia::Component::setEntityID)
-		.def("get_id", &Omnia::Component::getID)
-		.def("is_attached_to_entity", &Omnia::Component::isAttachedToEntity)
-		.def("get_type", &Omnia::Component::getType)
-		.def("is_renderable", &Omnia::Component::isRenderable);
+		.def("set_entity_id", &Omnia::Component::set_entity_id)
+		.def("get_id", &Omnia::Component::get_id)
+		.def("is_attached_to_entity", &Omnia::Component::is_attached_to_entity)
+		.def("get_type", &Omnia::Component::get_type)
+		.def("is_renderable", &Omnia::Component::is_renderable);
 
 	pybind11::class_<Omnia::ShaderParameters, std::shared_ptr<Omnia::ShaderParameters>>(m, "ShaderParameters")
-		.def("set_int_uniform", &Omnia::ShaderParameters::setIntUniform)
-		.def("set_bool_uniform", &Omnia::ShaderParameters::setBoolUniform)
-		.def("set_float_uniform", &Omnia::ShaderParameters::setFloatUniform)
-		.def("set_vec2_uniform", &Omnia::ShaderParameters::setVec2Uniform)
-		.def("set_vec3_uniform", &Omnia::ShaderParameters::setVec3Uniform)
-		.def("set_vec4_uniform", &Omnia::ShaderParameters::setVec4Uniform)
-		.def("set_mat4_uniform", &Omnia::ShaderParameters::setMat4Uniform);
+		.def("set_int_uniform", &Omnia::ShaderParameters::set_int_uniform)
+		.def("set_bool_uniform", &Omnia::ShaderParameters::set_bool_uniform)
+		.def("set_float_uniform", &Omnia::ShaderParameters::set_float_uniform)
+		.def("set_vec2_uniform", &Omnia::ShaderParameters::set_vec2_uniform)
+		.def("set_vec3_uniform", &Omnia::ShaderParameters::set_vec3_uniform)
+		.def("set_vec4_uniform", &Omnia::ShaderParameters::set_vec4_uniform)
+		.def("set_mat4_uniform", &Omnia::ShaderParameters::set_mat4_uniform);
 
 	pybind11::class_<Omnia::RenderableComponent, Omnia::Component, std::shared_ptr<Omnia::RenderableComponent>>(m, Omnia::RenderableComponent::TYPE_STRING)
-		.def_readwrite("shader_parameters", &Omnia::RenderableComponent::shaderParameters);
+		.def_readwrite("shader_parameters", &Omnia::RenderableComponent::shader_parameters);
 
 	pybind11::class_<Omnia::AudioListener, Omnia::Component, std::shared_ptr<Omnia::AudioListener>>(m, Omnia::AudioListener::TYPE_STRING);
 	pybind11::class_<Omnia::AudioSource, Omnia::Component, std::shared_ptr<Omnia::AudioSource>>(m, Omnia::AudioSource::TYPE_STRING);
 	pybind11::class_<Omnia::Camera, Omnia::Component, std::shared_ptr<Omnia::Camera>>(m, Omnia::Camera::TYPE_STRING)
-		.def("toggle_wireframe_mode", &Omnia::Camera::toggleWireframeMode);
+		.def("toggle_wireframe_mode", &Omnia::Camera::toggle_wireframe_mode);
 	pybind11::class_<Omnia::Timer, Omnia::Component, std::shared_ptr<Omnia::Timer>>(m, Omnia::Timer::TYPE_STRING)
 		.def("start", &Omnia::Timer::start)
 		.def("stop", &Omnia::Timer::stop)
-		.def("is_finished", &Omnia::Timer::isFinished);
+		.def("is_finished", &Omnia::Timer::is_finished);
 	pybind11::class_<Omnia::PhysicsBody, Omnia::Component, std::shared_ptr<Omnia::PhysicsBody>>(m, Omnia::PhysicsBody::TYPE_STRING)
-		.def_readwrite("linear_velocity", &Omnia::PhysicsBody::linearVelocity)
+		.def_readwrite("linear_velocity", &Omnia::PhysicsBody::linear_velocity)
 		.def("accelerate", pybind11::overload_cast<glm::vec3, float>(&Omnia::PhysicsBody::accelerate))
 		.def("accelerate", pybind11::overload_cast<glm::vec3, float, float>(& Omnia::PhysicsBody::accelerate))
-		.def("accelerate_x", &Omnia::PhysicsBody::accelerateX)
-		.def("accelerate_y", &Omnia::PhysicsBody::accelerateY)
-		.def("accelerate_z", &Omnia::PhysicsBody::accelerateZ)
+		.def("accelerate_x", &Omnia::PhysicsBody::accelerate_x)
+		.def("accelerate_y", &Omnia::PhysicsBody::accelerate_y)
+		.def("accelerate_z", &Omnia::PhysicsBody::accelerate_z)
 		.def("decelerate", &Omnia::PhysicsBody::decelerate)
-		.def("decelerate_x", &Omnia::PhysicsBody::decelerateX)
-		.def("decelerate_y", &Omnia::PhysicsBody::decelerateY)
-		.def("decelerate_z", &Omnia::PhysicsBody::decelerateZ);
+		.def("decelerate_x", &Omnia::PhysicsBody::decelerate_x)
+		.def("decelerate_y", &Omnia::PhysicsBody::decelerate_y)
+		.def("decelerate_z", &Omnia::PhysicsBody::decelerate_z);
 	pybind11::class_<Omnia::Light, Omnia::Component, std::shared_ptr<Omnia::Light>>(m, Omnia::Light::TYPE_STRING);
 	pybind11::class_<Omnia::Model, Omnia::RenderableComponent, std::shared_ptr<Omnia::Model>>(m, Omnia::Model::TYPE_STRING)
-		.def("set_to_cube", &Omnia::Model::setToCube)
-		.def("set_to_textured_cube", &Omnia::Model::setToTexturedCube);
+		.def("set_to_cube", &Omnia::Model::set_to_cube)
+		.def("set_to_textured_cube", &Omnia::Model::set_to_textured_cube);
 	pybind11::class_<Omnia::PropertyAnimation, Omnia::Component, std::shared_ptr<Omnia::PropertyAnimation>>(m, Omnia::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnia::Collider, Omnia::Component, std::shared_ptr<Omnia::Collider>>(m, Omnia::Collider::TYPE_STRING);
 	pybind11::class_<Omnia::Sprite, Omnia::RenderableComponent, std::shared_ptr<Omnia::Sprite>>(m, Omnia::Sprite::TYPE_STRING);
@@ -243,14 +243,14 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("translation", &Omnia::Transform::translation)
 		.def_readwrite("rotation", &Omnia::Transform::rotation)
 		.def_readwrite("scale", &Omnia::Transform::scale)
-		.def("translate_x", &Omnia::Transform::translateX)
-		.def("translate_y", &Omnia::Transform::translateY)
-		.def("translate_z", &Omnia::Transform::translateZ)
-		.def("rotate_x", &Omnia::Transform::rotateX)
-		.def("rotate_y", &Omnia::Transform::rotateY)
-		.def("rotate_z", &Omnia::Transform::rotateZ);
+		.def("translate_x", &Omnia::Transform::translate_x)
+		.def("translate_y", &Omnia::Transform::translate_y)
+		.def("translate_z", &Omnia::Transform::translate_z)
+		.def("rotate_x", &Omnia::Transform::rotate_x)
+		.def("rotate_y", &Omnia::Transform::rotate_y)
+		.def("rotate_z", &Omnia::Transform::rotate_z);
 	pybind11::class_<Omnia::GUI, Omnia::RenderableComponent, std::shared_ptr<Omnia::GUI>>(m, Omnia::GUI::TYPE_STRING)
-		.def("set_as_text", &Omnia::GUI::setAsText);
+		.def("set_as_text", &Omnia::GUI::set_as_text);
 	pybind11::class_<Omnia::Viewport, Omnia::Component, std::shared_ptr<Omnia::Viewport>>(m, Omnia::Viewport::TYPE_STRING);
 
 	/*Utility classes*/
@@ -264,19 +264,19 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 		.def_readwrite("z", &glm::vec3::z);
 
 	pybind11::class_<Omnia::HiResTimer, std::shared_ptr<Omnia::HiResTimer>>(m, "HiResTimer")
-		.def("set_start", &Omnia::HiResTimer::setStart)
-		.def("set_end", &Omnia::HiResTimer::setEnd)
-		.def("get_delta", &Omnia::HiResTimer::getDelta)
-		.def("get_delta_in_seconds", &Omnia::HiResTimer::getDeltaInSeconds)
-		.def("get_delta_in_nanoseconds", &Omnia::HiResTimer::getDeltaInNanoseconds);
+		.def("set_start", &Omnia::HiResTimer::set_start)
+		.def("set_end", &Omnia::HiResTimer::set_end)
+		.def("get_delta", &Omnia::HiResTimer::get_delta)
+		.def("get_delta_in_seconds", &Omnia::HiResTimer::get_delta_in_seconds)
+		.def("get_delta_in_nanoseconds", &Omnia::HiResTimer::get_delta_in_nanoseconds);
 
 	pybind11::class_<Omnia::Colour>(m, "Colour")
 		.def(pybind11::init<std::string>())
 		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
-		.def("get_red", &Omnia::Colour::getRed)
-		.def("get_green", &Omnia::Colour::getGreen)
-		.def("get_blue", &Omnia::Colour::getBlue)
-		.def("get_alpha", &Omnia::Colour::getAlpha);
+		.def("get_red", &Omnia::Colour::get_red)
+		.def("get_green", &Omnia::Colour::get_green)
+		.def("get_blue", &Omnia::Colour::get_blue)
+		.def("get_alpha", &Omnia::Colour::get_alpha);
 
 	pybind11::class_<Omnia::AABB2D>(m, "AABB2D")
 		.def_readwrite("max", &Omnia::AABB2D::max)
@@ -291,48 +291,48 @@ PYBIND11_EMBEDDED_MODULE(omnia, m)
 	pybind11::class_<Omnia::Event>(m, "Event")
 		.def(pybind11::init<std::string, uint64_t, Omnia::Event::Parameters>())
 		.def(pybind11::init<std::string, uint64_t>())
-		.def("get_name", &Omnia::Event::getName)
-		.def("get_parameters", &Omnia::Event::getParameters)
-		.def("get_timestamp", &Omnia::Event::getTimestamp);
+		.def("get_name", &Omnia::Event::get_name)
+		.def("get_parameters", &Omnia::Event::get_parameters)
+		.def("get_timestamp", &Omnia::Event::get_timestamp);
 
 	m.def("query_event", &Omnia::EventBus::query);
-	m.def("query_event_count", &Omnia::EventBus::queryCount);
+	m.def("query_event_count", &Omnia::EventBus::query_count);
 	m.def("publish_event", pybind11::overload_cast<std::string>(&Omnia::EventBus::publish));
 	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish));
 	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnia::EventBus::publish));
 	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>>(&Omnia::EventBus::publish));
 
-	m.def("preload_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::preLoadScene));
-	m.def("preload_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::preLoadScene));
-	m.def("change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::changeToScene));
-	m.def("change_to_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::changeToScene));
-	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::loadScene));
-	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::loadScene));
-	m.def("remove_scene", &Omnia::SceneStorage::removeScene);
-	m.def("reload_active_scene", &Omnia::SceneStorage::reloadActiveScene);
-	m.def("get_active_scene", &Omnia::SceneStorage::getActiveScene);
-	m.def("get_active_scene_name", &Omnia::SceneStorage::getActiveSceneName);
-	m.def("has_no_scenes", &Omnia::SceneStorage::hasNoScenes);
-	m.def("has_scene", &Omnia::SceneStorage::hasScene);
-	m.def("has_active_scene_changed", &Omnia::SceneStorage::hasActiveSceneChanged);
-	m.def("clear_scenes", &Omnia::SceneStorage::clearScenes);
-	m.def("get_scene_by_name", &Omnia::SceneStorage::getSceneByName);
+	m.def("preload_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::pre_load_scene));
+	m.def("preload_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::pre_load_scene));
+	m.def("change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::change_to_scene));
+	m.def("change_to_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::change_to_scene));
+	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnia::Scene>>(&Omnia::SceneStorage::load_scene));
+	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnia::SceneStorage::load_scene));
+	m.def("remove_scene", &Omnia::SceneStorage::remove_scene);
+	m.def("reload_active_scene", &Omnia::SceneStorage::reload_active_scene);
+	m.def("get_active_scene", &Omnia::SceneStorage::get_active_scene);
+	m.def("get_active_scene_name", &Omnia::SceneStorage::get_active_scene_name);
+	m.def("has_no_scenes", &Omnia::SceneStorage::has_no_scenes);
+	m.def("has_scene", &Omnia::SceneStorage::has_scene);
+	m.def("has_active_scene_changed", &Omnia::SceneStorage::has_active_scene_changed);
+	m.def("clear_scenes", &Omnia::SceneStorage::clear_scenes);
+	m.def("get_scene_by_name", &Omnia::SceneStorage::get_scene_by_name);
 
-	m.def("has_component", &Omnia::PythonEntityContext::hasComponent);
-	m.def("get_entity", &Omnia::PythonEntityContext::getEntity);
-	m.def("get_component", &Omnia::PythonEntityContext::getComponent);
-	m.def("get_scene", &Omnia::PythonEntityContext::getScene);
-	m.def("get_scene_layer", &Omnia::PythonEntityContext::getSceneLayer);
-	m.def("get_time_delta", &Omnia::PythonEntityContext::getTimeDelta);
+	m.def("has_component", &Omnia::PythonEntityContext::has_component);
+	m.def("get_entity", &Omnia::PythonEntityContext::get_entity);
+	m.def("get_component", &Omnia::PythonEntityContext::get_component);
+	m.def("get_scene", &Omnia::PythonEntityContext::get_scene);
+	m.def("get_scene_layer", &Omnia::PythonEntityContext::get_scene_layer);
+	m.def("get_time_delta", &Omnia::PythonEntityContext::get_time_delta);
 
-	m.def("get_shared_library_access", &Omnia::OS::getSharedLibraryAccess, pybind11::return_value_policy::reference);
-	m.def("get_file_access", &Omnia::OS::getFileAccess, pybind11::return_value_policy::reference);
-	m.def("get_input", &Omnia::OS::getInput, pybind11::return_value_policy::reference);
-	m.def("get_logger", &Omnia::OS::getLogger, pybind11::return_value_policy::reference);
-	m.def("get_network_access", &Omnia::OS::getNetworkAccess, pybind11::return_value_policy::reference);
-	m.def("get_platform", &Omnia::OS::getPlatform, pybind11::return_value_policy::reference);
-	m.def("get_profiler", &Omnia::OS::getProfiler, pybind11::return_value_policy::reference);
-	m.def("get_thread_pool", &Omnia::OS::getThreadPool, pybind11::return_value_policy::reference);
-	m.def("get_window", &Omnia::OS::getWindow, pybind11::return_value_policy::reference);
-	m.def("get_args", &Omnia::OS::getArgs);
+	m.def("get_shared_library_access", &Omnia::OS::get_shared_library_access, pybind11::return_value_policy::reference);
+	m.def("get_file_access", &Omnia::OS::get_file_access, pybind11::return_value_policy::reference);
+	m.def("get_input", &Omnia::OS::get_input, pybind11::return_value_policy::reference);
+	m.def("get_logger", &Omnia::OS::get_logger, pybind11::return_value_policy::reference);
+	m.def("get_network_access", &Omnia::OS::get_network_access, pybind11::return_value_policy::reference);
+	m.def("get_platform", &Omnia::OS::get_platform, pybind11::return_value_policy::reference);
+	m.def("get_profiler", &Omnia::OS::get_profiler, pybind11::return_value_policy::reference);
+	m.def("get_thread_pool", &Omnia::OS::get_thread_pool, pybind11::return_value_policy::reference);
+	m.def("get_window", &Omnia::OS::get_window, pybind11::return_value_policy::reference);
+	m.def("get_args", &Omnia::OS::get_args);
 }

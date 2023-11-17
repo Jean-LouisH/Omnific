@@ -41,18 +41,18 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			AudioListener* clone = new AudioListener(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		std::vector<uint8_t> spectrumData;
+		std::vector<uint8_t> spectrum_data;
 
-		virtual void deserialize(YAML::Node yamlNode);
-		void setVolume(float value);
-		float getVolume();
+		virtual void deserialize(YAML::Node yaml_node);
+		void set_volume(float value);
+		float get_volume();
 		void mute();
 		void unmute();
 	private:
 		float volume = 1.0;
-		float previousVolume = 1.0;
+		float previous_volume = 1.0;
 	};
 }

@@ -35,31 +35,31 @@ namespace Omnia
 			std::string title;
 			std::string version;
 			std::string developer;
-			std::string iconFilepath;
-			std::string entrySceneFilepath;
+			std::string icon_filepath;
+			std::string entry_scene_filepath;
 		} metadata;
 
 		struct WindowSettings
 		{
 			uint16_t height;
 			uint16_t width;
-			bool isStartingFullscreen;
-			bool isStartingMaximized;
-			bool isResizable;
-		} windowSettings;
+			bool is_starting_fullscreen;
+			bool is_starting_maximized;
+			bool is_resizable;
+		} window_settings;
 
 		struct TimeSettings
 		{
-			uint32_t msPerComputeUpdate;
-			uint32_t targetFPS;
-		} timeSettings;
+			uint32_t ms_per_compute_update;
+			uint32_t target_fps;
+		} time_settings;
 
 		//Status
-		bool isLoaded = false;
+		bool is_loaded = false;
 
-		static void loadFromFile(std::string bootFilepath);
+		static void load_from_file(std::string boot_filepath);
 
-		static Configuration* getInstance();
+		static Configuration* get_instance();
 	private:
 		static Configuration* instance;
 	};

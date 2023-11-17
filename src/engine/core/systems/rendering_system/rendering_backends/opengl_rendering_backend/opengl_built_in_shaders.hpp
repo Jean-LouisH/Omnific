@@ -32,29 +32,29 @@ namespace Omnia
 				//2D vertex shader
 
 				#version 330 core
-				layout (location = 0) in vec3 modelVertexTranslation;
-				layout (location = 2) in vec2 modelVertexUV;
+				layout (location = 0) in vec3 model_vertex_translation;
+				layout (location = 2) in vec2 model_vertex_uv;
 				out vec3 translation;
 				out vec2 uv;
-				uniform vec3 entityTranslation;
-				uniform vec3 entityRotation;
-				uniform vec3 entityScale;
-				uniform vec2 cameraViewport;
-				uniform vec3 cameraTranslation;
-				uniform vec3 cameraRotation;
+				uniform vec3 entity_translation;
+				uniform vec3 entity_rotation;
+				uniform vec3 entity_scale;
+				uniform vec2 camera_viewport;
+				uniform vec3 camera_translation;
+				uniform vec3 camera_rotation;
 
 				void main()
 				{
-					translation = modelVertexTranslation;
-					uv = vec2(modelVertexUV.x, modelVertexUV.y);
+					translation = model_vertex_translation;
+					uv = vec2(model_vertex_uv.x, model_vertex_uv.y);
 
-					float x = ((entityTranslation.x + (translation.x * entityScale.x)) - cameraTranslation.x) / (cameraViewport.x / 2.0);
-					float y = ((entityTranslation.y + (translation.y * entityScale.y)) - cameraTranslation.y) / (cameraViewport.y / 2.0);
-					float zRotation = entityRotation.z - cameraRotation.z;
+					float x = ((entity_translation.x + (translation.x * entity_scale.x)) - camera_translation.x) / (camera_viewport.x / 2.0);
+					float y = ((entity_translation.y + (translation.y * entity_scale.y)) - camera_translation.y) / (camera_viewport.y / 2.0);
+					float z_rotation = entity_rotation.z - camera_rotation.z;
 
 					gl_Position = vec4(
-										x * cos(zRotation) - y * sin(zRotation), 
-										x * sin(zRotation) + y * cos(zRotation), 
+										x * cos(z_rotation) - y * sin(z_rotation), 
+										x * sin(z_rotation) + y * cos(z_rotation), 
 										0.0, 
 										1.0);
 				}	
@@ -64,29 +64,29 @@ namespace Omnia
 				//3D vertex shader
 
 				#version 330 core
-				layout (location = 0) in vec3 modelVertexTranslation;
-				layout (location = 1) in vec3 modelNormal;
-				layout (location = 2) in vec2 modelVertexUV;
-				layout (location = 3) in vec3 modelTangent;
-				layout (location = 4) in vec3 modelBitangent;
+				layout (location = 0) in vec3 model_vertex_translation;
+				layout (location = 1) in vec3 model_normal;
+				layout (location = 2) in vec2 model_vertex_uv;
+				layout (location = 3) in vec3 model_tangent;
+				layout (location = 4) in vec3 model_bitangent;
 				out vec3 translation;
 				out vec3 normal;
 				out vec2 uv;
 				out vec3 tangent;
 				out vec3 bitangent;
-				out vec3 fragmentTranslation;
+				out vec3 fragment_translation;
 				uniform mat4 mvp;
-				uniform mat4 modelToWorldMatrix;
-				uniform mat4 worldToModelMatrix;
+				uniform mat4 model_to_world_matrix;
+				uniform mat4 world_to_model_matrix;
 
 				void main()
 				{
-					translation = modelVertexTranslation;
-					normal = mat3(transpose(worldToModelMatrix)) * modelNormal;
-					uv = modelVertexUV;
-					tangent = modelTangent;
-					bitangent = modelBitangent;
-					fragmentTranslation = vec3(modelToWorldMatrix * vec4(translation, 1.0));
+					translation = model_vertex_translation;
+					normal = mat3(transpose(world_to_model_matrix)) * model_normal;
+					uv = model_vertex_uv;
+					tangent = model_tangent;
+					bitangent = model_bitangent;
+					fragment_translation = vec3(model_to_world_matrix * vec4(translation, 1.0));
 					gl_Position = mvp *	vec4(translation, 1.0);
 				}	
 			)";
@@ -101,10 +101,10 @@ namespace Omnia
 				in vec2 uv;
 				out vec4 colour;
 				uniform float alpha;
-				uniform sampler2D albedoTextureSampler;
+				uniform sampler2D albedo_texture_sampler;
 				void main()
 				{    
-					colour = texture(albedoTextureSampler, uv);
+					colour = texture(albedo_texture_sampler, uv);
 					colour.a *= alpha;
 				}  
 			)";
@@ -116,21 +116,21 @@ namespace Omnia
 				in vec3 translation;
 				in vec2 uv;
 				in vec3 normal;
-				in vec3 fragmentTranslation;
+				in vec3 fragment_translation;
 				out vec4 colour;
-				uniform vec4 lightColour;
-				uniform vec3 lightTranslation;
-				uniform vec3 cameraTranslation;
+				uniform vec4 light_colour;
+				uniform vec3 light_translation;
+				uniform vec3 camera_translation;
 				uniform float alpha;
-				uniform sampler2D albedoTextureSampler;
-				uniform sampler2D metallicityTextureSampler;
-				uniform sampler2D roughnessTextureSampler;
-				uniform sampler2D emissionTextureSampler;
-				uniform sampler2D normalTextureSampler;
+				uniform sampler2D albedo_texture_sampler;
+				uniform sampler2D metallicity_texture_sampler;
+				uniform sampler2D roughness_texture_sampler;
+				uniform sampler2D emission_texture_sampler;
+				uniform sampler2D normal_texture_sampler;
 
 				void main()
 				{    
-					colour = texture(albedoTextureSampler, uv);
+					colour = texture(albedo_texture_sampler, uv);
 					colour.a *= alpha;
 				}  
 			)";

@@ -30,54 +30,54 @@ Omnia::AudioStream::~AudioStream()
 
 Omnia::AudioStream::AudioStream(std::string filepath)
 {
-	this->setName(filepath);
+	this->set_name(filepath);
 	this->type = TYPE_STRING;
 
-	std::string fileExtension = OS::getFileAccess().getFileExtension(filepath);
+	std::string file_extension = OS::get_file_access().get_file_extension(filepath);
 
-	if (fileExtension == "mp3" || 
-		fileExtension == "ogg")
+	if (file_extension == "mp3" || 
+		file_extension == "ogg")
 	{
-		this->isMusic = true;
+		this->is_music = true;
 		this->music = std::shared_ptr<Mix_Music>(Mix_LoadMUS(filepath.c_str()), Mix_FreeMusic);
 	}
-	else if (fileExtension == "wav")
+	else if (file_extension == "wav")
 	{
-		this->isMusic = false;
-		this->soundFX = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
+		this->is_music = false;
+		this->sound_fx = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
 	}
 }
 
-float Omnia::AudioStream::getPlaybackLength()
+float Omnia::AudioStream::get_playback_length()
 {
-	float playbackLength = 0.0;
+	float playback_length = 0.0;
 
-	if (isMusic)
+	if (is_music)
 	{
-		playbackLength = Mix_MusicDuration(this->music.get());
+		playback_length = Mix_MusicDuration(this->music.get());
 	}
 
-	return playbackLength;
+	return playback_length;
 	
 }
 
-std::vector<uint16_t> Omnia::AudioStream::getSpectrumData()
+std::vector<uint16_t> Omnia::AudioStream::get_spectrum_data()
 {
 	std::vector<uint16_t> spectrum;
 	return spectrum;
 }
 
-std::shared_ptr<Mix_Chunk> Omnia::AudioStream::getSDLMixChunk()
+std::shared_ptr<Mix_Chunk> Omnia::AudioStream::get_sdlmix_chunk()
 {
-	return this->soundFX;
+	return this->sound_fx;
 }
 
-std::shared_ptr<Mix_Music> Omnia::AudioStream::getSDLMixMusic()
+std::shared_ptr<Mix_Music> Omnia::AudioStream::get_sdlmix_music()
 {
 	return this->music;
 }
 
-bool Omnia::AudioStream::getIsMusic()
+bool Omnia::AudioStream::get_is_music()
 {
-	return this->isMusic;
+	return this->is_music;
 }

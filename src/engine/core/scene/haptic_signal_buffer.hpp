@@ -36,12 +36,12 @@ namespace Omnia
 	class OMNIA_ENGINE_API HapticSignalBuffer
 	{
 	public:
-		void publish(PlayerID playerID, float strength_pct, uint16_t duration_ms);
+		void publish(PlayerID player_id, float strength_pct, uint16_t duration_ms);
 		void clear();
 
-		std::unordered_map<PlayerID, std::queue<HapticSignal>>& getHapticSignals();
-		std::queue<HapticSignal>& query(PlayerID playerID);
+		std::unordered_map<PlayerID, std::queue<HapticSignal>>& get_haptic_signals();
+		std::queue<HapticSignal>& query(PlayerID player_id);
 	private:
-		std::unordered_map<PlayerID, std::queue<HapticSignal>> hapticSignals;
+		std::unordered_map<PlayerID, std::queue<HapticSignal>> haptic_signals;
 	};
 }

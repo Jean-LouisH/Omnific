@@ -38,38 +38,38 @@ void Omnia::AudioSystem::initialize()
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
 	lb_initialize();
-	this->isInitialized = true;
-	OS::getLogger().write("Initialized Audio System.");
+	this->is_initialized = true;
+	OS::get_logger().write("Initialized Audio System.");
 }
 
-void Omnia::AudioSystem::onLogic(std::shared_ptr<Scene> scene)
+void Omnia::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 {
-	lb_incrementAllPlayTimes(OS::getProfiler().getTimer(LOOP_THREAD_TIMER_NAME)->getDeltaInSeconds());
+	lb_incrementAllPlayTimes(OS::get_profiler().get_timer(LOOP_THREAD_TIMER_NAME)->get_delta_in_seconds());
 }
 
-void Omnia::AudioSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 
-	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
+	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
 	{
-		std::vector<std::shared_ptr<AudioListener>> audioListeners = it->second->getComponentsByType<AudioListener>();
+		std::vector<std::shared_ptr<AudioListener>> audio_listeners = it->second->get_components_by_type<AudioListener>();
 
-		if (audioListeners.size() > 0)
+		if (audio_listeners.size() > 0)
 		{
-			std::shared_ptr<AudioListener> audioListener = audioListeners.at(audioListeners.size() - 1); //Get the last AudioListener.
+			std::shared_ptr<AudioListener> audio_listener = audio_listeners.at(audio_listeners.size() - 1); //Get the last AudioListener.
 		}
 	}
 }
 
 void Omnia::AudioSystem::finalize()
 {
-	if (this->isInitialized)
+	if (this->is_initialized)
 	{
 		Mix_CloseAudio();
 		Mix_Quit();
 		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	}
 
-	this->isInitialized = false;
+	this->is_initialized = false;
 }

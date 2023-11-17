@@ -32,11 +32,11 @@ namespace Omnia
 	{
 	public:
 		void write(std::string message);
-		void writeToFile(std::string message);
-		std::string getLastMessage();
-		std::vector<std::string> getLogs();
+		void write_to_file(std::string message);
+		std::string get_last_message();
+		std::vector<std::string> get_logs();
 	private:
-		std::string timeStamp(std::string message);
+		std::string time_stamp(std::string message);
 		std::vector<std::string> logs;
 	};
 }

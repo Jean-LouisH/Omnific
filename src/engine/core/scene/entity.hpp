@@ -41,26 +41,26 @@ namespace Omnia
 	{
 		friend class SceneLayer;
 	public:
-		EntityID parentID = 0;
-		std::vector<EntityID> childIDs;
+		EntityID parent_id = 0;
+		std::vector<EntityID> child_ids;
 		std::vector<std::string> tags;
-		std::unordered_map<std::string, ComponentID> componentIDs;
-		ComponentID renderableComponentID = 0;
+		std::unordered_map<std::string, ComponentID> component_ids;
+		ComponentID renderable_component_id = 0;
 
 		Entity()
 		{
-			this->id = UIDGenerator::getNewUID();
+			this->id = UIDGenerator::get_new_uid();
 			this->name = "Entity (ID:" + std::to_string(this->id) + ")";
 		}
 
 		/*Sets name publicly only when it is not attached to a SceneLayer.*/
-		void setName(std::string name);
-		std::string getName();
-		EntityID getID();
+		void set_name(std::string name);
+		std::string get_name();
+		EntityID get_id();
 	private:
 		std::string name;
 		EntityID id = 0;
 
-		bool isAttachedToSceneLayer = false;
+		bool is_attached_to_scene_layer = false;
 	};
 }

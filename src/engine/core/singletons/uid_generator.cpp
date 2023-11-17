@@ -24,12 +24,12 @@
 
 Omnia::UIDGenerator* Omnia::UIDGenerator::instance = nullptr;
 
-Omnia::EntityID Omnia::UIDGenerator::getNewUID()
+Omnia::EntityID Omnia::UIDGenerator::get_new_uid()
 {
-	return ++getInstance()->uid;
+	return ++get_instance()->uid;
 }
 
-Omnia::UIDGenerator* Omnia::UIDGenerator::getInstance()
+Omnia::UIDGenerator* Omnia::UIDGenerator::get_instance()
 {
 	if (instance == nullptr)
 		instance = new UIDGenerator();

@@ -41,19 +41,19 @@ namespace Omnia
 
 		Mesh(std::string filepath);
 		Mesh(std::vector<float> positions,
-			std::vector<float> textureCoords);
+			std::vector<float> texture_coords);
 		Mesh(std::vector<float> positions,
-			std::vector<float> textureCoords,
+			std::vector<float> texture_coords,
 			std::vector<float> normals);
 		Mesh(std::vector<float> positions,
-			std::vector<float> textureCoords,
+			std::vector<float> texture_coords,
 			std::vector<uint32_t> indices);
 		Mesh(std::vector<float> positions,
-			std::vector<float> textureCoords,
+			std::vector<float> texture_coords,
 			std::vector<float> normals,
 			std::vector<uint32_t> indices);
 		Mesh(std::vector<float> positions,
-			std::vector<float> textureCoords,
+			std::vector<float> texture_coords,
 			std::vector<float> normals,
 			std::vector<float> tangents,
 			std::vector<float> bitangents,
@@ -74,22 +74,22 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Mesh* clone = new Mesh(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 
-		bool getIsIndexed();
+		bool get_is_indexed();
 
 	private:
-		bool isIndexed = true;
+		bool is_indexed = true;
 
-		void setToCube();
-		void setToQuad();
-		void setToPlane();
+		void set_to_cube();
+		void set_to_quad();
+		void set_to_plane();
 
-		void populateData(
+		void populate_data(
 			std::vector<float> positions,
-			std::vector<float> textureCoords,
+			std::vector<float> texture_coords,
 			std::vector<float> normals,
 			std::vector<float> tangents,
 			std::vector<float> bitangents,

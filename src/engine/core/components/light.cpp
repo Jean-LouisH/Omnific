@@ -22,26 +22,26 @@
 
 #include "light.hpp"
 
-void Omnia::Light::deserialize(YAML::Node yamlNode)
+void Omnia::Light::deserialize(YAML::Node yaml_node)
 {
 
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		std::string value = it3->first.as<std::string>();
 
 		if (value == "light_mode")
 		{
-			std::string lightModeValue = it3->second.as<std::string>();
+			std::string light_mode_value = it3->second.as<std::string>();
 
-			if (lightModeValue == "directional")
+			if (light_mode_value == "directional")
 			{
 				this->mode = LightMode::DIRECTIONAL;
 			}
-			else if (lightModeValue == "omnidirectional")
+			else if (light_mode_value == "omnidirectional")
 			{
 				this->mode = LightMode::OMNIDIRECTIONAL;
 			}
-			else if (lightModeValue == "spot")
+			else if (light_mode_value == "spot")
 			{
 				this->mode = LightMode::SPOT;
 			}
@@ -52,7 +52,7 @@ void Omnia::Light::deserialize(YAML::Node yamlNode)
 		}
 		else if (value == "shadow_colour")
 		{
-			this->shadowColour = std::shared_ptr<Colour>(new Colour(it3->second.as<std::string>()));
+			this->shadow_colour = std::shared_ptr<Colour>(new Colour(it3->second.as<std::string>()));
 		}
 		else if (value == "intensity")
 		{
@@ -72,7 +72,7 @@ void Omnia::Light::deserialize(YAML::Node yamlNode)
 		}
 		else if (value == "is_shadow_enabled")
 		{
-			this->isShadowEnabled = it3->second.as<bool>();
+			this->is_shadow_enabled = it3->second.as<bool>();
 		}
 	}
 }

@@ -57,10 +57,10 @@ namespace Omnia
 		friend class PhysicsSystem;
 
 	public:
-		std::set<EntityID> enteringEntityIDs;
-		std::set<std::string> enteringEntityTags;
-		ColliderType colliderType;
-		bool isTriggerOnly = false;
+		std::set<EntityID> entering_entity_ids;
+		std::set<std::string> entering_entity_tags;
+		ColliderType collider_type;
+		bool is_trigger_only = false;
 
 		struct Box
 		{
@@ -88,16 +88,16 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Collider* clone = new Collider(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		void setDimensions(float width, float height, float depth);
-		void setColliderType(ColliderType colliderType);
-		bool isColliderType(ColliderType colliderType);
-		bool hasEntityEntered(EntityID entityID);
-		bool hasEntityWithTagEntered(std::string entityTag);
+		virtual void deserialize(YAML::Node yaml_node);
+		void set_dimensions(float width, float height, float depth);
+		void set_collider_type(ColliderType collider_type);
+		bool is_collider_type(ColliderType collider_type);
+		bool has_entity_entered(EntityID entity_id);
+		bool has_entity_with_tag_entered(std::string entity_tag);
 	private:
-		bool isColliding = false;
+		bool is_colliding = false;
 	};
 }

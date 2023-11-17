@@ -26,43 +26,43 @@
 #include "core/singletons/os/os.hpp"
 #include <SDL_mixer.h>
 
-void Omnia::AudioSource::deserialize(YAML::Node yamlNode)
+void Omnia::AudioSource::deserialize(YAML::Node yaml_node)
 {
-	for (YAML::const_iterator it3 = yamlNode.begin(); it3 != yamlNode.end(); ++it3)
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
-		std::string audioType = it3->first.as<std::string>();
+		std::string audio_type = it3->first.as<std::string>();
 
-		if (audioType == "AudioStreams")
+		if (audio_type == "AudioStreams")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				std::shared_ptr<AudioStream> audioStream(OS::getFileAccess().loadAssetByType<AudioStream>(it3->second[i].as<std::string>(), false));
-				this->addAudio(audioStream);
+				std::shared_ptr<AudioStream> audio_stream(OS::get_file_access().load_asset_by_type<AudioStream>(it3->second[i].as<std::string>(), false));
+				this->add_audio(audio_stream);
 			}
 		}
-		else if (audioType == "AudioSyntheses")
+		else if (audio_type == "AudioSyntheses")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				std::shared_ptr<AudioSynthesis> audioSynthesis(OS::getFileAccess().loadAssetByType<AudioSynthesis>(it3->second[i].as<std::string>(), false));
-				this->addAudio(audioSynthesis);
+				std::shared_ptr<AudioSynthesis> audio_synthesis(OS::get_file_access().load_asset_by_type<AudioSynthesis>(it3->second[i].as<std::string>(), false));
+				this->add_audio(audio_synthesis);
 			}
 		}
 	}
 }
 
-void Omnia::AudioSource::addAudio(std::shared_ptr<Audio> audio)
+void Omnia::AudioSource::add_audio(std::shared_ptr<Audio> audio)
 {
-	this->audioCollection.emplace(audio->getName(), audio);
+	this->audio_collection.emplace(audio->get_name(), audio);
 }
 
-void Omnia::AudioSource::setVolume(float value)
+void Omnia::AudioSource::set_volume(float value)
 {
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
 		value = this->normalize(value);
 
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			libretti->playback->outputVolume = value;
 		}
@@ -73,20 +73,20 @@ void Omnia::AudioSource::setVolume(float value)
 	}
 }
 
-float Omnia::AudioSource::getVolume()
+float Omnia::AudioSource::get_volume()
 {
 	float volume = 0.0;
 
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			volume = libretti->playback->outputVolume;
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream = std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
-			Mix_Music* music = audioStream->getSDLMixMusic().get();
+			std::shared_ptr<AudioStream> audio_stream = std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
+			Mix_Music* music = audio_stream->get_sdlmix_music().get();
 			volume = Mix_GetMusicVolume(music);
 		}
 	}
@@ -94,49 +94,49 @@ float Omnia::AudioSource::getVolume()
 	return volume;
 }
 
-void Omnia::AudioSource::clearAudio()
+void Omnia::AudioSource::clear_audio()
 {
-	this->audioCollection.clear();
+	this->audio_collection.clear();
 }
 
-void Omnia::AudioSource::removeAudio(std::string audioName)
+void Omnia::AudioSource::remove_audio(std::string audio_name)
 {
-	this->audioCollection.erase(audioName);
+	this->audio_collection.erase(audio_name);
 }
 
-void Omnia::AudioSource::playAudio(std::string audioName)
+void Omnia::AudioSource::play_audio(std::string audio_name)
 {
 	this->stop();
 
-	if (this->audioCollection.count(audioName))
-		this->activeAudioName = audioName;
+	if (this->audio_collection.count(audio_name))
+		this->active_audio_name = audio_name;
 	else
-		this->activeAudioName = "";
+		this->active_audio_name = "";
 
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		std::shared_ptr<Audio> audio = this->audioCollection.at(this->activeAudioName);
+		std::shared_ptr<Audio> audio = this->audio_collection.at(this->active_audio_name);
 
-		if (audio->isType(AudioSynthesis::TYPE_STRING))
+		if (audio->is_type(AudioSynthesis::TYPE_STRING))
 		{
-			std::shared_ptr<AudioSynthesis> audioSynthesis = std::dynamic_pointer_cast<AudioSynthesis>(audio);
+			std::shared_ptr<AudioSynthesis> audio_synthesis = std::dynamic_pointer_cast<AudioSynthesis>(audio);
 			this->libretti = lb_createEmptyLibretti();
-			this->libretti->composition = audioSynthesis->getComposition();
+			this->libretti->composition = audio_synthesis->get_composition();
 			lb_addLibrettiToCallback(libretti);
-			this->isPlayingSynthesized = true;
+			this->is_playing_synthesized = true;
 		}
-		else if (audio->isType(AudioStream::TYPE_STRING))
+		else if (audio->is_type(AudioStream::TYPE_STRING))
 		{
-			std::shared_ptr<AudioStream> audioStream =
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream =
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
-				Mix_PlayMusic(audioStream->getSDLMixMusic().get(), 1);
+				Mix_PlayMusic(audio_stream->get_sdlmix_music().get(), 1);
 			}
 			else
 			{
-				Mix_PlayChannel(-1, audioStream->getSDLMixChunk().get(), 1);
+				Mix_PlayChannel(-1, audio_stream->get_sdlmix_chunk().get(), 1);
 			}
 		}
 	}
@@ -144,18 +144,18 @@ void Omnia::AudioSource::playAudio(std::string audioName)
 
 void Omnia::AudioSource::play()
 {
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			lb_play(this->libretti);
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream = 
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream = 
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
 				Mix_ResumeMusic();
 			}
@@ -169,18 +169,18 @@ void Omnia::AudioSource::play()
 
 void Omnia::AudioSource::pause()
 {
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			lb_pause(this->libretti);
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream =
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream =
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
 				Mix_PauseMusic();
 			}
@@ -194,18 +194,18 @@ void Omnia::AudioSource::pause()
 
 void Omnia::AudioSource::stop()
 {
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			lb_stop(libretti);
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream =
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream =
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
 				Mix_HaltMusic();
 			}
@@ -219,18 +219,18 @@ void Omnia::AudioSource::stop()
 
 void Omnia::AudioSource::reset()
 {
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			lb_reset(libretti);
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream =
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream =
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
 				Mix_RewindMusic();
 			}
@@ -238,55 +238,55 @@ void Omnia::AudioSource::reset()
 	}
 }
 
-uint16_t Omnia::AudioSource::getRepeatCount()
+uint16_t Omnia::AudioSource::get_repeat_count()
 {
-	uint16_t repeatCount = 0;
-	return repeatCount;
+	uint16_t repeat_count = 0;
+	return repeat_count;
 }
 
-void Omnia::AudioSource::jump(float timePoint)
+void Omnia::AudioSource::jump(float time_point)
 {
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (timePoint >= 0.0 && timePoint <= this->getActiveAudio()->getPlaybackLength())
+		if (time_point >= 0.0 && time_point <= this->get_active_audio()->get_playback_length())
 		{
-			if (this->isPlayingSynthesized)
+			if (this->is_playing_synthesized)
 			{
-				libretti->playback->currentPlayTime = timePoint;
+				libretti->playback->currentPlayTime = time_point;
 			}
 			else
 			{
-				std::shared_ptr<AudioStream> audioStream =
-					std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+				std::shared_ptr<AudioStream> audio_stream =
+					std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-				if (audioStream->getIsMusic())
+				if (audio_stream->get_is_music())
 				{
-					Mix_SetMusicPosition(timePoint);
+					Mix_SetMusicPosition(time_point);
 				}
 			}
 		}
 	}
 }
 
-void Omnia::AudioSource::setPanning(float value)
+void Omnia::AudioSource::set_panning(float value)
 {
 	if (value < -1.0)
 		value = -1.0;
 	else if (value > 1.0)
 		value = 1.0;
 
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
 			;
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream =
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream =
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
 				Uint8 left = 0;
 				Uint8 right = 0;
@@ -306,65 +306,65 @@ void Omnia::AudioSource::setPanning(float value)
 	}
 }
 
-float Omnia::AudioSource::getCurrentPlaybackTime()
+float Omnia::AudioSource::get_current_playback_time()
 {
-	float currentPlaybackTime = 0.0;
+	float current_playback_time = 0.0;
 
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		if (this->isPlayingSynthesized)
+		if (this->is_playing_synthesized)
 		{
-			currentPlaybackTime = this->libretti->playback->currentPlayTime;
+			current_playback_time = this->libretti->playback->currentPlayTime;
 		}
 		else
 		{
-			std::shared_ptr<AudioStream> audioStream =
-				std::dynamic_pointer_cast<AudioStream>(this->audioCollection.at(this->activeAudioName));
+			std::shared_ptr<AudioStream> audio_stream =
+				std::dynamic_pointer_cast<AudioStream>(this->audio_collection.at(this->active_audio_name));
 
-			if (audioStream->getIsMusic())
+			if (audio_stream->get_is_music())
 			{
-				currentPlaybackTime = Mix_GetMusicPosition(audioStream->getSDLMixMusic().get());
+				current_playback_time = Mix_GetMusicPosition(audio_stream->get_sdlmix_music().get());
 			}
 		}
 	}
 
-	return currentPlaybackTime;
+	return current_playback_time;
 }
 
-std::vector<std::string> Omnia::AudioSource::getAudioNames()
+std::vector<std::string> Omnia::AudioSource::get_audio_names()
 {
-	std::vector<std::string> audioStreamNames;
+	std::vector<std::string> audio_stream_names;
 
-	for (std::unordered_map<std::string, std::shared_ptr<Audio>>::iterator it = this->audioCollection.begin();
-		it != this->audioCollection.end();
+	for (std::unordered_map<std::string, std::shared_ptr<Audio>>::iterator it = this->audio_collection.begin();
+		it != this->audio_collection.end();
 		++it)
 	{
-		audioStreamNames.push_back(it->first);
+		audio_stream_names.push_back(it->first);
 	}
 
-	return audioStreamNames;
+	return audio_stream_names;
 }
 
-std::shared_ptr<Omnia::Audio> Omnia::AudioSource::getActiveAudio()
+std::shared_ptr<Omnia::Audio> Omnia::AudioSource::get_active_audio()
 {
-	std::shared_ptr<Audio> activeAudio;
+	std::shared_ptr<Audio> active_audio;
 
-	if (this->activeAudioName != "")
+	if (this->active_audio_name != "")
 	{
-		activeAudio = this->getAudioByName(this->activeAudioName);
+		active_audio = this->get_audio_by_name(this->active_audio_name);
 	}
 
-	return activeAudio;
+	return active_audio;
 }
 
-std::shared_ptr<Omnia::Audio> Omnia::AudioSource::getAudioByName(std::string audioName)
+std::shared_ptr<Omnia::Audio> Omnia::AudioSource::get_audio_by_name(std::string audio_name)
 {
-	std::shared_ptr<Audio> audioStream;
+	std::shared_ptr<Audio> audio_stream;
 
-	if (this->audioCollection.count(audioName))
-		audioStream = this->audioCollection.at(audioName);
+	if (this->audio_collection.count(audio_name))
+		audio_stream = this->audio_collection.at(audio_name);
 
-	return audioStream;
+	return audio_stream;
 }
 
 float Omnia::AudioSource::normalize(float value)

@@ -43,16 +43,16 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			Viewport* clone = new Viewport(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		virtual void deserialize(YAML::Node yamlNode);
-		std::string getCameraEntityName();
-		glm::vec2 getDimensions();
-		void setCameraEntityName(std::string cameraEntityName);
-		void setDimensions(uint32_t width, uint32_t height);
+		virtual void deserialize(YAML::Node yaml_node);
+		std::string get_camera_entity_name();
+		glm::vec2 get_dimensions();
+		void set_camera_entity_name(std::string camera_entity_name);
+		void set_dimensions(uint32_t width, uint32_t height);
 	private:
 		glm::vec2 dimensions;
-		std::string cameraEntityName;
+		std::string camera_entity_name;
 	};
 }

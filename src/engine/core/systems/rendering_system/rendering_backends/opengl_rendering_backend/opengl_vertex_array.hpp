@@ -45,13 +45,13 @@ namespace Omnia
 		~OpenGLVertexArray();
 		void bind();
 		void unbind();
-		void deleteVertexArray();
-		unsigned int getIndexCount();
-		unsigned int getVertexCount();
+		void delete_vertex_array();
+		unsigned int get_index_count();
+		unsigned int get_vertex_count();
 	private:
-		GLuint vertexArrayID;
-		std::shared_ptr<OpenGLVertexBuffer> vertexBuffer;
-		std::shared_ptr<OpenGLIndexBuffer> indexBuffer;
+		GLuint vertex_array_id;
+		std::shared_ptr<OpenGLVertexBuffer> vertex_buffer;
+		std::shared_ptr<OpenGLIndexBuffer> index_buffer;
 	};
 }
 

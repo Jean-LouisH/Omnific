@@ -41,10 +41,10 @@ namespace Omnia
 	class EntityRenderable
 	{
 	public:
-		std::shared_ptr<Transform> entityTransform;
-		std::shared_ptr<RenderableComponent> renderableComponent;
-		std::shared_ptr<Shader> overridingShader;
-		std::shared_ptr<ShaderParameters> overridingShaderParameters;
+		std::shared_ptr<Transform> entity_transform;
+		std::shared_ptr<RenderableComponent> renderable_component;
+		std::shared_ptr<Shader> overriding_shader;
+		std::shared_ptr<ShaderParameters> overriding_shader_parameters;
 	private:
 	};
 }

@@ -27,107 +27,107 @@
 
 Omnia::SceneLayer::SceneLayer()
 {
-	this->collisionRegistry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
-	this->hapticSignalBuffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
+	this->collision_registry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
+	this->haptic_signal_buffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
 
-	this->id = UIDGenerator::getNewUID();
+	this->id = UIDGenerator::get_new_uid();
 	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
 }
 
-void Omnia::SceneLayer::addEntity(std::shared_ptr<Entity> entity)
+void Omnia::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 {
-	if (entity->parentID != 0)
-		this->entities.at(entity->parentID)->childIDs.push_back(entity->id);
+	if (entity->parent_id != 0)
+		this->entities.at(entity->parent_id)->child_ids.push_back(entity->id);
 
-	this->startEntitiesQueue.emplace(entity->id);
+	this->start_entities_queue.emplace(entity->id);
 	this->entities.emplace(entity->id, entity);
-	this->lastEntityID = entity->id;
-	this->setEntityName(entity->id, entity->name);
+	this->last_entity_id = entity->id;
+	this->set_entity_name(entity->id, entity->name);
 	EventBus::publish(OMNIA_EVENT_ENTITY_ADDED);
 }
 
-void Omnia::SceneLayer::addEmptyEntity()
+void Omnia::SceneLayer::add_empty_entity()
 {
-	std::shared_ptr<Entity> emptyEntity(new Entity());
-	this->addEntity(emptyEntity);
+	std::shared_ptr<Entity> empty_entity(new Entity());
+	this->add_entity(empty_entity);
 }
 
-void Omnia::SceneLayer::setEntityName(EntityID entityID, std::string name)
+void Omnia::SceneLayer::set_entity_name(EntityID entity_id, std::string name)
 {
-	if (this->entityNames.count(name))
+	if (this->entity_names.count(name))
 		name += "(Copy)";
 
-	this->getEntity(entityID)->name = name;
-	this->entityNames.emplace(name, entityID);
+	this->get_entity(entity_id)->name = name;
+	this->entity_names.emplace(name, entity_id);
 	EventBus::publish(OMNIA_EVENT_ENTITY_NAME_SET);
 }
 
-void Omnia::SceneLayer::addEntityTag(EntityID entityID, std::string tag)
+void Omnia::SceneLayer::add_entity_tag(EntityID entity_id, std::string tag)
 {
-	this->getEntity(entityID)->tags.push_back(tag);
-	this->entityTags.emplace(tag, entityID);
+	this->get_entity(entity_id)->tags.push_back(tag);
+	this->entity_tags.emplace(tag, entity_id);
 	EventBus::publish(OMNIA_EVENT_ENTITY_TAG_SET);
 }
 
-void Omnia::SceneLayer::addComponent(EntityID entityID, std::shared_ptr<Component> component)
+void Omnia::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Component> component)
 {
-	component->setEntityID(entityID);
+	component->set_entity_id(entity_id);
 	this->components.push_back(component);
-	std::string type = component->getType();
-	std::shared_ptr<Entity> entity = this->entities.at(entityID);
-	entity->componentIDs.emplace(type, component->getID());
-	size_t lastIndex = this->components.size() - 1;
+	std::string type = component->get_type();
+	std::shared_ptr<Entity> entity = this->entities.at(entity_id);
+	entity->component_ids.emplace(type, component->get_id());
+	size_t last_index = this->components.size() - 1;
 
-	if (this->componentIndexCaches.count(type) > 0)
+	if (this->component_index_caches.count(type) > 0)
 	{
-		this->componentIndexCaches.at(type).push_back(lastIndex);
+		this->component_index_caches.at(type).push_back(last_index);
 	}
 	else
 	{
-		std::vector<size_t> componentIndices;
-		componentIndices.push_back(lastIndex);
-		this->componentIndexCaches.emplace(type, componentIndices);
+		std::vector<size_t> component_indices;
+		component_indices.push_back(last_index);
+		this->component_index_caches.emplace(type, component_indices);
 	}
 
 	EventBus::publish(OMNIA_EVENT_COMPONENT_ADDED);
 
-	if (component->isRenderable())
+	if (component->is_renderable())
 	{
-		entity->renderableComponentID = component->getID();
-		this->renderOrderIndexCache.push_back(lastIndex);
+		entity->renderable_component_id = component->get_id();
+		this->render_order_index_cache.push_back(last_index);
 	}
 
-	component->setComponentHierarchy(this->getComponentHierarchy(component->getType(), component->getEntityID()));
+	component->set_component_hierarchy(this->get_component_hierarchy(component->get_type(), component->get_entity_id()));
 }
 
-void Omnia::SceneLayer::addComponentToLastEntity(std::shared_ptr<Component> component)
+void Omnia::SceneLayer::add_component_to_last_entity(std::shared_ptr<Component> component)
 {
-	this->addComponent(this->lastEntityID, component);
+	this->add_component(this->last_entity_id, component);
 }
 
-void Omnia::SceneLayer::removeEntity(EntityID entityID)
+void Omnia::SceneLayer::remove_entity(EntityID entity_id)
 {
-	if (this->entities.count(entityID) > 0)
+	if (this->entities.count(entity_id) > 0)
 	{
-		std::unordered_map<std::string, ComponentID> entityComponentIDs = this->getEntity(entityID)->componentIDs;
+		std::unordered_map<std::string, ComponentID> entity_component_ids = this->get_entity(entity_id)->component_ids;
 
-		for (auto it = entityComponentIDs.begin(); it != entityComponentIDs.end(); it++)
-			this->removeComponent(entityID, it->first);
+		for (auto it = entity_component_ids.begin(); it != entity_component_ids.end(); it++)
+			this->remove_component(entity_id, it->first);
 
 		/* Remove the children */
-		std::vector<EntityID> childIDs = this->getEntity(entityID)->childIDs;
+		std::vector<EntityID> child_ids = this->get_entity(entity_id)->child_ids;
 
-		for (int i = 0; i < childIDs.size(); i++)
-			this->removeEntity(childIDs.at(i));
+		for (int i = 0; i < child_ids.size(); i++)
+			this->remove_entity(child_ids.at(i));
 
 		/* Remove the ID from the parent children list */
-		std::shared_ptr<Entity> parentEntity = this->getEntity(this->getEntity(entityID)->parentID);
+		std::shared_ptr<Entity> parent_entity = this->get_entity(this->get_entity(entity_id)->parent_id);
 
-		for (auto it = parentEntity->childIDs.begin(); it != parentEntity->childIDs.end();)
+		for (auto it = parent_entity->child_ids.begin(); it != parent_entity->child_ids.end();)
 		{
-			if ((*it) == entityID)
+			if ((*it) == entity_id)
 			{
-				it = parentEntity->childIDs.erase(it);
+				it = parent_entity->child_ids.erase(it);
 				break;
 			}
 			else
@@ -138,27 +138,27 @@ void Omnia::SceneLayer::removeEntity(EntityID entityID)
 
 		/* Remove the entity itself*/
 
-		this->entities.erase(entityID);
+		this->entities.erase(entity_id);
 		EventBus::publish(OMNIA_EVENT_ENTITY_REMOVED);
 	}
 }
 
-void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
+void Omnia::SceneLayer::remove_component(EntityID entity_id, std::string type)
 {
-	if (this->entities.count(entityID) > 0)
+	if (this->entities.count(entity_id) > 0)
 	{
-		std::shared_ptr<Entity> entity = this->getEntity(entityID);
+		std::shared_ptr<Entity> entity = this->get_entity(entity_id);
 
-		if (entity->componentIDs.count(type) > 0)
+		if (entity->component_ids.count(type) > 0)
 		{
-			ComponentID componentID = entity->componentIDs.at(type);
-			entity->componentIDs.erase(type);
+			ComponentID component_id = entity->component_ids.at(type);
+			entity->component_ids.erase(type);
 
 			/* Remove the component from the list. */
 
 			for (auto it = this->components.begin(); it != this->components.end();)
 			{
-				if ((*it)->getID() == componentID)
+				if ((*it)->get_id() == component_id)
 				{
 					it = this->components.erase(it);
 					break;
@@ -173,63 +173,63 @@ void Omnia::SceneLayer::removeComponent(EntityID entityID, std::string type)
 
 			/* Rebuild index caches */
 
-			this->componentIndexCaches.clear();
-			this->renderOrderIndexCache.clear();
+			this->component_index_caches.clear();
+			this->render_order_index_cache.clear();
 
 			for (size_t i = 0; i < components.size(); i++)
 			{
 				std::shared_ptr<Component> component = components.at(i);
-				this->componentIndexCaches.at(component->getType()).push_back(i);
-				if (component->isRenderable())
-					this->renderOrderIndexCache.push_back(i);
+				this->component_index_caches.at(component->get_type()).push_back(i);
+				if (component->is_renderable())
+					this->render_order_index_cache.push_back(i);
 			}
 		}
 	}
 }
 
-std::vector<size_t> Omnia::SceneLayer::getRenderOrderIndexCache()
+std::vector<size_t> Omnia::SceneLayer::get_render_order_index_cache()
 {
-	return this->renderOrderIndexCache;
+	return this->render_order_index_cache;
 }
 
-std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneLayer::getComponentIndexCaches()
+std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneLayer::get_component_index_caches()
 {
-	return this->componentIndexCaches;
+	return this->component_index_caches;
 }
 
-void Omnia::SceneLayer::clearStartEntityQueue()
+void Omnia::SceneLayer::clear_start_entity_queue()
 {
-	while (!this->startEntitiesQueue.empty())
-		this->startEntitiesQueue.pop();
+	while (!this->start_entities_queue.empty())
+		this->start_entities_queue.pop();
 }
 
-void Omnia::SceneLayer::clearFinishEntityQueue()
+void Omnia::SceneLayer::clear_finish_entity_queue()
 {
-	while (!this->finishEntitiesQueue.empty())
-		this->finishEntitiesQueue.pop();
+	while (!this->finish_entities_queue.empty())
+		this->finish_entities_queue.pop();
 }
 
-std::queue<Omnia::EntityID> Omnia::SceneLayer::getStartEntityQueue()
+std::queue<Omnia::EntityID> Omnia::SceneLayer::get_start_entity_queue()
 {
-	return this->startEntitiesQueue;
+	return this->start_entities_queue;
 }
 
-std::queue<Omnia::EntityID> Omnia::SceneLayer::getFinishEntityQueue()
+std::queue<Omnia::EntityID> Omnia::SceneLayer::get_finish_entity_queue()
 {
-	return this->finishEntitiesQueue;
+	return this->finish_entities_queue;
 }
 
-std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::getComponents()
+std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::get_components()
 {
 	return this->components;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getEntity(EntityID entityID)
+std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_entity(EntityID entity_id)
 {
-	return this->entities.at(entityID);
+	return this->entities.at(entity_id);
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getEntityByName(std::string name)
+std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_entity_by_name(std::string name)
 {
 	std::shared_ptr<Entity> entity(new Entity());
 
@@ -240,26 +240,26 @@ std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getEntityByName(std::string na
 	return entity;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::getLastEntity()
+std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_last_entity()
 {
-	return this->entities.at(this->lastEntityID);
+	return this->entities.at(this->last_entity_id);
 }
 
-std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::SceneLayer::getEntities()
+std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::SceneLayer::get_entities()
 {
 	return this->entities;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneLayer::getComponentByID(ComponentID componentID)
+std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component_by_id(ComponentID component_id)
 {
 	std::shared_ptr<Component> component;
 
 	for (int i = 0; i < this->components.size(); i++)
 	{
-		std::shared_ptr<Component> currentComponent = this->components.at(i);
-		if (currentComponent->getID() == componentID)
+		std::shared_ptr<Component> current_component = this->components.at(i);
+		if (current_component->get_id() == component_id)
 		{
-			component = currentComponent;
+			component = current_component;
 			break;
 		}
 	}
@@ -267,48 +267,48 @@ std::shared_ptr<Omnia::Component> Omnia::SceneLayer::getComponentByID(ComponentI
 	return component;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneLayer::getComponent(std::string type, EntityID entityID)
+std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component(std::string type, EntityID entity_id)
 {
-	std::shared_ptr<Entity> entity = this->getEntity(entityID);
+	std::shared_ptr<Entity> entity = this->get_entity(entity_id);
 	std::shared_ptr<Component> component;
 
-	if (entity->componentIDs.count(type) > 0)
-		component = this->getComponentByID(entity->componentIDs.at(type));
+	if (entity->component_ids.count(type) > 0)
+		component = this->get_component_by_id(entity->component_ids.at(type));
 
 	return component;
 }
 
-std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::getComponentHierarchy(std::string type, EntityID entityID)
+std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::get_component_hierarchy(std::string type, EntityID entity_id)
 {
-	EntityID currentEntityID = entityID;
-	std::vector<std::shared_ptr<Component>> componentHierarchy;
+	EntityID current_entity_id = entity_id;
+	std::vector<std::shared_ptr<Component>> component_hierarchy;
 
 	do
 	{
-		std::shared_ptr<Component> component = this->getComponent(type, currentEntityID);
-		componentHierarchy.push_back(component);
-		currentEntityID = this->getEntity(currentEntityID)->parentID;
-	} while (currentEntityID != 0);
+		std::shared_ptr<Component> component = this->get_component(type, current_entity_id);
+		component_hierarchy.push_back(component);
+		current_entity_id = this->get_entity(current_entity_id)->parent_id;
+	} while (current_entity_id != 0);
 
-	return componentHierarchy;
+	return component_hierarchy;
 }
 
-std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneLayer::getCollisionRegistry()
+std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneLayer::get_collision_registry()
 {
-	return this->collisionRegistry;
+	return this->collision_registry;
 }
 
-Omnia::SceneLayerID Omnia::SceneLayer::getID()
+Omnia::SceneLayerID Omnia::SceneLayer::get_id()
 {
 	return this->id;
 }
 
-std::string Omnia::SceneLayer::getName()
+std::string Omnia::SceneLayer::get_name()
 {
 	return this->name;
 }
 
-std::shared_ptr<Omnia::HapticSignalBuffer> Omnia::SceneLayer::getHapticSignalBuffer()
+std::shared_ptr<Omnia::HapticSignalBuffer> Omnia::SceneLayer::get_haptic_signal_buffer()
 {
-	return this->hapticSignalBuffer;
+	return this->haptic_signal_buffer;
 }

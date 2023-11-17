@@ -60,13 +60,13 @@ namespace Omnia
 		OpenGLTexture();
 		~OpenGLTexture();
 		OpenGLTexture(std::shared_ptr<Image> image);
-		void activateDefaultTextureUnit();
-		void activateTextureUnit(Unit textureUnit);
+		void activate_default_texture_unit();
+		void activate_texture_unit(Unit texture_unit);
 		void bind();
-		void bind(Unit textureUnit);
-		void deleteTexture();
+		void bind(Unit texture_unit);
+		void delete_texture();
 	private:
-		GLuint textureID = 0;
+		GLuint texture_id = 0;
 	};
 }
 

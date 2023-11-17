@@ -26,61 +26,61 @@
 #include <algorithm>
 #include <core/singletons/os/os.hpp>
 
-Omnia::FileAccess::FileAccess(std::string executableFilepath)
+Omnia::FileAccess::FileAccess(std::string executable_filepath)
 {
-	this->executableFilepath = executableFilepath;
+	this->executable_filepath = executable_filepath;
 }
 
 Omnia::FileAccess::~FileAccess()
 {
-	for (std::thread* fileLoadingThread : this->ioThreads)
-		fileLoadingThread->join();
+	for (std::thread* file_loading_thread : this->io_threads)
+		file_loading_thread->join();
 }
 
-void Omnia::FileAccess::setDataDirectory(std::string assetDirectory)
+void Omnia::FileAccess::set_data_directory(std::string asset_directory)
 {
-	this->dataDirectory = assetDirectory;
-	OS::getLogger().write("Data Directory set to \"" + assetDirectory + "\"");
+	this->data_directory = asset_directory;
+	OS::get_logger().write("Data Directory set to \"" + asset_directory + "\"");
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::FileAccess::loadScene(std::string filepath)
+std::shared_ptr<Omnia::Scene> Omnia::FileAccess::load_scene(std::string filepath)
 {
 	std::shared_ptr<Scene> scene;
 	return scene;
 }
 
-std::string Omnia::FileAccess::getExecutableFilePath()
+std::string Omnia::FileAccess::get_executable_file_path()
 {
-	return this->executableFilepath;
+	return this->executable_filepath;
 }
 
-std::string Omnia::FileAccess::getExecutableName()
+std::string Omnia::FileAccess::get_executable_name()
 {
-	return this->getFileNameWithoutExtension(this->executableFilepath);
+	return this->get_file_name_without_extension(this->executable_filepath);
 }
 
-std::string Omnia::FileAccess::getExecutableDirectoryPath()
+std::string Omnia::FileAccess::get_executable_directory_path()
 {
-	return this->getPathBeforeFile(this->executableFilepath);
+	return this->get_path_before_file(this->executable_filepath);
 }
 
-std::string Omnia::FileAccess::getDataDirectoryPath()
+std::string Omnia::FileAccess::get_data_directory_path()
 {
-	return this->dataDirectory;
+	return this->data_directory;
 }
 
-std::string Omnia::FileAccess::getFileNameWithoutExtension(std::string filepath)
+std::string Omnia::FileAccess::get_file_name_without_extension(std::string filepath)
 {
-	std::string fileName;
-	int nameIndexStart = filepath.size() - 1;
+	std::string file_name;
+	int name_index_start = filepath.size() - 1;
 
-	if (nameIndexStart > -1)
+	if (name_index_start > -1)
 	{
 		//Find the first slash from the end
-		while (filepath.at(nameIndexStart) != '/' && filepath.at(nameIndexStart) != '\\')
+		while (filepath.at(name_index_start) != '/' && filepath.at(name_index_start) != '\\')
 		{
-			nameIndexStart--;
-			if (nameIndexStart < 0)
+			name_index_start--;
+			if (name_index_start < 0)
 			{
 				break;
 			}
@@ -88,52 +88,52 @@ std::string Omnia::FileAccess::getFileNameWithoutExtension(std::string filepath)
 	}
 
 	//append from the start index to the extension name.
-	for (int j = nameIndexStart + 1; filepath.at(j) != '.';	j++)
-		fileName += filepath.at(j);
+	for (int j = name_index_start + 1; filepath.at(j) != '.';	j++)
+		file_name += filepath.at(j);
 
-	return fileName;
+	return file_name;
 }
 
-std::string Omnia::FileAccess::getFileExtension(std::string filepath)
+std::string Omnia::FileAccess::get_file_extension(std::string filepath)
 {
-	std::string fileName;
-	int nameIndexStart = 0;
+	std::string file_name;
+	int name_index_start = 0;
 
 	//Find the first slash from the end
-	for (nameIndexStart = filepath.size() - 1;
-		filepath.at(nameIndexStart) != '.';
-		nameIndexStart--)
+	for (name_index_start = filepath.size() - 1;
+		filepath.at(name_index_start) != '.';
+		name_index_start--)
 		;
 
 	//append from the start index to the extension name.
-	for (int j = nameIndexStart + 1; filepath.at(j) != '\0'; j++)
-		fileName += filepath.at(j);
+	for (int j = name_index_start + 1; filepath.at(j) != '\0'; j++)
+		file_name += filepath.at(j);
 
-	return fileName;
+	return file_name;
 }
 
-std::string Omnia::FileAccess::getPathBeforeFile(std::string filepath)
+std::string Omnia::FileAccess::get_path_before_file(std::string filepath)
 {
 	std::string path;
-	int nameEndIndex = filepath.size() - 1;
+	int name_end_index = filepath.size() - 1;
 
 	//Find the first slash from the end
-	if (nameEndIndex > -1)
+	if (name_end_index > -1)
 	{
-		while ((filepath.at(nameEndIndex) != '/' && filepath.at(nameEndIndex) != '\\'))
+		while ((filepath.at(name_end_index) != '/' && filepath.at(name_end_index) != '\\'))
 		{
-			nameEndIndex--;
-			if (nameEndIndex < 0)
+			name_end_index--;
+			if (name_end_index < 0)
 			{
 				break;
 			}
 		}
 	}
 
-	if (nameEndIndex > -1)
+	if (name_end_index > -1)
 	{
 		//append from the start index to the extension name.
-		for (int j = 0; j != nameEndIndex; j++)
+		for (int j = 0; j != name_end_index; j++)
 		{
 			path += filepath.at(j);
 		}
@@ -144,89 +144,89 @@ std::string Omnia::FileAccess::getPathBeforeFile(std::string filepath)
 
 bool Omnia::FileAccess::exists(std::string filepath)
 {
-	std::ifstream inputFile(filepath);
-	return inputFile.good();
+	std::ifstream input_file(filepath);
+	return input_file.good();
 }
 
-std::string Omnia::FileAccess::readString(std::string filepath, bool applyDataDirectory)
+std::string Omnia::FileAccess::read_string(std::string filepath, bool apply_data_directory)
 {
-	std::string outputString;
-	std::vector<uint8_t> binary = this->readBinary(filepath, applyDataDirectory);
-	outputString.assign(binary.begin(), binary.end());
-	return outputString;
+	std::string output_string;
+	std::vector<uint8_t> binary = this->read_binary(filepath, apply_data_directory);
+	output_string.assign(binary.begin(), binary.end());
+	return output_string;
 }
 
-std::vector<uint8_t> Omnia::FileAccess::readBinary(std::string filepath, bool applyDataDirectory)
+std::vector<uint8_t> Omnia::FileAccess::read_binary(std::string filepath, bool apply_data_directory)
 {
-	std::vector<uint8_t> outputBinary;
-	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
-	std::FILE* filePointer = std::fopen(fullFilepath.c_str(), "rb");
+	std::vector<uint8_t> output_binary;
+	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
+	std::FILE* file_pointer = std::fopen(full_filepath.c_str(), "rb");
 
-	if (filePointer)
+	if (file_pointer)
 	{
-		std::fseek(filePointer, 0, SEEK_END);
-		outputBinary.resize(std::ftell(filePointer));
-		std::rewind(filePointer);
-		std::fread(&outputBinary[0], 1, outputBinary.size(), filePointer);
-		std::fclose(filePointer);
+		std::fseek(file_pointer, 0, SEEK_END);
+		output_binary.resize(std::ftell(file_pointer));
+		std::rewind(file_pointer);
+		std::fread(&output_binary[0], 1, output_binary.size(), file_pointer);
+		std::fclose(file_pointer);
 	}
 
-	return outputBinary;
+	return output_binary;
 }
 
-void Omnia::FileAccess::writeBinary(std::string filepath, std::vector<uint8_t> binary, bool applyDataDirectory)
+void Omnia::FileAccess::write_binary(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
 {
 
 }
 
-void Omnia::FileAccess::requestAsynchronousBinaryReading(std::string filepath, bool applyDataDirectory)
+void Omnia::FileAccess::request_asynchronous_binary_reading(std::string filepath, bool apply_data_directory)
 {
-	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
+	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
 
-	if (!this->asynchronouslyLoadedBinaries.count(fullFilepath))
-		this->ioThreads.push_back(new std::thread(&FileAccess::readBinaryAsynchronously, this, filepath, applyDataDirectory));
+	if (!this->asynchronously_loaded_binaries.count(full_filepath))
+		this->io_threads.push_back(new std::thread(&FileAccess::read_binary_asynchronously, this, filepath, apply_data_directory));
 }
 
-void Omnia::FileAccess::requestAsynchronousBinaryWriting(std::string filepath, std::vector<uint8_t> binary, bool applyDataDirectory)
+void Omnia::FileAccess::request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
 {
-	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
-	this->ioThreads.push_back(new std::thread(&FileAccess::writeBinaryAsynchronously, this, filepath, binary, applyDataDirectory));
+	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
+	this->io_threads.push_back(new std::thread(&FileAccess::write_binary_asynchronously, this, filepath, binary, apply_data_directory));
 }
 
-bool Omnia::FileAccess::hasBinaryBeenReadAsynchronously(std::string filepath, bool applyDataDirectory)
+bool Omnia::FileAccess::has_binary_been_read_asynchronously(std::string filepath, bool apply_data_directory)
 {
-	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
-	return this->asynchronouslyLoadedBinaries.count(fullFilepath);
+	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
+	return this->asynchronously_loaded_binaries.count(full_filepath);
 }
 
-std::vector<uint8_t> Omnia::FileAccess::fetchAsynchronouslyReadBinary(std::string filepath, bool applyDataDirectory)
+std::vector<uint8_t> Omnia::FileAccess::fetch_asynchronously_read_binary(std::string filepath, bool apply_data_directory)
 {
-	std::string fullFilepath = this->getFilepathWithDataDirectory(filepath, applyDataDirectory);
+	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
 	std::vector<uint8_t> binary;
-	if (this->asynchronouslyLoadedBinaries.count(fullFilepath))
-		binary = this->asynchronouslyLoadedBinaries.at(fullFilepath);
+	if (this->asynchronously_loaded_binaries.count(full_filepath))
+		binary = this->asynchronously_loaded_binaries.at(full_filepath);
 	return binary;
 }
 
-std::string Omnia::FileAccess::getFilepathWithDataDirectory(std::string filepath, bool applyDataDirectory)
+std::string Omnia::FileAccess::get_filepath_with_data_directory(std::string filepath, bool apply_data_directory)
 {
-	std::string fullFilepath;
+	std::string full_filepath;
 
-	if (applyDataDirectory)
-		fullFilepath = this->getDataDirectoryPath() + filepath;
+	if (apply_data_directory)
+		full_filepath = this->get_data_directory_path() + filepath;
 	else
-		fullFilepath = filepath;
+		full_filepath = filepath;
 
-	return fullFilepath;
+	return full_filepath;
 }
 
-void Omnia::FileAccess::readBinaryAsynchronously(std::string filepath, bool applyDataDirectory)
+void Omnia::FileAccess::read_binary_asynchronously(std::string filepath, bool apply_data_directory)
 {
-	std::vector<uint8_t> binary = this->readBinary(filepath, applyDataDirectory);
-	this->asynchronouslyLoadedBinaries.emplace(filepath, binary);
+	std::vector<uint8_t> binary = this->read_binary(filepath, apply_data_directory);
+	this->asynchronously_loaded_binaries.emplace(filepath, binary);
 }
 
-void Omnia::FileAccess::writeBinaryAsynchronously(std::string filepath, std::vector<uint8_t> binary, bool applyDataDirectory)
+void Omnia::FileAccess::write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
 {
-	this->writeBinary(filepath, binary, applyDataDirectory);
+	this->write_binary(filepath, binary, apply_data_directory);
 }

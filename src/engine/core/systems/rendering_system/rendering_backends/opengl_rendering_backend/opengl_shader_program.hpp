@@ -38,28 +38,28 @@ namespace Omnia
 		OpenGLShaderProgram(std::shared_ptr<Shader> shader);
 		~OpenGLShaderProgram();
 		void use();
-		void setInt(std::string name, int value);
-		void setBool(std::string name, bool value);
-		void setFloat(std::string name, float value);
-		void setVec2(std::string name, glm::vec2 value);
-		void setVec3(std::string name, glm::vec3 value);
-		void setVec4(std::string name, glm::vec4 value);
-		void setMat4(std::string name, glm::mat4 value);
-		void logUniforms();
-		void deleteProgram();
+		void set_int(std::string name, int value);
+		void set_bool(std::string name, bool value);
+		void set_float(std::string name, float value);
+		void set_vec2(std::string name, glm::vec2 value);
+		void set_vec3(std::string name, glm::vec3 value);
+		void set_vec4(std::string name, glm::vec4 value);
+		void set_mat4(std::string name, glm::mat4 value);
+		void log_uniforms();
+		void delete_program();
 	private:
-		GLuint programID = 0;
+		GLuint program_id = 0;
 
-		GLuint vertexShaderID;
-		GLuint fragmentShaderID;
+		GLuint vertex_shader_id;
+		GLuint fragment_shader_id;
 
 		std::shared_ptr<Shader> shader;
 
-		bool compileVertexShader(std::string vertexShaderSource);
-		bool compileFragmentShader(std::string fragmentShaderSource);
-		void linkShaderProgram();
-		bool checkCompileTimeErrors(GLuint ID, GLuint status);
-		void deleteShaderObjectCode();
+		bool compile_vertex_shader(std::string vertex_shader_source);
+		bool compile_fragment_shader(std::string fragment_shader_source);
+		void link_shader_program();
+		bool check_compile_time_errors(GLuint ID, GLuint status);
+		void delete_shader_object_code();
 	};
 }
 

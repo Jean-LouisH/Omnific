@@ -43,7 +43,7 @@ namespace Omnia
 		virtual Registerable* instance() override
 		{
 			ComponentTemplate* clone = new ComponentTemplate(*this);
-			clone->id = UIDGenerator::getNewUID();
+			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
 	private:

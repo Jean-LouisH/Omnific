@@ -29,78 +29,78 @@ Omnia::HapticSystem::~HapticSystem()
 	this->finalize();
 }
 
-void Omnia::HapticSystem::rumble(HapticSignal& hapticSignal, std::vector<SDL_Haptic*> haptics)
+void Omnia::HapticSystem::rumble(HapticSignal& haptic_signal, std::vector<SDL_Haptic*> haptics)
 {
-	if (hapticSignal.getPlayerID() < haptics.size())
+	if (haptic_signal.get_player_id() < haptics.size())
 	{
-		SDL_HapticRumblePlay(haptics.at(hapticSignal.getPlayerID()),
-			hapticSignal.getStrength(),
-			hapticSignal.getDuration());
+		SDL_HapticRumblePlay(haptics.at(haptic_signal.get_player_id()),
+			haptic_signal.get_strength(),
+			haptic_signal.get_duration());
 	}
 }
 
-void Omnia::HapticSystem::stopRumble(PlayerID playerID, std::vector<SDL_Haptic*> haptics)
+void Omnia::HapticSystem::stop_rumble(PlayerID player_id, std::vector<SDL_Haptic*> haptics)
 {
-	if (playerID < haptics.size())
+	if (player_id < haptics.size())
 	{
-		SDL_HapticRumbleStop(haptics.at(playerID));
+		SDL_HapticRumbleStop(haptics.at(player_id));
 	}
 }
 
 void Omnia::HapticSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_HAPTIC);
-	this->isInitialized = true;
-	OS::getLogger().write("Initialized Haptic System");
+	this->is_initialized = true;
+	OS::get_logger().write("Initialized Haptic System");
 }
 
-void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)
+void Omnia::HapticSystem::on_late(std::shared_ptr<Scene> scene)
 {
-	Input& hid = OS::getInput();
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& sceneLayers = scene->getSceneLayers();
+	Input& hid = OS::get_input();
+	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 
-	for (auto it = sceneLayers.begin(); it != sceneLayers.end(); it++)
+	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
 	{
-		std::shared_ptr<HapticSignalBuffer> hapticSignalBuffer = it->second->getHapticSignalBuffer();
-		std::unordered_map<PlayerID, std::queue<HapticSignal>>& hapticSignals = hapticSignalBuffer->getHapticSignals();
+		std::shared_ptr<HapticSignalBuffer> haptic_signal_buffer = it->second->get_haptic_signal_buffer();
+		std::unordered_map<PlayerID, std::queue<HapticSignal>>& haptic_signals = haptic_signal_buffer->get_haptic_signals();
 
-		for (auto it = hapticSignals.begin(); it != hapticSignals.end(); it++)
+		for (auto it = haptic_signals.begin(); it != haptic_signals.end(); it++)
 		{
-			PlayerID playerID = it->first;
+			PlayerID player_id = it->first;
 
-			if (this->hapticPlaybacks.count(playerID))
+			if (this->haptic_playbacks.count(player_id))
 			{
-				HapticPlayback& hapticPlayback = this->hapticPlaybacks.at(playerID);
-				std::queue<HapticSignal>& hapticSignalQueue = it->second;
+				HapticPlayback& haptic_playback = this->haptic_playbacks.at(player_id);
+				std::queue<HapticSignal>& haptic_signal_queue = it->second;
 
-				if (hapticPlayback.isPlaying)
+				if (haptic_playback.is_playing)
 				{
-					hapticPlayback.timer.setEnd();
+					haptic_playback.timer.set_end();
 
-					if (hapticPlayback.timer.getDelta() > hapticPlayback.duration_ms)
+					if (haptic_playback.timer.get_delta() > haptic_playback.duration_ms)
 					{
-						hapticPlayback.isPlaying = false;
-						this->stopRumble(playerID, hid.getHaptics());
-						hapticSignalQueue.pop();
+						haptic_playback.is_playing = false;
+						this->stop_rumble(player_id, hid.get_haptics());
+						haptic_signal_queue.pop();
 					}
 				}
 				else
 				{
-					if (!hapticSignalQueue.empty())
+					if (!haptic_signal_queue.empty())
 					{
-						HapticSignal& hapticSignal = hapticSignals.at(playerID).front();
-						hapticPlayback.duration_ms = hapticSignal.getDuration();
-						hapticPlayback.timer.setStart();
-						hapticPlayback.isPlaying = true;
-						this->rumble(hapticSignal, hid.getHaptics());
+						HapticSignal& haptic_signal = haptic_signals.at(player_id).front();
+						haptic_playback.duration_ms = haptic_signal.get_duration();
+						haptic_playback.timer.set_start();
+						haptic_playback.is_playing = true;
+						this->rumble(haptic_signal, hid.get_haptics());
 					}
 				}
 			}
 			else
 			{
-				HapticPlayback hapticPlayback;
-				hapticPlayback.isPlaying = false;
-				this->hapticPlaybacks.emplace(playerID, hapticPlayback);
+				HapticPlayback haptic_playback;
+				haptic_playback.is_playing = false;
+				this->haptic_playbacks.emplace(player_id, haptic_playback);
 			}
 		}
 	}
@@ -108,8 +108,8 @@ void Omnia::HapticSystem::onLate(std::shared_ptr<Scene> scene)
 
 void Omnia::HapticSystem::finalize()
 {
-	if (this->isInitialized)
+	if (this->is_initialized)
 		SDL_QuitSubSystem(SDL_INIT_HAPTIC);
 
-	this->isInitialized = false;
+	this->is_initialized = false;
 }

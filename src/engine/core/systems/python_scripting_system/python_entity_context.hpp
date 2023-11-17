@@ -42,20 +42,20 @@ namespace Omnia
 	class PythonEntityContext
 	{
 	public:
-		static void bindEntity(SceneLayerID sceneLayerID, EntityID entityID);
-		static bool hasComponent(std::string type);
-		static std::shared_ptr<Entity> getEntity();
-		static std::shared_ptr<Scene> getScene();
-		static std::shared_ptr<SceneLayer> getSceneLayer();
-		static std::shared_ptr<Component> getComponent(std::string type);
-		static float getTimeDelta();
+		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);
+		static bool has_component(std::string type);
+		static std::shared_ptr<Entity> get_entity();
+		static std::shared_ptr<Scene> get_scene();
+		static std::shared_ptr<SceneLayer> get_scene_layer();
+		static std::shared_ptr<Component> get_component(std::string type);
+		static float get_time_delta();
 
-		static PythonEntityContext* getInstance();
+		static PythonEntityContext* get_instance();
 	private:
 		static PythonEntityContext* instance;
 
-		SceneLayerID boundSceneLayerID = 0;
-		EntityID boundEntityID = 0;
+		SceneLayerID bound_scene_layer_id = 0;
+		EntityID bound_entity_id = 0;
 	};
 }
 

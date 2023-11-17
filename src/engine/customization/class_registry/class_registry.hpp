@@ -70,10 +70,10 @@ namespace Omnia
 		using DerivedClassName = std::string;
 		using BaseClassName = std::string;
 
-		static void addClassDefinitions()
+		static void add_class_definitions()
 		{
-			OS::getLogger().write("Loading class definitions to ClassRegistry...");
-			ClassRegistry* registry = getInstance();
+			OS::get_logger().write("Loading class definitions to ClassRegistry...");
+			ClassRegistry* registry = get_instance();
 
 			// Add custom classes here.
 			////////////////////////////////////////////
@@ -117,44 +117,44 @@ namespace Omnia
 		template <class Derived, class Base>
 		static void add()
 		{
-			ClassRegistry* registry = getInstance();
+			ClassRegistry* registry = get_instance();
 
 			if (registry->classes.count(Base::TYPE_STRING))
 			{
-				std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>>& derivedClasses = registry->classes.at(Base::TYPE_STRING);
-				derivedClasses.emplace(Derived::TYPE_STRING, std::static_pointer_cast<Registerable>(std::shared_ptr<Derived>(new Derived())));
+				std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>>& derived_classes = registry->classes.at(Base::TYPE_STRING);
+				derived_classes.emplace(Derived::TYPE_STRING, std::static_pointer_cast<Registerable>(std::shared_ptr<Derived>(new Derived())));
 			}
 			else
 			{
-				std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>> derivedClasses;
-				registry->classes.emplace(Base::TYPE_STRING, derivedClasses);
+				std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>> derived_classes;
+				registry->classes.emplace(Base::TYPE_STRING, derived_classes);
 			}
 		}
 
 		template <class Base>
-		static std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>> queryAll()
+		static std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>> query_all()
 		{
-			ClassRegistry* registry = getInstance();
+			ClassRegistry* registry = get_instance();
 
-			std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>> derivedClasses;
+			std::unordered_map<DerivedClassName, std::shared_ptr<Registerable>> derived_classes;
 			if (registry->classes.count(Base::TYPE_STRING))
-				derivedClasses = registry->classes.at(Base::TYPE_STRING);
-			return derivedClasses;
+				derived_classes = registry->classes.at(Base::TYPE_STRING);
+			return derived_classes;
 		}
 
 		template <class Base>
-		static std::shared_ptr<Registerable> query(std::string derivedClassName)
+		static std::shared_ptr<Registerable> query(std::string derived_class_name)
 		{
 			std::shared_ptr<Registerable> registerable;
-			std::unordered_map<std::string, std::shared_ptr<Registerable>> bases = getInstance()->queryAll<Base>();
+			std::unordered_map<std::string, std::shared_ptr<Registerable>> bases = get_instance()->query_all<Base>();
 			
-			if (bases.count(derivedClassName))
-				registerable = bases.at(derivedClassName);
+			if (bases.count(derived_class_name))
+				registerable = bases.at(derived_class_name);
 
 			return registerable;
 		}
 
-		static ClassRegistry* getInstance();
+		static ClassRegistry* get_instance();
 
 	private:
 		static ClassRegistry* instance;

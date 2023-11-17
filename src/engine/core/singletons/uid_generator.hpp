@@ -30,11 +30,11 @@ namespace Omnia
 	class OMNIA_ENGINE_API UIDGenerator
 	{
 	public:
-		static UID getNewUID();
+		static UID get_new_uid();
 	private:
 		UID uid = 0;
 
 		static UIDGenerator* instance;
-		static UIDGenerator* getInstance();
+		static UIDGenerator* get_instance();
 	};
 }

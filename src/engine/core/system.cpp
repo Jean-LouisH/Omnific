@@ -25,7 +25,7 @@
 
 Omnia::System::~System()
 {
-	this->isInitialized = false;
+	this->is_initialized = false;
 }
 
 void Omnia::System::initialize()
@@ -33,37 +33,37 @@ void Omnia::System::initialize()
 
 }
 
-void Omnia::System::onStart(std::shared_ptr<Scene> scene)
+void Omnia::System::on_start(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::onInput(std::shared_ptr<Scene> scene)
+void Omnia::System::on_input(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::onEarly(std::shared_ptr<Scene> scene)
+void Omnia::System::on_early(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::onLogic(std::shared_ptr<Scene> scene)
+void Omnia::System::on_logic(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::onCompute(std::shared_ptr<Scene> scene)
+void Omnia::System::on_compute(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::onLate(std::shared_ptr<Scene> scene)
+void Omnia::System::on_late(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::onFinish(std::shared_ptr<Scene> scene)
+void Omnia::System::on_finish(std::shared_ptr<Scene> scene)
 {
 
 }
@@ -73,19 +73,19 @@ void Omnia::System::finalize()
 
 }
 
-bool Omnia::System::getIsInitialized()
+bool Omnia::System::get_is_initialized()
 {
-	return this->isInitialized;
+	return this->is_initialized;
 }
 
-bool Omnia::System::hasSceneChanged(std::shared_ptr<Scene> scene)
+bool Omnia::System::has_scene_changed(std::shared_ptr<Scene> scene)
 {
-	bool activeSceneChanged = this->activeSceneID != scene->getID();
+	bool active_scene_changed = this->active_scene_id != scene->get_id();
 
-	if (activeSceneChanged)
-		this->activeSceneID = scene->getID();
+	if (active_scene_changed)
+		this->active_scene_id = scene->get_id();
 
-	return (EventBus::queryCount(OMNIA_EVENT_COMPONENT_ADDED) ||
-		EventBus::queryCount(OMNIA_EVENT_COMPONENT_REMOVED) ||
-		activeSceneChanged);
+	return (EventBus::query_count(OMNIA_EVENT_COMPONENT_ADDED) ||
+		EventBus::query_count(OMNIA_EVENT_COMPONENT_REMOVED) ||
+		active_scene_changed);
 }

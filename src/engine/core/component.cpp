@@ -28,32 +28,32 @@ Omnia::Component::Component()
 	this->type = TYPE_STRING;
 }
 
-void Omnia::Component::setEntityID(EntityID entityID)
+void Omnia::Component::set_entity_id(EntityID entity_id)
 {
-	this->entityID = entityID;
+	this->entity_id = entity_id;
 }
 
-void Omnia::Component::setComponentHierarchy(std::vector<std::shared_ptr<Component>> componentHierarchy)
+void Omnia::Component::set_component_hierarchy(std::vector<std::shared_ptr<Component>> component_hierarchy)
 {
-	this->componentHierarchy = componentHierarchy;
+	this->component_hierarchy = component_hierarchy;
 }
 
-void Omnia::Component::deserialize(YAML::Node yamlNode)
+void Omnia::Component::deserialize(YAML::Node yaml_node)
 {
 
 }
 
-Omnia::EntityID Omnia::Component::getEntityID()
+Omnia::EntityID Omnia::Component::get_entity_id()
 {
-	return this->entityID;
+	return this->entity_id;
 }
 
-bool Omnia::Component::isAttachedToEntity()
+bool Omnia::Component::is_attached_to_entity()
 {
-	return this->getEntityID() != 0;
+	return this->get_entity_id() != 0;
 }
 
-bool Omnia::Component::isRenderable()
+bool Omnia::Component::is_renderable()
 {
 	return false;
 }
