@@ -26,26 +26,32 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include "opengl_vertex_buffer.hpp"
+#include "opengl_index_buffer.hpp"
 #include <core/components/renderable_component.hpp>
 #include <core/assets/image.hpp>
 #include <core/assets/mesh.hpp>
 #include <memory>
 
+
 namespace Omnia
 {
-	/* Storage for mesh data in GPU memory. */
-	class OpenGLVertexBuffer
+	/* Identifier for buffers bound to a draw call. */
+	class OpenGLVertexArray
 	{
 	public:
-		OpenGLVertexBuffer();
-		OpenGLVertexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
-		~OpenGLVertexBuffer();
+		OpenGLVertexArray();
+		OpenGLVertexArray(std::shared_ptr<Asset> asset);
+		~OpenGLVertexArray();
 		void bind();
-		void deleteVertexBuffer();
+		void unbind();
+		void deleteVertexArray();
+		unsigned int getIndexCount();
 		unsigned int getVertexCount();
 	private:
-		GLuint vertexBufferID = 0;
-		GLsizei vertexCount = 0;
+		GLuint vertexArrayID;
+		std::shared_ptr<OpenGLVertexBuffer> vertexBuffer;
+		std::shared_ptr<OpenGLIndexBuffer> indexBuffer;
 	};
 }
 

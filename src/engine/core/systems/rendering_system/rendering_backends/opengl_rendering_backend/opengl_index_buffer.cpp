@@ -28,32 +28,31 @@ Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer()
 
 }
 
-Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent)
+Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<Asset> asset)
 {
 	std::shared_ptr<Mesh> mesh;
 
-	if (renderableComponent->isType(Model::TYPE_STRING))
+	if (asset != nullptr)
 	{
-		mesh = std::dynamic_pointer_cast<Model>(renderableComponent)->mesh;
-	}
-	else
-	{
-		std::shared_ptr<Image> image = renderableComponent->getImage();
-		if (image != nullptr)
+		if (asset->isType(Mesh::TYPE_STRING))
+		{
+			mesh = std::dynamic_pointer_cast<Mesh>(asset);
+		}
+		else if (asset->isType(Image::TYPE_STRING))
 		{
 			mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
 		}
-	}
 
-	if (mesh != nullptr)
-	{
-		if (mesh->getIsIndexed())
+		if (mesh != nullptr)
 		{
-			this->indexCount = mesh->indices.size();
-			glGenBuffers(1, &this->indexBufferID);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
-				&mesh->indices[0], GL_STATIC_DRAW);
+			if (mesh->getIsIndexed())
+			{
+				this->indexCount = mesh->indices.size();
+				glGenBuffers(1, &this->indexBufferID);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->indexBufferID);
+				glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
+					&mesh->indices[0], GL_STATIC_DRAW);
+			}
 		}
 	}
 }

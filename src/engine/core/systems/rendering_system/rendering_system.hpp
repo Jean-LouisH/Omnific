@@ -29,7 +29,7 @@
 #include <vector>
 #include "core/singletons/os/window.hpp"
 #include "core/utilities/aliases.hpp"
-#include "opengl_rendering_backend/opengl_rendering_backend.hpp"
+#include "rendering_backends/opengl_rendering_backend/opengl_rendering_backend.hpp"
 #include "entity_renderable.hpp"
 #include "renderable_layer.hpp"
 #include <memory>
@@ -42,29 +42,7 @@ namespace Omnia
 	class RenderingSystem : public System
 	{
 	public:
-		RenderingSystem()
-		{
-			SDL_InitSubSystem(SDL_INIT_VIDEO);
-
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-			SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-			SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
-			SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-
-			OS::createWindow("",
-				640,
-				480,
-				false,
-				this->getRenderingBackendName());
-
-			this->openglBackend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
-			this->type = TYPE_STRING;
-		}
+		RenderingSystem();
 		~RenderingSystem();
 
 		static constexpr const char* TYPE_STRING = "RenderingSystem";
@@ -83,6 +61,9 @@ namespace Omnia
 		std::vector<std::vector<RenderableLayer>> renderableLayerLists;
 		SceneID activeSceneID = 0;
 		glm::vec2 lastDetectedWindowSize;
+
+		std::shared_ptr<Light> dummyLight;
+		std::shared_ptr<Transform> dummyLightTransform;
 
 		void onWindowResize();
 		void buildRenderables(std::shared_ptr<Scene> scene);

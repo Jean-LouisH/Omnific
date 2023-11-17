@@ -31,6 +31,7 @@ Omnia::AudioStream::~AudioStream()
 Omnia::AudioStream::AudioStream(std::string filepath)
 {
 	this->setName(filepath);
+	this->type = TYPE_STRING;
 
 	std::string fileExtension = OS::getFileAccess().getFileExtension(filepath);
 

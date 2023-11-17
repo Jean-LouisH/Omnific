@@ -25,5 +25,5 @@
 
 Omnia::Text::Text(std::string filepath)
 {
-
+	this->type = TYPE_STRING;
 }

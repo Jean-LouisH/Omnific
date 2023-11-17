@@ -43,6 +43,13 @@ namespace Omnia
 	class OMNIA_ENGINE_API Image : public Asset
 	{
 	public:
+		enum class Alignment
+		{
+			TOP_LEFT,
+			TOP_RIGHT,
+			CENTRE
+		};
+
 		static constexpr const char* TYPE_STRING = "Image";
 		Image() 
 		{ 
@@ -67,6 +74,7 @@ namespace Omnia
 		uint32_t getPitch();
 		glm::vec2 getDimensions();
 		uint8_t getBytesPerPixel();
+		Alignment getAlignment();
 
 		static void normalBlend(
 			uint8_t* lowerImageData,
@@ -81,6 +89,7 @@ namespace Omnia
 		int width = 0;
 		int height = 0;
 		int colourChannels = 0;
+		Alignment alignment;
 
 		void colourPixel(uint32_t fillColour, int x, int y);
 		void setToDefault();

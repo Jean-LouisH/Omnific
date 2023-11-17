@@ -29,6 +29,7 @@
 Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrapLength)
 {
 	this->type = TYPE_STRING;
+	this->alignment = Alignment::TOP_LEFT;
 
 	if (text == "")
 		text = " ";
@@ -71,17 +72,20 @@ Omnia::Image::Image(std::shared_ptr<Colour> colour)
 {
 	int width = 256;
 	int height = 256;
+	this->alignment = Alignment::CENTRE;
 	this->setToColour(colour, width, height);
 }
 
 Omnia::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
 {
+	this->alignment = Alignment::CENTRE;
 	this->setToColour(colour, width, height);
 }
 
 Omnia::Image::Image(uint8_t* data, int width, int height, int colourChannels)
 {
 	this->type = TYPE_STRING;
+	this->alignment = Alignment::CENTRE;
 	this->setToParameters(colourChannels, width, height, data);
 }
 
@@ -89,6 +93,7 @@ Omnia::Image::Image(std::string filepath)
 {
 	stbi_set_flip_vertically_on_load(0);
 	this->type = TYPE_STRING;
+	this->alignment = Alignment::CENTRE;
 	this->setName(filepath);
 
 	std::string delimitter = "Image::";
@@ -152,6 +157,11 @@ glm::vec2 Omnia::Image::getDimensions()
 uint8_t Omnia::Image::getBytesPerPixel()
 {
 	return this->colourChannels;
+}
+
+Omnia::Image::Alignment Omnia::Image::getAlignment()
+{
+	return this->alignment;
 }
 
 void Omnia::Image::normalBlend(

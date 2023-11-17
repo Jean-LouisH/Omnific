@@ -23,14 +23,39 @@
 #include "rendering_system.hpp"
 #include <core/assets/shader.hpp>
 #include <core/assets/image.hpp>
-
 #include <core/singletons/os/os.hpp>
 #include <core/components/camera.hpp>
 #include <core/components/viewport.hpp>
 #include <core/components/transform.hpp>
 #include <core/components/gui.hpp>
-
+#include <core/components/model.hpp>
 #include <core/singletons/configuration.hpp>
+
+Omnia::RenderingSystem::RenderingSystem()
+{
+	SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	OS::createWindow("",
+		640,
+		480,
+		false,
+		this->getRenderingBackendName());
+
+	this->dummyLight = std::shared_ptr<Light>(new Light());
+	this->dummyLightTransform = std::shared_ptr<Transform>(new Transform());
+	this->openglBackend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
+	this->type = TYPE_STRING;
+}
 
 Omnia::RenderingSystem::~RenderingSystem()
 {
@@ -55,10 +80,265 @@ void Omnia::RenderingSystem::initialize()
 void Omnia::RenderingSystem::onLate(std::shared_ptr<Scene> scene)
 {
 	this->onWindowResize();
+
 	if (this->hasSceneChanged(scene))
 		this->buildRenderables(scene);
+
 	this->openglBackend->clearColourBuffer(0, 0, 0, 255);
-	this->openglBackend->submit(this->renderableLayerLists);
+
+	for (int i = 0; i < this->renderableLayerLists.size(); i++)
+	{
+		std::vector<RenderableLayer> renderableLayerList = this->renderableLayerLists[i];
+		RenderableLayer* renderableLayerListData = renderableLayerList.data();
+		size_t renderableLayerListCount = renderableLayerList.size();
+
+		for (size_t j = 0; j < renderableLayerListCount; j++)
+		{
+			RenderableLayer& renderableLayer = renderableLayerListData[j];
+
+			if (renderableLayer.camera->getIsStreaming())
+			{
+				EntityRenderable* entityRenderablesData = renderableLayer.entityRenderables.data();
+				size_t entityRenderablesCount = renderableLayer.entityRenderables.size();
+				glm::mat4 worldToViewMatrix = glm::inverse(renderableLayer.cameraTransform->getTransformMatrix());
+				glm::mat4 viewToProjectionMatrix = renderableLayer.camera->getViewToProjectionMatrix();
+
+				if (renderableLayer.is2D)
+				{
+					this->openglBackend->disableDepthTest();
+				}
+				else
+				{
+					this->openglBackend->clearDepthBuffer();
+					this->openglBackend->enableDepthTest();
+				}
+
+				if (renderableLayer.camera->getIsWireframeMode())
+					this->openglBackend->enableWireframeMode();
+				else
+					this->openglBackend->disableWireframeMode();
+
+				/* Memory allocated out of the tight loop. */
+				std::shared_ptr<Transform> globalTransform(new Transform());
+
+				std::vector<std::shared_ptr<Light>> activeLights;
+				std::vector<std::shared_ptr<Transform>> activeLightTransforms;
+
+				if (renderableLayer.lights.size() > 0)
+				{
+					activeLights = renderableLayer.lights;
+					activeLightTransforms = renderableLayer.lightTransforms;
+				}
+				else
+				{
+					activeLights.push_back(this->dummyLight);
+					activeLightTransforms.push_back(this->dummyLightTransform);
+				}
+
+				size_t lightsCount = activeLights.size();
+
+				/* Forward Rendering */
+				for (size_t k = 0; k < lightsCount; k++)
+				{
+					std::shared_ptr<Light> light = activeLights[k];
+					std::shared_ptr<Transform> lightTransform = activeLightTransforms[k];
+
+					for (size_t l = 0; l < entityRenderablesCount; l++)
+					{
+						EntityRenderable& entityRenderable = entityRenderablesData[l];
+						std::shared_ptr<Shader> shader = entityRenderable.overridingShader;
+						std::shared_ptr<ShaderParameters> shaderParameters = entityRenderable.overridingShaderParameters;
+
+						if (shader == nullptr && shaderParameters == nullptr)
+						{
+							shader = entityRenderable.renderableComponent->getShader();
+							shaderParameters = entityRenderable.renderableComponent->shaderParameters;
+						}
+
+						globalTransform = entityRenderable.entityTransform->getGlobalTransform();
+						glm::mat4 modelToWorldMatrix = globalTransform->getTransformMatrix();
+						glm::mat4 mvp = viewToProjectionMatrix * worldToViewMatrix * modelToWorldMatrix;
+						float alpha = entityRenderable.renderableComponent->getAlphaInPercentage();
+						const float cullAlphaThreshold = 1.0 - 0.001;
+						RenderableComponent::CullMode cullMode = entityRenderable.renderableComponent->getCullMode();
+
+						switch (cullMode)
+						{
+							case RenderableComponent::CullMode::NONE:
+							case RenderableComponent::CullMode::BACK: glCullFace(GL_BACK); break;
+							case RenderableComponent::CullMode::FRONT: glCullFace(GL_FRONT); break;
+							case RenderableComponent::CullMode::FRONT_AND_BACK: glCullFace(GL_FRONT_AND_BACK); break;
+						}
+
+						if (cullMode == RenderableComponent::CullMode::NONE)
+							glDisable(GL_CULL_FACE);
+						else
+							glEnable(GL_CULL_FACE);
+
+						this->openglBackend->enableBlending();
+
+						std::shared_ptr<OpenGLVertexArray> vertexArray;
+						if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
+						{
+							std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->mesh;
+							vertexArray = this->openglBackend->getVertexArray(mesh);
+						}
+						else
+						{
+							vertexArray = this->openglBackend->getVertexArray(entityRenderable.renderableComponent->getImage());
+						}
+						vertexArray->bind();
+
+						if (entityRenderable.renderableComponent->isType(Model::TYPE_STRING))
+						{
+							std::shared_ptr<Material> material =
+								std::dynamic_pointer_cast<Model>(entityRenderable.renderableComponent)->material;
+
+							this->openglBackend->getTexture(material->albedo)->bind(OpenGLTexture::Unit::_0);
+							this->openglBackend->getTexture(material->metallicity)->bind(OpenGLTexture::Unit::_1);
+							this->openglBackend->getTexture(material->roughness)->bind(OpenGLTexture::Unit::_2);
+							this->openglBackend->getTexture(material->emission)->bind(OpenGLTexture::Unit::_3);
+							this->openglBackend->getTexture(material->normal)->bind(OpenGLTexture::Unit::_4);
+							this->openglBackend->getTexture(material->occlusion)->bind(OpenGLTexture::Unit::_5);
+						}
+						else
+						{
+							this->openglBackend->getTexture(entityRenderable.renderableComponent->getImage())->bind(OpenGLTexture::Unit::_0);
+						}
+
+						std::shared_ptr<OpenGLShaderProgram> shaderProgram;
+
+						if (shader != nullptr)
+						{
+							AssetID shaderID = shader->getID();
+							std::string defaultVertexInput;
+							std::string defaultFragmentInput;
+
+							if (renderableLayer.is2D)
+							{
+								defaultVertexInput = this->openglBackend->getDefault2DVertexInput();
+								defaultFragmentInput = this->openglBackend->getDefault2DFragmentInput();
+							}
+							else
+							{
+								defaultVertexInput = this->openglBackend->getDefault3DVertexInput();
+								defaultFragmentInput = this->openglBackend->getDefault3DFragmentInput();
+							}
+
+							if (!this->openglBackend->shaderPrograms.count(shaderID))
+							{
+								std::shared_ptr<Shader> completeShader;
+
+								if (shader->getVertexSource() == "" && shader->getFragmentSource() == "")
+								{
+									completeShader = std::shared_ptr<Shader>(new Shader(
+										defaultVertexInput,
+										defaultFragmentInput,
+										false,
+										false));
+								}
+								else if (shader->getVertexSource() == "" && shader->getFragmentSource() != "")
+								{
+									completeShader = std::shared_ptr<Shader>(new Shader(
+										defaultVertexInput,
+										shader->getFragmentSource(),
+										false,
+										false));
+								}
+								else if (shader->getVertexSource() != "" && shader->getFragmentSource() == "")
+								{
+									completeShader = std::shared_ptr<Shader>(new Shader(
+										shader->getVertexSource(),
+										defaultFragmentInput,
+										false,
+										false));
+								}
+								else
+								{
+									completeShader = shader;
+								}
+
+								this->openglBackend->shaderPrograms.emplace(
+									shaderID,
+									std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(completeShader)));
+							}
+
+							shaderProgram = this->openglBackend->shaderPrograms.at(shaderID);
+						}
+						else if (!renderableLayer.is2D)
+						{
+							shaderProgram = this->openglBackend->builtInShaderProgram3D;
+						}
+						else
+						{
+							shaderProgram = this->openglBackend->builtInShaderProgram2D;
+						}
+
+						shaderProgram->use();
+
+						/* Custom uniforms. */
+						for (auto const& intUniformPair : shaderParameters->intUniforms)
+							shaderProgram->setInt(intUniformPair.first, intUniformPair.second);
+
+						for (auto const& boolUniformPair : shaderParameters->boolUniforms)
+							shaderProgram->setBool(boolUniformPair.first, boolUniformPair.second);
+
+						for (auto const& floatUniformPair : shaderParameters->floatUniforms)
+							shaderProgram->setFloat(floatUniformPair.first, floatUniformPair.second);
+
+						for (auto const& vec2UniformPair : shaderParameters->vec2Uniforms)
+							shaderProgram->setVec2(vec2UniformPair.first, vec2UniformPair.second);
+
+						for (auto const& vec3UniformPair : shaderParameters->vec3Uniforms)
+							shaderProgram->setVec3(vec3UniformPair.first, vec3UniformPair.second);
+
+						for (auto const& vec4UniformPair : shaderParameters->vec4Uniforms)
+							shaderProgram->setVec4(vec4UniformPair.first, vec4UniformPair.second);
+
+						for (auto const& mat4UniformPair : shaderParameters->mat4Uniforms)
+							shaderProgram->setMat4(mat4UniformPair.first, mat4UniformPair.second);
+
+						/* Standard uniforms */
+						shaderProgram->setMat4("mvp", mvp);
+						shaderProgram->setMat4("modelToWorldMatrix", modelToWorldMatrix);
+						shaderProgram->setMat4("worldToModelMatrix", glm::inverse(modelToWorldMatrix));
+						shaderProgram->setInt("albedoTextureSampler", 0);
+						shaderProgram->setInt("metallicityTextureSampler", 1);
+						shaderProgram->setInt("roughnessTextureSampler", 2);
+						shaderProgram->setInt("emissionTextureSampler", 3);
+						shaderProgram->setInt("normalTextureSampler", 4);
+						shaderProgram->setInt("occlusionTextureSampler", 5);
+						shaderProgram->setFloat("alpha", alpha);
+						shaderProgram->setInt("lightMode", (int)light->mode);
+						shaderProgram->setVec4("lightColour", light->colour->getRGBAInVec4());
+						shaderProgram->setVec4("shadowColour", light->shadowColour->getRGBAInVec4());
+						shaderProgram->setFloat("lightIntensity", light->intensity);
+						shaderProgram->setFloat("lightAttenuation", light->attenuation);
+						shaderProgram->setFloat("lightRange", light->range);
+						shaderProgram->setBool("isShadowEnabled", light->isShadowEnabled);
+						shaderProgram->setVec3("lightTranslation", lightTransform->translation);
+						shaderProgram->setVec3("lightRotation", lightTransform->rotation);
+						shaderProgram->setVec2("cameraViewport", renderableLayer.camera->getViewport());
+						shaderProgram->setVec3("cameraTranslation", renderableLayer.cameraTransform->translation);
+						shaderProgram->setVec3("cameraRotation", renderableLayer.cameraTransform->rotation);
+						shaderProgram->setVec3("entityTranslation", entityRenderable.entityTransform->translation);
+						shaderProgram->setVec3("entityRotation", entityRenderable.entityTransform->rotation);
+						shaderProgram->setVec3("entityScale", entityRenderable.entityTransform->scale);
+
+						if (vertexArray->getIndexCount() > 0)
+							glDrawElements(GL_TRIANGLES, (GLsizei)vertexArray->getIndexCount(), GL_UNSIGNED_INT, 0);
+						else
+							glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexArray->getVertexCount());
+
+						vertexArray->unbind();
+						this->openglBackend->disableBlending();
+					}
+				}
+			}
+		}
+	}
+
+	this->openglBackend->collectGarbage();
 	this->openglBackend->swapBuffers();
 }
 

@@ -38,7 +38,7 @@ namespace Omnia
 	{
 	public:
 		OpenGLIndexBuffer();
-		OpenGLIndexBuffer(std::shared_ptr<RenderableComponent> renderableComponent);
+		OpenGLIndexBuffer(std::shared_ptr<Asset> asset);
 		~OpenGLIndexBuffer();
 		void bind();
 		void deleteIndexBuffer();

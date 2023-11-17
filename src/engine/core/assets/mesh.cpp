@@ -25,6 +25,7 @@
 
 Omnia::Mesh::Mesh(std::string filepath)
 {
+    this->type = TYPE_STRING;
 	if (filepath == "Mesh::cube")
 		this->setToCube();
     else if (filepath == "Mesh::quad")
@@ -41,6 +42,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> bitangents;
     std::vector<uint32_t> indices;
 
+    this->type = TYPE_STRING;
     this->populateData(positions,
         textureCoords,
         normals,
@@ -57,6 +59,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> bitangents;
     std::vector<uint32_t> indices;
 
+    this->type = TYPE_STRING;
     this->populateData(positions,
         textureCoords,
         normals,
@@ -73,6 +76,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> tangents;
     std::vector<float> bitangents;
 
+    this->type = TYPE_STRING;
     this->populateData(positions,
         textureCoords,
         normals,
@@ -89,6 +93,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> tangents;
     std::vector<float> bitangents;
 
+    this->type = TYPE_STRING;
     this->populateData(positions,
         textureCoords,
         normals,
@@ -104,6 +109,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> bitangents,
     std::vector<uint32_t> indices)
 {
+    this->type = TYPE_STRING;
     this->populateData(positions,
         textureCoords,
         normals,

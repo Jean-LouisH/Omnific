@@ -31,7 +31,7 @@
 #include <core/assets/image.hpp>
 #include <core/assets/shader.hpp>
 #include <core/scene/scene.hpp>
-#include "../renderable_layer.hpp"
+#include "../../renderable_layer.hpp"
 #include "core/utilities/aliases.hpp"
 #include <string>
 #include <map>
@@ -42,11 +42,13 @@ namespace Omnia
 	class OpenGLRenderingBackend
 	{
 	public:
-		OpenGLRenderingBackend()
-		{
-			this->dummyLight = std::shared_ptr<Light>(new Light());
-			this->dummyLightTransform = std::shared_ptr<Transform>(new Transform());
-		}
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLShaderProgram>> shaderPrograms;
+		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram2D;
+		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram3D;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLTexture>> textures;
+		std::unordered_map<AssetID, std::shared_ptr<OpenGLVertexArray>> vertexArrays;
+		uint8_t allowableMissedFrames = 0;
+		std::unordered_map<AssetID, uint8_t> missedFrameCounts;
 
 		void initialize();
 		void clearColourBuffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
@@ -58,26 +60,16 @@ namespace Omnia
 		void enableBlending();
 		void disableBlending();
 		void setViewport(uint32_t width, uint32_t height);
-		void submit(std::vector<std::vector<RenderableLayer>> renderableLayerLists);
 		void swapBuffers();
 		std::string getRenderingBackendName();
-	private:
-		std::unordered_map<AssetID, std::shared_ptr<OpenGLTexture>> textures;
-		std::unordered_map<AssetID, std::shared_ptr<OpenGLVertexArray>> vertexArrays;
-		std::unordered_map<AssetID, std::shared_ptr<OpenGLShaderProgram>> shaderPrograms;
-		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram2D;
-		std::shared_ptr<OpenGLShaderProgram> builtInShaderProgram3D;
-
-		std::shared_ptr<Light> dummyLight;
-		std::shared_ptr<Transform> dummyLightTransform;
-
-		uint8_t allowableMissedFrames = 0;
-		std::unordered_map<AssetID, uint8_t> missedFrameCounts;
-
-		std::shared_ptr<OpenGLTexture> getTexture(std::shared_ptr<Image> image);
-		std::shared_ptr<OpenGLVertexArray> getVertexArray(std::shared_ptr<RenderableComponent> renderableComponent);
-
+		std::string getDefault2DVertexInput();
+		std::string getDefault2DFragmentInput();
+		std::string getDefault3DVertexInput();
+		std::string getDefault3DFragmentInput();
+		std::shared_ptr<OpenGLTexture> getTexture(std::shared_ptr<Asset> asset);
+		std::shared_ptr<OpenGLVertexArray> getVertexArray(std::shared_ptr<Asset> asset);
 		void collectGarbage();
+	private:
 	};
 }
 
