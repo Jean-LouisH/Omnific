@@ -47,3 +47,16 @@ target_link_libraries (dedicated_gpu_application
 		omnia_engine
 		${SDL2}
 )
+
+
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    if (WIN32)
+        # /ENTRY:mainCRTStartup keeps the same "main" function instead of requiring "WinMain"
+        set(SUBSYSTEM_LINKER_OPTIONS "/SUBSYSTEM:WINDOWS"  "/ENTRY:mainCRTStartup")
+   else()
+       set(SUBSYSTEM_LINKER_OPTIONS "-mwindows")
+    endif()
+endif()
+
+target_link_options(application PUBLIC ${SUBSYSTEM_LINKER_OPTIONS})
+target_link_options(dedicated_gpu_application PUBLIC ${SUBSYSTEM_LINKER_OPTIONS})
