@@ -26,7 +26,7 @@
 
 void Omnia::Sprite::deserialize(YAML::Node yaml_node)
 {
-	RenderableComponent::deserialize(yaml_node);
+	Model::deserialize(yaml_node);
 
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -41,7 +41,7 @@ void Omnia::Sprite::deserialize(YAML::Node yaml_node)
 				this->add_image(OS::get_file_access().load_asset_by_type<Image>(it3->second.as<std::string>()));
 			}
 
-			this->set_dimensions(this->image->get_width(), this->image->get_height(), 0.0);
+			this->set_dimensions(this->get_image()->get_width(), this->get_image()->get_height(), 0.0);
 		}
 	}
 }
@@ -61,7 +61,7 @@ void Omnia::Sprite::add_empty_frame_sequence(std::string frame_sequence_name)
 void Omnia::Sprite::add_frame_sequence(std::string frame_sequence_name, std::vector<std::shared_ptr<Image>> frame_sequence)
 {
 	this->frame_sequences.emplace(frame_sequence_name, frame_sequence);
-	this->image = this->get_current_frame();
+	this->set_to_image(this->get_current_frame());
 }
 
 void Omnia::Sprite::add_image_to_frame_sequence(std::string frame_sequence_name, std::shared_ptr<Image> frame)
@@ -73,14 +73,14 @@ void Omnia::Sprite::add_image_to_frame_sequence(std::string frame_sequence_name,
 		if (frame_sequence.size() == 1)
 			this->set_dimensions(frame->get_width(), frame->get_height());
 	}
-	this->image = this->get_current_frame();
+	this->set_to_image(this->get_current_frame());
 }
 
 void Omnia::Sprite::clear_frame_sequences()
 {
 	this->frame_sequences.clear();
 	this->current_frame_index = 0;
-	this->image = this->get_current_frame();
+	this->set_to_image(this->get_current_frame());
 }
 
 void Omnia::Sprite::set_animation_speed(float value_fps)
@@ -115,7 +115,7 @@ void Omnia::Sprite::update(float delta_s)
 		}
 	}
 
-	this->image = this->get_current_frame();
+	this->set_to_image(this->get_current_frame());
 }
 
 void Omnia::Sprite::play(std::string frame_sequence_name)

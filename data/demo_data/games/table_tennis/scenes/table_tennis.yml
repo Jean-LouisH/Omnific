@@ -24,7 +24,7 @@ SceneLayer:
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "games/table_tennis/shaders/phong_fragment.glsl"
   Entity:

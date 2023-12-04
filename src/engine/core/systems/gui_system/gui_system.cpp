@@ -105,7 +105,7 @@ void Omnia::GUISystem::on_early(std::shared_ptr<Scene> scene)
 				{
 					/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
 
-					if (scene_layer.second->is2_d)
+					if (scene_layer.second->is_2d)
 					{
 
 					}

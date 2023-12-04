@@ -28,8 +28,7 @@
 #include <string>
 #include "opengl_vertex_buffer.hpp"
 #include "opengl_index_buffer.hpp"
-#include <core/components/renderable_component.hpp>
-#include <core/assets/image.hpp>
+#include <core/components/model.hpp>
 #include <core/assets/mesh.hpp>
 #include <memory>
 
@@ -41,7 +40,7 @@ namespace Omnia
 	{
 	public:
 		OpenGLVertexArray();
-		OpenGLVertexArray(std::shared_ptr<Asset> asset);
+		OpenGLVertexArray(std::shared_ptr<Mesh> mesh);
 		~OpenGLVertexArray();
 		void bind();
 		void unbind();

@@ -89,10 +89,9 @@ namespace Omnia
 			registry->add<Collider, Component>();
 			registry->add<GUI, Component>();
 			registry->add<Light, Component>();
-			registry->add<Model, Component>();
 			registry->add<PhysicsBody, Component>();
 			registry->add<PropertyAnimation, Component>();
-			registry->add<RenderableComponent, Component>();
+			registry->add<Model, Component>();
 			registry->add<ScriptCollection, Component>();
 			registry->add<Sprite, Component>();
 			registry->add<Timer, Component>();

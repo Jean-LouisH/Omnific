@@ -43,8 +43,8 @@ namespace Omnia
 	{
 	public:
 		std::unordered_map<AssetID, std::shared_ptr<OpenGLShaderProgram>> shader_programs;
-		std::shared_ptr<OpenGLShaderProgram> built_in_shader_program2_d;
-		std::shared_ptr<OpenGLShaderProgram> built_in_shader_program3_d;
+		std::shared_ptr<OpenGLShaderProgram> built_in_shader_program_2d;
+		std::shared_ptr<OpenGLShaderProgram> built_in_shader_program_3d;
 		std::unordered_map<AssetID, std::shared_ptr<OpenGLTexture>> textures;
 		std::unordered_map<AssetID, std::shared_ptr<OpenGLVertexArray>> vertex_arrays;
 		uint8_t allowable_missed_frames = 0;
@@ -60,14 +60,21 @@ namespace Omnia
 		void enable_blending();
 		void disable_blending();
 		void set_viewport(uint32_t width, uint32_t height);
+		void enable_face_culling();
+		void disable_face_culling();
+		void set_face_culling_to_front();
+		void set_face_culling_to_back();
+		void set_face_culling_to_front_and_back();
+		void draw_triangles_from_elements(unsigned int index_count);
+		void draw_triangles_from_arrays(unsigned int vertex_count);
 		void swap_buffers();
 		std::string get_rendering_backend_name();
-		std::string get_default2_dvertex_input();
-		std::string get_default2_dfragment_input();
-		std::string get_default3_dvertex_input();
-		std::string get_default3_dfragment_input();
-		std::shared_ptr<OpenGLTexture> get_texture(std::shared_ptr<Asset> asset);
-		std::shared_ptr<OpenGLVertexArray> get_vertex_array(std::shared_ptr<Asset> asset);
+		std::string get_default_2d_vertex_input();
+		std::string get_default_2d_fragment_input();
+		std::string get_default_3d_vertex_input();
+		std::string get_default_3d_fragment_input();
+		std::shared_ptr<OpenGLTexture> get_texture(std::shared_ptr<Image> image);
+		std::shared_ptr<OpenGLVertexArray> get_vertex_array(std::shared_ptr<Mesh> mesh);
 		void collect_garbage();
 	private:
 	};

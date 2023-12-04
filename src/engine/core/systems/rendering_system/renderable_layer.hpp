@@ -27,7 +27,7 @@
 #include <core/components/camera.hpp>
 #include <core/components/light.hpp>
 #include <memory>
-#include "entity_renderable.hpp"
+#include "renderable.hpp"
 
 namespace Omnia
 {
@@ -36,12 +36,12 @@ namespace Omnia
 	class RenderableLayer
 	{
 	public:
-		bool is2_d = false;
+		bool is_2d = false;
 		std::shared_ptr<Camera> camera;
 		std::shared_ptr<Transform> camera_transform;
 		std::vector<std::shared_ptr<Light>> lights;
 		std::vector<std::shared_ptr<Transform>> light_transforms;
-		std::vector<EntityRenderable> entity_renderables;
+		std::vector<Renderable> renderables;
 	private:
 	};
 }

@@ -46,7 +46,7 @@ SceneLayer:
       translation: [0, 0, 0]
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate.py", "tests/scripts/python/shader_parameter_control.py"]
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "tests/shaders/phong_fragment.glsl"
   SubSceneLayer:

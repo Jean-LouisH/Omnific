@@ -28,13 +28,13 @@
 #include "core/utilities/constants.hpp"
 #include <string>
 #include "core/assets/image.hpp"
-#include "renderable_component.hpp"
+#include "model.hpp"
 #include <glm/glm.hpp>
 #include <memory>
 
 namespace Omnia
 {
-	class OMNIA_ENGINE_API Sprite : public RenderableComponent
+	class OMNIA_ENGINE_API Sprite : public Model
 	{
 	public:
 		Sprite()

@@ -44,7 +44,7 @@ namespace Omnia
 	class OMNIA_ENGINE_API SceneLayer
 	{
 	public:
-		bool is2_d = false;
+		bool is_2d = false;
 		std::string name;
 
 		SceneLayer();

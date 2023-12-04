@@ -30,7 +30,7 @@
 #include "core/singletons/os/window.hpp"
 #include "core/utilities/aliases.hpp"
 #include "rendering_backends/opengl_rendering_backend/opengl_rendering_backend.hpp"
-#include "entity_renderable.hpp"
+#include "renderable.hpp"
 #include "renderable_layer.hpp"
 #include <memory>
 #include <map>
@@ -38,7 +38,7 @@
 
 namespace Omnia
 {
-	/* Processes RenderableComponents for output to graphics display. */
+	/* Processes Renderables for output to graphics display. */
 	class RenderingSystem : public System
 	{
 	public:

@@ -23,13 +23,13 @@ SceneLayer:
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "tests/shaders/unlit.glsl"
   Entity:
     name: "ScriptableShaderEntity"
     Transform: default
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "tests/shaders/unlit_and_coloured.glsl"
     ScriptCollection:

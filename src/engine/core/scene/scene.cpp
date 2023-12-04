@@ -111,9 +111,9 @@ void Omnia::Scene::deserialize_from(std::string filepath, std::string name)
 							int value = it1->second.as<int>();
 
 							if (value == 2)
-								scene_layer->is2_d = true;
+								scene_layer->is_2d = true;
 							else if (value == 3)
-								scene_layer->is2_d = false;
+								scene_layer->is_2d = false;
 						}
 						else if (it1->first.as<std::string>() == "Entity")
 						{
@@ -178,7 +178,7 @@ void Omnia::Scene::deserialize_from(std::string filepath, std::string name)
 
 
 								/* Only load the SceneLayer if it is the same spatial dimension. */
-								if (sub_scene_layer->is2_d == scene_layer->is2_d)
+								if (sub_scene_layer->is_2d == scene_layer->is_2d)
 								{
 									/* Transfer Entities and their Components */
 									std::shared_ptr<Entity> new_root_entity(new Entity());

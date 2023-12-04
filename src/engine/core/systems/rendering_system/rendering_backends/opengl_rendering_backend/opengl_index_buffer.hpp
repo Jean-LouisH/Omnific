@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <core/components/renderable_component.hpp>
+#include <core/components/model.hpp>
 #include <core/assets/image.hpp>
 #include <core/assets/mesh.hpp>
 #include <memory>
@@ -38,7 +38,7 @@ namespace Omnia
 	{
 	public:
 		OpenGLIndexBuffer();
-		OpenGLIndexBuffer(std::shared_ptr<Asset> asset);
+		OpenGLIndexBuffer(std::shared_ptr<Mesh> mesh);
 		~OpenGLIndexBuffer();
 		void bind();
 		void delete_index_buffer();

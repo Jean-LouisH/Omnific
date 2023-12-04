@@ -23,7 +23,7 @@
 #pragma once
 
 #include "core/assets/image.hpp"
-#include "renderable_component.hpp"
+#include "model.hpp"
 #include "core/component.hpp"
 #include "core/assets/colour.hpp"
 #include <unordered_map>
@@ -339,7 +339,7 @@ namespace Omnia
 		void update_image();
 	};
 
-	class OMNIA_ENGINE_API GUI : public RenderableComponent
+	class OMNIA_ENGINE_API GUI : public Model
 	{
 		friend class GUISystem;
 	public:

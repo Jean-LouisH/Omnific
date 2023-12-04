@@ -26,7 +26,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
-#include <core/components/renderable_component.hpp>
+#include <core/components/model.hpp>
 #include <core/assets/image.hpp>
 #include <core/assets/mesh.hpp>
 #include <memory>
@@ -38,7 +38,7 @@ namespace Omnia
 	{
 	public:
 		OpenGLVertexBuffer();
-		OpenGLVertexBuffer(std::shared_ptr<Asset> asset);
+		OpenGLVertexBuffer(std::shared_ptr<Mesh> mesh);
 		~OpenGLVertexBuffer();
 		void bind();
 		void delete_vertex_buffer();

@@ -27,12 +27,12 @@ Omnia::OpenGLVertexArray::OpenGLVertexArray()
 	glGenVertexArrays(1, &this->vertex_array_id);
 }
 
-Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Asset> asset)
+Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Mesh> mesh)
 {
 	glGenVertexArrays(1, &this->vertex_array_id);
 	this->bind();
-	this->vertex_buffer = std::shared_ptr<OpenGLVertexBuffer>(new OpenGLVertexBuffer(asset));
-	this->index_buffer = std::shared_ptr<OpenGLIndexBuffer>(new OpenGLIndexBuffer(asset));
+	this->vertex_buffer = std::shared_ptr<OpenGLVertexBuffer>(new OpenGLVertexBuffer(mesh));
+	this->index_buffer = std::shared_ptr<OpenGLIndexBuffer>(new OpenGLIndexBuffer(mesh));
 
 	// vertex positions
 	glEnableVertexAttribArray(0);

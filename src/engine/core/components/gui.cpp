@@ -28,7 +28,7 @@ void Omnia::GUI::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
-		RenderableComponent::deserialize(yaml_node);
+		Model::deserialize(yaml_node);
 
 		if (it3->first.as<std::string>() == "GUIPanelTabGroup")
 		{
@@ -503,7 +503,7 @@ void Omnia::GUI::update_image()
 			{
 				for (auto widget : gui_panel->widgets)
 				{
-					this->image = widget.second->image;
+					this->set_to_image(widget.second->image);
 				}
 			}
 		}
@@ -590,7 +590,7 @@ void Omnia::GUI::update_image()
 		}
 	}
 
-	this->set_dimensions(this->image->get_width(), this->image->get_height(), 0);
+	this->set_dimensions(this->get_image()->get_width(), this->get_image()->get_height(), 0);
 }
 
 void Omnia::GUI::set_as_text(std::string text)

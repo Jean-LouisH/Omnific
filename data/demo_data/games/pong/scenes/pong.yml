@@ -24,7 +24,7 @@ SceneLayer:
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "games/pong/shaders/unlit_3d_fragment.glsl"
   Entity:

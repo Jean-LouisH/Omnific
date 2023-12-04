@@ -26,8 +26,6 @@
 #include <string>
 #include <SDL_video.h>
 
-#include <core/components/model.hpp>
-
 void Omnia::OpenGLRenderingBackend::initialize()
 {
 	Window& window = OS::get_window();
@@ -39,15 +37,15 @@ void Omnia::OpenGLRenderingBackend::initialize()
 	}
 	else
 	{
-		this->built_in_shader_program2_d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
-			this->get_default2_dvertex_input(),
-			this->get_default2_dfragment_input(),
+		this->built_in_shader_program_2d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
+			this->get_default_2d_vertex_input(),
+			this->get_default_2d_fragment_input(),
 			false,
 			false))));
 
-		this->built_in_shader_program3_d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
-			this->get_default3_dvertex_input(),
-			this->get_default3_dfragment_input(),
+		this->built_in_shader_program_3d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
+			this->get_default_3d_vertex_input(),
+			this->get_default_3d_fragment_input(),
 			false,
 			false))));
 
@@ -110,6 +108,41 @@ void Omnia::OpenGLRenderingBackend::set_viewport(uint32_t width, uint32_t height
 	glViewport(0, 0, width, height);
 }
 
+void Omnia::OpenGLRenderingBackend::enable_face_culling()
+{
+	glEnable(GL_CULL_FACE);
+}
+
+void Omnia::OpenGLRenderingBackend::disable_face_culling()
+{
+	glDisable(GL_CULL_FACE);
+}
+
+void Omnia::OpenGLRenderingBackend::set_face_culling_to_front()
+{
+	glCullFace(GL_FRONT);
+}
+
+void Omnia::OpenGLRenderingBackend::set_face_culling_to_back()
+{
+	glCullFace(GL_BACK);
+}
+
+void Omnia::OpenGLRenderingBackend::set_face_culling_to_front_and_back()
+{
+	glCullFace(GL_FRONT_AND_BACK);
+}
+
+void Omnia::OpenGLRenderingBackend::draw_triangles_from_elements(unsigned int index_count)
+{
+	glDrawElements(GL_TRIANGLES, (GLsizei)index_count, GL_UNSIGNED_INT, 0);
+}
+
+void Omnia::OpenGLRenderingBackend::draw_triangles_from_arrays(unsigned int vertex_count)
+{
+	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertex_count);
+}
+
 void Omnia::OpenGLRenderingBackend::swap_buffers()
 {
 	SDL_GL_SwapWindow(OS::get_window().get_sdlwindow());
@@ -120,30 +153,29 @@ std::string Omnia::OpenGLRenderingBackend::get_rendering_backend_name()
 	return "opengl";
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default2_dvertex_input()
+std::string Omnia::OpenGLRenderingBackend::get_default_2d_vertex_input()
 {
 	return OpenGLBuiltInShaders::Vertex::dimension_2;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default2_dfragment_input()
+std::string Omnia::OpenGLRenderingBackend::get_default_2d_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::dimension_2;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default3_dvertex_input()
+std::string Omnia::OpenGLRenderingBackend::get_default_3d_vertex_input()
 {
 	return OpenGLBuiltInShaders::Vertex::dimension_3;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default3_dfragment_input()
+std::string Omnia::OpenGLRenderingBackend::get_default_3d_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::dimension_3;
 }
 
-std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture(std::shared_ptr<Asset> asset)
+std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture(std::shared_ptr<Image> image)
 {
 	std::shared_ptr<OpenGLTexture> texture;
-	std::shared_ptr<Image> image = std::dynamic_pointer_cast<Image>(asset);
 
 	if (image != nullptr)
 	{
@@ -169,24 +201,24 @@ std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture
 	return texture;
 }
 
-std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::get_vertex_array(std::shared_ptr<Asset> asset)
+std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::get_vertex_array(std::shared_ptr<Mesh> mesh)
 {
-	AssetID asset_id;
+	AssetID mesh_id;
 	
-	if (asset != nullptr)
-		asset_id = asset->get_id();
+	if (mesh != nullptr)
+		mesh_id = mesh->get_id();
 
-	if (this->vertex_arrays.count(asset_id) == 0)
+	if (this->vertex_arrays.count(mesh_id) == 0)
 	{
-		this->vertex_arrays.emplace(asset_id, std::shared_ptr<OpenGLVertexArray>(new OpenGLVertexArray(asset)));
-		this->missed_frame_counts.emplace(asset_id, 0);
+		this->vertex_arrays.emplace(mesh_id, std::shared_ptr<OpenGLVertexArray>(new OpenGLVertexArray(mesh)));
+		this->missed_frame_counts.emplace(mesh_id, 0);
 	}
 	else
 	{
-		this->missed_frame_counts.at(asset_id) = 0;
+		this->missed_frame_counts.at(mesh_id) = 0;
 	}
 
-	return this->vertex_arrays.at(asset_id);
+	return this->vertex_arrays.at(mesh_id);
 }
 
 void Omnia::OpenGLRenderingBackend::collect_garbage()

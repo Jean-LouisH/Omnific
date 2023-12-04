@@ -24,7 +24,7 @@
 
 #include <vector>
 #include <core/components/transform.hpp>
-#include <core/components/renderable_component.hpp>
+#include <core/components/model.hpp>
 
 #include <core/components/camera.hpp>
 #include <core/assets/image.hpp>
@@ -38,11 +38,11 @@ namespace Omnia
 {
 	/* Caches memory locations for values 
 	   relevant to rendering a single Entity. */
-	class EntityRenderable
+	class Renderable
 	{
 	public:
-		std::shared_ptr<Transform> entity_transform;
-		std::shared_ptr<RenderableComponent> renderable_component;
+		std::shared_ptr<Transform> transform;
+		std::shared_ptr<Model> model;
 		std::shared_ptr<Shader> overriding_shader;
 		std::shared_ptr<ShaderParameters> overriding_shader_parameters;
 	private:

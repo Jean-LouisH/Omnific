@@ -24,7 +24,7 @@ SceneLayer:
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "games/paper_airplanes/shaders/phong_fragment.glsl"
   Entity:

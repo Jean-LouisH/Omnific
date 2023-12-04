@@ -6,7 +6,7 @@ SceneLayer:
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
-    RenderableComponent:
+    Model:
       overriding_shader:
         fragment: "tests/shaders/unlit.glsl"
   Entity:
