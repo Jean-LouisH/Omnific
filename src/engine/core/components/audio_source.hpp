@@ -40,9 +40,20 @@ namespace Omnia
 	class OMNIA_ENGINE_API AudioSource : public Component
 	{
 	public:
+		enum class PlaybackState
+		{
+			PLAYING,
+			PAUSED,
+			RESUMING,
+			STOPPED
+		};
+
+		friend class AudioSystem;
+
 		AudioSource()
 		{
 			this->type = TYPE_STRING;
+			this->playback_state = PlaybackState::STOPPED;
 		};
 		static constexpr const char* TYPE_STRING = "AudioSource";
 
@@ -60,9 +71,9 @@ namespace Omnia
 		void play_audio(std::string audio_name);
 		void play();
 		void pause();
+		void resume();
 		void stop();
 		void reset();
-		uint16_t get_repeat_count();
 		void jump(float time_point);
 		void set_volume(float value);
 		void set_panning(float value);
@@ -73,11 +84,12 @@ namespace Omnia
 		std::shared_ptr<Audio> get_audio_by_name(std::string audio_name);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Audio>> audio_collection;
-		lb_Libretti* libretti;
 		std::string active_audio_name;
+		PlaybackState playback_state;
+		float volume;
+		float panning;
+		float playback_time;
 
-		bool is_playing_synthesized = false;
-
-		float normalize(float value);
+		float clamp(float value);
 	};
 }

@@ -27,6 +27,10 @@
 #include <memory>
 #include "core/scene/scene.hpp"
 #include "core/system.hpp"
+#include <core/singletons/event_bus.hpp>
+#include <Libretti.h>
+#include <core/assets/audio.hpp>
+#include <core/components/audio_source.hpp>
 
 namespace Omnia
 {
@@ -52,6 +56,11 @@ namespace Omnia
 		virtual void on_late(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
+		lb_Libretti* libretti;
+
+		std::shared_ptr<Audio> query_active_audio_by_event(
+			std::unordered_map<UID, std::shared_ptr<AudioSource>> mapped_audio_sources,
+			Event audio_event);
 	};
 }
 
