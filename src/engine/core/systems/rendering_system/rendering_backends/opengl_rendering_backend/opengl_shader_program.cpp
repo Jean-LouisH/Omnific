@@ -90,6 +90,63 @@ void Omnia::OpenGLShaderProgram::set_mat4(std::string name, glm::mat4 value)
 	glUniformMatrix4fv(glGetUniformLocation(this->program_id, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
+void Omnia::OpenGLShaderProgram::set_int_array(std::string name, std::vector<int> values)
+{
+	glUniform1iv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), values.data());
+}
+
+void Omnia::OpenGLShaderProgram::set_bool_array(std::string name, std::vector<bool> values)
+{
+	std::vector<int> int_values;
+	for (int i = 0; i < values.size(); i++)
+		int_values.push_back(values.at(i));
+	this->set_int_array(name, int_values);
+}
+
+void Omnia::OpenGLShaderProgram::set_float_array(std::string name, std::vector<float> values)
+{
+	glUniform1fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), values.data());
+}
+
+void Omnia::OpenGLShaderProgram::set_vec2_array(std::string name, std::vector<glm::vec2> values)
+{
+	std::vector<float> vec2_values;
+	for (int i = 0; i < values.size(); i++)
+	{
+		glm::vec2 vec2_value = values.at(i);
+		vec2_values.push_back(vec2_value.x);
+		vec2_values.push_back(vec2_value.y);
+	}
+	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec2_values.data());
+}
+
+void Omnia::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<glm::vec3> values)
+{
+	std::vector<float> vec3_values;
+	for (int i = 0; i < values.size(); i++)
+	{
+		glm::vec3 vec3_value = values.at(i);
+		vec3_values.push_back(vec3_value.x);
+		vec3_values.push_back(vec3_value.y);
+		vec3_values.push_back(vec3_value.z);
+	}
+	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec3_values.data());
+}
+
+void Omnia::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<glm::vec4> values)
+{
+	std::vector<float> vec4_values;
+	for (int i = 0; i < values.size(); i++)
+	{
+		glm::vec4 vec4_value = values.at(i);
+		vec4_values.push_back(vec4_value.x);
+		vec4_values.push_back(vec4_value.y);
+		vec4_values.push_back(vec4_value.z);
+		vec4_values.push_back(vec4_value.w);
+	}
+	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec4_values.data());
+}
+
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL
 Shader tutorial comment section. Reference: https://learnopengl.com/Getting-started/Shaders#comment-4468935635*/
 void Omnia::OpenGLShaderProgram::log_uniforms()

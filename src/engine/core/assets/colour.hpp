@@ -57,7 +57,7 @@ namespace Omnia
 		uint8_t get_alpha();
 		uint32_t get_rgb();
 		uint32_t get_rgba();
-		glm::vec4 get_rgbain_vec4();
+		glm::vec4 get_rgba_in_vec4();
 	private:
 		float red = 1.0;
 		float green = 1.0;

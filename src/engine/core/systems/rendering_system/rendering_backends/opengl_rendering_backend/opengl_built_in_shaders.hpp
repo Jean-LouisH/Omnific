@@ -118,8 +118,8 @@ namespace Omnia
 				in vec3 normal;
 				in vec3 fragment_translation;
 				out vec4 colour;
-				uniform vec4 light_colour;
-				uniform vec3 light_translation;
+				uniform vec4 light_colours[1];
+				uniform vec3 light_translations[1];
 				uniform vec3 camera_translation;
 				uniform float alpha;
 				uniform sampler2D albedo_texture_sampler;

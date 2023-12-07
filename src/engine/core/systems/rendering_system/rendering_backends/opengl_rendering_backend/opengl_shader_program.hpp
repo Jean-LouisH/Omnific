@@ -45,6 +45,12 @@ namespace Omnia
 		void set_vec3(std::string name, glm::vec3 value);
 		void set_vec4(std::string name, glm::vec4 value);
 		void set_mat4(std::string name, glm::mat4 value);
+		void set_int_array(std::string name, std::vector<int> values);
+		void set_bool_array(std::string name, std::vector<bool> values);
+		void set_float_array(std::string name, std::vector<float> values);
+		void set_vec2_array(std::string name, std::vector<glm::vec2> values);
+		void set_vec3_array(std::string name, std::vector<glm::vec3> values);
+		void set_vec4_array(std::string name, std::vector<glm::vec4> values);
 		void log_uniforms();
 		void delete_program();
 	private:
