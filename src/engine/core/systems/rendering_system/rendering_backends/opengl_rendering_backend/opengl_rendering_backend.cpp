@@ -155,22 +155,22 @@ std::string Omnia::OpenGLRenderingBackend::get_rendering_backend_name()
 
 std::string Omnia::OpenGLRenderingBackend::get_default_2d_vertex_input()
 {
-	return OpenGLBuiltInShaders::Vertex::dimension_2;
+	return OpenGLBuiltInShaders::Vertex::standard_2d;
 }
 
 std::string Omnia::OpenGLRenderingBackend::get_default_2d_fragment_input()
 {
-	return OpenGLBuiltInShaders::Fragment::dimension_2;
+	return OpenGLBuiltInShaders::Fragment::image_2d;
 }
 
 std::string Omnia::OpenGLRenderingBackend::get_default_3d_vertex_input()
 {
-	return OpenGLBuiltInShaders::Vertex::dimension_3;
+	return OpenGLBuiltInShaders::Vertex::standard_3d;
 }
 
 std::string Omnia::OpenGLRenderingBackend::get_default_3d_fragment_input()
 {
-	return OpenGLBuiltInShaders::Fragment::dimension_3;
+	return OpenGLBuiltInShaders::Fragment::pbr_3d;
 }
 
 std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture(std::shared_ptr<Image> image)

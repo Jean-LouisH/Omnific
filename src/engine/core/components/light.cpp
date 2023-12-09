@@ -39,7 +39,7 @@ void Omnia::Light::deserialize(YAML::Node yaml_node)
 			}
 			else if (light_mode_value == "omnidirectional")
 			{
-				this->mode = LightMode::OMNIDIRECTIONAL;
+				this->mode = LightMode::POINT;
 			}
 			else if (light_mode_value == "spot")
 			{
@@ -57,10 +57,6 @@ void Omnia::Light::deserialize(YAML::Node yaml_node)
 		else if (value == "intensity")
 		{
 			this->intensity = it3->second.as<float>();
-		}
-		else if (value == "attenuation")
-		{
-			this->attenuation = it3->second.as<float>();
 		}
 		else if (value == "range")
 		{

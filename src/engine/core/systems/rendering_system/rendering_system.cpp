@@ -52,6 +52,7 @@ Omnia::RenderingSystem::RenderingSystem()
 
 	this->dummy_light = std::shared_ptr<Light>(new Light());
 	this->dummy_light_transform = std::shared_ptr<Transform>(new Transform());
+	this->dummy_light_transform->rotate_x(-45.0);
 	this->opengl_backend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
 	this->type = TYPE_STRING;
 }
@@ -137,7 +138,6 @@ void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 				std::vector<glm::vec4> light_colours;
 				std::vector<glm::vec4> shadow_colours;
 				std::vector<float> light_intensities;
-				std::vector<float> light_attenuations;
 				std::vector<float> light_ranges;
 				std::vector<bool> are_shadows_enabled;
 				std::vector<glm::vec3> light_translations;
@@ -153,7 +153,6 @@ void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 					light_colours.push_back(light->colour->get_rgba_in_vec4());
 					shadow_colours.push_back(light->shadow_colour->get_rgba_in_vec4());
 					light_intensities.push_back(light->intensity);
-					light_attenuations.push_back(light->attenuation);
 					light_ranges.push_back(light->range);
 					are_shadows_enabled.push_back(light->is_shadow_enabled);
 					light_translations.push_back(light_transform->translation);
@@ -311,11 +310,11 @@ void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 					shader_program->set_int("normal_texture_sampler", 4);
 					shader_program->set_int("occlusion_texture_sampler", 5);
 					shader_program->set_float("alpha", alpha);
+					shader_program->set_int("light_count", lights_count);
 					shader_program->set_int_array("light_modes", light_modes);
 					shader_program->set_vec4_array("light_colours", light_colours);
 					shader_program->set_vec4_array("shadow_colours", shadow_colours);
 					shader_program->set_float_array("light_intensities", light_intensities);
-					shader_program->set_float_array("light_attenuations", light_attenuations);
 					shader_program->set_float_array("light_ranges", light_ranges);
 					shader_program->set_bool_array("are_shadows_enabled", are_shadows_enabled);
 					shader_program->set_vec3_array("light_translations", light_translations);

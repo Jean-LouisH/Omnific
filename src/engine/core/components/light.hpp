@@ -30,7 +30,7 @@ namespace Omnia
 	enum class LightMode
 	{
 		DIRECTIONAL,
-		OMNIDIRECTIONAL,
+		POINT,
 		SPOT
 	};
 
@@ -49,10 +49,9 @@ namespace Omnia
 		std::shared_ptr<Colour> colour;
 		std::shared_ptr<Colour> shadow_colour;
 		float intensity = 1.0;
-		float attenuation = 0.0;
-		float range = 0.0;
+		float range = 1.0;
 		float angle = 45.0;
-		bool is_shadow_enabled = false;
+		bool is_shadow_enabled = true;
 
 		virtual Registerable* instance() override
 		{
