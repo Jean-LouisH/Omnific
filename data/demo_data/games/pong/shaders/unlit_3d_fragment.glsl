@@ -2,10 +2,10 @@
 in vec2 uv;
 out vec4 colour;
 uniform float alpha;
-uniform sampler2D albedoTextureSampler;
+uniform sampler2D albedo_texture_sampler;
 
 void main()
 {    
-	colour = texture(albedoTextureSampler, uv);
+	colour = texture(albedo_texture_sampler, uv);
 	colour.a *= alpha;
 }  
