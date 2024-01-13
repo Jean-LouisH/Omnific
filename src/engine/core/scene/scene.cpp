@@ -292,7 +292,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::get_last_scene_layer()
 	return this->scene_layers.at(this->last_scene_layer_id);
 }
 
-std::unordered_map<Omnia::SceneLayerID, std::shared_ptr<Omnia::SceneLayer>>& Omnia::Scene::get_scene_layers()
+std::map<Omnia::SceneLayerID, std::shared_ptr<Omnia::SceneLayer>>& Omnia::Scene::get_scene_layers()
 {
 	return this->scene_layers;
 }

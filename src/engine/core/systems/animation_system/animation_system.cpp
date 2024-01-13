@@ -40,11 +40,9 @@ void Omnia::AnimationSystem::initialize()
 
 void Omnia::AnimationSystem::on_compute(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
-
-	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
+	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-		this->update_sprite_containers(it->second);
+		this->update_sprite_containers(scene_layer_it.second);
 	}
 }
 

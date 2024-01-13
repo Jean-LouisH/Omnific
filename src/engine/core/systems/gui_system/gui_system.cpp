@@ -59,20 +59,20 @@ void Omnia::GUISystem::on_early(std::shared_ptr<Scene> scene)
 	/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
 	glm::vec2 mouse_position = input.get_mouse_position();
 
-	for (auto scene_layer : scene->get_scene_layers())
+	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-		std::vector<std::shared_ptr<GUI>> guis = scene_layer.second->get_components_by_type<GUI>();
+		std::vector<std::shared_ptr<GUI>> guis = scene_layer_it.second->get_components_by_type<GUI>();
 
 		for (int i = 0; i < guis.size(); i++)
 		{
 			std::shared_ptr<GUI> gui = guis[i];
-			std::shared_ptr<Transform> gui_transform = scene_layer.second->get_component_by_type<Transform>(gui->get_entity_id());
+			std::shared_ptr<Transform> gui_transform = scene_layer_it.second->get_component_by_type<Transform>(gui->get_entity_id());
 			float mouse_detection_accuracy_range = 0.1;
 
 			/* To enforce the GUI following a target Entity by an offset. */
 			if (gui->is_following_entity)
 			{
-				std::shared_ptr<Entity> followed_entity = scene_layer.second->get_entity_by_name(gui->follow_target_entity_name);
+				std::shared_ptr<Entity> followed_entity = scene_layer_it.second->get_entity_by_name(gui->follow_target_entity_name);
 				
 				/* If the Entity is not in the current SceneLayer, check 
 				   through every other SceneLayer in the Scene. */
@@ -88,24 +88,24 @@ void Omnia::GUISystem::on_early(std::shared_ptr<Scene> scene)
 					}
 				}
 
-				std::shared_ptr<Transform> followed_entity_transform = scene_layer.second->get_component_by_type<Transform>(followed_entity->get_id());
-				std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer.second->get_components_by_type<Viewport>();
+				std::shared_ptr<Transform> followed_entity_transform = scene_layer_it.second->get_component_by_type<Transform>(followed_entity->get_id());
+				std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer_it.second->get_components_by_type<Viewport>();
 				std::shared_ptr<Camera> camera;
 				std::shared_ptr<Transform> camera_transform;
 
 				for (int i = 0; i < ui_viewports.size(); i++)
 				{
 					std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
-					std::shared_ptr<Entity> camera_entity = scene_layer.second->get_entity_by_name(ui_viewport->get_camera_entity_name());
-					camera = scene_layer.second->get_component_by_type<Camera>(camera_entity->get_id());
-					camera_transform = scene_layer.second->get_component_by_type<Transform>(camera_entity->get_id());
+					std::shared_ptr<Entity> camera_entity = scene_layer_it.second->get_entity_by_name(ui_viewport->get_camera_entity_name());
+					camera = scene_layer_it.second->get_component_by_type<Camera>(camera_entity->get_id());
+					camera_transform = scene_layer_it.second->get_component_by_type<Transform>(camera_entity->get_id());
 				}
 
 				if (camera != nullptr && camera_transform != nullptr)
 				{
 					/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
 
-					if (scene_layer.second->is_2d)
+					if (scene_layer_it.second->is_2d)
 					{
 
 					}

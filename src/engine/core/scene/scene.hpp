@@ -26,7 +26,7 @@
 #include <stack>
 #include <memory>
 #include <queue>
-#include <unordered_map>
+#include <map>
 #include <unordered_map>
 #include "core/utilities/aliases.hpp"
 #include <string>
@@ -58,13 +58,13 @@ namespace Omnia
 		std::shared_ptr<SceneLayer> get_scene_layer(SceneLayerID scene_layer);
 		std::shared_ptr<SceneLayer> get_scene_layer_by_name(std::string name);
 		std::shared_ptr<SceneLayer> get_last_scene_layer();
-		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& get_scene_layers();
+		std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& get_scene_layers();
 
 		SceneID get_id();
 	private:
 		SceneID id = 0;
 		std::string name;
-		std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>> scene_layers;
+		std::map<SceneLayerID, std::shared_ptr<SceneLayer>> scene_layers;
 		SceneLayerID last_scene_layer_id = 0;
 
 		std::shared_ptr<SceneLayer> load_gltf(std::string filepath);

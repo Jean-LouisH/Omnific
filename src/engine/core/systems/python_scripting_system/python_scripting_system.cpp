@@ -57,9 +57,9 @@ void Omnia::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> sc
 			pybind11::object path = sys.attr("path");
 			std::set<std::string> added_paths;
 
-			for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
+			for (const auto scene_layer_it : PythonEntityContext::get_scene()->get_scene_layers())
 			{
-				for (std::shared_ptr<ScriptCollection> script_collection : it.second->get_components_by_type<ScriptCollection>())
+				for (std::shared_ptr<ScriptCollection> script_collection : scene_layer_it.second->get_components_by_type<ScriptCollection>())
 				{
 					for (std::shared_ptr<Script> script : script_collection->scripts)
 					{

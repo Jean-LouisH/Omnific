@@ -47,11 +47,9 @@ void Omnia::PhysicsSystem::initialize()
 
 void Omnia::PhysicsSystem::on_compute(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
-
-	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
+	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-		std::shared_ptr<SceneLayer> scene_layer = it->second;
+		std::shared_ptr<SceneLayer> scene_layer = scene_layer_it.second;
 		this->update_timers(scene_layer);
 		this->gravitate(scene_layer);
 		this->decelerate(scene_layer);

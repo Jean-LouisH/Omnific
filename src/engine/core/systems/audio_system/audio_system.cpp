@@ -46,11 +46,9 @@ void Omnia::AudioSystem::initialize()
 
 void Omnia::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
-
-	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
+	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-		std::vector<std::shared_ptr<AudioSource>> audio_sources = it->second->get_components_by_type<AudioSource>();
+		std::vector<std::shared_ptr<AudioSource>> audio_sources = scene_layer_it.second->get_components_by_type<AudioSource>();
 
 		for (int i = 0; i < audio_sources.size(); i++)
 		{
@@ -77,7 +75,7 @@ void Omnia::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 
 void Omnia::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 {
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
+	std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 
 	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
 	{

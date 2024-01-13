@@ -388,13 +388,12 @@ void Omnia::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 {
 	this->renderable_layer_lists.clear();
 
-	std::unordered_map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 	std::vector<std::shared_ptr<Model>> gui_renderable_components;
 	std::vector<std::shared_ptr<SceneLayer>> gui_scene_layers;
 
-	for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
+	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-		std::shared_ptr<SceneLayer> scene_layer = it->second;
+		std::shared_ptr<SceneLayer> scene_layer = scene_layer_it.second;
 		std::vector<RenderableLayer> renderable_layer_list;
 
 		std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer->get_components_by_type<Viewport>();
