@@ -116,6 +116,7 @@ void Omnia::Model::set_to_cube()
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo = std::shared_ptr<Image>(new Image("Image::default"));
+	this->material->normal = std::shared_ptr<Image>(new Image("Image::#8080FF"));
 }
 
 void Omnia::Model::set_to_textured_cube(std::shared_ptr<Material> material)
