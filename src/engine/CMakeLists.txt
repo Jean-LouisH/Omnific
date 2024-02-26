@@ -23,7 +23,7 @@ find_library(Python37 python37.lib PATHS ../../thirdparty/python37/lib)
 find_library(ZLIB zlib.lib PATHS ../../thirdparty/zlib-1.2.11/lib)
 
 
-include_directories(
+target_include_directories(omnia_engine PUBLIC
 		../../thirdparty/SDL2-2.28.5/include
 		../../thirdparty/SDL2_mixer-2.6.3/include
 		../../thirdparty/SDL2_ttf-2.0.18/include

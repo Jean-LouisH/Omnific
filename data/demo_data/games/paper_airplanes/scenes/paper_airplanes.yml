@@ -24,9 +24,9 @@ SceneLayer:
   Entity:
     name: "GlobalShaderEntity"
     Transform: default
-    Model:
-      overriding_shader:
-        fragment: "games/paper_airplanes/shaders/phong_fragment.glsl"
+    #Model:
+    #  overriding_shader:
+    #    fragment: "games/paper_airplanes/shaders/phong_fragment.glsl"
   Entity:
     name: "Camera"
     Transform:
@@ -72,7 +72,7 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
       shader:
-        fragment: "games/paper_airplanes/shaders/light_source_fragment.glsl"
+        fragment: "Shader::LIGHT_SOURCE"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

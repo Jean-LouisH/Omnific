@@ -397,7 +397,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::load_gltf(std::string filepath)
 					/* Metallicity and Roughness */
 					if (metallic_rougness_texture_index != -1)
 					{
-
+						material->metallicity = this->read_gltfimage(gltf_model, metallic_rougness_texture_index);
 					}
 					else
 					{
@@ -428,9 +428,9 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::load_gltf(std::string filepath)
 					else
 					{
 						material->normal = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
-							0.0,
-							0.0,
-							0.0,
+							0.5,
+							0.5,
+							1.0,
 							1.0))
 						));
 					}
@@ -461,7 +461,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::load_gltf(std::string filepath)
 				}
 				else
 				{
-					material->albedo = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
+					material->set_to_default();
 				}
 
 				if (gltf_node.translation.size() == 3)

@@ -29,8 +29,6 @@ namespace Omnia
 		namespace Vertex
 		{
 			const char standard_2d[] = R"(
-				//2D vertex shader
-
 				#version 330 core
 				layout (location = 0) in vec3 model_vertex_translation;
 				layout (location = 2) in vec2 model_vertex_uv;
@@ -61,8 +59,6 @@ namespace Omnia
 			)";
 
 			const char standard_3d[] = R"(
-				//3D vertex shader
-
 				#version 330 core
 				layout (location = 0) in vec3 model_vertex_translation;
 				layout (location = 1) in vec3 model_normal;
@@ -95,13 +91,12 @@ namespace Omnia
 		namespace Fragment
 		{
 			const char image_2d[] = R"(
-				//2D fragment shader
-
 				#version 330 core
 				in vec2 uv;
 				out vec4 colour;
 				uniform float alpha;
 				uniform sampler2D albedo_texture_sampler;
+
 				void main()
 				{    
 					colour = texture(albedo_texture_sampler, uv);
@@ -109,8 +104,62 @@ namespace Omnia
 				}  
 			)";
 
+			const char light_source_3d[] = R"(
+				#version 330 core
+				out vec4 colour;
+				uniform vec4 light_colour;
+				uniform float light_intensity;
+
+				void main()
+				{
+					colour = light_colour * light_intensity;
+				}
+			)";
+
+			const char unlit_3d[] = R"(
+				#version 330 core
+				in vec2 uv;
+				out vec4 colour;
+				uniform float alpha;
+				uniform sampler2D albedo_texture_sampler;
+
+				void main()
+				{    
+					colour = texture(albedo_texture_sampler, uv);
+					colour.a *= alpha;
+				}  
+			)";
+
+			const char phong_3d[] = R"(
+				#version 330 core
+				in vec3 translation;
+				in vec2 uv;
+				in vec3 normal;
+				in vec3 fragment_translation;
+				out vec4 colour;
+				uniform vec4 light_colour;
+				uniform vec3 light_translation;
+				uniform vec3 camera_translation;
+				uniform float alpha;
+				uniform float ambient_strength;
+				uniform sampler2D albedo_texture_sampler;
+
+				void main()
+				{
+					float specular_intensity = 0.5;
+					vec3 normal_direction = normalize(normal);
+					vec3 light_direction = normalize(light_translation - fragment_translation);
+					vec3 view_direction = normalize(camera_translation - fragment_translation);
+					vec3 reflection_direction = reflect(-light_direction, normal_direction);
+					vec4 ambient = ambient_strength * light_colour;
+					vec4 diffuse = max(dot(normal_direction, light_direction), 0.0) * light_colour;
+					vec4 specular = pow(max(dot(view_direction, reflection_direction), 0.0), 32) * specular_intensity * light_colour;
+					colour = (ambient + diffuse + specular) * texture(albedo_texture_sampler, uv);
+					colour.a *= alpha;
+				}
+			)";
+
 			const char pbr_3d[] = R"(
-				//3D fragment shader
 				#version 330 core
 
 				#define LIGHT_DIRECTIONAL 0

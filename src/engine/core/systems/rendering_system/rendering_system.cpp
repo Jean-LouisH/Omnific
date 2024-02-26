@@ -230,33 +230,58 @@ void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 						{
 							std::shared_ptr<Shader> complete_shader;
 
-							if (shader->get_vertex_source() == "" && shader->get_fragment_source() == "")
+							//Check for a selected Shader preset. Otherwise, load custom shaders.
+							std::string preset = shader->get_preset();
+
+
+							if (renderable_layer.is_2d || (!renderable_layer.is_2d && preset == "Shader::CUSTOM"))
+							{
+								std::string vertex_source_input = default_vertex_input;
+								std::string fragment_source_input = default_fragment_input;
+
+								if (shader->get_vertex_source() != "")
+									vertex_source_input = shader->get_vertex_source();
+
+								if (shader->get_fragment_source() != "")
+									fragment_source_input = shader->get_fragment_source();
+
+								complete_shader = std::shared_ptr<Shader>(new Shader(
+									vertex_source_input,
+									fragment_source_input,
+									false,
+									false));
+							}
+							else if (preset == "Shader::LIGHT_SOURCE")
 							{
 								complete_shader = std::shared_ptr<Shader>(new Shader(
 									default_vertex_input,
-									default_fragment_input,
+									this->opengl_backend->get_light_source_fragment_input(),
 									false,
 									false));
 							}
-							else if (shader->get_vertex_source() == "" && shader->get_fragment_source() != "")
+							else if (preset == "Shader::UNLIT")
 							{
 								complete_shader = std::shared_ptr<Shader>(new Shader(
 									default_vertex_input,
-									shader->get_fragment_source(),
+									this->opengl_backend->get_unlit_fragment_input(),
 									false,
 									false));
 							}
-							else if (shader->get_vertex_source() != "" && shader->get_fragment_source() == "")
+							else if (preset == "Shader::PHONG")
 							{
 								complete_shader = std::shared_ptr<Shader>(new Shader(
-									shader->get_vertex_source(),
-									default_fragment_input,
+									default_vertex_input,
+									this->opengl_backend->get_phong_fragment_input(),
 									false,
 									false));
 							}
-							else
+							else if (preset == "Shader::PBR")
 							{
-								complete_shader = shader;
+								complete_shader = std::shared_ptr<Shader>(new Shader(
+									default_vertex_input,
+									this->opengl_backend->get_pbr_fragment_input(),
+									false,
+									false));
 							}
 
 							this->opengl_backend->shader_programs.emplace(

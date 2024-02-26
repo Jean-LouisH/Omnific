@@ -170,6 +170,26 @@ std::string Omnia::OpenGLRenderingBackend::get_default_3d_vertex_input()
 
 std::string Omnia::OpenGLRenderingBackend::get_default_3d_fragment_input()
 {
+	return this->get_pbr_fragment_input();
+}
+
+std::string Omnia::OpenGLRenderingBackend::get_light_source_fragment_input()
+{
+	return OpenGLBuiltInShaders::Fragment::light_source_3d;
+}
+
+std::string Omnia::OpenGLRenderingBackend::get_unlit_fragment_input()
+{
+	return OpenGLBuiltInShaders::Fragment::unlit_3d;
+}
+
+std::string Omnia::OpenGLRenderingBackend::get_phong_fragment_input()
+{
+	return OpenGLBuiltInShaders::Fragment::phong_3d;
+}
+
+std::string Omnia::OpenGLRenderingBackend::get_pbr_fragment_input()
+{
 	return OpenGLBuiltInShaders::Fragment::pbr_3d;
 }
 

@@ -62,6 +62,7 @@ void Omnia::ShaderParameters::set_mat4_uniform(std::string uniform_name, glm::ma
 void Omnia::Model::deserialize(YAML::Node yaml_node)
 {
 	this->material = std::shared_ptr<Material>(new Material());
+	this->material->set_to_default();
 
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -77,6 +78,7 @@ void Omnia::Model::deserialize(YAML::Node yaml_node)
 		{
 			std::string vertex = "";
 			std::string fragment = "";
+			std::string preset = "Shader::UNLIT";
 
 			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
 			{
@@ -88,9 +90,18 @@ void Omnia::Model::deserialize(YAML::Node yaml_node)
 				{
 					fragment = it4->second.as<std::string>();
 				}
+				else if (it4->first.as<std::string>() == "preset")
+				{
+					preset = it4->second.as<std::string>();
+				}
 			}
 
-			std::shared_ptr<Shader> shader(new Shader(vertex, fragment));
+			std::shared_ptr<Shader> shader;
+
+			if (preset == "")
+				shader = std::shared_ptr<Shader>(new Shader(vertex, fragment));
+			else
+				shader = std::shared_ptr<Shader>(new Shader(preset));
 
 			if (it3->first.as<std::string>() == "shader")
 				this->set_shader(shader);
@@ -115,8 +126,8 @@ void Omnia::Model::set_to_cube()
 {
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
 	this->material = std::shared_ptr<Material>(new Material());
+	this->material->set_to_default();
 	this->material->albedo = std::shared_ptr<Image>(new Image("Image::default"));
-	this->material->normal = std::shared_ptr<Image>(new Image("Image::#8080FF"));
 }
 
 void Omnia::Model::set_to_textured_cube(std::shared_ptr<Material> material)
@@ -128,6 +139,7 @@ void Omnia::Model::set_to_textured_cube(std::shared_ptr<Material> material)
 void Omnia::Model::set_to_image(std::shared_ptr<Image> image)
 {
 	this->material = std::shared_ptr<Material>(new Material());
+	//this->material->set_to_default();
 	this->material->albedo = image;
 	glm::vec2 dimensions = image->get_dimensions();
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
@@ -152,7 +164,7 @@ void Omnia::Model::set_to_image(std::shared_ptr<Image> image)
 		y_centre = 0;
 	}
 
-	/* This stretches the mesh dimensions to the renderable component. */
+	/* This stretches the mesh dimensions to the model. */
 	mesh->vertices[0].position = glm::vec3(width - x_centre, height - y_centre, 0.0); //top right
 	mesh->vertices[1].position = glm::vec3(width - x_centre, 0 - y_centre, 0.0); //bottom right
 	mesh->vertices[2].position = glm::vec3(0 - x_centre, 0 - y_centre, 0.0); //bottom left

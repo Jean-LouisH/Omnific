@@ -21,3 +21,16 @@
 // SOFTWARE.
 
 #include "material.hpp"
+
+void Omnia::Material::set_to_default()
+{
+	this->albedo = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
+	this->metallicity = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+	this->specularity = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+	this->roughness = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+	this->anisotropy = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+	this->normal = std::shared_ptr<Image>(new Image("Image::#8080FFFF"));
+	this->emission = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+	this->displacement = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+	this->occlusion = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+}

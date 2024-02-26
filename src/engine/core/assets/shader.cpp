@@ -24,9 +24,16 @@
 #include <core/singletons/uid_generator.hpp>
 #include <core/singletons/os/os.hpp>
 
+Omnia::Shader::Shader(std::string shader_preset)
+{
+	this->type = TYPE_STRING;
+	this->shader_preset = shader_preset;
+}
+
 Omnia::Shader::Shader(std::string vertex_source_input, std::string fragment_source_input, bool is_vertex_filepath, bool is_fragment_filepath)
 {
 	this->type = TYPE_STRING;
+	this->shader_preset = "Shader::CUSTOM";
 
 	if (is_vertex_filepath)
 	{
@@ -50,6 +57,11 @@ Omnia::Shader::Shader(std::string vertex_source_input, std::string fragment_sour
 	{
 		this->set_name(vertex_source_input + ", " + fragment_source_input);
 	}
+}
+
+std::string Omnia::Shader::get_preset()
+{
+	return this->shader_preset;
 }
 
 std::string Omnia::Shader::get_vertex_source()

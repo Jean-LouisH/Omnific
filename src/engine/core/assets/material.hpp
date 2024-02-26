@@ -43,6 +43,8 @@ namespace Omnia
 			return clone;
 		}
 
+		void set_to_default();
+
 		std::shared_ptr<Image> albedo;
 		std::shared_ptr<Image> metallicity;
 		std::shared_ptr<Image> specularity;

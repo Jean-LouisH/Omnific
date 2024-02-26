@@ -14,8 +14,6 @@ SceneLayer:
       translation: [0, 0, 0]
     Sprite:
       image: "Image::#CCCCCC"
-      overriding_shader:
-        fragment: "games/pong/shaders/unlit_3d_fragment.glsl"
   Entity:
     name: "Viewport"
     Viewport:
@@ -28,7 +26,7 @@ SceneLayer:
     Transform: default
     Model:
       overriding_shader:
-        fragment: "games/pong/shaders/unlit_3d_fragment.glsl"
+       fragment: "Shader::PBR"
   Entity:
     name: "Camera"
     Transform:
