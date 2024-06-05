@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <core/systems/cpp_scripting_system/cpp_script_instance.hpp>
+#include <systems/cpp_scripting_system/cpp_script_instance.hpp>
 
 namespace OmniaEditor
 {

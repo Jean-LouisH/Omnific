@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include <core/scene/scene_layer.hpp>
+#include <scene/scene_layer.hpp>
 #include <queue>
-#include <core/components/script_collection.hpp>
+#include <scene/components/script_collection.hpp>
 
 #if defined (_WIN32)
 #if defined(_OMNIA_CPP_SCRIPT_ASSEMBLY_EXPORTS)

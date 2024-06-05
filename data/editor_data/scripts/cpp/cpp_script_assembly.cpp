@@ -22,10 +22,10 @@
 
 #include "cpp_script_assembly.hpp"
 #include "cpp_script_registry.hpp"
-#include "core/systems/cpp_scripting_system/cpp_entity_context.hpp"
-#include "core/singletons/os/os.hpp"
+#include "systems/cpp_scripting_system/cpp_entity_context.hpp"
+#include "foundations/singletons/platform/platform.hpp"
 
-#include <core/components/script_collection.hpp>
+#include <scene/components/script_collection.hpp>
 
 void loadScriptInstances()
 {

@@ -22,27 +22,27 @@
 
 #include "engine.hpp"
 #include <thread>
-#include "core/utilities/constants.hpp"
-#include "core/assets/image.hpp"
+#include "foundations/constants.hpp"
+#include "foundations/resources/image.hpp"
 #include <iostream>
+#include "foundations/singletons/profiler.hpp"
+#include "foundations/singletons/thread_pool.hpp"
 
-#include <core/singletons/event_bus.hpp>
+#include <foundations/singletons/event_bus.hpp>
 
-#include <customization/class_registry/class_registry.hpp>
+#include <customization/class_registry.hpp>
 
 void Omnia::Engine::run(
 	int argc,
 	char* argv[])
 {
-	OS::initialize(argc, argv);
-	Logger& logger = OS::get_logger();
+	Platform::initialize(argc, argv);
+	Logger& logger = Platform::get_logger();
 	logger.write("Initializing Omnia Engine...");
 	ClassRegistry::initialize();
 
 	do
 	{
-		Profiler& profiler = OS::get_profiler();
-
 		this->initialize();
 
 		if (this->state != State::FINALIZING)
@@ -50,23 +50,23 @@ void Omnia::Engine::run(
 
 			/* These timers persist throughout Engine runtime and
 			   keep track of elapsed times in nanoseconds. */
-			profiler.add_timer(MAIN_THREAD_TIMER_NAME, false);
-			profiler.add_timer(LOOP_THREAD_TIMER_NAME, false);
+			Profiler::add_timer(MAIN_THREAD_TIMER_NAME, false);
+			Profiler::add_timer(LOOP_THREAD_TIMER_NAME, false);
 
 			/* Engine threading uses a hybrid of dedicated threads
 			   for deadline sensitive tasks and a thread pool for
 			   general parallelizable tasks. */
 
 			std::vector<std::thread> dedicated_threads;
-			dedicated_threads.push_back(std::thread(&Engine::run_loop, this, profiler.get_timer(LOOP_THREAD_TIMER_NAME)));
+			dedicated_threads.push_back(std::thread(&Engine::run_loop, this, Profiler::get_timer(LOOP_THREAD_TIMER_NAME)));
 
-			OS::get_thread_pool().initialize();
+			ThreadPool::initialize();
 
 			logger.write("Engine loops currently running...");
 
 			/* Input loop must run on the main thread. */
-			Input& input = OS::get_input();
-			std::shared_ptr<HiResTimer> input_process_timer = profiler.get_timer(MAIN_THREAD_TIMER_NAME);
+			Input& input = Platform::get_input();
+			std::shared_ptr<HiResTimer> input_process_timer = Profiler::get_timer(MAIN_THREAD_TIMER_NAME);
 
 			while (this->state == State::RUNNING)
 			{
@@ -92,7 +92,7 @@ void Omnia::Engine::run(
 
 void Omnia::Engine::initialize()
 {
-	Logger& logger = OS::get_logger();
+	Logger& logger = Platform::get_logger();
 
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
@@ -111,19 +111,17 @@ void Omnia::Engine::initialize()
 
 	logger.write("Querying Platform...");
 
-	Platform& platform = OS::get_platform();
-
-	logger.write("Retrieved Logical Core Count: " + std::to_string(platform.get_logical_core_count()));
-	logger.write("Retrieved L1 Cache Line Size: " + std::to_string(platform.get_l1cache_line_size()) + " B");
-	logger.write("Retrieved OS Name: \"" + platform.get_osname() + "\"");
-	logger.write("Retrieved System RAM: " + std::to_string(platform.get_system_ram()) + " MB");
+	logger.write("Retrieved Logical Core Count: " + std::to_string(Platform::get_logical_core_count()));
+	logger.write("Retrieved L1 Cache Line Size: " + std::to_string(Platform::get_l1cache_line_size()) + " B");
+	logger.write("Retrieved OS Name: \"" + Platform::get_platform_name() + "\"");
+	logger.write("Retrieved System RAM: " + std::to_string(Platform::get_system_ram()) + " MB");
 
 	std::string data_directory = DATA_DIRECTORY;
 
 #ifdef _DEBUG
 	while (true)
 	{
-		OS::get_window().hide();
+		Platform::get_window().hide();
 		std::cout << "\n\nChoose data project to load:" << std::endl;
 		std::cout << "0. Custom" << std::endl;
 		std::cout << "1. Demos" << std::endl;
@@ -132,7 +130,7 @@ void Omnia::Engine::initialize()
 
 		std::string input_string;
 		std::cin >> input_string;
-		OS::get_window().show();
+		Platform::get_window().show();
 
 		if (input_string == "0")
 		{
@@ -155,12 +153,12 @@ void Omnia::Engine::initialize()
 	}
 #endif
 	std::string boot_filepath = data_directory + BOOT_FILE_NAME;
-	FileAccess& file_access = OS::get_file_access();
+	FileAccess& file_access = Platform::get_file_access();
 
 	if (file_access.exists(boot_filepath))
 	{
 		Configuration::load_from_file(boot_filepath);
-		OS::get_file_access().set_data_directory(data_directory);
+		Platform::get_file_access().set_data_directory(data_directory);
 	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
@@ -170,8 +168,8 @@ void Omnia::Engine::initialize()
 
 	if (Configuration::get_instance()->is_loaded)
 	{
-		OS::add_game_controller_mappings(data_directory + GAME_CONTROLLER_DATABASE_FILE_NAME);
-		Window& window = OS::get_window();
+		Platform::add_game_controller_mappings(data_directory + GAME_CONTROLLER_DATABASE_FILE_NAME);
+		Window& window = Platform::get_window();
 		window.resize(Configuration::get_instance()->window_settings.width, Configuration::get_instance()->window_settings.height);
 		window.change_title(Configuration::get_instance()->metadata.title.c_str());
 		this->state = State::RUNNING;
@@ -179,7 +177,7 @@ void Omnia::Engine::initialize()
 	}
 	else
 	{
-		OS::show_error_box(
+		Platform::show_error_box(
 			"Could not load game data",
 			"The game data is either missing or corrupted. Reinstall and try again");
 		logger.write("Shutting down Engine due to error in loading Configuration.");
@@ -193,15 +191,14 @@ void Omnia::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
 	for (auto system : this->systems)
 		system.second->initialize();
 
-	FileAccess& file_access = OS::get_file_access();
+	FileAccess& file_access = Platform::get_file_access();
 	std::string entry_scene_filepath = Configuration::get_instance()->metadata.entry_scene_filepath;
 
 	if (file_access.exists(file_access.get_data_directory_path() + entry_scene_filepath))
 		SceneStorage::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
 
-	Profiler& profiler = OS::get_profiler();
-	profiler.add_timer(LOOP_FRAME_TIMER_NAME);
-	std::shared_ptr<HiResTimer> loop_frame_timer = profiler.get_timer(LOOP_FRAME_TIMER_NAME);
+	Profiler::add_timer(LOOP_FRAME_TIMER_NAME);
+	std::shared_ptr<HiResTimer> loop_frame_timer = Profiler::get_timer(LOOP_FRAME_TIMER_NAME);
 
 	while (this->state == State::RUNNING)
 	{
@@ -214,7 +211,7 @@ void Omnia::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
 		if (ms_per_compute_update > MAXIMUM_MS_PER_COMPUTE_UPDATE)
 			ms_per_compute_update = MAXIMUM_MS_PER_COMPUTE_UPDATE;
 
-		if (OS::get_input().get_has_detected_input_changes())
+		if (Platform::get_input().get_has_detected_input_changes())
 			for (auto system : this->systems)
 				system.second->on_input(active_scene);
 
@@ -234,12 +231,12 @@ void Omnia::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
 		   lag milliseconds are depleted. This ensures compute operations
 		   are accurate to real-time, even when frames drop. */
 
-		while (profiler.get_lag_count() >= ms_per_compute_update && 
+		while (Profiler::get_lag_count() >= ms_per_compute_update &&
 			this->state == State::RUNNING)
 		{
 			for (auto system : this->systems)
 				system.second->on_compute(active_scene);
-			profiler.decrement_lag_count(ms_per_compute_update);
+			Profiler::decrement_lag_count(ms_per_compute_update);
 		}
 
 		for (auto system : this->systems)
@@ -253,7 +250,7 @@ void Omnia::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
 
 		EventBus::clear();
 
-		profiler.increment_lag_count(loop_frame_timer->get_delta());
+		Profiler::increment_lag_count(loop_frame_timer->get_delta());
 		loop_process_timer->set_end();
 
 		this->sleep_this_thread_for_remaining_time(
@@ -270,11 +267,11 @@ void Omnia::Engine::sleep_this_thread_for_remaining_time(uint32_t target_fps, st
 {
 	float target_frame_time = 1000.0 / target_fps;
 	float run_time = run_timer->get_delta();
-	OS::sleep_this_thread_for(target_frame_time - run_time);
+	Platform::sleep_this_thread_for(target_frame_time - run_time);
 }
 
 void Omnia::Engine::finalize()
 {
 	SceneStorage::clear_scenes();
-	OS::get_thread_pool().finalize();
+	ThreadPool::finalize();
 }
