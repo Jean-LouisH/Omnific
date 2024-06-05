@@ -4,6 +4,14 @@ cmake_minimum_required (VERSION 3.8)
 file(GLOB_RECURSE omnia_engine_sources "[a-zA-Z]*.cpp")
 file(GLOB_RECURSE omnia_engine_headers "[a-zA-Z]*.hpp")
 
+ set(STATIC_LIBRARY_EXTENSION "a")
+ set(SHARED_LIBRARY_EXTENSION "so")
+
+ if (WIN32)
+	set(STATIC_LIBRARY_EXTENSION "lib")
+	set(SHARED_LIBRARY_EXTENSION "dll")
+endif()
+
 add_library(omnia_engine SHARED
 	  ${omnia_engine_sources}
 	  ${omnia_engine_headers})
@@ -16,12 +24,11 @@ add_dependencies (omnia_engine
 
  add_definitions(/bigobj)
 
-find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.28.5/lib/x64)
-find_library(SDL2_Mixer SDL2_mixer.lib PATHS ../../thirdparty/SDL2_mixer-2.6.3/lib/x64)
-find_library(SDL2_TTF SDL2_ttf.lib PATHS ../../thirdparty/SDL2_ttf-2.0.18/lib/x64)
-find_library(Python37 python37.lib PATHS ../../thirdparty/python37/lib)
-find_library(ZLIB zlib.lib PATHS ../../thirdparty/zlib-1.2.11/lib)
-
+find_library(SDL2 SDL2.lib SDL2main.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/SDL2-2.28.5/lib/x64)
+find_library(SDL2_Mixer SDL2_mixer.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/SDL2_mixer-2.6.3/lib/x64)
+find_library(SDL2_TTF SDL2_ttf.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/SDL2_ttf-2.0.18/lib/x64)
+find_library(Python37 python37.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/python37/lib)
+find_library(ZLIB zlib.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/zlib-1.2.11/lib)
 
 target_include_directories(omnia_engine PUBLIC
 		../../thirdparty/SDL2-2.28.5/include
@@ -55,5 +62,5 @@ target_link_libraries (omnia_engine
 add_definitions(-D_OMNIA_ENGINE_EXPORTS)
 
 add_custom_command(TARGET omnia_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnia_engine> ${PROJECT_BINARY_DIR}/src/main/omnia_engine.dll
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnia_engine> ${PROJECT_BINARY_DIR}/src/application/omnia_engine.${SHARED_LIBRARY_EXTENSION} 
 )

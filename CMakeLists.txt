@@ -11,15 +11,12 @@ endif()
 
 project ("omnia_engine")
 project ("application")
-project ("dedicated_gpu_application")
-project ("launcher")
 
 enable_testing()
 
 # Include sub-projects.
 add_subdirectory("src/engine")
-add_subdirectory("src/launcher")
-add_subdirectory("src/main")
+add_subdirectory("src/application")
 add_subdirectory("tests")
 add_subdirectory("thirdparty")
 add_subdirectory("data")

@@ -29,18 +29,14 @@ add_dependencies(omnia_tests
 
  add_definitions(/bigobj)
 
-find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../thirdparty/SDL2-2.26.2/lib/x64)
-
 
 include_directories(
-		../thirdparty/SDL2-2.26.2/include
 		../src/engine
 		.
 )
 
 target_link_libraries (omnia_tests
 		omnia_engine
-		${SDL2}
 		GTest::gtest_main
 
 )
