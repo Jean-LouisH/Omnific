@@ -73,6 +73,7 @@ void Omnia::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Compon
 {
 	component->set_entity_id(entity_id);
 	this->components.push_back(component);
+	this->components_by_id.emplace(component->get_id(), component);
 	std::string type = component->get_type();
 	std::shared_ptr<Entity> entity = this->entities.at(entity_id);
 	entity->component_ids.emplace(type, component->get_id());
@@ -160,6 +161,7 @@ void Omnia::SceneLayer::remove_component(EntityID entity_id, std::string type)
 			{
 				if ((*it)->get_id() == component_id)
 				{
+					this->components_by_id.erase(component_id);
 					it = this->components.erase(it);
 					break;
 				}
@@ -254,14 +256,9 @@ std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component_by_id(Compone
 {
 	std::shared_ptr<Component> component;
 
-	for (int i = 0; i < this->components.size(); i++)
+	if (this->components_by_id.count(component_id) > 0)
 	{
-		std::shared_ptr<Component> current_component = this->components.at(i);
-		if (current_component->get_id() == component_id)
-		{
-			component = current_component;
-			break;
-		}
+		component = this->components_by_id.at(component_id);
 	}
 
 	return component;

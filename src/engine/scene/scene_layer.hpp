@@ -134,6 +134,7 @@ namespace Omnia
 		/*Components are stored in vectors for fast linear access
 		in engine system process loops.*/
 		std::vector<std::shared_ptr<Component>> components;
+		std::unordered_map<ComponentID, std::shared_ptr<Component>> components_by_id;
 
 		std::queue<EntityID> start_entities_queue;
 		std::queue<EntityID> finish_entities_queue;
