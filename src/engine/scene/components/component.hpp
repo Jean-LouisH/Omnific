@@ -55,6 +55,7 @@ namespace Omnia
 		virtual bool is_renderable();
 	protected:
 		std::vector<std::shared_ptr<Component>> component_hierarchy;
+		std::unordered_map<std::string, std::string> properties_with_types; //<PropertyName, PropertyType>
 	private:
 		EntityID entity_id = 0;
     };
