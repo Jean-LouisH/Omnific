@@ -192,7 +192,7 @@ namespace Omnia
 		};
 
 		std::unordered_map<std::string, GUIButton> items;
-		std::unordered_map<std::string, std::string> item_hierarchy;
+		std::unordered_map<std::string, std::vector<std::string>> item_hierarchy;
 	};
 
 	class OMNIA_ENGINE_API GUIContextMenu : public GUITree
@@ -264,7 +264,7 @@ namespace Omnia
 		float maximum_value = 100.0;
 		bool is_horizontal = true;
 		bool is_vertical = false;
-		bool is_progres_bar = false;
+		bool is_progress_bar = false;
 		bool is_displaying_spinner = false;
 		std::string units_string;
 		GUISpinner gui_spinner;
@@ -301,6 +301,7 @@ namespace Omnia
 		GUIPanel()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->scrollbar_thickness = 5;
 		}
 
 		std::string name;
@@ -309,9 +310,10 @@ namespace Omnia
 		std::shared_ptr<Colour> scrollbar_thumb_colour;
 		std::shared_ptr<Colour> scrollbar_arrow_colour;
 		std::shared_ptr<Image> scrollbar_arrow_image;
-		std::shared_ptr<Image> scrollbar_scrollbar_image;
+		std::shared_ptr<Image> scrollbar_image;
 		std::shared_ptr<Image> vertical_scrollbar_thumb_image;
 		std::shared_ptr<Image> horizontal_scrollbar_thumb_image;
+		uint32_t scrollbar_thickness;
 
 		/* Denoted in the image pixel position of the top view of the panel
 		   where an increasing y value travels from top to bottom. */

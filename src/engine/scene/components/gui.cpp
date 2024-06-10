@@ -419,6 +419,7 @@ void Omnia::GUIButton::update_image()
 
 void Omnia::GUIPanel::update_image()
 {
+	/* Determine if Widgets take up more space than the Panel dimensions. */
 	glm::vec2 maximum_widget_side_positions = glm::vec2(0.0);
 
 	for (auto widget : this->widgets)
@@ -430,16 +431,19 @@ void Omnia::GUIPanel::update_image()
 			maximum_widget_side_positions.y = gui_widget_side_positions.y;
 	}
 
-	/* If Widgets take up more space than the Panel dimensions, then 
-	   create the scrollbars for the sides of the panel. */
+	/* If so, then create the scrollbars for the sides of the panel. */
 	if (maximum_widget_side_positions.x > this->dimensions.x)
 	{
-
+		float percentage_of_total_horizontal_space = (float)this->dimensions.x / (float)maximum_widget_side_positions.x;
+		glm::vec2 horizontal_scrollbar_thumb_dimensions = glm::vec2(percentage_of_total_horizontal_space * this->dimensions.x, this->scrollbar_thickness);
+		this->horizontal_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->scrollbar_thumb_colour, horizontal_scrollbar_thumb_dimensions.x, horizontal_scrollbar_thumb_dimensions.y));
 	}
 
 	if (maximum_widget_side_positions.y > this->dimensions.y)
 	{
-
+		float percentage_of_total_vertical_space = (float)this->dimensions.y / (float)maximum_widget_side_positions.y;
+		glm::vec2 vertical_scrollbar_thumb_dimensions = glm::vec2(this->scrollbar_thickness, percentage_of_total_vertical_space * this->dimensions.y);
+		this->vertical_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->scrollbar_thumb_colour, vertical_scrollbar_thumb_dimensions.x, vertical_scrollbar_thumb_dimensions.y));
 	}
 
 	this->image = std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y));
