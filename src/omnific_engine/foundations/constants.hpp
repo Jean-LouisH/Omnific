@@ -26,9 +26,9 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
-#define DATA_DIRECTORY "data/"
-#define DEBUG_EDITOR_DATA_DIRECTORY "../../../../../data/editor_data/"
-#define DEBUG_DEMO_DATA_DIRECTORY "../../../../../data/demo_data/"
+#define DATA_DIRECTORY "assets/"
+#define DEBUG_STUDIO_ASSETS_DIRECTORY "../../../../../assets/studio_assets/"
+#define DEBUG_DEMO_ASSETS_DIRECTORY "../../../../../assets/demo_assets/"
 
 #ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED

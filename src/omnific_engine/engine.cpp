@@ -138,12 +138,12 @@ void Omnific::Engine::initialize()
 		}
 		else if (input_string == "1")
 		{
-			data_directory = DEBUG_DEMO_DATA_DIRECTORY;
+			data_directory = DEBUG_DEMO_ASSETS_DIRECTORY;
 			break;
 		}
 		else if (input_string == "2")
 		{
-			data_directory = DEBUG_EDITOR_DATA_DIRECTORY;
+			data_directory = DEBUG_STUDIO_ASSETS_DIRECTORY;
 			break;
 		}
 		else

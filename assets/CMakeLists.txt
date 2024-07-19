@@ -2,4 +2,4 @@
 
 project ("omnific_cpp_script_assembly")
 
-add_subdirectory("editor_data/scripts/cpp")
+add_subdirectory("studio_assets/scripts/cpp")
