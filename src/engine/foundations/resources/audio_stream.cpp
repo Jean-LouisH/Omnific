@@ -23,12 +23,12 @@
 #include "audio_stream.hpp"
 #include "foundations/singletons/platform/platform.hpp"
 
-Omnia::AudioStream::~AudioStream()
+Omnific::AudioStream::~AudioStream()
 {
 
 }
 
-Omnia::AudioStream::AudioStream(std::string filepath)
+Omnific::AudioStream::AudioStream(std::string filepath)
 {
 	this->set_name(filepath);
 	this->type = TYPE_STRING;
@@ -48,7 +48,7 @@ Omnia::AudioStream::AudioStream(std::string filepath)
 	}
 }
 
-float Omnia::AudioStream::get_playback_length()
+float Omnific::AudioStream::get_playback_length()
 {
 	float playback_length = 0.0;
 
@@ -61,23 +61,23 @@ float Omnia::AudioStream::get_playback_length()
 	
 }
 
-std::vector<uint16_t> Omnia::AudioStream::get_spectrum_data()
+std::vector<uint16_t> Omnific::AudioStream::get_spectrum_data()
 {
 	std::vector<uint16_t> spectrum;
 	return spectrum;
 }
 
-std::shared_ptr<Mix_Chunk> Omnia::AudioStream::get_sdlmix_chunk()
+std::shared_ptr<Mix_Chunk> Omnific::AudioStream::get_sdlmix_chunk()
 {
 	return this->sound_fx;
 }
 
-std::shared_ptr<Mix_Music> Omnia::AudioStream::get_sdlmix_music()
+std::shared_ptr<Mix_Music> Omnific::AudioStream::get_sdlmix_music()
 {
 	return this->music;
 }
 
-bool Omnia::AudioStream::get_is_music()
+bool Omnific::AudioStream::get_is_music()
 {
 	return this->is_music;
 }

@@ -4,7 +4,7 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-void Omnia::Transform::deserialize(YAML::Node yaml_node)
+void Omnific::Transform::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -29,37 +29,37 @@ void Omnia::Transform::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnia::Transform::translate_x(float offset)
+void Omnific::Transform::translate_x(float offset)
 {
 	this->translation.x += offset;
 }
 
-void Omnia::Transform::translate_y(float offset)
+void Omnific::Transform::translate_y(float offset)
 {
 	this->translation.y += offset;
 }
 
-void Omnia::Transform::translate_z(float offset)
+void Omnific::Transform::translate_z(float offset)
 {
 	this->translation.z += offset;
 }
 
-void Omnia::Transform::rotate_x(float angle)
+void Omnific::Transform::rotate_x(float angle)
 {
 	this->rotation.x += angle;
 }
 
-void Omnia::Transform::rotate_y(float angle)
+void Omnific::Transform::rotate_y(float angle)
 {
 	this->rotation.y += angle;
 }
 
-void Omnia::Transform::rotate_z(float angle)
+void Omnific::Transform::rotate_z(float angle)
 {
 	this->rotation.z += angle;
 }
 
-float Omnia::Transform::calculate_distance_from(glm::vec3 position)
+float Omnific::Transform::calculate_distance_from(glm::vec3 position)
 {
 	return sqrt(
 		pow(position.x - this->translation.x, 2) + 
@@ -68,17 +68,17 @@ float Omnia::Transform::calculate_distance_from(glm::vec3 position)
 	);
 }
 
-float Omnia::Transform::calculate_azimuth_from(glm::vec3 position)
+float Omnific::Transform::calculate_azimuth_from(glm::vec3 position)
 {
 	return atan2(position.y - this->translation.y, position.z - this->translation.z);
 }
 
-float Omnia::Transform::calculate_elevation_from(glm::vec3 position)
+float Omnific::Transform::calculate_elevation_from(glm::vec3 position)
 {
 	return atan2(position.x - this->translation.x, position.z - this->translation.z);
 }
 
-std::shared_ptr<Omnia::Transform> Omnia::Transform::get_global_transform()
+std::shared_ptr<Omnific::Transform> Omnific::Transform::get_global_transform()
 {
 	if (this->global_transform == nullptr)
 		this->global_transform = std::shared_ptr<Transform>(new Transform());
@@ -139,7 +139,7 @@ std::shared_ptr<Omnia::Transform> Omnia::Transform::get_global_transform()
 	return this->global_transform;
 }
 
-glm::mat4 Omnia::Transform::get_transform_matrix()
+glm::mat4 Omnific::Transform::get_transform_matrix()
 {
 	glm::mat4 transform_matrix = glm::translate(glm::mat4(1.0f), this->translation);
 	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));

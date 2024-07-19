@@ -1,15 +1,15 @@
-import omnia
+import omnific
 import random
 import math
 import constants
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def reset_ball(self):
-        scene_layer = omnia.get_scene_layer()
+        scene_layer = omnific.get_scene_layer()
         ball_entity = scene_layer.get_entity_by_name("Ball")
         ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
         ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
@@ -21,11 +21,11 @@ class omnia_script:
         ball_transform.translation.z = 0.0
 
     def on_start(self):
-        omnia_script.reset_ball(self)
+        omnific_script.reset_ball(self)
 
 
     def on_logic(self):
-        scene_layer = omnia.get_scene_layer()
+        scene_layer = omnific.get_scene_layer()
         ball_entity = scene_layer.get_entity_by_name("Ball")
         ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
         ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
@@ -45,11 +45,11 @@ class omnia_script:
               ball_physics_body.linear_velocity.y * ball_physics_body.linear_velocity.y)
 
             if ball_transform.translation.x < left_post_transform.translation.x:
-                omnia.publish_event("AI won", {"ball_speed": ball_speed})
+                omnific.publish_event("AI won", {"ball_speed": ball_speed})
             if ball_transform.translation.x > right_post_transform.translation.x:
-                omnia.publish_event("Player won", {"ball_speed": ball_speed})
+                omnific.publish_event("Player won", {"ball_speed": ball_speed})
 
-            omnia_script.reset_ball(self)
+            omnific_script.reset_ball(self)
         
         #When the ball collides with the paddles
         if ((collisions.is_colliding("Ball", "Paddle1") and ball_physics_body.linear_velocity.x < 0.0) or 

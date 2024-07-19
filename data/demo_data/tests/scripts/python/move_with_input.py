@@ -1,14 +1,14 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def on_logic(self):
         movement_speed = 1.0
-        input = omnia.get_input()
-        transform = omnia.get_component("Transform")
+        input = omnific.get_input()
+        transform = omnific.get_component("Transform")
 
         if input.is_pressed(["s", "dpad_down"]):
             transform.globally_translate_y(-movement_speed)

@@ -1,14 +1,14 @@
-import omnia
+import omnific
 import math
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         self.x = 0
         pass
 
     def on_logic(self):
-        renderable = omnia.get_component("RenderableComponent")
+        renderable = omnific.get_component("RenderableComponent")
 
         #self.x += 0.1
         #ambientStrength = 0.5 + (math.sin(self.x) / 2.0)

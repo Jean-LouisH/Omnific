@@ -28,7 +28,7 @@
 #include <foundations/resources/shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Omnia::OpenGLShaderProgram::OpenGLShaderProgram(std::shared_ptr<Shader> shader)
+Omnific::OpenGLShaderProgram::OpenGLShaderProgram(std::shared_ptr<Shader> shader)
 {
 	bool compilation_success = true;
 
@@ -44,58 +44,58 @@ Omnia::OpenGLShaderProgram::OpenGLShaderProgram(std::shared_ptr<Shader> shader)
 	this->delete_shader_object_code();
 }
 
-Omnia::OpenGLShaderProgram::~OpenGLShaderProgram()
+Omnific::OpenGLShaderProgram::~OpenGLShaderProgram()
 {
 	this->delete_program();
 }
 
-void Omnia::OpenGLShaderProgram::use()
+void Omnific::OpenGLShaderProgram::use()
 {
 	if (this->program_id != 0)
 		glUseProgram(this->program_id);
 }
 
-void Omnia::OpenGLShaderProgram::set_int(std::string name, int value)
+void Omnific::OpenGLShaderProgram::set_int(std::string name, int value)
 {
 	glUniform1i(glGetUniformLocation(this->program_id, name.c_str()), value);
 }
 
-void Omnia::OpenGLShaderProgram::set_bool(std::string name, bool value)
+void Omnific::OpenGLShaderProgram::set_bool(std::string name, bool value)
 {
 	glUniform1i(glGetUniformLocation(this->program_id, name.c_str()), (int)value);
 }
 
-void Omnia::OpenGLShaderProgram::set_float(std::string name, float value)
+void Omnific::OpenGLShaderProgram::set_float(std::string name, float value)
 {
 	glUniform1f(glGetUniformLocation(this->program_id, name.c_str()), value);
 }
 
-void Omnia::OpenGLShaderProgram::set_vec2(std::string name, glm::vec2 value)
+void Omnific::OpenGLShaderProgram::set_vec2(std::string name, glm::vec2 value)
 {
 	glUniform2f(glGetUniformLocation(this->program_id, name.c_str()), value.x, value.y);
 }
 
-void Omnia::OpenGLShaderProgram::set_vec3(std::string name, glm::vec3 value)
+void Omnific::OpenGLShaderProgram::set_vec3(std::string name, glm::vec3 value)
 {
 	glUniform3f(glGetUniformLocation(this->program_id, name.c_str()), value.x, value.y, value.z);
 }
 
-void Omnia::OpenGLShaderProgram::set_vec4(std::string name, glm::vec4 value)
+void Omnific::OpenGLShaderProgram::set_vec4(std::string name, glm::vec4 value)
 {
 	glUniform4f(glGetUniformLocation(this->program_id, name.c_str()), value.x, value.y, value.z, value.w);
 }
 
-void Omnia::OpenGLShaderProgram::set_mat4(std::string name, glm::mat4 value)
+void Omnific::OpenGLShaderProgram::set_mat4(std::string name, glm::mat4 value)
 {
 	glUniformMatrix4fv(glGetUniformLocation(this->program_id, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void Omnia::OpenGLShaderProgram::set_int_array(std::string name, std::vector<int> values)
+void Omnific::OpenGLShaderProgram::set_int_array(std::string name, std::vector<int> values)
 {
 	glUniform1iv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), values.data());
 }
 
-void Omnia::OpenGLShaderProgram::set_bool_array(std::string name, std::vector<bool> values)
+void Omnific::OpenGLShaderProgram::set_bool_array(std::string name, std::vector<bool> values)
 {
 	std::vector<int> int_values;
 	for (int i = 0; i < values.size(); i++)
@@ -103,12 +103,12 @@ void Omnia::OpenGLShaderProgram::set_bool_array(std::string name, std::vector<bo
 	this->set_int_array(name, int_values);
 }
 
-void Omnia::OpenGLShaderProgram::set_float_array(std::string name, std::vector<float> values)
+void Omnific::OpenGLShaderProgram::set_float_array(std::string name, std::vector<float> values)
 {
 	glUniform1fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), values.data());
 }
 
-void Omnia::OpenGLShaderProgram::set_vec2_array(std::string name, std::vector<glm::vec2> values)
+void Omnific::OpenGLShaderProgram::set_vec2_array(std::string name, std::vector<glm::vec2> values)
 {
 	std::vector<float> vec2_values;
 	for (int i = 0; i < values.size(); i++)
@@ -120,7 +120,7 @@ void Omnia::OpenGLShaderProgram::set_vec2_array(std::string name, std::vector<gl
 	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec2_values.data());
 }
 
-void Omnia::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<glm::vec3> values)
+void Omnific::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<glm::vec3> values)
 {
 	std::vector<float> vec3_values;
 	for (int i = 0; i < values.size(); i++)
@@ -133,7 +133,7 @@ void Omnia::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<gl
 	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec3_values.data());
 }
 
-void Omnia::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<glm::vec4> values)
+void Omnific::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<glm::vec4> values)
 {
 	std::vector<float> vec4_values;
 	for (int i = 0; i < values.size(); i++)
@@ -149,7 +149,7 @@ void Omnia::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<gl
 
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL
 Shader tutorial comment section. Reference: https://learnopengl.com/Getting-started/Shaders#comment-4468935635*/
-void Omnia::OpenGLShaderProgram::log_uniforms()
+void Omnific::OpenGLShaderProgram::log_uniforms()
 {
 	int how_many{};
 	int bufsize{}; // max name size
@@ -169,13 +169,13 @@ void Omnia::OpenGLShaderProgram::log_uniforms()
 	}
 }
 
-void Omnia::OpenGLShaderProgram::delete_program()
+void Omnific::OpenGLShaderProgram::delete_program()
 {
 	if (this->program_id != 0)
 		glDeleteProgram(this->program_id);
 }
 
-bool Omnia::OpenGLShaderProgram::compile_vertex_shader(std::string vertex_shader_source)
+bool Omnific::OpenGLShaderProgram::compile_vertex_shader(std::string vertex_shader_source)
 {
 	GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
 	GLchar* source = (GLchar*)vertex_shader_source.c_str();
@@ -185,7 +185,7 @@ bool Omnia::OpenGLShaderProgram::compile_vertex_shader(std::string vertex_shader
 	return this->check_compile_time_errors(vertex_shader_id, GL_COMPILE_STATUS);
 }
 
-bool Omnia::OpenGLShaderProgram::compile_fragment_shader(std::string fragment_shader_source)
+bool Omnific::OpenGLShaderProgram::compile_fragment_shader(std::string fragment_shader_source)
 {
 	GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 	GLchar* source = (GLchar*)fragment_shader_source.c_str();
@@ -195,7 +195,7 @@ bool Omnia::OpenGLShaderProgram::compile_fragment_shader(std::string fragment_sh
 	return this->check_compile_time_errors(fragment_shader_id, GL_COMPILE_STATUS);
 }
 
-void Omnia::OpenGLShaderProgram::link_shader_program()
+void Omnific::OpenGLShaderProgram::link_shader_program()
 {
 	GLuint program_id = glCreateProgram();
 	glAttachShader(program_id, this->vertex_shader_id);
@@ -207,7 +207,7 @@ void Omnia::OpenGLShaderProgram::link_shader_program()
 	this->program_id = program_id;
 }
 
-bool Omnia::OpenGLShaderProgram::check_compile_time_errors(GLuint ID, GLuint status)
+bool Omnific::OpenGLShaderProgram::check_compile_time_errors(GLuint ID, GLuint status)
 {
 	GLint compilation_success = GL_FALSE;
 	char info_log[512];
@@ -226,7 +226,7 @@ bool Omnia::OpenGLShaderProgram::check_compile_time_errors(GLuint ID, GLuint sta
 	return compilation_success;
 }
 
-void Omnia::OpenGLShaderProgram::delete_shader_object_code()
+void Omnific::OpenGLShaderProgram::delete_shader_object_code()
 {
 	glDeleteShader(this->vertex_shader_id);
 	glDeleteShader(this->fragment_shader_id);

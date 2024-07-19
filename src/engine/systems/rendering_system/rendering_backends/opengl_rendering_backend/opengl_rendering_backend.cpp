@@ -26,7 +26,7 @@
 #include <string>
 #include <SDL_video.h>
 
-void Omnia::OpenGLRenderingBackend::initialize()
+void Omnific::OpenGLRenderingBackend::initialize()
 {
 	Window& window = Platform::get_window();
 	window.initialize_window_context("opengl");
@@ -56,7 +56,7 @@ void Omnia::OpenGLRenderingBackend::initialize()
 	}
 }
 
-void Omnia::OpenGLRenderingBackend::clear_colour_buffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnific::OpenGLRenderingBackend::clear_colour_buffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	glClearColor(
 		(float)(red) / 255.0, 
@@ -66,134 +66,134 @@ void Omnia::OpenGLRenderingBackend::clear_colour_buffer(uint8_t red, uint8_t gre
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Omnia::OpenGLRenderingBackend::clear_depth_buffer()
+void Omnific::OpenGLRenderingBackend::clear_depth_buffer()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Omnia::OpenGLRenderingBackend::enable_depth_test()
+void Omnific::OpenGLRenderingBackend::enable_depth_test()
 {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 }
 
-void Omnia::OpenGLRenderingBackend::disable_depth_test()
+void Omnific::OpenGLRenderingBackend::disable_depth_test()
 {
 	glDisable(GL_DEPTH_TEST);
 }
 
-void Omnia::OpenGLRenderingBackend::enable_wireframe_mode()
+void Omnific::OpenGLRenderingBackend::enable_wireframe_mode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
-void Omnia::OpenGLRenderingBackend::disable_wireframe_mode()
+void Omnific::OpenGLRenderingBackend::disable_wireframe_mode()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Omnia::OpenGLRenderingBackend::enable_blending()
+void Omnific::OpenGLRenderingBackend::enable_blending()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void Omnia::OpenGLRenderingBackend::disable_blending()
+void Omnific::OpenGLRenderingBackend::disable_blending()
 {
 	glDisable(GL_BLEND);
 }
 
-void Omnia::OpenGLRenderingBackend::set_viewport(uint32_t width, uint32_t height)
+void Omnific::OpenGLRenderingBackend::set_viewport(uint32_t width, uint32_t height)
 {
 	glViewport(0, 0, width, height);
 }
 
-void Omnia::OpenGLRenderingBackend::enable_face_culling()
+void Omnific::OpenGLRenderingBackend::enable_face_culling()
 {
 	glEnable(GL_CULL_FACE);
 }
 
-void Omnia::OpenGLRenderingBackend::disable_face_culling()
+void Omnific::OpenGLRenderingBackend::disable_face_culling()
 {
 	glDisable(GL_CULL_FACE);
 }
 
-void Omnia::OpenGLRenderingBackend::set_face_culling_to_front()
+void Omnific::OpenGLRenderingBackend::set_face_culling_to_front()
 {
 	glCullFace(GL_FRONT);
 }
 
-void Omnia::OpenGLRenderingBackend::set_face_culling_to_back()
+void Omnific::OpenGLRenderingBackend::set_face_culling_to_back()
 {
 	glCullFace(GL_BACK);
 }
 
-void Omnia::OpenGLRenderingBackend::set_face_culling_to_front_and_back()
+void Omnific::OpenGLRenderingBackend::set_face_culling_to_front_and_back()
 {
 	glCullFace(GL_FRONT_AND_BACK);
 }
 
-void Omnia::OpenGLRenderingBackend::draw_triangles_from_elements(unsigned int index_count)
+void Omnific::OpenGLRenderingBackend::draw_triangles_from_elements(unsigned int index_count)
 {
 	glDrawElements(GL_TRIANGLES, (GLsizei)index_count, GL_UNSIGNED_INT, 0);
 }
 
-void Omnia::OpenGLRenderingBackend::draw_triangles_from_arrays(unsigned int vertex_count)
+void Omnific::OpenGLRenderingBackend::draw_triangles_from_arrays(unsigned int vertex_count)
 {
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertex_count);
 }
 
-void Omnia::OpenGLRenderingBackend::swap_buffers()
+void Omnific::OpenGLRenderingBackend::swap_buffers()
 {
 	SDL_GL_SwapWindow(Platform::get_window().get_sdlwindow());
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_rendering_backend_name()
+std::string Omnific::OpenGLRenderingBackend::get_rendering_backend_name()
 {
 	return "opengl";
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default_2d_vertex_input()
+std::string Omnific::OpenGLRenderingBackend::get_default_2d_vertex_input()
 {
 	return OpenGLBuiltInShaders::Vertex::standard_2d;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default_2d_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_default_2d_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::image_2d;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default_3d_vertex_input()
+std::string Omnific::OpenGLRenderingBackend::get_default_3d_vertex_input()
 {
 	return OpenGLBuiltInShaders::Vertex::standard_3d;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_default_3d_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_default_3d_fragment_input()
 {
 	return this->get_pbr_fragment_input();
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_light_source_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_light_source_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::light_source_3d;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_unlit_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_unlit_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::unlit_3d;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_phong_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_phong_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::phong_3d;
 }
 
-std::string Omnia::OpenGLRenderingBackend::get_pbr_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_pbr_fragment_input()
 {
 	return OpenGLBuiltInShaders::Fragment::pbr_3d;
 }
 
-std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture(std::shared_ptr<Image> image)
+std::shared_ptr<Omnific::OpenGLTexture> Omnific::OpenGLRenderingBackend::get_texture(std::shared_ptr<Image> image)
 {
 	std::shared_ptr<OpenGLTexture> texture;
 
@@ -221,7 +221,7 @@ std::shared_ptr<Omnia::OpenGLTexture> Omnia::OpenGLRenderingBackend::get_texture
 	return texture;
 }
 
-std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::get_vertex_array(std::shared_ptr<Mesh> mesh)
+std::shared_ptr<Omnific::OpenGLVertexArray> Omnific::OpenGLRenderingBackend::get_vertex_array(std::shared_ptr<Mesh> mesh)
 {
 	AssetID mesh_id;
 	
@@ -241,7 +241,7 @@ std::shared_ptr<Omnia::OpenGLVertexArray> Omnia::OpenGLRenderingBackend::get_ver
 	return this->vertex_arrays.at(mesh_id);
 }
 
-void Omnia::OpenGLRenderingBackend::collect_garbage()
+void Omnific::OpenGLRenderingBackend::collect_garbage()
 {
 	std::vector<AssetID> assets_to_delete;
 

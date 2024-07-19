@@ -22,19 +22,19 @@
 
 #include "script.hpp"
 
-Omnia::Script::Script(std::string filepath)
+Omnific::Script::Script(std::string filepath)
 {
 	this->type = this->TYPE_STRING;
 	this->set_name(filepath);
 }
 
-void Omnia::Script::set_language_name(std::string language_name)
+void Omnific::Script::set_language_name(std::string language_name)
 {
 	if (this->language_name == "")
 		this->language_name = language_name;
 }
 
-std::string Omnia::Script::get_language_name()
+std::string Omnific::Script::get_language_name()
 {
 	return this->language_name;
 }

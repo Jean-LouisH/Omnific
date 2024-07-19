@@ -25,9 +25,9 @@
 #include <string>
 #include "foundations/resources/resource.hpp"
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Shader : public Resource
+	class OMNIFIC_ENGINE_API Shader : public Resource
 	{
 	public:
 

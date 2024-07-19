@@ -22,18 +22,18 @@
 
 #include "splash_screen_transition.hpp"
 
-void OmniaEditor::SplashScreenTransition::onStart()
+void OmnificEditor::SplashScreenTransition::onStart()
 {
-    std::shared_ptr<Omnia::Timer> timer = Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>();
+    std::shared_ptr<Omnific::Timer> timer = Omnific::CPPEntityContext::getComponentByType<Omnific::Timer>();
     float countdownValue = 5.0f;
     timer->start(countdownValue);
 }
 
-void OmniaEditor::SplashScreenTransition::onLogic()
+void OmnificEditor::SplashScreenTransition::onLogic()
 {
-    if (Omnia::CPPEntityContext::getComponentByType<Omnia::Timer>()->isFinished())
+    if (Omnific::CPPEntityContext::getComponentByType<Omnific::Timer>()->isFinished())
     {
         std::string scenepath = "assets/scenes/debug.yml";
-        Omnia::SceneStorage::changeToScene(std::shared_ptr<Omnia::Scene>(new Omnia::Scene(scenepath)));
+        Omnific::SceneStorage::changeToScene(std::shared_ptr<Omnific::Scene>(new Omnific::Scene(scenepath)));
     }
 }

@@ -27,9 +27,9 @@
 #include <string>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API AudioStream : public Audio
+	class OMNIFIC_ENGINE_API AudioStream : public Audio
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "AudioStream";

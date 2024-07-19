@@ -22,7 +22,7 @@
 
 #include "material.hpp"
 
-void Omnia::Material::set_to_default()
+void Omnific::Material::set_to_default()
 {
 	this->albedo = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
 	this->metallicity = std::shared_ptr<Image>(new Image("Image::#000000FF"));

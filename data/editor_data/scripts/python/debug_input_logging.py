@@ -1,6 +1,6 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
@@ -10,8 +10,8 @@ class omnia_script:
         shutdown_inputs = ["z"]
         restart_inputs = ["x"]
         playerID = 0
-        inputs = omnia.get_input()
-        logger = omnia.get_logger()
+        inputs = omnific.get_input()
+        logger = omnific.get_logger()
     
         if inputs.is_on_release(log_inputs, playerID):
             logger.write("one of " + str(log_inputs) + " was pressed.")
@@ -26,7 +26,7 @@ class omnia_script:
             haptic_strength = 1.0
             haptic_duration_ms = 1000
         
-            scene = omnia.get_scene()    
+            scene = omnific.get_scene()    
             scene.get_haptic_signal_buffer().publish(
                 haptic_playerID,
                 haptic_strength,

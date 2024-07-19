@@ -1,18 +1,18 @@
-﻿# Omnia native C++ scripting build
+﻿# Omnific native C++ scripting build
 
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE omnia_cpp_script_assembly_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE omnia_cpp_script_assembly_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE omnific_cpp_script_assembly_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE omnific_cpp_script_assembly_headers "[a-zA-Z]*.hpp")
 
 
-add_library(omnia_cpp_script_assembly SHARED
-	  ${omnia_cpp_script_assembly_sources}
-	  ${omnia_cpp_script_assembly_headers}
+add_library(omnific_cpp_script_assembly SHARED
+	  ${omnific_cpp_script_assembly_sources}
+	  ${omnific_cpp_script_assembly_headers}
 )
 
- add_dependencies(omnia_cpp_script_assembly
-	omnia_engine
+ add_dependencies(omnific_cpp_script_assembly
+	omnific_engine
 )
 
  add_definitions(/bigobj)
@@ -35,12 +35,12 @@ include_directories(
 		../../../../src/engine
 )
 
-target_link_libraries (omnia_cpp_script_assembly
-	omnia_engine
+target_link_libraries (omnific_cpp_script_assembly
+	omnific_engine
 )
 
-add_definitions(-D_OMNIA_CPP_SCRIPT_ASSEMBLY_EXPORTS)
+add_definitions(-D_OMNIFIC_CPP_SCRIPT_ASSEMBLY_EXPORTS)
 
-add_custom_command(TARGET omnia_cpp_script_assembly POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnia_cpp_script_assembly> ${PROJECT_BINARY_DIR}/src/main/omnia_cpp_script_assembly.dll
+add_custom_command(TARGET omnific_cpp_script_assembly POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_cpp_script_assembly> ${PROJECT_BINARY_DIR}/src/main/omnific_cpp_script_assembly.dll
 )

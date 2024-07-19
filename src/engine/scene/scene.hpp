@@ -36,9 +36,9 @@
 #include <foundations/resources/image.hpp>
 #include <tiny_gltf.h>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Scene
+	class OMNIFIC_ENGINE_API Scene
 	{
 	public:
 		Scene();

@@ -1,6 +1,6 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
@@ -9,6 +9,6 @@ class omnia_script:
         pass
 
     def on_logic(self):
-        if omnia.get_input().is_on_release("f5"):
-            omnia.reload_active_scene()
+        if omnific.get_input().is_on_release("f5"):
+            omnific.reload_active_scene()
         pass

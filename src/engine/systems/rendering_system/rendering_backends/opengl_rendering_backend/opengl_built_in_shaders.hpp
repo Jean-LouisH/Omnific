@@ -22,7 +22,7 @@
 
 #pragma once
 
-namespace Omnia
+namespace Omnific
 {
 	namespace OpenGLBuiltInShaders
 	{

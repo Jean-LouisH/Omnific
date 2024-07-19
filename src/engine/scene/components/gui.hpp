@@ -31,9 +31,9 @@
 #include <string>
 #include <foundations/aliases.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API GUIElement
+	class OMNIFIC_ENGINE_API GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIElement";
@@ -74,7 +74,7 @@ namespace Omnia
 		std::shared_ptr<Colour> background_colour;
 	};
 
-	class OMNIA_ENGINE_API GUIWidget : public GUIElement
+	class OMNIFIC_ENGINE_API GUIWidget : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIWidget";
@@ -93,7 +93,7 @@ namespace Omnia
 		bool is_ystretched_to_panel = false;
 	};
 
-	class OMNIA_ENGINE_API GUIImage : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIImage : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIImage";
@@ -103,7 +103,7 @@ namespace Omnia
 		};
 	};
 
-	class OMNIA_ENGINE_API GUIColour : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIColour : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIColour";
@@ -117,7 +117,7 @@ namespace Omnia
 		void update_image();
 	};
 
-	class OMNIA_ENGINE_API GUIText : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIText : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIText";
@@ -127,12 +127,12 @@ namespace Omnia
 		};
 
 		void set_text(std::string text);
-		void set_font(std::shared_ptr<Omnia::Font> font, uint16_t size_px);
+		void set_font(std::shared_ptr<Omnific::Font> font, uint16_t size_px);
 		void set_font_size(uint16_t size_px);
 		void set_colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
 
 		std::string text;
-		std::shared_ptr<Omnia::Font> font;
+		std::shared_ptr<Omnific::Font> font;
 		uint16_t size = 0;
 		uint16_t wrap_length = 500;
 		std::shared_ptr<Colour> colour;
@@ -141,7 +141,7 @@ namespace Omnia
 		void update_image();
 	};
 
-	class OMNIA_ENGINE_API GUIButton : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIButton : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIButton";
@@ -159,7 +159,7 @@ namespace Omnia
 
 	};
 
-	class OMNIA_ENGINE_API GUIToggleButton : public GUIButton
+	class OMNIFIC_ENGINE_API GUIToggleButton : public GUIButton
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIToggleButton";
@@ -170,7 +170,7 @@ namespace Omnia
 
 	};
 
-	class OMNIA_ENGINE_API GUIList : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIList : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIListBox";
@@ -182,7 +182,7 @@ namespace Omnia
 		std::vector<GUIButton> list_items;
 	};
 
-	class OMNIA_ENGINE_API GUITree : public GUIWidget
+	class OMNIFIC_ENGINE_API GUITree : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUITree";
@@ -195,7 +195,7 @@ namespace Omnia
 		std::unordered_map<std::string, std::vector<std::string>> item_hierarchy;
 	};
 
-	class OMNIA_ENGINE_API GUIContextMenu : public GUITree
+	class OMNIFIC_ENGINE_API GUIContextMenu : public GUITree
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIContextMenu";
@@ -206,7 +206,7 @@ namespace Omnia
 
 	};
 
-	class OMNIA_ENGINE_API GUIMenuBar : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIMenuBar : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIMenuBar";
@@ -219,7 +219,7 @@ namespace Omnia
 
 	};
 
-	class OMNIA_ENGINE_API GUISpinner : public GUIList
+	class OMNIFIC_ENGINE_API GUISpinner : public GUIList
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUISpinner";
@@ -229,7 +229,7 @@ namespace Omnia
 		};
 	};
 
-	class OMNIA_ENGINE_API GUITiles : public GUIList
+	class OMNIFIC_ENGINE_API GUITiles : public GUIList
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUITiles";
@@ -239,7 +239,7 @@ namespace Omnia
 		};
 	};
 
-	class OMNIA_ENGINE_API GUIDropDownList : public GUIList
+	class OMNIFIC_ENGINE_API GUIDropDownList : public GUIList
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIDropDownList";
@@ -251,7 +251,7 @@ namespace Omnia
 		uint64_t current_item_index = 0;
 	};
 
-	class OMNIA_ENGINE_API GUISlider : public GUIWidget
+	class OMNIFIC_ENGINE_API GUISlider : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUISlider";
@@ -270,7 +270,7 @@ namespace Omnia
 		GUISpinner gui_spinner;
 	};
 
-	class OMNIA_ENGINE_API GUILine : public GUIWidget
+	class OMNIFIC_ENGINE_API GUILine : public GUIWidget
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUILine";
@@ -283,7 +283,7 @@ namespace Omnia
 		glm::vec2 end_point;
 	};
 
-	class OMNIA_ENGINE_API GUITreeView : public GUITree
+	class OMNIFIC_ENGINE_API GUITreeView : public GUITree
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUITreeView";
@@ -293,7 +293,7 @@ namespace Omnia
 		};
 	};
 
-	class OMNIA_ENGINE_API GUIPanel : public GUIElement
+	class OMNIFIC_ENGINE_API GUIPanel : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIPanel";
@@ -323,7 +323,7 @@ namespace Omnia
 		void update_image();
 	};
 
-	class OMNIA_ENGINE_API GUIPanelTabGroup : public GUIElement
+	class OMNIFIC_ENGINE_API GUIPanelTabGroup : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIPanelTabGroup";
@@ -341,7 +341,7 @@ namespace Omnia
 		void update_image();
 	};
 
-	class OMNIA_ENGINE_API GUI : public Model
+	class OMNIFIC_ENGINE_API GUI : public Model
 	{
 		friend class GUISystem;
 	public:

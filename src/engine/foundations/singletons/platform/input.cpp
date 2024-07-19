@@ -22,7 +22,7 @@
 
 #include "input.hpp"
 
-Omnia::Input::Input()
+Omnific::Input::Input()
 {
 	this->controller_buttons_by_string.emplace("dpad_left", SDL_CONTROLLER_BUTTON_DPAD_LEFT);
 	this->controller_buttons_by_string.emplace("dpad_right", SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
@@ -148,19 +148,19 @@ Omnia::Input::Input()
 	this->keyboard_events_by_string.emplace("down", SDLK_DOWN);
 }
 
-bool Omnia::Input::is_on_press(std::string input_code)
+bool Omnific::Input::is_on_press(std::string input_code)
 {
 	std::vector<std::string> input_codes;
 	input_codes.push_back(input_code);
 	return this->is_on_press(input_codes);
 }
 
-bool Omnia::Input::is_on_press(std::vector<std::string> input_codes)
+bool Omnific::Input::is_on_press(std::vector<std::string> input_codes)
 {
 	return this->is_on_press(input_codes, 0);
 }
 
-bool Omnia::Input::is_on_press(std::vector<std::string> input_codes, PlayerID player_id)
+bool Omnific::Input::is_on_press(std::vector<std::string> input_codes, PlayerID player_id)
 {
 	for (int i = 0; i < input_codes.size(); i++)
 	{
@@ -188,19 +188,19 @@ bool Omnia::Input::is_on_press(std::vector<std::string> input_codes, PlayerID pl
 	return false;
 }
 
-bool Omnia::Input::is_on_double_press(std::string input_code, unsigned int time_interval)
+bool Omnific::Input::is_on_double_press(std::string input_code, unsigned int time_interval)
 {
 	std::vector<std::string> input_codes;
 	input_codes.push_back(input_code);
 	return this->is_on_double_press(input_codes, time_interval);
 }
 
-bool Omnia::Input::is_on_double_press(std::vector<std::string> input_codes, unsigned int time_interval)
+bool Omnific::Input::is_on_double_press(std::vector<std::string> input_codes, unsigned int time_interval)
 {
 	return this->is_on_double_press(input_codes, time_interval, 0);
 }
 
-bool Omnia::Input::is_on_double_press(std::vector<std::string> input_codes, unsigned int timer_interval, PlayerID player_id)
+bool Omnific::Input::is_on_double_press(std::vector<std::string> input_codes, unsigned int timer_interval, PlayerID player_id)
 {
 	for (int i = 0; i < input_codes.size(); i++)
 	{
@@ -210,19 +210,19 @@ bool Omnia::Input::is_on_double_press(std::vector<std::string> input_codes, unsi
 	return false;
 }
 
-bool Omnia::Input::is_pressed(std::string input_code)
+bool Omnific::Input::is_pressed(std::string input_code)
 {
 	std::vector<std::string> input_codes;
 	input_codes.push_back(input_code);
 	return this->is_pressed(input_codes);
 }
 
-bool Omnia::Input::is_pressed(std::vector<std::string> input_codes)
+bool Omnific::Input::is_pressed(std::vector<std::string> input_codes)
 {
 	return is_pressed(input_codes, 0);
 }
 
-bool Omnia::Input::is_pressed(std::vector<std::string> input_codes, PlayerID player_id)
+bool Omnific::Input::is_pressed(std::vector<std::string> input_codes, PlayerID player_id)
 {
 	for (int i = 0; i < input_codes.size(); i++)
 	{
@@ -248,19 +248,19 @@ bool Omnia::Input::is_pressed(std::vector<std::string> input_codes, PlayerID pla
 	return false;
 }
 
-bool Omnia::Input::is_on_release(std::string input_code)
+bool Omnific::Input::is_on_release(std::string input_code)
 {
 	std::vector<std::string> input_codes;
 	input_codes.push_back(input_code);
 	return this->is_on_release(input_codes);
 }
 
-bool Omnia::Input::is_on_release(std::vector<std::string> input_codes)
+bool Omnific::Input::is_on_release(std::vector<std::string> input_codes)
 {
 	return this->is_on_release(input_codes, 0);
 }
 
-bool Omnia::Input::is_on_release(std::vector<std::string> input_codes, PlayerID player_id)
+bool Omnific::Input::is_on_release(std::vector<std::string> input_codes, PlayerID player_id)
 {
 	for (int i = 0; i < input_codes.size(); i++)
 	{
@@ -288,24 +288,24 @@ bool Omnia::Input::is_on_release(std::vector<std::string> input_codes, PlayerID 
 	return false;
 }
 
-bool Omnia::Input::is_released(std::string input_code)
+bool Omnific::Input::is_released(std::string input_code)
 {
 	return !this->is_pressed(input_code);
 }
 
-bool Omnia::Input::is_released(std::string input_code, PlayerID player_id)
+bool Omnific::Input::is_released(std::string input_code, PlayerID player_id)
 {
 	std::vector<std::string> input_codes;
 	input_codes.push_back(input_code);
 	return !this->is_pressed(input_codes, player_id);
 }
 
-float Omnia::Input::get_axis(std::string input_code)
+float Omnific::Input::get_axis(std::string input_code)
 {
 	return this->get_axis(input_code, 0);
 }
 
-float Omnia::Input::get_axis(std::string input_code, PlayerID player_id)
+float Omnific::Input::get_axis(std::string input_code, PlayerID player_id)
 {
 	float axis = 0.0;
 
@@ -324,64 +324,64 @@ float Omnia::Input::get_axis(std::string input_code, PlayerID player_id)
 	return axis;
 }
 
-bool Omnia::Input::is_left_mouse_button_on_press()
+bool Omnific::Input::is_left_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::Input::is_left_mouse_button_on_release()
+bool Omnific::Input::is_left_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::Input::is_left_mouse_button_double_clicked()
+bool Omnific::Input::is_left_mouse_button_double_clicked()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
 		this->mouse_button_event.clicks == 2;
 }
 
-bool Omnia::Input::is_middle_mouse_button_on_press()
+bool Omnific::Input::is_middle_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::Input::is_middle_mouse_button_on_release()
+bool Omnific::Input::is_middle_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::Input::is_middle_mouse_button_double_clicked()
+bool Omnific::Input::is_middle_mouse_button_double_clicked()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
 		this->mouse_button_event.clicks == 2;
 }
 
-bool Omnia::Input::is_right_mouse_button_on_press()
+bool Omnific::Input::is_right_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
-bool Omnia::Input::is_right_mouse_button_on_release()
+bool Omnific::Input::is_right_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
-bool Omnia::Input::is_right_mouse_button_double_clicked()
+bool Omnific::Input::is_right_mouse_button_double_clicked()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
 		this->mouse_button_event.clicks == 2;
 }
 
-glm::vec2 Omnia::Input::get_mouse_position()
+glm::vec2 Omnific::Input::get_mouse_position()
 {
 	glm::vec2 vector2;
 	vector2.x = this->mouse_motion_event.x;
@@ -389,7 +389,7 @@ glm::vec2 Omnia::Input::get_mouse_position()
 	return vector2;
 }
 
-glm::vec2 Omnia::Input::get_mouse_wheel_velocity()
+glm::vec2 Omnific::Input::get_mouse_wheel_velocity()
 {
 	glm::vec2 vector2;
 	vector2.x = this->mouse_wheel_event.x;
@@ -397,7 +397,7 @@ glm::vec2 Omnia::Input::get_mouse_wheel_velocity()
 	return vector2;
 }
 
-glm::vec2 Omnia::Input::get_mouse_motion_velocity()
+glm::vec2 Omnific::Input::get_mouse_motion_velocity()
 {
 	glm::vec2 vector2;
 	vector2.x = this->mouse_motion_event.xrel;
@@ -405,17 +405,17 @@ glm::vec2 Omnia::Input::get_mouse_motion_velocity()
 	return vector2;
 }
 
-bool Omnia::Input::is_drop_file_detected()
+bool Omnific::Input::is_drop_file_detected()
 {
 	return this->drop_event.type == SDL_DROPFILE;
 }
 
-std::string Omnia::Input::get_drop_file_path()
+std::string Omnific::Input::get_drop_file_path()
 {
 	return this->drop_event.file;
 }
 
-uint32_t Omnia::Input::get_drop_file_window_id()
+uint32_t Omnific::Input::get_drop_file_window_id()
 {
 	uint32_t drop_file_window_id = -1;
 
@@ -425,7 +425,7 @@ uint32_t Omnia::Input::get_drop_file_window_id()
 	return drop_file_window_id;
 }
 
-void Omnia::Input::clear()
+void Omnific::Input::clear()
 {
 	//this->controller_axis_events.clear();
 	this->controller_button_events.clear();
@@ -440,7 +440,7 @@ void Omnia::Input::clear()
 	this->has_detected_input_changes = false;
 }
 
-void Omnia::Input::detect_game_controllers()
+void Omnific::Input::detect_game_controllers()
 {
 	if (SDL_NumJoysticks() != this->game_controllers.size())
 	{
@@ -472,7 +472,7 @@ void Omnia::Input::detect_game_controllers()
 	}
 }
 
-void Omnia::Input::poll_input_events()
+void Omnific::Input::poll_input_events()
 {
 	SDL_Event SDLEvents;
 
@@ -541,36 +541,36 @@ void Omnia::Input::poll_input_events()
 	}
 }
 
-bool Omnia::Input::has_requested_shutdown()
+bool Omnific::Input::has_requested_shutdown()
 {
 	bool result = this->shutdown_request;
 	this->shutdown_request = false;
 	return result;
 }
 
-bool Omnia::Input::has_requested_restart()
+bool Omnific::Input::has_requested_restart()
 {
 	bool result = this->restart_request;
 	this->restart_request = false;
 	return result;
 }
 
-void Omnia::Input::request_shutdown()
+void Omnific::Input::request_shutdown()
 {
 	this->shutdown_request = true;
 }
 
-void Omnia::Input::request_restart()
+void Omnific::Input::request_restart()
 {
 	this->restart_request = true;
 }
 
-bool Omnia::Input::get_has_detected_input_changes()
+bool Omnific::Input::get_has_detected_input_changes()
 {
 	return this->has_detected_input_changes;
 }
 
-bool Omnia::Input::has_requested_command_line()
+bool Omnific::Input::has_requested_command_line()
 {
 	bool backquote_released = false;
 
@@ -580,17 +580,17 @@ bool Omnia::Input::has_requested_command_line()
 	return backquote_released;	 
 }
 
-std::vector<SDL_Haptic*> Omnia::Input::get_haptics()
+std::vector<SDL_Haptic*> Omnific::Input::get_haptics()
 {
 	return this->haptics;
 }
 
-std::unordered_map<Omnia::PlayerID, SDL_JoystickID> Omnia::Input::get_controller_player_map()
+std::unordered_map<Omnific::PlayerID, SDL_JoystickID> Omnific::Input::get_controller_player_map()
 {
 	return this->controller_player_map;
 }
 
-std::queue<Omnia::PlayerID>& Omnia::Input::get_newly_loaded_player_ids()
+std::queue<Omnific::PlayerID>& Omnific::Input::get_newly_loaded_player_ids()
 {
 	return this->newly_loaded_player_ids;
 }

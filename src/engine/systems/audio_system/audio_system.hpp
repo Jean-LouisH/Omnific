@@ -32,7 +32,7 @@
 #include <foundations/resources/audio.hpp>
 #include <scene/components/audio_source.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Processes Components that enable playback of audio and outputs its waveforms. */
 	class AudioSystem : public System

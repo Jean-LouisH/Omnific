@@ -31,7 +31,7 @@
 #include <foundations/resources/mesh.hpp>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Storage for mesh index data in GPU memory. */
 	class OpenGLIndexBuffer

@@ -24,9 +24,9 @@
 #include "systems/cpp_scripting_system/cpp_entity_context.hpp"
 #include <scene/components/script_collection.hpp>
 
-Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::instance = nullptr;
+Omnific::CPPScriptRegistry* Omnific::CPPScriptRegistry::instance = nullptr;
 
-void Omnia::CPPScriptRegistry::loadScriptInstances()
+void Omnific::CPPScriptRegistry::loadScriptInstances()
 {
 	CPPScriptRegistry* registry = getInstance();
 
@@ -36,7 +36,7 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 	for (auto it : CPPEntityContext::getScene()->getSceneLayers())
 		for (std::shared_ptr<ScriptCollection> scriptCollection : it.second->getComponentsByType<ScriptCollection>())
 			for (std::shared_ptr<Script> script : scriptCollection->scripts)
-				if (script->getType() == Omnia::CPPScriptInstance::TYPE_STRING)
+				if (script->getType() == Omnific::CPPScriptInstance::TYPE_STRING)
 					if (registry->cppScriptDefinitions.count(script->getName()))
 						registry->cppScriptInstances.emplace(
 							script->getName() + std::to_string(scriptCollection->getEntityID()),
@@ -44,17 +44,17 @@ void Omnia::CPPScriptRegistry::loadScriptInstances()
 						);
 }
 
-std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScriptInstance>> Omnia::CPPScriptRegistry::getScriptInstances()
+std::unordered_map<std::string, std::shared_ptr<Omnific::CPPScriptInstance>> Omnific::CPPScriptRegistry::getScriptInstances()
 {
 	return getInstance()->cppScriptInstances;
 }
 
-void Omnia::CPPScriptRegistry::finalize()
+void Omnific::CPPScriptRegistry::finalize()
 {
 
 }
 
-Omnia::CPPScriptRegistry* Omnia::CPPScriptRegistry::getInstance()
+Omnific::CPPScriptRegistry* Omnific::CPPScriptRegistry::getInstance()
 {
 	if (instance == nullptr)
 		instance = new CPPScriptRegistry();

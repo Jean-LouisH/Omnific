@@ -29,12 +29,12 @@
 #include <scene/components/viewport.hpp>
 #include <scene/components/camera.hpp>
 
-Omnia::GUISystem::~GUISystem()
+Omnific::GUISystem::~GUISystem()
 {
 	this->finalize();
 }
 
-void Omnia::GUISystem::initialize()
+void Omnific::GUISystem::initialize()
 {
 	this->is_initialized = true;
 	Platform::get_logger().write("Initialized GUI System.");
@@ -42,7 +42,7 @@ void Omnia::GUISystem::initialize()
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-void Omnia::GUISystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 {
 	Input& input = Platform::get_input();
 	std::unordered_map<std::string, double> numbers;
@@ -147,7 +147,7 @@ void Omnia::GUISystem::on_early(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::GUISystem::finalize()
+void Omnific::GUISystem::finalize()
 {
 	this->is_initialized = false;
 }

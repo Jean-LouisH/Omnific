@@ -27,7 +27,7 @@
 #include "foundations/singletons/event_bus.hpp"
 #include <SDL_mixer.h>
 
-void Omnia::AudioSource::deserialize(YAML::Node yaml_node)
+void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -52,32 +52,32 @@ void Omnia::AudioSource::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnia::AudioSource::add_audio(std::shared_ptr<Audio> audio)
+void Omnific::AudioSource::add_audio(std::shared_ptr<Audio> audio)
 {
 	this->audio_collection.emplace(audio->get_name(), audio);
 }
 
-void Omnia::AudioSource::set_volume(float value)
+void Omnific::AudioSource::set_volume(float value)
 {
 	this->volume = this->clamp(value);
 }
 
-float Omnia::AudioSource::get_volume()
+float Omnific::AudioSource::get_volume()
 {
 	return this->volume;
 }
 
-void Omnia::AudioSource::clear_audio()
+void Omnific::AudioSource::clear_audio()
 {
 	this->audio_collection.clear();
 }
 
-void Omnia::AudioSource::remove_audio(std::string audio_name)
+void Omnific::AudioSource::remove_audio(std::string audio_name)
 {
 	this->audio_collection.erase(audio_name);
 }
 
-void Omnia::AudioSource::play_audio(std::string audio_name)
+void Omnific::AudioSource::play_audio(std::string audio_name)
 {
 	this->stop();
 
@@ -93,12 +93,12 @@ void Omnia::AudioSource::play_audio(std::string audio_name)
 	}
 }
 
-void Omnia::AudioSource::play()
+void Omnific::AudioSource::play()
 {
 	this->play_audio(this->active_audio_name);
 }
 
-void Omnia::AudioSource::pause()
+void Omnific::AudioSource::pause()
 {
 	if (this->active_audio_name != "")
 	{
@@ -107,7 +107,7 @@ void Omnia::AudioSource::pause()
 	}
 }
 
-void Omnia::AudioSource::resume()
+void Omnific::AudioSource::resume()
 {
 	if (this->active_audio_name != "")
 	{
@@ -116,13 +116,13 @@ void Omnia::AudioSource::resume()
 	}
 }
 
-void Omnia::AudioSource::stop()
+void Omnific::AudioSource::stop()
 {
 	this->playback_state = PlaybackState::STOPPED;
 	EventBus::publish("stopping_audio_source", std::unordered_map<std::string, double>({ {"id", this->get_id()} }));
 }
 
-void Omnia::AudioSource::reset()
+void Omnific::AudioSource::reset()
 {
 	if (this->active_audio_name != "")
 	{
@@ -130,7 +130,7 @@ void Omnia::AudioSource::reset()
 	}
 }
 
-void Omnia::AudioSource::jump(float time_point)
+void Omnific::AudioSource::jump(float time_point)
 {
 	if (this->active_audio_name != "")
 	{
@@ -143,7 +143,7 @@ void Omnia::AudioSource::jump(float time_point)
 	}
 }
 
-void Omnia::AudioSource::set_panning(float value)
+void Omnific::AudioSource::set_panning(float value)
 {
 	if (value < -1.0)
 		value = -1.0;
@@ -154,12 +154,12 @@ void Omnia::AudioSource::set_panning(float value)
 	EventBus::publish("panned_audio_source", std::unordered_map<std::string, double>({{"id", this->get_id()}}));
 }
 
-float Omnia::AudioSource::get_current_playback_time()
+float Omnific::AudioSource::get_current_playback_time()
 {
 	return this->playback_time;
 }
 
-std::vector<std::string> Omnia::AudioSource::get_audio_names()
+std::vector<std::string> Omnific::AudioSource::get_audio_names()
 {
 	std::vector<std::string> audio_stream_names;
 
@@ -173,7 +173,7 @@ std::vector<std::string> Omnia::AudioSource::get_audio_names()
 	return audio_stream_names;
 }
 
-std::shared_ptr<Omnia::Audio> Omnia::AudioSource::get_active_audio()
+std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_active_audio()
 {
 	std::shared_ptr<Audio> active_audio;
 
@@ -183,7 +183,7 @@ std::shared_ptr<Omnia::Audio> Omnia::AudioSource::get_active_audio()
 	return active_audio;
 }
 
-std::shared_ptr<Omnia::Audio> Omnia::AudioSource::get_audio_by_name(std::string audio_name)
+std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_audio_by_name(std::string audio_name)
 {
 	std::shared_ptr<Audio> audio_stream;
 
@@ -193,7 +193,7 @@ std::shared_ptr<Omnia::Audio> Omnia::AudioSource::get_audio_by_name(std::string 
 	return audio_stream;
 }
 
-float Omnia::AudioSource::clamp(float value)
+float Omnific::AudioSource::clamp(float value)
 {
 	if (value > 1.0)
 		value = 1.0;

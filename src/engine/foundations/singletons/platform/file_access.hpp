@@ -30,9 +30,9 @@
 #include <thread>
 #include <queue>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API FileAccess
+	class OMNIFIC_ENGINE_API FileAccess
 	{
 	public:
 		FileAccess(std::string executable_filepath);
@@ -80,7 +80,7 @@ namespace Omnia
 	private:
 		std::string executable_filepath;
 		std::string data_directory;
-		std::unordered_map<std::string, std::shared_ptr<Omnia::Resource>> assets;
+		std::unordered_map<std::string, std::shared_ptr<Omnific::Resource>> assets;
 
 		std::vector<std::thread*> io_threads;
 		std::unordered_map<std::string, std::vector<uint8_t>> asynchronously_loaded_binaries;

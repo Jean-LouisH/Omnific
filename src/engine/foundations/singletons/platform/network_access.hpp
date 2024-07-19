@@ -25,9 +25,9 @@
 #include <string>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API NetworkAccess
+	class OMNIFIC_ENGINE_API NetworkAccess
 	{
 	public:
 	private:

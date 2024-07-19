@@ -30,9 +30,9 @@
 #include <engine_api.hpp>
 #include <glm/glm.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Window
+	class OMNIFIC_ENGINE_API Window
 	{
 	public:
 		void initialize(std::string title, uint16_t width, uint16_t height, bool is_fullscreen, std::string rendering_context);

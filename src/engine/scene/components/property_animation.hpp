@@ -28,9 +28,9 @@
 #include <stdint.h>
 #include "scene/components/component.hpp"
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API PropertyAnimation : public Component
+	class OMNIFIC_ENGINE_API PropertyAnimation : public Component
 	{
 	public:
 		float value = 0.0;

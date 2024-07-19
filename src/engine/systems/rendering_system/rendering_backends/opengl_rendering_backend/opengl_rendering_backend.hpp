@@ -36,7 +36,7 @@
 #include <string>
 #include <map>
 
-namespace Omnia
+namespace Omnific
 {
 	/* The object that calls the rendering API functions. */
 	class OpenGLRenderingBackend

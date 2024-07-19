@@ -29,9 +29,9 @@
 #include <memory>
 #include <SDL_ttf.h>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Font : public Resource
+	class OMNIFIC_ENGINE_API Font : public Resource
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Font";

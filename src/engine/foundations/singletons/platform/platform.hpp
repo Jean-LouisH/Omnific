@@ -33,9 +33,9 @@
 #include <string>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API HiResTimer
+	class OMNIFIC_ENGINE_API HiResTimer
 	{
 	public:
 		uint64_t get_delta_in_nanoseconds();
@@ -51,7 +51,7 @@ namespace Omnia
 	};
 
 	/* Singleton for objects related to Operating System utilities. */
-	class OMNIA_ENGINE_API Platform
+	class OMNIFIC_ENGINE_API Platform
 	{
 	public:
 		static void initialize(

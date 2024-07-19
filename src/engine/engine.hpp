@@ -42,11 +42,11 @@
 
 #include "engine_api.hpp"
 
-namespace Omnia
+namespace Omnific
 {
 	/* The main class responsible for engine runtime 
 	   that supports the application built on it. */
-	class OMNIA_ENGINE_API Engine
+	class OMNIFIC_ENGINE_API Engine
 	{
 	public:
 		void run(

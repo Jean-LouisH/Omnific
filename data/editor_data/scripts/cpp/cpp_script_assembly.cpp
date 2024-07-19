@@ -29,66 +29,66 @@
 
 void loadScriptInstances()
 {
-	Omnia::CPPScriptRegistry::loadScriptInstances();
+	Omnific::CPPScriptRegistry::loadScriptInstances();
 }
 
 void onStart()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeQueuedMethods(it.second->getStartEntityQueue(), it.second, "onStart");
 }
 
 void onInput()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onInput");
 }
 
 void onEarly()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onEarly");
 }
 
 void onLogic()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onLogic");
 }
 
 void onCompute()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onCompute");
 }
 
 void onLate()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeUpdateMethods(it.second, "onLate");
 }
 
 void onFinish()
 {
-	for (auto it : Omnia::CPPEntityContext::getScene()->getSceneLayers())
+	for (auto it : Omnific::CPPEntityContext::getScene()->getSceneLayers())
 		executeQueuedMethods(it.second->getFinishEntityQueue(), it.second, "onFinish");
 }
 
-void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
-	Omnia::SceneLayerID sceneLayerID,
-	Omnia::EntityID entityID,
+void bindAndCall(std::shared_ptr<Omnific::ScriptCollection> scriptCollection,
+	Omnific::SceneLayerID sceneLayerID,
+	Omnific::EntityID entityID,
 	std::string methodName)
 {
 	for (auto script : scriptCollection->scripts)
 	{
 		std::string scriptInstanceName = script->getName() + std::to_string(entityID);
-		std::unordered_map<std::string, std::shared_ptr<Omnia::CPPScriptInstance>> scriptInstances = Omnia::CPPScriptRegistry::getScriptInstances();
+		std::unordered_map<std::string, std::shared_ptr<Omnific::CPPScriptInstance>> scriptInstances = Omnific::CPPScriptRegistry::getScriptInstances();
 
 		if (scriptInstances.count(scriptInstanceName))
 		{
-			std::shared_ptr<Omnia::CPPScriptInstance> scriptInstance = scriptInstances.at(scriptInstanceName);
+			std::shared_ptr<Omnific::CPPScriptInstance> scriptInstance = scriptInstances.at(scriptInstanceName);
 
-			Omnia::CPPEntityContext::bindEntity(
+			Omnific::CPPEntityContext::bindEntity(
 				sceneLayerID,
 				entityID);
 
@@ -111,14 +111,14 @@ void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
 }
 
 void executeQueuedMethods(
-	std::queue<Omnia::EntityID> entityQueue,
-	std::shared_ptr<Omnia::SceneLayer> sceneLayer,
+	std::queue<Omnific::EntityID> entityQueue,
+	std::shared_ptr<Omnific::SceneLayer> sceneLayer,
 	std::string methodName)
 {
 	while (!entityQueue.empty())
 	{
-		std::shared_ptr<Omnia::Entity> entity = sceneLayer->getEntity(entityQueue.front());
-		std::shared_ptr<Omnia::ScriptCollection> scriptCollection = sceneLayer->getComponentByType<Omnia::ScriptCollection>(entity->getID());
+		std::shared_ptr<Omnific::Entity> entity = sceneLayer->getEntity(entityQueue.front());
+		std::shared_ptr<Omnific::ScriptCollection> scriptCollection = sceneLayer->getComponentByType<Omnific::ScriptCollection>(entity->getID());
 		if (scriptCollection != nullptr)
 		{
 			bindAndCall(scriptCollection, sceneLayer->getID(), scriptCollection->getEntityID(), methodName);
@@ -128,9 +128,9 @@ void executeQueuedMethods(
 }
 
 void executeUpdateMethods(
-	std::shared_ptr<Omnia::SceneLayer> sceneLayer,
+	std::shared_ptr<Omnific::SceneLayer> sceneLayer,
 	std::string methodName)
 {
-	for (auto scriptCollection : sceneLayer->getComponentsByType<Omnia::ScriptCollection>())
+	for (auto scriptCollection : sceneLayer->getComponentsByType<Omnific::ScriptCollection>())
 		bindAndCall(scriptCollection, sceneLayer->getID(), scriptCollection->getEntityID(), methodName);
 }

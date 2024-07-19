@@ -33,11 +33,11 @@
 #include <memory>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* An object that exists within the Scene with its own
 	   identity, components and  hierarchy with other Entities. */
-	class OMNIA_ENGINE_API Entity
+	class OMNIFIC_ENGINE_API Entity
 	{
 		friend class SceneLayer;
 	public:

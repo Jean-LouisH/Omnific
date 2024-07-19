@@ -22,7 +22,7 @@
 
 #include "property_animation.hpp"
 
-void Omnia::PropertyAnimation::deserialize(YAML::Node yaml_node)
+void Omnific::PropertyAnimation::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{

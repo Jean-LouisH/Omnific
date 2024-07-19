@@ -24,9 +24,9 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <chrono>
 
-Omnia::ThreadPool* Omnia::ThreadPool::instance = nullptr;
+Omnific::ThreadPool* Omnific::ThreadPool::instance = nullptr;
 
-void Omnia::ThreadPool::initialize()
+void Omnific::ThreadPool::initialize()
 {
 	//int thread_count = Platform::get_logical_core_count();
 	//ThreadPool* instance = ThreadPool::get_instance();
@@ -37,14 +37,14 @@ void Omnia::ThreadPool::initialize()
 	//instance->allowable_thread_count = thread_count;
 }
 
-void Omnia::ThreadPool::set_allowable_thread_count(int thread_count)
+void Omnific::ThreadPool::set_allowable_thread_count(int thread_count)
 {
 	ThreadPool* instance = ThreadPool::get_instance();
 	if (thread_count > 0 && thread_count <= instance->threads.size())
 		instance->allowable_thread_count = thread_count;
 }
 
-void Omnia::ThreadPool::finalize()
+void Omnific::ThreadPool::finalize()
 {
 	ThreadPool* instance = ThreadPool::get_instance();
 	instance->is_finished = true;
@@ -59,7 +59,7 @@ void Omnia::ThreadPool::finalize()
 	}
 }
 
-void Omnia::ThreadPool::run_worker_thread()
+void Omnific::ThreadPool::run_worker_thread()
 {
 	ThreadPool* instance = ThreadPool::get_instance();
 	while (!instance->is_finished)
@@ -69,7 +69,7 @@ void Omnia::ThreadPool::run_worker_thread()
 	}
 }
 
-Omnia::ThreadPool* Omnia::ThreadPool::get_instance()
+Omnific::ThreadPool* Omnific::ThreadPool::get_instance()
 {
 	if (instance == nullptr)
 		instance = new ThreadPool();

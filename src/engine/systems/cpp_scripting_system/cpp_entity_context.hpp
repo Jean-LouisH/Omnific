@@ -37,9 +37,9 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API CPPEntityContext
+	class OMNIFIC_ENGINE_API CPPEntityContext
 	{
 	public:
 		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);

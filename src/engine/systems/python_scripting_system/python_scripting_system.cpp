@@ -31,7 +31,7 @@
 #include <set>
 
 
-void Omnia::PythonScriptingSystem::initialize()
+void Omnific::PythonScriptingSystem::initialize()
 {
 	Logger& logger = Platform::get_logger();
 	logger.write("Initializing Python Scripting System...");
@@ -39,13 +39,13 @@ void Omnia::PythonScriptingSystem::initialize()
 	this->is_vmstarted = true;
 }
 
-void Omnia::PythonScriptingSystem::execute_command(std::string command)
+void Omnific::PythonScriptingSystem::execute_command(std::string command)
 {
-	pybind11::exec("from omnia import *");
+	pybind11::exec("from omnific import *");
 	pybind11::exec(command);
 }
 
-void Omnia::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
@@ -103,7 +103,7 @@ void Omnia::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> sc
 									"on_output",
 									"on_finish"
 								};
-								script_instance.set_data(new_pybind11_module.attr("omnia_script")());
+								script_instance.set_data(new_pybind11_module.attr("omnific_script")());
 
 								for (int i = 0; i < method_names.size(); i++)
 								{
@@ -134,7 +134,7 @@ void Omnia::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> sc
 	}
 }
 
-void Omnia::PythonScriptingSystem::on_start(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -158,7 +158,7 @@ void Omnia::PythonScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 			this->execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_start");
 }
 
-void Omnia::PythonScriptingSystem::on_input(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -168,7 +168,7 @@ void Omnia::PythonScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 			this->execute_update_methods(it.second, "on_input");
 }
 
-void Omnia::PythonScriptingSystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_early(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -178,7 +178,7 @@ void Omnia::PythonScriptingSystem::on_early(std::shared_ptr<Scene> scene)
 			this->execute_update_methods(it.second, "on_early");
 }
 
-void Omnia::PythonScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -188,7 +188,7 @@ void Omnia::PythonScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
 			this->execute_update_methods(it.second, "on_logic");
 }
 
-void Omnia::PythonScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -198,7 +198,7 @@ void Omnia::PythonScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
 			this->execute_update_methods(it.second, "on_compute");
 }
 
-void Omnia::PythonScriptingSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_late(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -208,7 +208,7 @@ void Omnia::PythonScriptingSystem::on_late(std::shared_ptr<Scene> scene)
 			this->execute_update_methods(it.second, "on_late");
 }
 
-void Omnia::PythonScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -220,13 +220,13 @@ void Omnia::PythonScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 	this->has_modules_loaded_on_this_update = false;
 }
 
-void Omnia::PythonScriptingSystem::finalize()
+void Omnific::PythonScriptingSystem::finalize()
 {
 	if (this->is_vmstarted)
 		pybind11::finalize_interpreter();
 }
 
-void Omnia::PythonScriptingSystem::execute_queued_methods(
+void Omnific::PythonScriptingSystem::execute_queued_methods(
 	std::queue<EntityID> entity_queue,
 	std::shared_ptr<SceneLayer> scene_layer,
 	const char* method_name)
@@ -243,7 +243,7 @@ void Omnia::PythonScriptingSystem::execute_queued_methods(
 	}
 }
 
-void Omnia::PythonScriptingSystem::execute_update_methods(std::shared_ptr<SceneLayer> scene_layer, const char* method_name)
+void Omnific::PythonScriptingSystem::execute_update_methods(std::shared_ptr<SceneLayer> scene_layer, const char* method_name)
 {
 	std::vector<std::shared_ptr<ScriptCollection>> script_collections = scene_layer->get_components_by_type<ScriptCollection>();
 	size_t script_collections_count = script_collections.size();
@@ -255,7 +255,7 @@ void Omnia::PythonScriptingSystem::execute_update_methods(std::shared_ptr<SceneL
 	}
 }
 
-void Omnia::PythonScriptingSystem::bind_and_call(
+void Omnific::PythonScriptingSystem::bind_and_call(
 	std::shared_ptr<ScriptCollection> script_collection,
 	SceneLayerID scene_layer_id,
 	EntityID entity_id,

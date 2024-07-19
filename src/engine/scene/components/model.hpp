@@ -33,9 +33,9 @@
 #include "foundations/resources/skeletal_animation.hpp"
 #include "foundations/resources/rig.hpp"
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API ShaderParameters
+	class OMNIFIC_ENGINE_API ShaderParameters
 	{
 	public:
 		void set_int_uniform(std::string uniform_name, int value);
@@ -57,7 +57,7 @@ namespace Omnia
 
 	};
 
-	class OMNIA_ENGINE_API Model : public Component
+	class OMNIFIC_ENGINE_API Model : public Component
 	{
 	public:
 		enum class FaceCullMode

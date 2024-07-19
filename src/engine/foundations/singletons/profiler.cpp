@@ -24,9 +24,9 @@
 #include "foundations/constants.hpp"
 #include <foundations/singletons/platform/platform.hpp>
 
-Omnia::Profiler* Omnia::Profiler::instance = nullptr;
+Omnific::Profiler* Omnific::Profiler::instance = nullptr;
 
-void Omnia::Profiler::add_timer(std::string timer_name, bool is_removable)
+void Omnific::Profiler::add_timer(std::string timer_name, bool is_removable)
 {
 	Profiler* instance = Profiler::get_instance();
 	instance->timers.emplace(timer_name, std::shared_ptr<HiResTimer>(new HiResTimer()));
@@ -34,7 +34,7 @@ void Omnia::Profiler::add_timer(std::string timer_name, bool is_removable)
 	Platform::get_logger().write("Added HiResTimer to Profiler: \"" + timer_name + "\"");
 }
 
-void Omnia::Profiler::remove_timer(std::string timer_name)
+void Omnific::Profiler::remove_timer(std::string timer_name)
 {
 	Profiler* instance = Profiler::get_instance();
 
@@ -48,7 +48,7 @@ void Omnia::Profiler::remove_timer(std::string timer_name)
 	}
 }
 
-std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::get_timer(std::string timer_name)
+std::shared_ptr<Omnific::HiResTimer> Omnific::Profiler::get_timer(std::string timer_name)
 {
 	std::shared_ptr<HiResTimer> timer;
 	Profiler* instance = Profiler::get_instance();
@@ -59,32 +59,32 @@ std::shared_ptr<Omnia::HiResTimer> Omnia::Profiler::get_timer(std::string timer_
 	return timer;
 }
 
-void Omnia::Profiler::increment_frame_count()
+void Omnific::Profiler::increment_frame_count()
 {
 	Profiler::get_instance()->frame_count++;
 }
 
-void Omnia::Profiler::increment_lag_count(uint64_t delta_time_ms)
+void Omnific::Profiler::increment_lag_count(uint64_t delta_time_ms)
 {
 	Profiler::get_instance()->lag += delta_time_ms;
 }
 
-void Omnia::Profiler::decrement_lag_count(uint64_t delta_time_ms)
+void Omnific::Profiler::decrement_lag_count(uint64_t delta_time_ms)
 {
 	Profiler::get_instance()->lag -= delta_time_ms;
 }
 
-uint64_t Omnia::Profiler::get_lag_count()
+uint64_t Omnific::Profiler::get_lag_count()
 {
 	return Profiler::get_instance()->lag;
 }
 
-uint16_t Omnia::Profiler::get_fps()
+uint16_t Omnific::Profiler::get_fps()
 {
 	return (1.0 / (Profiler::get_instance()->get_timer("frame")->get_delta_in_nanoseconds() / NS_IN_S));
 }
 
-Omnia::Profiler* Omnia::Profiler::get_instance()
+Omnific::Profiler* Omnific::Profiler::get_instance()
 {
 	if (instance == nullptr)
 		instance = new Profiler();

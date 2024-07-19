@@ -39,9 +39,9 @@
 
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API SceneLayer
+	class OMNIFIC_ENGINE_API SceneLayer
 	{
 	public:
 		bool is_2d = false;

@@ -28,9 +28,9 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <glm/glm.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Viewport : public Component
+	class OMNIFIC_ENGINE_API Viewport : public Component
 	{
 	public:
 		Viewport()

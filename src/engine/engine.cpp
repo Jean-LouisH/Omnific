@@ -32,13 +32,13 @@
 
 #include <customization/class_registry.hpp>
 
-void Omnia::Engine::run(
+void Omnific::Engine::run(
 	int argc,
 	char* argv[])
 {
 	Platform::initialize(argc, argv);
 	Logger& logger = Platform::get_logger();
-	logger.write("Initializing Omnia Engine...");
+	logger.write("Initializing Omnific Engine...");
 	ClassRegistry::initialize();
 
 	do
@@ -90,7 +90,7 @@ void Omnia::Engine::run(
 	} while (this->state == State::RESTARTING);
 }
 
-void Omnia::Engine::initialize()
+void Omnific::Engine::initialize()
 {
 	Logger& logger = Platform::get_logger();
 
@@ -186,7 +186,7 @@ void Omnia::Engine::initialize()
 
 }
 
-void Omnia::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
+void Omnific::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
 {
 	for (auto system : this->systems)
 		system.second->initialize();
@@ -263,14 +263,14 @@ void Omnia::Engine::run_loop(std::shared_ptr<HiResTimer> loop_process_timer)
 		system.second->finalize();
 }
 
-void Omnia::Engine::sleep_this_thread_for_remaining_time(uint32_t target_fps, std::shared_ptr<HiResTimer> run_timer)
+void Omnific::Engine::sleep_this_thread_for_remaining_time(uint32_t target_fps, std::shared_ptr<HiResTimer> run_timer)
 {
 	float target_frame_time = 1000.0 / target_fps;
 	float run_time = run_timer->get_delta();
 	Platform::sleep_this_thread_for(target_frame_time - run_time);
 }
 
-void Omnia::Engine::finalize()
+void Omnific::Engine::finalize()
 {
 	SceneStorage::clear_scenes();
 	ThreadPool::finalize();

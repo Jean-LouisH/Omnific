@@ -26,7 +26,7 @@
 #include <ctime>
 #include <fstream>
 
-void Omnia::Logger::write(std::string message)
+void Omnific::Logger::write(std::string message)
 {
 	std::string time_stamped_message = this->time_stamp(message);
 #ifdef _DEBUG
@@ -35,7 +35,7 @@ void Omnia::Logger::write(std::string message)
 	this->logs.push_back(time_stamped_message);
 }
 
-void Omnia::Logger::write_to_file(std::string message)
+void Omnific::Logger::write_to_file(std::string message)
 {
 	std::string time_stamped_message = this->time_stamp(message);
 
@@ -44,17 +44,17 @@ void Omnia::Logger::write_to_file(std::string message)
 	this->logs.push_back(time_stamped_message);
 }
 
-std::string Omnia::Logger::get_last_message()
+std::string Omnific::Logger::get_last_message()
 {
 	return this->logs.at(this->logs.size() - 1);
 }
 
-std::vector<std::string> Omnia::Logger::get_logs()
+std::vector<std::string> Omnific::Logger::get_logs()
 {
 	return this->logs;
 }
 
-std::string Omnia::Logger::time_stamp(std::string message)
+std::string Omnific::Logger::time_stamp(std::string message)
 {
 	auto now = std::chrono::system_clock::now();
 	std::time_t current_time = std::chrono::system_clock::to_time_t(now);

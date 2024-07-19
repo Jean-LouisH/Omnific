@@ -38,9 +38,9 @@
 #include <memory>
 #include <glm/glm.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Image : public Resource
+	class OMNIFIC_ENGINE_API Image : public Resource
 	{
 	public:
 		enum class Alignment

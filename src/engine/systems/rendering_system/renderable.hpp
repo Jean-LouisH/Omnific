@@ -34,7 +34,7 @@
 #include <glm/glm.hpp>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Caches memory locations for values 
 	   relevant to rendering a single Entity. */

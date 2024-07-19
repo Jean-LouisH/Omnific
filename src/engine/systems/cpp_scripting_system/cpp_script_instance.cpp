@@ -22,42 +22,42 @@
 
 #include "cpp_script_instance.hpp"
 
-void Omnia::CPPScriptInstance::on_start()
+void Omnific::CPPScriptInstance::on_start()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_input()
+void Omnific::CPPScriptInstance::on_input()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_early()
+void Omnific::CPPScriptInstance::on_early()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_logic()
+void Omnific::CPPScriptInstance::on_logic()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_compute()
+void Omnific::CPPScriptInstance::on_compute()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_late()
+void Omnific::CPPScriptInstance::on_late()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_output()
+void Omnific::CPPScriptInstance::on_output()
 {
 
 }
 
-void Omnia::CPPScriptInstance::on_finish()
+void Omnific::CPPScriptInstance::on_finish()
 {
 
 }

@@ -25,9 +25,9 @@
 #include "foundations/resources/resource.hpp"
 #include <foundations/resources/image.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Material : public Resource
+	class OMNIFIC_ENGINE_API Material : public Resource
 	{
 	public:
 		Material() 

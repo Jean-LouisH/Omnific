@@ -12,6 +12,9 @@
 
 # Custom
 build/
+extras/
+assets/
+shared_assets/
 
 # CMake files
 out/

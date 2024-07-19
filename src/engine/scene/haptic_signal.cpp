@@ -22,7 +22,7 @@
 
 #include "haptic_signal.hpp"
 
-Omnia::HapticSignal::HapticSignal(PlayerID player_id, float strength_pct, uint16_t duration_ms)
+Omnific::HapticSignal::HapticSignal(PlayerID player_id, float strength_pct, uint16_t duration_ms)
 {
 	uint16_t duration_limit = 2000;
 
@@ -41,17 +41,17 @@ Omnia::HapticSignal::HapticSignal(PlayerID player_id, float strength_pct, uint16
 		this->duration_ms = duration_ms;
 }
 
-Omnia::PlayerID Omnia::HapticSignal::get_player_id()
+Omnific::PlayerID Omnific::HapticSignal::get_player_id()
 {
 	return this->player_id;
 }
 
-float Omnia::HapticSignal::get_strength()
+float Omnific::HapticSignal::get_strength()
 {
 	return this->strength_pct;
 }
 
-uint16_t Omnia::HapticSignal::get_duration()
+uint16_t Omnific::HapticSignal::get_duration()
 {
 	return this->duration_ms;
 }

@@ -22,7 +22,7 @@
 
 #include "font.hpp"
 
-Omnia::Font::Font(std::string filepath)
+Omnific::Font::Font(std::string filepath)
 {
 	this->font_size = 16;
 	this->set_name(filepath);
@@ -30,7 +30,7 @@ Omnia::Font::Font(std::string filepath)
 	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
 }
 
-Omnia::Font::Font(std::string filepath, uint16_t size_px)
+Omnific::Font::Font(std::string filepath, uint16_t size_px)
 {
 	this->font_size = size_px;
 	this->set_name(filepath);
@@ -38,18 +38,18 @@ Omnia::Font::Font(std::string filepath, uint16_t size_px)
 	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
 }
 
-Omnia::Font::Font(TTF_Font* font)
+Omnific::Font::Font(TTF_Font* font)
 {
 	this->type = TYPE_STRING;
 	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
-TTF_Font* Omnia::Font::get_sdlttffont()
+TTF_Font* Omnific::Font::get_sdlttffont()
 {
 	return this->font.get();
 }
 
-uint16_t Omnia::Font::get_font_size()
+uint16_t Omnific::Font::get_font_size()
 {
 	return this->font_size;
 }

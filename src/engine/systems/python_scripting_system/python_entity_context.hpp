@@ -37,7 +37,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	class PythonEntityContext
 	{

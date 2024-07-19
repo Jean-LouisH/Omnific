@@ -1,13 +1,13 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def on_logic(self):
         degree_per_second = 30.0
-        inp = omnia.get_input()
-        transform = omnia.get_component("Transform")
-        transform.rotate_z(degree_per_second * omnia.get_time_delta())
+        inp = omnific.get_input()
+        transform = omnific.get_component("Transform")
+        transform.rotate_z(degree_per_second * omnific.get_time_delta())
         pass

@@ -23,69 +23,69 @@
 #include "systems/system.hpp"
 #include <foundations/singletons/event_bus.hpp>
 
-Omnia::System::~System()
+Omnific::System::~System()
 {
 	this->is_initialized = false;
 }
 
-void Omnia::System::initialize()
+void Omnific::System::initialize()
 {
 
 }
 
-void Omnia::System::on_start(std::shared_ptr<Scene> scene)
+void Omnific::System::on_start(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::on_input(std::shared_ptr<Scene> scene)
+void Omnific::System::on_input(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::on_early(std::shared_ptr<Scene> scene)
+void Omnific::System::on_early(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::System::on_logic(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::System::on_compute(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::on_late(std::shared_ptr<Scene> scene)
+void Omnific::System::on_late(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::on_finish(std::shared_ptr<Scene> scene)
+void Omnific::System::on_finish(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnia::System::finalize()
+void Omnific::System::finalize()
 {
 
 }
 
-bool Omnia::System::get_is_initialized()
+bool Omnific::System::get_is_initialized()
 {
 	return this->is_initialized;
 }
 
-bool Omnia::System::has_scene_changed(std::shared_ptr<Scene> scene)
+bool Omnific::System::has_scene_changed(std::shared_ptr<Scene> scene)
 {
 	bool active_scene_changed = this->active_scene_id != scene->get_id();
 
 	if (active_scene_changed)
 		this->active_scene_id = scene->get_id();
 
-	return (EventBus::query_count(OMNIA_EVENT_COMPONENT_ADDED) ||
-		EventBus::query_count(OMNIA_EVENT_COMPONENT_REMOVED) ||
+	return (EventBus::query_count(OMNIFIC_EVENT_COMPONENT_ADDED) ||
+		EventBus::query_count(OMNIFIC_EVENT_COMPONENT_REMOVED) ||
 		active_scene_changed);
 }

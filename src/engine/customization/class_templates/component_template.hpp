@@ -24,10 +24,10 @@
 
 #include <scene/components/component.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Example Component class to copy and customize. */
-	class OMNIA_ENGINE_API ComponentTemplate : public Component
+	class OMNIFIC_ENGINE_API ComponentTemplate : public Component
 	{
 	public:
 		/* Change the TYPE_STRING to the name of the class. */

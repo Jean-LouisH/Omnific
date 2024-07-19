@@ -27,7 +27,7 @@
 #include <vector>
 #include <string>
 
-namespace Omnia
+namespace Omnific
 {
 	class OpenGLFramebuffer
 	{

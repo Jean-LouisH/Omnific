@@ -1,4 +1,4 @@
-import omnia
+import omnific
 
 
 project_name_type_pairs = {
@@ -14,7 +14,7 @@ project_name_type_pairs = {
     }
 
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         self.project_paths = {}
@@ -23,7 +23,7 @@ class omnia_script:
         project_names_list = project_name_type_pairs.keys()
 
         for project_name in project_names_list:
-            omnia_script.list_project(self, project_name, project_name_type_pairs[project_name])
+            omnific_script.list_project(self, project_name, project_name_type_pairs[project_name])
 
         pass
 
@@ -36,7 +36,7 @@ class omnia_script:
         for i in range(len(project_selection_letters)):
             project_print_string += project_selection_letters[i] + ": " + project_names_list[i] + "\n"
         
-        gui = omnia.get_component("GUI")
+        gui = omnific.get_component("GUI")
         gui.set_as_text(
             """Select one of the following by pressing the corresponding letter key
 
@@ -44,11 +44,11 @@ class omnia_script:
         pass
 
     def on_logic(self):
-        inp = omnia.get_input()
+        inp = omnific.get_input()
         
         for letter, project_path in self.project_paths.items():
             if inp.is_on_release(letter):
-                omnia.load_scene(project_path)
+                omnific.load_scene(project_path)
                 break
         pass
 

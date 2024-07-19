@@ -24,7 +24,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/uid_generator.hpp>
 
-void Omnia::GUI::deserialize(YAML::Node yaml_node)
+void Omnific::GUI::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -163,7 +163,7 @@ void Omnia::GUI::deserialize(YAML::Node yaml_node)
 								}
 								else if (it6->first.as<std::string>() == "font")
 								{
-									std::shared_ptr<Omnia::Font> font = Platform::get_file_access().load_asset_by_type<Font>(it6->second[0].as<std::string>());
+									std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_asset_by_type<Font>(it6->second[0].as<std::string>());
 									*font = Font(font->get_name(), it6->second[1].as<int>());
 									gui_button->gui_text->font = font;
 									gui_button->gui_text->size = it6->second[1].as<int>();
@@ -260,7 +260,7 @@ void Omnia::GUI::deserialize(YAML::Node yaml_node)
 								}
 								else if (it6->first.as<std::string>() == "font")
 								{
-									std::shared_ptr<Omnia::Font> font = Platform::get_file_access().load_asset_by_type<Font>(it6->second[0].as<std::string>());
+									std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_asset_by_type<Font>(it6->second[0].as<std::string>());
 									*font = Font(font->get_name(), it6->second[1].as<int>());
 									gui_text->font = font;
 									gui_text->size = it6->second[1].as<int>();
@@ -404,12 +404,12 @@ void Omnia::GUI::deserialize(YAML::Node yaml_node)
 	this->update_image();
 }
 
-void Omnia::GUIColour::update_image()
+void Omnific::GUIColour::update_image()
 {
 	this->image = std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y));
 }
 
-void Omnia::GUIButton::update_image()
+void Omnific::GUIButton::update_image()
 {
 	/* The border of the button wraps around the text it contains by an offset. */
 	this->gui_text->update_image();
@@ -417,7 +417,7 @@ void Omnia::GUIButton::update_image()
 	this->image = std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y));
 }
 
-void Omnia::GUIPanel::update_image()
+void Omnific::GUIPanel::update_image()
 {
 	/* Determine if Widgets take up more space than the Panel dimensions. */
 	glm::vec2 maximum_widget_side_positions = glm::vec2(0.0);
@@ -449,12 +449,12 @@ void Omnia::GUIPanel::update_image()
 	this->image = std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y));
 }
 
-void Omnia::GUIPanelTabGroup::update_image()
+void Omnific::GUIPanelTabGroup::update_image()
 {
 	this->image = std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y));
 }
 
-void Omnia::GUIText::set_text(std::string text)
+void Omnific::GUIText::set_text(std::string text)
 {
 	if (text != this->text)
 	{
@@ -463,26 +463,26 @@ void Omnia::GUIText::set_text(std::string text)
 	}
 }
 
-void Omnia::GUIText::set_font(std::shared_ptr<Omnia::Font> font, uint16_t size_px)
+void Omnific::GUIText::set_font(std::shared_ptr<Omnific::Font> font, uint16_t size_px)
 {
 	this->font = font;
 	this->size = size_px;
 	this->update_image();
 }
 
-void Omnia::GUIText::set_font_size(uint16_t size_px)
+void Omnific::GUIText::set_font_size(uint16_t size_px)
 {
 	this->size = size_px;
 	this->update_image();
 }
 
-void Omnia::GUIText::set_colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+void Omnific::GUIText::set_colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->colour = std::shared_ptr<Colour>(new Colour(red, green, blue, alpha));
 	this->update_image();
 }
 
-void Omnia::GUIText::update_image()
+void Omnific::GUIText::update_image()
 {
 	if (this->font != nullptr && this->colour != nullptr)
 	{
@@ -494,7 +494,7 @@ void Omnia::GUIText::update_image()
 	}
 }
 
-void Omnia::GUI::update_image()
+void Omnific::GUI::update_image()
 {
 	if (this->gui_panel_tab_groups.size() == 1)
 	{
@@ -597,7 +597,7 @@ void Omnia::GUI::update_image()
 	this->set_dimensions(this->get_image()->get_width(), this->get_image()->get_height(), 0);
 }
 
-void Omnia::GUI::set_as_text(std::string text)
+void Omnific::GUI::set_as_text(std::string text)
 {
 
 	if (this->gui_panel_tab_groups.size() > 0)
@@ -646,7 +646,7 @@ void Omnia::GUI::set_as_text(std::string text)
 	this->update_image();
 }
 
-std::shared_ptr<Omnia::GUIWidget> Omnia::GUI::get_widget(std::string widget_name)
+std::shared_ptr<Omnific::GUIWidget> Omnific::GUI::get_widget(std::string widget_name)
 {
 	std::shared_ptr<GUIWidget> gui_widget;
 

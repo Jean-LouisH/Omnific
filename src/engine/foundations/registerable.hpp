@@ -27,9 +27,9 @@
 #include <engine_api.hpp>
 #include <foundations/singletons/uid_generator.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Registerable
+	class OMNIFIC_ENGINE_API Registerable
 	{
 	public:
 		Registerable();

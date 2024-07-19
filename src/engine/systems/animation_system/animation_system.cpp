@@ -27,18 +27,18 @@
 
 #include <scene/components/sprite.hpp>
 
-Omnia::AnimationSystem::~AnimationSystem()
+Omnific::AnimationSystem::~AnimationSystem()
 {
 	this->finalize();
 }
 
-void Omnia::AnimationSystem::initialize()
+void Omnific::AnimationSystem::initialize()
 {
 	this->is_initialized = true;
 	Platform::get_logger().write("Initialized Animation System");
 }
 
-void Omnia::AnimationSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::AnimationSystem::on_compute(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
@@ -46,12 +46,12 @@ void Omnia::AnimationSystem::on_compute(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::AnimationSystem::finalize()
+void Omnific::AnimationSystem::finalize()
 {
 	this->is_initialized = false;
 }
 
-void Omnia::AnimationSystem::update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::AnimationSystem::update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const uint32_t ms_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update;
 	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();

@@ -28,7 +28,7 @@
 #include <set>
 
 
-namespace Omnia
+namespace Omnific
 {
 	enum class ColliderType
 	{
@@ -36,7 +36,7 @@ namespace Omnia
 		MESH
 	};
 
-	class OMNIA_ENGINE_API AABB2D
+	class OMNIFIC_ENGINE_API AABB2D
 	{
 	public:
 		glm::vec2 min = glm::vec2(-1.0, -1.0);
@@ -44,7 +44,7 @@ namespace Omnia
 	private:
 	};
 
-	class OMNIA_ENGINE_API AABB3D
+	class OMNIFIC_ENGINE_API AABB3D
 	{
 	public:
 		glm::vec3 min = glm::vec3(-1.0, -1.0, -1.0);
@@ -52,7 +52,7 @@ namespace Omnia
 	private:
 	};
 
-	class OMNIA_ENGINE_API Collider : public Component
+	class OMNIFIC_ENGINE_API Collider : public Component
 	{
 		friend class PhysicsSystem;
 

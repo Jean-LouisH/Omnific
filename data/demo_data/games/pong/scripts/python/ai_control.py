@@ -1,28 +1,28 @@
-import omnia
+import omnific
 import math
 import constants
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         self.enable_ai_mode = True
         pass
 
     def on_logic(self):
-        inp = omnia.get_input()
+        inp = omnific.get_input()
 
         if inp.is_on_release("p"):
-            omnia.get_logger().write("P2 enabled")
+            omnific.get_logger().write("P2 enabled")
             self.enable_ai_mode = not self.enable_ai_mode
 
         if self.enable_ai_mode:
             pass
-            transform = omnia.get_component("Transform")
-            scene_layer = omnia.get_scene_layer()
+            transform = omnific.get_component("Transform")
+            scene_layer = omnific.get_scene_layer()
             ball_entity = scene_layer.get_entity_by_name("Ball")
             ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
             ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
-            paddle_physics_body = omnia.get_component("PhysicsBody")
+            paddle_physics_body = omnific.get_component("PhysicsBody")
 
             #AI logic to determine where to move as the ball approaches
         
@@ -38,7 +38,7 @@ class omnia_script:
                 paddle_physics_body.decelerate(constants.deceleration)
 
         else:
-            physics_body = omnia.get_component("PhysicsBody")
+            physics_body = omnific.get_component("PhysicsBody")
 
             if inp.is_pressed("up"):
                 physics_body.accelerate_y(constants.acceleration, constants.maximum_speed)

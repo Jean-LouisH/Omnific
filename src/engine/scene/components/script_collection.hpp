@@ -27,9 +27,9 @@
 
 #include <vector>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API ScriptCollection : public Component
+	class OMNIFIC_ENGINE_API ScriptCollection : public Component
 	{
 	public:
 		ScriptCollection()

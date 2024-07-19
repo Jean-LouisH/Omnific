@@ -23,37 +23,37 @@
 #include "scene/components/component.hpp"
 #include <foundations/singletons/uid_generator.hpp>
 
-Omnia::Component::Component()
+Omnific::Component::Component()
 {
 	this->type = TYPE_STRING;
 }
 
-void Omnia::Component::set_entity_id(EntityID entity_id)
+void Omnific::Component::set_entity_id(EntityID entity_id)
 {
 	this->entity_id = entity_id;
 }
 
-void Omnia::Component::set_component_hierarchy(std::vector<std::shared_ptr<Component>> component_hierarchy)
+void Omnific::Component::set_component_hierarchy(std::vector<std::shared_ptr<Component>> component_hierarchy)
 {
 	this->component_hierarchy = component_hierarchy;
 }
 
-void Omnia::Component::deserialize(YAML::Node yaml_node)
+void Omnific::Component::deserialize(YAML::Node yaml_node)
 {
 
 }
 
-Omnia::EntityID Omnia::Component::get_entity_id()
+Omnific::EntityID Omnific::Component::get_entity_id()
 {
 	return this->entity_id;
 }
 
-bool Omnia::Component::is_attached_to_entity()
+bool Omnific::Component::is_attached_to_entity()
 {
 	return this->get_entity_id() != 0;
 }
 
-bool Omnia::Component::is_renderable()
+bool Omnific::Component::is_renderable()
 {
 	return false;
 }

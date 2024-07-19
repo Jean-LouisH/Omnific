@@ -1,8 +1,8 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-file(GLOB_RECURSE omnia_engine_sources "[a-zA-Z]*.cpp")
-file(GLOB_RECURSE omnia_engine_headers "[a-zA-Z]*.hpp")
+file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
 
  set(STATIC_LIBRARY_EXTENSION "a")
  set(SHARED_LIBRARY_EXTENSION "so")
@@ -12,11 +12,11 @@ file(GLOB_RECURSE omnia_engine_headers "[a-zA-Z]*.hpp")
 	set(SHARED_LIBRARY_EXTENSION "dll")
 endif()
 
-add_library(omnia_engine SHARED
-	  ${omnia_engine_sources}
-	  ${omnia_engine_headers})
+add_library(omnific_engine SHARED
+	  ${omnific_engine_sources}
+	  ${omnific_engine_headers})
 
-add_dependencies (omnia_engine
+add_dependencies (omnific_engine
 	yaml_cpp
 	glad
 	libretti
@@ -30,7 +30,7 @@ find_library(SDL2_TTF SDL2_ttf.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdpart
 find_library(Python37 python37.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/python37/lib)
 find_library(ZLIB zlib.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/zlib-1.2.11/lib)
 
-target_include_directories(omnia_engine PUBLIC
+target_include_directories(omnific_engine PUBLIC
 		../../thirdparty/SDL2-2.28.5/include
 		../../thirdparty/SDL2_mixer-2.6.3/include
 		../../thirdparty/SDL2_ttf-2.0.18/include
@@ -47,7 +47,7 @@ target_include_directories(omnia_engine PUBLIC
 		.
 )
 
-target_link_libraries (omnia_engine
+target_link_libraries (omnific_engine
 		yaml_cpp
 		glad
 		libretti
@@ -59,8 +59,8 @@ target_link_libraries (omnia_engine
 
 )
 
-add_definitions(-D_OMNIA_ENGINE_EXPORTS)
+add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
 
-add_custom_command(TARGET omnia_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnia_engine> ${PROJECT_BINARY_DIR}/src/application/omnia_engine.${SHARED_LIBRARY_EXTENSION} 
+add_custom_command(TARGET omnific_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/application/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
 )

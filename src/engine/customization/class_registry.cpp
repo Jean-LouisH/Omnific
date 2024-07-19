@@ -22,19 +22,19 @@
 
 #include "class_registry.hpp"
 
-Omnia::ClassRegistry* Omnia::ClassRegistry::instance = nullptr;
+Omnific::ClassRegistry* Omnific::ClassRegistry::instance = nullptr;
 
-void Omnia::ClassRegistry::initialize()
+void Omnific::ClassRegistry::initialize()
 {
 	get_instance()->add_class_definitions();
 }
 
-void Omnia::ClassRegistry::finalize()
+void Omnific::ClassRegistry::finalize()
 {
 
 }
 
-Omnia::ClassRegistry* Omnia::ClassRegistry::get_instance()
+Omnific::ClassRegistry* Omnific::ClassRegistry::get_instance()
 {
 	if (instance == nullptr)
 		instance = new ClassRegistry();

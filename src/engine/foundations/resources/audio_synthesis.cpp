@@ -22,25 +22,25 @@
 
 #include "audio_synthesis.hpp"
 
-Omnia::AudioSynthesis::~AudioSynthesis()
+Omnific::AudioSynthesis::~AudioSynthesis()
 {
 	lb_freeComposition(this->composition);
 	this->composition = nullptr;
 }
 
-Omnia::AudioSynthesis::AudioSynthesis(std::string filepath)
+Omnific::AudioSynthesis::AudioSynthesis(std::string filepath)
 {
 	this->composition = lb_createComposition(filepath.c_str());
 	this->set_name(filepath);
 	this->type = TYPE_STRING;
 }
 
-float Omnia::AudioSynthesis::get_playback_length()
+float Omnific::AudioSynthesis::get_playback_length()
 {
 	return this->composition->timeLength;
 }
 
-std::vector<uint16_t> Omnia::AudioSynthesis::get_spectrum_data()
+std::vector<uint16_t> Omnific::AudioSynthesis::get_spectrum_data()
 {
 	std::vector<uint16_t> spectrum;
 	lb_BinaryS16 binary = lb_getSpectrumData(this->composition);
@@ -53,7 +53,7 @@ std::vector<uint16_t> Omnia::AudioSynthesis::get_spectrum_data()
 	return spectrum;
 }
 
-lb_Composition* Omnia::AudioSynthesis::get_composition()
+lb_Composition* Omnific::AudioSynthesis::get_composition()
 {
 	return this->composition;
 }

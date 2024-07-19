@@ -25,7 +25,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <scene/components/transform.hpp>
 
-Omnia::SceneLayer::SceneLayer()
+Omnific::SceneLayer::SceneLayer()
 {
 	this->collision_registry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
 	this->haptic_signal_buffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
@@ -34,7 +34,7 @@ Omnia::SceneLayer::SceneLayer()
 	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
 }
 
-void Omnia::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
+void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 {
 	if (entity->parent_id != 0)
 		this->entities.at(entity->parent_id)->child_ids.push_back(entity->id);
@@ -43,33 +43,33 @@ void Omnia::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 	this->entities.emplace(entity->id, entity);
 	this->last_entity_id = entity->id;
 	this->set_entity_name(entity->id, entity->name);
-	EventBus::publish(OMNIA_EVENT_ENTITY_ADDED);
+	EventBus::publish(OMNIFIC_EVENT_ENTITY_ADDED);
 }
 
-void Omnia::SceneLayer::add_empty_entity()
+void Omnific::SceneLayer::add_empty_entity()
 {
 	std::shared_ptr<Entity> empty_entity(new Entity());
 	this->add_entity(empty_entity);
 }
 
-void Omnia::SceneLayer::set_entity_name(EntityID entity_id, std::string name)
+void Omnific::SceneLayer::set_entity_name(EntityID entity_id, std::string name)
 {
 	if (this->entity_names.count(name))
 		name += "(Copy)";
 
 	this->get_entity(entity_id)->name = name;
 	this->entity_names.emplace(name, entity_id);
-	EventBus::publish(OMNIA_EVENT_ENTITY_NAME_SET);
+	EventBus::publish(OMNIFIC_EVENT_ENTITY_NAME_SET);
 }
 
-void Omnia::SceneLayer::add_entity_tag(EntityID entity_id, std::string tag)
+void Omnific::SceneLayer::add_entity_tag(EntityID entity_id, std::string tag)
 {
 	this->get_entity(entity_id)->tags.push_back(tag);
 	this->entity_tags.emplace(tag, entity_id);
-	EventBus::publish(OMNIA_EVENT_ENTITY_TAG_SET);
+	EventBus::publish(OMNIFIC_EVENT_ENTITY_TAG_SET);
 }
 
-void Omnia::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Component> component)
+void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Component> component)
 {
 	component->set_entity_id(entity_id);
 	this->components.push_back(component);
@@ -90,7 +90,7 @@ void Omnia::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Compon
 		this->component_index_caches.emplace(type, component_indices);
 	}
 
-	EventBus::publish(OMNIA_EVENT_COMPONENT_ADDED);
+	EventBus::publish(OMNIFIC_EVENT_COMPONENT_ADDED);
 
 	if (component->is_renderable())
 	{
@@ -101,12 +101,12 @@ void Omnia::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Compon
 	component->set_component_hierarchy(this->get_component_hierarchy(component->get_type(), component->get_entity_id()));
 }
 
-void Omnia::SceneLayer::add_component_to_last_entity(std::shared_ptr<Component> component)
+void Omnific::SceneLayer::add_component_to_last_entity(std::shared_ptr<Component> component)
 {
 	this->add_component(this->last_entity_id, component);
 }
 
-void Omnia::SceneLayer::remove_entity(EntityID entity_id)
+void Omnific::SceneLayer::remove_entity(EntityID entity_id)
 {
 	if (this->entities.count(entity_id) > 0)
 	{
@@ -140,11 +140,11 @@ void Omnia::SceneLayer::remove_entity(EntityID entity_id)
 		/* Remove the entity itself*/
 
 		this->entities.erase(entity_id);
-		EventBus::publish(OMNIA_EVENT_ENTITY_REMOVED);
+		EventBus::publish(OMNIFIC_EVENT_ENTITY_REMOVED);
 	}
 }
 
-void Omnia::SceneLayer::remove_component(EntityID entity_id, std::string type)
+void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 {
 	if (this->entities.count(entity_id) > 0)
 	{
@@ -171,7 +171,7 @@ void Omnia::SceneLayer::remove_component(EntityID entity_id, std::string type)
 				}
 			}
 
-			EventBus::publish(OMNIA_EVENT_COMPONENT_REMOVED);
+			EventBus::publish(OMNIFIC_EVENT_COMPONENT_REMOVED);
 
 			/* Rebuild index caches */
 
@@ -189,49 +189,49 @@ void Omnia::SceneLayer::remove_component(EntityID entity_id, std::string type)
 	}
 }
 
-std::vector<size_t> Omnia::SceneLayer::get_render_order_index_cache()
+std::vector<size_t> Omnific::SceneLayer::get_render_order_index_cache()
 {
 	return this->render_order_index_cache;
 }
 
-std::unordered_map<std::string, std::vector<size_t>> Omnia::SceneLayer::get_component_index_caches()
+std::unordered_map<std::string, std::vector<size_t>> Omnific::SceneLayer::get_component_index_caches()
 {
 	return this->component_index_caches;
 }
 
-void Omnia::SceneLayer::clear_start_entity_queue()
+void Omnific::SceneLayer::clear_start_entity_queue()
 {
 	while (!this->start_entities_queue.empty())
 		this->start_entities_queue.pop();
 }
 
-void Omnia::SceneLayer::clear_finish_entity_queue()
+void Omnific::SceneLayer::clear_finish_entity_queue()
 {
 	while (!this->finish_entities_queue.empty())
 		this->finish_entities_queue.pop();
 }
 
-std::queue<Omnia::EntityID> Omnia::SceneLayer::get_start_entity_queue()
+std::queue<Omnific::EntityID> Omnific::SceneLayer::get_start_entity_queue()
 {
 	return this->start_entities_queue;
 }
 
-std::queue<Omnia::EntityID> Omnia::SceneLayer::get_finish_entity_queue()
+std::queue<Omnific::EntityID> Omnific::SceneLayer::get_finish_entity_queue()
 {
 	return this->finish_entities_queue;
 }
 
-std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::get_components()
+std::vector<std::shared_ptr<Omnific::Component>> Omnific::SceneLayer::get_components()
 {
 	return this->components;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_entity(EntityID entity_id)
+std::shared_ptr<Omnific::Entity> Omnific::SceneLayer::get_entity(EntityID entity_id)
 {
 	return this->entities.at(entity_id);
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_entity_by_name(std::string name)
+std::shared_ptr<Omnific::Entity> Omnific::SceneLayer::get_entity_by_name(std::string name)
 {
 	std::shared_ptr<Entity> entity(new Entity());
 
@@ -242,17 +242,17 @@ std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_entity_by_name(std::string
 	return entity;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::SceneLayer::get_last_entity()
+std::shared_ptr<Omnific::Entity> Omnific::SceneLayer::get_last_entity()
 {
 	return this->entities.at(this->last_entity_id);
 }
 
-std::unordered_map<Omnia::EntityID, std::shared_ptr<Omnia::Entity>>& Omnia::SceneLayer::get_entities()
+std::unordered_map<Omnific::EntityID, std::shared_ptr<Omnific::Entity>>& Omnific::SceneLayer::get_entities()
 {
 	return this->entities;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component_by_id(ComponentID component_id)
+std::shared_ptr<Omnific::Component> Omnific::SceneLayer::get_component_by_id(ComponentID component_id)
 {
 	std::shared_ptr<Component> component;
 
@@ -264,7 +264,7 @@ std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component_by_id(Compone
 	return component;
 }
 
-std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component(std::string type, EntityID entity_id)
+std::shared_ptr<Omnific::Component> Omnific::SceneLayer::get_component(std::string type, EntityID entity_id)
 {
 	std::shared_ptr<Entity> entity = this->get_entity(entity_id);
 	std::shared_ptr<Component> component;
@@ -275,7 +275,7 @@ std::shared_ptr<Omnia::Component> Omnia::SceneLayer::get_component(std::string t
 	return component;
 }
 
-std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::get_component_hierarchy(std::string type, EntityID entity_id)
+std::vector<std::shared_ptr<Omnific::Component>> Omnific::SceneLayer::get_component_hierarchy(std::string type, EntityID entity_id)
 {
 	EntityID current_entity_id = entity_id;
 	std::vector<std::shared_ptr<Component>> component_hierarchy;
@@ -290,22 +290,22 @@ std::vector<std::shared_ptr<Omnia::Component>> Omnia::SceneLayer::get_component_
 	return component_hierarchy;
 }
 
-std::shared_ptr<Omnia::CollisionRegistry> Omnia::SceneLayer::get_collision_registry()
+std::shared_ptr<Omnific::CollisionRegistry> Omnific::SceneLayer::get_collision_registry()
 {
 	return this->collision_registry;
 }
 
-Omnia::SceneLayerID Omnia::SceneLayer::get_id()
+Omnific::SceneLayerID Omnific::SceneLayer::get_id()
 {
 	return this->id;
 }
 
-std::string Omnia::SceneLayer::get_name()
+std::string Omnific::SceneLayer::get_name()
 {
 	return this->name;
 }
 
-std::shared_ptr<Omnia::HapticSignalBuffer> Omnia::SceneLayer::get_haptic_signal_buffer()
+std::shared_ptr<Omnific::HapticSignalBuffer> Omnific::SceneLayer::get_haptic_signal_buffer()
 {
 	return this->haptic_signal_buffer;
 }

@@ -26,50 +26,50 @@
 #include <algorithm>
 #include <foundations/singletons/platform/platform.hpp>
 
-Omnia::FileAccess::FileAccess(std::string executable_filepath)
+Omnific::FileAccess::FileAccess(std::string executable_filepath)
 {
 	this->executable_filepath = executable_filepath;
 }
 
-Omnia::FileAccess::~FileAccess()
+Omnific::FileAccess::~FileAccess()
 {
 	for (std::thread* file_loading_thread : this->io_threads)
 		file_loading_thread->join();
 }
 
-void Omnia::FileAccess::set_data_directory(std::string asset_directory)
+void Omnific::FileAccess::set_data_directory(std::string asset_directory)
 {
 	this->data_directory = asset_directory;
 	Platform::get_logger().write("Data Directory set to \"" + asset_directory + "\"");
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::FileAccess::load_scene(std::string filepath)
+std::shared_ptr<Omnific::Scene> Omnific::FileAccess::load_scene(std::string filepath)
 {
 	std::shared_ptr<Scene> scene;
 	return scene;
 }
 
-std::string Omnia::FileAccess::get_executable_file_path()
+std::string Omnific::FileAccess::get_executable_file_path()
 {
 	return this->executable_filepath;
 }
 
-std::string Omnia::FileAccess::get_executable_name()
+std::string Omnific::FileAccess::get_executable_name()
 {
 	return this->get_file_name_without_extension(this->executable_filepath);
 }
 
-std::string Omnia::FileAccess::get_executable_directory_path()
+std::string Omnific::FileAccess::get_executable_directory_path()
 {
 	return this->get_path_before_file(this->executable_filepath);
 }
 
-std::string Omnia::FileAccess::get_data_directory_path()
+std::string Omnific::FileAccess::get_data_directory_path()
 {
 	return this->data_directory;
 }
 
-std::string Omnia::FileAccess::get_file_name_without_extension(std::string filepath)
+std::string Omnific::FileAccess::get_file_name_without_extension(std::string filepath)
 {
 	std::string file_name;
 	int name_index_start = filepath.size() - 1;
@@ -94,7 +94,7 @@ std::string Omnia::FileAccess::get_file_name_without_extension(std::string filep
 	return file_name;
 }
 
-std::string Omnia::FileAccess::get_file_extension(std::string filepath)
+std::string Omnific::FileAccess::get_file_extension(std::string filepath)
 {
 	std::string file_name;
 	int name_index_start = 0;
@@ -112,7 +112,7 @@ std::string Omnia::FileAccess::get_file_extension(std::string filepath)
 	return file_name;
 }
 
-std::string Omnia::FileAccess::get_path_before_file(std::string filepath)
+std::string Omnific::FileAccess::get_path_before_file(std::string filepath)
 {
 	std::string path;
 	int name_end_index = filepath.size() - 1;
@@ -142,13 +142,13 @@ std::string Omnia::FileAccess::get_path_before_file(std::string filepath)
 	return path;
 }
 
-bool Omnia::FileAccess::exists(std::string filepath)
+bool Omnific::FileAccess::exists(std::string filepath)
 {
 	std::ifstream input_file(filepath);
 	return input_file.good();
 }
 
-std::string Omnia::FileAccess::read_string(std::string filepath, bool apply_data_directory)
+std::string Omnific::FileAccess::read_string(std::string filepath, bool apply_data_directory)
 {
 	std::string output_string;
 	std::vector<uint8_t> binary = this->read_binary(filepath, apply_data_directory);
@@ -156,7 +156,7 @@ std::string Omnia::FileAccess::read_string(std::string filepath, bool apply_data
 	return output_string;
 }
 
-std::vector<uint8_t> Omnia::FileAccess::read_binary(std::string filepath, bool apply_data_directory)
+std::vector<uint8_t> Omnific::FileAccess::read_binary(std::string filepath, bool apply_data_directory)
 {
 	std::vector<uint8_t> output_binary;
 	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
@@ -174,12 +174,12 @@ std::vector<uint8_t> Omnia::FileAccess::read_binary(std::string filepath, bool a
 	return output_binary;
 }
 
-void Omnia::FileAccess::write_binary(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
+void Omnific::FileAccess::write_binary(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
 {
 
 }
 
-void Omnia::FileAccess::request_asynchronous_binary_reading(std::string filepath, bool apply_data_directory)
+void Omnific::FileAccess::request_asynchronous_binary_reading(std::string filepath, bool apply_data_directory)
 {
 	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
 
@@ -187,19 +187,19 @@ void Omnia::FileAccess::request_asynchronous_binary_reading(std::string filepath
 		this->io_threads.push_back(new std::thread(&FileAccess::read_binary_asynchronously, this, filepath, apply_data_directory));
 }
 
-void Omnia::FileAccess::request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
+void Omnific::FileAccess::request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
 {
 	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
 	this->io_threads.push_back(new std::thread(&FileAccess::write_binary_asynchronously, this, filepath, binary, apply_data_directory));
 }
 
-bool Omnia::FileAccess::has_binary_been_read_asynchronously(std::string filepath, bool apply_data_directory)
+bool Omnific::FileAccess::has_binary_been_read_asynchronously(std::string filepath, bool apply_data_directory)
 {
 	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
 	return this->asynchronously_loaded_binaries.count(full_filepath);
 }
 
-std::vector<uint8_t> Omnia::FileAccess::fetch_asynchronously_read_binary(std::string filepath, bool apply_data_directory)
+std::vector<uint8_t> Omnific::FileAccess::fetch_asynchronously_read_binary(std::string filepath, bool apply_data_directory)
 {
 	std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
 	std::vector<uint8_t> binary;
@@ -208,7 +208,7 @@ std::vector<uint8_t> Omnia::FileAccess::fetch_asynchronously_read_binary(std::st
 	return binary;
 }
 
-std::string Omnia::FileAccess::get_filepath_with_data_directory(std::string filepath, bool apply_data_directory)
+std::string Omnific::FileAccess::get_filepath_with_data_directory(std::string filepath, bool apply_data_directory)
 {
 	std::string full_filepath;
 
@@ -220,13 +220,13 @@ std::string Omnia::FileAccess::get_filepath_with_data_directory(std::string file
 	return full_filepath;
 }
 
-void Omnia::FileAccess::read_binary_asynchronously(std::string filepath, bool apply_data_directory)
+void Omnific::FileAccess::read_binary_asynchronously(std::string filepath, bool apply_data_directory)
 {
 	std::vector<uint8_t> binary = this->read_binary(filepath, apply_data_directory);
 	this->asynchronously_loaded_binaries.emplace(filepath, binary);
 }
 
-void Omnia::FileAccess::write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
+void Omnific::FileAccess::write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
 {
 	this->write_binary(filepath, binary, apply_data_directory);
 }

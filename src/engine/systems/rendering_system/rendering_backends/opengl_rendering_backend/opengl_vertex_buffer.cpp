@@ -24,12 +24,12 @@
 #include <scene/components/model.hpp>
 #include <scene/components/gui.hpp>
 
-Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer()
+Omnific::OpenGLVertexBuffer::OpenGLVertexBuffer()
 {
 
 }
 
-Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer(std::shared_ptr<Mesh> mesh)
+Omnific::OpenGLVertexBuffer::OpenGLVertexBuffer(std::shared_ptr<Mesh> mesh)
 {
 	if (mesh != nullptr)
 	{
@@ -40,22 +40,22 @@ Omnia::OpenGLVertexBuffer::OpenGLVertexBuffer(std::shared_ptr<Mesh> mesh)
 	}
 }
 
-Omnia::OpenGLVertexBuffer::~OpenGLVertexBuffer()
+Omnific::OpenGLVertexBuffer::~OpenGLVertexBuffer()
 {
 	this->delete_vertex_buffer();
 }
 
-void Omnia::OpenGLVertexBuffer::bind()
+void Omnific::OpenGLVertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertex_buffer_id);
 }
 
-void Omnia::OpenGLVertexBuffer::delete_vertex_buffer()
+void Omnific::OpenGLVertexBuffer::delete_vertex_buffer()
 {
 	glDeleteBuffers(1, &this->vertex_buffer_id);
 }
 
-unsigned int Omnia::OpenGLVertexBuffer::get_vertex_count()
+unsigned int Omnific::OpenGLVertexBuffer::get_vertex_count()
 {
 	return this->vertex_count;
 }

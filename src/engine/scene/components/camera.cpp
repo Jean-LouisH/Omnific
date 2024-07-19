@@ -25,7 +25,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 
-void Omnia::Camera::deserialize(YAML::Node yaml_node)
+void Omnific::Camera::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -58,12 +58,12 @@ void Omnia::Camera::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnia::Camera::reset_aspect()
+void Omnific::Camera::reset_aspect()
 {
 	this->aspect = default_aspect;
 }
 
-void Omnia::Camera::toggle_wireframe_mode()
+void Omnific::Camera::toggle_wireframe_mode()
 {
 	if (this->get_is_wireframe_mode())
 		this->set_wireframe_mode(false);
@@ -71,36 +71,36 @@ void Omnia::Camera::toggle_wireframe_mode()
 		this->set_wireframe_mode(true);
 }
 
-glm::vec2 Omnia::Camera::get_viewport()
+glm::vec2 Omnific::Camera::get_viewport()
 {
 	return glm::vec2(this->viewport.x, this->viewport.y);
 }
 
-bool Omnia::Camera::get_is_streaming()
+bool Omnific::Camera::get_is_streaming()
 {
 	return this->is_streaming;
 }
 
-bool Omnia::Camera::get_is_wireframe_mode()
+bool Omnific::Camera::get_is_wireframe_mode()
 {
 	return this->is_wire_frame;
 }
 
-void Omnia::Camera::set_viewport_width(uint32_t width_px)
+void Omnific::Camera::set_viewport_width(uint32_t width_px)
 {
 	this->viewport.x = width_px;
 	if (keep_aspect)
 		this->viewport.y = (uint32_t)((double)width_px / aspect);
 }
 
-void Omnia::Camera::set_viewport_height(uint32_t height_px)
+void Omnific::Camera::set_viewport_height(uint32_t height_px)
 {
 	this->viewport.y = height_px;
 	if (keep_aspect)
 		this->viewport.x = (uint32_t)((double)height_px * aspect);
 }
 
-void Omnia::Camera::set_limits(float left, float bottom, float top, float right)
+void Omnific::Camera::set_limits(float left, float bottom, float top, float right)
 {
 	this->min_limit.x = left;
 	this->min_limit.y = bottom;
@@ -108,22 +108,22 @@ void Omnia::Camera::set_limits(float left, float bottom, float top, float right)
 	this->max_limit.y = top;
 }
 
-void Omnia::Camera::set_keep_aspect(bool value)
+void Omnific::Camera::set_keep_aspect(bool value)
 {
 	this->keep_aspect = value;
 }
 
-void Omnia::Camera::set_is_streaming(bool value)
+void Omnific::Camera::set_is_streaming(bool value)
 {
 	this->is_streaming = value;
 }
 
-void Omnia::Camera::set_wireframe_mode(bool value)
+void Omnific::Camera::set_wireframe_mode(bool value)
 {
 	this->is_wire_frame = value;
 }
 
-glm::mat4 Omnia::Camera::get_view_to_projection_matrix()
+glm::mat4 Omnific::Camera::get_view_to_projection_matrix()
 {
 	glm::vec2 window_size = Platform::get_window().get_window_size();
 	return glm::perspective(glm::radians(this->field_of_view), (float)window_size.x / (float)window_size.y, this->near_plane, this->far_plane);

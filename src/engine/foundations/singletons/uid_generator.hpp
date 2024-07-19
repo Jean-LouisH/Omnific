@@ -25,9 +25,9 @@
 #include <foundations/aliases.hpp>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API UIDGenerator
+	class OMNIFIC_ENGINE_API UIDGenerator
 	{
 	public:
 		static UID get_new_uid();

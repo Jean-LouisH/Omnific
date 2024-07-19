@@ -30,9 +30,9 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Profiler
+	class OMNIFIC_ENGINE_API Profiler
 	{
 	public:
 		static void add_timer(std::string timer_name, bool is_removable= true);

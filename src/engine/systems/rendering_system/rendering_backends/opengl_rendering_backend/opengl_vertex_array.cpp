@@ -22,12 +22,12 @@
 
 #include "opengl_vertex_array.hpp"
 
-Omnia::OpenGLVertexArray::OpenGLVertexArray()
+Omnific::OpenGLVertexArray::OpenGLVertexArray()
 {
 	glGenVertexArrays(1, &this->vertex_array_id);
 }
 
-Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Mesh> mesh)
+Omnific::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Mesh> mesh)
 {
 	glGenVertexArrays(1, &this->vertex_array_id);
 	this->bind();
@@ -53,32 +53,32 @@ Omnia::OpenGLVertexArray::OpenGLVertexArray(std::shared_ptr<Mesh> mesh)
 	this->unbind();
 }
 
-Omnia::OpenGLVertexArray::~OpenGLVertexArray()
+Omnific::OpenGLVertexArray::~OpenGLVertexArray()
 {
 	this->delete_vertex_array();
 }
 
-void Omnia::OpenGLVertexArray::bind()
+void Omnific::OpenGLVertexArray::bind()
 {
 	glBindVertexArray(this->vertex_array_id);
 }
 
-void Omnia::OpenGLVertexArray::unbind()
+void Omnific::OpenGLVertexArray::unbind()
 {
 	glBindVertexArray(0);
 }
 
-void Omnia::OpenGLVertexArray::delete_vertex_array()
+void Omnific::OpenGLVertexArray::delete_vertex_array()
 {
 	glDeleteVertexArrays(1, &this->vertex_array_id);
 }
 
-unsigned int Omnia::OpenGLVertexArray::get_index_count()
+unsigned int Omnific::OpenGLVertexArray::get_index_count()
 {
 	return this->index_buffer->get_index_count();
 }
 
-unsigned int Omnia::OpenGLVertexArray::get_vertex_count()
+unsigned int Omnific::OpenGLVertexArray::get_vertex_count()
 {
 	return this->vertex_buffer->get_vertex_count();
 }

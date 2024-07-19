@@ -32,7 +32,7 @@
 #include <foundations/singletons/profiler.hpp>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Processes HapticSignals from the HapticSignalBuffer in the Scene.*/
 	class HapticSystem : public System

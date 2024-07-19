@@ -26,35 +26,35 @@
 #include "foundations/constants.hpp"
 #include <thread>
 
-uint64_t Omnia::HiResTimer::get_delta_in_nanoseconds()
+uint64_t Omnific::HiResTimer::get_delta_in_nanoseconds()
 {
 	return this->delta;
 }
 
-uint64_t Omnia::HiResTimer::get_delta()
+uint64_t Omnific::HiResTimer::get_delta()
 {
 	return this->delta / NS_IN_MS;
 }
 
-float Omnia::HiResTimer::get_delta_in_seconds()
+float Omnific::HiResTimer::get_delta_in_seconds()
 {
 	return this->delta / NS_IN_S;
 }
 
-void Omnia::HiResTimer::set_start()
+void Omnific::HiResTimer::set_start()
 {
 	this->start = std::chrono::high_resolution_clock::now();
 }
 
-void Omnia::HiResTimer::set_end()
+void Omnific::HiResTimer::set_end()
 {
 	this->end = std::chrono::high_resolution_clock::now();
 	this->delta = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 }
 
-Omnia::Platform* Omnia::Platform::instance = nullptr;
+Omnific::Platform* Omnific::Platform::instance = nullptr;
 
-void Omnia::Platform::initialize(
+void Omnific::Platform::initialize(
 	int argc,
 	char* argv[]
 )
@@ -78,7 +78,7 @@ void Omnia::Platform::initialize(
 	new_instance->command_line_arguments = command_line_arguments;
 }
 
-bool Omnia::Platform::create_window(std::string title,
+bool Omnific::Platform::create_window(std::string title,
 	uint16_t width,
 	uint16_t height,
 	bool is_fullscreen,
@@ -103,18 +103,18 @@ bool Omnia::Platform::create_window(std::string title,
 	return is_successful;
 }
 
-void Omnia::Platform::yield_this_thread()
+void Omnific::Platform::yield_this_thread()
 {
 	std::this_thread::yield();
 }
 
-void Omnia::Platform::sleep_this_thread_for(int duration)
+void Omnific::Platform::sleep_this_thread_for(int duration)
 {
 	if (duration > 0)
 		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
 }
 
-void Omnia::Platform::show_error_box(std::string title, std::string message)
+void Omnific::Platform::show_error_box(std::string title, std::string message)
 {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
 		title.c_str(),
@@ -123,27 +123,27 @@ void Omnia::Platform::show_error_box(std::string title, std::string message)
 	);
 }
 
-uint8_t Omnia::Platform::get_logical_core_count()
+uint8_t Omnific::Platform::get_logical_core_count()
 {
 	return SDL_GetCPUCount();
 }
 
-uint32_t Omnia::Platform::get_l1cache_line_size()
+uint32_t Omnific::Platform::get_l1cache_line_size()
 {
 	return SDL_GetCPUCacheLineSize();
 }
 
-uint32_t Omnia::Platform::get_system_ram()
+uint32_t Omnific::Platform::get_system_ram()
 {
 	return SDL_GetSystemRAM();
 }
 
-std::string Omnia::Platform::get_platform_name()
+std::string Omnific::Platform::get_platform_name()
 {
 	return SDL_GetPlatform();
 }
 
-void Omnia::Platform::finalize()
+void Omnific::Platform::finalize()
 {
 	TTF_Quit();
 	SDL_Quit();
@@ -151,52 +151,52 @@ void Omnia::Platform::finalize()
 	instance = nullptr;
 }
 
-Omnia::SharedLibraryAccess& Omnia::Platform::get_shared_library_access()
+Omnific::SharedLibraryAccess& Omnific::Platform::get_shared_library_access()
 {
 	return *get_instance()->shared_library_access;
 }
 
-Omnia::Window& Omnia::Platform::get_window()
+Omnific::Window& Omnific::Platform::get_window()
 {
 	return *get_instance()->window;
 }
 
-Omnia::Input& Omnia::Platform::get_input()
+Omnific::Input& Omnific::Platform::get_input()
 {
 	return *get_instance()->input;
 }
 
-Omnia::Logger& Omnia::Platform::get_logger()
+Omnific::Logger& Omnific::Platform::get_logger()
 {
 	return *get_instance()->logger;
 }
 
-Omnia::FileAccess& Omnia::Platform::get_file_access()
+Omnific::FileAccess& Omnific::Platform::get_file_access()
 {
 	return *get_instance()->file_access;
 }
 
-Omnia::NetworkAccess& Omnia::Platform::get_network_access()
+Omnific::NetworkAccess& Omnific::Platform::get_network_access()
 {
 	return *get_instance()->network_access;
 }
 
-Omnia::HiResTimer& Omnia::Platform::get_run_timer()
+Omnific::HiResTimer& Omnific::Platform::get_run_timer()
 {
 	return *get_instance()->run_timer;
 }
 
-std::vector<std::string> Omnia::Platform::get_args()
+std::vector<std::string> Omnific::Platform::get_args()
 {
 	return get_instance()->command_line_arguments;
 }
 
-void Omnia::Platform::add_game_controller_mappings(std::string mapping_filepath)
+void Omnific::Platform::add_game_controller_mappings(std::string mapping_filepath)
 {
 	SDL_GameControllerAddMappingsFromFile(mapping_filepath.c_str());
 }
 
-Omnia::Platform* Omnia::Platform::get_instance()
+Omnific::Platform* Omnific::Platform::get_instance()
 {
 	if (instance == nullptr)
 		instance = new Platform();

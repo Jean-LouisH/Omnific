@@ -28,9 +28,9 @@
 #include <engine_api.hpp>
 #include <glm/glm.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Colour : public Resource
+	class OMNIFIC_ENGINE_API Colour : public Resource
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Colour";

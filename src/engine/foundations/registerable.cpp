@@ -23,29 +23,29 @@
 #include "registerable.hpp"
 #include <foundations/singletons/uid_generator.hpp>
 
-Omnia::Registerable::Registerable()
+Omnific::Registerable::Registerable()
 {
 	this->id = UIDGenerator::get_new_uid();
 }
 
-Omnia::Registerable* Omnia::Registerable::instance()
+Omnific::Registerable* Omnific::Registerable::instance()
 {
 	Registerable* clone = new Registerable(*this);
 	clone->id = UIDGenerator::get_new_uid();
 	return clone;
 }
 
-std::string Omnia::Registerable::get_type()
+std::string Omnific::Registerable::get_type()
 {
 	return this->type;
 }
 
-Omnia::UID Omnia::Registerable::get_id()
+Omnific::UID Omnific::Registerable::get_id()
 {
 	return this->id;
 }
 
-bool Omnia::Registerable::is_type(std::string type_string)
+bool Omnific::Registerable::is_type(std::string type_string)
 {
 	return this->type == type_string;
 }

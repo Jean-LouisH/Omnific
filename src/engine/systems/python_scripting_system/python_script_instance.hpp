@@ -28,7 +28,7 @@
 #include <string>
 #include <set>
 
-namespace Omnia
+namespace Omnific
 {
 	class PythonScriptInstance
 	{

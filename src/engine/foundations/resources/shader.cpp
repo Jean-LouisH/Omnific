@@ -24,13 +24,13 @@
 #include <foundations/singletons/uid_generator.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 
-Omnia::Shader::Shader(std::string shader_preset)
+Omnific::Shader::Shader(std::string shader_preset)
 {
 	this->type = TYPE_STRING;
 	this->shader_preset = shader_preset;
 }
 
-Omnia::Shader::Shader(std::string vertex_source_input, std::string fragment_source_input, bool is_vertex_filepath, bool is_fragment_filepath)
+Omnific::Shader::Shader(std::string vertex_source_input, std::string fragment_source_input, bool is_vertex_filepath, bool is_fragment_filepath)
 {
 	this->type = TYPE_STRING;
 	this->shader_preset = "Shader::CUSTOM";
@@ -59,17 +59,17 @@ Omnia::Shader::Shader(std::string vertex_source_input, std::string fragment_sour
 	}
 }
 
-std::string Omnia::Shader::get_preset()
+std::string Omnific::Shader::get_preset()
 {
 	return this->shader_preset;
 }
 
-std::string Omnia::Shader::get_vertex_source()
+std::string Omnific::Shader::get_vertex_source()
 {
 	return this->vertex_source;
 }
 
-std::string Omnia::Shader::get_fragment_source()
+std::string Omnific::Shader::get_fragment_source()
 {
 	return this->fragment_source;
 }

@@ -27,9 +27,9 @@
 #include "foundations/constants.hpp"
 #include "scene/components/component.hpp"
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API PhysicsBody : public Component
+	class OMNIFIC_ENGINE_API PhysicsBody : public Component
 	{
 	public:
 		PhysicsBody()

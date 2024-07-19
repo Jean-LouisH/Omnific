@@ -26,7 +26,7 @@
 #include <memory>
 #include <foundations/registerable.hpp>
 
-namespace Omnia
+namespace Omnific
 {
     /* Base class for objects that process Scenes and
     their Component properties for updates or output.*/

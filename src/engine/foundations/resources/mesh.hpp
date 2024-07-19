@@ -28,9 +28,9 @@
 #include <string>
 #include <stdint.h>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Mesh : public Resource
+	class OMNIFIC_ENGINE_API Mesh : public Resource
 	{
 	public:
 		Mesh() 

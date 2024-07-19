@@ -22,7 +22,7 @@
 
 #include "physics_body.hpp"
 
-void Omnia::PhysicsBody::deserialize(YAML::Node yaml_node)
+void Omnific::PhysicsBody::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -43,7 +43,7 @@ void Omnia::PhysicsBody::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnia::PhysicsBody::accelerate(glm::vec3 acceleration, float maximum_speed)
+void Omnific::PhysicsBody::accelerate(glm::vec3 acceleration, float maximum_speed)
 {
 	this->linear_velocity += acceleration;
 	float absolute_maximum_speed = abs(maximum_speed);
@@ -59,54 +59,54 @@ void Omnia::PhysicsBody::accelerate(glm::vec3 acceleration, float maximum_speed)
 	}
 }
 
-void Omnia::PhysicsBody::accelerate(glm::vec3 direction, float acceleration, float maximum_speed)
+void Omnific::PhysicsBody::accelerate(glm::vec3 direction, float acceleration, float maximum_speed)
 {
 	this->accelerate(direction * acceleration, maximum_speed);
 }
 
-void Omnia::PhysicsBody::accelerate_x(float acceleration, float maximum_speed)
+void Omnific::PhysicsBody::accelerate_x(float acceleration, float maximum_speed)
 {
 	this->accelerate(glm::vec3(1.0, 0.0, 0.0), acceleration, maximum_speed);
 }
 
-void Omnia::PhysicsBody::accelerate_y(float acceleration, float maximum_speed)
+void Omnific::PhysicsBody::accelerate_y(float acceleration, float maximum_speed)
 {
 	this->accelerate(glm::vec3(0.0, 1.0, 0.0), acceleration, maximum_speed);
 }
 
-void Omnia::PhysicsBody::accelerate_z(float acceleration, float maximum_speed)
+void Omnific::PhysicsBody::accelerate_z(float acceleration, float maximum_speed)
 {
 	this->accelerate(glm::vec3(0.0, 0.0, 1.0), acceleration, maximum_speed);
 }
 
-void Omnia::PhysicsBody::decelerate(float deceleration)
+void Omnific::PhysicsBody::decelerate(float deceleration)
 {
 	this->linear_velocity /= deceleration;
 }
 
-void Omnia::PhysicsBody::decelerate_x(float deceleration)
+void Omnific::PhysicsBody::decelerate_x(float deceleration)
 {
 	this->linear_velocity.x /= deceleration;
 }
 
-void Omnia::PhysicsBody::decelerate_y(float deceleration)
+void Omnific::PhysicsBody::decelerate_y(float deceleration)
 {
 	this->linear_velocity.y /= deceleration;
 }
 
-void Omnia::PhysicsBody::decelerate_z(float deceleration)
+void Omnific::PhysicsBody::decelerate_z(float deceleration)
 {
 	this->linear_velocity.z /= deceleration;
 }
 
-void Omnia::PhysicsBody::move(glm::vec3 linear_velocity, glm::vec3 snap_direction, glm::vec3 up_direction)
+void Omnific::PhysicsBody::move(glm::vec3 linear_velocity, glm::vec3 snap_direction, glm::vec3 up_direction)
 {
 	this->linear_velocity = linear_velocity;
 	this->snap_direction = snap_direction;
 	this->up_direction = up_direction;
 }
 
-void Omnia::PhysicsBody::reload()
+void Omnific::PhysicsBody::reload()
 {
 	this->linear_velocity = glm::vec3(0.0, 0.0, 0.0);
 	this->snap_direction = glm::vec3(0.0, 0.0, 0.0);

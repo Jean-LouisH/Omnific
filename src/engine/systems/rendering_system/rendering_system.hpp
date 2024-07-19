@@ -36,7 +36,7 @@
 #include <map>
 #include <foundations/singletons/platform/platform.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Processes Renderables for output to graphics display. */
 	class RenderingSystem : public System

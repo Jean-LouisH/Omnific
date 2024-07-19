@@ -22,14 +22,14 @@
 
 #include "foundations/singletons/uid_generator.hpp"
 
-Omnia::UIDGenerator* Omnia::UIDGenerator::instance = nullptr;
+Omnific::UIDGenerator* Omnific::UIDGenerator::instance = nullptr;
 
-Omnia::EntityID Omnia::UIDGenerator::get_new_uid()
+Omnific::EntityID Omnific::UIDGenerator::get_new_uid()
 {
 	return ++get_instance()->uid;
 }
 
-Omnia::UIDGenerator* Omnia::UIDGenerator::get_instance()
+Omnific::UIDGenerator* Omnific::UIDGenerator::get_instance()
 {
 	if (instance == nullptr)
 		instance = new UIDGenerator();

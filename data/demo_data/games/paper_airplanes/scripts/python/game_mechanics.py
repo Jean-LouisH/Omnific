@@ -1,15 +1,15 @@
-import omnia
+import omnific
 import random
 import math
 import constants
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def reset_ball(self):
-        scene_tree = omnia.get_scene_tree()
+        scene_tree = omnific.get_scene_tree()
         ball_entity = scene_tree.get_entity_by_name("Ball")
         ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
         ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
@@ -21,11 +21,11 @@ class omnia_script:
         ball_transform.translation.z = -2.5
 
     def on_start(self):
-        omnia_script.reset_ball(self)
+        omnific_script.reset_ball(self)
 
 
     def on_logic(self):
-        scene_tree = omnia.get_scene_tree()
+        scene_tree = omnific.get_scene_tree()
         ball_entity = scene_tree.get_entity_by_name("Ball")
         ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())
         ball_transform = scene_tree.get_component("Transform", ball_entity.get_id())
@@ -40,7 +40,7 @@ class omnia_script:
 
         #When the ball goes past the posts
         #if ball_transform.translation.z < back_post_transform.translation.z or ball_transform.translation.z > front_post_transform.translation.z:
-        #    omnia_script.reset_ball(self)
+        #    omnific_script.reset_ball(self)
         #    ball_speed = math.sqrt(ball_physics_body.linear_velocity.x * ball_physics_body.linear_velocity.x + 
         #      ball_physics_body.linear_velocity.z * ball_physics_body.linear_velocity.z)
 

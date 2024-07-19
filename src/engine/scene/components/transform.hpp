@@ -27,9 +27,9 @@
 #include "scene/components/component.hpp"
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Transform : public Component
+	class OMNIFIC_ENGINE_API Transform : public Component
 	{
 	public:
 		glm::vec3 translation;

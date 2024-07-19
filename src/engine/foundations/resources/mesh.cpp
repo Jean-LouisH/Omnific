@@ -23,7 +23,7 @@
 #include "mesh.hpp"
 #include <stdint.h>
 
-Omnia::Mesh::Mesh(std::string filepath)
+Omnific::Mesh::Mesh(std::string filepath)
 {
     this->type = TYPE_STRING;
 	if (filepath == "Mesh::cube")
@@ -34,7 +34,7 @@ Omnia::Mesh::Mesh(std::string filepath)
         this->set_to_plane();
 }
 
-Omnia::Mesh::Mesh(std::vector<float> positions,
+Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords)
 {
     std::vector<float> normals;
@@ -51,7 +51,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
         indices);
 }
 
-Omnia::Mesh::Mesh(std::vector<float> positions,
+Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords,
     std::vector<float> normals)
 {
@@ -68,7 +68,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
         indices);
 }
 
-Omnia::Mesh::Mesh(std::vector<float> positions,
+Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords,
     std::vector<uint32_t> indices)
 {
@@ -85,7 +85,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
         indices);
 }
 
-Omnia::Mesh::Mesh(std::vector<float> positions,
+Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<uint32_t> indices)
@@ -102,7 +102,7 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
         indices);
 }
 
-Omnia::Mesh::Mesh(std::vector<float> positions,
+Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<float> tangents,
@@ -118,12 +118,12 @@ Omnia::Mesh::Mesh(std::vector<float> positions,
         indices);
 }
 
-bool Omnia::Mesh::get_is_indexed()
+bool Omnific::Mesh::get_is_indexed()
 {
     return this->is_indexed;
 }
 
-void Omnia::Mesh::set_to_cube()
+void Omnific::Mesh::set_to_cube()
 {
     const std::vector<float> cube_positions = 
     {
@@ -175,7 +175,7 @@ void Omnia::Mesh::set_to_cube()
     this->populate_data(cube_positions, cube_texture_coords, normals, tangents, bitangents, indices);
 }
 
-void Omnia::Mesh::set_to_quad()
+void Omnific::Mesh::set_to_quad()
 {
     const std::vector<float> quad_positions =
     {
@@ -206,7 +206,7 @@ void Omnia::Mesh::set_to_quad()
     this->populate_data(quad_positions, quad_texture_coords, normals, tangents, bitangents, quad_indices);
 }
 
-void Omnia::Mesh::set_to_plane()
+void Omnific::Mesh::set_to_plane()
 {
     const std::vector<float> plane_positions =
     {
@@ -230,7 +230,7 @@ void Omnia::Mesh::set_to_plane()
     this->populate_data(plane_positions, plane_texture_coords, normals, tangents, bitangents, plane_indices);
 }
 
-void Omnia::Mesh::populate_data(
+void Omnific::Mesh::populate_data(
     std::vector<float> positions,
     std::vector<float> texture_coords,
     std::vector<float> normals,

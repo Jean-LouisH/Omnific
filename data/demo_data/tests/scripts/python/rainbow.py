@@ -1,7 +1,7 @@
-import omnia
+import omnific
 import math
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         self.red = 0.0
@@ -10,10 +10,10 @@ class omnia_script:
         pass
 
     def on_logic(self):
-        delta = omnia.get_time_delta()
+        delta = omnific.get_time_delta()
         colourChange = 0.1
         
-        renderable = omnia.get_component("RenderableComponent")
+        renderable = omnific.get_component("RenderableComponent")
         
         renderable.shader_parameters.set_float_uniform("red", self.red)
         renderable.shader_parameters.set_float_uniform("green", self.green)

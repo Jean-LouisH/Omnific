@@ -24,12 +24,12 @@
 #include "foundations/singletons/platform/platform.hpp"
 #include <SDL.h>
 
-Omnia::HapticSystem::~HapticSystem()
+Omnific::HapticSystem::~HapticSystem()
 {
 	this->finalize();
 }
 
-void Omnia::HapticSystem::rumble(HapticSignal& haptic_signal, std::vector<SDL_Haptic*> haptics)
+void Omnific::HapticSystem::rumble(HapticSignal& haptic_signal, std::vector<SDL_Haptic*> haptics)
 {
 	if (haptic_signal.get_player_id() < haptics.size())
 	{
@@ -39,7 +39,7 @@ void Omnia::HapticSystem::rumble(HapticSignal& haptic_signal, std::vector<SDL_Ha
 	}
 }
 
-void Omnia::HapticSystem::stop_rumble(PlayerID player_id, std::vector<SDL_Haptic*> haptics)
+void Omnific::HapticSystem::stop_rumble(PlayerID player_id, std::vector<SDL_Haptic*> haptics)
 {
 	if (player_id < haptics.size())
 	{
@@ -47,14 +47,14 @@ void Omnia::HapticSystem::stop_rumble(PlayerID player_id, std::vector<SDL_Haptic
 	}
 }
 
-void Omnia::HapticSystem::initialize()
+void Omnific::HapticSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_HAPTIC);
 	this->is_initialized = true;
 	Platform::get_logger().write("Initialized Haptic System");
 }
 
-void Omnia::HapticSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::HapticSystem::on_late(std::shared_ptr<Scene> scene)
 {
 	Input& hid = Platform::get_input();
 
@@ -105,7 +105,7 @@ void Omnia::HapticSystem::on_late(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::HapticSystem::finalize()
+void Omnific::HapticSystem::finalize()
 {
 	if (this->is_initialized)
 		SDL_QuitSubSystem(SDL_INIT_HAPTIC);

@@ -29,12 +29,12 @@
 #include <scene/components/audio_source.hpp>
 #include <foundations/singletons/event_bus.hpp>
 
-Omnia::AudioSystem::~AudioSystem()
+Omnific::AudioSystem::~AudioSystem()
 {
 	this->finalize();
 }
 
-void Omnia::AudioSystem::initialize()
+void Omnific::AudioSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
 	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
@@ -45,7 +45,7 @@ void Omnia::AudioSystem::initialize()
 	Platform::get_logger().write("Initialized Audio System.");
 }
 
-void Omnia::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
@@ -74,7 +74,7 @@ void Omnia::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 	lb_incrementAllPlayTimes(Profiler::get_timer(LOOP_THREAD_TIMER_NAME)->get_delta_in_seconds());
 }
 
-void Omnia::AudioSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 {
 	std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 
@@ -245,7 +245,7 @@ void Omnia::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::AudioSystem::finalize()
+void Omnific::AudioSystem::finalize()
 {
 	if (this->is_initialized)
 	{
@@ -257,7 +257,7 @@ void Omnia::AudioSystem::finalize()
 	this->is_initialized = false;
 }
 
-std::shared_ptr<Omnia::Audio> Omnia::AudioSystem::query_active_audio_by_event(
+std::shared_ptr<Omnific::Audio> Omnific::AudioSystem::query_active_audio_by_event(
 	std::unordered_map<UID, std::shared_ptr<AudioSource>> mapped_audio_sources,
 	Event audio_event)
 {

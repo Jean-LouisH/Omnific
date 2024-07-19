@@ -27,9 +27,9 @@
 #include <string>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Text : public Resource
+	class OMNIFIC_ENGINE_API Text : public Resource
 	{
 	public:
 		Text()

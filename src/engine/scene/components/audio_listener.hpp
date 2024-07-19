@@ -27,9 +27,9 @@
 #include "scene/components/component.hpp"
 
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API AudioListener : public Component
+	class OMNIFIC_ENGINE_API AudioListener : public Component
 	{
 	public:
 		AudioListener()

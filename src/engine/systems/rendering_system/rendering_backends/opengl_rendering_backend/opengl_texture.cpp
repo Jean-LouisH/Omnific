@@ -22,17 +22,17 @@
 
 #include "opengl_texture.hpp"
 
-Omnia::OpenGLTexture::OpenGLTexture()
+Omnific::OpenGLTexture::OpenGLTexture()
 {
 
 }
 
-Omnia::OpenGLTexture::~OpenGLTexture()
+Omnific::OpenGLTexture::~OpenGLTexture()
 {
 	this->delete_texture();
 }
 
-Omnia::OpenGLTexture::OpenGLTexture(std::shared_ptr<Image> image)
+Omnific::OpenGLTexture::OpenGLTexture(std::shared_ptr<Image> image)
 {
 	glGenTextures(1, &this->texture_id);
 	this->bind();
@@ -78,29 +78,29 @@ Omnia::OpenGLTexture::OpenGLTexture(std::shared_ptr<Image> image)
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-void Omnia::OpenGLTexture::activate_default_texture_unit()
+void Omnific::OpenGLTexture::activate_default_texture_unit()
 {
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void Omnia::OpenGLTexture::activate_texture_unit(Unit texture_unit)
+void Omnific::OpenGLTexture::activate_texture_unit(Unit texture_unit)
 {
 	glActiveTexture(GL_TEXTURE0 + (uint8_t)texture_unit);
 }
 
-void Omnia::OpenGLTexture::bind()
+void Omnific::OpenGLTexture::bind()
 {
 	this->activate_default_texture_unit();
 	glBindTexture(GL_TEXTURE_2D, this->texture_id);
 }
 
-void Omnia::OpenGLTexture::bind(Unit texture_unit)
+void Omnific::OpenGLTexture::bind(Unit texture_unit)
 {
 	this->activate_texture_unit(texture_unit);
 	glBindTexture(GL_TEXTURE_2D, this->texture_id);
 }
 
-void Omnia::OpenGLTexture::delete_texture()
+void Omnific::OpenGLTexture::delete_texture()
 {
 	glDeleteTextures(1, &this->texture_id);
 }

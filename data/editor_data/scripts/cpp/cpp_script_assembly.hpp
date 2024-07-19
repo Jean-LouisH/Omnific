@@ -27,34 +27,34 @@
 #include <scene/components/script_collection.hpp>
 
 #if defined (_WIN32)
-#if defined(_OMNIA_CPP_SCRIPT_ASSEMBLY_EXPORTS)
-#define  OMNIA_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllexport)
+#if defined(_OMNIFIC_CPP_SCRIPT_ASSEMBLY_EXPORTS)
+#define  OMNIFIC_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllexport)
 #else
-#define  OMNIA_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllimport)
+#define  OMNIFIC_CPP_SCRIPT_ASSEMBLY_API extern "C" __declspec(dllimport)
 #endif
 #else
-#define OMNIA_CPP_SCRIPT_ASSEMBLY_API
+#define OMNIFIC_CPP_SCRIPT_ASSEMBLY_API
 #endif
 
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void loadScriptInstances();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onStart();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onInput();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onEarly();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onLogic();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onCompute();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onLate();
-OMNIA_CPP_SCRIPT_ASSEMBLY_API void onFinish();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void loadScriptInstances();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onStart();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onInput();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onEarly();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onLogic();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onCompute();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onLate();
+OMNIFIC_CPP_SCRIPT_ASSEMBLY_API void onFinish();
 
-void bindAndCall(std::shared_ptr<Omnia::ScriptCollection> scriptCollection,
-	Omnia::SceneLayerID sceneLayerID,
-	Omnia::EntityID entityID,
+void bindAndCall(std::shared_ptr<Omnific::ScriptCollection> scriptCollection,
+	Omnific::SceneLayerID sceneLayerID,
+	Omnific::EntityID entityID,
 	std::string methodName);
 
 void executeQueuedMethods(
-	std::queue<Omnia::EntityID> entityQueue,
-	std::shared_ptr<Omnia::SceneLayer> sceneLayer,
+	std::queue<Omnific::EntityID> entityQueue,
+	std::shared_ptr<Omnific::SceneLayer> sceneLayer,
 	std::string methodName);
 
 void executeUpdateMethods(
-	std::shared_ptr<Omnia::SceneLayer> sceneLayer,
+	std::shared_ptr<Omnific::SceneLayer> sceneLayer,
 	std::string methodName);

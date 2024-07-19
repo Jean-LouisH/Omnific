@@ -29,9 +29,9 @@
 #include <stdint.h>
 #include <vector>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Audio : public Resource
+	class OMNIFIC_ENGINE_API Audio : public Resource
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Audio";

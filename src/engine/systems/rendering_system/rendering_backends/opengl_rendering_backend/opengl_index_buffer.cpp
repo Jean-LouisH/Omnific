@@ -23,12 +23,12 @@
 #include "opengl_index_buffer.hpp"
 #include <scene/components/model.hpp>
 
-Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer()
+Omnific::OpenGLIndexBuffer::OpenGLIndexBuffer()
 {
 
 }
 
-Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<Mesh> mesh)
+Omnific::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<Mesh> mesh)
 {
 	if (mesh != nullptr)
 	{
@@ -43,22 +43,22 @@ Omnia::OpenGLIndexBuffer::OpenGLIndexBuffer(std::shared_ptr<Mesh> mesh)
 	}
 }
 
-Omnia::OpenGLIndexBuffer::~OpenGLIndexBuffer()
+Omnific::OpenGLIndexBuffer::~OpenGLIndexBuffer()
 {
 	this->delete_index_buffer();
 }
 
-void Omnia::OpenGLIndexBuffer::bind()
+void Omnific::OpenGLIndexBuffer::bind()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_buffer_id);
 }
 
-void Omnia::OpenGLIndexBuffer::delete_index_buffer()
+void Omnific::OpenGLIndexBuffer::delete_index_buffer()
 {
 	glDeleteBuffers(1, &this->index_buffer_id);
 }
 
-unsigned int Omnia::OpenGLIndexBuffer::get_index_count()
+unsigned int Omnific::OpenGLIndexBuffer::get_index_count()
 {
 	return this->index_count;
 }

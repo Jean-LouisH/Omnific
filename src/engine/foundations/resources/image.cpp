@@ -26,7 +26,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
-Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrap_length)
+Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrap_length)
 {
 	this->type = TYPE_STRING;
 	this->alignment = Alignment::TOP_LEFT;
@@ -68,7 +68,7 @@ Omnia::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_pt
 		this->set_to_parameters(sdl_surface->format->BytesPerPixel, sdl_surface->w, sdl_surface->h, (uint8_t*)sdl_surface->pixels);
 }
 
-Omnia::Image::Image(std::shared_ptr<Colour> colour)
+Omnific::Image::Image(std::shared_ptr<Colour> colour)
 {
 	int width = 256;
 	int height = 256;
@@ -76,20 +76,20 @@ Omnia::Image::Image(std::shared_ptr<Colour> colour)
 	this->set_to_colour(colour, width, height);
 }
 
-Omnia::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
+Omnific::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
 {
 	this->alignment = Alignment::CENTRE;
 	this->set_to_colour(colour, width, height);
 }
 
-Omnia::Image::Image(uint8_t* data, int width, int height, int colour_channels)
+Omnific::Image::Image(uint8_t* data, int width, int height, int colour_channels)
 {
 	this->type = TYPE_STRING;
 	this->alignment = Alignment::CENTRE;
 	this->set_to_parameters(colour_channels, width, height, data);
 }
 
-Omnia::Image::Image(std::string filepath)
+Omnific::Image::Image(std::string filepath)
 {
 	stbi_set_flip_vertically_on_load(0);
 	this->type = TYPE_STRING;
@@ -115,7 +115,7 @@ Omnia::Image::Image(std::string filepath)
 	}
 }
 
-uint8_t* Omnia::Image::get_data()
+uint8_t* Omnific::Image::get_data()
 {
 	if (this->data != nullptr)
 		return this->data.get();
@@ -123,7 +123,7 @@ uint8_t* Omnia::Image::get_data()
 		return nullptr;
 }
 
-uint32_t Omnia::Image::get_width()
+uint32_t Omnific::Image::get_width()
 {
 	if (this->data != nullptr)
 		return this->width;
@@ -131,7 +131,7 @@ uint32_t Omnia::Image::get_width()
 		return 0;
 }
 
-uint32_t Omnia::Image::get_height()
+uint32_t Omnific::Image::get_height()
 {
 	if (this->data != nullptr)
 		return this->height;
@@ -139,32 +139,32 @@ uint32_t Omnia::Image::get_height()
 		return 0;
 }
 
-uint32_t Omnia::Image::get_depth()
+uint32_t Omnific::Image::get_depth()
 {
 	return this->get_bytes_per_pixel() * 8;
 }
 
-uint32_t Omnia::Image::get_pitch()
+uint32_t Omnific::Image::get_pitch()
 {
 	return this->get_bytes_per_pixel() * this->get_width();
 }
 
-glm::vec2 Omnia::Image::get_dimensions()
+glm::vec2 Omnific::Image::get_dimensions()
 {
 	return glm::vec2(this->get_width(), this->get_height());
 }
 
-uint8_t Omnia::Image::get_bytes_per_pixel()
+uint8_t Omnific::Image::get_bytes_per_pixel()
 {
 	return this->colour_channels;
 }
 
-Omnia::Image::Alignment Omnia::Image::get_alignment()
+Omnific::Image::Alignment Omnific::Image::get_alignment()
 {
 	return this->alignment;
 }
 
-void Omnia::Image::normal_blend(
+void Omnific::Image::normal_blend(
 	uint8_t* lower_image_data,
 	glm::vec2 lower_image_position,
 	glm::vec2 lower_image_dimensions,
@@ -191,7 +191,7 @@ void Omnia::Image::normal_blend(
 	}
 }
 
-void Omnia::Image::colour_pixel(uint32_t fill_colour, int x, int y)
+void Omnific::Image::colour_pixel(uint32_t fill_colour, int x, int y)
 {
 	for (int colour_channel = 0; colour_channel < this->colour_channels; colour_channel++)
 	{
@@ -205,7 +205,7 @@ void Omnia::Image::colour_pixel(uint32_t fill_colour, int x, int y)
 	}
 }
 
-void Omnia::Image::set_to_default()
+void Omnific::Image::set_to_default()
 {
 	const uint32_t lighter_grey = 0x333333;
 	const uint32_t darker_grey = 0x2d2d2d;
@@ -240,7 +240,7 @@ void Omnia::Image::set_to_default()
 	}
 }
 
-void Omnia::Image::set_to_colour(std::shared_ptr<Colour> colour, int width, int height)
+void Omnific::Image::set_to_colour(std::shared_ptr<Colour> colour, int width, int height)
 {
 	this->type = TYPE_STRING;
 	this->width = width;
@@ -255,7 +255,7 @@ void Omnia::Image::set_to_colour(std::shared_ptr<Colour> colour, int width, int 
 			this->colour_pixel(fill_colour, x, y);
 }
 
-void Omnia::Image::set_to_parameters(int colour_channels, int width, int height, uint8_t* data)
+void Omnific::Image::set_to_parameters(int colour_channels, int width, int height, uint8_t* data)
 {
 	this->height = height;
 	this->width = width;

@@ -1,11 +1,11 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def on_input(self):
-        if omnia.get_input().is_on_release("escape"):
-            omnia.load_scene("assets/scenes/splash_screen.yml")
+        if omnific.get_input().is_on_release("escape"):
+            omnific.load_scene("assets/scenes/splash_screen.yml")
 

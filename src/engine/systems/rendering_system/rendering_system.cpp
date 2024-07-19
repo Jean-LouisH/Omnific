@@ -30,7 +30,7 @@
 #include <scene/components/gui.hpp>
 #include <foundations/singletons/configuration.hpp>
 
-Omnia::RenderingSystem::RenderingSystem()
+Omnific::RenderingSystem::RenderingSystem()
 {
 	SDL_InitSubSystem(SDL_INIT_VIDEO);
 
@@ -57,12 +57,12 @@ Omnia::RenderingSystem::RenderingSystem()
 	this->type = TYPE_STRING;
 }
 
-Omnia::RenderingSystem::~RenderingSystem()
+Omnific::RenderingSystem::~RenderingSystem()
 {
 	this->finalize();
 }
 
-void Omnia::RenderingSystem::initialize()
+void Omnific::RenderingSystem::initialize()
 {
 	Image image = Image(
 		Platform::get_file_access().get_data_directory_path() + Configuration::get_instance()->metadata.icon_filepath);
@@ -77,7 +77,7 @@ void Omnia::RenderingSystem::initialize()
 	this->is_initialized = true;
 }
 
-void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 {
 	this->on_window_resize();
 
@@ -367,7 +367,7 @@ void Omnia::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
 	this->opengl_backend->swap_buffers();
 }
 
-void Omnia::RenderingSystem::finalize()
+void Omnific::RenderingSystem::finalize()
 {
 	if (this->is_initialized)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
@@ -375,7 +375,7 @@ void Omnia::RenderingSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnia::RenderingSystem::on_window_resize()
+void Omnific::RenderingSystem::on_window_resize()
 {
 	glm::vec2 window_size = Platform::get_window().get_window_size();
 
@@ -409,7 +409,7 @@ void Omnia::RenderingSystem::on_window_resize()
 	}
 }
 
-void Omnia::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
+void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 {
 	this->renderable_layer_lists.clear();
 
@@ -532,7 +532,7 @@ void Omnia::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 	this->renderable_layer_lists.push_back(renderable_layer_list);
 }
 
-std::string Omnia::RenderingSystem::get_rendering_backend_name()
+std::string Omnific::RenderingSystem::get_rendering_backend_name()
 {
 	return this->opengl_backend->get_rendering_backend_name();
 }

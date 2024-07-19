@@ -28,9 +28,9 @@
 #include <engine_api.hpp>
 
 
-namespace Omnia
+namespace Omnific
 {
-	typedef struct OMNIA_ENGINE_API Collision
+	typedef struct OMNIFIC_ENGINE_API Collision
 	{
 		EntityID collider_entity_id = 0;
 		std::string collider_name;

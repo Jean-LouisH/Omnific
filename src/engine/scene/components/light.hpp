@@ -25,7 +25,7 @@
 #include "scene/components/component.hpp"
 #include <foundations/resources/colour.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	enum class LightMode
 	{
@@ -34,7 +34,7 @@ namespace Omnia
 		SPOT
 	};
 
-	class OMNIA_ENGINE_API Light : public Component
+	class OMNIFIC_ENGINE_API Light : public Component
 	{
 	public:
 		Light()

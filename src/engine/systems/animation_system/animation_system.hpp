@@ -25,7 +25,7 @@
 #include "scene/scene.hpp"
 #include "systems/system.hpp"
 
-namespace Omnia
+namespace Omnific
 {
 	/* Processes Components that enable playback of data with respect to time. */
 	class AnimationSystem : public System

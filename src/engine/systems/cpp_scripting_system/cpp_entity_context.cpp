@@ -24,35 +24,35 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
 
-Omnia::CPPEntityContext* Omnia::CPPEntityContext::instance = nullptr;
+Omnific::CPPEntityContext* Omnific::CPPEntityContext::instance = nullptr;
 
-void Omnia::CPPEntityContext::bind_entity(SceneLayerID scene_layer_id, EntityID entity_id)
+void Omnific::CPPEntityContext::bind_entity(SceneLayerID scene_layer_id, EntityID entity_id)
 {
 	get_instance()->bound_scene_layer_id = scene_layer_id;
 	get_instance()->bound_entity_id = entity_id;
 }
 
-bool Omnia::CPPEntityContext::has_component(std::string type)
+bool Omnific::CPPEntityContext::has_component(std::string type)
 {
 	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->component_ids.count(type) > 0;
 }
 
-std::shared_ptr<Omnia::Entity> Omnia::CPPEntityContext::get_entity()
+std::shared_ptr<Omnific::Entity> Omnific::CPPEntityContext::get_entity()
 {
 	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::CPPEntityContext::get_scene()
+std::shared_ptr<Omnific::Scene> Omnific::CPPEntityContext::get_scene()
 {
 	return SceneStorage::get_active_scene();
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::CPPEntityContext::get_scene_layer()
+std::shared_ptr<Omnific::SceneLayer> Omnific::CPPEntityContext::get_scene_layer()
 {
 	return get_instance()->get_scene()->get_scene_layers().at(get_instance()->bound_scene_layer_id);
 }
 
-std::shared_ptr<Omnia::Component> Omnia::CPPEntityContext::get_component(std::string type)
+std::shared_ptr<Omnific::Component> Omnific::CPPEntityContext::get_component(std::string type)
 {
 	std::shared_ptr<Component> component(new Component());
 
@@ -66,12 +66,12 @@ std::shared_ptr<Omnia::Component> Omnia::CPPEntityContext::get_component(std::st
 	return component;
 }
 
-float Omnia::CPPEntityContext::get_time_delta()
+float Omnific::CPPEntityContext::get_time_delta()
 {
 	return Profiler::get_timer("update_frame")->get_delta_in_seconds();
 }
 
-Omnia::CPPEntityContext* Omnia::CPPEntityContext::get_instance()
+Omnific::CPPEntityContext* Omnific::CPPEntityContext::get_instance()
 {
 	if (instance == nullptr)
 		instance = new CPPEntityContext();

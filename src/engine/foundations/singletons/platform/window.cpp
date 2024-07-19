@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include "foundations/singletons/platform/platform.hpp"
 
-void Omnia::Window::initialize(std::string title, uint16_t width, uint16_t height, bool is_fullscreen, std::string rendering_context)
+void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t height, bool is_fullscreen, std::string rendering_context)
 {
 	uint64_t rendering_context_flag = 0x0;
 
@@ -44,13 +44,13 @@ void Omnia::Window::initialize(std::string title, uint16_t width, uint16_t heigh
 	this->is_fullscreen = is_fullscreen;
 }
 
-void Omnia::Window::initialize_window_context(std::string rendering_context)
+void Omnific::Window::initialize_window_context(std::string rendering_context)
 {
 	if (rendering_context == "opengl")
 		this->sdl_gl_context = SDL_GL_CreateContext(this->sdl_window.get());
 }
 
-void Omnia::Window::set_to_windowed(uint16_t width_px, uint16_t height_px)
+void Omnific::Window::set_to_windowed(uint16_t width_px, uint16_t height_px)
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -60,7 +60,7 @@ void Omnia::Window::set_to_windowed(uint16_t width_px, uint16_t height_px)
 	}
 }
 
-void Omnia::Window::set_to_fullscreen()
+void Omnific::Window::set_to_fullscreen()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -70,7 +70,7 @@ void Omnia::Window::set_to_fullscreen()
 	}
 }
 
-void Omnia::Window::toggle_windowed_fullscreen()
+void Omnific::Window::toggle_windowed_fullscreen()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -95,7 +95,7 @@ void Omnia::Window::toggle_windowed_fullscreen()
 	}
 }
 
-void Omnia::Window::resize(uint16_t width_px, uint16_t height_px)
+void Omnific::Window::resize(uint16_t width_px, uint16_t height_px)
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -105,7 +105,7 @@ void Omnia::Window::resize(uint16_t width_px, uint16_t height_px)
 	}
 }
 
-void Omnia::Window::change_title(const char* title)
+void Omnific::Window::change_title(const char* title)
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -114,7 +114,7 @@ void Omnia::Window::change_title(const char* title)
 	}
 }
 
-void Omnia::Window::change_icon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch)
+void Omnific::Window::change_icon(void* data, uint32_t width, uint32_t height, uint32_t depth, uint32_t pitch)
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -138,7 +138,7 @@ void Omnia::Window::change_icon(void* data, uint32_t width, uint32_t height, uin
 	}
 }
 
-void Omnia::Window::maximize()
+void Omnific::Window::maximize()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -147,7 +147,7 @@ void Omnia::Window::maximize()
 	}
 }
 
-void Omnia::Window::minimize()
+void Omnific::Window::minimize()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -156,7 +156,7 @@ void Omnia::Window::minimize()
 	}
 }
 
-void Omnia::Window::raise()
+void Omnific::Window::raise()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -165,7 +165,7 @@ void Omnia::Window::raise()
 	}
 }
 
-void Omnia::Window::restore()
+void Omnific::Window::restore()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -174,7 +174,7 @@ void Omnia::Window::restore()
 	}
 }
 
-void Omnia::Window::hide()
+void Omnific::Window::hide()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -183,7 +183,7 @@ void Omnia::Window::hide()
 	}
 }
 
-void Omnia::Window::show()
+void Omnific::Window::show()
 {
 	if (this->sdl_window != nullptr)
 	{
@@ -192,7 +192,7 @@ void Omnia::Window::show()
 	}
 }
 
-glm::vec2 Omnia::Window::get_window_size()
+glm::vec2 Omnific::Window::get_window_size()
 {
 	glm::vec2 window_size;
 
@@ -209,7 +209,7 @@ glm::vec2 Omnia::Window::get_window_size()
 	return window_size;
 }
 
-glm::vec2 Omnia::Window::get_window_position()
+glm::vec2 Omnific::Window::get_window_position()
 {
 	glm::vec2 window_position;
 
@@ -226,12 +226,12 @@ glm::vec2 Omnia::Window::get_window_position()
 	return window_position;
 }
 
-SDL_Window* Omnia::Window::get_sdlwindow()
+SDL_Window* Omnific::Window::get_sdlwindow()
 {
 	return this->sdl_window.get();
 }
 
-SDL_GLContext Omnia::Window::get_sdlglcontext()
+SDL_GLContext Omnific::Window::get_sdlglcontext()
 {
 	return this->sdl_gl_context;
 }

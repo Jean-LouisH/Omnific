@@ -23,18 +23,18 @@
 #include "foundations/resources/resource.hpp"
 #include <foundations/singletons/uid_generator.hpp>
 
-Omnia::Resource::Resource()
+Omnific::Resource::Resource()
 {
 	this->name = "Asset (ID:" + std::to_string(this->id) + ")";
 	this->type = TYPE_STRING;
 }
 
-void Omnia::Resource::set_name(std::string name)
+void Omnific::Resource::set_name(std::string name)
 {
 	this->name = name;
 }
 
-std::string Omnia::Resource::get_name()
+std::string Omnific::Resource::get_name()
 {
 	return this->name;
 }

@@ -28,10 +28,10 @@
 #include <memory>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Loads and stores multiple Scenes at once. */
-	class OMNIA_ENGINE_API SceneStorage
+	class OMNIFIC_ENGINE_API SceneStorage
 	{
 	public:
 		static void pre_load_scene(std::shared_ptr<Scene> scene);

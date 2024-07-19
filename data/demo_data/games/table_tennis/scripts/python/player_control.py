@@ -1,14 +1,14 @@
-import omnia
+import omnific
 import constants
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def on_logic(self):
-        physics_body = omnia.get_component("PhysicsBody")
-        inp = omnia.get_input()
+        physics_body = omnific.get_component("PhysicsBody")
+        inp = omnific.get_input()
 
         control_stick_strength = inp.get_axis("left_axis_x")
 

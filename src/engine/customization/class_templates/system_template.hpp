@@ -24,7 +24,7 @@
 
 #include <core/system.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Example Component class to copy and customize. */
 	class SystemTemplate : public System

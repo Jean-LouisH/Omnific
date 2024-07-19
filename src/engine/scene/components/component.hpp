@@ -34,12 +34,12 @@
 #include <yaml-cpp/yaml.h>
 #include <foundations/registerable.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Base class for objects that store and manipulate 
 	   data relevant to individual Entities in a Scene.
 	   These are attached to Entities when added to a Scene.*/
-    class OMNIA_ENGINE_API Component : public Registerable
+    class OMNIFIC_ENGINE_API Component : public Registerable
     {
 	public:
 		static constexpr const char* TYPE_STRING = "Component";

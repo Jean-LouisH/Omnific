@@ -27,21 +27,21 @@
 #include <string>
 #include <engine_api.hpp>
 
-#define OMNIA_EVENT_ENTITY_ADDED "entity_added"
-#define OMNIA_EVENT_ENTITY_NAME_SET "entity_name_set"
-#define OMNIA_EVENT_ENTITY_TAG_SET "entity_tag_set"
-#define OMNIA_EVENT_ENTITY_REMOVED "entity_removed"
-#define OMNIA_EVENT_COMPONENT_ADDED "component_added"
-#define OMNIA_EVENT_COMPONENT_REMOVED "component_removed"
-#define OMNIA_EVENT_SCENE_PRELOADED "scene_preloaded"
-#define OMNIA_EVENT_ACTIVE_SCENE_CHANGED "active_scene_changed"
-#define OMNIA_EVENT_SCENE_LOADED "scene_loaded"
-#define OMNIA_EVENT_SCENE_REMOVED "scene_removed"
-#define OMNIA_EVENT_ACTIVE_SCENE_RELOADED "active_scene_reloaded"
+#define OMNIFIC_EVENT_ENTITY_ADDED "entity_added"
+#define OMNIFIC_EVENT_ENTITY_NAME_SET "entity_name_set"
+#define OMNIFIC_EVENT_ENTITY_TAG_SET "entity_tag_set"
+#define OMNIFIC_EVENT_ENTITY_REMOVED "entity_removed"
+#define OMNIFIC_EVENT_COMPONENT_ADDED "component_added"
+#define OMNIFIC_EVENT_COMPONENT_REMOVED "component_removed"
+#define OMNIFIC_EVENT_SCENE_PRELOADED "scene_preloaded"
+#define OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED "active_scene_changed"
+#define OMNIFIC_EVENT_SCENE_LOADED "scene_loaded"
+#define OMNIFIC_EVENT_SCENE_REMOVED "scene_removed"
+#define OMNIFIC_EVENT_ACTIVE_SCENE_RELOADED "active_scene_reloaded"
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Event
+	class OMNIFIC_ENGINE_API Event
 	{
 	public:
 		typedef struct Parameters
@@ -66,7 +66,7 @@ namespace Omnia
 		Parameters parameters;
 	};
 
-	class OMNIA_ENGINE_API EventBus
+	class OMNIFIC_ENGINE_API EventBus
 	{
 		friend class Engine;
 	public:

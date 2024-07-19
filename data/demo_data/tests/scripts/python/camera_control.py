@@ -1,14 +1,14 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def on_logic(self):
         movement_speed = 1.0
-        inp = omnia.get_input()
-        transform = omnia.get_component("Transform")
+        inp = omnific.get_input()
+        transform = omnific.get_component("Transform")
 
         if inp.is_pressed(["s", "dpad_down"]):
             transform.translate_y(-movement_speed)
@@ -24,4 +24,4 @@ class omnia_script:
             transform.translate_z(-movement_speed)
     
         if inp.is_on_release("p"):
-            omnia.get_component("Camera").toggle_wireframe_mode()
+            omnific.get_component("Camera").toggle_wireframe_mode()

@@ -23,7 +23,7 @@
 #include "text.hpp"
 #include <foundations/singletons/uid_generator.hpp>
 
-Omnia::Text::Text(std::string filepath)
+Omnific::Text::Text(std::string filepath)
 {
 	this->type = TYPE_STRING;
 }

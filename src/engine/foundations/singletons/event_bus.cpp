@@ -23,37 +23,37 @@
 #include "foundations/singletons/event_bus.hpp"
 #include "platform/platform.hpp"
 
-Omnia::EventBus* Omnia::EventBus::instance = nullptr;
+Omnific::EventBus* Omnific::EventBus::instance = nullptr;
 
-Omnia::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
+Omnific::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 	this->parameters = parameters;
 }
 
-Omnia::Event::Event(std::string name, uint64_t timestamp)
+Omnific::Event::Event(std::string name, uint64_t timestamp)
 {
 	this->name = name;
 	this->timestamp = timestamp;
 }
 
-std::string Omnia::Event::get_name()
+std::string Omnific::Event::get_name()
 {
 	return this->name;
 }
 
-uint64_t Omnia::Event::get_timestamp()
+uint64_t Omnific::Event::get_timestamp()
 {
 	return this->timestamp;
 }
 
-Omnia::Event::Parameters Omnia::Event::get_parameters()
+Omnific::Event::Parameters Omnific::Event::get_parameters()
 {
 	return this->parameters;
 }
 
-void Omnia::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, double> numbers,
 	std::unordered_map<std::string, std::string> strings)
@@ -63,7 +63,7 @@ void Omnia::EventBus::publish(
 	event_bus->publish_with_parameters(name, parameters);
 }
 
-void Omnia::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, double> numbers)
 {
@@ -73,7 +73,7 @@ void Omnia::EventBus::publish(
 	event_bus->publish_with_parameters(name, parameters);
 }
 
-void Omnia::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name,
 	std::unordered_map<std::string, std::string> strings)
 {
@@ -83,7 +83,7 @@ void Omnia::EventBus::publish(
 	event_bus->publish_with_parameters(name, parameters);
 }
 
-void Omnia::EventBus::publish(
+void Omnific::EventBus::publish(
 	std::string name)
 {
 	EventBus* event_bus = EventBus::get_instance();
@@ -101,13 +101,13 @@ void Omnia::EventBus::publish(
 	event_bus->events.emplace(name, events_list);
 }
 
-void Omnia::EventBus::clear()
+void Omnific::EventBus::clear()
 {
 	EventBus* event_bus = EventBus::get_instance();
 	event_bus->events.clear();
 }
 
-std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
+std::vector<Omnific::Event> Omnific::EventBus::query(std::string name)
 {
 	EventBus* event_bus = EventBus::get_instance();
 	std::vector<Event> query_results;
@@ -118,13 +118,13 @@ std::vector<Omnia::Event> Omnia::EventBus::query(std::string name)
 	return query_results;
 }
 
-uint64_t Omnia::EventBus::query_count(std::string name)
+uint64_t Omnific::EventBus::query_count(std::string name)
 {
 	EventBus* event_bus = EventBus::get_instance();
 	return event_bus->query(name).size();
 }
 
-void Omnia::EventBus::publish_with_parameters(std::string name, Event::Parameters parameters)
+void Omnific::EventBus::publish_with_parameters(std::string name, Event::Parameters parameters)
 {
 	EventBus* event_bus = EventBus::get_instance();
 	std::vector<Event> events_list;
@@ -149,7 +149,7 @@ void Omnia::EventBus::publish_with_parameters(std::string name, Event::Parameter
 	}
 }
 
-Omnia::EventBus* Omnia::EventBus::get_instance()
+Omnific::EventBus* Omnific::EventBus::get_instance()
 {
 	if (instance == nullptr)
 	{

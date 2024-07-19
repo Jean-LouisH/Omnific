@@ -34,34 +34,34 @@
 
 #include <tiny_gltf.h>
 
-Omnia::Scene::Scene()
+Omnific::Scene::Scene()
 {
 	this->id = UIDGenerator::get_new_uid();
 }
 
-Omnia::Scene::Scene(std::string filepath)
+Omnific::Scene::Scene(std::string filepath)
 {
 	this->deserialize_from(filepath);
 	this->id = UIDGenerator::get_new_uid();
 }
 
-Omnia::Scene::Scene(std::string filepath, std::string name)
+Omnific::Scene::Scene(std::string filepath, std::string name)
 {
 	this->deserialize_from(filepath, name);
 	this->id = UIDGenerator::get_new_uid();
 }
 
-void Omnia::Scene::serialize_to(std::string filepath)
+void Omnific::Scene::serialize_to(std::string filepath)
 {
 
 }
 
-void Omnia::Scene::deserialize_from(std::string filepath)
+void Omnific::Scene::deserialize_from(std::string filepath)
 {
 	return this->deserialize_from(filepath, "");
 }
 
-void Omnia::Scene::deserialize_from(std::string filepath, std::string name)
+void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 {
 	if (name == "")
 		Platform::get_logger().write("Loading all SceneLayers from Scene: \"" + filepath + "\"");
@@ -241,42 +241,42 @@ void Omnia::Scene::deserialize_from(std::string filepath, std::string name)
 	}
 }
 
-void Omnia::Scene::reload()
+void Omnific::Scene::reload()
 {
 	this->scene_layers.clear();
 	this->last_scene_layer_id = 0;
 	this->deserialize_from(this->get_name());
 }
 
-void Omnia::Scene::add_scene_layer(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::Scene::add_scene_layer(std::shared_ptr<SceneLayer> scene_layer)
 {
 	this->scene_layers.emplace(scene_layer->get_id(), scene_layer);
 	this->last_scene_layer_id = scene_layer->get_id();
 }
 
-void Omnia::Scene::add_empty_scene_layer()
+void Omnific::Scene::add_empty_scene_layer()
 {
 	std::shared_ptr<SceneLayer> scene_layer = std::shared_ptr<SceneLayer>(new SceneLayer());
 	this->add_scene_layer(scene_layer);
 }
 
-void Omnia::Scene::remove_scene_layer(SceneLayerID scene_layer_id)
+void Omnific::Scene::remove_scene_layer(SceneLayerID scene_layer_id)
 {
 	if (this->scene_layers.count(scene_layer_id))
 		this->scene_layers.erase(scene_layer_id);
 }
 
-std::string Omnia::Scene::get_name()
+std::string Omnific::Scene::get_name()
 {
 	return this->name;
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::get_scene_layer(SceneLayerID scene_layer)
+std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::get_scene_layer(SceneLayerID scene_layer)
 {
 	return this->scene_layers.at(scene_layer);
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::get_scene_layer_by_name(std::string name)
+std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::get_scene_layer_by_name(std::string name)
 {
 	std::shared_ptr<SceneLayer> scene_layer = nullptr;
 
@@ -287,22 +287,22 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::get_scene_layer_by_name(std::st
 	return scene_layer;
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::get_last_scene_layer()
+std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::get_last_scene_layer()
 {
 	return this->scene_layers.at(this->last_scene_layer_id);
 }
 
-std::map<Omnia::SceneLayerID, std::shared_ptr<Omnia::SceneLayer>>& Omnia::Scene::get_scene_layers()
+std::map<Omnific::SceneLayerID, std::shared_ptr<Omnific::SceneLayer>>& Omnific::Scene::get_scene_layers()
 {
 	return this->scene_layers;
 }
 
-Omnia::SceneID Omnia::Scene::get_id()
+Omnific::SceneID Omnific::Scene::get_id()
 {
 	return this->id;
 }
 
-std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::load_gltf(std::string filepath)
+std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filepath)
 {
 	std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
 
@@ -504,7 +504,7 @@ std::shared_ptr<Omnia::SceneLayer> Omnia::Scene::load_gltf(std::string filepath)
 	return scene_layer;
 }
 
-std::vector<uint8_t> Omnia::Scene::read_gltfbuffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view)
+std::vector<uint8_t> Omnific::Scene::read_gltfbuffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view)
 {
 	std::vector<uint8_t> bytes(
 		buffer_data.begin() + buffer_view.byteOffset,
@@ -513,7 +513,7 @@ std::vector<uint8_t> Omnia::Scene::read_gltfbuffer(std::vector<unsigned char> bu
 	return bytes;
 }
 
-std::vector<float> Omnia::Scene::read_gltfprimitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index)
+std::vector<float> Omnific::Scene::read_gltfprimitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index)
 {
 	std::vector<float> attribute;
 	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
@@ -534,7 +534,7 @@ std::vector<float> Omnia::Scene::read_gltfprimitive_attribute(tinygltf::Model mo
 	return attribute;
 }
 
-std::vector<uint32_t> Omnia::Scene::read_gltfprimitive_indices(tinygltf::Model model, size_t index)
+std::vector<uint32_t> Omnific::Scene::read_gltfprimitive_indices(tinygltf::Model model, size_t index)
 {
 	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
 	tinygltf::Accessor accessor = model.accessors.at(primitive.indices);
@@ -552,7 +552,7 @@ std::vector<uint32_t> Omnia::Scene::read_gltfprimitive_indices(tinygltf::Model m
 	return indices;
 }
 
-std::shared_ptr<Omnia::Image> Omnia::Scene::read_gltfimage(tinygltf::Model model, int texture_index)
+std::shared_ptr<Omnific::Image> Omnific::Scene::read_gltfimage(tinygltf::Model model, int texture_index)
 {
 	int image_index = model.textures[texture_index].source;
 	tinygltf::Image gltf_image = model.images[image_index];

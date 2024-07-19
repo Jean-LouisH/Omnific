@@ -34,18 +34,18 @@
 #include <foundations/singletons/event_bus.hpp>
 
 
-Omnia::PhysicsSystem::~PhysicsSystem()
+Omnific::PhysicsSystem::~PhysicsSystem()
 {
 	this->finalize();
 }
 
-void Omnia::PhysicsSystem::initialize()
+void Omnific::PhysicsSystem::initialize()
 {
 	this->is_initialized = true;
 	Platform::get_logger().write("Initialized Physics System");
 }
 
-void Omnia::PhysicsSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::PhysicsSystem::on_compute(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
@@ -59,12 +59,12 @@ void Omnia::PhysicsSystem::on_compute(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::PhysicsSystem::finalize()
+void Omnific::PhysicsSystem::finalize()
 {
 	this->is_initialized = false;
 }
 
-void Omnia::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
 
@@ -72,7 +72,7 @@ void Omnia::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer
 		timer->update(seconds_per_compute_update);
 }
 
-void Omnia::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
 
@@ -84,7 +84,7 @@ void Omnia::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 	}
 }
 
-void Omnia::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
 
@@ -93,7 +93,7 @@ void Omnia::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 			physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_compute_update;
 }
 
-void Omnia::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
 
@@ -108,7 +108,7 @@ void Omnia::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 	}
 }
 
-void Omnia::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene_layer)
 {
 	/* Very basic collision detection on boxes for now. */
 	std::vector<std::shared_ptr<Collider>> colliders = scene_layer->get_components_by_type<Collider>();
@@ -222,7 +222,7 @@ void Omnia::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene_l
 	}
 }
 
-void Omnia::PhysicsSystem::handle_collisions(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::handle_collisions(std::shared_ptr<SceneLayer> scene_layer)
 {
 	//std::shared_ptr<EventBus> event_bus = scene_layer->get_event_bus();
 	//std::vector<Event> collision_events = event_bus->query("entity_is_on_collision");

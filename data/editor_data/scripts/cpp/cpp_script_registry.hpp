@@ -34,7 +34,7 @@
 
 /////////////////////////////////////////////////////
 
-namespace Omnia
+namespace Omnific
 {
 	class CPPScriptRegistry
 	{
@@ -46,7 +46,7 @@ namespace Omnia
 			// Add custom scripts here.
 			////////////////////////////////////////////
 
-			registry->add<OmniaEditor::SplashScreenTransition>();
+			registry->add<OmnificEditor::SplashScreenTransition>();
 
 
 			////////////////////////////////////////////

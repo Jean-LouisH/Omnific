@@ -32,9 +32,9 @@
 #include <engine_api.hpp>
 #include <string>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Input
+	class OMNIFIC_ENGINE_API Input
 	{
 		friend class Engine;
 	public:

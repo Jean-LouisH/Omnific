@@ -24,9 +24,9 @@
 #include <foundations/singletons/event_bus.hpp>
 #include "platform/platform.hpp"
 
-Omnia::SceneStorage* Omnia::SceneStorage::instance = nullptr;
+Omnific::SceneStorage* Omnific::SceneStorage::instance = nullptr;
 
-void Omnia::SceneStorage::pre_load_scene(std::shared_ptr<Scene> scene)
+void Omnific::SceneStorage::pre_load_scene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::string scene_name = scene->get_name();
@@ -35,7 +35,7 @@ void Omnia::SceneStorage::pre_load_scene(std::shared_ptr<Scene> scene)
 	{
 		scene_storage->scenes.emplace(scene_name, scene);
 		Platform::get_logger().write("Preloaded Scene: \"" + scene_name + "\"");
-		EventBus::publish(OMNIA_EVENT_SCENE_PRELOADED);
+		EventBus::publish(OMNIFIC_EVENT_SCENE_PRELOADED);
 	}
 	else
 	{
@@ -43,7 +43,7 @@ void Omnia::SceneStorage::pre_load_scene(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnia::SceneStorage::pre_load_scene(std::string filepath)
+void Omnific::SceneStorage::pre_load_scene(std::string filepath)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 
@@ -54,7 +54,7 @@ void Omnia::SceneStorage::pre_load_scene(std::string filepath)
 	}
 }
 
-void Omnia::SceneStorage::change_to_scene(std::shared_ptr<Scene> scene)
+void Omnific::SceneStorage::change_to_scene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::string scene_name = scene->get_name();
@@ -67,17 +67,17 @@ void Omnia::SceneStorage::change_to_scene(std::shared_ptr<Scene> scene)
 	scene_storage->active_scene_name = scene_name;
 	Platform::get_logger().write("Changed to Scene: \"" + scene_name + "\"");
 	scene_storage->active_scene_changed = true;
-	EventBus::publish(OMNIA_EVENT_ACTIVE_SCENE_CHANGED);
+	EventBus::publish(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
 }
 
-void Omnia::SceneStorage::change_to_scene(std::string scene_name)
+void Omnific::SceneStorage::change_to_scene(std::string scene_name)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::shared_ptr<Scene> scene(new Scene(scene_name));
 	scene_storage->change_to_scene(scene);
 }
 
-void Omnia::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
+void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::string scene_name = scene->get_name();
@@ -92,19 +92,19 @@ void Omnia::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 
 	scene_storage->active_scene_name = scene_name;
 	scene_storage->active_scene_changed = true;
-	EventBus::publish(OMNIA_EVENT_ACTIVE_SCENE_CHANGED);
-	EventBus::publish(OMNIA_EVENT_SCENE_LOADED);
+	EventBus::publish(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
+	EventBus::publish(OMNIFIC_EVENT_SCENE_LOADED);
 	Platform::get_logger().write("Loaded Scene: \"" + scene_name + "\"");
 }
 
-void Omnia::SceneStorage::load_scene(std::string scene_name)
+void Omnific::SceneStorage::load_scene(std::string scene_name)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::shared_ptr<Scene> scene(new Scene(scene_name));
 	scene_storage->load_scene(scene);
 }
 
-void Omnia::SceneStorage::remove_scene(std::string scene_name)
+void Omnific::SceneStorage::remove_scene(std::string scene_name)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 
@@ -132,7 +132,7 @@ void Omnia::SceneStorage::remove_scene(std::string scene_name)
 			Platform::get_logger().write("Removed Scene: \"" + scene_name + "\"");
 		}
 
-		EventBus::publish(OMNIA_EVENT_SCENE_REMOVED);
+		EventBus::publish(OMNIFIC_EVENT_SCENE_REMOVED);
 	}
 	else
 	{
@@ -140,7 +140,7 @@ void Omnia::SceneStorage::remove_scene(std::string scene_name)
 	}
 }
 
-void Omnia::SceneStorage::reload_active_scene()
+void Omnific::SceneStorage::reload_active_scene()
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::string active_scene_name = scene_storage->get_active_scene_name();
@@ -161,47 +161,47 @@ void Omnia::SceneStorage::reload_active_scene()
 			scene_storage->change_to_scene(std::shared_ptr<Scene>(new Scene(active_scene_name)));
 		}
 
-		EventBus::publish(OMNIA_EVENT_ACTIVE_SCENE_RELOADED);
+		EventBus::publish(OMNIFIC_EVENT_ACTIVE_SCENE_RELOADED);
 	}
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::SceneStorage::get_active_scene()
+std::shared_ptr<Omnific::Scene> Omnific::SceneStorage::get_active_scene()
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	return scene_storage->scenes.at(scene_storage->active_scene_name);
 }
 
-std::string Omnia::SceneStorage::get_active_scene_name()
+std::string Omnific::SceneStorage::get_active_scene_name()
 {
 	return SceneStorage::get_instance()->active_scene_name;
 }
 
-bool Omnia::SceneStorage::has_no_scenes()
+bool Omnific::SceneStorage::has_no_scenes()
 {
 	/*Accounting for Scenes other than the dummy scene.*/
 	return SceneStorage::get_instance()->scenes.size() <= 1;
 }
 
-bool Omnia::SceneStorage::has_scene(std::string scene_name)
+bool Omnific::SceneStorage::has_scene(std::string scene_name)
 {
 	return SceneStorage::get_instance()->scenes.count(scene_name);
 }
 
-bool Omnia::SceneStorage::has_active_scene_changed()
+bool Omnific::SceneStorage::has_active_scene_changed()
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	bool result = scene_storage->active_scene_changed;
 	return result;
 }
 
-void Omnia::SceneStorage::clear_scenes()
+void Omnific::SceneStorage::clear_scenes()
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	scene_storage->scenes.clear();
 	scene_storage->active_scene_name = "";
 }
 
-std::shared_ptr<Omnia::Scene> Omnia::SceneStorage::get_scene_by_name(std::string scene_name)
+std::shared_ptr<Omnific::Scene> Omnific::SceneStorage::get_scene_by_name(std::string scene_name)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::shared_ptr<Scene> scene;
@@ -214,7 +214,7 @@ std::shared_ptr<Omnia::Scene> Omnia::SceneStorage::get_scene_by_name(std::string
 	return scene;
 }
 
-Omnia::SceneStorage* Omnia::SceneStorage::get_instance()
+Omnific::SceneStorage* Omnific::SceneStorage::get_instance()
 {
 	if (instance == nullptr)
 	{

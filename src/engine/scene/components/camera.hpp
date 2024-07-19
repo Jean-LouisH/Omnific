@@ -29,9 +29,9 @@
 #include "foundations/resources/shader.hpp"
 
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Camera : public Component
+	class OMNIFIC_ENGINE_API Camera : public Component
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Camera";

@@ -24,9 +24,9 @@
 
 #include "foundations/resources/resource.hpp"
 
-namespace Omnia
+namespace Omnific
 {
-    class OMNIA_ENGINE_API Script : public Resource
+    class OMNIFIC_ENGINE_API Script : public Resource
     {
     public:
         Script()

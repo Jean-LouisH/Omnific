@@ -27,9 +27,9 @@
 #include <foundations/aliases.hpp>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API HapticSignal
+	class OMNIFIC_ENGINE_API HapticSignal
 	{
 	public:
 		HapticSignal(PlayerID player_id, float strength_pct, uint16_t duration_ms);

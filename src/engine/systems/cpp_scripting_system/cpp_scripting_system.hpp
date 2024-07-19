@@ -30,7 +30,7 @@
 #include <vector>
 
 
-namespace Omnia
+namespace Omnific
 {
 	class CPPScriptingSystem : public System
 	{
@@ -65,7 +65,7 @@ namespace Omnia
 		void load_script_modules(std::shared_ptr<Scene> scene);
 	private:
 		void* dynamic_library_handle = nullptr;
-		std::string native_assembly_filename = "omnia_cpp_script_assembly";
+		std::string native_assembly_filename = "omnific_cpp_script_assembly";
 
 		void execute(std::string method_name);
 	};

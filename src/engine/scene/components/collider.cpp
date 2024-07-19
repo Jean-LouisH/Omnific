@@ -22,7 +22,7 @@
 
 #include "collider.hpp"
 
-void Omnia::Collider::deserialize(YAML::Node yaml_node)
+void Omnific::Collider::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -44,28 +44,28 @@ void Omnia::Collider::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnia::Collider::set_dimensions(float width, float height, float depth)
+void Omnific::Collider::set_dimensions(float width, float height, float depth)
 {
 	this->box.aabb.min = {-(width / 2.0), -(height / 2.0), -(depth / 2.0) };
 	this->box.aabb.max = { (width / 2.0), (height / 2.0), (depth / 2.0) };
 }
 
-void Omnia::Collider::set_collider_type(ColliderType collider_type)
+void Omnific::Collider::set_collider_type(ColliderType collider_type)
 {
 	this->collider_type = collider_type;
 }
 
-bool Omnia::Collider::is_collider_type(ColliderType collider_type)
+bool Omnific::Collider::is_collider_type(ColliderType collider_type)
 {
 	return this->collider_type == collider_type;
 }
 
-bool Omnia::Collider::has_entity_entered(EntityID entity_id)
+bool Omnific::Collider::has_entity_entered(EntityID entity_id)
 {
 	return this->entering_entity_ids.count(entity_id);
 }
 
-bool Omnia::Collider::has_entity_with_tag_entered(std::string entity_tag)
+bool Omnific::Collider::has_entity_with_tag_entered(std::string entity_tag)
 {
 	return this->entering_entity_tags.count(entity_tag);
 }

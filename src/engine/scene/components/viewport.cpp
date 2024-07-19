@@ -22,7 +22,7 @@
 
 #include "viewport.hpp"
 
-void Omnia::Viewport::deserialize(YAML::Node yaml_node)
+void Omnific::Viewport::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -33,22 +33,22 @@ void Omnia::Viewport::deserialize(YAML::Node yaml_node)
 	}
 }
 
-std::string Omnia::Viewport::get_camera_entity_name()
+std::string Omnific::Viewport::get_camera_entity_name()
 {
 	return this->camera_entity_name;
 }
 
-void Omnia::Viewport::set_camera_entity_name(std::string camera_entity_name)
+void Omnific::Viewport::set_camera_entity_name(std::string camera_entity_name)
 {
 	this->camera_entity_name = camera_entity_name;
 }
 
-glm::vec2 Omnia::Viewport::get_dimensions()
+glm::vec2 Omnific::Viewport::get_dimensions()
 {
 	return  this->dimensions;
 }
 
-void Omnia::Viewport::set_dimensions(uint32_t width, uint32_t height)
+void Omnific::Viewport::set_dimensions(uint32_t width, uint32_t height)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;

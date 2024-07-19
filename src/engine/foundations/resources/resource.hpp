@@ -28,9 +28,9 @@
 #include <engine_api.hpp>
 #include <foundations/registerable.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Resource : public Registerable
+	class OMNIFIC_ENGINE_API Resource : public Registerable
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "Resource";

@@ -35,9 +35,9 @@
 #include "foundations/resources/audio_synthesis.hpp"
 
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API AudioSource : public Component
+	class OMNIFIC_ENGINE_API AudioSource : public Component
 	{
 	public:
 		enum class PlaybackState

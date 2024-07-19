@@ -29,9 +29,9 @@
 #include <memory>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API ThreadPool
+	class OMNIFIC_ENGINE_API ThreadPool
 	{
 	public:
 		static void initialize();

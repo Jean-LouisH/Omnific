@@ -32,9 +32,9 @@
 #include <glm/glm.hpp>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Sprite : public Model
+	class OMNIFIC_ENGINE_API Sprite : public Model
 	{
 	public:
 		Sprite()

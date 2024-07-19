@@ -25,7 +25,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/resources/script.hpp>
 
-void Omnia::ScriptCollection::deserialize(YAML::Node yaml_node)
+void Omnific::ScriptCollection::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{

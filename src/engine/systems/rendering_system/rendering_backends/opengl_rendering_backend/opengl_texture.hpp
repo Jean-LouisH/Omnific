@@ -29,7 +29,7 @@
 #include <foundations/resources/image.hpp>
 #include <memory>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Image or material data formatted in GPU memory. */
 	class OpenGLTexture

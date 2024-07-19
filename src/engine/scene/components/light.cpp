@@ -22,7 +22,7 @@
 
 #include "light.hpp"
 
-void Omnia::Light::deserialize(YAML::Node yaml_node)
+void Omnific::Light::deserialize(YAML::Node yaml_node)
 {
 
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)

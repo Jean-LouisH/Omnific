@@ -22,27 +22,27 @@
 
 #include "python_script_instance.hpp"
 
-void Omnia::PythonScriptInstance::set_data(pybind11::object new_object)
+void Omnific::PythonScriptInstance::set_data(pybind11::object new_object)
 {
 	this->data = new_object;
 }
 
-void Omnia::PythonScriptInstance::set_callable(std::string method_name)
+void Omnific::PythonScriptInstance::set_callable(std::string method_name)
 {
 	this->callable_methods.emplace(method_name);
 }
 
-pybind11::object Omnia::PythonScriptInstance::test(std::string method_name)
+pybind11::object Omnific::PythonScriptInstance::test(std::string method_name)
 {
 	return this->data.attr(method_name.c_str());
 }
 
-void Omnia::PythonScriptInstance::call(std::string method_name)
+void Omnific::PythonScriptInstance::call(std::string method_name)
 {
 	this->test(method_name)();
 }
 
-bool Omnia::PythonScriptInstance::has_callable(std::string method_name)
+bool Omnific::PythonScriptInstance::has_callable(std::string method_name)
 {
 	return this->callable_methods.count(method_name) > 0;
 }

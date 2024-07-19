@@ -37,7 +37,7 @@
 #include "pybind11/embed.h"
 #include "python_script_instance.hpp"
 
-namespace Omnia
+namespace Omnific
 {
 	class PythonScriptingSystem : public System
 	{

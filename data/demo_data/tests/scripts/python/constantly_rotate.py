@@ -1,10 +1,10 @@
-import omnia
+import omnific
 
-class omnia_script:
+class omnific_script:
 
     def __init__(self):
         pass
 
     def on_logic(self):
-        omnia.get_component("Transform").rotate_y(0.325)
+        omnific.get_component("Transform").rotate_y(0.325)
     

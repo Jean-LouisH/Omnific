@@ -28,9 +28,9 @@
 #include <stdint.h>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API CollisionRegistry
+	class OMNIFIC_ENGINE_API CollisionRegistry
 	{
 		using ColliderName = std::string;
 		using OtherColliderName = std::string;

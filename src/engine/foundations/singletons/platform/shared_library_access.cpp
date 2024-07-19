@@ -33,7 +33,7 @@
 #include <errno.h>
 #endif
 
-void* Omnia::SharedLibraryAccess::open(std::string filename)
+void* Omnific::SharedLibraryAccess::open(std::string filename)
 {
 	void* shared_library = NULL;
 
@@ -46,7 +46,7 @@ void* Omnia::SharedLibraryAccess::open(std::string filename)
 	return shared_library;
 }
 
-void Omnia::SharedLibraryAccess::close(void* dynamic_library_handle)
+void Omnific::SharedLibraryAccess::close(void* dynamic_library_handle)
 {
 	if (dynamic_library_handle != nullptr)
 	{
@@ -61,7 +61,7 @@ void Omnia::SharedLibraryAccess::close(void* dynamic_library_handle)
 	}
 }
 
-void* Omnia::SharedLibraryAccess::get_procedure(void* dynamic_library_handle, std::string procedure_name)
+void* Omnific::SharedLibraryAccess::get_procedure(void* dynamic_library_handle, std::string procedure_name)
 {
 	if (procedure_name == "")
 	{

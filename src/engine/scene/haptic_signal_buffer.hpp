@@ -31,9 +31,9 @@
 #include <foundations/aliases.hpp>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API HapticSignalBuffer
+	class OMNIFIC_ENGINE_API HapticSignalBuffer
 	{
 	public:
 		void publish(PlayerID player_id, float strength_pct, uint16_t duration_ms);

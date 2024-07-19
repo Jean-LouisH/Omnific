@@ -23,11 +23,11 @@
 #pragma once
 
 #if defined (_WIN32)
-#if defined(_OMNIA_ENGINE_EXPORTS)
-#define  OMNIA_ENGINE_API __declspec(dllexport)
+#if defined(_OMNIFIC_ENGINE_EXPORTS)
+#define  OMNIFIC_ENGINE_API __declspec(dllexport)
 #else
-#define  OMNIA_ENGINE_API __declspec(dllimport)
+#define  OMNIFIC_ENGINE_API __declspec(dllimport)
 #endif
 #else
-#define OMNIA_ENGINE_API
+#define OMNIFIC_ENGINE_API
 #endif

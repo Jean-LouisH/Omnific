@@ -28,13 +28,13 @@
 
 typedef void(ScriptProcedure)(void);
 
-void Omnia::CPPScriptingSystem::initialize()
+void Omnific::CPPScriptingSystem::initialize()
 {
 	Logger& logger = Platform::get_logger();
 	logger.write("Initializing C++ Scripting System...");
 }
 
-void Omnia::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
 {
 	if (scene != nullptr)
 	{
@@ -43,7 +43,7 @@ void Omnia::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene
 	}
 }
 
-void Omnia::CPPScriptingSystem::on_start(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -52,7 +52,7 @@ void Omnia::CPPScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 		this->execute("on_start");
 }
 
-void Omnia::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -61,7 +61,7 @@ void Omnia::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 		this->execute("on_input");
 }
 
-void Omnia::CPPScriptingSystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_early(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -70,7 +70,7 @@ void Omnia::CPPScriptingSystem::on_early(std::shared_ptr<Scene> scene)
 		this->execute("on_early");
 }
 
-void Omnia::CPPScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -79,7 +79,7 @@ void Omnia::CPPScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
 		this->execute("on_logic");
 }
 
-void Omnia::CPPScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -88,7 +88,7 @@ void Omnia::CPPScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
 		this->execute("on_compute");
 }
 
-void Omnia::CPPScriptingSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_late(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -97,7 +97,7 @@ void Omnia::CPPScriptingSystem::on_late(std::shared_ptr<Scene> scene)
 		this->execute("on_late");
 }
 
-void Omnia::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -106,7 +106,7 @@ void Omnia::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 		this->execute("on_finish");
 }
 
-void Omnia::CPPScriptingSystem::execute(std::string method_name)
+void Omnific::CPPScriptingSystem::execute(std::string method_name)
 {
 	if (this->dynamic_library_handle != nullptr)
 	{
@@ -118,7 +118,7 @@ void Omnia::CPPScriptingSystem::execute(std::string method_name)
 	}
 }
 
-void Omnia::CPPScriptingSystem::finalize()
+void Omnific::CPPScriptingSystem::finalize()
 {
 	Platform::get_shared_library_access().close(this->dynamic_library_handle);
 }

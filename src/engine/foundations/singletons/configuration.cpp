@@ -23,11 +23,11 @@
 #include "foundations/singletons/configuration.hpp"
 #include <foundations/singletons/platform/platform.hpp>
 
-Omnia::Configuration* Omnia::Configuration::instance = nullptr;
+Omnific::Configuration* Omnific::Configuration::instance = nullptr;
 
 #include <yaml-cpp/yaml.h>
 
-void Omnia::Configuration::load_from_file(std::string boot_filepath)
+void Omnific::Configuration::load_from_file(std::string boot_filepath)
 {
 	Configuration* configuration = Configuration::get_instance();
 
@@ -115,7 +115,7 @@ void Omnia::Configuration::load_from_file(std::string boot_filepath)
 	}
 }
 
-Omnia::Configuration* Omnia::Configuration::get_instance()
+Omnific::Configuration* Omnific::Configuration::get_instance()
 {
 	if (instance == nullptr)
 		instance = new Configuration();

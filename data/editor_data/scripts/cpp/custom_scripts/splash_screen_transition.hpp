@@ -24,9 +24,9 @@
 
 #include <systems/cpp_scripting_system/cpp_script_instance.hpp>
 
-namespace OmniaEditor
+namespace OmnificEditor
 {
-	class SplashScreenTransition : public Omnia::CPPScriptInstance
+	class SplashScreenTransition : public Omnific::CPPScriptInstance
 	{
 	public:
 		/* Custom classes should derive their own type string

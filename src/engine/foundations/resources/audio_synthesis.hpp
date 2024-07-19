@@ -27,9 +27,9 @@
 #include <string>
 
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API AudioSynthesis : public Audio
+	class OMNIFIC_ENGINE_API AudioSynthesis : public Audio
 	{
 	public:
 		AudioSynthesis()

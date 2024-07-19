@@ -53,9 +53,9 @@
 
 ///////////////////////////////////////////////////////////
 
-namespace Omnia
+namespace Omnific
 {
-    class OMNIA_ENGINE_API CPPScriptInstance
+    class OMNIFIC_ENGINE_API CPPScriptInstance
     {
     public:
         CPPScriptInstance()

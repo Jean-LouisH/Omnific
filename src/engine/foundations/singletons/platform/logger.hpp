@@ -26,9 +26,9 @@
 #include <string>
 #include <engine_api.hpp>
 
-namespace Omnia
+namespace Omnific
 {
-	class OMNIA_ENGINE_API Logger
+	class OMNIFIC_ENGINE_API Logger
 	{
 	public:
 		void write(std::string message);

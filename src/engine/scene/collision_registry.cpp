@@ -23,7 +23,7 @@
 #include "collision_registry.hpp"
 
 
-void Omnia::CollisionRegistry::add_or_update(std::shared_ptr<Collision> collision)
+void Omnific::CollisionRegistry::add_or_update(std::shared_ptr<Collision> collision)
 {
 	std::string collision_entity_name = collision->collider_name;
 	std::string other_collision_entity_name = collision->other_collider_name;
@@ -40,14 +40,14 @@ void Omnia::CollisionRegistry::add_or_update(std::shared_ptr<Collision> collisio
 	}
 }
 
-void Omnia::CollisionRegistry::remove(std::string collider_name, std::string other_collider_name)
+void Omnific::CollisionRegistry::remove(std::string collider_name, std::string other_collider_name)
 {
 	if (this->collisions.count(collider_name))
 		if (this->collisions.at(collider_name).count(other_collider_name))
 			this->collisions.at(collider_name).erase(other_collider_name);
 }
 
-std::shared_ptr<Omnia::Collision> Omnia::CollisionRegistry::query(std::string collider_name, std::string other_collider_name)
+std::shared_ptr<Omnific::Collision> Omnific::CollisionRegistry::query(std::string collider_name, std::string other_collider_name)
 {
 	std::shared_ptr<Collision> collision;
 
@@ -69,7 +69,7 @@ std::shared_ptr<Omnia::Collision> Omnia::CollisionRegistry::query(std::string co
 	return collision;
 }
 
-std::unordered_map<std::string, std::shared_ptr<Omnia::Collision>> Omnia::CollisionRegistry::query_all(std::string collider_name)
+std::unordered_map<std::string, std::shared_ptr<Omnific::Collision>> Omnific::CollisionRegistry::query_all(std::string collider_name)
 {
 	std::unordered_map<std::string, std::shared_ptr<Collision>> collision_entries;
 
@@ -79,12 +79,12 @@ std::unordered_map<std::string, std::shared_ptr<Omnia::Collision>> Omnia::Collis
 	return collision_entries;
 }
 
-bool Omnia::CollisionRegistry::is_colliding(std::string collider_name, std::string other_collider_name)
+bool Omnific::CollisionRegistry::is_colliding(std::string collider_name, std::string other_collider_name)
 {
 	return (this->query(collider_name, other_collider_name) != nullptr);
 }
 
-uint64_t Omnia::CollisionRegistry::get_collision_count(std::string collider_name)
+uint64_t Omnific::CollisionRegistry::get_collision_count(std::string collider_name)
 {
 	return (uint64_t)(this->query_all(collider_name).size());
 }

@@ -6,7 +6,7 @@ add_executable(application
  )
 
 add_dependencies(application
-	omnia_engine
+	omnific_engine
 )
 
 target_include_directories(application PRIVATE
@@ -15,7 +15,7 @@ target_include_directories(application PRIVATE
 )
 
 target_link_libraries (application
-		omnia_engine
+		omnific_engine
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")

@@ -60,11 +60,11 @@
 #include <systems/python_scripting_system/python_scripting_system.hpp>
 #include <systems/rendering_system/rendering_system.hpp>
 
-namespace Omnia
+namespace Omnific
 {
 	/* Provides an easy way to define lists of classes used throughout 
 	   the Engine to enable customization and extension. */
-	class OMNIA_ENGINE_API ClassRegistry
+	class OMNIFIC_ENGINE_API ClassRegistry
 	{
 	public:
 		using DerivedClassName = std::string;
