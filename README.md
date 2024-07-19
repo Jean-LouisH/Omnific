@@ -3,11 +3,7 @@
 ![Intro Screenshot](docs/images/cover.png)
 _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnific's RenderingSystem with a basic phong Shader. The white cube contains a Light Component and is rendered with a separate unlit Shader._
 
-**This project is in pre-alpha**
-
 [Omnific](https://github.com/Jean-LouisH/Omnific) is a game engine I'm developing for fun, study and technical demonstrations. It doubles as an interactive software framework. It is designed to be customizable, general purpose, data-driven, and lightweight.
-
-The name "Omnific" stems from the prefix "Omni-" which means "all." It is loosely based on the term "Omnific" which means ["all-creating"](https://www.merriam-webster.com/dictionary/omnific).
 
 # Table of Contents
 
@@ -57,8 +53,6 @@ The name "Omnific" stems from the prefix "Omni-" which means "all." It is loosel
 
 Omnific functions by retaining a collection of Scenes and processing them in a main Engine class. On every loop, one active Scene is passed to the Engine's collection of Systems where each of them can update the Scene and or generate outputs from it. 
 
-![omnific_overview](docs/images/omnific_overview.png) _Diagram showing Scene Storage, Configuration and OS data passed to the Engine and then to Systems that are updated in one loop and output is given in another arrow._
-
 The Engine facilitates this by reading inputs on the main thread, allocating dedicated threads to update and output methods, and coordinating their loops through order of operations and target frame rates. At the same time it retains states for initializing, running, restarting and finalizing
 
 Scenes consist of 2D and 3D SceneLayers. They can generate these through deserializing YAML files. Each SceneLayer consists of collections of Entities and Components. It has objects for specialized and general events such; a CollisionRegistry; an EventBus; and a HapticSignalBuffer. It is also augmented with collections of IDs that help to optimize search queries on it, in real-time, to constant time complexity. 
@@ -76,9 +70,7 @@ Components may contain Assets, which are immutable objects containing resource d
 
 Scenes, SceneLayers, Entities, Components, and Assets all retain IDs for caching wherever needed.
 
-Systems process Scenes by events in the Engine loops. These include "onStart", "onInput", "onEarly", "onLogic", "onCompute", "onLate", "onOutput" and "onFinish". "onEarly" and "onFinish" represent the events in which the SceneLayers would address Entities that are newly created or about to be deleted. "onInput" represents the event in which an input state is changed. "onEarly", "onLogic", "onLate" in that order represent a linear chain of events, that allow operations to be done in a specific order. "onCompute" is an event that enables the System to have fixed updates to real-time by catching up to dropped frames and simulation lag. This can be CPU intensive, so should it be reserved to small, optimized processes that depend on it. "onOutput" represents an event where processing occurs on a separate output thread to all of the other event names. Operations here are expected to be read-only.
-
-![Diagram showing the order of Engine loop events with "onOutput" on its own thread while the others are together in the update thread, and in order.](docs/images/omnific_system_flow.png)
+Systems process Scenes by events in the Engine loops. These include "onInput", "onStart", "onEarly", "onLogic", "onCompute", "onLate", "onFinish" and "onOutput". "onInput" represents the event in which an input state is changed. "onStart" and "onFinish" represent the events in which the SceneLayers would address Entities that are newly created or about to be deleted. "onEarly", "onLogic", "onLate" in that order represent a linear chain of events, that allow operations to be done in a specific order. "onCompute" is an event that enables the System to have fixed updates to real-time by catching up to dropped frames and simulation lag. This can be CPU intensive, so should it be reserved to small, optimized processes that depend on it. "onOutput" represents an event where processing occurs on a separate output thread to all of the other event names. Operations here are expected to be read-only.
 
 This summarizes how the Engine operates. Users can also extend it through the ClassRegistry header where their own custom Components or Systems can be made and instantiated in the ClassRegistry.addDefinitions() method.
 
