@@ -3,21 +3,17 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-# Enable Hot Reload for MSVC compilers if supported.
-if (POLICY CMP0141)
-  cmake_policy(SET CMP0141 NEW)
-  set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
-endif()
-
 project ("omnific_engine")
-project ("application")
+project ("omnific_studio")
+project ("omnific_demos")
+project ("omnific_launcher")
 
 enable_testing()
 
 # Include sub-projects.
-add_subdirectory("src/engine")
-add_subdirectory("src/application")
+add_subdirectory("src/omnific_engine")
+add_subdirectory("src/omnific_studio")
+add_subdirectory("src/omnific_demos")
+add_subdirectory("src/omnific_launcher")
 add_subdirectory("thirdparty")
 add_subdirectory("data")
-
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT application)

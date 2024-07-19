@@ -1,20 +1,20 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
-add_executable(application 
+add_executable(omnific_demos 
 	  "main.cpp"
  )
 
-add_dependencies(application
+add_dependencies(omnific_demos
 	omnific_engine
 )
 
-target_include_directories(application PRIVATE
-		../engine
+target_include_directories(omnific_demos PRIVATE
+		../omnific_engine
 		.
 )
 
-target_link_libraries (application
+target_link_libraries (omnific_demos
 		omnific_engine
 )
 
@@ -27,4 +27,4 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
     endif()
 endif()
 
-target_link_options(application PUBLIC ${SUBSYSTEM_LINKER_OPTIONS})
+target_link_options(omnific_demos PUBLIC ${SUBSYSTEM_LINKER_OPTIONS})

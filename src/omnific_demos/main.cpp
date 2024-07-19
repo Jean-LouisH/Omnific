@@ -29,7 +29,7 @@
 
 int main(int argc, char* argv[])
 {
-	Omnific::Engine omnific;
-	omnific.run(argc, argv);
+	Omnific::Engine omnific_engine;
+	omnific_engine.run(argc, argv);
 	return 0;
 }

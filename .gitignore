@@ -15,6 +15,7 @@ build/
 extras/
 assets/
 shared_assets/
+.vscode/
 
 # CMake files
 out/
