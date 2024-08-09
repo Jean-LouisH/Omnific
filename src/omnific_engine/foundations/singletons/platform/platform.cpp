@@ -26,30 +26,25 @@
 #include "foundations/constants.hpp"
 #include <thread>
 
-uint64_t Omnific::HiResTimer::get_delta_in_nanoseconds()
+uint64_t Omnific::HiResTimer::get_delta()
 {
 	return this->delta;
 }
 
-uint64_t Omnific::HiResTimer::get_delta()
-{
-	return this->delta / NS_IN_MS;
-}
-
 float Omnific::HiResTimer::get_delta_in_seconds()
 {
-	return this->delta / NS_IN_S;
+	return this->delta / MS_IN_S;
 }
 
 void Omnific::HiResTimer::set_start()
 {
-	this->start = std::chrono::high_resolution_clock::now();
+	this->start = SDL_GetTicks();
 }
 
 void Omnific::HiResTimer::set_end()
 {
-	this->end = std::chrono::high_resolution_clock::now();
-	this->delta = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+	this->finish = SDL_GetTicks();
+	this->delta = finish - start;
 }
 
 Omnific::Platform* Omnific::Platform::instance = nullptr;

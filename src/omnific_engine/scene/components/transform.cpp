@@ -1,8 +1,8 @@
 #include "transform.hpp"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/matrix_decompose.hpp>
-#include <glm/gtx/rotate_vector.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#include <gtx/matrix_decompose.hpp>
+#include <gtx/rotate_vector.hpp>
 
 void Omnific::Transform::deserialize(YAML::Node yaml_node)
 {

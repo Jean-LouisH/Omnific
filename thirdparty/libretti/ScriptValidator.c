@@ -11,7 +11,7 @@
 #include <string.h>
 #include <math.h>
 
-int validateScript(char* script)
+int validateScript(const char* script)
 {
 	int validationStatuses = LB_VALIDATION_ALL_OK;
 	int readPosition = 0;

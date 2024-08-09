@@ -36,7 +36,7 @@
 #include "font.hpp"
 #include <string>
 #include <memory>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 
 namespace Omnific
 {

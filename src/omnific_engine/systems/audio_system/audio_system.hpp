@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <SDL_mixer.h>
 #include <queue>
 #include <memory>
 #include "scene/scene.hpp"

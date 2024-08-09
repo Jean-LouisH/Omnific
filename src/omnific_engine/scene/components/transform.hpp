@@ -23,7 +23,7 @@
 #pragma once
 
 
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include "scene/components/component.hpp"
 #include <memory>
 

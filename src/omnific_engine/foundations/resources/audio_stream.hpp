@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <SDL_mixer.h>
 #include "audio.hpp"
 #include <string>
 #include <memory>
@@ -46,15 +45,11 @@ namespace Omnific
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		std::shared_ptr<Mix_Chunk> get_sdlmix_chunk();
-		std::shared_ptr<Mix_Music> get_sdlmix_music();
 		bool get_is_music();
 
 		float get_playback_length() override;
 		std::vector<uint16_t> get_spectrum_data() override;
 	private:
 		bool is_music = false;
-		std::shared_ptr<Mix_Music> music = {nullptr, Mix_FreeMusic};
-		std::shared_ptr<Mix_Chunk> sound_fx = {nullptr, Mix_FreeChunk};
 	};
 }

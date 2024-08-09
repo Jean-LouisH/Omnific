@@ -26,6 +26,7 @@
 #include <vector>
 #include <string>
 #include <engine_api.hpp>
+#include <stdint.h>
 
 #define OMNIFIC_EVENT_ENTITY_ADDED "entity_added"
 #define OMNIFIC_EVENT_ENTITY_NAME_SET "entity_name_set"

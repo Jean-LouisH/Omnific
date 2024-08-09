@@ -27,7 +27,7 @@
 #include <unordered_map>
 #include <queue>
 #include <foundations/aliases.hpp>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <set>
 #include <engine_api.hpp>
 #include <string>

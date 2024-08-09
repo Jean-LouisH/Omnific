@@ -22,12 +22,18 @@
 
 #pragma once
 
-#if defined (_WIN32)
-#if defined(_OMNIFIC_APPLICATION_EXPORTS)
-#define  OMNIFIC_APPLICATION_API __declspec(dllexport)
-#else
-#define  OMNIFIC_APPLICATION_API __declspec(dllimport)
-#endif
-#else
-#define OMNIFIC_APPLICATION_API
+#ifndef OMNIFIC_APPLICATION_API
+	#if defined (_WIN32)
+		#if defined(_OMNIFIC_APPLICATION_EXPORTS)
+			#if defined(_OMNIFIC_APPLICATION_EXPORTS_BUILD)
+				#define  OMNIFIC_APPLICATION_API __declspec(dllexport)
+			#else
+				#define  OMNIFIC_APPLICATION_API __declspec(dllimport)
+			#endif
+		#else
+			#define OMNIFIC_APPLICATION_API
+		#endif
+	#else
+		#define OMNIFIC_APPLICATION_API
+	#endif
 #endif

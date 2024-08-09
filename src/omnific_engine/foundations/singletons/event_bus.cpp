@@ -96,7 +96,7 @@ void Omnific::EventBus::publish(
 
 	events_list.push_back(Event(
 		name,
-		Platform::get_run_timer().get_delta_in_nanoseconds()));
+		Platform::get_run_timer().get_delta()));
 
 	event_bus->events.emplace(name, events_list);
 }
@@ -136,7 +136,7 @@ void Omnific::EventBus::publish_with_parameters(std::string name, Event::Paramet
 
 	events_list.push_back(Event(
 		name,
-		Platform::get_run_timer().get_delta_in_nanoseconds(),
+		Platform::get_run_timer().get_delta(),
 		parameters));
 
 	if (event_bus->events.count(name))

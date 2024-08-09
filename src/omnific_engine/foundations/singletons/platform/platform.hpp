@@ -38,7 +38,6 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API HiResTimer
 	{
 	public:
-		uint64_t get_delta_in_nanoseconds();
 		/* Returns delta time in Milliseconds */
 		uint64_t get_delta();
 		float get_delta_in_seconds();
@@ -46,8 +45,8 @@ namespace Omnific
 		void set_end();
 	private:
 		uint64_t delta = 0; //In nanoseconds.
-		std::chrono::time_point<std::chrono::steady_clock> start;
-		std::chrono::time_point<std::chrono::steady_clock> end;
+		uint64_t start = 0;
+		uint64_t finish = 0;
 	};
 
 	/* Singleton for objects related to Operating System utilities. */

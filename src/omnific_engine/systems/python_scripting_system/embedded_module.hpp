@@ -36,7 +36,7 @@
 #include "python_entity_context.hpp"
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <scene/scene.hpp>
 #include <foundations/aliases.hpp>
 #include <foundations/singletons/event_bus.hpp>
@@ -267,8 +267,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("set_start", &Omnific::HiResTimer::set_start)
 		.def("set_end", &Omnific::HiResTimer::set_end)
 		.def("get_delta", &Omnific::HiResTimer::get_delta)
-		.def("get_delta_in_seconds", &Omnific::HiResTimer::get_delta_in_seconds)
-		.def("get_delta_in_nanoseconds", &Omnific::HiResTimer::get_delta_in_nanoseconds);
+		.def("get_delta_in_seconds", &Omnific::HiResTimer::get_delta_in_seconds);
 
 	pybind11::class_<Omnific::Colour>(m, "Colour")
 		.def(pybind11::init<std::string>())

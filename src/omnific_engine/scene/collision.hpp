@@ -23,7 +23,7 @@
 #pragma once
 
 #include <foundations/aliases.hpp>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <string>
 #include <engine_api.hpp>
 

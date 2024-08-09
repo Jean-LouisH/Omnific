@@ -10,7 +10,7 @@ bool exists(char* filename)
 	return (bool)inputFile;
 }
 
-lb_BinaryU8 loadASCIIStringFromFile(char* filename)
+lb_BinaryU8 loadASCIIStringFromFile(const char* filename)
 {
 	FILE* inputFile = fopen(filename, "rb");
 	lb_BinaryU8 string;
@@ -32,7 +32,7 @@ lb_BinaryU8 loadASCIIStringFromFile(char* filename)
 	return string;
 }
 
-lb_BinaryU8 loadBinaryU8FromFile(char* filename)
+lb_BinaryU8 loadBinaryU8FromFile(const char* filename)
 {
 	FILE* inputFile = fopen(filename, "rb");
 	lb_BinaryU8 binary;
@@ -51,7 +51,7 @@ lb_BinaryU8 loadBinaryU8FromFile(char* filename)
 	return binary;
 }
 
-lb_BinaryS16 loadBinaryS16FromFile(char* filename)
+lb_BinaryS16 loadBinaryS16FromFile(const char* filename)
 {
 	FILE* inputFile = fopen(filename, "rb");
 	lb_BinaryS16 binary;
@@ -71,7 +71,7 @@ lb_BinaryS16 loadBinaryS16FromFile(char* filename)
 	return binary;
 }
 
-void saveBinaryU8ToFile(lb_BinaryU8* binary, char* filename)
+void saveBinaryU8ToFile(lb_BinaryU8* binary, const char* filename)
 {
 	FILE* outputFile = fopen(filename, "wb");
 	if (outputFile != NULL)
@@ -81,7 +81,7 @@ void saveBinaryU8ToFile(lb_BinaryU8* binary, char* filename)
 	}
 }
 
-void saveBinaryS16ToFile(lb_BinaryS16* binary, char* filename)
+void saveBinaryS16ToFile(lb_BinaryS16* binary, const char* filename)
 {
 	FILE* outputFile = fopen(filename, "wb");
 	if (outputFile != NULL)
@@ -91,7 +91,7 @@ void saveBinaryS16ToFile(lb_BinaryS16* binary, char* filename)
 	}
 }
 
-void appendBinaryU8ToFile(lb_BinaryU8* binary, char* filename)
+void appendBinaryU8ToFile(lb_BinaryU8* binary, const char* filename)
 {
 	FILE* outputFile = fopen(filename, "a");
 	if (outputFile != NULL)
@@ -101,7 +101,7 @@ void appendBinaryU8ToFile(lb_BinaryU8* binary, char* filename)
 	}
 }
 
-void appendBinaryS16ToFile(lb_BinaryS16* binary, char* filename)
+void appendBinaryS16ToFile(lb_BinaryS16* binary, const char* filename)
 {
 	FILE* outputFile = fopen(filename, "a");
 	if (outputFile != NULL)

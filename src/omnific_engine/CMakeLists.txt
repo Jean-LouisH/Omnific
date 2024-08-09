@@ -1,66 +1,84 @@
-﻿
-cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.8)
 
 file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
 file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
 
- set(STATIC_LIBRARY_EXTENSION "a")
- set(SHARED_LIBRARY_EXTENSION "so")
-
- if (WIN32)
-	set(STATIC_LIBRARY_EXTENSION "lib")
-	set(SHARED_LIBRARY_EXTENSION "dll")
+if (WIN32)
+   set(STATIC_LIBRARY_EXTENSION "lib")
+   set(SHARED_LIBRARY_EXTENSION "dll")
+   set(LIBRARY_PREFIX "")
+   add_definitions(/bigobj)
+else()
+	set(STATIC_LIBRARY_EXTENSION "a")
+	set(SHARED_LIBRARY_EXTENSION "so")
+	set(LIBRARY_PREFIX "lib")
 endif()
 
 add_library(omnific_engine SHARED
 	  ${omnific_engine_sources}
 	  ${omnific_engine_headers})
 
-add_dependencies (omnific_engine
-	yaml_cpp
+set(THIRD_PARTY_DIR "../../thirdparty")
+
+set(THIRD_PARTY_PROJECTS
 	glad
 	libretti
+	ufbx
+	yaml_cpp
 )
 
- add_definitions(/bigobj)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+    set(USE_FLAGS "-sUSE_SDL=2 -sUSE_SDL_TTF=2")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
+    set(CMAKE_EXECUTABLE_SUFFIX .html)
+	set (THIRD_PARTY_BINS) 
+else()
+	find_package(OpenAL REQUIRED)
+	find_package(SDL2 REQUIRED)
+	find_package(SDL2_ttf REQUIRED)
+	find_package(Python COMPONENTS Interpreter Development REQUIRED)
+endif()
 
-find_library(SDL2 SDL2.lib SDL2main.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/SDL2-2.28.5/lib/x64)
-find_library(SDL2_Mixer SDL2_mixer.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/SDL2_mixer-2.6.3/lib/x64)
-find_library(SDL2_TTF SDL2_ttf.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/SDL2_ttf-2.0.18/lib/x64)
-find_library(Python37 python37.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/python37/lib)
-find_library(ZLIB zlib.${STATIC_LIBRARY_EXTENSION} PATHS ../../thirdparty/zlib-1.2.11/lib)
+add_dependencies (omnific_engine 
+	${THIRD_PARTY_PROJECTS}
+)
 
 target_include_directories(omnific_engine PUBLIC
-		../../thirdparty/SDL2-2.28.5/include
-		../../thirdparty/SDL2_mixer-2.6.3/include
-		../../thirdparty/SDL2_ttf-2.0.18/include
-		../../thirdparty/yaml-cpp-0.6.3/include
-		../../thirdparty/python37/include
-		../../thirdparty/pybind11-2.11.1/include
-		../../thirdparty/glad/include
-		../../thirdparty/glm-0.9.9.8/glm
-		../../thirdparty/tinygltf-2.8.18/include
-		../../thirdparty/zlib-1.2.11/include
-		../../thirdparty/stb_image_write-1.16/include
-		../../thirdparty/stb_image-2.27/include
-		../../thirdparty/libretti/include
-		.
+	${THIRD_PARTY_DIR}/glad/include
+	${THIRD_PARTY_DIR}/glm
+	${THIRD_PARTY_DIR}/libretti/include
+	${THIRD_PARTY_DIR}/pybind11/include
+	${THIRD_PARTY_DIR}/stb_image
+	${THIRD_PARTY_DIR}/tinygltf
+	${THIRD_PARTY_DIR}/tinyobjloader
+	${THIRD_PARTY_DIR}/ufbx
+	${THIRD_PARTY_DIR}/yaml-cpp/include
+	.
 )
 
-target_link_libraries (omnific_engine
-		yaml_cpp
-		glad
-		libretti
-		${SDL2}
-		${SDL2_Mixer}
-		${SDL2_TTF}
-		${Python37}
-		${ZLIB}
-
+target_link_libraries (omnific_engine 
+	${THIRD_PARTY_PROJECTS}
+	OpenAL::OpenAL
+	SDL2::SDL2
+	SDL2_ttf::SDL2_ttf
+	Python::Python
 )
 
 add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
+add_definitions(-D_OMNIFIC_ENGINE_EXPORTS_BUILD)
+add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS)
+add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS_BUILD)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+add_definitions(-D_DEBUG)
+endif()
 
 add_custom_command(TARGET omnific_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/application/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_demos/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
+)
+
+add_custom_command(TARGET omnific_engine POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_studio/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
 )

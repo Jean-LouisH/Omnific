@@ -302,6 +302,9 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 			this->scrollbar_thickness = 5;
+			this->scrollbar_colour = std::shared_ptr<Colour>(new Colour("#222222"));
+			this->scrollbar_thumb_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
+			this->scrollbar_arrow_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
 		}
 
 		std::string name;

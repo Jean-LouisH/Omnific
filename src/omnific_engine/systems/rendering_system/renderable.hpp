@@ -31,7 +31,7 @@
 #include <foundations/resources/material.hpp>
 #include <foundations/resources/mesh.hpp>
 #include <foundations/resources/shader.hpp>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <memory>
 
 namespace Omnific

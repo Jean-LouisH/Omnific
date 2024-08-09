@@ -25,7 +25,6 @@
 #include "foundations/resources/audio_synthesis.hpp"
 #include "foundations/singletons/platform/platform.hpp"
 #include "foundations/singletons/event_bus.hpp"
-#include <SDL_mixer.h>
 
 void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 {

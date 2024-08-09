@@ -23,7 +23,7 @@
 #pragma once
 
 #include "foundations/aliases.hpp"
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include "foundations/constants.hpp"
 #include "scene/components/component.hpp"
 

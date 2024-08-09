@@ -22,11 +22,11 @@
 
 #include "opengl_shader_program.hpp"
 #include <iostream>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <foundations/singletons/platform/platform.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <gtc/matrix_transform.hpp>
 #include <foundations/resources/shader.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <gtc/type_ptr.hpp>
 
 Omnific::OpenGLShaderProgram::OpenGLShaderProgram(std::shared_ptr<Shader> shader)
 {

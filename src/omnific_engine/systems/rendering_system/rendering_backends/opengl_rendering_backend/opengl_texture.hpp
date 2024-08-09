@@ -23,7 +23,7 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <vector>
 #include <string>
 #include <foundations/resources/image.hpp>

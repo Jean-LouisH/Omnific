@@ -39,12 +39,12 @@ Omnific::AudioStream::AudioStream(std::string filepath)
 		file_extension == "ogg")
 	{
 		this->is_music = true;
-		this->music = std::shared_ptr<Mix_Music>(Mix_LoadMUS(filepath.c_str()), Mix_FreeMusic);
+		//this->music = std::shared_ptr<Mix_Music>(Mix_LoadMUS(filepath.c_str()), Mix_FreeMusic);
 	}
 	else if (file_extension == "wav")
 	{
 		this->is_music = false;
-		this->sound_fx = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
+		//this->sound_fx = std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(filepath.c_str()), Mix_FreeChunk);
 	}
 }
 
@@ -54,7 +54,7 @@ float Omnific::AudioStream::get_playback_length()
 
 	if (is_music)
 	{
-		playback_length = Mix_MusicDuration(this->music.get());
+		
 	}
 
 	return playback_length;
@@ -65,16 +65,6 @@ std::vector<uint16_t> Omnific::AudioStream::get_spectrum_data()
 {
 	std::vector<uint16_t> spectrum;
 	return spectrum;
-}
-
-std::shared_ptr<Mix_Chunk> Omnific::AudioStream::get_sdlmix_chunk()
-{
-	return this->sound_fx;
-}
-
-std::shared_ptr<Mix_Music> Omnific::AudioStream::get_sdlmix_music()
-{
-	return this->music;
 }
 
 bool Omnific::AudioStream::get_is_music()

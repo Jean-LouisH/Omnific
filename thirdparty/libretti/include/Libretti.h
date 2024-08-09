@@ -28,14 +28,20 @@ extern "C"
 {
 #endif
 
-#if defined (_WIN32)
-#if defined(_LIBRETTI_EXPORTS)
-#define  LIBRETTI_API __declspec(dllexport)
-#else
-#define  LIBRETTI_API __declspec(dllimport)
-#endif
-#else
-#define LIBRETTI_API
+#ifndef LIBRETTI_API
+	#if defined (_WIN32)
+		#if defined(_LIBRETTI_EXPORTS)
+			#if defined(_LIBRETTI_EXPORTS_BUILD)
+				#define  LIBRETTI_API __declspec(dllexport)
+			#else
+				#define  LIBRETTI_API __declspec(dllimport)
+			#endif
+		#else
+			#define LIBRETTI_API
+		#endif
+	#else
+		#define LIBRETTI_API
+	#endif
 #endif
 
 	/*Read only audio, output note wave streams, playback runtime.*/

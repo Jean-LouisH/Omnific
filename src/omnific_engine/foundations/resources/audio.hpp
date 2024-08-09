@@ -22,7 +22,6 @@
 
 #pragma once
 
-#include <SDL_mixer.h>
 #include "foundations/resources/resource.hpp"
 #include <string>
 #include <memory>

@@ -29,7 +29,7 @@
 #include <string>
 #include "foundations/resources/image.hpp"
 #include "model.hpp"
-#include <glm/glm.hpp>
+#include <glm.hpp>
 #include <memory>
 
 namespace Omnific

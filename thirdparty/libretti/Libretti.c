@@ -1,6 +1,7 @@
 #include "include/Libretti.h"
 
 #include <SDL.h>
+#include <math.h>
 #include "include/ScriptValidator.h"
 #include "include/Validation.h"
 #include "include/Compiler.h"

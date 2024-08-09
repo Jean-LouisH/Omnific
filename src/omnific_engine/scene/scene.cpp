@@ -25,7 +25,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <yaml-cpp/yaml.h>
 #include <customization/class_registry.hpp>
-#include <glm/gtx/quaternion.hpp>
+#include <gtx/quaternion.hpp>
 #include <cmath>
 
 #define TINYGLTF_IMPLEMENTATION

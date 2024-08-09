@@ -37,11 +37,11 @@ Omnific::AudioSystem::~AudioSystem()
 void Omnific::AudioSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
-	Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
-	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
-	lb_initialize();
-	this->libretti = lb_createEmptyLibretti();
-	this->is_initialized = true;
+	// Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
+	// Mix_OpenAudio(44100, AUDIO_S16SYS, 2, pow(2, 11));
+	// lb_initialize();
+	// this->libretti = lb_createEmptyLibretti();
+	// this->is_initialized = true;
 	Platform::get_logger().write("Initialized Audio System.");
 }
 
@@ -61,7 +61,7 @@ void Omnific::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 				if (active_audio->is_type(AudioStream::TYPE_STRING))
 				{
 					std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
-					audio_source->playback_time = Mix_GetMusicPosition(active_audio_stream->get_sdlmix_music().get());
+					//audio_source->playback_time = Mix_GetMusicPosition(active_audio_stream->get_sdlmix_music().get());
 				}
 				else if (active_audio->is_type(AudioSynthesis::TYPE_STRING))
 				{
@@ -105,10 +105,10 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 
 				if (active_audio_stream != nullptr)
 				{
-					if (active_audio_stream->get_is_music())
-						Mix_PlayMusic(active_audio_stream->get_sdlmix_music().get(), 1);
-					else
-						Mix_PlayChannel(-1, active_audio_stream->get_sdlmix_chunk().get(), 1);
+					// if (active_audio_stream->get_is_music())
+					// 	Mix_PlayMusic(active_audio_stream->get_sdlmix_music().get(), 1);
+					// else
+					// 	Mix_PlayChannel(-1, active_audio_stream->get_sdlmix_chunk().get(), 1);
 				}
 				else if (active_audio_synthesis != nullptr)
 				{
@@ -126,10 +126,10 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 
 				if (active_audio_stream != nullptr)
 				{
-					if (active_audio_stream->get_is_music())
-						Mix_PauseMusic();
-					else
-						Mix_Pause(-1);
+					// if (active_audio_stream->get_is_music())
+					// 	Mix_PauseMusic();
+					// else
+					// 	Mix_Pause(-1);
 				}
 				else if (active_audio_synthesis != nullptr)
 				{
@@ -145,10 +145,10 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 
 				if (active_audio_stream != nullptr)
 				{
-					if (active_audio_stream->get_is_music())
-						Mix_ResumeMusic();
-					else
-						Mix_Resume(-1);
+					// if (active_audio_stream->get_is_music())
+					// 	Mix_ResumeMusic();
+					// else
+					// 	Mix_Resume(-1);
 				}
 				else if (active_audio_synthesis != nullptr)
 				{
@@ -164,10 +164,10 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 
 				if (active_audio_stream != nullptr)
 				{
-					if (active_audio_stream->get_is_music())
-						Mix_HaltMusic();
-					else
-						Mix_HaltChannel(-1);
+					// if (active_audio_stream->get_is_music())
+					// 	Mix_HaltMusic();
+					// else
+					// 	Mix_HaltChannel(-1);
 				}
 				else if (active_audio_synthesis != nullptr)
 				{
@@ -183,8 +183,8 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 
 				if (active_audio_stream != nullptr)
 				{
-					if (active_audio_stream->get_is_music())
-						Mix_RewindMusic();
+					// if (active_audio_stream->get_is_music())
+					// 	Mix_RewindMusic();
 				}
 				else if (active_audio_synthesis != nullptr)
 				{
@@ -203,7 +203,7 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 				{
 					if (active_audio_stream->get_is_music())
 					{
-						Mix_SetMusicPosition(time_point);
+						// Mix_SetMusicPosition(time_point);
 					}
 				}
 				else if (active_audio_synthesis != nullptr)
@@ -231,7 +231,7 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 						else
 							right = (Uint8)(-audio_source->panning * 255.0);
 
-						Mix_SetPanning(MIX_CHANNEL_POST, left, right);
+						// Mix_SetPanning(MIX_CHANNEL_POST, left, right);
 					}
 				}
 				else if (active_audio_synthesis != nullptr)
@@ -240,7 +240,7 @@ void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			Mix_MasterVolume(audio_listener->get_volume() * 128);	
+			// Mix_MasterVolume(audio_listener->get_volume() * 128);	
 		}
 	}
 }
@@ -249,8 +249,8 @@ void Omnific::AudioSystem::finalize()
 {
 	if (this->is_initialized)
 	{
-		Mix_CloseAudio();
-		Mix_Quit();
+		// Mix_CloseAudio();
+		// Mix_Quit();
 		SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	}
 

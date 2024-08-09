@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+    "openal-soft",
+    "sdl2",
+    "sdl2-ttf",
+    "python3"
+  ]
+}

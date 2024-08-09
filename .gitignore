@@ -11,8 +11,10 @@
 *.sln.docstates
 
 # Custom
-build/
+[Bb]uild/
+[Ll]ib/
 extras/
+
 
 # CMake files
 out/

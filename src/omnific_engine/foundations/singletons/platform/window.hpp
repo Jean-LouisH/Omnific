@@ -28,7 +28,7 @@
 #include <foundations/resources/image.hpp>
 #include <memory>
 #include <engine_api.hpp>
-#include <glm/glm.hpp>
+#include <glm.hpp>
 
 namespace Omnific
 {

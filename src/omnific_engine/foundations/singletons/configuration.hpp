@@ -24,6 +24,7 @@
 
 #include <string>
 #include <engine_api.hpp>
+#include <stdint.h>
 
 namespace Omnific 
 {

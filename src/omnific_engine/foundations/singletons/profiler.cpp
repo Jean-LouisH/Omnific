@@ -81,7 +81,7 @@ uint64_t Omnific::Profiler::get_lag_count()
 
 uint16_t Omnific::Profiler::get_fps()
 {
-	return (1.0 / (Profiler::get_instance()->get_timer("frame")->get_delta_in_nanoseconds() / NS_IN_S));
+	return (1.0 / (Profiler::get_instance()->get_timer("frame")->get_delta_in_seconds()));
 }
 
 Omnific::Profiler* Omnific::Profiler::get_instance()

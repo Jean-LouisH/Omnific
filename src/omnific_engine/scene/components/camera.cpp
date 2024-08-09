@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "camera.hpp"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 
 void Omnific::Camera::deserialize(YAML::Node yaml_node)

@@ -12,23 +12,22 @@ file(GLOB_RECURSE libretti_headers "./include/[a-zA-Z]*.h")
 include_directories(
 	 "."
      "./include"
-     "../SDL2-2.28.5/include"
 )
 
-add_library(libretti SHARED
+add_library(libretti STATIC
     ${libretti_sources}
     ${libretti_headers}
 )
 
- add_definitions(/bigobj)
+if (WIN32)
+add_definitions(/bigobj)
+endif ()
 
-find_library(SDL2 SDL2.lib SDL2main.lib PATHS ../../thirdparty/SDL2-2.28.5/lib/x64)
+find_package(SDL2 REQUIRED)
 
 target_link_libraries (libretti
-		${SDL2}
+    SDL2::SDL2
 )
 
-add_definitions(-D_LIBRETTI_EXPORTS)
-
-add_custom_command(TARGET libretti POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:libretti> ${PROJECT_BINARY_DIR}/src/main/libretti.dll)
+#add_definitions(-D_LIBRETTI_EXPORTS)
+add_definitions(-D_LIBRETTI_EXPORTS_BUILD)
