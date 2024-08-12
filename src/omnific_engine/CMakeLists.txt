@@ -14,7 +14,9 @@ else()
 	set(LIBRARY_PREFIX "lib")
 endif()
 
-add_library(omnific_engine SHARED
+set (LIBRARY_TYPE "STATIC")
+
+add_library(omnific_engine ${LIBRARY_TYPE}
 	  ${omnific_engine_sources}
 	  ${omnific_engine_headers})
 
@@ -66,7 +68,9 @@ target_link_libraries (omnific_engine
 	Python::Python
 )
 
-add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
+if (${LIBRARY_TYPE} STREQUAL "SHARED")
+	add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
+endif ()
 add_definitions(-D_OMNIFIC_ENGINE_EXPORTS_BUILD)
 add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS)
 add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS_BUILD)
