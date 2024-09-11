@@ -27,7 +27,7 @@
 #include <iostream>
 
 #include "embedded_module.hpp"
-#include <iostream>
+#include <SDL_platform.h>
 #include <set>
 
 
@@ -72,18 +72,26 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 								if (added_paths.count(script_filepath) == 0)
 								{
 									std::string new_path = Platform::get_file_access().get_executable_directory_path() +
-										"//data//" + Platform::get_file_access().get_path_before_file(script_filepath);
+										"//" + DATA_DIRECTORY_NAME + "//" + Platform::get_file_access().get_path_before_file(script_filepath);
 #ifdef _DEBUG
 									new_path = Platform::get_file_access().get_executable_directory_path();
-									new_path = new_path.substr(0, new_path.find("out\\build\\x64-Debug\\src\\main"));
+#ifdef WIN32
+									std::string build_folder_name = "out\\build\\";
+#else
+									std::string build_folder_name = "out/build/";
+#endif
+									new_path = new_path.substr(0, new_path.find(build_folder_name));
 									std::string data_folder = Platform::get_file_access().get_data_directory_path();
-									data_folder = data_folder.substr(data_folder.find("data/"), data_folder.size() - 1);
+									data_folder = data_folder.substr(data_folder.find(DATA_DIRECTORY), data_folder.size() - 1);
 									new_path += data_folder + Platform::get_file_access().get_path_before_file(script_filepath);
 #endif
+
+#ifdef WIN32
 									pybind11::str new_path_obj = pybind11::str(new_path);
 									new_path_obj = new_path_obj.attr("replace")("//", "/");
 									new_path_obj = new_path_obj.attr("replace")("/", "\\");
 									new_path = new_path_obj.cast<std::string>();
+#endif
 
 									path.attr("insert")(0, new_path);
 									added_paths.emplace(new_path);
@@ -94,14 +102,14 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 
 								PythonScriptInstance script_instance;
 								std::vector<std::string> method_names = {
-									"on_start",
 									"on_input",
+									"on_start",
 									"on_early",
 									"on_logic",
 									"on_compute",
 									"on_late",
-									"on_output",
-									"on_finish"
+									"on_finish",
+									"on_output"
 								};
 								script_instance.set_data(new_pybind11_module.attr("omnific_script")());
 
@@ -218,6 +226,16 @@ void Omnific::PythonScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 			this->execute_queued_methods(it.second->get_finish_entity_queue(), it.second, "on_finish");
 
 	this->has_modules_loaded_on_this_update = false;
+}
+
+void Omnific::PythonScriptingSystem::on_output(std::shared_ptr<Scene> scene)
+{
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
+
+	if (scene != nullptr)
+		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
+			this->execute_update_methods(it.second, "on_output");
 }
 
 void Omnific::PythonScriptingSystem::finalize()

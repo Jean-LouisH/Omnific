@@ -66,7 +66,7 @@ void Omnific::PhysicsSystem::finalize()
 
 void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<Timer> timer : scene_layer->get_components_by_type<Timer>())
 		timer->update(seconds_per_compute_update);
@@ -74,7 +74,7 @@ void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_lay
 
 void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
@@ -86,7 +86,7 @@ void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 
 void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 		if (physics_body->is_rigid_body)
@@ -95,7 +95,7 @@ void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 
 void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{

@@ -53,12 +53,12 @@ namespace Omnific
 		}
 
 		virtual void initialize() override;
-		virtual void on_late(std::shared_ptr<Scene> scene) override;
+		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 		typedef struct HapticPlayback
 		{
-			HiResTimer timer;
+			Clock timer;
 			uint16_t duration_ms;
 			bool is_playing;
 		};

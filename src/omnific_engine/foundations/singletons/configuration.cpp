@@ -22,6 +22,7 @@
 
 #include "foundations/singletons/configuration.hpp"
 #include <foundations/singletons/platform/platform.hpp>
+#include <foundations/aliases.hpp>
 
 Omnific::Configuration* Omnific::Configuration::instance = nullptr;
 
@@ -34,6 +35,12 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 	try
 	{
 		YAML::Node yaml_node = YAML::LoadFile(boot_filepath);
+
+		configuration->performance_settings.target_input_fps = DEFAULT_TARGET_INPUT_FPS;
+		configuration->performance_settings.target_update_fps = DEFAULT_TARGET_UPDATE_FPS;
+		configuration->performance_settings.target_output_fps = DEFAULT_TARGET_OUTPUT_FPS;
+		configuration->performance_settings.compute_frame_time = 8;
+		configuration->performance_settings.enable_multithreading = true;
 
 		for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
 		{
@@ -89,17 +96,29 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 					}
 				}
 			}
-			else if (it0->first.as<std::string>() == "time_settings")
+			else if (it0->first.as<std::string>() == "performance_settings")
 			{
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
-					if (it1->first.as<std::string>() == "target_fps")
+					if (it1->first.as<std::string>() == "target_input_fps")
 					{
-						configuration->time_settings.target_fps = it1->second.as<int>();
+						configuration->performance_settings.target_input_fps = it1->second.as<int>();
 					}
-					else if (it1->first.as<std::string>() == "ms_per_compute_update")
+					else if (it1->first.as<std::string>() == "target_update_fps")
 					{
-						configuration->time_settings.ms_per_compute_update = it1->second.as<int>();
+						configuration->performance_settings.target_update_fps = it1->second.as<int>();
+					}
+					else if (it1->first.as<std::string>() == "target_output_fps")
+					{
+						configuration->performance_settings.target_output_fps = it1->second.as<int>();
+					}
+					else if (it1->first.as<std::string>() == "target_compute_frame_time")
+					{
+						configuration->performance_settings.compute_frame_time = it1->second.as<int>();
+					}
+					else if (it1->first.as<std::string>() == "enable_multithreading")
+					{
+						configuration->performance_settings.enable_multithreading = it1->second.as<bool>();
 					}
 				}
 			}
@@ -113,6 +132,24 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 	{
 		configuration->is_loaded = false;
 	}
+}
+
+uint32_t Omnific::Configuration::get_max_target_fps()
+{
+	Configuration* configuration = Configuration::get_instance();
+	uint32_t target_input_fps = configuration->performance_settings.target_input_fps;
+	uint32_t target_update_fps = configuration->performance_settings.target_update_fps;
+	uint32_t target_output_fps = configuration->performance_settings.target_output_fps;
+	uint32_t max_target_fps = 0;
+
+	if (target_input_fps > max_target_fps)
+		max_target_fps = target_input_fps;
+	if (target_update_fps > max_target_fps)
+		max_target_fps = target_update_fps;
+	if (target_output_fps > max_target_fps)
+		max_target_fps = target_output_fps;
+
+	return max_target_fps;
 }
 
 Omnific::Configuration* Omnific::Configuration::get_instance()

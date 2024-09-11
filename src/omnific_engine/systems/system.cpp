@@ -33,12 +33,12 @@ void Omnific::System::initialize()
 
 }
 
-void Omnific::System::on_start(std::shared_ptr<Scene> scene)
+void Omnific::System::on_input(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnific::System::on_input(std::shared_ptr<Scene> scene)
+void Omnific::System::on_start(std::shared_ptr<Scene> scene)
 {
 
 }
@@ -64,6 +64,11 @@ void Omnific::System::on_late(std::shared_ptr<Scene> scene)
 }
 
 void Omnific::System::on_finish(std::shared_ptr<Scene> scene)
+{
+
+}
+
+void Omnific::System::on_output(std::shared_ptr<Scene> scene)
 {
 
 }

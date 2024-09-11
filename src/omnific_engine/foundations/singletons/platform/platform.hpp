@@ -35,7 +35,8 @@
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API HiResTimer
+
+	class OMNIFIC_ENGINE_API Clock
 	{
 	public:
 		/* Returns delta time in Milliseconds */
@@ -44,7 +45,7 @@ namespace Omnific
 		void set_start();
 		void set_end();
 	private:
-		uint64_t delta = 0; //In nanoseconds.
+		uint64_t delta = 0; //In milliseconds.
 		uint64_t start = 0;
 		uint64_t finish = 0;
 	};
@@ -64,15 +65,15 @@ namespace Omnific
 			bool is_fullscreen,
 			std::string rendering_context);
 
-		static void yield_this_thread();
+		static void yield_thread();
 		/* Duration in milliseconds */
-		static void sleep_this_thread_for(int duration);
+		static void sleep_thread_for(int duration);
 
 		static void show_error_box(std::string title, std::string message);
 
 		static uint8_t get_logical_core_count();
 		/* In Bytes */
-		static uint32_t get_l1cache_line_size();
+		static uint32_t get_l1_cache_line_size();
 		/* In MegaBytes */
 		static uint32_t get_system_ram();
 		static std::string get_platform_name();
@@ -86,7 +87,7 @@ namespace Omnific
 		static FileAccess& get_file_access();
 		static NetworkAccess& get_network_access();
 
-		static HiResTimer& get_run_timer();
+		static Clock& get_run_clock();
 		static std::vector<std::string> get_args();
 		static void add_game_controller_mappings(std::string mapping_filepath);
 	private:
@@ -95,7 +96,7 @@ namespace Omnific
 		std::vector<std::string> command_line_arguments;
 
 		std::unique_ptr<SharedLibraryAccess> shared_library_access;
-		std::unique_ptr<HiResTimer> run_timer;
+		std::unique_ptr<Clock> run_clock;
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Input> input;
 		std::unique_ptr<Logger> logger;

@@ -41,13 +41,14 @@ namespace Omnific
         ~System();
 
         virtual void initialize();
-        virtual void on_start(std::shared_ptr<Scene> scene);
         virtual void on_input(std::shared_ptr<Scene> scene);
+        virtual void on_start(std::shared_ptr<Scene> scene);
         virtual void on_early(std::shared_ptr<Scene> scene);
         virtual void on_logic(std::shared_ptr<Scene> scene);
         virtual void on_compute(std::shared_ptr<Scene> scene);
         virtual void on_late(std::shared_ptr<Scene> scene);
         virtual void on_finish(std::shared_ptr<Scene> scene);
+        virtual void on_output(std::shared_ptr<Scene> scene);
         virtual void finalize();
         bool get_is_initialized();
 

@@ -35,9 +35,9 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Profiler
 	{
 	public:
-		static void add_timer(std::string timer_name, bool is_removable= true);
-		static void remove_timer(std::string timer_name);
-		static std::shared_ptr<HiResTimer> get_timer(std::string timer_name);
+		static void add_clock(std::string clock_name, bool is_removable = false);
+		static void remove_clock(std::string clock_name);
+		static std::shared_ptr<Clock> get_clock(std::string clock_name);
 
 		static void increment_frame_count();
 		static void increment_lag_count(uint64_t delta_time);
@@ -46,7 +46,7 @@ namespace Omnific
 		static uint64_t get_lag_count();
 		static uint16_t get_fps();
 	private:
-		std::unordered_map<std::string, std::shared_ptr<HiResTimer>> timers;
+		std::unordered_map<std::string, std::shared_ptr<Clock>> clocks;
 		std::unordered_map<std::string, bool> is_removable_map;
 		/* In milliseconds */
 		uint64_t lag = 0;

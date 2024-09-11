@@ -54,7 +54,7 @@ void Omnific::HapticSystem::initialize()
 	Platform::get_logger().write("Initialized Haptic System");
 }
 
-void Omnific::HapticSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
 {
 	Input& hid = Platform::get_input();
 

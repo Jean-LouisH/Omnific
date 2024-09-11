@@ -28,44 +28,77 @@ Omnific::ThreadPool* Omnific::ThreadPool::instance = nullptr;
 
 void Omnific::ThreadPool::initialize()
 {
-	//int thread_count = Platform::get_logical_core_count();
-	//ThreadPool* instance = ThreadPool::get_instance();
+	int thread_count = Platform::get_logical_core_count();
+	ThreadPool* instance = ThreadPool::get_instance();
 
-	//for (int i = 0; i < (thread_count); i++)
-	//	instance->threads.push_back(new std::thread(&ThreadPool::run_worker_thread, instance));
+	for (int i = 0; i < (thread_count); i++)
+		instance->threads.push_back(std::thread(&ThreadPool::run_worker_thread));
 
-	//instance->allowable_thread_count = thread_count;
+	instance->busy_thread_count = 0;
 }
 
-void Omnific::ThreadPool::set_allowable_thread_count(int thread_count)
+void Omnific::ThreadPool::enqueue_task(std::function<void()> task)
 {
 	ThreadPool* instance = ThreadPool::get_instance();
-	if (thread_count > 0 && thread_count <= instance->threads.size())
-		instance->allowable_thread_count = thread_count;
+	{
+		std::unique_lock<std::mutex> lock(instance->queue_mutex);
+		instance->tasks.emplace(std::move(task));
+	}
+	instance->task_condition.notify_one();
+}
+
+void Omnific::ThreadPool::wait_for_all_tasks()
+{
+	ThreadPool* instance = ThreadPool::get_instance();
+    std::unique_lock<std::mutex> lock(instance->queue_mutex);
+    instance->all_tasks_completed_condition.wait(lock, [instance](){ 
+		return instance->tasks.empty() && (instance->busy_thread_count == 0);});
 }
 
 void Omnific::ThreadPool::finalize()
 {
 	ThreadPool* instance = ThreadPool::get_instance();
-	instance->is_finished = true;
 
-	for (std::thread* thread : instance->threads)
 	{
-		if (thread != nullptr)
-		{
-			thread->join();
-			delete thread;
-		}
+		std::unique_lock<std::mutex> lock(instance->queue_mutex);
+		instance->is_shutting_down = true;
+	}
+
+	instance->task_condition.notify_all();
+
+	for (std::thread& thread : instance->threads)
+	{
+		thread.join();
 	}
 }
 
 void Omnific::ThreadPool::run_worker_thread()
 {
 	ThreadPool* instance = ThreadPool::get_instance();
-	while (!instance->is_finished)
+	while (true)
 	{
-		/* Placeholder */
-		Platform::sleep_this_thread_for(1000);
+		std::unique_lock<std::mutex> lock(instance->queue_mutex);
+		std::function<void()> task;
+
+		instance->task_condition.wait(
+			lock, 
+			[instance]{return !instance->tasks.empty() || instance->is_shutting_down;});
+
+		if (!instance->tasks.empty())
+		{
+			instance->busy_thread_count++;
+			task = std::move(instance->tasks.front());
+			instance->tasks.pop();
+			lock.unlock();
+			task();
+			lock.lock();
+			instance->busy_thread_count--;
+			instance->all_tasks_completed_condition.notify_one();
+		}
+		else if (instance->is_shutting_down)
+		{
+			break;
+		}
 	}
 }
 

@@ -49,16 +49,20 @@ namespace Omnific
 			bool is_resizable;
 		} window_settings;
 
-		struct TimeSettings
+		struct PerformanceSettings
 		{
-			uint32_t ms_per_compute_update;
-			uint32_t target_fps;
-		} time_settings;
+			uint32_t target_input_fps;
+			uint32_t target_update_fps;
+			uint32_t target_output_fps;
+			uint32_t compute_frame_time;
+			bool enable_multithreading;
+		} performance_settings;
 
 		//Status
 		bool is_loaded = false;
 
 		static void load_from_file(std::string boot_filepath);
+		static uint32_t get_max_target_fps();
 
 		static Configuration* get_instance();
 	private:

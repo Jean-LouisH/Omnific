@@ -54,12 +54,13 @@ namespace Omnific
 
 		virtual void initialize() override;
 		virtual void finalize() override;
-		virtual void on_start(std::shared_ptr<Scene> scene) override;
 		virtual void on_input(std::shared_ptr<Scene> scene) override;
+		virtual void on_start(std::shared_ptr<Scene> scene) override;
 		virtual void on_early(std::shared_ptr<Scene> scene) override;
 		virtual void on_logic(std::shared_ptr<Scene> scene) override;
 		virtual void on_compute(std::shared_ptr<Scene> scene) override;
 		virtual void on_late(std::shared_ptr<Scene> scene) override;
+		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void on_finish(std::shared_ptr<Scene> scene) override;
 
 		void load_script_modules(std::shared_ptr<Scene> scene);

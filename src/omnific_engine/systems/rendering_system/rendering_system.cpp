@@ -77,7 +77,7 @@ void Omnific::RenderingSystem::initialize()
 	this->is_initialized = true;
 }
 
-void Omnific::RenderingSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 {
 	this->on_window_resize();
 

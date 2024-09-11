@@ -21,7 +21,8 @@
 // SOFTWARE.
 
 
-#include "engine.hpp"
+#include "omnific_engine.hpp"
+#include "omnific_studio.hpp"
 
 #undef main
 
@@ -30,6 +31,19 @@
 int main(int argc, char* argv[])
 {
 	Omnific::Engine omnific_engine;
+
+	omnific_engine.set_callback_functions(
+		load_script_instances, 
+		on_input, 
+		on_start, 
+		on_early, 
+		on_logic, 
+		on_compute, 
+		on_late, 
+		on_finish,
+		on_output
+	);
+
 	omnific_engine.run(argc, argv);
 	return 0;
 }

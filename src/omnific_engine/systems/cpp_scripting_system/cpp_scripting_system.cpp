@@ -106,6 +106,15 @@ void Omnific::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 		this->execute("on_finish");
 }
 
+void Omnific::CPPScriptingSystem::on_output(std::shared_ptr<Scene> scene)
+{
+	if (this->has_scene_changed(scene))
+		this->load_script_modules(scene);
+
+	if (scene != nullptr)
+		this->execute("on_output");
+}
+
 void Omnific::CPPScriptingSystem::execute(std::string method_name)
 {
 	if (this->dynamic_library_handle != nullptr)

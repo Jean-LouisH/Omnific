@@ -14,6 +14,10 @@ else()
 	set(LIBRARY_PREFIX "lib")
 endif()
 
+if (__EMSCRIPTEN__)
+	add_definitions(-D_WEB_PLATFORM)
+endif()
+
 set (LIBRARY_TYPE "STATIC")
 
 add_library(omnific_engine ${LIBRARY_TYPE}

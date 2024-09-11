@@ -1,10 +1,14 @@
 ﻿
 cmake_minimum_required (VERSION 3.8)
 
+file(GLOB_RECURSE omnific_demos_sources "[a-zA-Z]*.cpp")
+file(GLOB_RECURSE omnific_demos_headers "[a-zA-Z]*.hpp")
+
 project ("omnific_demos")
 
 add_executable(omnific_demos 
-	  "main.cpp"
+	  ${omnific_demos_sources}
+      ${omnific_demos_headers}
  )
 
 add_dependencies(omnific_demos

@@ -72,7 +72,8 @@ std::string Omnific::FileAccess::get_data_directory_path()
 std::string Omnific::FileAccess::get_file_name_without_extension(std::string filepath)
 {
 	std::string file_name;
-	int name_index_start = filepath.size() - 1;
+	size_t filepath_size = filepath.size();
+	int name_index_start = filepath_size - 1;
 
 	if (name_index_start > -1)
 	{
@@ -87,9 +88,14 @@ std::string Omnific::FileAccess::get_file_name_without_extension(std::string fil
 		}
 	}
 
-	//append from the start index to the extension name.
-	for (int j = name_index_start + 1; filepath.at(j) != '.';	j++)
+	//append from the start index to the extension name or the end of string.
+	for (int j = name_index_start + 1; j < filepath_size; j++)
+	{
+		if (filepath.at(j) == '.')
+			break;
+
 		file_name += filepath.at(j);
+	}
 
 	return file_name;
 }
@@ -115,7 +121,8 @@ std::string Omnific::FileAccess::get_file_extension(std::string filepath)
 std::string Omnific::FileAccess::get_path_before_file(std::string filepath)
 {
 	std::string path;
-	int name_end_index = filepath.size() - 1;
+	size_t filepath_size = filepath.size();
+	int name_end_index = filepath_size - 1;
 
 	//Find the first slash from the end
 	if (name_end_index > -1)
@@ -130,13 +137,10 @@ std::string Omnific::FileAccess::get_path_before_file(std::string filepath)
 		}
 	}
 
-	if (name_end_index > -1)
+	//append from the start index to the extension name.
+	for (int j = 0; j < name_end_index; j++)
 	{
-		//append from the start index to the extension name.
-		for (int j = 0; j != name_end_index; j++)
-		{
-			path += filepath.at(j);
-		}
+		path += filepath.at(j);
 	}
 
 	return path;

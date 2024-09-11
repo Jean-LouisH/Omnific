@@ -71,10 +71,10 @@ void Omnific::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
 		}
 	}
 
-	lb_incrementAllPlayTimes(Profiler::get_timer(LOOP_THREAD_TIMER_NAME)->get_delta_in_seconds());
+	//lb_incrementAllPlayTimes(Profiler::get_clock(UPDATE_CLOCK_NAME)->get_delta_in_seconds());
 }
 
-void Omnific::AudioSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 {
 	std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 

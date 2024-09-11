@@ -53,7 +53,7 @@ void Omnific::AnimationSystem::finalize()
 
 void Omnific::AnimationSystem::update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const uint32_t ms_per_compute_update = Configuration::get_instance()->time_settings.ms_per_compute_update;
+	const uint32_t ms_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time;
 	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();
 
 	for (size_t i = 0; i < sprite_containers.size(); i++)

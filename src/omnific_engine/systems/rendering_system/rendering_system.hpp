@@ -53,7 +53,7 @@ namespace Omnific
 		}
 
 		virtual void initialize() override;
-		virtual void on_late(std::shared_ptr<Scene> scene) override;
+		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 		std::string get_rendering_backend_name();
 	private:

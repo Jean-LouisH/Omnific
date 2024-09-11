@@ -89,14 +89,14 @@ void Omnific::EventBus::publish(
 	EventBus* event_bus = EventBus::get_instance();
 	std::vector<Event> events_list;
 
-	Platform::get_run_timer().set_end();
+	Platform::get_run_clock().set_end();
 
 	if (event_bus->events.count(name))
 		events_list = event_bus->events.at(name);
 
 	events_list.push_back(Event(
 		name,
-		Platform::get_run_timer().get_delta()));
+		Platform::get_run_clock().get_delta()));
 
 	event_bus->events.emplace(name, events_list);
 }
@@ -129,14 +129,14 @@ void Omnific::EventBus::publish_with_parameters(std::string name, Event::Paramet
 	EventBus* event_bus = EventBus::get_instance();
 	std::vector<Event> events_list;
 
-	Platform::get_run_timer().set_end();
+	Platform::get_run_clock().set_end();
 
 	if (event_bus->events.count(name))
 		events_list = event_bus->events.at(name);
 
 	events_list.push_back(Event(
 		name,
-		Platform::get_run_timer().get_delta(),
+		Platform::get_run_clock().get_delta(),
 		parameters));
 
 	if (event_bus->events.count(name))

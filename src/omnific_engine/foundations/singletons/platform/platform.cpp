@@ -26,22 +26,22 @@
 #include "foundations/constants.hpp"
 #include <thread>
 
-uint64_t Omnific::HiResTimer::get_delta()
+uint64_t Omnific::Clock::get_delta()
 {
 	return this->delta;
 }
 
-float Omnific::HiResTimer::get_delta_in_seconds()
+float Omnific::Clock::get_delta_in_seconds()
 {
 	return this->delta / MS_IN_S;
 }
 
-void Omnific::HiResTimer::set_start()
+void Omnific::Clock::set_start()
 {
 	this->start = SDL_GetTicks();
 }
 
-void Omnific::HiResTimer::set_end()
+void Omnific::Clock::set_end()
 {
 	this->finish = SDL_GetTicks();
 	this->delta = finish - start;
@@ -51,8 +51,7 @@ Omnific::Platform* Omnific::Platform::instance = nullptr;
 
 void Omnific::Platform::initialize(
 	int argc,
-	char* argv[]
-)
+	char* argv[])
 {
 	Platform* new_instance = get_instance();
 
@@ -67,8 +66,8 @@ void Omnific::Platform::initialize(
 	new_instance->file_access = std::unique_ptr<FileAccess>(new FileAccess(command_line_arguments[0]));
 	new_instance->network_access = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 	new_instance->window = std::unique_ptr<Window>(new Window());
-	new_instance->run_timer = std::unique_ptr<HiResTimer>(new HiResTimer());
-	new_instance->run_timer->set_start();
+	new_instance->run_clock = std::unique_ptr<Clock>(new Clock());
+	new_instance->run_clock->set_start();
 
 	new_instance->command_line_arguments = command_line_arguments;
 }
@@ -98,15 +97,15 @@ bool Omnific::Platform::create_window(std::string title,
 	return is_successful;
 }
 
-void Omnific::Platform::yield_this_thread()
+void Omnific::Platform::yield_thread()
 {
 	std::this_thread::yield();
 }
 
-void Omnific::Platform::sleep_this_thread_for(int duration)
+void Omnific::Platform::sleep_thread_for(int duration)
 {
 	if (duration > 0)
-		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
+		SDL_Delay(duration);
 }
 
 void Omnific::Platform::show_error_box(std::string title, std::string message)
@@ -123,7 +122,7 @@ uint8_t Omnific::Platform::get_logical_core_count()
 	return SDL_GetCPUCount();
 }
 
-uint32_t Omnific::Platform::get_l1cache_line_size()
+uint32_t Omnific::Platform::get_l1_cache_line_size()
 {
 	return SDL_GetCPUCacheLineSize();
 }
@@ -176,9 +175,9 @@ Omnific::NetworkAccess& Omnific::Platform::get_network_access()
 	return *get_instance()->network_access;
 }
 
-Omnific::HiResTimer& Omnific::Platform::get_run_timer()
+Omnific::Clock& Omnific::Platform::get_run_clock()
 {
-	return *get_instance()->run_timer;
+	return *get_instance()->run_clock;
 }
 
 std::vector<std::string> Omnific::Platform::get_args()

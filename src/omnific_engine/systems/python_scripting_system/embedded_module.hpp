@@ -96,13 +96,13 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	pybind11::class_<Omnific::Platform>(m, "Platform")
 		.def("get_logical_core_count", &Omnific::Platform::get_logical_core_count)
-		.def("get_l1_cache_line_size", &Omnific::Platform::get_l1cache_line_size)
+		.def("get_l1_cache_line_size", &Omnific::Platform::get_l1_cache_line_size)
 		.def("get_system_ram", &Omnific::Platform::get_system_ram)
 		.def("get_os_name", &Omnific::Platform::get_platform_name);
 
 	pybind11::class_<Omnific::Profiler>(m, "Profiler")
-		.def("add_timer", &Omnific::Profiler::add_timer)
-		.def("get_timer", &Omnific::Profiler::get_timer)
+		.def("add_timer", &Omnific::Profiler::add_clock)
+		.def("get_timer", &Omnific::Profiler::get_clock)
 		.def("get_fps", &Omnific::Profiler::get_fps);
 
 	pybind11::class_<Omnific::ThreadPool>(m, "ThreadPool");
@@ -263,11 +263,11 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def_readwrite("y", &glm::vec3::y)
 		.def_readwrite("z", &glm::vec3::z);
 
-	pybind11::class_<Omnific::HiResTimer, std::shared_ptr<Omnific::HiResTimer>>(m, "HiResTimer")
-		.def("set_start", &Omnific::HiResTimer::set_start)
-		.def("set_end", &Omnific::HiResTimer::set_end)
-		.def("get_delta", &Omnific::HiResTimer::get_delta)
-		.def("get_delta_in_seconds", &Omnific::HiResTimer::get_delta_in_seconds);
+	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "HiResTimer")
+		.def("set_start", &Omnific::Clock::set_start)
+		.def("set_end", &Omnific::Clock::set_end)
+		.def("get_delta", &Omnific::Clock::get_delta)
+		.def("get_delta_in_seconds", &Omnific::Clock::get_delta_in_seconds);
 
 	pybind11::class_<Omnific::Colour>(m, "Colour")
 		.def(pybind11::init<std::string>())

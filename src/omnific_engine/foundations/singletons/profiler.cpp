@@ -26,37 +26,39 @@
 
 Omnific::Profiler* Omnific::Profiler::instance = nullptr;
 
-void Omnific::Profiler::add_timer(std::string timer_name, bool is_removable)
+void Omnific::Profiler::add_clock(std::string clock_name, bool is_removable)
 {
 	Profiler* instance = Profiler::get_instance();
-	instance->timers.emplace(timer_name, std::shared_ptr<HiResTimer>(new HiResTimer()));
-	instance->is_removable_map.emplace(timer_name, is_removable);
-	Platform::get_logger().write("Added HiResTimer to Profiler: \"" + timer_name + "\"");
+	std::shared_ptr<Clock> clock = std::shared_ptr<Clock>(new Clock());
+	clock->set_start();
+	instance->clocks.emplace(clock_name, clock);
+	instance->is_removable_map.emplace(clock_name, is_removable);
+	Platform::get_logger().write("Added HiResTimer to Profiler: \"" + clock_name + "\"");
 }
 
-void Omnific::Profiler::remove_timer(std::string timer_name)
+void Omnific::Profiler::remove_clock(std::string clock_name)
 {
 	Profiler* instance = Profiler::get_instance();
 
-	if (instance->is_removable_map.count(timer_name))
+	if (instance->is_removable_map.count(clock_name))
 	{
-		if (instance->is_removable_map.at(timer_name))
+		if (instance->is_removable_map.at(clock_name))
 		{
-			instance->timers.erase(timer_name);
-			instance->is_removable_map.erase(timer_name);
+			instance->clocks.erase(clock_name);
+			instance->is_removable_map.erase(clock_name);
 		}
 	}
 }
 
-std::shared_ptr<Omnific::HiResTimer> Omnific::Profiler::get_timer(std::string timer_name)
+std::shared_ptr<Omnific::Clock> Omnific::Profiler::get_clock(std::string clock_name)
 {
-	std::shared_ptr<HiResTimer> timer;
+	std::shared_ptr<Clock> clock;
 	Profiler* instance = Profiler::get_instance();
 
-	if (instance->timers.count(timer_name) > 0)
-		timer = instance->timers.at(timer_name);
+	if (instance->clocks.count(clock_name) > 0)
+		clock = instance->clocks.at(clock_name);
 
-	return timer;
+	return clock;
 }
 
 void Omnific::Profiler::increment_frame_count()
@@ -81,7 +83,7 @@ uint64_t Omnific::Profiler::get_lag_count()
 
 uint16_t Omnific::Profiler::get_fps()
 {
-	return (1.0 / (Profiler::get_instance()->get_timer("frame")->get_delta_in_seconds()));
+	return (1.0 / (Profiler::get_instance()->get_clock("frame")->get_delta_in_seconds()));
 }
 
 Omnific::Profiler* Omnific::Profiler::get_instance()

@@ -26,6 +26,7 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
+#define DATA_DIRECTORY_NAME "assets"
 #define DATA_DIRECTORY "assets/"
 #define DEBUG_STUDIO_ASSETS_DIRECTORY "../../../../../assets/studio_assets/"
 #define DEBUG_DEMO_ASSETS_DIRECTORY "../../../../../assets/demo_assets/"
@@ -34,14 +35,18 @@
 	#define DEBUG_CONSOLE_ENABLED
 #endif
 
-#define INPUT_TARGET_FPS 60.0
-#define UPDATE_TARGET_FPS INPUT_TARGET_FPS
-#define COMPUTE_MINIMUM_TARGET_FPS (UPDATE_TARGET_FPS * 2.0)
-#define MAXIMUM_MS_PER_COMPUTE_UPDATE (1000.0 / COMPUTE_MINIMUM_TARGET_FPS)
+#define DEFAULT_TARGET_FPS 60.0
+#define DEFAULT_TARGET_INPUT_FPS DEFAULT_TARGET_FPS
+#define DEFAULT_TARGET_UPDATE_FPS DEFAULT_TARGET_INPUT_FPS
+#define DEFAULT_TARGET_COMPUTE_FPS (DEFAULT_TARGET_UPDATE_FPS * 2.0)
+#define DEFAULT_TARGET_OUTPUT_FPS DEFAULT_TARGET_FPS 
 
 #define BOOT_FILE_NAME "boot.yml"
-#define GAME_CONTROLLER_DATABASE_FILE_NAME "gamecontrollerdb.txt"
 
-#define MAIN_THREAD_TIMER_NAME "main_thread_timer"
-#define LOOP_THREAD_TIMER_NAME "loop_thread_timer"
-#define LOOP_FRAME_TIMER_NAME "loop_frame"
+#define MAIN_THREAD_CLOCK_NAME "main_thread_clock"
+#define ENGINE_LOOP_THREAD_CLOCK_NAME "engine_loop_thread_clock"
+#define LAG_CLOCK_NAME "lag_clock"
+#define TOTAL_LOOP_FRAME_TIME_CLOCK_NAME "total_loop_frame_time_clock"
+#define INPUT_FRAME_SKIP_CLOCK_NAME "input_frame_skip_clock"
+#define UPDATE_FRAME_SKIP_CLOCK_NAME "update_frame_skip_clock"
+#define OUTPUT_FRAME_SKIP_CLOCK_NAME "output_frame_skip_clock"

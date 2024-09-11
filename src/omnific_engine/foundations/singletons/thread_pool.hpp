@@ -27,6 +27,10 @@
 #include <string>
 #include <stdint.h>
 #include <memory>
+#include <queue>
+#include <functional>
+#include <mutex>
+#include <condition_variable>
 #include <engine_api.hpp>
 
 namespace Omnific
@@ -35,12 +39,17 @@ namespace Omnific
 	{
 	public:
 		static void initialize();
-		static void set_allowable_thread_count(int thread_count);
+		static void enqueue_task(std::function<void()> task);
+		static void wait_for_all_tasks();
 		static void finalize();
 	private:
-		std::vector<std::thread*> threads;
-		uint64_t allowable_thread_count;
-		bool is_finished = false;
+		std::vector<std::thread> threads;
+		std::queue<std::function<void()>> tasks;
+		std::mutex queue_mutex;
+		std::condition_variable task_condition;
+		std::condition_variable all_tasks_completed_condition;
+		unsigned int busy_thread_count;
+		bool is_shutting_down = false;
 
 		static void run_worker_thread();
 

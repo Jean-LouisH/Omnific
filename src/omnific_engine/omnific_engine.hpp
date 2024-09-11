@@ -49,6 +49,18 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Engine
 	{
 	public:
+		void set_callback_functions(
+			void (*load_script_instances)(),
+			void (*on_input)(),
+			void (*on_start)(),
+			void (*on_early)(),
+			void (*on_logic)(),
+			void (*on_compute)(),
+			void (*on_late)(),
+			void (*on_finish)(),
+			void (*on_output)()
+		);
+
 		void run(
 			int argc,
 			char* argv[]
@@ -65,9 +77,24 @@ namespace Omnific
 		State state;
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 
+		struct
+		{
+			void (*load_script_instances)();
+			void (*on_input)();
+			void (*on_start)();
+			void (*on_early)();
+			void (*on_logic)();
+			void (*on_compute)();
+			void (*on_late)();
+			void (*on_finish)();
+			void (*on_output)();
+		}application_callback_functions;
+
 		void initialize();
-		void run_loop(std::shared_ptr<HiResTimer> loop_process_timer);
-		void sleep_this_thread_for_remaining_time(uint32_t target_fps, std::shared_ptr<HiResTimer> run_timer);
+		void detect_input();
+		void run_loop();
+		void run_loop_on_thread();
+		void sleep_for(uint32_t target_fps, std::shared_ptr<Clock> run_clock);
 		void finalize();
 
 		template<class T>

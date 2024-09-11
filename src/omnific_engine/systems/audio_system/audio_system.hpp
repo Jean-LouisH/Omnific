@@ -52,7 +52,7 @@ namespace Omnific
 
 		virtual void initialize() override;
 		virtual void on_logic(std::shared_ptr<Scene> scene) override;
-		virtual void on_late(std::shared_ptr<Scene> scene) override;
+		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 		lb_Libretti* libretti;

@@ -10,6 +10,3 @@ window_settings:
   fullscreen: false
   maximized: false
   resizable: false
-time_settings:
-  target_fps: 60
-  ms_per_compute_update: 8
