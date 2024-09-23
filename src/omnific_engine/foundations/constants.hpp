@@ -26,10 +26,10 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
-#define DATA_DIRECTORY_NAME "assets"
-#define DATA_DIRECTORY "assets/"
-#define DEBUG_STUDIO_ASSETS_DIRECTORY "../../../../../assets/studio_assets/"
-#define DEBUG_DEMO_ASSETS_DIRECTORY "../../../../../assets/demo_assets/"
+#define DEFAULT_APP_DATA_DIRECTORY_NAME "app_data"
+#define DEFAULT_APP_DATA_DIRECTORY "app_data/"
+#define DEFAULT_DEBUG_STUDIO_DATA_DIRECTORY "../../../../../app_data/studio_data/"
+#define DEFAULT_DEBUG_DEMO_DATA_DIRECTORY "../../../../../app_data/demo_data/"
 
 #ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED
@@ -40,6 +40,8 @@
 #define DEFAULT_TARGET_UPDATE_FPS DEFAULT_TARGET_INPUT_FPS
 #define DEFAULT_TARGET_COMPUTE_FPS (DEFAULT_TARGET_UPDATE_FPS * 2.0)
 #define DEFAULT_TARGET_OUTPUT_FPS DEFAULT_TARGET_FPS 
+
+#define DEFAULT_COMPUTE_FRAME_TIME 8
 
 #define BOOT_FILE_NAME "boot.yml"
 

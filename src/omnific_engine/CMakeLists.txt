@@ -44,7 +44,10 @@ else()
 	find_package(OpenAL REQUIRED)
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
-	find_package(Python COMPONENTS Interpreter Development REQUIRED)
+	find_package(pybind11 CONFIG REQUIRED)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -rdynamic")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -rdynamic")
 endif()
 
 add_dependencies (omnific_engine 
@@ -55,7 +58,6 @@ target_include_directories(omnific_engine PUBLIC
 	${THIRD_PARTY_DIR}/glad/include
 	${THIRD_PARTY_DIR}/glm
 	${THIRD_PARTY_DIR}/libretti/include
-	${THIRD_PARTY_DIR}/pybind11/include
 	${THIRD_PARTY_DIR}/stb_image
 	${THIRD_PARTY_DIR}/tinygltf
 	${THIRD_PARTY_DIR}/tinyobjloader
@@ -69,7 +71,7 @@ target_link_libraries (omnific_engine
 	OpenAL::OpenAL
 	SDL2::SDL2
 	SDL2_ttf::SDL2_ttf
-	Python::Python
+	pybind11::embed
 )
 
 if (${LIBRARY_TYPE} STREQUAL "SHARED")

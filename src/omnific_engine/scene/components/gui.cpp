@@ -163,7 +163,7 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 								}
 								else if (it6->first.as<std::string>() == "font")
 								{
-									std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_asset_by_type<Font>(it6->second[0].as<std::string>());
+									std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_resource_by_type<Font>(it6->second[0].as<std::string>());
 									*font = Font(font->get_name(), it6->second[1].as<int>());
 									gui_button->gui_text->font = font;
 									gui_button->gui_text->size = it6->second[1].as<int>();
@@ -260,7 +260,7 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 								}
 								else if (it6->first.as<std::string>() == "font")
 								{
-									std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_asset_by_type<Font>(it6->second[0].as<std::string>());
+									std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_resource_by_type<Font>(it6->second[0].as<std::string>());
 									*font = Font(font->get_name(), it6->second[1].as<int>());
 									gui_text->font = font;
 									gui_text->size = it6->second[1].as<int>();

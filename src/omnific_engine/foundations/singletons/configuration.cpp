@@ -39,7 +39,7 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 		configuration->performance_settings.target_input_fps = DEFAULT_TARGET_INPUT_FPS;
 		configuration->performance_settings.target_update_fps = DEFAULT_TARGET_UPDATE_FPS;
 		configuration->performance_settings.target_output_fps = DEFAULT_TARGET_OUTPUT_FPS;
-		configuration->performance_settings.compute_frame_time = 8;
+		configuration->performance_settings.compute_frame_time = DEFAULT_COMPUTE_FRAME_TIME;
 		configuration->performance_settings.enable_multithreading = true;
 
 		for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)

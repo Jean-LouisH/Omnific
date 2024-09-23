@@ -61,6 +61,10 @@ namespace Omnific
 			void (*on_output)()
 		);
 
+		void add_app_data_directory(std::string app_data_directory);
+
+		void add_app_data_directories(std::vector<std::string> app_data_directories);
+
 		void run(
 			int argc,
 			char* argv[]
@@ -74,6 +78,7 @@ namespace Omnific
 			FINALIZING
 		};
 
+		std::vector<std::string> app_data_directories;
 		State state;
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 

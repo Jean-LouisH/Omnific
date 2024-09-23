@@ -71,20 +71,9 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 							{
 								if (added_paths.count(script_filepath) == 0)
 								{
-									std::string new_path = Platform::get_file_access().get_executable_directory_path() +
-										"//" + DATA_DIRECTORY_NAME + "//" + Platform::get_file_access().get_path_before_file(script_filepath);
-#ifdef _DEBUG
-									new_path = Platform::get_file_access().get_executable_directory_path();
-#ifdef WIN32
-									std::string build_folder_name = "out\\build\\";
-#else
-									std::string build_folder_name = "out/build/";
-#endif
-									new_path = new_path.substr(0, new_path.find(build_folder_name));
-									std::string data_folder = Platform::get_file_access().get_data_directory_path();
-									data_folder = data_folder.substr(data_folder.find(DATA_DIRECTORY), data_folder.size() - 1);
-									new_path += data_folder + Platform::get_file_access().get_path_before_file(script_filepath);
-#endif
+									FileAccess& file_access = Platform::get_file_access();
+									std::string new_path = file_access.get_path_before_file(
+										file_access.find_path_among_app_data_directories(script_filepath));
 
 #ifdef WIN32
 									pybind11::str new_path_obj = pybind11::str(new_path);

@@ -70,7 +70,7 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 
 
 	this->name = filepath;
-	const std::string full_filepath = Platform::get_file_access().get_data_directory_path() + filepath;
+	const std::string full_filepath = Platform::get_file_access().find_path_among_app_data_directories(filepath);
 
 	try
 	{
@@ -315,7 +315,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 		&gltf_model,
 		&err, 
 		&warn, 
-		Platform::get_file_access().get_data_directory_path() + filepath);
+		Platform::get_file_access().find_path_among_app_data_directories(filepath));
 
 	if (!warn.empty())
 		printf("Warn: %s\n", warn.c_str());

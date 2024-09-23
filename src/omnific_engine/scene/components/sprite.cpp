@@ -38,7 +38,7 @@ void Omnific::Sprite::deserialize(YAML::Node yaml_node)
 			}
 			else
 			{
-				this->add_image(Platform::get_file_access().load_asset_by_type<Image>(it3->second.as<std::string>()));
+				this->add_image(Platform::get_file_access().load_resource_by_type<Image>(it3->second.as<std::string>()));
 			}
 
 			this->set_dimensions(this->get_image()->get_width(), this->get_image()->get_height(), 0.0);

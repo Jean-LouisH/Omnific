@@ -37,56 +37,56 @@ namespace Omnific
 	public:
 		FileAccess(std::string executable_filepath);
 		~FileAccess();
-		void set_data_directory(std::string asset_directory);
+		void set_app_data_directories(std::vector<std::string> app_data_directories);
 		std::shared_ptr<Scene> load_scene(std::string filepath);
+		std::string find_path_among_app_data_directories(std::string filepath);
 		std::string get_executable_file_path();
 		std::string get_executable_name();
 		std::string get_executable_directory_path();
-		std::string get_data_directory_path();
 		std::string get_file_name_without_extension(std::string filepath);
 		std::string get_file_extension(std::string filepath);
 		std::string get_path_before_file(std::string filepath);
 		bool exists(std::string filepath);
 
-		std::string read_string(std::string filepath, bool apply_data_directory = true);
-		std::vector<uint8_t> read_binary(std::string filepath, bool apply_data_directory = true);
-		void write_binary(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory = true);
+		std::string read_string(std::string filepath, bool apply_app_data_directory = true);
+		std::vector<uint8_t> read_binary(std::string filepath, bool apply_app_data_directory = true);
+		void write_binary(std::string filepath, std::vector<uint8_t> binary, bool apply_app_data_directory = true);
 
-		void request_asynchronous_binary_reading(std::string filepath, bool apply_data_directory = true);
-		void request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory = true);
-		bool has_binary_been_read_asynchronously(std::string filepath, bool apply_data_directory = true);
-		std::vector<uint8_t> fetch_asynchronously_read_binary(std::string filepath, bool apply_data_directory = true);
+		void request_asynchronous_binary_reading(std::string filepath, bool apply_app_data_directory = true);
+		void request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary, bool apply_app_data_directory = true);
+		bool has_binary_been_read_asynchronously(std::string filepath, bool apply_app_data_directory = true);
+		std::vector<uint8_t> fetch_asynchronously_read_binary(std::string filepath, bool apply_app_data_directory = true);
 
-		template <class DerivedAsset>
-		std::shared_ptr<DerivedAsset> load_asset_by_type(std::string filepath, bool apply_data_directory = true)
+		template <class DerivedResource>
+		std::shared_ptr<DerivedResource> load_resource_by_type(std::string filepath, bool apply_app_data_directory = true)
 		{
-			std::shared_ptr<DerivedAsset> derived_asset;
-			std::string full_filepath = this->get_filepath_with_data_directory(filepath, apply_data_directory);
+			std::shared_ptr<DerivedResource> derived_resource;
+			std::string full_filepath = this->get_filepath_with_app_data_directory(filepath, apply_app_data_directory);
 
-			if (this->assets.count(filepath) != 0)
+			if (this->resources.count(filepath) != 0)
 			{
-				derived_asset = std::dynamic_pointer_cast<DerivedAsset>(this->assets.at(filepath));
+				derived_resource = std::dynamic_pointer_cast<DerivedResource>(this->resources.at(filepath));
 			}
 			else
 			{
-				derived_asset = std::shared_ptr<DerivedAsset>(new DerivedAsset(full_filepath));
-				std::shared_ptr<Resource> asset = std::static_pointer_cast<Resource>(derived_asset);
-				if (!this->assets.count(asset->get_name()))
-					this->assets.emplace(asset->get_name(), asset);
+				derived_resource = std::shared_ptr<DerivedResource>(new DerivedResource(full_filepath));
+				std::shared_ptr<Resource> resource = std::static_pointer_cast<Resource>(derived_resource);
+				if (!this->resources.count(resource->get_name()))
+					this->resources.emplace(resource->get_name(), resource);
 			}
 
-			return derived_asset;
+			return derived_resource;
 		}
 	private:
 		std::string executable_filepath;
-		std::string data_directory;
-		std::unordered_map<std::string, std::shared_ptr<Omnific::Resource>> assets;
+		std::vector<std::string> app_data_directories;
+		std::unordered_map<std::string, std::shared_ptr<Omnific::Resource>> resources;
 
 		std::vector<std::thread*> io_threads;
 		std::unordered_map<std::string, std::vector<uint8_t>> asynchronously_loaded_binaries;
 
-		std::string get_filepath_with_data_directory(std::string filepath, bool apply_data_directory = true);
-		void read_binary_asynchronously(std::string filepath, bool apply_data_directory);
-		void write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory);
+		std::string get_filepath_with_app_data_directory(std::string filepath, bool apply_app_data_directory = true);
+		void read_binary_asynchronously(std::string filepath, bool apply_app_data_directory);
+		void write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_app_data_directory);
 	};
 }

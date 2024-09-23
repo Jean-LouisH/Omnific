@@ -36,7 +36,7 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				std::shared_ptr<AudioStream> audio_stream(Platform::get_file_access().load_asset_by_type<AudioStream>(it3->second[i].as<std::string>(), false));
+				std::shared_ptr<AudioStream> audio_stream(Platform::get_file_access().load_resource_by_type<AudioStream>(it3->second[i].as<std::string>(), false));
 				this->add_audio(audio_stream);
 			}
 		}
@@ -44,7 +44,7 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				std::shared_ptr<AudioSynthesis> audio_synthesis(Platform::get_file_access().load_asset_by_type<AudioSynthesis>(it3->second[i].as<std::string>(), false));
+				std::shared_ptr<AudioSynthesis> audio_synthesis(Platform::get_file_access().load_resource_by_type<AudioSynthesis>(it3->second[i].as<std::string>(), false));
 				this->add_audio(audio_synthesis);
 			}
 		}

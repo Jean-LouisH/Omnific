@@ -65,7 +65,7 @@ Omnific::RenderingSystem::~RenderingSystem()
 void Omnific::RenderingSystem::initialize()
 {
 	Image image = Image(
-		Platform::get_file_access().get_data_directory_path() + Configuration::get_instance()->metadata.icon_filepath);
+		Platform::get_file_access().find_path_among_app_data_directories(Configuration::get_instance()->metadata.icon_filepath));
 	Platform::get_window().change_icon(
 		image.get_data(),
 		image.get_width(),

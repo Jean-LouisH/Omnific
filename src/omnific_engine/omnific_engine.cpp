@@ -56,6 +56,20 @@ void Omnific::Engine::set_callback_functions(
 	this->application_callback_functions.on_output = on_output;
 }
 
+void Omnific::Engine::add_app_data_directory(std::string app_data_directory)
+{
+	this->app_data_directories.push_back(app_data_directory);
+}
+
+void Omnific::Engine::add_app_data_directories(std::vector<std::string> app_data_directories)
+{
+	this->app_data_directories.insert(
+		this->app_data_directories.end(), 
+		app_data_directories.begin(), 
+		app_data_directories.end()
+	);
+}
+
 
 void Omnific::Engine::run(
 	int argc,
@@ -164,7 +178,7 @@ void Omnific::Engine::initialize()
 	logger.write("Retrieved OS Name: \"" + Platform::get_platform_name() + "\"");
 	logger.write("Retrieved System RAM: " + std::to_string(Platform::get_system_ram()) + " MB");
 
-	std::string data_directory = DATA_DIRECTORY;
+	std::string app_data_directory = DEFAULT_APP_DATA_DIRECTORY;
 
 #ifdef _DEBUG
 	while (true)
@@ -186,12 +200,12 @@ void Omnific::Engine::initialize()
 		}
 		else if (input_string == "1")
 		{
-			data_directory = DEBUG_DEMO_ASSETS_DIRECTORY;
+			app_data_directory = DEFAULT_DEBUG_DEMO_DATA_DIRECTORY;
 			break;
 		}
 		else if (input_string == "2")
 		{
-			data_directory = DEBUG_STUDIO_ASSETS_DIRECTORY;
+			app_data_directory = DEFAULT_DEBUG_STUDIO_DATA_DIRECTORY;
 			break;
 		}
 		else
@@ -200,14 +214,14 @@ void Omnific::Engine::initialize()
 		}
 	}
 #endif
-	std::string boot_filepath = data_directory + BOOT_FILE_NAME;
 	FileAccess& file_access = Platform::get_file_access();
+	this->app_data_directories.push_back(app_data_directory);
+	file_access.set_app_data_directories(app_data_directories);
+
+	std::string boot_filepath = file_access.find_path_among_app_data_directories(BOOT_FILE_NAME);
 
 	if (file_access.exists(boot_filepath))
-	{
 		Configuration::load_from_file(boot_filepath);
-		Platform::get_file_access().set_data_directory(data_directory);
-	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
 	std::cout << "\n\nPress '`' in-application to write to command line via console.";
@@ -219,7 +233,7 @@ void Omnific::Engine::initialize()
 		Window& window = Platform::get_window();
 		window.resize(Configuration::get_instance()->window_settings.width, Configuration::get_instance()->window_settings.height);
 		window.change_title(Configuration::get_instance()->metadata.title.c_str());
-		logger.write("Loaded application project \"" + Configuration::get_instance()->metadata.title + "\" at: " + data_directory);
+		logger.write("Loaded application project \"" + Configuration::get_instance()->metadata.title + "\" at: " + app_data_directory);
 	}
 	else
 	{
@@ -268,7 +282,8 @@ void Omnific::Engine::run_loop()
 		FileAccess& file_access = Platform::get_file_access();
 		std::string entry_scene_filepath = configuration->metadata.entry_scene_filepath;
 
-		if (file_access.exists(file_access.get_data_directory_path() + entry_scene_filepath))
+		std::string app_data_entry_scene_filepath = file_access.find_path_among_app_data_directories(entry_scene_filepath);
+		if (app_data_entry_scene_filepath != "")
 			SceneStorage::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
 
 		this->state = State::RUNNING;
