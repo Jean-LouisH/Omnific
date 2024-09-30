@@ -15,7 +15,7 @@ add_dependencies(omnific_studio
 )
 
 target_include_directories(omnific_studio PRIVATE
-		../omnific_engine
+		../engine
 		.
 )
 

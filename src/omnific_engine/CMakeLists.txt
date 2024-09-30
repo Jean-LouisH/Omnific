@@ -24,7 +24,7 @@ add_library(omnific_engine ${LIBRARY_TYPE}
 	  ${omnific_engine_sources}
 	  ${omnific_engine_headers})
 
-set(THIRD_PARTY_DIR "../../thirdparty")
+set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/thirdparty)
 
 set(THIRD_PARTY_PROJECTS
 	glad
@@ -74,21 +74,21 @@ target_link_libraries (omnific_engine
 	pybind11::embed
 )
 
-if (${LIBRARY_TYPE} STREQUAL "SHARED")
-	add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
-endif ()
-add_definitions(-D_OMNIFIC_ENGINE_EXPORTS_BUILD)
-add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS)
-add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS_BUILD)
-
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 add_definitions(-D_DEBUG)
 endif()
 
-add_custom_command(TARGET omnific_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_demos/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
-)
+if (${LIBRARY_TYPE} STREQUAL "SHARED")
+	add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
 
-add_custom_command(TARGET omnific_engine POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_studio/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
-)
+	add_custom_command(TARGET omnific_engine POST_BUILD
+    	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_demos/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
+	)
+
+	add_custom_command(TARGET omnific_engine POST_BUILD
+    	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_studio/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
+	)
+endif ()
+add_definitions(-D_OMNIFIC_ENGINE_EXPORTS_BUILD)
+add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS)
+add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS_BUILD)
