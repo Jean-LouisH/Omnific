@@ -77,7 +77,6 @@ void Omnific::Engine::run(
 {
 	Platform::initialize(argc, argv);
 	Logger& logger = Platform::get_logger();
-	ClassRegistry::initialize();
 
 	/* These timers persist throughout Engine runtime and
 		keep track of elapsed times in nanoseconds. */
@@ -159,18 +158,6 @@ void Omnific::Engine::initialize()
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
 
-	logger.write("Loading Systems from ClassRegistry...");
-
-	/* Load Systems from the ClassRegistry */
-	for (auto it : ClassRegistry::query_all<System>())
-	{
-		std::shared_ptr<System> system = std::dynamic_pointer_cast<System>(it.second);
-
-		this->systems.emplace(
-			it.first,
-			std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(system->instance())));
-	}
-
 	logger.write("Querying Platform...");
 
 	logger.write("Retrieved Logical Core Count: " + std::to_string(Platform::get_logical_core_count()));
@@ -222,6 +209,19 @@ void Omnific::Engine::initialize()
 
 	if (file_access.exists(boot_filepath))
 		Configuration::load_from_file(boot_filepath);
+
+	ClassRegistry::initialize();
+	logger.write("Loading Systems from ClassRegistry...");
+
+	/* Load Systems from the ClassRegistry */
+	for (auto it : ClassRegistry::query_all<System>())
+	{
+		std::shared_ptr<System> system = std::dynamic_pointer_cast<System>(it.second);
+
+		this->systems.emplace(
+			it.first,
+			std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(system->instance())));
+	}
 
 #ifdef DEBUG_CONSOLE_ENABLED
 	std::cout << "\n\nPress '`' in-application to write to command line via console.";
@@ -398,4 +398,6 @@ void Omnific::Engine::finalize()
 {
 	SceneStorage::clear_scenes();
 	ThreadPool::finalize();
+	ClassRegistry::finalize();
+	this->systems.clear();
 }

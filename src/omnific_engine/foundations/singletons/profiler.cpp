@@ -33,7 +33,6 @@ void Omnific::Profiler::add_clock(std::string clock_name, bool is_removable)
 	clock->set_start();
 	instance->clocks.emplace(clock_name, clock);
 	instance->is_removable_map.emplace(clock_name, is_removable);
-	Platform::get_logger().write("Added HiResTimer to Profiler: \"" + clock_name + "\"");
 }
 
 void Omnific::Profiler::remove_clock(std::string clock_name)
@@ -79,11 +78,6 @@ void Omnific::Profiler::decrement_lag_count(uint64_t delta_time_ms)
 uint64_t Omnific::Profiler::get_lag_count()
 {
 	return Profiler::get_instance()->lag;
-}
-
-uint16_t Omnific::Profiler::get_fps()
-{
-	return (1.0 / (Profiler::get_instance()->get_clock("frame")->get_delta_in_seconds()));
 }
 
 Omnific::Profiler* Omnific::Profiler::get_instance()

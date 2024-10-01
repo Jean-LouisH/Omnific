@@ -58,6 +58,11 @@ namespace Omnific
 			bool enable_multithreading;
 		} performance_settings;
 
+		struct EnabledSystems
+		{
+			bool python_system;
+		} enabled_systems;
+
 		//Status
 		bool is_loaded = false;
 

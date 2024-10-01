@@ -44,7 +44,6 @@ namespace Omnific
 		static void decrement_lag_count(uint64_t delta_time);
 		/* In milliseconds */
 		static uint64_t get_lag_count();
-		static uint16_t get_fps();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Clock>> clocks;
 		std::unordered_map<std::string, bool> is_removable_map;

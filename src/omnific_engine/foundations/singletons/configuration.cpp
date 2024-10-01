@@ -42,6 +42,8 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 		configuration->performance_settings.compute_frame_time = DEFAULT_COMPUTE_FRAME_TIME;
 		configuration->performance_settings.enable_multithreading = true;
 
+		configuration->enabled_systems.python_system = true;
+
 		for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
 		{
 			if (it0->first.as<std::string>() == "metadata")
@@ -119,6 +121,16 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 					else if (it1->first.as<std::string>() == "enable_multithreading")
 					{
 						configuration->performance_settings.enable_multithreading = it1->second.as<bool>();
+					}
+				}
+			}
+			else if (it0->first.as<std::string>() == "enabled_systems")
+			{
+				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
+				{
+					if (it1->first.as<std::string>() == "python_system")
+					{
+						configuration->enabled_systems.python_system = it1->second.as<bool>();
 					}
 				}
 			}

@@ -102,8 +102,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	pybind11::class_<Omnific::Profiler>(m, "Profiler")
 		.def("add_timer", &Omnific::Profiler::add_clock)
-		.def("get_timer", &Omnific::Profiler::get_clock)
-		.def("get_fps", &Omnific::Profiler::get_fps);
+		.def("get_timer", &Omnific::Profiler::get_clock);
 
 	pybind11::class_<Omnific::ThreadPool>(m, "ThreadPool");
 

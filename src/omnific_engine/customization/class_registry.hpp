@@ -26,6 +26,7 @@
 #include <unordered_map>
 #include "foundations/registerable.hpp"
 #include <foundations/singletons/platform/platform.hpp>
+#include <foundations/singletons/configuration.hpp>
 
 /// Include custom class headers here
 ////////////////////////////////////////////////////
@@ -73,6 +74,7 @@ namespace Omnific
 		static void add_class_definitions()
 		{
 			Platform::get_logger().write("Loading class definitions to ClassRegistry...");
+			Configuration* configuration = Configuration::get_instance();
 			ClassRegistry* registry = get_instance();
 
 			// Add custom classes here.
@@ -104,8 +106,10 @@ namespace Omnific
 			registry->add<GUISystem, System>();
 			registry->add<HapticSystem, System>();
 			registry->add<PhysicsSystem, System>();
-			registry->add<PythonScriptingSystem, System>();
+			if (configuration->enabled_systems.python_system)
+				registry->add<PythonScriptingSystem, System>();
 			registry->add<RenderingSystem, System>();
+
 
 			////////////////////////////////////////////
 		};

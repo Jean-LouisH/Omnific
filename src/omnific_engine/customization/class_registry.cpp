@@ -31,7 +31,7 @@ void Omnific::ClassRegistry::initialize()
 
 void Omnific::ClassRegistry::finalize()
 {
-
+	get_instance()->classes.clear();
 }
 
 Omnific::ClassRegistry* Omnific::ClassRegistry::get_instance()
