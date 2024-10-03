@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 
-#include "omnific_engine.hpp"
+#include "engine.hpp"
 #include "omnific_demos.hpp"
 
 #undef main
