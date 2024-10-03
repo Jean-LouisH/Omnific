@@ -45,6 +45,7 @@ else()
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
 	find_package(pybind11 CONFIG REQUIRED)
+	find_package(Python 3.11 EXACT COMPONENTS Interpreter Development)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -rdynamic")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -rdynamic")
@@ -71,7 +72,8 @@ target_link_libraries (omnific_engine
 	OpenAL::OpenAL
 	SDL2::SDL2
 	SDL2_ttf::SDL2_ttf
-	pybind11::embed
+	pybind11::headers
+	Python::Python
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
