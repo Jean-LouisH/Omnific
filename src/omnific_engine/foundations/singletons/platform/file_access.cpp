@@ -25,10 +25,12 @@
 #include <fstream>
 #include <algorithm>
 #include <foundations/singletons/platform/platform.hpp>
+#include <foundations/singletons/platform/logger.hpp>
 
 Omnific::FileAccess::FileAccess(std::string executable_filepath)
 {
 	this->executable_filepath = executable_filepath;
+	Platform::get_logger().write("Executable filepath: " + executable_filepath);
 }
 
 Omnific::FileAccess::~FileAccess()

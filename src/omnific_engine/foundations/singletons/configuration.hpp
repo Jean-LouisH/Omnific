@@ -60,7 +60,14 @@ namespace Omnific
 
 		struct EnabledSystems
 		{
-			bool python_system;
+			bool animation_system;
+			bool audio_system;
+			bool cpp_scripting_system;
+			bool gui_system;
+			bool haptic_system;
+			bool physics_system;
+			bool python_scripting_system;
+			bool rendering_system;
 		} enabled_systems;
 
 		//Status

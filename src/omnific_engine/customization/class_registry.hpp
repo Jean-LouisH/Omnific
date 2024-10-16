@@ -100,15 +100,22 @@ namespace Omnific
 			registry->add<Transform, Component>();
 			registry->add<Viewport, Component>();
 
-			registry->add<AnimationSystem, System>();
-			registry->add<AudioSystem, System>();
-			registry->add<CPPScriptingSystem, System>();
-			registry->add<GUISystem, System>();
-			registry->add<HapticSystem, System>();
-			registry->add<PhysicsSystem, System>();
-			if (configuration->enabled_systems.python_system)
+			if (configuration->enabled_systems.animation_system)
+				registry->add<AnimationSystem, System>();
+			if (configuration->enabled_systems.audio_system)
+				registry->add<AudioSystem, System>();
+			if (configuration->enabled_systems.cpp_scripting_system)
+				registry->add<CPPScriptingSystem, System>();
+			if (configuration->enabled_systems.gui_system)
+				registry->add<GUISystem, System>();
+			if (configuration->enabled_systems.haptic_system)
+				registry->add<HapticSystem, System>();
+			if (configuration->enabled_systems.physics_system)
+				registry->add<PhysicsSystem, System>();
+			if (configuration->enabled_systems.python_scripting_system)
 				registry->add<PythonScriptingSystem, System>();
-			registry->add<RenderingSystem, System>();
+			if (configuration->enabled_systems.rendering_system)
+				registry->add<RenderingSystem, System>();
 
 
 			////////////////////////////////////////////

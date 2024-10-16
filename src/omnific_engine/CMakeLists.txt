@@ -4,23 +4,14 @@ file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
 file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
 
 if (WIN32)
-   set(STATIC_LIBRARY_EXTENSION "lib")
-   set(SHARED_LIBRARY_EXTENSION "dll")
-   set(LIBRARY_PREFIX "")
    add_definitions(/bigobj)
-else()
-	set(STATIC_LIBRARY_EXTENSION "a")
-	set(SHARED_LIBRARY_EXTENSION "so")
-	set(LIBRARY_PREFIX "lib")
 endif()
 
 if (__EMSCRIPTEN__)
 	add_definitions(-D_WEB_PLATFORM)
 endif()
 
-set (LIBRARY_TYPE "STATIC")
-
-add_library(omnific_engine ${LIBRARY_TYPE}
+add_library(omnific_engine STATIC
 	  ${omnific_engine_sources}
 	  ${omnific_engine_headers})
 
@@ -44,11 +35,8 @@ else()
 	find_package(OpenAL REQUIRED)
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
+	find_package(Python COMPONENTS Interpreter Development REQUIRED)
 	find_package(pybind11 CONFIG REQUIRED)
-	find_package(Python 3.11 EXACT COMPONENTS Interpreter Development)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -rdynamic")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -rdynamic")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -rdynamic")
 endif()
 
 add_dependencies (omnific_engine 
@@ -67,30 +55,27 @@ target_include_directories(omnific_engine PUBLIC
 	.
 )
 
+if (WIN32)
+	set (SDL2_TTF_MODULE "SDL2_ttf::SDL2_ttf")
+else ()
+	set (SDL2_TTF_MODULE "SDL2_ttf::SDL2_ttf-static")
+endif ()
+
 target_link_libraries (omnific_engine 
 	${THIRD_PARTY_PROJECTS}
 	OpenAL::OpenAL
 	SDL2::SDL2
-	SDL2_ttf::SDL2_ttf
-	pybind11::headers
+	${SDL2_TTF_MODULE}
 	Python::Python
+	pybind11::headers
 )
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 add_definitions(-D_DEBUG)
 endif()
 
-if (${LIBRARY_TYPE} STREQUAL "SHARED")
-	add_definitions(-D_OMNIFIC_ENGINE_EXPORTS)
+set (PYTHON_VERSION_CACHED "${Python_VERSION}" CACHE INTERNAL "")
 
-	add_custom_command(TARGET omnific_engine POST_BUILD
-    	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_demos/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
-	)
-
-	add_custom_command(TARGET omnific_engine POST_BUILD
-    	COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:omnific_engine> ${PROJECT_BINARY_DIR}/src/omnific_studio/omnific_engine.${SHARED_LIBRARY_EXTENSION} 
-	)
-endif ()
 add_definitions(-D_OMNIFIC_ENGINE_EXPORTS_BUILD)
 add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS)
 add_definitions(-D_OMNIFIC_APPLICATION_EXPORTS_BUILD)

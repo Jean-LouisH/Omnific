@@ -42,7 +42,14 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 		configuration->performance_settings.compute_frame_time = DEFAULT_COMPUTE_FRAME_TIME;
 		configuration->performance_settings.enable_multithreading = true;
 
-		configuration->enabled_systems.python_system = true;
+		configuration->enabled_systems.animation_system = true;
+		configuration->enabled_systems.audio_system = true;
+		configuration->enabled_systems.cpp_scripting_system = true;
+		configuration->enabled_systems.gui_system = true;
+		configuration->enabled_systems.haptic_system = true;
+		configuration->enabled_systems.physics_system = true;
+		configuration->enabled_systems.python_scripting_system = true;
+		configuration->enabled_systems.rendering_system = true;
 
 		for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
 		{
@@ -128,9 +135,37 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 			{
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
-					if (it1->first.as<std::string>() == "python_system")
+					if (it1->first.as<std::string>() == "animation_system")
 					{
-						configuration->enabled_systems.python_system = it1->second.as<bool>();
+						configuration->enabled_systems.animation_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "audio_system")
+					{
+						configuration->enabled_systems.audio_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "cpp_scripting_system")
+					{
+						configuration->enabled_systems.cpp_scripting_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "gui_system")
+					{
+						configuration->enabled_systems.gui_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "haptic_system")
+					{
+						configuration->enabled_systems.haptic_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "physics_system")
+					{
+						configuration->enabled_systems.physics_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "python_scripting_system")
+					{
+						configuration->enabled_systems.python_scripting_system = it1->second.as<bool>();
+					}
+					else if (it1->first.as<std::string>() == "rendering_system")
+					{
+						configuration->enabled_systems.rendering_system = it1->second.as<bool>();
 					}
 				}
 			}

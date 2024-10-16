@@ -36,6 +36,19 @@ void Omnific::PythonScriptingSystem::initialize()
 	Logger& logger = Platform::get_logger();
 	logger.write("Initializing Python Scripting System...");
 	pybind11::initialize_interpreter();
+	pybind11::module_ sys = pybind11::module_::import("sys");
+	pybind11::object path = sys.attr("path");
+	pybind11::object version_info = sys.attr("version_info");
+	pybind11::str version_info_major = pybind11::str(version_info.attr("major"));
+	pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
+	std::string python_module_path = "python";
+	std::string python_module_zip_path = python_module_path + ".zip";
+	std::string python_module_libdynload_path = python_module_path + "/lib-dynload";
+	std::string python_module_distpackages_path = python_module_path + "/dist-packages";
+	path.attr("insert")(0, python_module_zip_path);
+	path.attr("insert")(0, python_module_path);
+	path.attr("insert")(0, python_module_libdynload_path);
+	path.attr("insert")(0, python_module_distpackages_path);
 	this->is_vmstarted = true;
 }
 
@@ -55,6 +68,9 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 
 			pybind11::module_ sys = pybind11::module_::import("sys");
 			pybind11::object path = sys.attr("path");
+			pybind11::object version_info = sys.attr("version_info");
+			pybind11::str version_info_major = pybind11::str(version_info.attr("major"));
+			pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
 			std::set<std::string> added_paths;
 
 			for (const auto scene_layer_it : PythonEntityContext::get_scene()->get_scene_layers())
@@ -74,14 +90,12 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 									FileAccess& file_access = Platform::get_file_access();
 									std::string new_path = file_access.get_path_before_file(
 										file_access.find_path_among_app_data_directories(script_filepath));
-
 #ifdef WIN32
 									pybind11::str new_path_obj = pybind11::str(new_path);
 									new_path_obj = new_path_obj.attr("replace")("//", "/");
 									new_path_obj = new_path_obj.attr("replace")("/", "\\");
 									new_path = new_path_obj.cast<std::string>();
 #endif
-
 									path.attr("insert")(0, new_path);
 									added_paths.emplace(new_path);
 								}
