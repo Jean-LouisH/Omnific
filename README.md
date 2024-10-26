@@ -3,7 +3,7 @@
 ![Intro Screenshot](docs/images/cover.png)
 _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-falls-ontario-canada-1799ed0c63394570beed917b99807915) stored in a Model Component in a Scene and rendered in Omnific's RenderingSystem with a basic phong Shader. The white cube contains a Light Component and is rendered with a separate unlit Shader._
 
-[Omnific](https://github.com/Jean-LouisH/Omnific) is a game engine I'm developing for fun, study and technical demonstrations. It doubles as an interactive software framework. It is designed to be customizable, general purpose, data-driven, and lightweight.
+[Omnific](https://github.com/Jean-LouisH/Omnific) is a game engine I'm developing for fun, study and technical demonstrations. It: doubles as an interactive software framework; is designed to be customizable, general purpose, data-driven, and lightweight; and builds to Windows, Linux and Web platforms.
 
 # Table of Contents
 
@@ -74,26 +74,14 @@ Systems process Scenes by events in the Engine loops. These include "onInput", "
 
 This summarizes how the Engine operates. Users can also extend it through the ClassRegistry header where their own custom Components or Systems can be made and instantiated in the ClassRegistry.addDefinitions() method.
 
-
-# Dependencies
-
-- [Embeddable Python 3.7](https://www.python.org/downloads/release/python-370/)
-- [GLAD](https://glad.dav1d.de/)
-- [OpenGL Mathematics](https://github.com/g-truc/glm)
-- [Pybind11](https://github.com/pybind/pybind11)
-- [SDL2](https://www.libsdl.org/)
-- [SDL2_mixer](https://www.libsdl.org/projects/SDL_mixer/)
-- [STB Image](https://github.com/nothings/stb)
-- [TinyGLTF](https://github.com/syoyo/tinygltf)
-- [YAML-CPP](https://github.com/jbeder/yaml-cpp)
-
 # Compilation Instructions
 
-* Get the dependency libraries listed above.
-* To be able to install third-party packages in Embeddable Python 3.7, uncomment the last line in python37._pth. Then download [get-pip.py](https://bootstrap.pypa.io/get-pip.py), place it in the embeddable python folder, and run `> python get-pip.py`. Install packages to the embeddable folder with `> python -m pip install package-name`.
-* Include this source directory in CMake to generate a project from the top level CMakeLists.txt. 
-* Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want. 
-* Use your C++ IDE or compiler of choice to build Omnific and Tests from the project.
+* Git clone and install [Vcpkg](https://vcpkg.io/en/). Assign the path to the environment variable "VCPKG_ROOT".
+* Git clone and install [Emscripten SDK](https://github.com/emscripten-core/emsdk). Assign the path to the environment variable "EMSDK_ROOT".
+* Include this source directory in CMake to generate a project from the top level CMakeLists.txt.
+* Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want.
+* Use your C++ IDE or compiler of choice to build Omnific from the project.
+* To be able to install third-party packages in the embedded Python build, uncomment the last line in python*._pth. Then download [get-pip.py](https://bootstrap.pypa.io/get-pip.py), place it in the embeddable python folder, and run `> python get-pip.py`. Install packages to the embeddable folder with `> python -m pip install package-name`.
 
 # Manual
 
