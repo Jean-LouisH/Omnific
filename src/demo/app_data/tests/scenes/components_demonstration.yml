@@ -1,0 +1,82 @@
+# Components Demonstration
+
+SceneLayer:
+  name: "Background SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "Background Image"
+    Transform: default
+    Sprite:
+      image: "Image::#44444444"
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 1]
+    Camera: "default"
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"
+SceneLayer:
+  name: "Foreground SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "GlobalShaderEntity"
+    Transform: default
+    Model:
+      overriding_shader:
+        fragment: "tests/shaders/unlit.glsl"
+  Entity:
+    name: "ScriptableShaderEntity"
+    Transform: default
+    Model:
+      overriding_shader:
+        fragment: "tests/shaders/unlit_and_coloured.glsl"
+    ScriptCollection:
+      Python: ["tests/scripts/python/rainbow.py"]
+  Entity:
+    name: "Model"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [-5.0, 0.0, 0.0]
+  SubSceneLayer:
+    name: ["tests/models/suzanne.glb", ""]
+    parent: "Model"
+  Entity:
+    name: "Model + PhysicsBody"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [0.0, 0.0, 0.0]
+    PhysicsBody:
+      drag_ratio: [0.001, 0.001, 0.001]
+  SubSceneLayer:
+    name: ["tests/models/suzanne.glb", ""]
+    parent: "Model + PhysicsBody"
+  Entity:
+    name: "Model + PhysicsBody + ScriptCollection"
+    parent: "ScriptableShaderEntity"
+    Transform:
+      translation: [5.0, 0.0, 0.0]
+    PhysicsBody:
+      drag_ratio: [0.001, 0.001, 0.001]
+    ScriptCollection:
+      Python: ["tests/scripts/python/x_vibration.py"]
+  SubSceneLayer:
+    name: ["tests/models/suzanne.glb", ""]
+    parent: "Model + PhysicsBody + ScriptCollection"
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, -2, 10]
+    Camera:
+      wireframe_mode: true
+    ScriptCollection:
+      Python: ["tests/scripts/python/camera_control.py"]
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"
+  Entity:
+    name: "DemoUtilityScripts"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

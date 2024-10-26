@@ -1,0 +1,22 @@
+SceneLayer:
+  name: "main"
+  spatial_dimension: 3
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 2]
+    Camera: "default"
+  Entity:
+    name: "Text"
+    Transform:
+      translation: [0, 0, 0]
+    GUI: 
+      text: "Time: "
+      font: ["assets/fonts/Lato-Regular.ttf", 90]
+      colour: [0, 0, 255, 255]
+    ScriptCollection: 
+      Python: ["assets/scripts/python/debug_time_display.py", "assets/scripts/python/debug_escape_to_splash_screen.py", "assets/scripts/python/debug_input_logging.py"]
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"

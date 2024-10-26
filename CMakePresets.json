@@ -2,7 +2,7 @@
     "version": 3,
     "configurePresets": [
         {
-            "name": "all-base",
+            "name": "all-binary-base",
             "hidden": true,
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
@@ -15,7 +15,7 @@
         {
             "name": "windows-base",
             "hidden": true,
-            "inherits": "all-base",
+            "inherits": "all-binary-base",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "cl.exe",
                 "CMAKE_CXX_COMPILER": "cl.exe"
@@ -49,7 +49,7 @@
         {
             "name": "linux-base",
             "hidden": true,
-            "inherits": "all-base",
+            "inherits": "all-binary-base",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",
                 "CMAKE_CXX_COMPILER": "/usr/bin/g++"
@@ -76,6 +76,50 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
+        },
+        {
+            "name": "emscripten-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_TOOLCHAIN_FILE": "$env{EMSDK_ROOT}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+            },
+            "environment": {
+                "EMSDK": "$env{EMSDK_ROOT}",
+                "EM_CONFIG": "$env{EMSDK_ROOT}/.emscripten"
+            }
+        },
+        {
+            "name": "emscripten-debug",
+            "displayName": "Emscripten Debug",
+            "inherits": "emscripten-base",
+            "description": "Build with Emscripten for WebAssembly (Debug)",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "emscripten-release",
+            "displayName": "Emscripten Release",
+            "description": "Build with Emscripten for WebAssembly (Release)",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-emscripten-debug",
+            "configurePreset": "emscripten-debug",
+            "description": "Build for Emscripten Debug"
+        },
+        {
+            "name": "build-emscripten-release",
+            "configurePreset": "emscripten-release",
+            "description": "Build for Emscripten Release"
         }
     ]
 }

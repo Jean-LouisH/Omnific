@@ -1,0 +1,43 @@
+# Components Demonstration
+
+SceneLayer:
+  name: "Foreground SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "GlobalShaderEntity"
+    Transform: default
+    Model:
+      overriding_shader:
+        fragment: "tests/shaders/unlit.glsl"
+  Entity:
+    name: "Model1"
+    parent: "GlobalShaderEntity"
+    Transform:
+      translation: [0.0, 0.0, 0.0]
+    ScriptCollection:
+      Python: ["tests/scripts/python/z_rotation.py"]
+    Model:
+      mesh: "Mesh::cube"
+  Entity:
+    name: "Model2"
+    parent: "Model1"
+    Transform:
+      translation: [0.0, -1.0, 0.0]
+    Model:
+      mesh: "Mesh::cube"
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, -2, 10]
+    Camera:
+      wireframe_mode: true
+    ScriptCollection:
+      Python: ["tests/scripts/python/camera_control.py"]
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"
+  Entity:
+    name: "DemoUtilityScripts"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
