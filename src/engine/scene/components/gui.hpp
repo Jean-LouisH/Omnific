@@ -42,7 +42,7 @@ namespace Omnific
 			this->name = "GUIElement ID: " + std::to_string(UIDGenerator::get_new_uid());
 			this->gui_element_type = TYPE_STRING;
 			this->image = std::shared_ptr<Image>(new Image());
-			this->background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
+			this->target_background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
 			this->dimensions = glm::vec2(0.0);
 			this->position = glm::vec2(0.0);
 		}
@@ -71,29 +71,18 @@ namespace Omnific
 		glm::vec2 position;
 		glm::vec2 dimensions;
 		std::shared_ptr<Image> image;
-		std::shared_ptr<Colour> background_colour;
-	};
-
-	class OMNIFIC_ENGINE_API GUIWidget : public GUIElement
-	{
-	public:
-		static constexpr const char* TYPE_STRING = "GUIWidget";
-		GUIWidget()
-		{
-			this->background_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
-			this->gui_element_type = TYPE_STRING;
-		}
-
-		virtual ~GUIWidget() = default;
-
+		std::shared_ptr<Colour> target_background_colour;
+		bool is_hidden = false;
 		bool is_clickable = false;
 		bool is_highlightable = false;
 		bool is_anchored = false;
 		bool is_xstretched_to_panel = false;
 		bool is_ystretched_to_panel = false;
+
+		std::shared_ptr<Image> get_image();
 	};
 
-	class OMNIFIC_ENGINE_API GUIImage : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIImage : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIImage";
@@ -103,7 +92,7 @@ namespace Omnific
 		};
 	};
 
-	class OMNIFIC_ENGINE_API GUIColour : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIColour : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIColour";
@@ -111,52 +100,45 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 		std::shared_ptr<Colour> colour;
 
 		void update_image();
 	};
 
-	class OMNIFIC_ENGINE_API GUIText : public GUIWidget
+	class OMNIFIC_ENGINE_API GUILabel : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIText";
-		GUIText()
+		GUILabel()
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
-		void set_text(std::string text);
-		void set_font(std::shared_ptr<Omnific::Font> font, uint16_t size_px);
-		void set_font_size(uint16_t size_px);
-		void set_colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
-
 		std::string text;
-		std::shared_ptr<Omnific::Font> font;
-		uint16_t size = 0;
+		std::shared_ptr<Font> font;
 		uint16_t wrap_length = 500;
 		std::shared_ptr<Colour> colour;
 		bool is_edittable = false;
 
+		void set_text(std::string text);
+		void set_font(std::shared_ptr<Font> font);
+		void set_colour(std::shared_ptr<Colour> colour);
 		void update_image();
 	};
 
-	class OMNIFIC_ENGINE_API GUIButton : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIButton : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIButton";
 		GUIButton()
 		{
 			this->gui_element_type = TYPE_STRING;
-			this->gui_text = std::shared_ptr<GUIText>(new GUIText());
+			this->gui_text = std::shared_ptr<GUILabel>(new GUILabel());
 			this->button_space_from_text = glm::vec2(5.0);
 		};
-
-		std::shared_ptr<GUIText> gui_text;
+		std::shared_ptr<GUILabel> gui_text;
 		glm::vec2 button_space_from_text;
 
 		void update_image();
-
 	};
 
 	class OMNIFIC_ENGINE_API GUIToggleButton : public GUIButton
@@ -167,10 +149,9 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 	};
 
-	class OMNIFIC_ENGINE_API GUIList : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIList : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIListBox";
@@ -178,11 +159,11 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 		std::vector<GUIButton> list_items;
+		uint64_t current_item_index = 0;
 	};
 
-	class OMNIFIC_ENGINE_API GUITree : public GUIWidget
+	class OMNIFIC_ENGINE_API GUITree : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUITree";
@@ -190,7 +171,6 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 		std::unordered_map<std::string, GUIButton> items;
 		std::unordered_map<std::string, std::vector<std::string>> item_hierarchy;
 	};
@@ -203,10 +183,9 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 	};
 
-	class OMNIFIC_ENGINE_API GUIMenuBar : public GUIWidget
+	class OMNIFIC_ENGINE_API GUIMenuBar : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUIMenuBar";
@@ -214,7 +193,6 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 		std::unordered_map<std::string, GUIContextMenu> menus;
 
 	};
@@ -247,11 +225,9 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
-		uint64_t current_item_index = 0;
 	};
 
-	class OMNIFIC_ENGINE_API GUISlider : public GUIWidget
+	class OMNIFIC_ENGINE_API GUISlider : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUISlider";
@@ -267,10 +243,10 @@ namespace Omnific
 		bool is_progress_bar = false;
 		bool is_displaying_spinner = false;
 		std::string units_string;
-		GUISpinner gui_spinner;
+		std::shared_ptr<GUISpinner> gui_spinner;
 	};
 
-	class OMNIFIC_ENGINE_API GUILine : public GUIWidget
+	class OMNIFIC_ENGINE_API GUILine : public GUIElement
 	{
 	public:
 		static constexpr const char* TYPE_STRING = "GUILine";
@@ -278,7 +254,6 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-
 		glm::vec2 start_point;
 		glm::vec2 end_point;
 	};
@@ -291,31 +266,32 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		uint64_t current_item_index = 0;
 	};
 
 	class OMNIFIC_ENGINE_API GUIPanel : public GUIElement
 	{
+		friend class GUI;
+		friend class GUISystem;
 	public:
 		static constexpr const char* TYPE_STRING = "GUIPanel";
 
 		GUIPanel()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->target_scrollbar_colour = std::shared_ptr<Colour>(new Colour("#222222"));
+			this->target_scrollbar_thumb_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
+			this->target_scrollbar_arrow_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
 			this->scrollbar_thickness = 5;
-			this->scrollbar_colour = std::shared_ptr<Colour>(new Colour("#222222"));
-			this->scrollbar_thumb_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
-			this->scrollbar_arrow_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
 		}
 
+		void add_gui_element(std::shared_ptr<GUIElement> gui_element);
+	private:
 		std::string name;
-		std::unordered_map<UID, std::shared_ptr<GUIWidget>> widgets;
-		std::shared_ptr<Colour> scrollbar_colour;
-		std::shared_ptr<Colour> scrollbar_thumb_colour;
-		std::shared_ptr<Colour> scrollbar_arrow_colour;
-		std::shared_ptr<Image> scrollbar_arrow_image;
-		std::shared_ptr<Image> scrollbar_image;
-		std::shared_ptr<Image> vertical_scrollbar_thumb_image;
-		std::shared_ptr<Image> horizontal_scrollbar_thumb_image;
+		std::vector<std::shared_ptr<GUIElement>> gui_elements;
+		std::shared_ptr<Colour> target_scrollbar_colour;
+		std::shared_ptr<Colour> target_scrollbar_thumb_colour;
+		std::shared_ptr<Colour> target_scrollbar_arrow_colour;
 		uint32_t scrollbar_thickness;
 
 		/* Denoted in the image pixel position of the top view of the panel
@@ -323,24 +299,11 @@ namespace Omnific
 		uint32_t vertical_slider_position = 0;
 		uint32_t horizontal_slider_position = 0;
 
-		void update_image();
-	};
-
-	class OMNIFIC_ENGINE_API GUIPanelTabGroup : public GUIElement
-	{
-	public:
-		static constexpr const char* TYPE_STRING = "GUIPanelTabGroup";
-
-		GUIPanelTabGroup()
-		{
-			this->gui_element_type = TYPE_STRING;
-		}
-
-		std::string name;
-		std::unordered_map<std::string, std::shared_ptr<GUIPanel>> gui_panels;
-		std::string active_gui_panel_name;
-		std::shared_ptr<Colour> highlighted_tab_colour;
-
+		std::shared_ptr<Image> scrollbar_arrow_image;
+		std::shared_ptr<Image> scrollbar_image;
+		std::shared_ptr<Image> vertical_scrollbar_thumb_image;
+		std::shared_ptr<Image> horizontal_scrollbar_thumb_image;
+	
 		void update_image();
 	};
 
@@ -361,17 +324,20 @@ namespace Omnific
 			return clone;
 		}
 
+		virtual void deserialize(YAML::Node yaml_node);
+		void set_as_text(std::string text);
+
+		std::shared_ptr<GUIElement> get_element(std::string gui_element_name);
+		std::shared_ptr<GUIElement> get_root_element();
+	private:
+		std::unordered_map<std::string, std::shared_ptr<GUIElement>> element_cache;
+		std::shared_ptr<GUIElement> root_element;
+
 		std::string follow_target_entity_name;
 		glm::vec2 follow_offset;
 		bool is_following_entity = false;
 
-		virtual void deserialize(YAML::Node yaml_node);
-		void set_as_text(std::string text);
-		std::shared_ptr<GUIWidget> get_widget(std::string widget_name);
-	private:
-		std::unordered_map<std::string, std::shared_ptr<GUIPanelTabGroup>> gui_panel_tab_groups;
-		std::unordered_map<std::string, std::shared_ptr<GUIWidget>> gui_widget_registry;
-
+		std::shared_ptr<GUIElement> deserialize_gui_element(YAML::Node yaml_node);
 		void update_image();
 	};
 }

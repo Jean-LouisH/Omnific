@@ -3,8 +3,21 @@ SceneLayer:
   spatial_dimension: 2
   Entity:
     name: "Basic GUI"
+  Entity:
+    name: "DemoUtilityScripts"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+  Entity:
+    name: "Camera"
+    Transform:
+      translation: [0, 0, 0]
     GUI:
       GUIPanelTabGroup:
-        name: "Tab"
-    ScriptCollection:
-      Python: ["tests/scripts/python/shader_parameter_control.py"]
+        name: "Panel"
+        GUIPanel:
+          name: "Text"
+    Camera: "default"
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"

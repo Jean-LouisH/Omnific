@@ -204,22 +204,22 @@ void Omnific::Model::set_alpha(uint8_t value)
 
 void Omnific::Model::set_face_culling_to_none()
 {
-	this->cull_mode = FaceCullMode::NONE;
+	this->face_cull_mode = FaceCullMode::NONE;
 }
 
 void Omnific::Model::set_face_culling_to_front()
 {
-	this->cull_mode = FaceCullMode::FRONT;
+	this->face_cull_mode = FaceCullMode::FRONT;
 }
 
 void Omnific::Model::set_face_culling_to_back()
 {
-	this->cull_mode = FaceCullMode::BACK;
+	this->face_cull_mode = FaceCullMode::BACK;
 }
 
 void Omnific::Model::set_face_culling_to_front_and_back()
 {
-	this->cull_mode = FaceCullMode::FRONT_AND_BACK;
+	this->face_cull_mode = FaceCullMode::FRONT_AND_BACK;
 }
 
 uint8_t Omnific::Model::get_alpha()
@@ -234,22 +234,22 @@ float Omnific::Model::get_alpha_in_percentage()
 
 bool Omnific::Model::is_no_face_culling()
 {
-	return this->cull_mode == FaceCullMode::NONE;
+	return this->face_cull_mode == FaceCullMode::NONE;
 }
 
 bool Omnific::Model::is_front_face_culling()
 {
-	return this->cull_mode == FaceCullMode::FRONT;
+	return this->face_cull_mode == FaceCullMode::FRONT;
 }
 
 bool Omnific::Model::is_back_face_culling()
 {
-	return this->cull_mode == FaceCullMode::BACK;
+	return this->face_cull_mode == FaceCullMode::BACK;
 }
 
 bool Omnific::Model::is_front_and_back_face_culling()
 {
-	return this->cull_mode == FaceCullMode::FRONT_AND_BACK;
+	return this->face_cull_mode == FaceCullMode::FRONT_AND_BACK;
 }
 
 void Omnific::Model::hide()
@@ -264,7 +264,7 @@ void Omnific::Model::show()
 
 Omnific::Model::FaceCullMode Omnific::Model::get_face_cull_mode()
 {
-	return this->cull_mode;
+	return this->face_cull_mode;
 }
 
 std::shared_ptr<Omnific::Image> Omnific::Model::get_image()

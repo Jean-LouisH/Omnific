@@ -116,33 +116,33 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (auto gui_panel_tab_groups : gui->gui_panel_tab_groups)
-			{
-				std::shared_ptr<GUIPanel> active_guipanel = gui_panel_tab_groups.second->gui_panels[gui_panel_tab_groups.second->active_gui_panel_name];
-				glm::vec2 gui_panel_tab_group_position = gui_panel_tab_groups.second->position;
+			// for (auto gui_panel_tab_groups : gui->gui_panel_tab_groups)
+			// {
+			// 	std::shared_ptr<GUIPanel> active_guipanel = gui_panel_tab_groups.second->gui_panels[gui_panel_tab_groups.second->active_gui_panel_name];
+			// 	glm::vec2 gui_panel_tab_group_position = gui_panel_tab_groups.second->position;
 				
-				for (auto widget : active_guipanel->widgets)
-				{
-					glm::vec2 gui_position = gui_transform->translation;
-					glm::vec2 widget_global_position = gui_position + gui_panel_tab_group_position + widget.second->position;
-					widget.second->detected_inputs = { 0 };
+			// 	for (auto widget : active_guipanel->widgets)
+			// 	{
+			// 		glm::vec2 gui_position = gui_transform->translation;
+			// 		glm::vec2 widget_global_position = gui_position + gui_panel_tab_group_position + widget.second->position;
+			// 		widget.second->detected_inputs = { 0 };
 
-					/* If the mouse is at least hovering over the GUI widget. */
-					if (glm::length(mouse_position - widget_global_position) < mouse_detection_accuracy_range)
-					{
-						widget.second->detected_inputs.is_hovered = true;
-						widget.second->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
-						widget.second->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
-						widget.second->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
-						widget.second->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
-						widget.second->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
-						widget.second->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
-						widget.second->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
-						widget.second->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
-						widget.second->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
-					}
-				}
-			}
+			// 		/* If the mouse is at least hovering over the GUI widget. */
+			// 		if (glm::length(mouse_position - widget_global_position) < mouse_detection_accuracy_range)
+			// 		{
+			// 			widget.second->detected_inputs.is_hovered = true;
+			// 			widget.second->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
+			// 			widget.second->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
+			// 			widget.second->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
+			// 			widget.second->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
+			// 			widget.second->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
+			// 			widget.second->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
+			// 			widget.second->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
+			// 			widget.second->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
+			// 			widget.second->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
+			// 		}
+			// 	}
+			// }
 		}
 	}
 }

@@ -60,14 +60,10 @@ SceneLayer:
       translation: [0.0, 40.0, 0.0]
       scale: [1.0, 1.0, 1.0]
     GUI:
-      GUIPanelTabGroup:
-        name: "Score"
-        GUIPanel:
-          name: "Text"
-          GUIText: 
-            text: "a"
-            font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-            colour: "#FF0000FF"
+      GUILabel: 
+        text: "a"
+        font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+        colour: "#FF0000FF"
     ScriptCollection:
       Python: ["games/pong/scripts/python/player_score.py"]
   Entity:
@@ -92,14 +88,10 @@ SceneLayer:
       translation: [0.0, 0.0, 0.0]
       scale: [1.0, 1.0, 1.0]
     GUI:
-      GUIPanelTabGroup:
-        name: "Score"
-        GUIPanel:
-          name: "Text"
-          GUIText: 
-            text: "b"
-            font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-            colour: "#0000FFFF"
+      GUILabel: 
+        text: "b"
+        font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+        colour: "#0000FFFF"
     ScriptCollection:
       Python: ["games/pong/scripts/python/ai_score.py"]
   Entity:

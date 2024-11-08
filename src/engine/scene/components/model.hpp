@@ -118,7 +118,7 @@ namespace Omnific
 	protected:
 		glm::vec3 dimensions;
 		uint8_t alpha = 255;
-		FaceCullMode cull_mode = FaceCullMode::NONE;
+		FaceCullMode face_cull_mode = FaceCullMode::NONE;
 		std::shared_ptr<Shader> shader;
 		std::shared_ptr<Shader> overriding_shader;
 	private:

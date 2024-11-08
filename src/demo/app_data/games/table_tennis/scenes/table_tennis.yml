@@ -77,7 +77,7 @@ SceneLayer:
       scale: [0.5, 0.5, 0.5]
     GUI:
       GUIPanel:
-        GUIWidget:
+        GUIElement:
           GUIText:
             text: "a"
             font: ["games/table_tennis/fonts/Lato-Regular.ttf", 16]
@@ -107,7 +107,7 @@ SceneLayer:
       scale: [0.5, 0.5, 0.5]
     GUI:
       GUIPanel:
-        GUIWidget:
+        GUIElement:
           GUIText:
             text: "b"
             font: ["sample/fonts/Lato-Regular.ttf", 16]
