@@ -24,10 +24,19 @@
 #include <stdint.h>
 #include "foundations/singletons/platform/platform.hpp"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten/emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t height, bool is_fullscreen, std::string rendering_context)
 {
 	uint64_t rendering_context_flag = 0x0;
 
+#ifdef __EMSCRIPTEN__
+	const char* target = "#canvas";
+	emscripten_set_canvas_element_size(target, width, height);
+#else
 	if (rendering_context == "opengl")
 		rendering_context_flag = SDL_WINDOW_OPENGL;
 
@@ -41,13 +50,26 @@ void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t hei
 
 	SDL_DisableScreenSaver();
 	SDL_GetCurrentDisplayMode(0, this->sdl_display_mode.get());
+#endif
 	this->is_fullscreen = is_fullscreen;
 }
 
 void Omnific::Window::initialize_window_context(std::string rendering_context)
 {
 	if (rendering_context == "opengl")
+	{
 		this->sdl_gl_context = SDL_GL_CreateContext(this->sdl_window.get());
+	}
+	else if (rendering_context == "webgl")
+	{
+#ifdef __EMSCRIPTEN__
+		EmscriptenWebGLContextAttributes webgl_context_attributes;
+		emscripten_webgl_init_context_attributes(&webgl_context_attributes);
+		webgl_context_attributes.majorVersion = 2;
+		EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webgl_context = emscripten_webgl_create_context("#canvas", &webgl_context_attributes);
+		emscripten_webgl_make_context_current(webgl_context);
+#endif
+	}
 }
 
 void Omnific::Window::set_to_windowed(uint16_t width_px, uint16_t height_px)
