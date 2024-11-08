@@ -5,30 +5,22 @@ project ("omnific_engine")
 file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
 file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
 
-if (WIN32)
-   add_definitions(/bigobj)
-endif()
+set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/thirdparty)
 
-if (__EMSCRIPTEN__)
-	add_definitions(-D_WEB_PLATFORM)
-endif()
+set(THIRD_PARTY_PROJECTS
+	ufbx
+	yaml_cpp
+)
 
 add_library(omnific_engine STATIC
 	  ${omnific_engine_sources}
 	  ${omnific_engine_headers})
 
-set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/thirdparty)
-
-set(THIRD_PARTY_PROJECTS
-	glad
-	ufbx
-	yaml_cpp
-)
-
 message (STATUS "Engine detected system name: ${CMAKE_SYSTEM_NAME}")
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
-    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=2 -sUSE_SDL_TTF=2")
+	add_definitions(-D_WEB_PLATFORM)
+    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=2 -sUSE_SDL_TTF=2 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
@@ -39,11 +31,13 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 		${THIRD_PARTY_PROJECTS}
 	)
 else()
+	set (THIRD_PARTY_PROJECTS ${THIRD_PARTY_PROJECTS} glad)
 	find_package(OpenAL REQUIRED)
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
 
 	if (WIN32)
+		add_definitions(/bigobj)
 		set (SDL2_TTF_MODULE "SDL2_ttf::SDL2_ttf")
 	else ()
 		set (SDL2_TTF_MODULE "SDL2_ttf::SDL2_ttf-static")
