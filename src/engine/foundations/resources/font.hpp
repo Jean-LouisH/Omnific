@@ -50,7 +50,7 @@ namespace Omnific
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		TTF_Font* get_sdlttffont();
+		TTF_Font* get_sdl_ttf_font();
 		uint16_t get_font_size();
 	private:
 		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };

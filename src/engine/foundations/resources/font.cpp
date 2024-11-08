@@ -44,7 +44,7 @@ Omnific::Font::Font(TTF_Font* font)
 	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
-TTF_Font* Omnific::Font::get_sdlttffont()
+TTF_Font* Omnific::Font::get_sdl_ttf_font()
 {
 	return this->font.get();
 }

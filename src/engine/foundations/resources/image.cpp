@@ -36,7 +36,7 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 		text = " ";
 
 	SDL_Color sdl_color = { colour->get_red(), colour->get_green(), colour->get_blue(), colour->get_alpha() };
-	std::shared_ptr<SDL_Surface> sdl_surface(SDL_ConvertSurfaceFormat(TTF_RenderUTF8_Blended_Wrapped(font->get_sdlttffont(), text.c_str(), sdl_color, wrap_length), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> sdl_surface(SDL_ConvertSurfaceFormat(TTF_RenderUTF8_Blended_Wrapped(font->get_sdl_ttf_font(), text.c_str(), sdl_color, wrap_length), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
 
 	/*	SDL vertical pixel flip solution by 
 		vvanpelt on StackOverflow: https://stackoverflow.com/a/65817254 
