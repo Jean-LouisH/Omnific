@@ -30,7 +30,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <customization/class_registry.hpp>
 
-#ifdef __EMSCRIPTEN__
+#ifdef _WEB_PLATFORM
 #include <emscripten.h>
 #endif
 
@@ -79,7 +79,7 @@ void Omnific::Engine::run()
 			{
 				logger.write("Engine single threading mode enabled.");
 #ifdef _WEB_PLATFORM
-				emscripten_set_main_loop_arg(run_loop, this, 0, 1);
+				emscripten_set_main_loop_arg(run_loop_on_callback, this, 0, 1);
 #else
 				/* Single threaded mode. */
 				while (this->state == State::INITIALIZING || 
@@ -315,6 +315,12 @@ void Omnific::Engine::run_loop_on_thread()
 			engine_loop_thread_clock);
 	}
 }
+
+ void Omnific::Engine::run_loop_on_callback(void* arg)
+ {
+	Engine* engine = (Engine*)arg;
+	engine->run_loop();
+ }
 
 void Omnific::Engine::sleep_for(uint32_t target_fps, std::shared_ptr<Clock> run_timer)
 {
