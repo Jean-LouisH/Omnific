@@ -22,7 +22,11 @@
 
 #pragma once
 
-#include <glad/glad.h>
+#ifdef _WEB_PLATFORM
+    #include <GLES3/gl3.h>
+#else
+    #include <glad/glad.h>
+#endif
 #include <glm.hpp>
 #include <vector>
 #include <string>

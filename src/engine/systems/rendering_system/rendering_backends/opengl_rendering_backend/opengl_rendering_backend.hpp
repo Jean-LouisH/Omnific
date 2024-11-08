@@ -23,7 +23,6 @@
 #pragma once
 
 #include <foundations/singletons/platform/window.hpp>
-#include <glad/glad.h>
 #include <vector>
 #include "opengl_shader_program.hpp"
 #include "opengl_texture.hpp"

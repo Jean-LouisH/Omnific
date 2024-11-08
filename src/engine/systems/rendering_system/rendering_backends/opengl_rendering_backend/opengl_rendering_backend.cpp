@@ -26,9 +26,18 @@
 #include <string>
 #include <SDL_video.h>
 
+#ifdef _WEB_PLATFORM
+    #include <GLES3/gl3.h>
+#else
+    #include <glad/glad.h>
+#endif
+
 void Omnific::OpenGLRenderingBackend::initialize()
 {
 	Window& window = Platform::get_window();
+#ifdef _WEB_PLATFORM
+	window.initialize_window_context("webgl");
+#else
 	window.initialize_window_context("opengl");
 
 	if ((!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)))
@@ -36,6 +45,7 @@ void Omnific::OpenGLRenderingBackend::initialize()
 		Platform::get_logger().write("GLAD failed to initialize.");
 	}
 	else
+#endif
 	{
 		this->built_in_shader_program_2d = std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(std::shared_ptr<Shader>(new Shader(
 			this->get_default_2d_vertex_input(),
@@ -84,12 +94,16 @@ void Omnific::OpenGLRenderingBackend::disable_depth_test()
 
 void Omnific::OpenGLRenderingBackend::enable_wireframe_mode()
 {
+#ifndef _WEB_PLATFORM
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#endif
 }
 
 void Omnific::OpenGLRenderingBackend::disable_wireframe_mode()
 {
+#ifndef _WEB_PLATFORM
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#endif
 }
 
 void Omnific::OpenGLRenderingBackend::enable_blending()
