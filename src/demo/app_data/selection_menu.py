@@ -39,7 +39,7 @@ class omnific_script:
             project_print_string += project_selection_letters[i] + ": " + project_names_list[i] + "\n"
         
         gui = omnific.get_component("GUI")
-        gui.set_as_text(
+        gui.set_to_label(
             """Select one of the following by pressing the corresponding letter key
 
 """ + project_print_string)

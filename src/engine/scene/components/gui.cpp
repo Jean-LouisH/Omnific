@@ -49,6 +49,16 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 	this->update_image();
 }
 
+std::string Omnific::GUIElement::get_name()
+{
+	return this->name;
+}
+	
+std::string Omnific::GUIElement::get_gui_element_type()
+{
+	return this->gui_element_type;
+}
+
 std::shared_ptr<Omnific::Image> Omnific::GUIElement::get_image()
 {
 	return this->image;
@@ -61,10 +71,34 @@ void Omnific::GUIColour::update_image()
 
 void Omnific::GUIButton::update_image()
 {
+	std::shared_ptr<Colour> colour;
+
+	if (this->detected_inputs.is_hovered)
+		colour = this->target_highlight_colour;
+	else if (this->detected_inputs.is_left_mouse_button_on_press)
+		colour = this->target_clicked_colour;
+	else
+		colour = this->target_background_colour;
+
 	/* The border of the button wraps around the text it contains by an offset. */
-	this->gui_text->update_image();
-	this->dimensions = this->gui_text->dimensions + this->button_space_from_text;
-	this->image = std::shared_ptr<Image>(new Image(this->target_background_colour, this->dimensions.x, this->dimensions.y));
+	this->gui_label->update_image();
+	this->dimensions = this->gui_label->dimensions + this->button_space_from_text;
+	std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(colour, this->dimensions.x, this->dimensions.y));
+	std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();
+
+	Image::normal_blend(
+		base_button_image->get_data(), 
+		this->position, 
+		this->dimensions, 
+		gui_label_image->get_data(), 
+		gui_label->position + this->position, 
+		gui_label->dimensions);
+
+	this->image = std::shared_ptr<Image>(new Image(
+		base_button_image->get_data(), 
+		this->dimensions.x,
+		this->dimensions.y,
+		base_button_image->get_bytes_per_pixel()));
 }
 
 void Omnific::GUIPanel::update_image()
@@ -232,6 +266,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 		{
 			std::shared_ptr<GUIButton> gui_button(new GUIButton());
 
+			gui_button->gui_label = std::shared_ptr<GUILabel>(new GUILabel());
 			gui_button->is_clickable = true;
 			gui_button->is_highlightable = true;
 
@@ -257,17 +292,17 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 				else if (it6->first.as<std::string>() == "text")
 				{
-					gui_button->gui_text->text = it6->second.as<std::string>();
+					gui_button->gui_label->text = it6->second.as<std::string>();
 				}
 				else if (it6->first.as<std::string>() == "font")
 				{
 					std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_resource_by_type<Font>(it6->second[0].as<std::string>());
 					*font = Font(font->get_name(), it6->second[1].as<int>());
-					gui_button->gui_text->font = font;
+					gui_button->gui_label->font = font;
 				}
 				else if (it6->first.as<std::string>() == "text_colour")
 				{
-					gui_button->gui_text->colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+					gui_button->gui_label->colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 				}
 				else if (it6->first.as<std::string>() == "colour")
 				{
@@ -278,6 +313,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 					;
 				}
 			}
+			gui_button->gui_label->update_image();
 			gui_button->update_image();
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_button);
 		}
@@ -477,7 +513,7 @@ void Omnific::GUI::update_image()
 	this->set_to_image(this->root_element->get_image());
 }
 
-void Omnific::GUI::set_as_text(std::string text)
+void Omnific::GUI::set_to_label(std::string text)
 {
 	if (this->root_element == nullptr)
 	{

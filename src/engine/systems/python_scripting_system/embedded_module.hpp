@@ -251,7 +251,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("rotate_y", &Omnific::Transform::rotate_y)
 		.def("rotate_z", &Omnific::Transform::rotate_z);
 	pybind11::class_<Omnific::GUI, Omnific::Model, std::shared_ptr<Omnific::GUI>>(m, Omnific::GUI::TYPE_STRING)
-		.def("set_as_text", &Omnific::GUI::set_as_text);
+		.def("set_to_label", &Omnific::GUI::set_to_label);
 	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING);
 
 	/*Utility classes*/
