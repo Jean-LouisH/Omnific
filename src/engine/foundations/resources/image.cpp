@@ -23,6 +23,7 @@
 #include "image.hpp"
 #include <vector>
 #include <cstring>
+#include <algorithm>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -166,30 +167,45 @@ Omnific::Image::Alignment Omnific::Image::get_alignment()
 }
 
 void Omnific::Image::normal_blend(
-	uint8_t* lower_image_data,
-	glm::vec2 lower_image_position,
-	glm::vec2 lower_image_dimensions,
-	uint8_t* upper_image_data,
-	glm::vec2 upper_image_position,
-	glm::vec2 upper_image_dimensions)
+		uint8_t* lower_image_data,
+		glm::vec2 lower_image_position,
+		glm::vec2 lower_image_dimensions,
+		uint8_t* upper_image_data,
+		glm::vec2 upper_image_position,
+		glm::vec2 upper_image_dimensions)
 {
 	const uint8_t colour_channels = 4;
 
-	for (int y = 0; y < upper_image_dimensions.y; y++)
-	{
-		for (int x = 0; x < upper_image_dimensions.x; x++)
-		{
-			for (int colour_channel = 0; colour_channel < colour_channels; colour_channel++)
-			{
-				int lower_image_index = ((y + upper_image_position.y) * upper_image_dimensions.x * colour_channels) +
-					((x + upper_image_position.x) * colour_channels) + colour_channel;
-				int upper_image_index = (y * upper_image_dimensions.x * colour_channels) +
-					(x * colour_channels) + colour_channel;
+    // Calculate starting points and limits for iteration to stay within bounds
+    int starting_upper_y = std::max(0.0f, lower_image_position.y - upper_image_position.y);
+    int starting_upper_x = std::max(0.0f, lower_image_position.x - upper_image_position.x);
+    int upper_y_max = std::min(upper_image_dimensions.y, lower_image_dimensions.y - upper_image_position.y);
+    int upper_x_max = std::min(upper_image_dimensions.x, lower_image_dimensions.x - upper_image_position.x);
 
-				lower_image_data[lower_image_index] = upper_image_data[upper_image_index];
-			}
-		}
-	}
+    for (int upper_y = starting_upper_y; upper_y < upper_y_max; upper_y++) 
+	{
+        for (int upper_x = starting_upper_x; upper_x < upper_x_max; upper_x++) 
+		{
+            int upper_index = (upper_y * upper_image_dimensions.x + upper_x) * colour_channels;
+            int lower_index = ((upper_y + upper_image_position.y - lower_image_position.y) * lower_image_dimensions.x +
+                               (upper_x + upper_image_position.x - lower_image_position.x)) * colour_channels;
+
+            // Get the alpha values of the upper and lower images
+            float upper_alpha = upper_image_data[upper_index + 3] / 255.0f;
+            float lower_alpha = lower_image_data[lower_index + 3] / 255.0f;
+
+            // Blend each RGB channel
+            for (int colour_channel = 0; colour_channel < colour_channels - 1; colour_channel++) 
+			{
+                lower_image_data[lower_index + colour_channel] = 
+                    static_cast<uint8_t>(upper_image_data[upper_index + colour_channel] * upper_alpha +
+                                         lower_image_data[lower_index + colour_channel] * lower_alpha * (1.0f - upper_alpha));
+            }
+
+            // Calculate the new alpha value for the blended pixel
+            lower_image_data[lower_index + 3] = static_cast<uint8_t>((upper_alpha + lower_alpha * (1.0f - upper_alpha)) * 255);
+        }
+    }
 }
 
 void Omnific::Image::colour_pixel(uint32_t fill_colour, int x, int y)

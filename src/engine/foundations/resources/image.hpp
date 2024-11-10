@@ -78,11 +78,11 @@ namespace Omnific
 
 		static void normal_blend(
 			uint8_t* lower_image_data,
-			glm::vec2 lower_position,
-			glm::vec2 lower_dimensions,
+			glm::vec2 lower_image_position,
+			glm::vec2 lower_image_dimensions,
 			uint8_t* upper_image_data,
-			glm::vec2 upper_position,
-			glm::vec2 upper_dimensions
+			glm::vec2 upper_image_position,
+			glm::vec2 upper_image_dimensions
 		);
 	private:
 		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
