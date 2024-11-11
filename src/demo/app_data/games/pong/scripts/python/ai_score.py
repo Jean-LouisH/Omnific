@@ -10,6 +10,6 @@ class omnific_script:
         if omnific.query_event_count("AI won") > 0:
             self.score += 1
 
-        omnific.get_component("GUI").set_as_text("AI: " + str(self.score))
+        omnific.get_component("GUI").set_to_label("AI: " + str(self.score))
         pass
     

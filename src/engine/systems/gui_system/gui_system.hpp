@@ -46,7 +46,7 @@ namespace Omnific
 		}
 
 		virtual void initialize() override;
-		virtual void on_early(std::shared_ptr<Scene> scene) override;
+		virtual void on_late(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 	};

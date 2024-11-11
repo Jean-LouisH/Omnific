@@ -49,6 +49,11 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 	this->update_image();
 }
 
+void Omnific::GUIElement::update_image()
+{
+
+}
+
 std::string Omnific::GUIElement::get_name()
 {
 	return this->name;
@@ -74,11 +79,17 @@ void Omnific::GUIButton::update_image()
 	std::shared_ptr<Colour> colour;
 
 	if (this->detected_inputs.is_hovered)
+	{
 		colour = this->target_highlight_colour;
+	}
 	else if (this->detected_inputs.is_left_mouse_button_on_press)
+	{
 		colour = this->target_clicked_colour;
+	}
 	else
+	{
 		colour = this->target_background_colour;
+	}
 
 	/* The border of the button wraps around the text it contains by an offset. */
 	this->gui_label->update_image();

@@ -1,6 +1,6 @@
 SceneLayer:
   name: "Foreground SceneLayer"
-  spatial_dimension: 2
+  spatial_dimension: 3
   Entity:
     name: "GUI Label"
     Transform:
@@ -10,7 +10,8 @@ SceneLayer:
         text: "This is a Label!"
         font: ["tests/fonts/Lato-Regular.ttf", 20]
         colour: "#FFFFFFFF"
-        wrap_length: 1000
+    # ScriptCollection:
+    #   Python: ["tests/scripts/python/gui_test.py"]
   Entity:
     name: "GUI Button"
     Transform:

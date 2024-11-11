@@ -61,6 +61,7 @@ namespace Omnific
 		bool is_ystretched_to_panel = false;
 
 		virtual ~GUIElement() = default;
+		virtual void update_image();
 		std::string get_name();
 		std::string get_gui_element_type();
 		std::shared_ptr<Image> get_image();
@@ -98,6 +99,8 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+
+		//virtual void update_image() override;
 	private:
 	};
 
@@ -111,7 +114,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
-		void update_image();
+		virtual void update_image() override;
 	private:
 		std::shared_ptr<Colour> colour;
 	};
@@ -129,7 +132,7 @@ namespace Omnific
 		void set_text(std::string text);
 		void set_font(std::shared_ptr<Font> font);
 		void set_colour(std::shared_ptr<Colour> colour);
-		void update_image();
+		virtual void update_image() override;
 	private:
 		std::string text;
 		std::shared_ptr<Font> font;
@@ -150,12 +153,12 @@ namespace Omnific
 			this->is_anchored = true;
 			this->is_clickable = true;
 			this->is_highlightable = true;
-			this->target_background_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
-			this->target_highlight_colour = std::shared_ptr<Colour>(new Colour(0.6, 0.6, 0.6, 1.0));
-			this->target_clicked_colour = std::shared_ptr<Colour>(new Colour(0.7, 0.7, 0.7, 1.0));
+			// this->target_background_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
+			// this->target_highlight_colour = std::shared_ptr<Colour>(new Colour(0.6, 0.6, 0.6, 1.0));
+			// this->target_clicked_colour = std::shared_ptr<Colour>(new Colour(0.7, 0.7, 0.7, 1.0));
 			this->button_space_from_text = glm::vec2(20.0);
 		};
-		void update_image();
+		virtual void update_image() override;
 	protected:
 		std::shared_ptr<GUILabel> gui_label;
 		glm::vec2 button_space_from_text;
@@ -171,6 +174,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 	};
 
@@ -184,6 +188,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	protected:
 		std::vector<GUIButton> list_items;
 		uint64_t current_item_index = 0;
@@ -199,6 +204,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	protected:
 		std::unordered_map<std::string, GUIButton> items;
 		std::unordered_map<std::string, std::vector<std::string>> item_hierarchy;
@@ -214,6 +220,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 	};
 
@@ -227,6 +234,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 		std::unordered_map<std::string, GUIContextMenu> menus;
 	};
@@ -241,6 +249,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 	};
 
@@ -254,6 +263,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 	};
 
@@ -267,6 +277,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 	};
 
@@ -280,6 +291,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 		float current_value = 0.0;
 		float minimum_value = 0.0;
@@ -302,6 +314,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 		glm::vec2 start_point;
 		glm::vec2 end_point;
@@ -317,6 +330,7 @@ namespace Omnific
 		{
 			this->gui_element_type = TYPE_STRING;
 		};
+		//virtual void update_image() override;
 	private:
 		uint64_t current_item_index = 0;
 	};
@@ -339,7 +353,7 @@ namespace Omnific
 		}
 
 		void add_gui_element(std::shared_ptr<GUIElement> gui_element);
-		void update_image();
+		virtual void update_image() override;
 	private:
 		std::vector<std::shared_ptr<GUIElement>> gui_elements;
 		std::shared_ptr<Colour> target_scrollbar_colour;

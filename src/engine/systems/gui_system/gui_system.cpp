@@ -42,7 +42,7 @@ void Omnific::GUISystem::initialize()
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::GUISystem::on_late(std::shared_ptr<Scene> scene)
 {
 	Input& input = Platform::get_input();
 	std::unordered_map<std::string, double> numbers;
@@ -56,8 +56,8 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 		EventBus::publish("file dropped on window", numbers, strings);
 	}
 
-	/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
 	glm::vec2 mouse_position = input.get_mouse_position();
+	mouse_position.y = Platform::get_window().get_window_size().y - mouse_position.y;
 
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
@@ -67,7 +67,7 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 		{
 			std::shared_ptr<GUI> gui = guis[i];
 			std::shared_ptr<Transform> gui_transform = scene_layer_it.second->get_component_by_type<Transform>(gui->get_entity_id());
-			float mouse_detection_accuracy_range = 0.1;
+			float mouse_detection_accuracy_range = 20.0;
 
 			/* To enforce the GUI following a target Entity by an offset. */
 			if (gui->is_following_entity)
@@ -88,61 +88,74 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 					}
 				}
 
-				std::shared_ptr<Transform> followed_entity_transform = scene_layer_it.second->get_component_by_type<Transform>(followed_entity->get_id());
-				std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer_it.second->get_components_by_type<Viewport>();
-				std::shared_ptr<Camera> camera;
-				std::shared_ptr<Transform> camera_transform;
-
-				for (int i = 0; i < ui_viewports.size(); i++)
+				if (followed_entity != nullptr)
 				{
-					std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
-					std::shared_ptr<Entity> camera_entity = scene_layer_it.second->get_entity_by_name(ui_viewport->get_camera_entity_name());
-					camera = scene_layer_it.second->get_component_by_type<Camera>(camera_entity->get_id());
-					camera_transform = scene_layer_it.second->get_component_by_type<Transform>(camera_entity->get_id());
-				}
+					std::shared_ptr<Transform> followed_entity_transform = scene_layer_it.second->get_component_by_type<Transform>(followed_entity->get_id());
+					std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer_it.second->get_components_by_type<Viewport>();
+					std::shared_ptr<Camera> camera;
+					std::shared_ptr<Transform> camera_transform;
 
-				if (camera != nullptr && camera_transform != nullptr)
-				{
-					/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
-
-					if (scene_layer_it.second->is_2d)
+					for (int i = 0; i < ui_viewports.size(); i++)
 					{
-
+						std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
+						std::shared_ptr<Entity> camera_entity = scene_layer_it.second->get_entity_by_name(ui_viewport->get_camera_entity_name());
+						camera = scene_layer_it.second->get_component_by_type<Camera>(camera_entity->get_id());
+						camera_transform = scene_layer_it.second->get_component_by_type<Transform>(camera_entity->get_id());
 					}
-					else
-					{
 
+					if (camera != nullptr && camera_transform != nullptr)
+					{
+						/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
+
+						if (scene_layer_it.second->is_2d)
+						{
+
+						}
+						else
+						{
+
+						}
 					}
 				}
 			}
 
-			// for (auto gui_panel_tab_groups : gui->gui_panel_tab_groups)
-			// {
-			// 	std::shared_ptr<GUIPanel> active_guipanel = gui_panel_tab_groups.second->gui_panels[gui_panel_tab_groups.second->active_gui_panel_name];
-			// 	glm::vec2 gui_panel_tab_group_position = gui_panel_tab_groups.second->position;
-				
-			// 	for (auto widget : active_guipanel->widgets)
-			// 	{
-			// 		glm::vec2 gui_position = gui_transform->translation;
-			// 		glm::vec2 widget_global_position = gui_position + gui_panel_tab_group_position + widget.second->position;
-			// 		widget.second->detected_inputs = { 0 };
+			glm::vec2 gui_position = gui_transform->translation;
+			std::shared_ptr<GUIElement> root_element = gui->get_root_element();
 
-			// 		/* If the mouse is at least hovering over the GUI widget. */
-			// 		if (glm::length(mouse_position - widget_global_position) < mouse_detection_accuracy_range)
-			// 		{
-			// 			widget.second->detected_inputs.is_hovered = true;
-			// 			widget.second->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
-			// 			widget.second->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
-			// 			widget.second->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
-			// 			widget.second->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
-			// 			widget.second->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
-			// 			widget.second->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
-			// 			widget.second->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
-			// 			widget.second->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
-			// 			widget.second->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
-			// 		}
-			// 	}
-			// }
+			/* The root_element_dimensions is the boundary of the mouse position search
+			   regardless of the root_element being a GUIPanel or not. */
+			glm::vec2 root_element_dimensions = root_element->dimensions;
+
+			/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
+			if (root_element->get_gui_element_type() != GUIPanel::TYPE_STRING)
+			{
+				std::shared_ptr<GUIElement> gui_element = root_element;
+				glm::vec2 gui_element_global_position = gui_position + root_element->position;
+				gui_element->detected_inputs = { 0 };
+
+				/* If the mouse is at least hovering over the GUI widget. */
+				if (glm::length(mouse_position - gui_element_global_position) < mouse_detection_accuracy_range)
+				{
+					gui_element->detected_inputs.is_hovered = true;
+					gui_element->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
+					gui_element->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
+					gui_element->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
+					gui_element->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
+					gui_element->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
+					gui_element->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
+					gui_element->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
+					gui_element->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
+					gui_element->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
+				}
+
+				gui_element->update_image();
+			}
+			else
+			{
+
+			}
+
+			gui->update_image();
 		}
 	}
 }
