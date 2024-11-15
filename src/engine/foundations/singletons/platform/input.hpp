@@ -59,13 +59,19 @@ namespace Omnific
 		float get_axis(std::string input_code, PlayerID player_id);
 
 		bool is_left_mouse_button_on_press();
+		bool is_left_mouse_button_pressed();
 		bool is_left_mouse_button_on_release();
+		bool is_left_mouse_button_released();
 		bool is_left_mouse_button_double_clicked();
 		bool is_middle_mouse_button_on_press();
+		bool is_middle_mouse_button_pressed();
 		bool is_middle_mouse_button_on_release();
+		bool is_middle_mouse_button_released();
 		bool is_middle_mouse_button_double_clicked();
 		bool is_right_mouse_button_on_press();
+		bool is_right_mouse_button_pressed();
 		bool is_right_mouse_button_on_release();
+		bool is_right_mouse_button_released();
 		bool is_right_mouse_button_double_clicked();
 		glm::vec2 get_mouse_position();
 		glm::vec2 get_mouse_wheel_velocity();
@@ -97,6 +103,7 @@ namespace Omnific
 		std::set<std::string> held_inputs;
 
 		std::set<SDL_Keycode> held_keys;
+		std::set<Uint8> held_mouse_buttons;
 		std::unordered_map<SDL_GameControllerButton, SDL_JoystickID> held_controller_buttons;
 
 		std::unordered_map<SDL_GameControllerButton, SDL_ControllerButtonEvent> controller_button_events;

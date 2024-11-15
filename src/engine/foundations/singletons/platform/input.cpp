@@ -330,10 +330,20 @@ bool Omnific::Input::is_left_mouse_button_on_press()
 		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
+bool Omnific::Input::is_left_mouse_button_pressed()
+{
+	return this->held_mouse_buttons.count(SDL_BUTTON_LEFT);
+}
+
 bool Omnific::Input::is_left_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+}
+
+bool Omnific::Input::is_left_mouse_button_released()
+{
+	return !this->is_left_mouse_button_pressed();
 }
 
 bool Omnific::Input::is_left_mouse_button_double_clicked()
@@ -349,10 +359,20 @@ bool Omnific::Input::is_middle_mouse_button_on_press()
 		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
+bool Omnific::Input::is_middle_mouse_button_pressed()
+{
+	return this->held_mouse_buttons.count(SDL_BUTTON_MIDDLE);
+}
+
 bool Omnific::Input::is_middle_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+}
+
+bool Omnific::Input::is_middle_mouse_button_released()
+{
+	return !this->is_middle_mouse_button_pressed();
 }
 
 bool Omnific::Input::is_middle_mouse_button_double_clicked()
@@ -368,10 +388,20 @@ bool Omnific::Input::is_right_mouse_button_on_press()
 		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
+bool Omnific::Input::is_right_mouse_button_pressed()
+{
+	return this->held_mouse_buttons.count(SDL_BUTTON_RIGHT);
+}
+
 bool Omnific::Input::is_right_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
 		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+}
+
+bool Omnific::Input::is_right_mouse_button_released()
+{
+	return !this->is_right_mouse_button_pressed();
 }
 
 bool Omnific::Input::is_right_mouse_button_double_clicked()
@@ -499,7 +529,12 @@ void Omnific::Input::poll_input_events()
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
+			this->held_mouse_buttons.insert(SDLEvents.button.button);
+			this->mouse_button_event = SDLEvents.button;
+			this->has_detected_input_changes = true;
+			break;
 		case SDL_MOUSEBUTTONUP:
+			this->held_mouse_buttons.erase(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
 			this->has_detected_input_changes = true;
 			break;
