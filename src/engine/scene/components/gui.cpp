@@ -54,6 +54,86 @@ void Omnific::GUIElement::update_image()
 
 }
 
+bool Omnific::GUIElement::get_is_in_focus()
+{
+	return this->is_in_focus;
+}
+
+bool Omnific::GUIElement::get_is_left_mouse_button_on_press()
+{
+	return this->detected_inputs.is_left_mouse_button_on_press;
+}
+
+bool Omnific::GUIElement::get_is_left_mouse_button_pressed()
+{
+	return this->detected_inputs.is_left_mouse_button_pressed;
+}
+
+bool Omnific::GUIElement::get_is_left_mouse_button_on_release()
+{
+	return this->detected_inputs.is_left_mouse_button_on_release;
+}
+
+bool Omnific::GUIElement::get_is_left_mouse_button_released()
+{
+	return this->detected_inputs.is_left_mouse_button_released;
+}
+
+bool Omnific::GUIElement::get_is_left_mouse_button_double_clicked()
+{
+	return this->detected_inputs.is_left_mouse_button_double_clicked;
+}
+
+bool Omnific::GUIElement::get_is_middle_mouse_button_on_press()
+{
+	return this->detected_inputs.is_middle_mouse_button_on_press;
+}
+
+bool Omnific::GUIElement::get_is_middle_mouse_button_pressed ()
+{
+	return this->detected_inputs.is_middle_mouse_button_pressed;
+}
+
+bool Omnific::GUIElement::get_is_middle_mouse_button_on_release()
+{
+	return this->detected_inputs.is_middle_mouse_button_on_release;
+}
+
+bool Omnific::GUIElement::get_is_middle_mouse_button_released()
+{
+	return this->detected_inputs.is_middle_mouse_button_released;
+}
+
+bool Omnific::GUIElement::get_is_middle_mouse_button_double_clicked()
+{
+	return this->detected_inputs.is_middle_mouse_button_double_clicked;
+}
+
+bool Omnific::GUIElement::get_is_right_mouse_button_on_press()
+{
+	return this->detected_inputs.is_right_mouse_button_on_press;
+}
+
+bool Omnific::GUIElement::get_is_right_mouse_button_pressed()
+{
+	return this->detected_inputs.is_right_mouse_button_pressed;
+}
+
+bool Omnific::GUIElement::get_is_right_mouse_button_on_release()
+{
+	return this->detected_inputs.is_right_mouse_button_on_release;
+}
+
+bool Omnific::GUIElement::get_is_right_mouse_button_released()
+{
+	return this->detected_inputs.is_right_mouse_button_released;
+}
+
+bool Omnific::GUIElement::get_is_right_mouse_button_double_clicked()
+{
+	return this->detected_inputs.is_right_mouse_button_double_clicked;
+}
+
 std::string Omnific::GUIElement::get_name()
 {
 	return this->name;
@@ -69,32 +149,37 @@ std::shared_ptr<Omnific::Image> Omnific::GUIElement::get_image()
 	return this->image;
 }
 
+void Omnific::GUIElement::highlight_on_input()
+{
+	if (this->is_highlightable)
+	{
+		if (this->detected_inputs.is_left_mouse_button_pressed)
+		{
+			this->target_current_colour = this->target_clicked_colour;
+		}
+		else if (this->is_in_focus)
+		{
+			this->target_current_colour  = this->target_highlight_colour;
+		}
+		else
+		{
+			this->target_current_colour  = this->target_default_background_colour;
+		}
+	}
+}
+
 void Omnific::GUIColour::update_image()
 {
-	this->image = std::shared_ptr<Image>(new Image(this->target_background_colour, this->dimensions.x, this->dimensions.y));
+	this->image = std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y));
 }
 
 void Omnific::GUIButton::update_image()
 {
-	std::shared_ptr<Colour> colour;
-
-	if (this->detected_inputs.is_hovered)
-	{
-		colour = this->target_highlight_colour;
-	}
-	else if (this->detected_inputs.is_left_mouse_button_on_press)
-	{
-		colour = this->target_clicked_colour;
-	}
-	else
-	{
-		colour = this->target_background_colour;
-	}
-
+	this->highlight_on_input();
 	/* The border of the button wraps around the text it contains by an offset. */
 	this->gui_label->update_image();
 	this->dimensions = this->gui_label->dimensions + this->button_space_from_text;
-	std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(colour, this->dimensions.x, this->dimensions.y));
+	std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->target_current_colour, this->dimensions.x, this->dimensions.y));
 	std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();
 
 	Image::normal_blend(
@@ -141,7 +226,7 @@ void Omnific::GUIPanel::update_image()
 		this->vertical_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->target_scrollbar_thumb_colour, vertical_scrollbar_thumb_dimensions.x, vertical_scrollbar_thumb_dimensions.y));
 	}
 
-	this->image = std::shared_ptr<Image>(new Image(this->target_background_colour, this->dimensions.x, this->dimensions.y));
+	this->image = std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y));
 }
 
 void Omnific::GUIPanel::add_gui_element(std::shared_ptr<GUIElement> gui_element)
@@ -212,7 +297,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 				else if (it6->first.as<std::string>() == "colour")
 				{
-					gui_panel->target_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+					gui_panel->target_default_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 				}
 				else if (it6->first.as<std::string>() == "image")
 				{
@@ -266,7 +351,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			{
 				if (it6->first.as<std::string>() == "colour")
 				{
-					gui_colour->target_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+					gui_colour->target_default_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 				}
 			}
 
@@ -317,7 +402,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 				else if (it6->first.as<std::string>() == "colour")
 				{
-					gui_button->target_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+					gui_button->target_default_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 				}
 				else if (it6->first.as<std::string>() == "image")
 				{

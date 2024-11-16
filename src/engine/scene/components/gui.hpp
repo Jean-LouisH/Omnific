@@ -44,15 +44,13 @@ namespace Omnific
 			this->name = "GUIElement ID: " + std::to_string(UIDGenerator::get_new_uid());
 			this->gui_element_type = TYPE_STRING;
 			this->image = std::shared_ptr<Image>(new Image());
-			this->target_background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
+			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
 			this->target_highlight_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
 			this->target_clicked_colour = std::shared_ptr<Colour>(new Colour(0.7, 0.7, 0.7, 1.0));
 			this->dimensions = glm::vec2(0.0);
 			this->position = glm::vec2(0.0);
 		}
 		/* The position has an increasing y that approaches the down direction. */
-		glm::vec2 position;
-		glm::vec2 dimensions;
 		bool is_hidden = false;
 		bool is_clickable = false;
 		bool is_highlightable = false;
@@ -60,33 +58,61 @@ namespace Omnific
 		bool is_xstretched_to_panel = false;
 		bool is_ystretched_to_panel = false;
 
+		glm::vec2 position;
+		glm::vec2 dimensions;
+
 		virtual ~GUIElement() = default;
 		virtual void update_image();
+		bool get_is_in_focus();
+		bool get_is_left_mouse_button_on_press();
+		bool get_is_left_mouse_button_pressed();
+		bool get_is_left_mouse_button_on_release();
+		bool get_is_left_mouse_button_released();
+		bool get_is_left_mouse_button_double_clicked();
+		bool get_is_middle_mouse_button_on_press();
+		bool get_is_middle_mouse_button_pressed ();
+		bool get_is_middle_mouse_button_on_release();
+		bool get_is_middle_mouse_button_released();
+		bool get_is_middle_mouse_button_double_clicked();
+		bool get_is_right_mouse_button_on_press();
+		bool get_is_right_mouse_button_pressed();
+		bool get_is_right_mouse_button_on_release();
+		bool get_is_right_mouse_button_released();
+		bool get_is_right_mouse_button_double_clicked();
 		std::string get_name();
 		std::string get_gui_element_type();
 		std::shared_ptr<Image> get_image();
 	protected:
+		bool is_in_focus = false;
+
 		struct DetectedInputs
 		{
-			bool is_hovered = false;
 			bool is_left_mouse_button_on_press = false;
+			bool is_left_mouse_button_pressed = false;
 			bool is_left_mouse_button_on_release = false;
+			bool is_left_mouse_button_released = false;
 			bool is_left_mouse_button_double_clicked = false;
 			bool is_middle_mouse_button_on_press = false;
+			bool is_middle_mouse_button_pressed = false;
 			bool is_middle_mouse_button_on_release = false;
+			bool is_middle_mouse_button_released = false;
 			bool is_middle_mouse_button_double_clicked = false;
 			bool is_right_mouse_button_on_press = false;
+			bool is_right_mouse_button_pressed = false;
 			bool is_right_mouse_button_on_release = false;
+			bool is_right_mouse_button_released = false;
 			bool is_right_mouse_button_double_clicked = false;
-
 		} detected_inputs;
 
 		std::string name;
 		std::string gui_element_type;
 		std::shared_ptr<Image> image;
 		std::shared_ptr<Colour> target_highlight_colour;
-		std::shared_ptr<Colour> target_background_colour;
+		std::shared_ptr<Colour> target_default_background_colour;
 		std::shared_ptr<Colour> target_clicked_colour;
+		std::shared_ptr<Colour> target_current_colour;
+
+		void highlight_on_input();
 	};
 
 	class OMNIFIC_ENGINE_API GUIImage : public GUIElement
@@ -345,7 +371,7 @@ namespace Omnific
 		GUIPanel()
 		{
 			this->gui_element_type = TYPE_STRING;
-			this->target_background_colour = std::shared_ptr<Colour>(new Colour(0.8, 0.8, 0.8, 1.0));
+			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.8, 0.8, 0.8, 1.0));
 			this->target_scrollbar_colour = std::shared_ptr<Colour>(new Colour("#222222"));
 			this->target_scrollbar_thumb_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
 			this->target_scrollbar_arrow_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));

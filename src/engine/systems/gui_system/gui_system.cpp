@@ -67,7 +67,6 @@ void Omnific::GUISystem::on_late(std::shared_ptr<Scene> scene)
 		{
 			std::shared_ptr<GUI> gui = guis[i];
 			std::shared_ptr<Transform> gui_transform = scene_layer_it.second->get_component_by_type<Transform>(gui->get_entity_id());
-			float mouse_detection_accuracy_range = 20.0;
 
 			/* To enforce the GUI following a target Entity by an offset. */
 			if (gui->is_following_entity)
@@ -133,21 +132,43 @@ void Omnific::GUISystem::on_late(std::shared_ptr<Scene> scene)
 				glm::vec2 gui_element_global_position = gui_position + root_element->position;
 				gui_element->detected_inputs = { 0 };
 
-				/* If the mouse is at least hovering over the GUI widget. */
-				if (glm::length(mouse_position - gui_element_global_position) < mouse_detection_accuracy_range)
+				glm::vec2 gui_element_dimensions = gui_element->get_image()->get_dimensions();
+
+				float box_left = gui_element_global_position.x - gui_element_dimensions.x / 2.0;
+				float box_right = gui_element_global_position.x + gui_element_dimensions.x / 2.0;
+				float box_top = gui_element_global_position.y + gui_element_dimensions.y / 2.0;
+				float box_bottom = gui_element_global_position.y - gui_element_dimensions.y / 2.0;
+
+				bool is_mouse_hovering_over_gui_element = 
+				((box_left <= mouse_position.x && box_right >= mouse_position.x) &&
+				(box_bottom <= mouse_position.y && box_top >= mouse_position.y));
+
+				if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_in_focus) ||
+					!(input.is_left_mouse_button_pressed() || 
+					input.is_middle_mouse_button_pressed() || 
+					input.is_right_mouse_button_pressed())))
 				{
-					gui_element->detected_inputs.is_hovered = true;
+					gui_element->is_in_focus = true;
 					gui_element->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
+					gui_element->detected_inputs.is_left_mouse_button_pressed = input.is_left_mouse_button_pressed();
 					gui_element->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
+					gui_element->detected_inputs.is_left_mouse_button_released = input.is_left_mouse_button_released();
 					gui_element->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
 					gui_element->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
+					gui_element->detected_inputs.is_middle_mouse_button_pressed = input.is_middle_mouse_button_pressed();
 					gui_element->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
+					gui_element->detected_inputs.is_middle_mouse_button_released = input.is_left_mouse_button_released();
 					gui_element->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
 					gui_element->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
+					gui_element->detected_inputs.is_right_mouse_button_pressed = input.is_right_mouse_button_pressed();
 					gui_element->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
+					gui_element->detected_inputs.is_right_mouse_button_released = input.is_right_mouse_button_released();
 					gui_element->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
 				}
-
+				else if (!is_mouse_hovering_over_gui_element)
+				{
+					gui_element->is_in_focus = false;
+				}
 				gui_element->update_image();
 			}
 			else
