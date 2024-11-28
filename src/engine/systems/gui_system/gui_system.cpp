@@ -42,7 +42,7 @@ void Omnific::GUISystem::initialize()
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-void Omnific::GUISystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 {
 	Input& input = Platform::get_input();
 	std::unordered_map<std::string, double> numbers;
@@ -126,54 +126,25 @@ void Omnific::GUISystem::on_late(std::shared_ptr<Scene> scene)
 			glm::vec2 root_element_dimensions = root_element->dimensions;
 
 			/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
-			if (root_element->get_gui_element_type() != GUIPanel::TYPE_STRING)
+			if (root_element->get_gui_element_type() == GUIPanel::TYPE_STRING)
 			{
-				std::shared_ptr<GUIElement> gui_element = root_element;
-				glm::vec2 gui_element_global_position = gui_position + root_element->position;
-				gui_element->detected_inputs = { 0 };
 
-				glm::vec2 gui_element_dimensions = gui_element->get_image()->get_dimensions();
-
-				float box_left = gui_element_global_position.x - gui_element_dimensions.x / 2.0;
-				float box_right = gui_element_global_position.x + gui_element_dimensions.x / 2.0;
-				float box_top = gui_element_global_position.y + gui_element_dimensions.y / 2.0;
-				float box_bottom = gui_element_global_position.y - gui_element_dimensions.y / 2.0;
-
-				bool is_mouse_hovering_over_gui_element = 
-				((box_left <= mouse_position.x && box_right >= mouse_position.x) &&
-				(box_bottom <= mouse_position.y && box_top >= mouse_position.y));
-
-				if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_in_focus) ||
-					!(input.is_left_mouse_button_pressed() || 
-					input.is_middle_mouse_button_pressed() || 
-					input.is_right_mouse_button_pressed())))
+			}
+			else if (root_element->get_gui_element_type() == GUIList::TYPE_STRING || 
+				root_element->get_parent_type() == GUIList::TYPE_STRING)
+			{
+				std::shared_ptr<GUIList> gui_list = std::dynamic_pointer_cast<GUIList>(root_element);
+				std::vector<std::shared_ptr<GUIButton>> gui_list_items =  gui_list->get_list_items();
+				this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
+				for (int i = 0; i < gui_list_items.size(); i++)
 				{
-					gui_element->is_in_focus = true;
-					gui_element->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
-					gui_element->detected_inputs.is_left_mouse_button_pressed = input.is_left_mouse_button_pressed();
-					gui_element->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
-					gui_element->detected_inputs.is_left_mouse_button_released = input.is_left_mouse_button_released();
-					gui_element->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
-					gui_element->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
-					gui_element->detected_inputs.is_middle_mouse_button_pressed = input.is_middle_mouse_button_pressed();
-					gui_element->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
-					gui_element->detected_inputs.is_middle_mouse_button_released = input.is_left_mouse_button_released();
-					gui_element->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
-					gui_element->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
-					gui_element->detected_inputs.is_right_mouse_button_pressed = input.is_right_mouse_button_pressed();
-					gui_element->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
-					gui_element->detected_inputs.is_right_mouse_button_released = input.is_right_mouse_button_released();
-					gui_element->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
+					this->detect_inputs_for_gui_element(std::dynamic_pointer_cast<GUIElement>(gui_list_items.at(i)), gui_position, mouse_position);
 				}
-				else if (!is_mouse_hovering_over_gui_element)
-				{
-					gui_element->is_in_focus = false;
-				}
-				gui_element->update_image();
 			}
 			else
 			{
-
+				std::shared_ptr<GUIElement> gui_element = root_element;
+				this->detect_inputs_for_gui_element(gui_element, gui_position, mouse_position);
 			}
 
 			gui->update_image();
@@ -184,4 +155,56 @@ void Omnific::GUISystem::on_late(std::shared_ptr<Scene> scene)
 void Omnific::GUISystem::finalize()
 {
 	this->is_initialized = false;
+}
+
+void Omnific::GUISystem::detect_inputs_for_gui_element(
+	std::shared_ptr<Omnific::GUIElement> gui_element, 
+	glm::vec2 gui_position,
+	glm::vec2 mouse_position)
+{
+	if (!gui_element->is_hidden)
+	{
+		Input& input = Platform::get_input();
+		glm::vec2 gui_element_global_position = gui_position + gui_element->position;
+		gui_element->detected_inputs = { 0 };
+
+		glm::vec2 gui_element_dimensions = gui_element->get_image()->get_dimensions();
+
+		float box_left = gui_element_global_position.x - gui_element_dimensions.x / 2.0;
+		float box_right = gui_element_global_position.x + gui_element_dimensions.x / 2.0;
+		float box_top = gui_element_global_position.y + gui_element_dimensions.y / 2.0;
+		float box_bottom = gui_element_global_position.y - gui_element_dimensions.y / 2.0;
+
+		bool is_mouse_hovering_over_gui_element = 
+		((box_left <= mouse_position.x && box_right >= mouse_position.x) &&
+		(box_bottom <= mouse_position.y && box_top >= mouse_position.y));
+
+		if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_in_focus) ||
+			!(input.is_left_mouse_button_pressed() || 
+			input.is_middle_mouse_button_pressed() || 
+			input.is_right_mouse_button_pressed())))
+		{
+			gui_element->is_in_focus = true;
+			gui_element->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
+			gui_element->detected_inputs.is_left_mouse_button_pressed = input.is_left_mouse_button_pressed();
+			gui_element->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
+			gui_element->detected_inputs.is_left_mouse_button_released = input.is_left_mouse_button_released();
+			gui_element->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
+			gui_element->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
+			gui_element->detected_inputs.is_middle_mouse_button_pressed = input.is_middle_mouse_button_pressed();
+			gui_element->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
+			gui_element->detected_inputs.is_middle_mouse_button_released = input.is_left_mouse_button_released();
+			gui_element->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
+			gui_element->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
+			gui_element->detected_inputs.is_right_mouse_button_pressed = input.is_right_mouse_button_pressed();
+			gui_element->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
+			gui_element->detected_inputs.is_right_mouse_button_released = input.is_right_mouse_button_released();
+			gui_element->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
+		}
+		else if (!is_mouse_hovering_over_gui_element)
+		{
+			gui_element->is_in_focus = false;
+		}
+		gui_element->update_image();
+	}
 }

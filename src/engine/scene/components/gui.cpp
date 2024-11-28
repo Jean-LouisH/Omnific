@@ -59,6 +59,16 @@ bool Omnific::GUIElement::get_is_in_focus()
 	return this->is_in_focus;
 }
 
+bool Omnific::GUIElement::get_is_selected()
+{
+	return this->is_selected;
+}
+
+bool Omnific::GUIElement::get_is_pressed()
+{
+	return this->detected_inputs.is_pressed;
+}
+
 bool Omnific::GUIElement::get_is_left_mouse_button_on_press()
 {
 	return this->detected_inputs.is_left_mouse_button_on_press;
@@ -144,6 +154,11 @@ std::string Omnific::GUIElement::get_gui_element_type()
 	return this->gui_element_type;
 }
 
+std::string Omnific::GUIElement::get_parent_type()
+{
+	return this->parent_type;
+}
+
 std::shared_ptr<Omnific::Image> Omnific::GUIElement::get_image()
 {
 	return this->image;
@@ -170,63 +185,90 @@ void Omnific::GUIElement::highlight_on_input()
 
 void Omnific::GUIColour::update_image()
 {
-	this->image = std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y));
+	if (!this->is_hidden)
+	{
+		this->image = std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y));
+	}
 }
 
 void Omnific::GUIButton::update_image()
 {
-	this->highlight_on_input();
-	/* The border of the button wraps around the text it contains by an offset. */
-	this->gui_label->update_image();
-	this->dimensions = this->gui_label->dimensions + this->button_space_from_text;
-	std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->target_current_colour, this->dimensions.x, this->dimensions.y));
-	std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();
+	if (!this->is_hidden)
+	{
+		this->highlight_on_input();
+		/* The border of the button wraps around the text it contains by an offset. */
+		this->gui_label->update_image();
+		this->dimensions = this->gui_label->dimensions + this->button_space_from_text;
+		std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->target_current_colour, this->dimensions.x, this->dimensions.y));
+		std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();
 
-	Image::normal_blend(
-		base_button_image->get_data(), 
-		this->position, 
-		this->dimensions, 
-		gui_label_image->get_data(), 
-		gui_label->position + this->position, 
-		gui_label->dimensions);
+		Image::normal_blend(
+			base_button_image->get_data(), 
+			this->position, 
+			this->dimensions, 
+			gui_label_image->get_data(), 
+			gui_label->position + this->position, 
+			gui_label->dimensions);
 
-	this->image = std::shared_ptr<Image>(new Image(
-		base_button_image->get_data(), 
-		this->dimensions.x,
-		this->dimensions.y,
-		base_button_image->get_bytes_per_pixel()));
+		this->image = std::shared_ptr<Image>(new Image(
+			base_button_image->get_data(), 
+			this->dimensions.x,
+			this->dimensions.y,
+			base_button_image->get_bytes_per_pixel()));
+	}
+}
+
+void Omnific::GUIList::update_image()
+{
+
+}
+
+void Omnific::GUIList::add_item(std::string button_name)
+{
+	std::shared_ptr<GUIButton> button(new GUIButton());
+	button->gui_label->set_text(button_name);
+	this->list_items.push_back(button);
+}
+
+std::vector<std::shared_ptr<Omnific::GUIButton>> Omnific::GUIList::get_list_items()
+{
+	return this->list_items;
 }
 
 void Omnific::GUIPanel::update_image()
 {
-	/* Determine if Widgets take up more space than the Panel dimensions. */
-	glm::vec2 maximum_widget_side_positions = glm::vec2(0.0);
-
-	for (auto gui_element : this->gui_elements)
+	if (!this->is_hidden)
 	{
-		glm::vec2 gui_widget_side_positions = gui_element->position + gui_element->dimensions;
-		if (gui_widget_side_positions.x > maximum_widget_side_positions.x)
-			maximum_widget_side_positions.x = gui_widget_side_positions.x;
-		if (gui_widget_side_positions.y > maximum_widget_side_positions.y)
-			maximum_widget_side_positions.y = gui_widget_side_positions.y;
-	}
+		/* Determine if Widgets take up more space than the Panel dimensions. */
+		glm::vec2 maximum_widget_side_positions = glm::vec2(0.0);
 
-	/* If so, then create the scrollbars for the sides of the panel. */
-	if (maximum_widget_side_positions.x > this->dimensions.x)
-	{
-		float percentage_of_total_horizontal_space = (float)this->dimensions.x / (float)maximum_widget_side_positions.x;
-		glm::vec2 horizontal_scrollbar_thumb_dimensions = glm::vec2(percentage_of_total_horizontal_space * this->dimensions.x, this->scrollbar_thickness);
-		this->horizontal_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->target_scrollbar_thumb_colour, horizontal_scrollbar_thumb_dimensions.x, horizontal_scrollbar_thumb_dimensions.y));
-	}
+		for (auto gui_element : this->gui_elements)
+		{
+			glm::vec2 gui_widget_side_positions = gui_element->position + gui_element->dimensions;
+			if (gui_widget_side_positions.x > maximum_widget_side_positions.x)
+				maximum_widget_side_positions.x = gui_widget_side_positions.x;
+			if (gui_widget_side_positions.y > maximum_widget_side_positions.y)
+				maximum_widget_side_positions.y = gui_widget_side_positions.y;
+		}
 
-	if (maximum_widget_side_positions.y > this->dimensions.y)
-	{
-		float percentage_of_total_vertical_space = (float)this->dimensions.y / (float)maximum_widget_side_positions.y;
-		glm::vec2 vertical_scrollbar_thumb_dimensions = glm::vec2(this->scrollbar_thickness, percentage_of_total_vertical_space * this->dimensions.y);
-		this->vertical_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->target_scrollbar_thumb_colour, vertical_scrollbar_thumb_dimensions.x, vertical_scrollbar_thumb_dimensions.y));
-	}
+		/* If so, then create the scrollbars for the sides of the panel. */
+		if (maximum_widget_side_positions.x > this->dimensions.x)
+		{
+			float percentage_of_total_horizontal_space = (float)this->dimensions.x / (float)maximum_widget_side_positions.x;
+			glm::vec2 horizontal_scrollbar_thumb_dimensions = glm::vec2(percentage_of_total_horizontal_space * this->dimensions.x, this->scrollbar_thickness);
+			this->horizontal_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->target_scrollbar_thumb_colour, horizontal_scrollbar_thumb_dimensions.x, horizontal_scrollbar_thumb_dimensions.y));
+		}
 
-	this->image = std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y));
+		if (maximum_widget_side_positions.y > this->dimensions.y)
+		{
+			float percentage_of_total_vertical_space = (float)this->dimensions.y / (float)maximum_widget_side_positions.y;
+			glm::vec2 vertical_scrollbar_thumb_dimensions = glm::vec2(this->scrollbar_thickness, percentage_of_total_vertical_space * this->dimensions.y);
+			this->vertical_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->target_scrollbar_thumb_colour, vertical_scrollbar_thumb_dimensions.x, vertical_scrollbar_thumb_dimensions.y));
+		}
+
+		this->image = std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y));
+			
+	}
 }
 
 void Omnific::GUIPanel::add_gui_element(std::shared_ptr<GUIElement> gui_element)
@@ -259,7 +301,7 @@ void Omnific::GUILabel::set_colour(std::shared_ptr<Colour> colour)
 
 void Omnific::GUILabel::update_image()
 {
-	if (this->font != nullptr && this->colour != nullptr)
+	if (!this->is_hidden && this->font != nullptr && this->colour != nullptr)
 	{
 		if (this->font->get_sdl_ttf_font() != nullptr)
 		{
@@ -363,8 +405,6 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			std::shared_ptr<GUIButton> gui_button(new GUIButton());
 
 			gui_button->gui_label = std::shared_ptr<GUILabel>(new GUILabel());
-			gui_button->is_clickable = true;
-			gui_button->is_highlightable = true;
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{

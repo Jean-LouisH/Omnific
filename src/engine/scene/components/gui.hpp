@@ -41,7 +41,7 @@ namespace Omnific
 		static constexpr const char* TYPE_STRING = "GUIElement";
 		GUIElement()
 		{
-			this->name = "GUIElement ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
 			this->gui_element_type = TYPE_STRING;
 			this->image = std::shared_ptr<Image>(new Image());
 			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
@@ -64,6 +64,8 @@ namespace Omnific
 		virtual ~GUIElement() = default;
 		virtual void update_image();
 		bool get_is_in_focus();
+		bool get_is_selected();
+		bool get_is_pressed();
 		bool get_is_left_mouse_button_on_press();
 		bool get_is_left_mouse_button_pressed();
 		bool get_is_left_mouse_button_on_release();
@@ -81,12 +83,15 @@ namespace Omnific
 		bool get_is_right_mouse_button_double_clicked();
 		std::string get_name();
 		std::string get_gui_element_type();
+		std::string get_parent_type();
 		std::shared_ptr<Image> get_image();
 	protected:
 		bool is_in_focus = false;
+		bool is_selected = false;
 
 		struct DetectedInputs
 		{
+			bool is_pressed = false;
 			bool is_left_mouse_button_on_press = false;
 			bool is_left_mouse_button_pressed = false;
 			bool is_left_mouse_button_on_release = false;
@@ -106,6 +111,7 @@ namespace Omnific
 
 		std::string name;
 		std::string gui_element_type;
+		std::string parent_type;
 		std::shared_ptr<Image> image;
 		std::shared_ptr<Colour> target_highlight_colour;
 		std::shared_ptr<Colour> target_default_background_colour;
@@ -123,7 +129,9 @@ namespace Omnific
 		static constexpr const char* TYPE_STRING = "GUIImage";
 		GUIImage()
 		{
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
 			this->gui_element_type = TYPE_STRING;
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
 
 		//virtual void update_image() override;
@@ -139,6 +147,8 @@ namespace Omnific
 		GUIColour()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
 		virtual void update_image() override;
 	private:
@@ -154,6 +164,10 @@ namespace Omnific
 		GUILabel()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
+			this->colour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
+			this->font = std::shared_ptr<Font>(new Font());
 		};
 		void set_text(std::string text);
 		void set_font(std::shared_ptr<Font> font);
@@ -171,17 +185,18 @@ namespace Omnific
 	{
 		friend class GUI;
 		friend class GUISystem;
+		friend class GUIList;
 	public:
 		static constexpr const char* TYPE_STRING = "GUIButton";
 		GUIButton()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 			this->is_anchored = true;
 			this->is_clickable = true;
 			this->is_highlightable = true;
-			// this->target_background_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
-			// this->target_highlight_colour = std::shared_ptr<Colour>(new Colour(0.6, 0.6, 0.6, 1.0));
-			// this->target_clicked_colour = std::shared_ptr<Colour>(new Colour(0.7, 0.7, 0.7, 1.0));
+			this->gui_label = std::shared_ptr<GUILabel>(new GUILabel());
 			this->button_space_from_text = glm::vec2(20.0);
 		};
 		virtual void update_image() override;
@@ -199,6 +214,8 @@ namespace Omnific
 		GUIToggleButton()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIButton::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -213,11 +230,15 @@ namespace Omnific
 		GUIList()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
-		//virtual void update_image() override;
+		virtual void update_image() override;
+		void add_item(std::string button_name);
+		std::vector<std::shared_ptr<GUIButton>> get_list_items();
 	protected:
-		std::vector<GUIButton> list_items;
-		uint64_t current_item_index = 0;
+		std::vector<std::shared_ptr<GUIButton>> list_items;
+		uint64_t selected_item_index = 0;
 	};
 
 	class OMNIFIC_ENGINE_API GUITree : public GUIElement
@@ -229,11 +250,12 @@ namespace Omnific
 		GUITree()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	protected:
-		std::unordered_map<std::string, GUIButton> items;
-		std::unordered_map<std::string, std::vector<std::string>> item_hierarchy;
+		std::unordered_map<std::string, std::shared_ptr<GUIList>> gui_list_hierarchy;
 	};
 
 	class OMNIFIC_ENGINE_API GUIContextMenu : public GUITree
@@ -245,6 +267,8 @@ namespace Omnific
 		GUIContextMenu()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUITree::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -259,6 +283,8 @@ namespace Omnific
 		GUIMenuBar()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -274,6 +300,8 @@ namespace Omnific
 		GUISpinner()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIList::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -288,6 +316,8 @@ namespace Omnific
 		GUITiles()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIList::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -302,6 +332,8 @@ namespace Omnific
 		GUIDropDownList()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIList::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -316,6 +348,8 @@ namespace Omnific
 		GUISlider()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -339,6 +373,8 @@ namespace Omnific
 		GUILine()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -355,6 +391,8 @@ namespace Omnific
 		GUITreeView()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUITree::TYPE_STRING;
 		};
 		//virtual void update_image() override;
 	private:
@@ -371,6 +409,8 @@ namespace Omnific
 		GUIPanel()
 		{
 			this->gui_element_type = TYPE_STRING;
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->parent_type = GUIElement::TYPE_STRING;
 			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.8, 0.8, 0.8, 1.0));
 			this->target_scrollbar_colour = std::shared_ptr<Colour>(new Colour("#222222"));
 			this->target_scrollbar_thumb_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
