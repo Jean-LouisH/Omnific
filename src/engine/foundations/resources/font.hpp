@@ -29,6 +29,7 @@
 #include <memory>
 #include <SDL_ttf.h>
 
+
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Font : public Resource
@@ -36,10 +37,7 @@ namespace Omnific
 	public:
 		static constexpr const char* TYPE_STRING = "Font";
 
-		Font() 
-		{ 
-			this->type = TYPE_STRING;
-		};
+		Font();
 		Font(std::string filepath);
 		Font(std::string filepath, uint16_t size_px);
 		Font(TTF_Font* font);
