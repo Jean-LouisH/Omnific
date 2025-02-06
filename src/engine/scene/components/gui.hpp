@@ -37,6 +37,8 @@ namespace Omnific
 	{
 		friend class GUI;
 		friend class GUISystem;
+		friend class GUIPanel;
+		friend class GUIList;
 	public:
 		static constexpr const char* TYPE_STRING = "GUIElement";
 		GUIElement()
@@ -54,12 +56,9 @@ namespace Omnific
 		bool is_hidden = false;
 		bool is_clickable = false;
 		bool is_highlightable = false;
-		bool is_anchored = false;
+		bool is_draggable = false;
 		bool is_xstretched_to_panel = false;
 		bool is_ystretched_to_panel = false;
-
-		glm::vec2 position;
-		glm::vec2 dimensions;
 
 		virtual ~GUIElement() = default;
 		virtual void update_image();
@@ -81,12 +80,14 @@ namespace Omnific
 		bool get_is_right_mouse_button_on_release();
 		bool get_is_right_mouse_button_released();
 		bool get_is_right_mouse_button_double_clicked();
+		glm::vec2 get_position();
+		glm::vec2 get_dimensions();
 		std::string get_name();
 		std::string get_gui_element_type();
 		std::string get_parent_type();
 		std::shared_ptr<Image> get_image();
 	protected:
-		bool is_in_focus = false;
+		bool is_hovered_in_focus = false;
 		bool is_selected = false;
 
 		struct DetectedInputs
@@ -108,6 +109,9 @@ namespace Omnific
 			bool is_right_mouse_button_released = false;
 			bool is_right_mouse_button_double_clicked = false;
 		} detected_inputs;
+
+		glm::vec2 position;
+		glm::vec2 dimensions;
 
 		std::string name;
 		std::string gui_element_type;
@@ -193,7 +197,6 @@ namespace Omnific
 			this->gui_element_type = TYPE_STRING;
 			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
 			this->parent_type = GUIElement::TYPE_STRING;
-			this->is_anchored = true;
 			this->is_clickable = true;
 			this->is_highlightable = true;
 			this->gui_label = std::shared_ptr<GUILabel>(new GUILabel());

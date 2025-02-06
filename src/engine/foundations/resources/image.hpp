@@ -84,14 +84,15 @@ namespace Omnific
 			glm::vec2 upper_image_position,
 			glm::vec2 upper_image_dimensions
 		);
+
+		std::shared_ptr<uint8_t> data;
 	private:
-		std::shared_ptr<uint8_t> data = {nullptr, stbi_image_free };
 		int width = 0;
 		int height = 0;
-		int colour_channels = 0;
+		int colour_channel_count = 0;
 		Alignment alignment;
 
-		void colour_pixel(uint32_t fill_colour, int x, int y);
+		void colourize_pixel(uint32_t fill_colour, int x, int y);
 		void set_to_default();
 		void set_to_colour(std::shared_ptr<Colour> colour, int width, int height);
 		void set_to_parameters(int colour_channels, int width, int height, uint8_t* data);

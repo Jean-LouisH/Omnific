@@ -113,7 +113,7 @@ Omnific::Image::Image(std::string filepath)
 	}
 	else
 	{
-		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->colour_channels, 0), stbi_image_free);
+		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->colour_channel_count, 0), stbi_image_free);
 	}
 }
 
@@ -158,7 +158,7 @@ glm::vec2 Omnific::Image::get_dimensions()
 
 uint8_t Omnific::Image::get_bytes_per_pixel()
 {
-	return this->colour_channels;
+	return this->colour_channel_count;
 }
 
 Omnific::Image::Alignment Omnific::Image::get_alignment()
@@ -208,13 +208,13 @@ void Omnific::Image::normal_blend(
     }
 }
 
-void Omnific::Image::colour_pixel(uint32_t fill_colour, int x, int y)
+void Omnific::Image::colourize_pixel(uint32_t fill_colour, int x, int y)
 {
-	for (int colour_channel = 0; colour_channel < this->colour_channels; colour_channel++)
+	for (int colour_channel = 0; colour_channel < this->colour_channel_count; colour_channel++)
 	{
 		const int colour_channel_byte_length = 8;
-		int image_index = (y * this->width * this->colour_channels) + (x * this->colour_channels) + colour_channel;
-		int colour_byte_length = this->colour_channels * colour_channel_byte_length;
+		int image_index = (y * this->width * this->colour_channel_count) + (x * this->colour_channel_count) + colour_channel;
+		int colour_byte_length = this->colour_channel_count * colour_channel_byte_length;
 		int colour_channel_byte_offset = colour_channel * colour_channel_byte_length;
 		int mask_byte_shift = colour_byte_length - colour_channel_byte_length - colour_channel_byte_offset;
 		uint8_t colour_channel_value = (uint8_t)((fill_colour & (0x000000FF << mask_byte_shift)) >> mask_byte_shift);
@@ -230,8 +230,8 @@ void Omnific::Image::set_to_default()
 	const uint8_t divisions = 4;
 	this->height = size;
 	this->width = size;
-	this->colour_channels = 3;
-	size_t data_size = this->width * this->height * this->colour_channels;
+	this->colour_channel_count = 3;
+	size_t data_size = this->width * this->height * this->colour_channel_count;
 
 	this->data = std::shared_ptr<uint8_t>(new uint8_t[data_size]);
 	uint32_t fill_colour = 0;
@@ -246,7 +246,7 @@ void Omnific::Image::set_to_default()
 			else
 				fill_colour = lighter_grey;
 
-			this->colour_pixel(fill_colour, x, y);
+			this->colourize_pixel(fill_colour, x, y);
 
 			if ((x % (size / divisions)) == 0)
 				darker = !darker;
@@ -262,22 +262,22 @@ void Omnific::Image::set_to_colour(std::shared_ptr<Colour> colour, int width, in
 	this->type = TYPE_STRING;
 	this->width = width;
 	this->height = height;
-	this->colour_channels = 4;
-	size_t data_size = this->width * this->height * this->colour_channels;
+	this->colour_channel_count = 4;
+	size_t data_size = this->width * this->height * this->colour_channel_count;
 	const uint32_t fill_colour = colour->get_rgba();
 	this->data = std::shared_ptr<uint8_t>(new uint8_t[data_size]);
 
 	for (int y = 0; y < this->height; y++)
 		for (int x = 0; x < this->width; x++)
-			this->colour_pixel(fill_colour, x, y);
+			this->colourize_pixel(fill_colour, x, y);
 }
 
 void Omnific::Image::set_to_parameters(int colour_channels, int width, int height, uint8_t* data)
 {
 	this->height = height;
 	this->width = width;
-	this->colour_channels = colour_channels;
-	size_t data_size = this->width * this->height * this->colour_channels;
+	this->colour_channel_count = colour_channels;
+	size_t data_size = this->width * this->height * this->colour_channel_count;
 	const int colour_channel_byte_length = 8;
 	this->data = std::shared_ptr<uint8_t>(new uint8_t[data_size]);
 
@@ -287,10 +287,10 @@ void Omnific::Image::set_to_parameters(int colour_channels, int width, int heigh
 		{
 			uint32_t fill_colour = 0;
 			for (int colour_channel = 0; colour_channel < colour_channels; colour_channel++)
-				fill_colour |= data[(y * this->width * this->colour_channels) + (x * this->colour_channels) + colour_channel] <<
+				fill_colour |= data[(y * this->width * this->colour_channel_count) + (x * this->colour_channel_count) + colour_channel] <<
 								(colour_channel_byte_length * (colour_channels - 1 - colour_channel));
 
-			this->colour_pixel(fill_colour, x, y);
+			this->colourize_pixel(fill_colour, x, y);
 		}
 	}
 }

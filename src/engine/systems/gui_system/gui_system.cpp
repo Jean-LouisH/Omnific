@@ -57,6 +57,8 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 	}
 
 	glm::vec2 mouse_position = input.get_mouse_position();
+	
+	/*Invert the y to increase from bottom to top.*/
 	mouse_position.y = Platform::get_window().get_window_size().y - mouse_position.y;
 
 	for (const auto scene_layer_it : scene->get_scene_layers())
@@ -143,11 +145,10 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 			}
 			else
 			{
-				std::shared_ptr<GUIElement> gui_element = root_element;
-				this->detect_inputs_for_gui_element(gui_element, gui_position, mouse_position);
+				this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
 			}
 
-			gui->update_image();
+			//gui->update_image();
 		}
 	}
 }
@@ -179,12 +180,12 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 		((box_left <= mouse_position.x && box_right >= mouse_position.x) &&
 		(box_bottom <= mouse_position.y && box_top >= mouse_position.y));
 
-		if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_in_focus) ||
+		if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_hovered_in_focus) ||
 			!(input.is_left_mouse_button_pressed() || 
 			input.is_middle_mouse_button_pressed() || 
 			input.is_right_mouse_button_pressed())))
 		{
-			gui_element->is_in_focus = true;
+			gui_element->is_hovered_in_focus = true;
 			gui_element->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
 			gui_element->detected_inputs.is_left_mouse_button_pressed = input.is_left_mouse_button_pressed();
 			gui_element->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
@@ -203,8 +204,9 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 		}
 		else if (!is_mouse_hovering_over_gui_element)
 		{
-			gui_element->is_in_focus = false;
+			gui_element->is_hovered_in_focus = false;
 		}
+		
 		gui_element->update_image();
 	}
 }

@@ -56,7 +56,7 @@ void Omnific::GUIElement::update_image()
 
 bool Omnific::GUIElement::get_is_in_focus()
 {
-	return this->is_in_focus;
+	return this->is_hovered_in_focus;
 }
 
 bool Omnific::GUIElement::get_is_selected()
@@ -144,6 +144,16 @@ bool Omnific::GUIElement::get_is_right_mouse_button_double_clicked()
 	return this->detected_inputs.is_right_mouse_button_double_clicked;
 }
 
+glm::vec2 Omnific::GUIElement::get_position()
+{
+	return this->position;
+}
+
+glm::vec2 Omnific::GUIElement::get_dimensions()
+{
+	return this->dimensions;
+}
+
 std::string Omnific::GUIElement::get_name()
 {
 	return this->name;
@@ -172,7 +182,7 @@ void Omnific::GUIElement::highlight_on_input()
 		{
 			this->target_current_colour = this->target_clicked_colour;
 		}
-		else if (this->is_in_focus)
+		else if (this->is_hovered_in_focus)
 		{
 			this->target_current_colour  = this->target_highlight_colour;
 		}
@@ -198,7 +208,7 @@ void Omnific::GUIButton::update_image()
 		this->highlight_on_input();
 		/* The border of the button wraps around the text it contains by an offset. */
 		this->gui_label->update_image();
-		this->dimensions = this->gui_label->dimensions + this->button_space_from_text;
+		this->dimensions = this->gui_label->get_dimensions() + this->button_space_from_text;
 		std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->target_current_colour, this->dimensions.x, this->dimensions.y));
 		std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();
 
@@ -207,8 +217,8 @@ void Omnific::GUIButton::update_image()
 			this->position, 
 			this->dimensions, 
 			gui_label_image->get_data(), 
-			gui_label->position + this->position, 
-			gui_label->dimensions);
+			gui_label->get_position() + this->position, 
+			gui_label->get_dimensions());
 
 		this->image = std::shared_ptr<Image>(new Image(
 			base_button_image->get_data(), 
