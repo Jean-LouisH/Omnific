@@ -130,7 +130,7 @@ void Omnific::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<
 		vec3_values.push_back(vec3_value.y);
 		vec3_values.push_back(vec3_value.z);
 	}
-	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec3_values.data());
+	glUniform3fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec3_values.data());
 }
 
 void Omnific::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<glm::vec4> values)
@@ -144,7 +144,7 @@ void Omnific::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<
 		vec4_values.push_back(vec4_value.z);
 		vec4_values.push_back(vec4_value.w);
 	}
-	glUniform2fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec4_values.data());
+	glUniform4fv(glGetUniformLocation(this->program_id, name.c_str()), values.size(), vec4_values.data());
 }
 
 /**Disclaimer: modified from the work of the author 'Jtaim'. A Disquis user in the LearnOpenGL

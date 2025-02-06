@@ -32,8 +32,6 @@
 
 Omnific::RenderingSystem::RenderingSystem()
 {
-	SDL_InitSubSystem(SDL_INIT_VIDEO);
-
 	Platform::create_window("",
 		640,
 		480,
@@ -42,7 +40,9 @@ Omnific::RenderingSystem::RenderingSystem()
 
 	this->dummy_light = std::shared_ptr<Light>(new Light());
 	this->dummy_light_transform = std::shared_ptr<Transform>(new Transform());
-	this->dummy_light_transform->rotate_x(-45.0);
+	this->dummy_light_transform->translate_y(5.0);
+	this->dummy_light_transform->translate_z(5.0);
+	this->dummy_light_transform->rotate_x(45.0);
 	this->opengl_backend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
 	this->type = TYPE_STRING;
 }
@@ -450,13 +450,15 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 				else
 				{
 					std::shared_ptr<Entity> entity = scene_layer->get_entity(renderable_component->get_entity_id());
-
+					entity_renderable.entity_name = entity->get_name();
 					entity_renderable.transform = scene_layer->get_component_by_type<Transform>(entity->get_id());
 					entity_renderable.model = renderable_component;
 
 					std::shared_ptr<Entity> top_entity = entity;
 					EntityID parent_entity_id = entity->parent_id;
 
+					/*Find the top entity of the hierarchy for the
+					  overriding shader. */
 					while (parent_entity_id != 0)
 					{
 						top_entity = scene_layer->get_entity(parent_entity_id);

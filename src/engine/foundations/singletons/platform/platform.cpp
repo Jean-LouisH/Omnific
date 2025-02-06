@@ -78,7 +78,7 @@ bool Omnific::Platform::create_window(std::string title,
 	bool is_fullscreen,
 	std::string rendering_context)
 {
-	bool is_successful = !(bool)SDL_Init(SDL_INIT_EVERYTHING);
+	bool is_successful = !(bool)SDL_Init(SDL_INIT_EVERYTHING & ~SDL_INIT_AUDIO);
 
 	if (is_successful)
 	{
@@ -91,7 +91,7 @@ bool Omnific::Platform::create_window(std::string title,
 	{
 		SDL_Log(
 			"SDL could not initialize because: %s",
-			SDL_GetError);
+			SDL_GetError());
 	}
 
 	return is_successful;

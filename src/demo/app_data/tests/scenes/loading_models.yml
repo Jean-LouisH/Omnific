@@ -1,18 +1,15 @@
 SceneLayer:
   name: "background"
-  spatial_dimension: 3
+  spatial_dimension: 2
+  Entity: 
+    name: "Image"
+    Transform: default
+    Sprite:
+      image: "Image::default"
   Entity:
     name: "Camera"
-    Transform:
-      translation: [0, 0, 30]
-    Camera: "default"
-  Entity:
-    name: "Background"
-    Sprite:
-      image: "Image::#444444"
-      dimensions: [40.0, 30.0, 0.1]
-    Transform:
-      translation: [0, 0, 1]
+    Transform: default
+    Camera: default
   Entity:
     name: "Viewport"
     Viewport:
@@ -36,7 +33,7 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
       shader:
-        fragment: "tests/shaders/light_source_fragment.glsl"
+        preset: "Shader::LIGHT_SOURCE"
     ScriptCollection:
       Python: ["tests/scripts/python/light_movement.py"]
     Light: default
@@ -45,38 +42,13 @@ SceneLayer:
     Transform:
       translation: [0, 0, 0]
     ScriptCollection:
-      Python: ["tests/scripts/python/constantly_rotate.py", "tests/scripts/python/shader_parameter_control.py"]
+      Python: ["tests/scripts/python/constantly_rotate.py"]
     Model:
       overriding_shader:
-        fragment: "tests/shaders/phong_fragment.glsl"
+        preset: "Shader::PHONG"
   SubSceneLayer:
     name: ["tests/models/suzanne.glb", ""]
     parent: "Model"
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
-SceneLayer:
-  name: "GUI layer"
-  spatial_dimension: 3
-  Entity:
-    name: "GUI"
-    Transform: default
-  #  GUI: 
-  #    GUIText:
-  #      text: "This is a test."
-  #      font: ["tests/fonts/Lato-Regular.ttf", 16]
-  #      colour: [255, 255, 255, 255]
-  #  ScriptCollection:
-  #    Python: ["tests/scripts/python/fps_gui.py"]
-  Entity:
-    name: "Camera"
-    Transform:
-      translation: [0, 0, 300]
-      rotation: [0, 0, 0]
-    Camera: "default"
-    ScriptCollection:
-      Python: ["tests/scripts/python/debug_camera_control.py"]
   Entity:
     name: "Viewport"
     Viewport:

@@ -24,6 +24,8 @@
 #include "scene/components/component.hpp"
 #include <foundations/singletons/event_bus.hpp>
 #include <scene/components/transform.hpp>
+#include <scene/components/camera.hpp>
+#include <scene/components/viewport.hpp>
 
 Omnific::SceneLayer::SceneLayer()
 {
@@ -32,6 +34,19 @@ Omnific::SceneLayer::SceneLayer()
 
 	this->id = UIDGenerator::get_new_uid();
 	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
+
+	// std::shared_ptr<Entity> camera_entity = std::shared_ptr<Entity>(new Entity());
+	// std::shared_ptr<Transform> camera_transform = std::shared_ptr<Transform>(new Transform());
+	// std::shared_ptr<Camera> camera = std::shared_ptr<Camera>(new Camera());
+	// camera_entity->set_name("Camera");
+	// this->add_entity(camera_entity);
+	// this->add_component_to_last_entity(camera_transform);
+	// this->add_component_to_last_entity(camera);
+	// std::shared_ptr<Entity> viewport_entity = std::shared_ptr<Entity>(new Entity());
+	// std::shared_ptr<Viewport> viewport = std::shared_ptr<Viewport>(new Viewport());
+	// this->add_entity(viewport_entity);
+	// viewport->set_camera_entity_name("Camera");
+	// this->add_component_to_last_entity(viewport);
 }
 
 void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
@@ -44,6 +59,8 @@ void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 	this->last_entity_id = entity->id;
 	this->set_entity_name(entity->id, entity->name);
 	EventBus::publish(OMNIFIC_EVENT_ENTITY_ADDED);
+	// std::shared_ptr<Transform> transform = std::shared_ptr<Transform>(new Transform());
+	// this->add_component_to_last_entity(transform);
 }
 
 void Omnific::SceneLayer::add_empty_entity()
@@ -71,11 +88,13 @@ void Omnific::SceneLayer::add_entity_tag(EntityID entity_id, std::string tag)
 
 void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Component> component)
 {
+	std::string type = component->get_type();
+	std::shared_ptr<Entity> entity = this->entities.at(entity_id);
+
+	//this->remove_component(entity_id, type);
 	component->set_entity_id(entity_id);
 	this->components.push_back(component);
 	this->components_by_id.emplace(component->get_id(), component);
-	std::string type = component->get_type();
-	std::shared_ptr<Entity> entity = this->entities.at(entity_id);
 	entity->component_ids.emplace(type, component->get_id());
 	size_t last_index = this->components.size() - 1;
 
@@ -178,11 +197,13 @@ void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 			this->component_index_caches.clear();
 			this->render_order_index_cache.clear();
 
+			std::vector<size_t> component_indices;
+			this->component_index_caches.emplace(type, component_indices);
+
 			for (size_t i = 0; i < components.size(); i++)
 			{
-				std::shared_ptr<Component> component = components.at(i);
-				this->component_index_caches.at(component->get_type()).push_back(i);
-				if (component->is_renderable())
+				this->component_index_caches.at(type).push_back(i);
+				if (components.at(i)->is_renderable())
 					this->render_order_index_cache.push_back(i);
 			}
 		}

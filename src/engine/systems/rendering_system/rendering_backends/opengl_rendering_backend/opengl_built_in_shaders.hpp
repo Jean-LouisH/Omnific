@@ -107,12 +107,12 @@ namespace Omnific
 			const char light_source_3d[] = R"(
 				#version 330 core
 				out vec4 colour;
-				uniform vec4 light_colour;
-				uniform float light_intensity;
+				uniform vec4 light_colours[1];
+				uniform float light_intensities[1];
 
 				void main()
 				{
-					colour = light_colour * light_intensity;
+					colour = vec4(light_colours[0].rgb * light_intensities[0], 1.0);
 				}
 			)";
 
@@ -132,30 +132,44 @@ namespace Omnific
 
 			const char phong_3d[] = R"(
 				#version 330 core
+				
+				#define LIGHT_DIRECTIONAL 0
+				#define LIGHT_POINT 1
+				#define LIGHT_SPOT 2
+				#define MAX_LIGHTS 8
+
 				in vec3 translation;
 				in vec2 uv;
 				in vec3 normal;
 				in vec3 fragment_translation;
 				out vec4 colour;
-				uniform vec4 light_colour;
-				uniform vec3 light_translation;
+				uniform int light_count;
+				uniform int light_modes[MAX_LIGHTS];
+				uniform vec4 light_colours[MAX_LIGHTS];
+				uniform float light_intensities[MAX_LIGHTS];
+				uniform float light_ranges[MAX_LIGHTS];
+				uniform vec3 light_translations[MAX_LIGHTS];
+				uniform vec3 light_rotations[MAX_LIGHTS];
 				uniform vec3 camera_translation;
 				uniform float alpha;
-				uniform float ambient_strength;
 				uniform sampler2D albedo_texture_sampler;
 
 				void main()
 				{
 					float specular_intensity = 0.5;
+					float shininess = 32;
+					float ambient_strength = 0.1;
+					vec3 light_translation = light_translations[0];
+					vec4 light_colour = light_colours[0];
 					vec3 normal_direction = normalize(normal);
 					vec3 light_direction = normalize(light_translation - fragment_translation);
 					vec3 view_direction = normalize(camera_translation - fragment_translation);
 					vec3 reflection_direction = reflect(-light_direction, normal_direction);
-					vec4 ambient = ambient_strength * light_colour;
-					vec4 diffuse = max(dot(normal_direction, light_direction), 0.0) * light_colour;
-					vec4 specular = pow(max(dot(view_direction, reflection_direction), 0.0), 32) * specular_intensity * light_colour;
-					colour = (ambient + diffuse + specular) * texture(albedo_texture_sampler, uv);
-					colour.a *= alpha;
+					vec3 ambient = ambient_strength * light_colour.rgb;
+					vec3 diffuse = max(dot(normal_direction, light_direction), 0.0) * light_colour.rgb;
+					vec3 specular = pow(max(dot(view_direction, reflection_direction), 0.0), shininess) * specular_intensity * light_colour.rgb;
+					colour = vec4(ambient + diffuse + specular, 1.0) * texture(albedo_texture_sampler, uv);
+					//colour.a *= alpha;
 				}
 			)";
 

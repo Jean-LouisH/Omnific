@@ -10,3 +10,6 @@ window_settings:
   fullscreen: false
   maximized: false
   resizable: false
+enabled_systems:
+  gui_system: true
+  rendering_system: true

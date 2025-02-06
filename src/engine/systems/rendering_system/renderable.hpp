@@ -41,6 +41,7 @@ namespace Omnific
 	class Renderable
 	{
 	public:
+		std::string entity_name; //For debug.
 		std::shared_ptr<Transform> transform;
 		std::shared_ptr<Model> model;
 		std::shared_ptr<Shader> overriding_shader;
