@@ -20,39 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "haptic_signal_buffer.hpp"
+#pragma once
 
-
-void Omnific::HapticSignalBuffer::publish(PlayerID player_id, float strength_pct, uint16_t duration_ms)
+namespace Omnific
 {
-	std::queue<HapticSignal> haptic_signal_queue;
-	HapticSignal new_haptic_signal = HapticSignal(player_id, strength_pct, duration_ms);
+    namespace DefaultAssets
+    {
+        const char unlit_glsl[] = R"(
+            #version 330 core
+            in vec2 uv;
+            out vec4 colour;
+            uniform float alpha;
+            uniform sampler2D albedo_texture_sampler;
 
-	if (this->haptic_signals.count(player_id) == 0)
-	{
-		haptic_signal_queue.push(new_haptic_signal);
-		this->haptic_signals.emplace(player_id, haptic_signal_queue);
-	}
-	else
-	{
-		haptic_signal_queue = this->haptic_signals.at(player_id);
-		haptic_signal_queue.push(new_haptic_signal);
-		this->haptic_signals.at(player_id) = haptic_signal_queue;
-	}
-
-}
-
-void Omnific::HapticSignalBuffer::clear()
-{
-	this->haptic_signals.clear();
-}
-
-std::unordered_map<Omnific::PlayerID, std::queue<Omnific::HapticSignal>>& Omnific::HapticSignalBuffer::get_haptic_signals()
-{
-	return this->haptic_signals;
-}
-
-std::queue<Omnific::HapticSignal>& Omnific::HapticSignalBuffer::query(PlayerID player_id)
-{
-	return this->haptic_signals.at(player_id);
+            void main()
+            {    
+                colour = texture(albedo_texture_sampler, uv);
+                colour.a *= alpha;
+            }  
+        )";
+    }
 }

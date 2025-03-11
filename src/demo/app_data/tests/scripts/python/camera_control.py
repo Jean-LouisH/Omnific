@@ -8,7 +8,7 @@ class omnific_script:
     def on_logic(self):
         movement_speed = 1.0
         inp = omnific.get_input()
-        transform = omnific.get_component("Transform")
+        transform = omnific.get_transform()
 
         if inp.is_pressed(["s", "dpad_down"]):
             transform.translate_y(-movement_speed)

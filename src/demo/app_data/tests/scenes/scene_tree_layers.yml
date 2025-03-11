@@ -3,7 +3,7 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 0, 30]
     Camera: "default"
   Entity:
@@ -11,7 +11,7 @@ SceneLayer:
     Sprite:
       image: "tests/images/brown_wooden_planks_edited.jpg"
       dimensions: [40.0, 30.0, 0.1]
-    Transform:
+    transform:
       translation: [0, 0, 1]
   Entity:
     name: "Viewport"
@@ -22,13 +22,13 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 30, 20]
       rotation: [-10, 0, 0]
     Camera: "default"
   Entity:
     name: "Cube"
-    Transform:
+    transform:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
@@ -44,13 +44,13 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "ForegroundCamera"
-    Transform:
+    transform:
       translation: [0, 30, 80]
       rotation: [-10, 0, 0]
     Camera: "default"
   Entity:
     name: "Cube"
-    Transform:
+    transform:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
     Model:
@@ -59,7 +59,7 @@ SceneLayer:
       Python: ["tests/scripts/python/foreground_cube_rotate.py"]
   Entity:
     name: "Floor"
-    Transform:
+    transform:
       translation: [0, 0, -5]
       rotation: [-90, 0, 0]
     Sprite:

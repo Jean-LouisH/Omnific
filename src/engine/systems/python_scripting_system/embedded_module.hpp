@@ -127,6 +127,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	pybind11::class_<Omnific::Entity, std::shared_ptr<Omnific::Entity>>(m, "Entity")
 		.def("get_id", &Omnific::Entity::get_id)
 		.def("get_name", &Omnific::Entity::get_name)
+		.def("get_transform", &Omnific::Entity::get_transform)
 		.def_readwrite("parent_id", &Omnific::Entity::parent_id)
 		.def_readwrite("child_ids", &Omnific::Entity::child_ids)
 		.def_readwrite("tags", &Omnific::Entity::tags);
@@ -144,44 +145,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_entity_by_name", &Omnific::SceneLayer::get_entity_by_name)
 		.def("get_last_entity", &Omnific::SceneLayer::get_last_entity)
 		.def("get_entities", &Omnific::SceneLayer::get_entities)
-		.def("get_collision_registry", &Omnific::SceneLayer::get_collision_registry)
-		.def("get_haptic_signal_buffer", &Omnific::SceneLayer::get_haptic_signal_buffer)
 		.def("get_id", &Omnific::SceneLayer::get_id);
-
-	pybind11::class_<Omnific::Collision, std::shared_ptr<Omnific::Collision>>(m, "Collision")
-		.def_readwrite("collider_entity_id", &Omnific::Collision::collider_entity_id)
-		.def_readwrite("collider_name", &Omnific::Collision::collider_name)
-		.def_readwrite("other_collider_entity_id", &Omnific::Collision::other_collider_entity_id)
-		.def_readwrite("other_collider_name", &Omnific::Collision::other_collider_name)
-		.def_readwrite("attack_angle", &Omnific::Collision::attack_angle)
-		.def_readwrite("elasticity_ratio", &Omnific::Collision::elasticity_ratio)
-		.def_readwrite("mass", &Omnific::Collision::mass)
-		.def_readwrite("linear_velocity", &Omnific::Collision::linear_velocity)
-		.def_readwrite("rotation", &Omnific::Collision::rotation)
-		.def_readwrite("other_elasticity_ratio", &Omnific::Collision::other_elasticity_ratio)
-		.def_readwrite("other_mass", &Omnific::Collision::other_mass)
-		.def_readwrite("other_linear_velocity", &Omnific::Collision::other_linear_velocity)
-		.def_readwrite("other_rotation", &Omnific::Collision::other_rotation);
-
-	pybind11::class_<Omnific::CollisionRegistry, std::shared_ptr<Omnific::CollisionRegistry>>(m, "CollisionRegistry")
-		.def("add_or_update", &Omnific::CollisionRegistry::add_or_update)
-		.def("remove", &Omnific::CollisionRegistry::remove)
-		.def("query", &Omnific::CollisionRegistry::query, pybind11::return_value_policy::reference)
-		.def("query_all", &Omnific::CollisionRegistry::query_all)
-		.def("is_colliding", &Omnific::CollisionRegistry::is_colliding)
-		.def("get_collision_count", &Omnific::CollisionRegistry::get_collision_count);
-
-	pybind11::class_<Omnific::HapticSignal>(m, "HapticSignal")
-		.def(pybind11::init<Omnific::PlayerID, float, uint16_t>())
-		.def("get_duration", &Omnific::HapticSignal::get_duration)
-		.def("get_player_id", &Omnific::HapticSignal::get_player_id)
-		.def("get_strength", &Omnific::HapticSignal::get_strength);
-
-	pybind11::class_<Omnific::HapticSignalBuffer, std::shared_ptr<Omnific::HapticSignalBuffer>>(m, "HapticSignalBuffer")
-		.def("publish", &Omnific::HapticSignalBuffer::publish)
-		.def("query", &Omnific::HapticSignalBuffer::query)
-		.def("get_haptic_signals", &Omnific::HapticSignalBuffer::get_haptic_signals)
-		.def("clear", &Omnific::HapticSignalBuffer::clear);
 
 	/*Asset classes*/
 
@@ -240,16 +204,6 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	pybind11::class_<Omnific::PropertyAnimation, Omnific::Component, std::shared_ptr<Omnific::PropertyAnimation>>(m, Omnific::PropertyAnimation::TYPE_STRING);
 	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING);
 	pybind11::class_<Omnific::Sprite, Omnific::Model, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING);
-	pybind11::class_<Omnific::Transform, Omnific::Component, std::shared_ptr<Omnific::Transform>>(m, Omnific::Transform::TYPE_STRING)
-		.def_readwrite("translation", &Omnific::Transform::translation)
-		.def_readwrite("rotation", &Omnific::Transform::rotation)
-		.def_readwrite("scale", &Omnific::Transform::scale)
-		.def("translate_x", &Omnific::Transform::translate_x)
-		.def("translate_y", &Omnific::Transform::translate_y)
-		.def("translate_z", &Omnific::Transform::translate_z)
-		.def("rotate_x", &Omnific::Transform::rotate_x)
-		.def("rotate_y", &Omnific::Transform::rotate_y)
-		.def("rotate_z", &Omnific::Transform::rotate_z);
 	pybind11::class_<Omnific::GUI, Omnific::Model, std::shared_ptr<Omnific::GUI>>(m, Omnific::GUI::TYPE_STRING)
 		.def("set_to_label", &Omnific::GUI::set_to_label);
 	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING);
@@ -263,6 +217,17 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def_readwrite("x", &glm::vec3::x)
 		.def_readwrite("y", &glm::vec3::y)
 		.def_readwrite("z", &glm::vec3::z);
+
+	pybind11::class_<Omnific::Transform, std::shared_ptr<Omnific::Transform>>(m, "Transform")
+		.def_readwrite("translation", &Omnific::Transform::translation)
+		.def_readwrite("rotation", &Omnific::Transform::rotation)
+		.def_readwrite("scale", &Omnific::Transform::scale)
+		.def("translate_x", &Omnific::Transform::translate_x)
+		.def("translate_y", &Omnific::Transform::translate_y)
+		.def("translate_z", &Omnific::Transform::translate_z)
+		.def("rotate_x", &Omnific::Transform::rotate_x)
+		.def("rotate_y", &Omnific::Transform::rotate_y)
+		.def("rotate_z", &Omnific::Transform::rotate_z);
 
 	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "HiResTimer")
 		.def("set_start", &Omnific::Clock::set_start)
@@ -285,22 +250,34 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	/*Singletons*/
 
 	pybind11::class_<Omnific::Event::Parameters>(m, "EventParameters")
+		.def(pybind11::init<>())
 		.def_readwrite("numbers", &Omnific::Event::Parameters::numbers)
-		.def_readwrite("strings", &Omnific::Event::Parameters::strings);
+		.def_readwrite("strings", &Omnific::Event::Parameters::strings)
+		.def_readwrite("bools", &Omnific::Event::Parameters::bools)
+		.def_readwrite("components", &Omnific::Event::Parameters::components)
+		.def_readwrite("key", &Omnific::Event::Parameters::key);
 
 	pybind11::class_<Omnific::Event>(m, "Event")
-		.def(pybind11::init<std::string, uint64_t, Omnific::Event::Parameters>())
-		.def(pybind11::init<std::string, uint64_t>())
+		.def(pybind11::init<std::string, Omnific::Event::Parameters>())
+		.def(pybind11::init<std::string>())
+		.def(pybind11::init<>())
 		.def("get_name", &Omnific::Event::get_name)
 		.def("get_parameters", &Omnific::Event::get_parameters)
 		.def("get_timestamp", &Omnific::Event::get_timestamp);
 
-	m.def("query_event", &Omnific::EventBus::query);
-	m.def("query_event_count", &Omnific::EventBus::query_count);
-	m.def("publish_event", pybind11::overload_cast<std::string>(&Omnific::EventBus::publish));
-	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>, std::unordered_map<std::string, std::string>>(&Omnific::EventBus::publish));
-	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>>(&Omnific::EventBus::publish));
-	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, double>>(&Omnific::EventBus::publish));
+	m.def("query_events", &Omnific::EventBus::query_events);
+	m.def("remove_continuous_event", &Omnific::EventBus::remove_continuous_event);
+	m.def("query_continuous_events", &Omnific::EventBus::query_continuous_events);
+	m.def("query_continuous_event", &Omnific::EventBus::query_continuous_event);
+	m.def("query_events_with_number_parameter",  &Omnific::EventBus::query_events_with_number_parameter);
+	m.def("query_events_with_string_parameter",  &Omnific::EventBus::query_events_with_string_parameter);
+	m.def("query_events_with_bool_parameter",  &Omnific::EventBus::query_events_with_bool_parameter);
+	m.def("query_events_with_component_parameter",  &Omnific::EventBus::query_events_with_component_parameter);
+	m.def("has_continuous_event", &Omnific::EventBus::has_continuous_event);
+	m.def("query_event_count_with_parameter_key", &Omnific::EventBus::query_event_count_with_parameter_key);
+	m.def("query_event_count", &Omnific::EventBus::query_event_count);
+	m.def("publish", pybind11::overload_cast<Omnific::Event, bool>(&Omnific::EventBus::publish));
+	m.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>, std::unordered_map<std::string, double>, std::unordered_map<std::string, bool>, std::unordered_map<std::string, std::shared_ptr<Omnific::Component>>, std::string, bool>(&Omnific::EventBus::publish));
 
 	m.def("preload_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::pre_load_scene));
 	m.def("preload_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::pre_load_scene));
@@ -321,6 +298,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("has_component", &Omnific::PythonEntityContext::has_component);
 	m.def("get_entity", &Omnific::PythonEntityContext::get_entity);
 	m.def("get_component", &Omnific::PythonEntityContext::get_component);
+	m.def("get_transform", &Omnific::PythonEntityContext::get_transform);
 	m.def("get_scene", &Omnific::PythonEntityContext::get_scene);
 	m.def("get_scene_layer", &Omnific::PythonEntityContext::get_scene_layer);
 	m.def("get_time_delta", &Omnific::PythonEntityContext::get_time_delta);

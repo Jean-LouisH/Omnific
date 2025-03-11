@@ -27,6 +27,7 @@
 #include <string>
 #include <engine_api.hpp>
 #include <stdint.h>
+#include <scene/components/component.hpp>
 
 #define OMNIFIC_EVENT_ENTITY_ADDED "entity_added"
 #define OMNIFIC_EVENT_ENTITY_NAME_SET "entity_name_set"
@@ -40,6 +41,12 @@
 #define OMNIFIC_EVENT_SCENE_REMOVED "scene_removed"
 #define OMNIFIC_EVENT_ACTIVE_SCENE_RELOADED "active_scene_reloaded"
 
+#define OMNIFIC_EVENT_ENTITY_IS_ON_COLLISION "entity_is_on_collision"
+#define OMNIFIC_EVENT_ENTITY_IS_COLLIDING "entity_is_colliding"
+#define OMNIFIC_EVENT_ENTITY_IS_OFF_COLLISION "entity_is_off_collision"
+
+#define OMNIFIC_EVENT_HAPTIC_SIGNAL "haptic_signal"
+
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Event
@@ -49,10 +56,14 @@ namespace Omnific
 		{
 			std::unordered_map<std::string, double> numbers;
 			std::unordered_map<std::string, std::string> strings;
+			std::unordered_map<std::string, bool> bools;
+			std::unordered_map<std::string, std::shared_ptr<Component>> components;
+			std::string key;
 		};
 
-		Event(std::string name, uint64_t timestamp, Parameters parameters);
-		Event(std::string name, uint64_t timestamp);
+		Event(std::string name, Parameters parameters);
+		Event(std::string name);
+		Event();
 
 		/*Event data is read only to prevent multiple Systems or Scripts
 		from overwriting it directly from reference from the EventQueue.*/
@@ -72,29 +83,38 @@ namespace Omnific
 		friend class Engine;
 	public:
 		static void publish(
-			std::string name,
-			std::unordered_map<std::string, double> numbers,
-			std::unordered_map<std::string, std::string> strings);
+			Event event,
+			bool is_continuous = false);
 
 		static void publish(
-			std::string name,
-			std::unordered_map<std::string, double> numbers);
+			std::string event_name,
+			std::unordered_map<std::string, std::string> strings = {},
+			std::unordered_map<std::string, double> numbers = {},
+			std::unordered_map<std::string, bool> booleans = {},
+			std::unordered_map<std::string, std::shared_ptr<Component>> components = {},
+			std::string key = "",
+			bool is_continuous = false);
 
-		static void publish(
-			std::string name,
-			std::unordered_map<std::string, std::string> strings);
-
-		static void publish(
-			std::string name);
-
-		static std::vector<Event> query(std::string name);
-		static uint64_t query_count(std::string name);
+		static void remove_continuous_event(std::string event_name, std::string event_key);
+		static std::vector<Event> query_events(std::string event_name);
+		static std::unordered_map<std::string, Event> query_continuous_events(std::string event_name);
+		static Event query_continuous_event(std::string event_name, std::string event_key);
+		static std::vector<Event> query_events_with_number_parameter(std::string event_name, std::string event_parameter_key, double parameter_value);
+		static std::vector<Event> query_events_with_string_parameter(std::string event_name, std::string event_parameter_key, std::string parameter_value);
+		static std::vector<Event> query_events_with_bool_parameter(std::string event_name, std::string event_parameter_key, bool parameter_value);
+		static std::vector<Event> query_events_with_component_parameter(std::string event_name, std::string event_parameter_key, std::shared_ptr<Component> parameter_value);
+		static bool has_continuous_event(std::string event_name, std::string event_key);
+		static uint64_t query_event_count(std::string event_name);
+		static uint64_t query_event_count_with_parameter_key(std::string event_name, std::string event_parameter_key);
 		static EventBus* get_instance();
 	private:
 		static EventBus* instance;
-		std::unordered_map<std::string, std::vector<Event>> events;
+		std::unordered_map<std::string, std::vector<Event>> instant_events;
+		std::unordered_map<std::string, std::unordered_map<std::string, Event>> continuous_events;
 
 		static void clear();
-		static void publish_with_parameters(std::string name, Event::Parameters parameters);
+		static void publish_with_parameters(
+			Event event,
+			bool is_continuous);
 	};
 }

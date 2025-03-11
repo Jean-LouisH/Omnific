@@ -29,7 +29,7 @@
 #include <scene/components/collider.hpp>
 #include <scene/components/physics_body.hpp>
 #include <scene/components/timer.hpp>
-#include <scene/components/transform.hpp>
+#include <foundations/transform.hpp>
 
 #include <foundations/singletons/event_bus.hpp>
 
@@ -78,7 +78,7 @@ void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
-		std::shared_ptr<Transform> transform = scene_layer->get_component_by_type<Transform>(physics_body->get_entity_id());
+		std::shared_ptr<Transform> transform = scene_layer->get_entity(physics_body->get_entity_id())->get_transform();
 		if (transform != nullptr)
 			transform->translation += physics_body->linear_velocity * seconds_per_compute_update;
 	}
@@ -118,7 +118,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 	for (size_t i = 0; i < colliders_count; i++)
 	{
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
-		std::shared_ptr<Transform> transform1 = scene_layer->get_component_by_type<Transform>(collider1->get_entity_id());
+		std::shared_ptr<Transform> transform1 = scene_layer->get_entity(collider1->get_entity_id())->get_transform();
 		glm::vec3 translation1 = transform1->translation;
 		glm::vec3 scale1 = transform1->scale;
 		scale1 *= 0.5;
@@ -129,7 +129,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 			if (i != j)
 			{
 				std::shared_ptr<Collider> collider2 = colliders.at(j);
-				std::shared_ptr<Transform> transform2 = scene_layer->get_component_by_type<Transform>(collider2->get_entity_id());
+				std::shared_ptr<Transform> transform2 = scene_layer->get_entity(collider2->get_entity_id())->get_transform();
 				glm::vec3 translation2 = transform2->translation;
 				glm::vec3 scale2 = transform2->scale;
 				scale2 *= 0.5;
@@ -151,71 +151,55 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 
 				std::shared_ptr<Entity> entity1 = scene_layer->get_entity(collider1->get_entity_id());
 				std::shared_ptr<Entity> entity2 = scene_layer->get_entity(collider2->get_entity_id());
-				std::shared_ptr<CollisionRegistry> collision_registry = scene_layer->get_collision_registry();
+				std::string collision_event_key = entity1->get_name() + "_and_" + entity2->get_name();
 
 				/* Collision Detected */
 				if ((box1left <= box2right && box1right >= box2left) &&
 					(box1bottom <= box2top && box1top >= box2bottom) &&
 					(box1back <= box2front && box1front >= box2back))
 				{
-					std::shared_ptr<Collision> collision(new Collision());
-					std::unordered_map<std::string, std::string> event_strings;
+					std::unordered_map<std::string, std::string> strings;
+					std::unordered_map<std::string, std::shared_ptr<Component>> components;
 
-					collision->collider_entity_id = collider1->get_entity_id();
-					collision->collider_name = entity1->get_name();
-					event_strings.emplace("collider_name", entity1->get_name());
-					collision->other_collider_entity_id = collider2->get_entity_id();
-					collision->other_collider_name = entity2->get_name();
-					event_strings.emplace("other_collider_name", entity2->get_name());
+					components.emplace("collider", collider1);
+					components.emplace("other_collider", collider2);
+					components.emplace("physics_body", scene_layer->get_component_by_type<PhysicsBody>(entity1->get_id()));
+					components.emplace("other_physics_body", scene_layer->get_component_by_type<PhysicsBody>(entity2->get_id()));
+					strings.emplace("collider_name", entity1->get_name());
+					strings.emplace("other_collider_name", entity2->get_name());
 
-					collision->is_trigger_only = collider1->is_trigger_only;
-
-					if (!collision->is_trigger_only)
+					if (!EventBus::has_continuous_event(
+						OMNIFIC_EVENT_ENTITY_IS_COLLIDING, 
+						collision_event_key))
 					{
-						collision->has_physics_body = entity1->component_ids.count(PhysicsBody::TYPE_STRING) > 0;
-						collision->has_other_physics_body = entity2->component_ids.count(PhysicsBody::TYPE_STRING) > 0;
+						EventBus::publish(
+							OMNIFIC_EVENT_ENTITY_IS_ON_COLLISION, 
+							strings, 
+							{}, 
+							{}, 
+							components, 
+							collision_event_key);
 
-						if (collision->has_physics_body)
-						{
-							std::shared_ptr<Component> physics_body_component1 = scene_layer->get_component_by_id(entity1->component_ids.at(PhysicsBody::TYPE_STRING));
-							std::shared_ptr<PhysicsBody> physics_body1 = std::dynamic_pointer_cast<PhysicsBody>(physics_body_component1);
-
-							collision->elasticity_ratio = physics_body1->elasticity_ratio;
-							collision->mass = physics_body1->mass;
-							collision->linear_velocity = physics_body1->linear_velocity;
-							collision->rotation = transform1->rotation;
-						}
-
-						if (collision->has_other_physics_body)
-						{
-							std::shared_ptr<Component> physics_body_component2 = scene_layer->get_component_by_id(entity2->component_ids.at(PhysicsBody::TYPE_STRING));
-							std::shared_ptr<PhysicsBody> physics_body2 = std::dynamic_pointer_cast<PhysicsBody>(physics_body_component2);
-
-							collision->other_elasticity_ratio = physics_body2->elasticity_ratio;
-							collision->other_mass = physics_body2->mass;
-							collision->other_linear_velocity = physics_body2->linear_velocity;
-							collision->other_rotation = transform2->rotation;
-						}
-						else if (!collider2->is_trigger_only)
-						{
-							collision->other_elasticity_ratio = 1.0;
-							collision->other_mass = EARTH_MASS;
-							collision->other_rotation = transform2->rotation;
-						}
+						EventBus::publish(
+							OMNIFIC_EVENT_ENTITY_IS_COLLIDING, 
+							strings, 
+							{}, 
+							{}, 
+							components, 
+							collision_event_key,
+							true);
 					}
-
-					if (!collision_registry->is_colliding(entity1->get_name(), entity2->get_name()))
-						EventBus::publish("entity_is_on_collision", event_strings);
-
-					collision_registry->add_or_update(collision);
 				}
-				else if (collision_registry->is_colliding(entity1->get_name(), entity2->get_name()))
+				else if (EventBus::has_continuous_event(
+					OMNIFIC_EVENT_ENTITY_IS_COLLIDING, 
+					collision_event_key))
 				{
-					std::unordered_map<std::string, std::string> event_strings;
-					event_strings.emplace("collider_name", entity1->get_name());
-					event_strings.emplace("other_collider_name", entity2->get_name());
-					collision_registry->remove(entity1->get_name(), entity2->get_name());
-					EventBus::publish("entity_is_off_collision", event_strings);
+					std::unordered_map<std::string, std::string> strings;
+
+					strings.emplace("collider_name", entity1->get_name());
+					strings.emplace("other_collider_name", entity2->get_name());
+					EventBus::remove_continuous_event(OMNIFIC_EVENT_ENTITY_IS_COLLIDING, collision_event_key);
+					EventBus::publish(OMNIFIC_EVENT_ENTITY_IS_OFF_COLLISION, strings);
 				}
 			}
 		}
@@ -224,29 +208,50 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 
 void Omnific::PhysicsSystem::handle_collisions(std::shared_ptr<SceneLayer> scene_layer)
 {
-	//std::shared_ptr<EventBus> event_bus = scene_layer->get_event_bus();
-	//std::vector<Event> collision_events = event_bus->query("entity_is_on_collision");
-	//size_t collision_event_count = collision_events.size();
+	std::vector<Event> collision_events = EventBus::query_events(OMNIFIC_EVENT_ENTITY_IS_COLLIDING);
+	size_t collision_event_count = collision_events.size();
 
-	///* Basic collision response on boxes */
-	//for (size_t i = 0; i < collision_event_count; i++)
-	//{
-	//	Event& collision_event = collision_events.at(i);
-	//	std::unordered_map<std::string, double> numbers = collision_event.get_parameters().numbers;
+	/* Basic collision response on boxes */
+	for (size_t i = 0; i < collision_event_count; i++)
+	{
+		Event& collision_event = collision_events.at(i);
+		std::unordered_map<std::string, std::shared_ptr<Component>> components = collision_event.get_parameters().components;
+		std::shared_ptr<PhysicsBody> physics_body = std::dynamic_pointer_cast<PhysicsBody>(components.at("physics_body"));
 
-	//	if (!numbers.empty())
-	//	{
-	//		std::shared_ptr<Entity> entity = scene_layer->get_entity(numbers.at("first_entity_id"));
-
-	//		/* Collision response for PhysicsBodies */
-	//		if (entity->component_ids.count(PhysicsBody::TYPE_STRING))
-	//		{
-	//			std::shared_ptr<Component> physics_body_component = scene_layer->get_component_by_id(entity->component_ids.at(PhysicsBody::TYPE_STRING));
-	//			std::shared_ptr<PhysicsBody> physics_body = std::dynamic_pointer_cast<PhysicsBody>(physics_body_component);
-	//			physics_body->linear_velocity.x = numbers.at("second_linear_velocity_x");
-	//			physics_body->linear_velocity.y = numbers.at("second_linear_velocity_y");
-	//			physics_body->linear_velocity.z = numbers.at("second_linear_velocity_z");
-	//		}
-	//	}
-	//}
+		if (physics_body != nullptr)
+		{
+			std::shared_ptr<PhysicsBody> other_physics_body = std::dynamic_pointer_cast<PhysicsBody>(components.at("other_physics_body"));
+			std::shared_ptr<Entity> entity = scene_layer->get_entity(physics_body->get_entity_id());
+				
+			switch (physics_body->collision_response_type)
+			{
+				case CollisionResponseType::INTANGIBLE: 
+					
+					break;
+				case CollisionResponseType::FLUID: 
+					
+					break;
+				case CollisionResponseType::SOFT: 
+					//adjust mesh offsets with the collision shape
+					break;
+				case CollisionResponseType::RIGID: 
+					//temporary solution
+					// physics_body->linear_velocity.x = numbers.at("second_linear_velocity_x");
+					// physics_body->linear_velocity.y = numbers.at("second_linear_velocity_y");
+					// physics_body->linear_velocity.z = numbers.at("second_linear_velocity_z");
+					break;
+				case CollisionResponseType::SCRIPTABLE: 
+					if (other_physics_body != nullptr)
+					{
+						if (other_physics_body->collision_response_type == CollisionResponseType::RIGID || 
+							other_physics_body->collision_response_type == CollisionResponseType::SCRIPTABLE)
+						{
+							//temporary solution
+							physics_body->linear_velocity = {0.0, 0.0, 0.0};
+						}
+					}
+					break;
+			}
+		}
+	}
 }

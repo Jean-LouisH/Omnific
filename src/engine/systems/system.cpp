@@ -90,7 +90,7 @@ bool Omnific::System::has_scene_changed(std::shared_ptr<Scene> scene)
 	if (active_scene_changed)
 		this->active_scene_id = scene->get_id();
 
-	return (EventBus::query_count(OMNIFIC_EVENT_COMPONENT_ADDED) ||
-		EventBus::query_count(OMNIFIC_EVENT_COMPONENT_REMOVED) ||
+	return (EventBus::query_event_count(OMNIFIC_EVENT_COMPONENT_ADDED) ||
+		EventBus::query_event_count(OMNIFIC_EVENT_COMPONENT_REMOVED) ||
 		active_scene_changed);
 }

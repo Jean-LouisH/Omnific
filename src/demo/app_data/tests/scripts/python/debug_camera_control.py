@@ -8,7 +8,7 @@ class omnific_script:
     def on_logic(self):
         movement_speed = 1.0
         input = omnific.get_input()
-        transform = omnific.get_component("Transform")
+        transform = omnific.get_transform()
 
         if input.is_pressed(["down"]):
             transform.translate_z(movement_speed)

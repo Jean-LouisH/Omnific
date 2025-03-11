@@ -23,15 +23,16 @@
 #include "scene_layer.hpp"
 #include "scene/components/component.hpp"
 #include <foundations/singletons/event_bus.hpp>
-#include <scene/components/transform.hpp>
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
 
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
+#include <gtx/matrix_decompose.hpp>
+#include <gtx/rotate_vector.hpp>
+
 Omnific::SceneLayer::SceneLayer()
 {
-	this->collision_registry = std::shared_ptr<CollisionRegistry>(new CollisionRegistry());
-	this->haptic_signal_buffer = std::shared_ptr<HapticSignalBuffer>(new HapticSignalBuffer());
-
 	this->id = UIDGenerator::get_new_uid();
 	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
 
@@ -59,8 +60,6 @@ void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 	this->last_entity_id = entity->id;
 	this->set_entity_name(entity->id, entity->name);
 	EventBus::publish(OMNIFIC_EVENT_ENTITY_ADDED);
-	// std::shared_ptr<Transform> transform = std::shared_ptr<Transform>(new Transform());
-	// this->add_component_to_last_entity(transform);
 }
 
 void Omnific::SceneLayer::add_empty_entity()
@@ -210,6 +209,60 @@ void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 	}
 }
 
+std::shared_ptr<Omnific::Transform> Omnific::SceneLayer::compute_global_transform(EntityID local_transform_entity_id)
+{
+	std::shared_ptr<Transform> global_transform = std::shared_ptr<Transform>(new Transform());
+	std::shared_ptr<Entity> current_entity = this->get_entity(local_transform_entity_id);
+	std::vector<std::shared_ptr<Transform>> local_transforms;
+
+	/* Find the root transform. */
+
+	local_transforms.push_back(current_entity->transform);
+
+	while (current_entity->parent_id != 0)
+	{
+		current_entity = this->get_entity(current_entity->parent_id);
+		local_transforms.push_back(current_entity->transform);
+	}
+
+	/* Accumulate the local transforms from the root transform and down. */
+
+	std::shared_ptr<Transform> root_transform = current_entity->get_transform();
+	global_transform->translation = root_transform->translation;
+	global_transform->rotation = root_transform->rotation;
+	global_transform->scale = root_transform->scale;
+
+	for (int i = local_transforms.size() - 2; //The last transform index after the root
+	i >= 0; 
+	i--)
+	{
+		std::shared_ptr<Transform> local_transform = local_transforms.at(i);
+
+		glm::vec3 radians_rotation = glm::vec3(
+			glm::radians(global_transform->rotation.x),
+			glm::radians(global_transform->rotation.y),
+			glm::radians(global_transform->rotation.z)
+		);
+
+		glm::vec3 distance_vector = local_transform->translation - global_transform->translation;
+		float distance = glm::length(distance_vector);
+		glm::vec3 direction = glm::normalize(distance_vector);
+
+		if (!(std::isnan(direction.x) || std::isnan(direction.y) || std::isnan(direction.z)))
+		{
+			direction = glm::rotateX(direction, radians_rotation.x);
+			direction = glm::rotateY(direction, radians_rotation.y);
+			direction = glm::rotateZ(direction, radians_rotation.z);
+			global_transform->translation += direction * distance;
+		}
+
+		global_transform->rotation += local_transform->rotation;
+		global_transform->scale *= local_transform->scale;
+	}
+
+	return global_transform;
+}
+
 std::vector<size_t> Omnific::SceneLayer::get_render_order_index_cache()
 {
 	return this->render_order_index_cache;
@@ -311,11 +364,6 @@ std::vector<std::shared_ptr<Omnific::Component>> Omnific::SceneLayer::get_compon
 	return component_hierarchy;
 }
 
-std::shared_ptr<Omnific::CollisionRegistry> Omnific::SceneLayer::get_collision_registry()
-{
-	return this->collision_registry;
-}
-
 Omnific::SceneLayerID Omnific::SceneLayer::get_id()
 {
 	return this->id;
@@ -324,9 +372,4 @@ Omnific::SceneLayerID Omnific::SceneLayer::get_id()
 std::string Omnific::SceneLayer::get_name()
 {
 	return this->name;
-}
-
-std::shared_ptr<Omnific::HapticSignalBuffer> Omnific::SceneLayer::get_haptic_signal_buffer()
-{
-	return this->haptic_signal_buffer;
 }

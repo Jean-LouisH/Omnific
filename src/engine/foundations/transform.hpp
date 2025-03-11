@@ -22,31 +22,36 @@
 
 #pragma once
 
-#include <foundations/aliases.hpp>
 #include <glm.hpp>
-#include <string>
+#include <memory>
 #include <engine_api.hpp>
-
 
 namespace Omnific
 {
-	typedef struct OMNIFIC_ENGINE_API Collision
+	class OMNIFIC_ENGINE_API Transform
 	{
-		EntityID collider_entity_id = 0;
-		std::string collider_name;
-		EntityID other_collider_entity_id = 0;
-		std::string other_collider_name;
-		glm::vec3 attack_angle;
-		bool has_physics_body = false;
-		bool has_other_physics_body = false;
-		bool is_trigger_only = false;
-		double elasticity_ratio = 0.0;
-		double mass = 0.0;
-		glm::vec3 linear_velocity;
+	public:
+		glm::vec3 translation;
 		glm::vec3 rotation;
-		double other_elasticity_ratio = 0.0;
-		double other_mass = 0.0;
-		glm::vec3 other_linear_velocity;
-		glm::vec3 other_rotation;
+		glm::vec3 scale;
+
+		Transform()
+		{
+			this->translation = glm::vec3(0.0, 0.0, 0.0);
+			this->rotation = glm::vec3(0.0, 0.0, 0.0);
+			this->scale = glm::vec3(1.0, 1.0, 1.0);
+		}
+
+		void translate_x(float offset);
+		void translate_y(float offset);
+		void translate_z(float offset);
+		void rotate_x(float angle);
+		void rotate_y(float angle);
+		void rotate_z(float angle);
+		float calculate_distance_from(glm::vec3 position);
+		float calculate_azimuth_from(glm::vec3 position);
+		float calculate_elevation_from(glm::vec3 position);
+		glm::mat4 get_transform_matrix();
+	private:
 	};
 }

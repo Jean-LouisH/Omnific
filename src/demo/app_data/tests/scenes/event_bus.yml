@@ -3,7 +3,7 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 0, 30]
     Camera: "default"
   Entity:
@@ -11,7 +11,7 @@ SceneLayer:
     Sprite:
       image: "tests/images/grey.jpg"
       dimensions: [40.0, 30.0, 0.1]
-    Transform:
+    transform:
       translation: [0, 0, 1]
   Entity:
     name: "Viewport"
@@ -22,13 +22,13 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [20, 30, 100]
       rotation: [-10, 0, 0]
     Camera: "default"
   Entity:
     name: "Floor"
-    Transform:
+    transform:
       translation: [-30, -10, -5]
       scale: [50, 10, 50]
     ModelContainer:
@@ -37,7 +37,7 @@ SceneLayer:
       dimensions: [1.0, 1.0, 1.0]
   Entity:
     name: "CollidingCube"
-    Transform:
+    transform:
       translation: [-30, 15, -5]
       scale: [25, 25, 25]
     ModelContainer:
@@ -48,7 +48,7 @@ SceneLayer:
       dimensions: [1.0, 1.0, 1.0]
   Entity:
     name: "RespondingCube1"
-    Transform:
+    transform:
       translation: [30, 15, -5]
       scale: [20, 20, 20]
     ModelContainer:

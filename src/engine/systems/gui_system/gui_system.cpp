@@ -25,7 +25,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <SDL_ttf.h>
 #include <scene/components/gui.hpp>
-#include <scene/components/transform.hpp>
+#include <foundations/transform.hpp>
 #include <scene/components/viewport.hpp>
 #include <scene/components/camera.hpp>
 
@@ -53,7 +53,7 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 	{
 		numbers.emplace((std::string)"drop_file_window_id", (double)input.get_drop_file_window_id());
 		strings.emplace((std::string)"drop_file_path", input.get_drop_file_path());
-		EventBus::publish("file dropped on window", numbers, strings);
+		EventBus::publish("file dropped on window", strings, numbers);
 	}
 
 	glm::vec2 mouse_position = input.get_mouse_position();
@@ -68,7 +68,7 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 		for (int i = 0; i < guis.size(); i++)
 		{
 			std::shared_ptr<GUI> gui = guis[i];
-			std::shared_ptr<Transform> gui_transform = scene_layer_it.second->get_component_by_type<Transform>(gui->get_entity_id());
+			std::shared_ptr<Transform> gui_transform = scene_layer_it.second->get_entity(gui->get_entity_id())->get_transform();
 
 			/* To enforce the GUI following a target Entity by an offset. */
 			if (gui->is_following_entity)
@@ -91,7 +91,7 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 
 				if (followed_entity != nullptr)
 				{
-					std::shared_ptr<Transform> followed_entity_transform = scene_layer_it.second->get_component_by_type<Transform>(followed_entity->get_id());
+					std::shared_ptr<Transform> followed_entity_transform = followed_entity->get_transform();
 					std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer_it.second->get_components_by_type<Viewport>();
 					std::shared_ptr<Camera> camera;
 					std::shared_ptr<Transform> camera_transform;
@@ -101,7 +101,7 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 						std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
 						std::shared_ptr<Entity> camera_entity = scene_layer_it.second->get_entity_by_name(ui_viewport->get_camera_entity_name());
 						camera = scene_layer_it.second->get_component_by_type<Camera>(camera_entity->get_id());
-						camera_transform = scene_layer_it.second->get_component_by_type<Transform>(camera_entity->get_id());
+						camera_transform = camera_entity->get_transform();
 					}
 
 					if (camera != nullptr && camera_transform != nullptr)
@@ -148,7 +148,7 @@ void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
 				this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
 			}
 
-			//gui->update_image();
+			gui->update_image();
 		}
 	}
 }
@@ -167,7 +167,6 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 	{
 		Input& input = Platform::get_input();
 		glm::vec2 gui_element_global_position = gui_position + gui_element->position;
-		gui_element->detected_inputs = { 0 };
 
 		glm::vec2 gui_element_dimensions = gui_element->get_image()->get_dimensions();
 
@@ -186,27 +185,12 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 			input.is_right_mouse_button_pressed())))
 		{
 			gui_element->is_hovered_in_focus = true;
-			gui_element->detected_inputs.is_left_mouse_button_on_press = input.is_left_mouse_button_on_press();
-			gui_element->detected_inputs.is_left_mouse_button_pressed = input.is_left_mouse_button_pressed();
-			gui_element->detected_inputs.is_left_mouse_button_on_release = input.is_left_mouse_button_on_release();
-			gui_element->detected_inputs.is_left_mouse_button_released = input.is_left_mouse_button_released();
-			gui_element->detected_inputs.is_left_mouse_button_double_clicked = input.is_left_mouse_button_double_clicked();
-			gui_element->detected_inputs.is_middle_mouse_button_on_press = input.is_middle_mouse_button_on_press();
-			gui_element->detected_inputs.is_middle_mouse_button_pressed = input.is_middle_mouse_button_pressed();
-			gui_element->detected_inputs.is_middle_mouse_button_on_release = input.is_middle_mouse_button_on_release();
-			gui_element->detected_inputs.is_middle_mouse_button_released = input.is_left_mouse_button_released();
-			gui_element->detected_inputs.is_middle_mouse_button_double_clicked = input.is_middle_mouse_button_double_clicked();
-			gui_element->detected_inputs.is_right_mouse_button_on_press = input.is_right_mouse_button_on_press();
-			gui_element->detected_inputs.is_right_mouse_button_pressed = input.is_right_mouse_button_pressed();
-			gui_element->detected_inputs.is_right_mouse_button_on_release = input.is_right_mouse_button_on_release();
-			gui_element->detected_inputs.is_right_mouse_button_released = input.is_right_mouse_button_released();
-			gui_element->detected_inputs.is_right_mouse_button_double_clicked = input.is_right_mouse_button_double_clicked();
 		}
 		else if (!is_mouse_hovering_over_gui_element)
 		{
 			gui_element->is_hovered_in_focus = false;
 		}
 		
-		gui_element->update_image();
+		//gui_element->update_image();
 	}
 }

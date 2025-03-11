@@ -5,12 +5,12 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Background Camera"
-    Transform:
+    transform:
       translation: [0, 0, 150]
     Camera: "default"
   Entity:
     name: "Background Image"
-    Transform:
+    transform:
       translation: [0, 0, 0]
     Sprite:
       image: "Image::#CCCCCC"
@@ -23,13 +23,13 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    Transform: default
+    transform: default
     #Model:
     #  overriding_shader:
     #    fragment: "games/paper_airplanes/shaders/phong_fragment.glsl"
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 1, 30]
       rotation: [10.0, 0.0, 0.0]
     Camera: "default"
@@ -48,7 +48,7 @@ SceneLayer:
   Entity:
     name: "Environment"
     parent: "GlobalShaderEntity"
-    Transform: default
+    transform: default
     Collider:
       is_trigger: false
   SubSceneLayer:
@@ -56,7 +56,7 @@ SceneLayer:
     parent: "Environment"
   Entity:
     name: "Airplane"
-    Transform: 
+    transform: 
       translation: [0.0, 0.0, 0.0]
     Collider:
       is_trigger: false
@@ -67,7 +67,7 @@ SceneLayer:
     parent: "Airplane"
   Entity:
     name: "LightSource"
-    Transform:
+    transform:
       translation: [0.0, 0.0, 0.0]
     Model:
       mesh: "Mesh::cube"

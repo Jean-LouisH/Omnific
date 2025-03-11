@@ -45,6 +45,11 @@ std::shared_ptr<Omnific::Entity> Omnific::PythonEntityContext::get_entity()
 	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
 }
 
+std::shared_ptr<Omnific::Transform> Omnific::PythonEntityContext::get_transform()
+{
+	return get_instance()->get_entity()->get_transform();
+}
+
 std::shared_ptr<Omnific::Scene> Omnific::PythonEntityContext::get_scene()
 {
 	return SceneStorage::get_active_scene();

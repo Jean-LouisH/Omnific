@@ -29,6 +29,7 @@
 #include <systems/cpp_scripting_system/cpp_entity_context.hpp>
 
 #include <foundations/singletons/scene_storage.hpp>
+#include <scene/entity.hpp>
 
 #include <foundations/resources/audio_stream.hpp>
 #include <foundations/resources/font.hpp>
@@ -50,7 +51,6 @@
 #include "scene/components/property_animation.hpp"
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
-#include "scene/components/transform.hpp"
 #include "scene/components/viewport.hpp"
 
 ///////////////////////////////////////////////////////////

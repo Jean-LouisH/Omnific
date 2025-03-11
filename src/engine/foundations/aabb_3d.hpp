@@ -22,26 +22,16 @@
 
 #pragma once
 
-#include "haptic_signal.hpp"
-#include <unordered_map>
-#include <vector>
-#include <string>
-#include <vector>
-#include <queue>
-#include <foundations/aliases.hpp>
+#include <glm.hpp>
 #include <engine_api.hpp>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API HapticSignalBuffer
-	{
-	public:
-		void publish(PlayerID player_id, float strength_pct, uint16_t duration_ms);
-		void clear();
-
-		std::unordered_map<PlayerID, std::queue<HapticSignal>>& get_haptic_signals();
-		std::queue<HapticSignal>& query(PlayerID player_id);
-	private:
-		std::unordered_map<PlayerID, std::queue<HapticSignal>> haptic_signals;
-	};
+    class OMNIFIC_ENGINE_API AABB3D
+    {
+    public:
+        glm::vec3 min = glm::vec3(-1.0, -1.0, -1.0);
+        glm::vec3 max = glm::vec3(1.0, 1.0, 1.0);
+    private:
+    };
 }

@@ -5,12 +5,12 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Background Camera"
-    Transform:
+    transform:
       translation: [0, 0, 150]
     Camera: "default"
   Entity:
     name: "Background Image"
-    Transform:
+    transform:
       translation: [0, 0, 0]
     Sprite:
       image: "Image::#CCCCCC"
@@ -23,13 +23,13 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    Transform: default
+    transform: default
     Model:
       overriding_shader:
         fragment: "Shader::PHONG"
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 3, 30]
       rotation: [10.0, 0.0, 0.0]
     Camera: "default"
@@ -44,7 +44,7 @@ SceneLayer:
   Entity:
     name: "Table"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0.0, 1.0, -5.0]
       scale: [5, 1, 10]
     PhysicsBody:
@@ -57,7 +57,7 @@ SceneLayer:
   Entity:
     name: "Paddle1"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [-1.0, 2.0, 0]
       scale: [2, 1, 1]
     PhysicsBody:
@@ -72,7 +72,7 @@ SceneLayer:
   Entity:
     name: "ScoreCount1"
     parent: "Paddle1"
-    Transform:
+    transform:
       translation: [0.0, 1.0, 0.0]
       scale: [0.5, 0.5, 0.5]
     GUI:
@@ -87,7 +87,7 @@ SceneLayer:
   Entity:
     name: "Paddle2"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [1.0, 2.0, -5.0]
       scale: [2, 1, 1]
     PhysicsBody:
@@ -102,7 +102,7 @@ SceneLayer:
   Entity:
     name: "ScoreCount2"
     parent: "Paddle2"
-    Transform:
+    transform:
       translation: [0.0, 1.0, 0.0]
       scale: [0.5, 0.5, 0.5]
     GUI:
@@ -117,7 +117,7 @@ SceneLayer:
   Entity:
     name: "Ball"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0.0, 2.0, -2.5]
     Model:
       mesh: "Mesh::cube"
@@ -132,21 +132,21 @@ SceneLayer:
       camera_entity: "Camera"
   Entity:
     name: "Front Post"
-    Transform:
+    transform:
       translation: [0.0, 0.0, 1.0]
       scale: [10.0, 10.0, 1.0]
     Collider:
       is_trigger_only: true
   Entity:
     name: "Back Post"
-    Transform:
+    transform:
       translation: [0.0, 0.0, -6.0]
       scale: [10.0, 10.0, 1.0]
     Collider:
       is_trigger_only: true
   Entity:
     name: "LightSource"
-    Transform:
+    transform:
       translation: [0.0, 0.0, 0.0]
     Model:
       mesh: "Mesh::cube"

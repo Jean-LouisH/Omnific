@@ -24,32 +24,18 @@
 
 #include "foundations/aliases.hpp"
 #include "foundations/constants.hpp"
+#include "foundations/aabb_2d.hpp"
+#include "foundations/aabb_3d.hpp"
 #include "scene/components/component.hpp"
 #include <set>
 
 
 namespace Omnific
 {
-	enum class ColliderType
+	enum class CollisionShapeType
 	{
 		BOX,
 		MESH
-	};
-
-	class OMNIFIC_ENGINE_API AABB2D
-	{
-	public:
-		glm::vec2 min = glm::vec2(-1.0, -1.0);
-		glm::vec2 max = glm::vec2(1.0, 1.0);
-	private:
-	};
-
-	class OMNIFIC_ENGINE_API AABB3D
-	{
-	public:
-		glm::vec3 min = glm::vec3(-1.0, -1.0, -1.0);
-		glm::vec3 max = glm::vec3(1.0, 1.0, 1.0);
-	private:
 	};
 
 	class OMNIFIC_ENGINE_API Collider : public Component
@@ -59,8 +45,7 @@ namespace Omnific
 	public:
 		std::set<EntityID> entering_entity_ids;
 		std::set<std::string> entering_entity_tags;
-		ColliderType collider_type;
-		bool is_trigger_only = false;
+		CollisionShapeType collision_shape_type;
 
 		struct Box
 		{
@@ -93,8 +78,8 @@ namespace Omnific
 		}
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_dimensions(float width, float height, float depth);
-		void set_collider_type(ColliderType collider_type);
-		bool is_collider_type(ColliderType collider_type);
+		void set_collision_shape_type(CollisionShapeType collision_shape_type);
+		bool is_collision_shape_type(CollisionShapeType collision_shape_type);
 		bool has_entity_entered(EntityID entity_id);
 		bool has_entity_with_tag_entered(std::string entity_tag);
 	private:

@@ -22,29 +22,12 @@
 
 #include "haptic_system.hpp"
 #include "foundations/singletons/platform/platform.hpp"
+#include "foundations/singletons/event_bus.hpp"
 #include <SDL.h>
 
 Omnific::HapticSystem::~HapticSystem()
 {
 	this->finalize();
-}
-
-void Omnific::HapticSystem::rumble(HapticSignal& haptic_signal, std::vector<SDL_Haptic*> haptics)
-{
-	if (haptic_signal.get_player_id() < haptics.size())
-	{
-		SDL_HapticRumblePlay(haptics.at(haptic_signal.get_player_id()),
-			haptic_signal.get_strength(),
-			haptic_signal.get_duration());
-	}
-}
-
-void Omnific::HapticSystem::stop_rumble(PlayerID player_id, std::vector<SDL_Haptic*> haptics)
-{
-	if (player_id < haptics.size())
-	{
-		SDL_HapticRumbleStop(haptics.at(player_id));
-	}
 }
 
 void Omnific::HapticSystem::initialize()
@@ -56,50 +39,112 @@ void Omnific::HapticSystem::initialize()
 
 void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
 {
-	Input& hid = Platform::get_input();
+	Input& input = Platform::get_input();
+	std::vector<Event> haptic_signal_events = EventBus::query_events(OMNIFIC_EVENT_HAPTIC_SIGNAL);
 
-	for (const auto scene_layer_it : scene->get_scene_layers())
+	for (size_t i = 0; i < haptic_signal_events.size(); i ++)
 	{
-		std::shared_ptr<HapticSignalBuffer> haptic_signal_buffer = scene_layer_it.second->get_haptic_signal_buffer();
-		std::unordered_map<PlayerID, std::queue<HapticSignal>>& haptic_signals = haptic_signal_buffer->get_haptic_signals();
+		Event& haptic_signal_event = haptic_signal_events.at(i);
+		Event::Parameters event_parameters = haptic_signal_event.get_parameters();
+		std::unordered_map<std::string, double> event_numbers = haptic_signal_event.get_parameters().numbers;
+		std::vector<SDL_Haptic*> haptics = input.get_haptics();
 
-		for (auto it = haptic_signals.begin(); it != haptic_signals.end(); it++)
+		PlayerID player_id = 0;
+		uint16_t duration = 0;
+		float strength = 0.0f;
+
+		if (event_numbers.count("player_id"))
+			player_id = event_numbers.at("player_id");
+		if (event_numbers.count("duration"))
+			duration = event_numbers.at("duration");
+		if (event_numbers.count("strength"))
+			strength = event_numbers.at("strength");
+
+		if (player_id < haptics.size())
 		{
-			PlayerID player_id = it->first;
+			/*Every PlayerID event encountered will result in it and its 
+		  	corresponding haptic_playback_hashtable being added.*/
+			if (this->haptic_playback_hashtables.count(player_id) == 0)
+			{	
+				std::unordered_map<std::string, HapticPlayback> haptic_playback_hashtable;
+				this->haptic_playback_hashtables.emplace(player_id, haptic_playback_hashtable);
+			}
 
-			if (this->haptic_playbacks.count(player_id))
+			std::unordered_map<std::string, HapticPlayback>& haptic_playback_hashtable = this->haptic_playback_hashtables.at(player_id);
+
+			if (haptic_playback_hashtable.size() > 0)
 			{
-				HapticPlayback& haptic_playback = this->haptic_playbacks.at(player_id);
-				std::queue<HapticSignal>& haptic_signal_queue = it->second;
-
-				if (haptic_playback.is_playing)
+				/*While haptic_playbacks for a PlayerID are playing,
+				  another one can be added to the PlayerID with a new key
+				  and played over all previous ones.*/
+				if (haptic_playback_hashtable.count(event_parameters.key) == 0)
 				{
-					haptic_playback.timer.set_end();
+					HapticPlayback new_haptic_playback;
+					new_haptic_playback.event_key = event_parameters.key;
+					new_haptic_playback.duration = duration;
+					new_haptic_playback.strength = strength;
+					new_haptic_playback.clock.set_start();
+					haptic_playback_hashtable.emplace(event_parameters.key, new_haptic_playback);
+				}
 
-					if (haptic_playback.timer.get_delta() > haptic_playback.duration_ms)
+				/*Manage concurrently playing haptic_signal_events 
+				  and then combine their strengths.*/
+				float total_strength = 0.0;
+				std::vector<std::string> haptic_playbacks_to_remove;
+
+				for (auto haptic_playback_it : haptic_playback_hashtable)
+				{
+					HapticPlayback& haptic_playback = haptic_playback_it.second;
+					haptic_playback.clock.set_end();
+
+					if (haptic_playback.clock.get_delta() > haptic_playback.duration)
 					{
-						haptic_playback.is_playing = false;
-						this->stop_rumble(player_id, hid.get_haptics());
-						haptic_signal_queue.pop();
+						haptic_playbacks_to_remove.push_back(haptic_playback_it.first);
+						EventBus::remove_continuous_event(OMNIFIC_EVENT_HAPTIC_SIGNAL, haptic_playback.event_key);
 					}
+					else
+					{
+						total_strength += haptic_playback.strength;
+					}
+				}
+
+				for (size_t i = 0; i < haptic_playbacks_to_remove.size(); i++)
+				{
+					haptic_playback_hashtable.erase(haptic_playbacks_to_remove.at(i));
+				}
+
+				if (haptic_playback_hashtable.size() < 1)
+				{
+					SDL_HapticRumbleStop(haptics.at(player_id));
 				}
 				else
 				{
-					if (!haptic_signal_queue.empty())
+					const float epsilon = 0.1f;
+
+					if (!(previous_total_strength + epsilon > total_strength &&
+						total_strength > previous_total_strength - epsilon))  
 					{
-						HapticSignal& haptic_signal = haptic_signals.at(player_id).front();
-						haptic_playback.duration_ms = haptic_signal.get_duration();
-						haptic_playback.timer.set_start();
-						haptic_playback.is_playing = true;
-						this->rumble(haptic_signal, hid.get_haptics());
+						SDL_HapticRumbleStop(haptics.at(player_id));
+						SDL_HapticRumblePlay(
+							haptics.at(player_id),
+							total_strength,
+							duration);
+						previous_total_strength = total_strength;
 					}
 				}
 			}
 			else
 			{
 				HapticPlayback haptic_playback;
-				haptic_playback.is_playing = false;
-				this->haptic_playbacks.emplace(player_id, haptic_playback);
+				haptic_playback.event_key = event_parameters.key;
+				haptic_playback.duration = duration;
+				haptic_playback.strength = strength;
+				haptic_playback.clock.set_start();
+				haptic_playback_hashtable.emplace(event_parameters.key, haptic_playback);
+
+				SDL_HapticRumblePlay(haptics.at(player_id),
+					strength,
+					duration);
 			}
 		}
 	}

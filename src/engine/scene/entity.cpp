@@ -37,3 +37,8 @@ Omnific::EntityID Omnific::Entity::get_id()
 {
 	return this->id;
 }
+
+std::shared_ptr<Omnific::Transform> Omnific::Entity::get_transform()
+{
+	return this->transform;
+}

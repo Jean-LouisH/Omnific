@@ -40,6 +40,29 @@ void Omnific::PhysicsBody::deserialize(YAML::Node yaml_node)
 			this->drag_ratio[1] = it3->second[1].as<float>();
 			this->drag_ratio[2] = it3->second[2].as<float>();
 		}
+		else if (it3->first.as<std::string>() == "collision_response_type")
+		{
+			if (it3->second.as<std::string>() == "intangible")
+			{
+				this->collision_response_type = CollisionResponseType::INTANGIBLE;
+			}
+			if (it3->second.as<std::string>() == "fluid")
+			{
+				this->collision_response_type = CollisionResponseType::FLUID;
+			}
+			if (it3->second.as<std::string>() == "soft")
+			{
+				this->collision_response_type = CollisionResponseType::SOFT;
+			}
+			else if (it3->second.as<std::string>() == "rigid")
+			{
+				this->collision_response_type = CollisionResponseType::RIGID;
+			}
+			else if (it3->second.as<std::string>() == "scriptable")
+			{
+				this->collision_response_type = CollisionResponseType::SCRIPTABLE;
+			}
+		}
 	}
 }
 

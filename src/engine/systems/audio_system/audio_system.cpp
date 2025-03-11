@@ -91,7 +91,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 
 			//Event Resposes
 
-			for (Event playing_event : EventBus::query("playing_audio_source"))
+			for (Event playing_event : EventBus::query_events("playing_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, playing_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
@@ -110,7 +110,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (Event pausing_event : EventBus::query("pausing_audio_source"))
+			for (Event pausing_event : EventBus::query_events("pausing_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, pausing_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
@@ -129,7 +129,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (Event resuming_event : EventBus::query("resuming_audio_source"))
+			for (Event resuming_event : EventBus::query_events("resuming_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, resuming_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
@@ -148,7 +148,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (Event stopping_event : EventBus::query("stopping_audio_source"))
+			for (Event stopping_event : EventBus::query_events("stopping_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, stopping_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
@@ -167,7 +167,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (Event reseting_event : EventBus::query("reseting_audio_source"))
+			for (Event reseting_event : EventBus::query_events("reseting_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, reseting_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
@@ -184,7 +184,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (Event jumping_event : EventBus::query("jumping_audio_source"))
+			for (Event jumping_event : EventBus::query_events("jumping_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, jumping_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);
@@ -204,7 +204,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 			}
 
-			for (Event panned_event : EventBus::query("panned_audio_source"))
+			for (Event panned_event : EventBus::query_events("panned_audio_source"))
 			{
 				std::shared_ptr<Audio> active_audio = this->query_active_audio_by_event(mapped_audio_sources, panned_event);
 				std::shared_ptr<AudioStream> active_audio_stream = std::dynamic_pointer_cast<AudioStream>(active_audio);

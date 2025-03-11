@@ -24,41 +24,6 @@
 #include <foundations/singletons/platform/platform.hpp>
 
 
-void Omnific::ShaderParameters::set_int_uniform(std::string uniform_name, int value)
-{
-	this->int_uniforms[uniform_name] = value;
-}
-
-void Omnific::ShaderParameters::set_bool_uniform(std::string uniform_name, bool value)
-{
-	this->bool_uniforms[uniform_name] = value;
-}
-
-void Omnific::ShaderParameters::set_float_uniform(std::string uniform_name, float value)
-{
-	this->float_uniforms[uniform_name] = value;
-}
-
-void Omnific::ShaderParameters::set_vec2_uniform(std::string uniform_name, glm::vec2 value)
-{
-	this->vec2_uniforms[uniform_name] = value;
-}
-
-void Omnific::ShaderParameters::set_vec3_uniform(std::string uniform_name, glm::vec3 value)
-{
-	this->vec3_uniforms[uniform_name] = value;
-}
-
-void Omnific::ShaderParameters::set_vec4_uniform(std::string uniform_name, glm::vec4 value)
-{
-	this->vec4_uniforms[uniform_name] = value;
-}
-
-void Omnific::ShaderParameters::set_mat4_uniform(std::string uniform_name, glm::mat4 value)
-{
-	this->mat4_uniforms[uniform_name] = value;
-}
-
 void Omnific::Model::deserialize(YAML::Node yaml_node)
 {
 	this->material = std::shared_ptr<Material>(new Material());

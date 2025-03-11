@@ -5,12 +5,12 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "Background Image"
-    Transform: default
+    transform: default
     Sprite:
       image: "Image::#44444444"
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 0, 1]
     Camera: "default"
   Entity:
@@ -22,13 +22,13 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    Transform: default
+    transform: default
     Model:
       overriding_shader:
         fragment: "tests/shaders/unlit.glsl"
   Entity:
     name: "ScriptableShaderEntity"
-    Transform: default
+    transform: default
     Model:
       overriding_shader:
         fragment: "tests/shaders/unlit_and_coloured.glsl"
@@ -37,7 +37,7 @@ SceneLayer:
   Entity:
     name: "Model"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [-5.0, 0.0, 0.0]
   SubSceneLayer:
     name: ["tests/models/suzanne.glb", ""]
@@ -45,7 +45,7 @@ SceneLayer:
   Entity:
     name: "Model + PhysicsBody"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0.0, 0.0, 0.0]
     PhysicsBody:
       drag_ratio: [0.001, 0.001, 0.001]
@@ -55,7 +55,7 @@ SceneLayer:
   Entity:
     name: "Model + PhysicsBody + ScriptCollection"
     parent: "ScriptableShaderEntity"
-    Transform:
+    transform:
       translation: [5.0, 0.0, 0.0]
     PhysicsBody:
       drag_ratio: [0.001, 0.001, 0.001]
@@ -66,7 +66,7 @@ SceneLayer:
     parent: "Model + PhysicsBody + ScriptCollection"
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, -2, 10]
     Camera:
       wireframe_mode: true

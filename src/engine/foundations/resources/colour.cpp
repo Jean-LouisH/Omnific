@@ -117,6 +117,11 @@ uint32_t Omnific::Colour::get_rgba()
 	return (uint32_t)((this->get_red() << 24) + (this->get_green() << 16) + (this->get_blue() << 8) + (this->get_alpha() << 0));
 }
 
+glm::vec3 Omnific::Colour::get_rgb_in_vec3()
+{
+	return glm::vec3(this->red, this->green, this->blue);
+}
+
 glm::vec4 Omnific::Colour::get_rgba_in_vec4()
 {
 	return glm::vec4(this->red, this->green, this->blue, this->alpha);

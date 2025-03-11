@@ -57,7 +57,9 @@ namespace Omnific
 		uint8_t get_alpha();
 		uint32_t get_rgb();
 		uint32_t get_rgba();
+		glm::vec3 get_rgb_in_vec3();
 		glm::vec4 get_rgba_in_vec4();
+		
 	private:
 		float red = 1.0;
 		float green = 1.0;

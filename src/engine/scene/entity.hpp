@@ -26,6 +26,7 @@
 #include "scene/components/component.hpp"
 #include <foundations/aliases.hpp>
 #include "foundations/constants.hpp"
+#include "foundations/transform.hpp"
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -51,15 +52,18 @@ namespace Omnific
 		{
 			this->id = UIDGenerator::get_new_uid();
 			this->name = "Entity (ID:" + std::to_string(this->id) + ")";
+			this->transform = std::shared_ptr<Transform>(new Transform());
 		}
 
 		/*Sets name publicly only when it is not attached to a SceneLayer.*/
 		void set_name(std::string name);
 		std::string get_name();
 		EntityID get_id();
+		std::shared_ptr<Transform> get_transform();
 	private:
 		std::string name;
 		EntityID id = 0;
+		std::shared_ptr<Transform> transform;
 
 		bool is_attached_to_scene_layer = false;
 	};

@@ -17,11 +17,11 @@ class omnific_script:
 
         if self.enable_ai_mode:
             pass
-            transform = omnific.get_component("Transform")
+            transform = omnific.get_transform()
             scene_layer = omnific.get_scene_layer()
             ball_entity = scene_layer.get_entity_by_name("Ball")
             ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())
-            ball_transform = scene_layer.get_component("Transform", ball_entity.get_id())
+            ball_transform = ball_entity.get_transform()
             paddle_physics_body = omnific.get_component("PhysicsBody")
 
             #AI logic to determine where to move as the ball approaches

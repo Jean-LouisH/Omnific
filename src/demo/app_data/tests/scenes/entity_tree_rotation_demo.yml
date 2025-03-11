@@ -5,14 +5,14 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    Transform: default
+    transform: default
     Model:
       overriding_shader:
         fragment: "tests/shaders/unlit.glsl"
   Entity:
     name: "Model1"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0.0, 0.0, 0.0]
     ScriptCollection:
       Python: ["tests/scripts/python/z_rotation.py"]
@@ -21,13 +21,13 @@ SceneLayer:
   Entity:
     name: "Model2"
     parent: "Model1"
-    Transform:
+    transform:
       translation: [0.0, -1.0, 0.0]
     Model:
       mesh: "Mesh::cube"
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, -2, 10]
     Camera:
       wireframe_mode: true

@@ -3,7 +3,7 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "GUI Label"
-    Transform:
+    transform:
       translation: [1.0, 0.0, 0.0]
     GUI:
       GUILabel: 
@@ -14,7 +14,7 @@ SceneLayer:
     #   Python: ["tests/scripts/python/gui_test.py"]
   Entity:
     name: "GUI Button"
-    Transform:
+    transform:
       translation: [100.0, 100.0, 0.0]
     GUI:
       GUIButton:
@@ -27,7 +27,7 @@ SceneLayer:
       Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 0, 0]
     Camera: "default"
   Entity:

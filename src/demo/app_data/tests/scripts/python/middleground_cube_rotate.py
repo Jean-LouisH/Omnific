@@ -6,6 +6,6 @@ class omnific_script:
         pass
 
     def on_logic(self):
-        transform = omnific.get_component("Transform")
+        transform = omnific.get_transform()
         transform.rotate_x(1.0)
         transform.rotate_y(2.0)

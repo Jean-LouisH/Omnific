@@ -7,7 +7,7 @@ class omnific_script:
         pass
 
     def on_logic(self):
-        transform = omnific.get_component("Transform")
+        transform = omnific.get_transform()
         if (omnific.get_input().is_pressed("i")):
             transform.translate_z(-0.1)
         if (omnific.get_input().is_pressed("k")):

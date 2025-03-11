@@ -20,38 +20,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "haptic_signal.hpp"
+#pragma once
 
-Omnific::HapticSignal::HapticSignal(PlayerID player_id, float strength_pct, uint16_t duration_ms)
+namespace Omnific
 {
-	uint16_t duration_limit = 2000;
+    namespace DefaultAssets
+    {
+        const char gui_element_glsl[] = R"(
+            #version 330 core
+            in vec2 uv;
+            out vec4 colour;
+            uniform float alpha;
+            uniform sampler2D albedo_texture_sampler;
+            uniform bool is_highlightable;
+            uniform bool is_xstretched_to_panel;
+		    uniform bool is_ystretched_to_panel;
+            uniform bool is_hovered_in_focus;
+		    uniform bool is_selected;
 
-	this->player_id = player_id;
-	
-	if (strength_pct < 0.0)
-		this->strength_pct = 0.0;
-	else if (strength_pct > 1.0)
-		this->strength_pct = 1.0;
-	else
-		this->strength_pct = strength_pct;
-
-	if (duration_ms > duration_limit)
-		this->duration_ms = duration_limit;
-	else
-		this->duration_ms = duration_ms;
-}
-
-Omnific::PlayerID Omnific::HapticSignal::get_player_id()
-{
-	return this->player_id;
-}
-
-float Omnific::HapticSignal::get_strength()
-{
-	return this->strength_pct;
-}
-
-uint16_t Omnific::HapticSignal::get_duration()
-{
-	return this->duration_ms;
+            void main()
+            {    
+                colour = texture(albedo_texture_sampler, uv);
+                colour.a *= alpha;
+            }  
+        )";
+    }
 }

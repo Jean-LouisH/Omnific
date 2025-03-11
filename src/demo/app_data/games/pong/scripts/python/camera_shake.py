@@ -7,10 +7,10 @@ class omnific_script:
         pass
 
     def on_logic(self):
-        transform = omnific.get_component("Transform")
+        transform = omnific.get_transform()
         scene_layer = omnific.get_scene_layer()
         collisions = scene_layer.get_collision_registry()
-        win_events = omnific.query_event("Player won") + (omnific.query_event("AI won"))
+        win_events = omnific.query_events("Player won") + (omnific.query_events("AI won"))
 
         if len(win_events) > 0:
             ball_speed = win_events[0].get_parameters().numbers["ball_speed"]

@@ -28,9 +28,9 @@
 #include <unordered_map>
 #include "systems/system.hpp"
 #include "foundations/singletons/platform/input.hpp"
-#include <scene/haptic_signal_buffer.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <memory>
+#include <set>
 
 namespace Omnific
 {
@@ -58,14 +58,13 @@ namespace Omnific
 	private:
 		typedef struct HapticPlayback
 		{
-			Clock timer;
-			uint16_t duration_ms;
-			bool is_playing;
+			std::string event_key;
+			Clock clock;
+			uint16_t duration;
+			float strength;
 		};
-		std::unordered_map<PlayerID, HapticPlayback> haptic_playbacks;
-
-		void rumble(HapticSignal& haptic_signal, std::vector<SDL_Haptic*> haptics);
-		void stop_rumble(PlayerID player_id, std::vector<SDL_Haptic*> haptics);
+		std::unordered_map<PlayerID, std::unordered_map<std::string, HapticPlayback>> haptic_playback_hashtables;
+		float previous_total_strength = 0.0;
 	};
 }
 

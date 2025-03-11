@@ -22,23 +22,20 @@
 
 #pragma once
 
-#include <vector>
-#include <string>
-#include <foundations/aliases.hpp>
-#include <engine_api.hpp>
-
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API HapticSignal
-	{
-	public:
-		HapticSignal(PlayerID player_id, float strength_pct, uint16_t duration_ms);
-		PlayerID get_player_id();
-		float get_strength();
-		uint16_t get_duration();
-	private:
-		PlayerID player_id = 0;
-		float strength_pct = 0.0;
-		uint16_t duration_ms = 0;
-	};
+    namespace DefaultAssets
+    {
+        const char light_source_glsl[] = R"(
+            #version 330 core
+            out vec4 colour;
+            uniform vec3 light_colours[1];
+            uniform float light_intensities[1];
+
+            void main()
+            {
+                colour = vec4(light_colours[0] * light_intensities[0], 1.0);
+            }
+        )";
+    }
 }

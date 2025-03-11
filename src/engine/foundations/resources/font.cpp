@@ -21,13 +21,13 @@
 // SOFTWARE.
 
 #include "font.hpp"
-#include "default_assets/fonts/lato_regular.h"
+#include "foundations/resources/default_assets/fonts/lato_regular_ttf.hpp"
 
 Omnific::Font::Font() 
 { 
 	this->type = TYPE_STRING;
 	const uint16_t default_font_size = 16;
-	SDL_RWops* rw = SDL_RWFromConstMem(lato_regular_ttf, lato_regular_ttf_len);
+	SDL_RWops* rw = SDL_RWFromConstMem(DefaultAssets::lato_regular_ttf, DefaultAssets::lato_regular_ttf_len);
 	TTF_Font* font = TTF_OpenFontRW(rw, 1, default_font_size);
 	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 };

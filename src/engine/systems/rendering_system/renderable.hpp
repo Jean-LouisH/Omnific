@@ -23,7 +23,7 @@
 #pragma once
 
 #include <vector>
-#include <scene/components/transform.hpp>
+#include <foundations/transform.hpp>
 #include <scene/components/model.hpp>
 
 #include <scene/components/camera.hpp>
@@ -31,6 +31,7 @@
 #include <foundations/resources/material.hpp>
 #include <foundations/resources/mesh.hpp>
 #include <foundations/resources/shader.hpp>
+#include <foundations/aliases.hpp>
 #include <glm.hpp>
 #include <memory>
 
@@ -43,6 +44,8 @@ namespace Omnific
 	public:
 		std::string entity_name; //For debug.
 		std::shared_ptr<Transform> transform;
+		SceneLayerID scene_layer_id;
+		EntityID entity_id;
 		std::shared_ptr<Model> model;
 		std::shared_ptr<Shader> overriding_shader;
 		std::shared_ptr<ShaderParameters> overriding_shader_parameters;

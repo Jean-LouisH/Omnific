@@ -131,6 +131,33 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 								{
 									scene_layer->get_last_entity()->parent_id = scene_layer->get_entity_by_name(it2->second.as<std::string>())->get_id();
 								}
+								else if ((it2->first.as<std::string>() == "transform"))
+								{
+									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+									{
+										std::shared_ptr<Transform> transform = entity->get_transform();
+
+										if (it3->first.as<std::string>() == "translation")
+										{
+											transform->translation.x = it3->second[0].as<double>();
+											transform->translation.y = it3->second[1].as<double>();
+											transform->translation.z = it3->second[2].as<double>();
+										}
+										else if (it3->first.as<std::string>() == "rotation")
+										{
+											transform->rotation.x = it3->second[0].as<double>();
+											transform->rotation.y = it3->second[1].as<double>();
+											transform->rotation.z = it3->second[2].as<double>();
+										}
+										else if (it3->first.as<std::string>() == "scale")
+										{
+											transform->scale.x = it3->second[0].as<double>();
+											transform->scale.y = it3->second[1].as<double>();
+											transform->scale.z = it3->second[2].as<double>();
+										}
+									}					
+								}
+
 								//Components
 								else
 								{
@@ -351,7 +378,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 				std::shared_ptr<Entity> entity(new Entity());
 				entity->parent_id = gltf_scene_root_entity->get_id();
 				scene_layer->add_entity(entity);
-				std::shared_ptr<Transform> transform(new Transform());
+				std::shared_ptr<Transform> transform = entity->get_transform();
 				std::shared_ptr<Model> model(new Model());
 
 				int material_index = gltf_model.meshes.at(mesh_index).primitives.at(0).material;
@@ -495,7 +522,6 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 				model->material = material;
 				model->mesh = mesh;
 
-				scene_layer->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(transform));
 				scene_layer->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(model));
 			}
 		}

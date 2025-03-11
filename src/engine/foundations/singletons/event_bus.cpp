@@ -25,17 +25,27 @@
 
 Omnific::EventBus* Omnific::EventBus::instance = nullptr;
 
-Omnific::Event::Event(std::string name, uint64_t timestamp, Parameters parameters)
+Omnific::Event::Event(std::string name, Parameters parameters)
 {
 	this->name = name;
-	this->timestamp = timestamp;
+	Platform::get_run_clock().set_end();
+	this->timestamp = Platform::get_run_clock().get_delta();
 	this->parameters = parameters;
+	if (this->parameters.key == "")
+		this->parameters.key = name + "_" + std::to_string(this->timestamp);
 }
 
-Omnific::Event::Event(std::string name, uint64_t timestamp)
+Omnific::Event::Event(std::string name)
 {
 	this->name = name;
-	this->timestamp = timestamp;
+	Platform::get_run_clock().set_end();
+	this->timestamp = Platform::get_run_clock().get_delta();
+	this->parameters.key = name + "_" + std::to_string(this->timestamp);
+}
+
+Omnific::Event::Event()
+{
+
 }
 
 std::string Omnific::Event::get_name()
@@ -54,98 +64,210 @@ Omnific::Event::Parameters Omnific::Event::get_parameters()
 }
 
 void Omnific::EventBus::publish(
+	Event event,
+	bool is_continuous)
+{
+	EventBus::publish_with_parameters(event, is_continuous);
+}
+
+void Omnific::EventBus::publish(
 	std::string name,
+	std::unordered_map<std::string, std::string> strings,
 	std::unordered_map<std::string, double> numbers,
-	std::unordered_map<std::string, std::string> strings)
+	std::unordered_map<std::string, bool> booleans,
+	std::unordered_map<std::string, std::shared_ptr<Component>> components,
+	std::string key,
+	bool is_continuous)	
 {
-	EventBus* event_bus = EventBus::get_instance();
-	Event::Parameters parameters = { numbers, strings };
-	event_bus->publish_with_parameters(name, parameters);
-}
-
-void Omnific::EventBus::publish(
-	std::string name,
-	std::unordered_map<std::string, double> numbers)
-{
-	EventBus* event_bus = EventBus::get_instance();
-	Event::Parameters parameters;
-	parameters.numbers = numbers;
-	event_bus->publish_with_parameters(name, parameters);
-}
-
-void Omnific::EventBus::publish(
-	std::string name,
-	std::unordered_map<std::string, std::string> strings)
-{
-	EventBus* event_bus = EventBus::get_instance();
-	Event::Parameters parameters;
-	parameters.strings = strings;
-	event_bus->publish_with_parameters(name, parameters);
-}
-
-void Omnific::EventBus::publish(
-	std::string name)
-{
-	EventBus* event_bus = EventBus::get_instance();
-	std::vector<Event> events_list;
-
-	Platform::get_run_clock().set_end();
-
-	if (event_bus->events.count(name))
-		events_list = event_bus->events.at(name);
-
-	events_list.push_back(Event(
-		name,
-		Platform::get_run_clock().get_delta()));
-
-	event_bus->events.emplace(name, events_list);
+	Event::Parameters parameters = {numbers, strings, booleans, components, key};
+	EventBus::publish_with_parameters(Event(name, parameters), is_continuous);
 }
 
 void Omnific::EventBus::clear()
 {
-	EventBus* event_bus = EventBus::get_instance();
-	event_bus->events.clear();
+	EventBus::get_instance()->instant_events.clear();
 }
 
-std::vector<Omnific::Event> Omnific::EventBus::query(std::string name)
+void Omnific::EventBus::remove_continuous_event(std::string event_name, std::string event_key)
+{
+	EventBus* event_bus = EventBus::get_instance();
+	std::unordered_map<std::string, Event>& event_map = EventBus::get_instance()->continuous_events.at(event_name);
+	event_map.erase(event_key);
+}
+
+std::vector<Omnific::Event> Omnific::EventBus::query_events(std::string event_name)
 {
 	EventBus* event_bus = EventBus::get_instance();
 	std::vector<Event> query_results;
 
-	if (event_bus->events.count(name))
-		query_results = event_bus->events.at(name);
+	if (event_bus->instant_events.count(event_name))
+	{
+		query_results = event_bus->instant_events.at(event_name);
+	}
+	else if (event_bus->continuous_events.count(event_name))
+	{
+		for (auto event_pair: event_bus->continuous_events.at(event_name))
+		{
+			query_results.push_back(event_pair.second);
+		}
+	}
 
 	return query_results;
 }
 
-uint64_t Omnific::EventBus::query_count(std::string name)
+std::unordered_map<std::string, Omnific::Event> Omnific::EventBus::query_continuous_events(std::string event_name)
 {
 	EventBus* event_bus = EventBus::get_instance();
-	return event_bus->query(name).size();
+	std::unordered_map<std::string, Event> query_results;
+
+	if (event_bus->continuous_events.count(event_name))
+		query_results = event_bus->continuous_events.at(event_name);
+
+	return query_results;
 }
 
-void Omnific::EventBus::publish_with_parameters(std::string name, Event::Parameters parameters)
+Omnific::Event Omnific::EventBus::query_continuous_event(std::string event_name, std::string event_key)
+{
+	Event continuous_event;
+	std::unordered_map<std::string, std::unordered_map<std::string, Event>> continuous_events = EventBus::get_instance()->continuous_events;
+
+	if (continuous_events.count(event_name))
+		if (continuous_events.at(event_name).count(event_key))
+			continuous_event = continuous_events.at(event_name).at(event_key);
+
+	return continuous_event;
+}
+
+std::vector<Omnific::Event> Omnific::EventBus::query_events_with_number_parameter(std::string event_name, std::string event_parameter_key, double parameter_value)
+{
+	std::vector<Event> matched_events;
+	const double epsilon = 0.1;
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.numbers.count(event_parameter_key))
+		{
+			double value = parameter.numbers.at(event_parameter_key);
+			if (value + epsilon < parameter_value && parameter_value < value - epsilon)
+			{
+				matched_events.push_back(event);
+			}
+		}
+	}
+	return matched_events;
+}
+
+std::vector<Omnific::Event> Omnific::EventBus::query_events_with_string_parameter(std::string event_name, std::string event_parameter_key, std::string parameter_value)
+{
+	std::vector<Event> matched_events;
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.strings.count(event_parameter_key))
+		{
+			if (parameter.strings.at(event_parameter_key) == parameter_value)
+			{
+				matched_events.push_back(event);
+			}
+		}
+	}
+	return matched_events;
+}
+
+std::vector<Omnific::Event> Omnific::EventBus::query_events_with_bool_parameter(std::string event_name, std::string event_parameter_key, bool parameter_value)
+{
+	std::vector<Event> matched_events;
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.bools.count(event_parameter_key))
+		{
+			if (parameter.bools.at(event_parameter_key) == parameter_value)
+			{
+				matched_events.push_back(event);
+			}
+		}
+	}
+	return matched_events;
+}
+
+std::vector<Omnific::Event> Omnific::EventBus::query_events_with_component_parameter(std::string event_name, std::string event_parameter_key, std::shared_ptr<Component> parameter_value)
+{
+	std::vector<Event> matched_events;
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.components.count(event_parameter_key))
+		{
+			if (parameter.components.at(event_parameter_key)->get_id() == parameter_value->get_id())
+			{
+				matched_events.push_back(event);
+			}
+		}
+	}
+	return matched_events;
+}
+
+bool Omnific::EventBus::has_continuous_event(std::string event_name, std::string event_key)
+{
+	Event continuous_event = EventBus::get_instance()->query_continuous_event(event_name, event_key);
+	return continuous_event.get_name() != "";
+}
+
+uint64_t Omnific::EventBus::query_event_count(std::string event_name)
+{
+	return EventBus::get_instance()->query_events(event_name).size();
+}
+
+uint64_t Omnific::EventBus::query_event_count_with_parameter_key(std::string event_name, std::string event_parameter_name)
+{
+	uint64_t event_count = 0;
+	std::vector<Event> event_list = EventBus::query_events((event_name));
+	for (size_t i = 0; i < event_list.size(); i++)
+	{
+		Event::Parameters parameters = event_list.at(i).get_parameters();
+		event_count += parameters.bools.count(event_parameter_name);
+		event_count += parameters.numbers.count(event_parameter_name);
+		event_count += parameters.strings.count(event_parameter_name);
+		event_count += parameters.components.count(event_parameter_name);
+	}
+	return event_count;
+}
+
+void Omnific::EventBus::publish_with_parameters(
+	Event event,
+	bool is_continuous)
 {
 	EventBus* event_bus = EventBus::get_instance();
-	std::vector<Event> events_list;
+	std::string event_name = event.get_name();
 
-	Platform::get_run_clock().set_end();
-
-	if (event_bus->events.count(name))
-		events_list = event_bus->events.at(name);
-
-	events_list.push_back(Event(
-		name,
-		Platform::get_run_clock().get_delta(),
-		parameters));
-
-	if (event_bus->events.count(name))
+	if (!is_continuous)
 	{
-		event_bus->events.at(name) = events_list;
+		if (event_bus->instant_events.count(event_name))
+		{
+			event_bus->instant_events.at(event_name).push_back(event);
+		}
+		else
+		{
+			std::vector<Event> event_list;
+			event_list.push_back(event);
+			event_bus->instant_events.emplace(event_name, event_list);
+		}
 	}
 	else
 	{
-		event_bus->events.emplace(name, events_list);
+		std::string event_key = event.get_parameters().key;
+
+		if (event_bus->continuous_events.count(event_name))
+		{
+			event_bus->continuous_events.at(event_name).emplace(event_key, event);
+		}
+		else
+		{
+			std::unordered_map<std::string, Event> event_dictionary;
+			event_dictionary.emplace(event_key, event);
+			event_bus->continuous_events.emplace(event_name, event_dictionary);
+		}
 	}
 }
 
@@ -154,7 +276,9 @@ Omnific::EventBus* Omnific::EventBus::get_instance()
 	if (instance == nullptr)
 	{
 		instance = new EventBus();
-		instance->events.reserve(32);
+		const size_t reservation_amount = 64;
+		instance->instant_events.reserve(reservation_amount);
+		instance->continuous_events.reserve(reservation_amount);
 	}
 	return instance;
 }

@@ -88,7 +88,7 @@ void Omnific::AudioSource::play_audio(std::string audio_name)
 	if (this->active_audio_name != "")
 	{
 		this->playback_state = PlaybackState::PLAYING;
-		EventBus::publish("playing_audio_source", std::unordered_map<std::string, double>({ {"id", this->get_id()} }));
+		EventBus::publish("playing_audio_source", {}, {{"id", this->get_id()}});
 	}
 }
 
@@ -102,7 +102,7 @@ void Omnific::AudioSource::pause()
 	if (this->active_audio_name != "")
 	{
 		this->playback_state = PlaybackState::PAUSED;
-		EventBus::publish("pausing_audio_source", std::unordered_map<std::string, double>({ {"id", this->get_id()} }));
+		EventBus::publish("pausing_audio_source", {}, {{"id", this->get_id()}});
 	}
 }
 
@@ -111,21 +111,21 @@ void Omnific::AudioSource::resume()
 	if (this->active_audio_name != "")
 	{
 		this->playback_state = PlaybackState::PLAYING;
-		EventBus::publish("resuming_audio_source", std::unordered_map<std::string, double>({ {"id", this->get_id()} }));
+		EventBus::publish("resuming_audio_source", {}, {{"id", this->get_id()}});
 	}
 }
 
 void Omnific::AudioSource::stop()
 {
 	this->playback_state = PlaybackState::STOPPED;
-	EventBus::publish("stopping_audio_source", std::unordered_map<std::string, double>({ {"id", this->get_id()} }));
+	EventBus::publish("stopping_audio_source", {}, {{"id", this->get_id()}});
 }
 
 void Omnific::AudioSource::reset()
 {
 	if (this->active_audio_name != "")
 	{
-		EventBus::publish("reseting_audio_source", std::unordered_map<std::string, double>({ {"id", this->get_id()} }));
+		EventBus::publish("reseting_audio_source", {}, {{"id", this->get_id()}});
 	}
 }
 
@@ -135,9 +135,9 @@ void Omnific::AudioSource::jump(float time_point)
 	{
 		if (time_point >= 0.0 && time_point <= this->get_active_audio()->get_playback_length())
 		{
-			EventBus::publish("jumping_audio_source", std::unordered_map<std::string, double>({
+			EventBus::publish("jumping_audio_source", {}, {
 				{"id", this->get_id()},
-				{"time_point", time_point} }));
+				{"time_point", time_point} });
 		}
 	}
 }
@@ -150,7 +150,7 @@ void Omnific::AudioSource::set_panning(float value)
 		value = 1.0;
 
 	this->panning = value;
-	EventBus::publish("panned_audio_source", std::unordered_map<std::string, double>({{"id", this->get_id()}}));
+	EventBus::publish("panned_audio_source", {}, {{"id", this->get_id()}});
 }
 
 float Omnific::AudioSource::get_current_playback_time()

@@ -47,6 +47,7 @@ namespace Omnific
 		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);
 		static bool has_component(std::string type);
 		static std::shared_ptr<Entity> get_entity();
+		static std::shared_ptr<Transform> get_transform();
 		static std::shared_ptr<Scene> get_scene();
 		static std::shared_ptr<SceneLayer> get_scene_layer();
 		static std::shared_ptr<Component> get_component(std::string type);

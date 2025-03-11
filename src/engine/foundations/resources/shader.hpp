@@ -24,6 +24,8 @@
 
 #include <string>
 #include "foundations/resources/resource.hpp"
+#include <unordered_map>
+#include <glm.hpp>
 
 namespace Omnific
 {
@@ -53,5 +55,27 @@ namespace Omnific
 		std::string shader_preset;
 		std::string vertex_source;
 		std::string fragment_source;
+	};
+
+	class OMNIFIC_ENGINE_API ShaderParameters
+	{
+	public:
+		void set_int_uniform(std::string uniform_name, int value);
+		void set_bool_uniform(std::string uniform_name, bool value);
+		void set_float_uniform(std::string uniform_name, float value);
+		void set_vec2_uniform(std::string uniform_name, glm::vec2 value);
+		void set_vec3_uniform(std::string uniform_name, glm::vec3 value);
+		void set_vec4_uniform(std::string uniform_name, glm::vec4 value);
+		void set_mat4_uniform(std::string uniform_name, glm::mat4 value);
+
+		std::unordered_map<std::string, int> int_uniforms;
+		std::unordered_map<std::string, bool> bool_uniforms;
+		std::unordered_map<std::string, float> float_uniforms;
+		std::unordered_map<std::string, glm::vec2> vec2_uniforms;
+		std::unordered_map<std::string, glm::vec3> vec3_uniforms;
+		std::unordered_map<std::string, glm::vec4> vec4_uniforms;
+		std::unordered_map<std::string, glm::mat4> mat4_uniforms;
+	private:
+
 	};
 }

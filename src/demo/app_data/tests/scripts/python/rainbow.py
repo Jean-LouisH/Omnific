@@ -10,21 +10,21 @@ class omnific_script:
 
     def on_logic(self):
         delta = omnific.get_time_delta()
-        colourChange = 0.1
+        colour_change = 0.1
         
-        renderable = omnific.get_component("Model")
+        model = omnific.get_component("Model")
         
-        renderable.shader_parameters.set_float_uniform("red", self.red)
-        renderable.shader_parameters.set_float_uniform("green", self.green)
-        renderable.shader_parameters.set_float_uniform("blue", self.blue)
+        model.shader_parameters.set_float_uniform("red", self.red)
+        model.shader_parameters.set_float_uniform("green", self.green)
+        model.shader_parameters.set_float_uniform("blue", self.blue)
 
-        self.red += colourChange * delta
+        self.red += colour_change * delta
         if (self.red > 1.0):
             self.red = 0.0
-        self.green += colourChange *delta
+        self.green += colour_change *delta
         if (self.green > 1.0):
             self.green = 0.0
-        self.blue += colourChange * delta
+        self.blue += colour_change * delta
         if (self.blue > 1.0):
             self.blue = 0.0
         pass

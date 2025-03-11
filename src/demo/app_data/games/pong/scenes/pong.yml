@@ -1,39 +1,21 @@
 # Omnific Pong
 
 SceneLayer:
-  name: "Background SceneLayer"
-  spatial_dimension: 3
-  Entity:
-    name: "Background Camera"
-    Transform:
-      translation: [0, 0, 150]
-    Camera: "default"
-  Entity:
-    name: "Background Image"
-    Transform:
-      translation: [0, 0, 0]
-    Sprite:
-      image: "Image::#CCCCCC"
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Background Camera"
-SceneLayer:
   name: "Foreground SceneLayer"
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    Transform: default
+    transform: default
     Model:
       overriding_shader:
        preset: "Shader::UNLIT"
   Entity:
     name: "Camera"
-    Transform:
+    transform:
       translation: [0, 0, 30]
     Camera: "default"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/camera_shake.py"]
+    # ScriptCollection:
+    #   Python: ["games/pong/scripts/python/camera_shake.py"]
   Entity:
     name: "Game Mechanics"
     ScriptCollection:
@@ -41,7 +23,7 @@ SceneLayer:
   Entity:
     name: "Paddle1"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [-17, 0, 0]
       scale: [1, 5, 1]
     PhysicsBody:
@@ -52,11 +34,11 @@ SceneLayer:
     ScriptCollection:
       Python: ["games/pong/scripts/python/player_control.py"]
     Collider:
-      is_trigger_only: true
+      collision_response_type: "movable"
   Entity:
     name: "ScoreCount1"
     parent: "Paddle1"
-    Transform:
+    transform:
       translation: [0.0, 40.0, 0.0]
       scale: [1.0, 1.0, 1.0]
     GUI:
@@ -69,7 +51,7 @@ SceneLayer:
   Entity:
     name: "Paddle2"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [17, 0, 0]
       scale: [1, 5, 1]
     PhysicsBody:
@@ -84,7 +66,7 @@ SceneLayer:
   Entity:
     name: "ScoreCount2"
     parent: "Paddle2"
-    Transform:
+    transform:
       translation: [0.0, 0.0, 0.0]
       scale: [1.0, 1.0, 1.0]
     GUI:
@@ -97,7 +79,7 @@ SceneLayer:
   Entity:
     name: "Ball"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0, 10, 0]
     Model:
       mesh: "Mesh::cube"
@@ -113,7 +95,7 @@ SceneLayer:
   Entity:
     name: "UpperBoundary"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0, 12, 0]
       scale: [50, 1, 1]
     Collider: default
@@ -123,7 +105,7 @@ SceneLayer:
   Entity:
     name: "LowerBoundary"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [0, -12, 0]
       scale: [50, 1, 1]
     Collider: default
@@ -133,7 +115,7 @@ SceneLayer:
   Entity:
     name: "LeftGoalPost"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [-22, 0, 0]
       scale: [1, 50, 1]
     Collider: default
@@ -143,7 +125,7 @@ SceneLayer:
   Entity:
     name: "RightGoalPost"
     parent: "GlobalShaderEntity"
-    Transform:
+    transform:
       translation: [22, 0, 0]
       scale: [1, 50, 1]
     Collider: default

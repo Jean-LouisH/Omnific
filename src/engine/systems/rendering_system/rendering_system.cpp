@@ -26,7 +26,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
-#include <scene/components/transform.hpp>
+#include <foundations/transform.hpp>
 #include <scene/components/gui.hpp>
 #include <foundations/singletons/configuration.hpp>
 
@@ -125,8 +125,8 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 				}
 
 				std::vector<int> light_modes;
-				std::vector<glm::vec4> light_colours;
-				std::vector<glm::vec4> shadow_colours;
+				std::vector<glm::vec3> light_colours;
+				std::vector<glm::vec3> shadow_colours;
 				std::vector<float> light_intensities;
 				std::vector<float> light_ranges;
 				std::vector<bool> are_shadows_enabled;
@@ -140,8 +140,8 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 					std::shared_ptr<Transform> light_transform = active_light_transforms[k];
 
 					light_modes.push_back((int)light->mode);
-					light_colours.push_back(light->colour->get_rgba_in_vec4());
-					shadow_colours.push_back(light->shadow_colour->get_rgba_in_vec4());
+					light_colours.push_back(light->colour->get_rgb_in_vec3());
+					shadow_colours.push_back(light->shadow_colour->get_rgb_in_vec3());
 					light_intensities.push_back(light->intensity);
 					light_ranges.push_back(light->range);
 					are_shadows_enabled.push_back(light->is_shadow_enabled);
@@ -163,7 +163,7 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 						shader_parameters = renderable.model->shader_parameters;
 					}
 
-					global_transform = renderable.transform->get_global_transform();
+					global_transform = scene->get_scene_layer(renderable.scene_layer_id)->compute_global_transform(renderable.entity_id);
 					glm::mat4 model_to_world_matrix = global_transform->get_transform_matrix();
 					glm::mat4 mvp = view_to_projection_matrix * world_to_view_matrix * model_to_world_matrix;
 					float alpha = renderable.model->get_alpha_in_percentage();
@@ -222,7 +222,6 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 
 							//Check for a selected Shader preset. Otherwise, load custom shaders.
 							std::string preset = shader->get_preset();
-
 
 							if (renderable_layer.is_2d || (!renderable_layer.is_2d && preset == "Shader::CUSTOM"))
 							{
@@ -327,8 +326,8 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 					shader_program->set_float("alpha", alpha);
 					shader_program->set_int("light_count", lights_count);
 					shader_program->set_int_array("light_modes", light_modes);
-					shader_program->set_vec4_array("light_colours", light_colours);
-					shader_program->set_vec4_array("shadow_colours", shadow_colours);
+					shader_program->set_vec3_array("light_colours", light_colours);
+					shader_program->set_vec3_array("shadow_colours", shadow_colours);
 					shader_program->set_float_array("light_intensities", light_intensities);
 					shader_program->set_float_array("light_ranges", light_ranges);
 					shader_program->set_bool_array("are_shadows_enabled", are_shadows_enabled);
@@ -421,7 +420,7 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 			std::shared_ptr<Entity> camera_entity = scene_layer->get_entity_by_name(ui_viewport->get_camera_entity_name());
 			std::shared_ptr<Camera> camera = scene_layer->get_component_by_type<Camera>(camera_entity->get_id());
 			RenderableLayer renderable_layer;
-			std::shared_ptr<Transform> camera_transform = scene_layer->get_component_by_type<Transform>(camera->get_entity_id());
+			std::shared_ptr<Transform> camera_transform = camera_entity->get_transform();
 
 			renderable_layer.is_2d = scene_layer->is_2d;
 			renderable_layer.camera = camera;
@@ -430,7 +429,7 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 			for (std::shared_ptr<Light> light : scene_layer->get_components_by_type<Light>())
 			{
 				renderable_layer.lights.push_back(light);
-				renderable_layer.light_transforms.push_back(scene_layer->get_component_by_type<Transform>(light->get_entity_id()));
+				renderable_layer.light_transforms.push_back(scene_layer->get_entity(light->get_entity_id())->get_transform());
 			}
 
 			/* Entity RenderableLayer for each Viewport*/
@@ -451,8 +450,10 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 				{
 					std::shared_ptr<Entity> entity = scene_layer->get_entity(renderable_component->get_entity_id());
 					entity_renderable.entity_name = entity->get_name();
-					entity_renderable.transform = scene_layer->get_component_by_type<Transform>(entity->get_id());
+					entity_renderable.transform = entity->get_transform();
 					entity_renderable.model = renderable_component;
+					entity_renderable.scene_layer_id = scene_layer->get_id();
+					entity_renderable.entity_id = entity->get_id();
 
 					std::shared_ptr<Entity> top_entity = entity;
 					EntityID parent_entity_id = entity->parent_id;
@@ -514,8 +515,11 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 		std::shared_ptr<SceneLayer> gui_scene_layer = gui_scene_layers[i];
 		std::shared_ptr<Entity> entity = gui_scene_layer->get_entity(gui_renderable_component->get_entity_id());
 
-		entity_renderable.transform = gui_scene_layer->get_component_by_type<Transform>(entity->get_id());
+		entity_renderable.transform = entity->get_transform();
 		entity_renderable.model = gui_renderable_component;
+		entity_renderable.entity_id = entity->get_id();
+		entity_renderable.entity_name = entity->get_name();
+		entity_renderable.scene_layer_id = gui_scene_layer->get_id();
 		renderable_layer.renderables.push_back(entity_renderable);
 	}
 

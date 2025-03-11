@@ -23,6 +23,8 @@
 #pragma once
 
 #include "foundations/resources/image.hpp"
+#include <foundations/resources/default_assets/shaders/standard_2d_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/gui_element_glsl.hpp>
 #include "model.hpp"
 #include "scene/components/component.hpp"
 #include "foundations/resources/colour.hpp"
@@ -64,22 +66,6 @@ namespace Omnific
 		virtual void update_image();
 		bool get_is_in_focus();
 		bool get_is_selected();
-		bool get_is_pressed();
-		bool get_is_left_mouse_button_on_press();
-		bool get_is_left_mouse_button_pressed();
-		bool get_is_left_mouse_button_on_release();
-		bool get_is_left_mouse_button_released();
-		bool get_is_left_mouse_button_double_clicked();
-		bool get_is_middle_mouse_button_on_press();
-		bool get_is_middle_mouse_button_pressed ();
-		bool get_is_middle_mouse_button_on_release();
-		bool get_is_middle_mouse_button_released();
-		bool get_is_middle_mouse_button_double_clicked();
-		bool get_is_right_mouse_button_on_press();
-		bool get_is_right_mouse_button_pressed();
-		bool get_is_right_mouse_button_on_release();
-		bool get_is_right_mouse_button_released();
-		bool get_is_right_mouse_button_double_clicked();
 		glm::vec2 get_position();
 		glm::vec2 get_dimensions();
 		std::string get_name();
@@ -89,26 +75,6 @@ namespace Omnific
 	protected:
 		bool is_hovered_in_focus = false;
 		bool is_selected = false;
-
-		struct DetectedInputs
-		{
-			bool is_pressed = false;
-			bool is_left_mouse_button_on_press = false;
-			bool is_left_mouse_button_pressed = false;
-			bool is_left_mouse_button_on_release = false;
-			bool is_left_mouse_button_released = false;
-			bool is_left_mouse_button_double_clicked = false;
-			bool is_middle_mouse_button_on_press = false;
-			bool is_middle_mouse_button_pressed = false;
-			bool is_middle_mouse_button_on_release = false;
-			bool is_middle_mouse_button_released = false;
-			bool is_middle_mouse_button_double_clicked = false;
-			bool is_right_mouse_button_on_press = false;
-			bool is_right_mouse_button_pressed = false;
-			bool is_right_mouse_button_on_release = false;
-			bool is_right_mouse_button_released = false;
-			bool is_right_mouse_button_double_clicked = false;
-		} detected_inputs;
 
 		glm::vec2 position;
 		glm::vec2 dimensions;
@@ -448,6 +414,7 @@ namespace Omnific
 		GUI()
 		{
 			this->type = TYPE_STRING;
+			this->shader = std::shared_ptr<Shader>(new Shader("", DefaultAssets::gui_element_glsl, false, false));
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 

@@ -49,7 +49,6 @@
 #include "scene/components/script_collection.hpp"
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
-#include "scene/components/transform.hpp"
 #include "scene/components/viewport.hpp"
 
 #include <systems/animation_system/animation_system.hpp>
@@ -101,7 +100,6 @@ namespace Omnific
 			registry->add<ScriptCollection, Component>();
 			registry->add<Sprite, Component>();
 			registry->add<Timer, Component>();
-			registry->add<Transform, Component>();
 			registry->add<Viewport, Component>();
 
 			if (configuration->enabled_systems.animation_system)

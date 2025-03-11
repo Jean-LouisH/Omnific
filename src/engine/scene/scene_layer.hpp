@@ -28,12 +28,10 @@
 #include <queue>
 #include <unordered_map>
 #include "scene/components/component.hpp"
-#include "haptic_signal_buffer.hpp"
 #include "entity.hpp"
 #include <unordered_map>
 #include "foundations/aliases.hpp"
 #include <string>
-#include "collision_registry.hpp"
 
 #include <engine_api.hpp>
 
@@ -59,6 +57,8 @@ namespace Omnific
 		void remove_entity(EntityID entity_id);
 		void remove_component(EntityID entity_id, std::string type);
 
+		std::shared_ptr<Transform> compute_global_transform(EntityID local_transform_entity_id);
+
 		void clear_start_entity_queue();
 		void clear_finish_entity_queue();
 
@@ -75,8 +75,6 @@ namespace Omnific
 		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
 		std::vector<std::shared_ptr<Component>> get_component_hierarchy(std::string type, EntityID entity_id);
-		std::shared_ptr<CollisionRegistry> get_collision_registry();
-		std::shared_ptr<HapticSignalBuffer> get_haptic_signal_buffer();
 		SceneLayerID get_id();
 		std::string get_name();
 
@@ -140,9 +138,6 @@ namespace Omnific
 		std::queue<EntityID> finish_entities_queue;
 
 		EntityID last_entity_id = 0;
-
-		std::shared_ptr<CollisionRegistry> collision_registry;
-		std::shared_ptr<HapticSignalBuffer> haptic_signal_buffer;
 
 		std::unordered_map<std::string, std::vector<size_t>> component_index_caches;
 		std::vector<size_t> render_order_index_cache;

@@ -9,10 +9,10 @@ class omnific_script:
 
     def on_logic(self):
         delta = omnific.get_time_delta()
-        xVibrationSpeed = 10.0
+        x_vibration_speed = 10.0
         
-        transform = omnific.get_component("Transform")
+        transform = omnific.get_transform()
         #transform.translate_x(math.sin(self.x * xVibrationSpeed * delta))
-        transform.translate_x(math.sin(self.x * xVibrationSpeed) * delta)
+        transform.translate_x(math.sin(self.x * x_vibration_speed) * delta)
         self.x += delta
         pass

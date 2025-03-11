@@ -37,10 +37,6 @@ void Omnific::Collider::deserialize(YAML::Node yaml_node)
 				it3->second[1].as<double>(),
 				it3->second[2].as<double>());
 		}
-		else if (it3->first.as<std::string>() == "is_trigger_only")
-		{
-			this->is_trigger_only = it3->second.as<bool>();
-		}
 	}
 }
 
@@ -50,14 +46,14 @@ void Omnific::Collider::set_dimensions(float width, float height, float depth)
 	this->box.aabb.max = { (width / 2.0), (height / 2.0), (depth / 2.0) };
 }
 
-void Omnific::Collider::set_collider_type(ColliderType collider_type)
+void Omnific::Collider::set_collision_shape_type(CollisionShapeType collider_type)
 {
-	this->collider_type = collider_type;
+	this->collision_shape_type = collider_type;
 }
 
-bool Omnific::Collider::is_collider_type(ColliderType collider_type)
+bool Omnific::Collider::is_collision_shape_type(CollisionShapeType collider_type)
 {
-	return this->collider_type == collider_type;
+	return this->collision_shape_type == collider_type;
 }
 
 bool Omnific::Collider::has_entity_entered(EntityID entity_id)
