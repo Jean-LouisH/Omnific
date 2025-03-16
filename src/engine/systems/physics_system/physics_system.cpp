@@ -45,7 +45,7 @@ void Omnific::PhysicsSystem::initialize()
 	Platform::get_logger().write("Initialized Physics System");
 }
 
-void Omnific::PhysicsSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::PhysicsSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
@@ -66,7 +66,7 @@ void Omnific::PhysicsSystem::finalize()
 
 void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<Timer> timer : scene_layer->get_components_by_type<Timer>())
 		timer->update(seconds_per_compute_update);
@@ -74,7 +74,7 @@ void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_lay
 
 void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
@@ -86,7 +86,7 @@ void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 
 void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 		if (physics_body->is_rigid_body)
@@ -95,7 +95,7 @@ void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 
 void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
@@ -225,29 +225,17 @@ void Omnific::PhysicsSystem::handle_collisions(std::shared_ptr<SceneLayer> scene
 				
 			switch (physics_body->collision_response_type)
 			{
-				case CollisionResponseType::INTANGIBLE: 
-					
-					break;
-				case CollisionResponseType::FLUID: 
-					
-					break;
 				case CollisionResponseType::SOFT: 
 					//adjust mesh offsets with the collision shape
 					break;
 				case CollisionResponseType::RIGID: 
-					//temporary solution
-					// physics_body->linear_velocity.x = numbers.at("second_linear_velocity_x");
-					// physics_body->linear_velocity.y = numbers.at("second_linear_velocity_y");
-					// physics_body->linear_velocity.z = numbers.at("second_linear_velocity_z");
-					break;
-				case CollisionResponseType::SCRIPTABLE: 
 					if (other_physics_body != nullptr)
 					{
-						if (other_physics_body->collision_response_type == CollisionResponseType::RIGID || 
-							other_physics_body->collision_response_type == CollisionResponseType::SCRIPTABLE)
+						if (other_physics_body->collision_response_type == CollisionResponseType::KINEMATIC)
 						{
-							//temporary solution
-							physics_body->linear_velocity = {0.0, 0.0, 0.0};
+							glm::vec3 reversed_linear_velocity = physics_body->linear_velocity * -1.0f;
+							entity->get_transform()->translation += reversed_linear_velocity * 1.5f * (float)(Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S));
+							physics_body->linear_velocity = (reversed_linear_velocity * physics_body->elasticity_ratio) + other_physics_body->linear_velocity;
 						}
 					}
 					break;

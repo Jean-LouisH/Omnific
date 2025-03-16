@@ -74,12 +74,12 @@ namespace Omnific
 		}
 
         virtual void on_input();
-        virtual void on_start();
-        virtual void on_early();
-        virtual void on_logic();
-        virtual void on_compute();
-        virtual void on_late();
-        virtual void on_finish();
+        virtual void on_entity_start();
+        virtual void on_early_update();
+        virtual void on_update();
+        virtual void on_fixed_update();
+        virtual void on_late_update();
+        virtual void on_entity_finish();
         virtual void on_output();
     private:
     };

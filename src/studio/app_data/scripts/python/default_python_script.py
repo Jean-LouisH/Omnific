@@ -10,6 +10,6 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_logic(self):
+    def on_update(self):
         pass
 """

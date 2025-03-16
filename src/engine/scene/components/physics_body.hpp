@@ -35,7 +35,7 @@ namespace Omnific
 		FLUID,
 		SOFT,
 		RIGID,
-		SCRIPTABLE
+		KINEMATIC
 	};
 
 	class OMNIFIC_ENGINE_API PhysicsBody : public Component
@@ -61,7 +61,7 @@ namespace Omnific
 		glm::vec3 linear_velocity;
 		glm::vec3 snap_direction;
 		glm::vec3 up_direction;
-		CollisionResponseType collision_response_type;
+		CollisionResponseType collision_response_type = CollisionResponseType::RIGID;
 
 		virtual Registerable* instance() override
 		{

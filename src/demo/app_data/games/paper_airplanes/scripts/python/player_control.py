@@ -6,7 +6,7 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_logic(self):
+    def on_update(self):
         physics_body = omnific.get_component("PhysicsBody")
         inp = omnific.get_input()
 

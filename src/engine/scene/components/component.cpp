@@ -28,16 +28,6 @@ Omnific::Component::Component()
 	this->type = TYPE_STRING;
 }
 
-void Omnific::Component::set_entity_id(EntityID entity_id)
-{
-	this->entity_id = entity_id;
-}
-
-void Omnific::Component::set_component_hierarchy(std::vector<std::shared_ptr<Component>> component_hierarchy)
-{
-	this->component_hierarchy = component_hierarchy;
-}
-
 void Omnific::Component::deserialize(YAML::Node yaml_node)
 {
 
@@ -46,6 +36,11 @@ void Omnific::Component::deserialize(YAML::Node yaml_node)
 Omnific::EntityID Omnific::Component::get_entity_id()
 {
 	return this->entity_id;
+}
+
+std::string Omnific::Component::get_entity_name()
+{
+	return this->entity_name;
 }
 
 bool Omnific::Component::is_attached_to_entity()

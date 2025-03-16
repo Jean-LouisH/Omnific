@@ -6,10 +6,8 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_logic(self):
+    def on_update(self):
         transform = omnific.get_transform()
-        scene_layer = omnific.get_scene_layer()
-        collisions = scene_layer.get_collision_registry()
         win_events = omnific.query_events("Player won") + (omnific.query_events("AI won"))
 
         if len(win_events) > 0:

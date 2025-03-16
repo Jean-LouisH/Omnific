@@ -54,7 +54,7 @@ namespace Omnific
 			uint32_t target_input_fps;
 			uint32_t target_update_fps;
 			uint32_t target_output_fps;
-			uint32_t compute_frame_time;
+			uint32_t fixed_frame_time;
 			bool enable_multithreading;
 		} performance_settings;
 

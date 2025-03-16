@@ -2,7 +2,7 @@
 
 void initialize_application(Omnific::Engine* omnific_engine)
 {
-  omnific_engine->add_app_data_directories(
+  omnific_engine->add_app_data_paths(
     {
       PROJECT_SOURCE_DIRECTORY, 
       PROJECT_APP_DATA_DIRECTORY,

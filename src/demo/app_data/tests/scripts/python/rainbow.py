@@ -8,7 +8,7 @@ class omnific_script:
         self.blue = 0.67
         pass
 
-    def on_logic(self):
+    def on_update(self):
         delta = omnific.get_time_delta()
         colour_change = 0.1
         

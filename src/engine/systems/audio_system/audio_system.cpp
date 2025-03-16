@@ -41,7 +41,7 @@ void Omnific::AudioSystem::initialize()
 	Platform::get_logger().write("Initialized Audio System.");
 }
 
-void Omnific::AudioSystem::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::AudioSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{

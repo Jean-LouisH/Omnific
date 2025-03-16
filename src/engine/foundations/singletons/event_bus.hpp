@@ -81,6 +81,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API EventBus
 	{
 		friend class Engine;
+		friend class SceneStorage;
 	public:
 		static void publish(
 			Event event,
@@ -106,13 +107,16 @@ namespace Omnific
 		static bool has_continuous_event(std::string event_name, std::string event_key);
 		static uint64_t query_event_count(std::string event_name);
 		static uint64_t query_event_count_with_parameter_key(std::string event_name, std::string event_parameter_key);
+		static bool has_event(std::string event_name);
+		static bool has_event_with_parameter_key(std::string event_name, std::string event_parameter_key);
 		static EventBus* get_instance();
 	private:
 		static EventBus* instance;
 		std::unordered_map<std::string, std::vector<Event>> instant_events;
 		std::unordered_map<std::string, std::unordered_map<std::string, Event>> continuous_events;
 
-		static void clear();
+		static void clear_instant_events();
+		static void clear_continuous_events();
 		static void publish_with_parameters(
 			Event event,
 			bool is_continuous);

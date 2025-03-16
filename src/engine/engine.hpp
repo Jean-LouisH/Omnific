@@ -48,7 +48,7 @@ namespace Omnific
 	public:
 		Engine(int argc, char* argv[]);
 
-		void add_app_data_directories(std::vector<std::string> app_data_directories);
+		void add_app_data_paths(std::vector<std::string> app_data_paths);
 
 		void run();
 	private:

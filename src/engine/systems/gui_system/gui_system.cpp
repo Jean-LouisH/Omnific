@@ -42,7 +42,7 @@ void Omnific::GUISystem::initialize()
 		printf("TTF_Init: %s\n", TTF_GetError());
 }
 
-void Omnific::GUISystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::GUISystem::on_early_update(std::shared_ptr<Scene> scene)
 {
 	Input& input = Platform::get_input();
 	std::unordered_map<std::string, double> numbers;

@@ -20,11 +20,11 @@ class omnific_script:
         ball_transform.translation.y = 2.0
         ball_transform.translation.z = -2.5
 
-    def on_start(self):
+    def on_entity_start(self):
         omnific_script.reset_ball(self)
 
 
-    def on_logic(self):
+    def on_update(self):
         scene_tree = omnific.get_scene_tree()
         ball_entity = scene_tree.get_entity_by_name("Ball")
         ball_physics_body = scene_tree.get_component("PhysicsBody", ball_entity.get_id())

@@ -22,7 +22,7 @@
 
 #include "cpp_script_instance.hpp"
 
-void Omnific::CPPScriptInstance::on_start()
+void Omnific::CPPScriptInstance::on_entity_start()
 {
 
 }
@@ -32,22 +32,22 @@ void Omnific::CPPScriptInstance::on_input()
 
 }
 
-void Omnific::CPPScriptInstance::on_early()
+void Omnific::CPPScriptInstance::on_early_update()
 {
 
 }
 
-void Omnific::CPPScriptInstance::on_logic()
+void Omnific::CPPScriptInstance::on_update()
 {
 
 }
 
-void Omnific::CPPScriptInstance::on_compute()
+void Omnific::CPPScriptInstance::on_fixed_update()
 {
 
 }
 
-void Omnific::CPPScriptInstance::on_late()
+void Omnific::CPPScriptInstance::on_late_update()
 {
 
 }
@@ -57,7 +57,7 @@ void Omnific::CPPScriptInstance::on_output()
 
 }
 
-void Omnific::CPPScriptInstance::on_finish()
+void Omnific::CPPScriptInstance::on_entity_finish()
 {
 
 }

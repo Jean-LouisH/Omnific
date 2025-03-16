@@ -5,7 +5,7 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_start(self):
+    def on_entity_start(self):
         image = omnific.load_image("event_bus/images/collision.png")
         model = omnific.get_component("Model")
         model.add_textured_cube(image)

@@ -108,7 +108,7 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 					}
 					else if (it1->first.as<std::string>() == "target_compute_frame_time")
 					{
-						configuration->performance_settings.compute_frame_time = it1->second.as<int>();
+						configuration->performance_settings.fixed_frame_time = it1->second.as<int>();
 					}
 					else if (it1->first.as<std::string>() == "enable_multithreading")
 					{
@@ -193,7 +193,7 @@ Omnific::Configuration* Omnific::Configuration::get_instance()
 		configuration->performance_settings.target_input_fps = DEFAULT_TARGET_INPUT_FPS;
 		configuration->performance_settings.target_update_fps = DEFAULT_TARGET_UPDATE_FPS;
 		configuration->performance_settings.target_output_fps = DEFAULT_TARGET_OUTPUT_FPS;
-		configuration->performance_settings.compute_frame_time = DEFAULT_COMPUTE_FRAME_TIME;
+		configuration->performance_settings.fixed_frame_time = DEFAULT_FIXED_FRAME_TIME;
 		configuration->performance_settings.enable_multithreading = true;
 
 		configuration->enabled_systems.animation_system = true;

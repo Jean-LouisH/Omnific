@@ -6,7 +6,7 @@ class omnific_script:
         self.score = 0
         pass
 
-    def on_late(self):
+    def on_late_update(self):
         if omnific.get_scene_tree().get_event_bus().query_count("AI won") > 0:
             self.score += 1
 

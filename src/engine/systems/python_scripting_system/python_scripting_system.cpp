@@ -101,7 +101,7 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 								{
 									FileAccess& file_access = Platform::get_file_access();
 									std::string new_path = file_access.get_path_before_file(
-										file_access.find_path_among_app_data_directories(script_filepath));
+										file_access.find_path(script_filepath));
 #ifdef WIN32
 									pybind11::str new_path_obj = pybind11::str(new_path);
 									new_path_obj = new_path_obj.attr("replace")("//", "/");
@@ -118,12 +118,12 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 								PythonScriptInstance script_instance;
 								std::vector<std::string> method_names = {
 									"on_input",
-									"on_start",
-									"on_early",
-									"on_logic",
-									"on_compute",
-									"on_late",
-									"on_finish",
+									"on_entity_start",
+									"on_early_update",
+									"on_update",
+									"on_fixed_update",
+									"on_late_update",
+									"on_entity_finish",
 									"on_output"
 								};
 								script_instance.set_data(new_pybind11_module.attr("omnific_script")());
@@ -157,7 +157,7 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 	}
 }
 
-void Omnific::PythonScriptingSystem::on_start(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -178,7 +178,7 @@ void Omnific::PythonScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_start");
+			this->execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_entity_start");
 }
 
 void Omnific::PythonScriptingSystem::on_input(std::shared_ptr<Scene> scene)
@@ -191,54 +191,54 @@ void Omnific::PythonScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 			this->execute_update_methods(it.second, "on_input");
 }
 
-void Omnific::PythonScriptingSystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_early_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_update_methods(it.second, "on_early");
+			this->execute_update_methods(it.second, "on_early_update");
 }
 
-void Omnific::PythonScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_update_methods(it.second, "on_logic");
+			this->execute_update_methods(it.second, "on_update");
 }
 
-void Omnific::PythonScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_update_methods(it.second, "on_compute");
+			this->execute_update_methods(it.second, "on_fixed_update");
 }
 
-void Omnific::PythonScriptingSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_late_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_update_methods(it.second, "on_late");
+			this->execute_update_methods(it.second, "on_late_update");
 }
 
-void Omnific::PythonScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::on_entity_finish(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_queued_methods(it.second->get_finish_entity_queue(), it.second, "on_finish");
+			this->execute_queued_methods(it.second->get_finish_entity_queue(), it.second, "on_entity_finish");
 
 	this->has_modules_loaded_on_this_update = false;
 }

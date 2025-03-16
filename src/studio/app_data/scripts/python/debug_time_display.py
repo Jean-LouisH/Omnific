@@ -6,7 +6,7 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_logic(self):
+    def on_update(self):
 
         if omnific.has_component("GUI"):
             current_time_string = time.strftime("%H:%M:%S", time.localtime())

@@ -28,7 +28,7 @@ class omnific_script:
 
         pass
 
-    def on_start(self):
+    def on_entity_start(self):
         print("Python: " + sys.version)
         project_print_string = ""
 
@@ -45,7 +45,7 @@ class omnific_script:
 """ + project_print_string)
         pass
 
-    def on_logic(self):
+    def on_update(self):
         inp = omnific.get_input()
         
         for letter, project_path in self.project_paths.items():

@@ -83,9 +83,14 @@ void Omnific::EventBus::publish(
 	EventBus::publish_with_parameters(Event(name, parameters), is_continuous);
 }
 
-void Omnific::EventBus::clear()
+void Omnific::EventBus::clear_instant_events()
 {
 	EventBus::get_instance()->instant_events.clear();
+}
+
+void Omnific::EventBus::clear_continuous_events()
+{
+	EventBus::get_instance()->continuous_events.clear();
 }
 
 void Omnific::EventBus::remove_continuous_event(std::string event_name, std::string event_key)
@@ -232,6 +237,16 @@ uint64_t Omnific::EventBus::query_event_count_with_parameter_key(std::string eve
 		event_count += parameters.components.count(event_parameter_name);
 	}
 	return event_count;
+}
+
+bool Omnific::EventBus::has_event(std::string event_name)
+{
+	return EventBus::query_event_count(event_name) > 0;
+}
+
+bool Omnific::EventBus::has_event_with_parameter_key(std::string event_name, std::string event_parameter_key)
+{
+	return EventBus::query_event_count_with_parameter_key(event_name, event_parameter_key) > 0;
 }
 
 void Omnific::EventBus::publish_with_parameters(

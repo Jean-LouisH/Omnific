@@ -8,7 +8,7 @@ class omnific_script:
         self.enable_ai_mode = True
         pass
 
-    def on_logic(self):
+    def on_update(self):
         inp = omnific.get_input()
 
         if inp.is_on_release("p"):

@@ -38,7 +38,7 @@ void Omnific::AnimationSystem::initialize()
 	Platform::get_logger().write("Initialized Animation System");
 }
 
-void Omnific::AnimationSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::AnimationSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
@@ -53,7 +53,7 @@ void Omnific::AnimationSystem::finalize()
 
 void Omnific::AnimationSystem::update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const uint32_t ms_per_compute_update = Configuration::get_instance()->performance_settings.compute_frame_time;
+	const uint32_t ms_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time;
 	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();
 
 	for (size_t i = 0; i < sprite_containers.size(); i++)

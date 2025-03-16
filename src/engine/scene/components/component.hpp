@@ -41,22 +41,23 @@ namespace Omnific
 	   These are attached to Entities when added to a Scene.*/
     class OMNIFIC_ENGINE_API Component : public Registerable
     {
+		friend class Scene;
+		friend class SceneLayer;
 	public:
 		static constexpr const char* TYPE_STRING = "Component";
 
 		Component();
 
-		void set_entity_id(EntityID entity_id);
-		void set_component_hierarchy(std::vector<std::shared_ptr<Component>> component_hierarchy);
-		virtual void deserialize(YAML::Node yaml_node);
-
 		EntityID get_entity_id();
+		std::string get_entity_name();
 		bool is_attached_to_entity();
 		virtual bool is_renderable();
 	protected:
-		std::vector<std::shared_ptr<Component>> component_hierarchy;
 		std::unordered_map<std::string, std::string> properties_with_types; //<PropertyName, PropertyType>
 	private:
 		EntityID entity_id = 0;
+		std::string entity_name;
+		
+		virtual void deserialize(YAML::Node yaml_node);
     };
 }

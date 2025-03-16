@@ -38,32 +38,32 @@ void Omnific::System::on_input(std::shared_ptr<Scene> scene)
 
 }
 
-void Omnific::System::on_start(std::shared_ptr<Scene> scene)
+void Omnific::System::on_entity_start(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnific::System::on_early(std::shared_ptr<Scene> scene)
+void Omnific::System::on_early_update(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnific::System::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::System::on_update(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnific::System::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::System::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnific::System::on_late(std::shared_ptr<Scene> scene)
+void Omnific::System::on_late_update(std::shared_ptr<Scene> scene)
 {
 
 }
 
-void Omnific::System::on_finish(std::shared_ptr<Scene> scene)
+void Omnific::System::on_entity_finish(std::shared_ptr<Scene> scene)
 {
 
 }

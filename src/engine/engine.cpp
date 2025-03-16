@@ -39,9 +39,9 @@ Omnific::Engine::Engine(int argc, char* argv[])
 	Platform::initialize(argc, argv);
 }
 
-void Omnific::Engine::add_app_data_directories(std::vector<std::string> app_data_directories)
+void Omnific::Engine::add_app_data_paths(std::vector<std::string> app_data_paths)
 {
-	Platform::get_file_access().add_app_data_directories(app_data_directories);
+	Platform::get_file_access().add_app_data_paths(app_data_paths);
 }
 
 void Omnific::Engine::run()
@@ -134,8 +134,8 @@ void Omnific::Engine::initialize()
 		this->state = State::INITIALIZING;
 
 	FileAccess& file_access = Platform::get_file_access();
-	file_access.add_app_data_directories({"./", DEFAULT_APP_DATA_DIRECTORY});
-	std::string boot_filepath = file_access.find_path_among_app_data_directories(BOOT_FILE_NAME);
+	file_access.add_app_data_paths({"./", DEFAULT_APP_DATA_PATH});
+	std::string boot_filepath = file_access.find_path(BOOT_FILE_NAME);
 
 	if (boot_filepath != "")
 		Configuration::load_from_file(boot_filepath);
@@ -211,7 +211,7 @@ void Omnific::Engine::run_loop()
 		FileAccess& file_access = Platform::get_file_access();
 		std::string entry_scene_filepath = configuration->metadata.entry_scene_filepath;
 
-		std::string app_data_entry_scene_filepath = file_access.find_path_among_app_data_directories(entry_scene_filepath);
+		std::string app_data_entry_scene_filepath = file_access.find_path(entry_scene_filepath);
 		if (app_data_entry_scene_filepath != "")
 			SceneStorage::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
 
@@ -236,36 +236,36 @@ void Omnific::Engine::run_loop()
 		system.second->on_input(active_scene);
 
 		for (auto system : this->systems)
-			system.second->on_start(active_scene);
+			system.second->on_entity_start(active_scene);
 
 		for (auto it : active_scene->get_scene_layers())
 			it.second->clear_start_entity_queue();
 
 		for (auto system : this->systems)
-			system.second->on_early(active_scene);
+			system.second->on_early_update(active_scene);
 
 		for (auto system : this->systems)
-			system.second->on_logic(active_scene);
+			system.second->on_update(active_scene);
 
 		/* This calls the compute based Systems repeatedly until the accumulated
 			lag milliseconds are depleted. This ensures compute operations
 			are accurate to real-time, even when frames drop. */
 
-		uint32_t target_compute_frame_time = Configuration::get_instance()->performance_settings.compute_frame_time;
+		uint32_t target_fixed_frame_time = Configuration::get_instance()->performance_settings.fixed_frame_time;
 
-		while (Profiler::get_lag_count() >= target_compute_frame_time &&
+		while (Profiler::get_lag_count() >= target_fixed_frame_time &&
 			this->state == State::RUNNING)
 		{
 			for (auto system : this->systems)
-				system.second->on_compute(active_scene);
-			Profiler::decrement_lag_count(target_compute_frame_time);
+				system.second->on_fixed_update(active_scene);
+			Profiler::decrement_lag_count(target_fixed_frame_time);
 		}
 
 		for (auto system : this->systems)
-			system.second->on_late(active_scene);
+			system.second->on_late_update(active_scene);
 
 		for (auto system : this->systems)
-			system.second->on_finish(active_scene);
+			system.second->on_entity_finish(active_scene);
 
 		for (auto it : active_scene->get_scene_layers())
 			it.second->clear_finish_entity_queue();
@@ -282,7 +282,7 @@ void Omnific::Engine::run_loop()
 	lag_clock->set_end();
 	lag_clock->set_start();
 
-	EventBus::clear();
+	EventBus::clear_instant_events();
 	Profiler::increment_lag_count(lag_clock->get_delta());
 
 	if (this->state == State::RESTARTING || 

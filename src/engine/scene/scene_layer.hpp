@@ -74,7 +74,6 @@ namespace Omnific
 		std::unordered_map<EntityID, std::shared_ptr<Entity>>& get_entities();
 		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
-		std::vector<std::shared_ptr<Component>> get_component_hierarchy(std::string type, EntityID entity_id);
 		SceneLayerID get_id();
 		std::string get_name();
 
@@ -82,23 +81,6 @@ namespace Omnific
 		std::shared_ptr<T> get_component_by_type(EntityID entity_id)
 		{
 			return std::dynamic_pointer_cast<T>(this->get_component(T::TYPE_STRING, entity_id));
-		}
-
-		template <class T>
-		std::vector<std::shared_ptr<T>> get_component_hierarchy_by_type(EntityID entity_id, bool replace_missing_components = true)
-		{
-			std::vector<std::shared_ptr<T>> typed_component_hierarchy;
-			std::vector<std::shared_ptr<Component>> component_hierarchy = this->get_component_hierarchy(T::TYPE_STRING, entity_id);
-
-			for (std::shared_ptr<Component> component : component_hierarchy)
-			{
-				std::shared_ptr<T> typed_component = std::dynamic_pointer_cast<T>(component);
-				if (typed_component == nullptr && replace_missing_components)
-					typed_component = std::shared_ptr<T>(new T());
-				typed_component_hierarchy.push_back(typed_component);
-			}
-
-			return typed_component_hierarchy;
 		}
 
 		template <class T>

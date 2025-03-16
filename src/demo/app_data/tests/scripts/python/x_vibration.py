@@ -7,7 +7,7 @@ class omnific_script:
         self.x = 0
         pass
 
-    def on_logic(self):
+    def on_update(self):
         delta = omnific.get_time_delta()
         x_vibration_speed = 10.0
         

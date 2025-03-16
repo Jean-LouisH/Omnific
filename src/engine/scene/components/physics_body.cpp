@@ -58,9 +58,9 @@ void Omnific::PhysicsBody::deserialize(YAML::Node yaml_node)
 			{
 				this->collision_response_type = CollisionResponseType::RIGID;
 			}
-			else if (it3->second.as<std::string>() == "scriptable")
+			else if (it3->second.as<std::string>() == "kinematic")
 			{
-				this->collision_response_type = CollisionResponseType::SCRIPTABLE;
+				this->collision_response_type = CollisionResponseType::KINEMATIC;
 			}
 		}
 	}

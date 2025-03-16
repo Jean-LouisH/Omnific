@@ -28,13 +28,13 @@ SceneLayer:
       scale: [1, 5, 1]
     PhysicsBody:
       is_rigidbody: false
+      collision_response_type: "rigid"
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FF0000"
     ScriptCollection:
       Python: ["games/pong/scripts/python/player_control.py"]
-    Collider:
-      collision_response_type: "movable"
+    Collider: default
   Entity:
     name: "ScoreCount1"
     parent: "Paddle1"
@@ -56,13 +56,13 @@ SceneLayer:
       scale: [1, 5, 1]
     PhysicsBody:
       is_rigidbody: false
+      collision_response_type: "rigid"
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#0000FF"
     ScriptCollection:
       Python: ["games/pong/scripts/python/ai_control.py"]
-    Collider:
-      is_trigger_only: true
+    Collider: default
   Entity:
     name: "ScoreCount2"
     parent: "Paddle2"
@@ -86,6 +86,7 @@ SceneLayer:
       albedo: "Image::#FFFFFF"
     PhysicsBody:
       is_rigidbody: false
+      collision_response_type: "intangible"
     Collider:
       is_trigger_only: true
   Entity:
@@ -102,6 +103,9 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
+    PhysicsBody:
+      is_rigidbody: false
+      collision_response_type: "kinematic"
   Entity:
     name: "LowerBoundary"
     parent: "GlobalShaderEntity"
@@ -112,6 +116,9 @@ SceneLayer:
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
+    PhysicsBody:
+      is_rigidbody: false
+      collision_response_type: "kinematic"
   Entity:
     name: "LeftGoalPost"
     parent: "GlobalShaderEntity"
@@ -119,9 +126,9 @@ SceneLayer:
       translation: [-22, 0, 0]
       scale: [1, 50, 1]
     Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
+    PhysicsBody:
+      is_rigidbody: false
+      collision_response_type: "intangible"
   Entity:
     name: "RightGoalPost"
     parent: "GlobalShaderEntity"
@@ -129,9 +136,9 @@ SceneLayer:
       translation: [22, 0, 0]
       scale: [1, 50, 1]
     Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
+    PhysicsBody:
+      is_rigidbody: false
+      collision_response_type: "intangible"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

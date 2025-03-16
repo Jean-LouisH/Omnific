@@ -22,14 +22,14 @@
 
 #include "splash_screen_transition.hpp"
 
-void OmnificEditor::SplashScreenTransition::on_start()
+void OmnificEditor::SplashScreenTransition::on_entity_start()
 {
     std::shared_ptr<Omnific::Timer> timer = Omnific::CPPEntityContext::get_component_by_type<Omnific::Timer>();
     float countdown_value = 5.0f;
     timer->start(countdown_value);
 }
 
-void OmnificEditor::SplashScreenTransition::on_logic()
+void OmnificEditor::SplashScreenTransition::on_update()
 {
     if (Omnific::CPPEntityContext::get_component_by_type<Omnific::Timer>()->is_finished())
     {

@@ -87,7 +87,7 @@ void Omnific::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_start(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -95,11 +95,11 @@ void Omnific::CPPScriptingSystem::on_start(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 	for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-		execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_start");
+		execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_entity_start");
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_early(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_early_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -107,11 +107,11 @@ void Omnific::CPPScriptingSystem::on_early(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-			execute_update_methods(it.second, "on_early");
+			execute_update_methods(it.second, "on_early_update");
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -119,11 +119,11 @@ void Omnific::CPPScriptingSystem::on_logic(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-			execute_update_methods(it.second, "on_logic");
+			execute_update_methods(it.second, "on_update");
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -131,11 +131,11 @@ void Omnific::CPPScriptingSystem::on_compute(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-			execute_update_methods(it.second, "on_compute");
+			execute_update_methods(it.second, "on_fixed_update");
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_late(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_late_update(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -143,11 +143,11 @@ void Omnific::CPPScriptingSystem::on_late(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-			execute_update_methods(it.second, "on_late");
+			execute_update_methods(it.second, "on_late_update");
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_entity_finish(std::shared_ptr<Scene> scene)
 {
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
@@ -155,7 +155,7 @@ void Omnific::CPPScriptingSystem::on_finish(std::shared_ptr<Scene> scene)
 	if (scene != nullptr)
 	{
 		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-			execute_queued_methods(it.second->get_finish_entity_queue(), it.second, "on_finish");
+			execute_queued_methods(it.second->get_finish_entity_queue(), it.second, "on_entity_finish");
 	}
 }
 
@@ -189,20 +189,20 @@ void Omnific::CPPScriptingSystem::bind_and_call(
 				sceneLayerID,
 				entityID);
 
-			if (methodName == "on_start")
-				script_instance->on_start();
+			if (methodName == "on_entity_start")
+				script_instance->on_entity_start();
 			else if (methodName == "on_input")
 				script_instance->on_input();
-			else if (methodName == "on_early")
-				script_instance->on_early();
-			else if (methodName == "on_logic")
-				script_instance->on_logic();
-			else if (methodName == "on_compute")
-				script_instance->on_compute();
-			else if (methodName == "on_late")
-				script_instance->on_late();
-			else if (methodName == "on_finish")
-				script_instance->on_finish();
+			else if (methodName == "on_early_update")
+				script_instance->on_early_update();
+			else if (methodName == "on_update")
+				script_instance->on_update();
+			else if (methodName == "on_fixed_update")
+				script_instance->on_fixed_update();
+			else if (methodName == "on_late_update")
+				script_instance->on_late_update();
+			else if (methodName == "on_entity_finish")
+				script_instance->on_entity_finish();
             else if (methodName == "on_output")
 				script_instance->on_output();
 		}

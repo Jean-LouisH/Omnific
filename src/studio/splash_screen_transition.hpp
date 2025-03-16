@@ -23,8 +23,8 @@ namespace OmnificEditor
 		}
 
 		/* Add all the methods from CPPScript to override. */
-		virtual void on_start() override;
-        virtual void on_logic() override;
+		virtual void on_entity_start() override;
+        virtual void on_update() override;
 
 		/* custom public methods. */
         private:

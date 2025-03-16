@@ -70,201 +70,205 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 
 
 	this->name = filepath;
-	const std::string full_filepath = Platform::get_file_access().find_path_among_app_data_directories(filepath);
 
-	try
+	if (filepath != "")
 	{
-		YAML::Node yaml_node = YAML::LoadFile(full_filepath);
+		const std::string full_filepath = Platform::get_file_access().find_path(filepath);
 
-		for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
+		try
 		{
-			if (it0->first.as<std::string>() == "SceneLayer")
+			YAML::Node yaml_node = YAML::LoadFile(full_filepath);
+
+			for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
 			{
-				std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
-				bool load_this_scene_layer = true;
-
-				/* If the name is an empty string, load all, otherwise search for the name */
-				if (name != "")
+				if (it0->first.as<std::string>() == "SceneLayer")
 				{
-					load_this_scene_layer = false;
+					std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
+					bool load_this_scene_layer = true;
 
-					for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
+					/* If the name is an empty string, load all, otherwise search for the name */
+					if (name != "")
 					{
-						if (it1->first.as<std::string>() == "name")
-						{
-							load_this_scene_layer = it1->second.as<std::string>() == name;
-							break;
-						}
-					}
-				}
+						load_this_scene_layer = false;
 
-				if (load_this_scene_layer)
-				{
-					for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
-					{
-						if (it1->first.as<std::string>() == "name")
+						for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 						{
-							scene_layer->name = it1->second.as<std::string>();
-						}
-						else if (it1->first.as<std::string>() == "spatial_dimension")
-						{
-							int value = it1->second.as<int>();
-
-							if (value == 2)
-								scene_layer->is_2d = true;
-							else if (value == 3)
-								scene_layer->is_2d = false;
-						}
-						else if (it1->first.as<std::string>() == "Entity")
-						{
-							std::shared_ptr<Entity> entity(new Entity());
-							scene_layer->add_entity(entity);
-
-							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+							if (it1->first.as<std::string>() == "name")
 							{
-								//Entity attributes
-								if (it2->first.as<std::string>() == "name")
-								{
-									scene_layer->set_entity_name(scene_layer->get_last_entity()->get_id(), it2->second.as<std::string>());
-								}
-								else if (it2->first.as<std::string>() == "parent")
-								{
-									scene_layer->get_last_entity()->parent_id = scene_layer->get_entity_by_name(it2->second.as<std::string>())->get_id();
-								}
-								else if ((it2->first.as<std::string>() == "transform"))
-								{
-									for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
-									{
-										std::shared_ptr<Transform> transform = entity->get_transform();
-
-										if (it3->first.as<std::string>() == "translation")
-										{
-											transform->translation.x = it3->second[0].as<double>();
-											transform->translation.y = it3->second[1].as<double>();
-											transform->translation.z = it3->second[2].as<double>();
-										}
-										else if (it3->first.as<std::string>() == "rotation")
-										{
-											transform->rotation.x = it3->second[0].as<double>();
-											transform->rotation.y = it3->second[1].as<double>();
-											transform->rotation.z = it3->second[2].as<double>();
-										}
-										else if (it3->first.as<std::string>() == "scale")
-										{
-											transform->scale.x = it3->second[0].as<double>();
-											transform->scale.y = it3->second[1].as<double>();
-											transform->scale.z = it3->second[2].as<double>();
-										}
-									}					
-								}
-
-								//Components
-								else
-								{
-									std::shared_ptr<Registerable> registerable = ClassRegistry::query<Component>(it2->first.as<std::string>());
-
-									if (registerable != nullptr)
-									{
-										std::shared_ptr<Component> component = std::dynamic_pointer_cast<Component>(std::shared_ptr<Registerable>(registerable->instance()));
-										component->deserialize(it2->second);
-										scene_layer->add_component_to_last_entity(component);
-									}
-								}
-							}
-						}
-						/* Recursively load another SceneLayer into this one if the filename
-						   is not the same. */
-						else if (it1->first.as<std::string>() == "SubSceneLayer")
-						{
-							std::string sub_scene_filepath;
-							std::string sub_scene_layer_name;
-							EntityID parent_id = 0;
-
-							for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
-							{
-								if (it2->first.as<std::string>() == "parent")
-								{
-									parent_id = scene_layer->get_entity_by_name(it2->second.as<std::string>())->get_id();
-								}
-								else if (it2->first.as<std::string>() == "name")
-								{
-									sub_scene_filepath = it2->second[0].as<std::string>();
-									sub_scene_layer_name = it2->second[1].as<std::string>();
-								}
-							}
-
-							std::shared_ptr<SceneLayer> sub_scene_layer;
-
-							if (sub_scene_filepath != filepath)
-							{
-								/*The last SceneLayer is the only SceneTree, so this just extracts the one specified.*/
-								if (sub_scene_layer_name != "")
-									sub_scene_layer = Scene(sub_scene_filepath, sub_scene_layer_name).get_last_scene_layer();
-								else
-									sub_scene_layer = this->load_gltf(sub_scene_filepath);
-
-
-								/* Only load the SceneLayer if it is the same spatial dimension. */
-								if (sub_scene_layer->is_2d == scene_layer->is_2d)
-								{
-									/* Transfer Entities and their Components */
-									std::shared_ptr<Entity> new_root_entity(new Entity());
-									new_root_entity->set_name(sub_scene_filepath);
-									new_root_entity->parent_id = parent_id;
-									scene_layer->add_entity(new_root_entity);
-									std::unordered_map<EntityID, std::shared_ptr<Entity>>& sub_scene_entities = sub_scene_layer->get_entities();
-
-									/*Entities without parents are listed before others.*/
-									std::vector<std::shared_ptr<Entity>> sorted_entities;
-
-
-									/*Without parents*/
-									for (auto it = sub_scene_entities.begin(); it != sub_scene_entities.end(); it++)
-									{
-										std::shared_ptr<Entity> sub_scene_entity = it->second;
-
-										if (sub_scene_entity->parent_id == 0)
-											sorted_entities.push_back(sub_scene_entity);
-									}
-
-									/*With parents*/
-
-									for (auto it = sub_scene_entities.begin(); it != sub_scene_entities.end(); it++)
-									{
-										std::shared_ptr<Entity> sub_scene_entity = it->second;
-
-										if (sub_scene_entity->parent_id != 0)
-											sorted_entities.push_back(sub_scene_entity);
-									}
-
-
-									for (size_t i = 0; i < sorted_entities.size(); i++)
-									{
-										std::shared_ptr<Entity> sub_scene_entity = sorted_entities[i];
-
-										if (sub_scene_entity->parent_id == 0)
-											sub_scene_entity->parent_id = new_root_entity->get_id();
-
-										scene_layer->add_entity(sub_scene_entity);
-
-										std::unordered_map<std::string, ComponentID> sub_scene_entity_component_ids = sub_scene_entity->component_ids;
-
-										for (auto it2 = sub_scene_entity_component_ids.begin(); it2 != sub_scene_entity_component_ids.end(); it2++)
-											scene_layer->add_component_to_last_entity(sub_scene_layer->get_component_by_id(it2->second));
-									}
-								}
+								load_this_scene_layer = it1->second.as<std::string>() == name;
+								break;
 							}
 						}
 					}
-				}
 
-				this->add_scene_layer(scene_layer);
+					if (load_this_scene_layer)
+					{
+						for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
+						{
+							if (it1->first.as<std::string>() == "name")
+							{
+								scene_layer->name = it1->second.as<std::string>();
+							}
+							else if (it1->first.as<std::string>() == "spatial_dimension")
+							{
+								int value = it1->second.as<int>();
+
+								if (value == 2)
+									scene_layer->is_2d = true;
+								else if (value == 3)
+									scene_layer->is_2d = false;
+							}
+							else if (it1->first.as<std::string>() == "Entity")
+							{
+								std::shared_ptr<Entity> entity(new Entity());
+								scene_layer->add_entity(entity);
+
+								for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+								{
+									//Entity attributes
+									if (it2->first.as<std::string>() == "name")
+									{
+										scene_layer->set_entity_name(scene_layer->get_last_entity()->get_id(), it2->second.as<std::string>());
+									}
+									else if (it2->first.as<std::string>() == "parent")
+									{
+										scene_layer->get_last_entity()->parent_id = scene_layer->get_entity_by_name(it2->second.as<std::string>())->get_id();
+									}
+									else if ((it2->first.as<std::string>() == "transform"))
+									{
+										for (YAML::const_iterator it3 = it2->second.begin(); it3 != it2->second.end(); ++it3)
+										{
+											std::shared_ptr<Transform> transform = entity->get_transform();
+
+											if (it3->first.as<std::string>() == "translation")
+											{
+												transform->translation.x = it3->second[0].as<double>();
+												transform->translation.y = it3->second[1].as<double>();
+												transform->translation.z = it3->second[2].as<double>();
+											}
+											else if (it3->first.as<std::string>() == "rotation")
+											{
+												transform->rotation.x = it3->second[0].as<double>();
+												transform->rotation.y = it3->second[1].as<double>();
+												transform->rotation.z = it3->second[2].as<double>();
+											}
+											else if (it3->first.as<std::string>() == "scale")
+											{
+												transform->scale.x = it3->second[0].as<double>();
+												transform->scale.y = it3->second[1].as<double>();
+												transform->scale.z = it3->second[2].as<double>();
+											}
+										}					
+									}
+
+									//Components
+									else
+									{
+										std::shared_ptr<Registerable> registerable = ClassRegistry::query<Component>(it2->first.as<std::string>());
+
+										if (registerable != nullptr)
+										{
+											std::shared_ptr<Component> component = std::dynamic_pointer_cast<Component>(std::shared_ptr<Registerable>(registerable->instance()));
+											component->deserialize(it2->second);
+											scene_layer->add_component_to_last_entity(component);
+										}
+									}
+								}
+							}
+							/* Recursively load another SceneLayer into this one if the filename
+							is not the same. */
+							else if (it1->first.as<std::string>() == "SubSceneLayer")
+							{
+								std::string sub_scene_filepath;
+								std::string sub_scene_layer_name;
+								EntityID parent_id = 0;
+
+								for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+								{
+									if (it2->first.as<std::string>() == "parent")
+									{
+										parent_id = scene_layer->get_entity_by_name(it2->second.as<std::string>())->get_id();
+									}
+									else if (it2->first.as<std::string>() == "name")
+									{
+										sub_scene_filepath = it2->second[0].as<std::string>();
+										sub_scene_layer_name = it2->second[1].as<std::string>();
+									}
+								}
+
+								std::shared_ptr<SceneLayer> sub_scene_layer;
+
+								if (sub_scene_filepath != filepath)
+								{
+									/*The last SceneLayer is the only SceneTree, so this just extracts the one specified.*/
+									if (sub_scene_layer_name != "")
+										sub_scene_layer = Scene(sub_scene_filepath, sub_scene_layer_name).get_last_scene_layer();
+									else
+										sub_scene_layer = this->load_gltf(sub_scene_filepath);
+
+
+									/* Only load the SceneLayer if it is the same spatial dimension. */
+									if (sub_scene_layer->is_2d == scene_layer->is_2d)
+									{
+										/* Transfer Entities and their Components */
+										std::shared_ptr<Entity> new_root_entity(new Entity());
+										new_root_entity->set_name(sub_scene_filepath);
+										new_root_entity->parent_id = parent_id;
+										scene_layer->add_entity(new_root_entity);
+										std::unordered_map<EntityID, std::shared_ptr<Entity>>& sub_scene_entities = sub_scene_layer->get_entities();
+
+										/*Entities without parents are listed before others.*/
+										std::vector<std::shared_ptr<Entity>> sorted_entities;
+
+
+										/*Without parents*/
+										for (auto it = sub_scene_entities.begin(); it != sub_scene_entities.end(); it++)
+										{
+											std::shared_ptr<Entity> sub_scene_entity = it->second;
+
+											if (sub_scene_entity->parent_id == 0)
+												sorted_entities.push_back(sub_scene_entity);
+										}
+
+										/*With parents*/
+
+										for (auto it = sub_scene_entities.begin(); it != sub_scene_entities.end(); it++)
+										{
+											std::shared_ptr<Entity> sub_scene_entity = it->second;
+
+											if (sub_scene_entity->parent_id != 0)
+												sorted_entities.push_back(sub_scene_entity);
+										}
+
+
+										for (size_t i = 0; i < sorted_entities.size(); i++)
+										{
+											std::shared_ptr<Entity> sub_scene_entity = sorted_entities[i];
+
+											if (sub_scene_entity->parent_id == 0)
+												sub_scene_entity->parent_id = new_root_entity->get_id();
+
+											scene_layer->add_entity(sub_scene_entity);
+
+											std::unordered_map<std::string, ComponentID> sub_scene_entity_component_ids = sub_scene_entity->component_ids;
+
+											for (auto it2 = sub_scene_entity_component_ids.begin(); it2 != sub_scene_entity_component_ids.end(); it2++)
+												scene_layer->add_component_to_last_entity(sub_scene_layer->get_component_by_id(it2->second));
+										}
+									}
+								}
+							}
+						}
+					}
+
+					this->add_scene_layer(scene_layer);
+				}
 			}
 		}
-	}
-	catch (int e)
-	{
+		catch (int e)
+		{
 
+		}
 	}
 }
 
@@ -342,7 +346,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 		&gltf_model,
 		&err, 
 		&warn, 
-		Platform::get_file_access().find_path_among_app_data_directories(filepath));
+		Platform::get_file_access().find_path(filepath));
 
 	if (!warn.empty())
 		printf("Warn: %s\n", warn.c_str());

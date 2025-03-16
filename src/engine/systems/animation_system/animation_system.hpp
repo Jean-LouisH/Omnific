@@ -45,7 +45,7 @@ namespace Omnific
 		}
 
 		virtual void initialize() override;
-		virtual void on_compute(std::shared_ptr<Scene> scene) override;
+		virtual void on_fixed_update(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 		void update_sprite_containers(std::shared_ptr<SceneLayer> scene_layer);

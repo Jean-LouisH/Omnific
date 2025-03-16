@@ -5,7 +5,7 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_logic(self):
+    def on_update(self):
         degree_per_second = 30.0
         inp = omnific.get_input()
         transform = omnific.get_transform()

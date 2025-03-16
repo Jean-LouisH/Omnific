@@ -6,8 +6,8 @@ class omnific_script:
         self.score = 0
         pass
 
-    def on_late(self):
-        if omnific.query_event_count("Player won") > 0:
+    def on_late_update(self):
+        if omnific.has_event("Player won"):
             self.score += 1
 
         omnific.get_component("GUI").set_to_label("Player: " + str(self.score))

@@ -162,8 +162,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	/*Component classes*/
 	pybind11::class_<Omnific::Component, std::shared_ptr<Omnific::Component>>(m, Omnific::Component::TYPE_STRING)
-		.def("set_entity_id", &Omnific::Component::set_entity_id)
 		.def("get_id", &Omnific::Component::get_id)
+		.def("get_entity_id", &Omnific::Component::get_entity_id)
+		.def("get_entity_name", &Omnific::Component::get_entity_name)
 		.def("is_attached_to_entity", &Omnific::Component::is_attached_to_entity)
 		.def("get_type", &Omnific::Component::get_type)
 		.def("is_renderable", &Omnific::Component::is_renderable);
@@ -276,6 +277,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("has_continuous_event", &Omnific::EventBus::has_continuous_event);
 	m.def("query_event_count_with_parameter_key", &Omnific::EventBus::query_event_count_with_parameter_key);
 	m.def("query_event_count", &Omnific::EventBus::query_event_count);
+	m.def("has_event_with_parameter_key", &Omnific::EventBus::has_event_with_parameter_key);
+	m.def("has_event", &Omnific::EventBus::has_event);
 	m.def("publish", pybind11::overload_cast<Omnific::Event, bool>(&Omnific::EventBus::publish));
 	m.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>, std::unordered_map<std::string, double>, std::unordered_map<std::string, bool>, std::unordered_map<std::string, std::shared_ptr<Omnific::Component>>, std::string, bool>(&Omnific::EventBus::publish));
 

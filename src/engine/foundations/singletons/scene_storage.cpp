@@ -67,6 +67,8 @@ void Omnific::SceneStorage::change_to_scene(std::shared_ptr<Scene> scene)
 	scene_storage->active_scene_name = scene_name;
 	Platform::get_logger().write("Changed to Scene: \"" + scene_name + "\"");
 	scene_storage->active_scene_changed = true;
+	EventBus::clear_instant_events();
+	EventBus::clear_continuous_events();
 	EventBus::publish(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
 }
 
@@ -92,6 +94,8 @@ void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 
 	scene_storage->active_scene_name = scene_name;
 	scene_storage->active_scene_changed = true;
+	EventBus::clear_instant_events();
+	EventBus::clear_continuous_events();
 	EventBus::publish(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
 	EventBus::publish(OMNIFIC_EVENT_SCENE_LOADED);
 	Platform::get_logger().write("Loaded Scene: \"" + scene_name + "\"");

@@ -47,7 +47,7 @@ namespace Omnific
 		}
 
 		virtual void initialize() override;
-		virtual void on_early(std::shared_ptr<Scene> scene) override;
+		virtual void on_early_update(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 	private:
 		void detect_inputs_for_gui_element(

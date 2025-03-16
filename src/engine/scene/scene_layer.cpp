@@ -91,7 +91,8 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 	std::shared_ptr<Entity> entity = this->entities.at(entity_id);
 
 	//this->remove_component(entity_id, type);
-	component->set_entity_id(entity_id);
+	component->entity_id = entity_id;
+	component->entity_name = entity->get_name();
 	this->components.push_back(component);
 	this->components_by_id.emplace(component->get_id(), component);
 	entity->component_ids.emplace(type, component->get_id());
@@ -115,8 +116,6 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 		entity->renderable_component_id = component->get_id();
 		this->render_order_index_cache.push_back(last_index);
 	}
-
-	component->set_component_hierarchy(this->get_component_hierarchy(component->get_type(), component->get_entity_id()));
 }
 
 void Omnific::SceneLayer::add_component_to_last_entity(std::shared_ptr<Component> component)
@@ -347,21 +346,6 @@ std::shared_ptr<Omnific::Component> Omnific::SceneLayer::get_component(std::stri
 		component = this->get_component_by_id(entity->component_ids.at(type));
 
 	return component;
-}
-
-std::vector<std::shared_ptr<Omnific::Component>> Omnific::SceneLayer::get_component_hierarchy(std::string type, EntityID entity_id)
-{
-	EntityID current_entity_id = entity_id;
-	std::vector<std::shared_ptr<Component>> component_hierarchy;
-
-	do
-	{
-		std::shared_ptr<Component> component = this->get_component(type, current_entity_id);
-		component_hierarchy.push_back(component);
-		current_entity_id = this->get_entity(current_entity_id)->parent_id;
-	} while (current_entity_id != 0);
-
-	return component_hierarchy;
 }
 
 Omnific::SceneLayerID Omnific::SceneLayer::get_id()
