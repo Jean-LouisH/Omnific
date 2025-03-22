@@ -21,8 +21,6 @@
 // SOFTWARE.
 
 #include "audio_source.hpp"
-#include "foundations/resources/audio_stream.hpp"
-#include "foundations/resources/audio_synthesis.hpp"
 #include "foundations/singletons/platform/platform.hpp"
 #include "foundations/singletons/event_bus.hpp"
 
@@ -32,20 +30,12 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 	{
 		std::string audio_type = it3->first.as<std::string>();
 
-		if (audio_type == "audio_streams")
+		if (audio_type == "audios")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
-				std::shared_ptr<AudioStream> audio_stream(Platform::get_file_access().load_resource_by_type<AudioStream>(it3->second[i].as<std::string>(), false));
-				this->add_audio(audio_stream);
-			}
-		}
-		else if (audio_type == "audio_syntheses")
-		{
-			for (int i = 0; i < it3->second.size(); i++)
-			{
-				std::shared_ptr<AudioSynthesis> audio_synthesis(Platform::get_file_access().load_resource_by_type<AudioSynthesis>(it3->second[i].as<std::string>(), false));
-				this->add_audio(audio_synthesis);
+				std::shared_ptr<Audio> audio(Platform::get_file_access().load_resource_by_type<Audio>(it3->second[i].as<std::string>(), false));
+				this->add_audio(audio);
 			}
 		}
 	}
@@ -160,16 +150,16 @@ float Omnific::AudioSource::get_current_playback_time()
 
 std::vector<std::string> Omnific::AudioSource::get_audio_names()
 {
-	std::vector<std::string> audio_stream_names;
+	std::vector<std::string> audio_names;
 
 	for (std::unordered_map<std::string, std::shared_ptr<Audio>>::iterator it = this->audio_collection.begin();
 		it != this->audio_collection.end();
 		++it)
 	{
-		audio_stream_names.push_back(it->first);
+		audio_names.push_back(it->first);
 	}
 
-	return audio_stream_names;
+	return audio_names;
 }
 
 std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_active_audio()
@@ -184,12 +174,12 @@ std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_active_audio()
 
 std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_audio_by_name(std::string audio_name)
 {
-	std::shared_ptr<Audio> audio_stream;
+	std::shared_ptr<Audio> audio;
 
 	if (this->audio_collection.count(audio_name))
-		audio_stream = this->audio_collection.at(audio_name);
+		audio = this->audio_collection.at(audio_name);
 
-	return audio_stream;
+	return audio;
 }
 
 float Omnific::AudioSource::clamp(float value)

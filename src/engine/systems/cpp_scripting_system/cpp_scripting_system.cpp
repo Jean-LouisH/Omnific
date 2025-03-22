@@ -32,6 +32,7 @@ typedef void(ScriptProcedure)(void);
 
 void Omnific::CPPScriptingSystem::initialize()
 {
+	this->is_initialized = true;
 	Logger& logger = Platform::get_logger();
 	logger.write("Initializing C++ Scripting System...");
 }
@@ -236,5 +237,5 @@ void Omnific::CPPScriptingSystem::execute_update_methods(
 
 void Omnific::CPPScriptingSystem::finalize()
 {
-
+	this->is_initialized = false;
 }

@@ -22,32 +22,23 @@
 
 #pragma once
 
-#include "audio.hpp"
+#include <vector>
 #include <string>
-
+#include <foundations/resources/audio.hpp>
+#include <memory>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API AudioSynthesis : public Audio
+	class OpenALBuffer
 	{
 	public:
-		AudioSynthesis()
-		{ 
-			this->type = TYPE_STRING; 
-		};
-		~AudioSynthesis();
-		AudioSynthesis(std::string filepath);
-		static constexpr const char* TYPE_STRING = "AudioSynthesis";
-
-		virtual Registerable* instance() override
-		{
-			AudioSynthesis* clone = new AudioSynthesis(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
-		}
-
-		float get_playback_length() override;
-		std::vector<uint16_t> get_spectrum_data() override;
+		OpenALBuffer();
+		OpenALBuffer(std::shared_ptr<Audio> audio);
+		~OpenALBuffer();
+		void bind();
+		void delete_buffer();
 	private:
+		//GLuint buffer_id = 0;
 	};
 }
+

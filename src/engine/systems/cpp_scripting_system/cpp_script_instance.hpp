@@ -31,7 +31,6 @@
 #include <foundations/singletons/scene_storage.hpp>
 #include <scene/entity.hpp>
 
-#include <foundations/resources/audio_stream.hpp>
 #include <foundations/resources/font.hpp>
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/material.hpp>

@@ -62,9 +62,13 @@ add_dependencies (omnific_engine
 )
 
 target_include_directories(omnific_engine PUBLIC
+	${THIRD_PARTY_DIR}/dr_flac
+	${THIRD_PARTY_DIR}/dr_mp3
+	${THIRD_PARTY_DIR}/dr_wav
 	${THIRD_PARTY_DIR}/glad/include
 	${THIRD_PARTY_DIR}/glm
 	${THIRD_PARTY_DIR}/stb_image
+	${THIRD_PARTY_DIR}/stb_vorbis
 	${THIRD_PARTY_DIR}/tinygltf
 	${THIRD_PARTY_DIR}/tinyobjloader
 	${THIRD_PARTY_DIR}/ufbx

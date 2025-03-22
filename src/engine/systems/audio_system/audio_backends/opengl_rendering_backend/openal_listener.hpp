@@ -20,33 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "audio_synthesis.hpp"
+#pragma once
 
-Omnific::AudioSynthesis::~AudioSynthesis()
+#include <vector>
+#include <string>
+#include <scene/components/audio_listener.hpp>
+#include <memory>
+
+namespace Omnific
 {
-	
-}
-
-Omnific::AudioSynthesis::AudioSynthesis(std::string filepath)
-{
-	this->set_name(filepath);
-	this->type = TYPE_STRING;
-}
-
-float Omnific::AudioSynthesis::get_playback_length()
-{
-	return 0.0;
-}
-
-std::vector<uint16_t> Omnific::AudioSynthesis::get_spectrum_data()
-{
-	std::vector<uint16_t> spectrum;
-	std::vector<uint16_t> binary;
-
-	for (int i = 0; i < binary.size(); i++)
+	/* Storage for mesh index data in GPU memory. */
+	class OpenALListener
 	{
-		spectrum.push_back(binary.data()[i]);
-	}
-
-	return spectrum;
+	public:
+		OpenALListener();
+		OpenALListener(std::shared_ptr<AudioListener> audio_listener);
+		~OpenALListener();
+		void bind();
+		void delete_listener();
+	private:
+		//GLuint index_buffer_id = 0;
+	};
 }
+

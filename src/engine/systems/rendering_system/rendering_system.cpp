@@ -28,6 +28,7 @@
 #include <scene/components/viewport.hpp>
 #include <foundations/transform.hpp>
 #include <scene/components/gui.hpp>
+#include <scene/components/light.hpp>
 #include <foundations/singletons/configuration.hpp>
 
 Omnific::RenderingSystem::RenderingSystem()

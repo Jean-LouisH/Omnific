@@ -38,3 +38,8 @@ std::string Omnific::Resource::get_name()
 {
 	return this->name;
 }
+
+size_t Omnific::Resource::get_size()
+{
+	return 0;
+}

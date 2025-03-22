@@ -151,6 +151,11 @@ uint32_t Omnific::Image::get_pitch()
 	return this->get_bytes_per_pixel() * this->get_width();
 }
 
+float Omnific::Image::get_aspect_ratio()
+{
+	return (float)this->get_width() / (float)this->get_height();
+}
+
 glm::vec2 Omnific::Image::get_dimensions()
 {
 	return glm::vec2(this->get_width(), this->get_height());
@@ -164,6 +169,11 @@ uint8_t Omnific::Image::get_bytes_per_pixel()
 Omnific::Image::Alignment Omnific::Image::get_alignment()
 {
 	return this->alignment;
+}
+
+size_t Omnific::Image::get_size()
+{
+	return this->width * this->height * this->colour_channel_count;
 }
 
 void Omnific::Image::normal_blend(

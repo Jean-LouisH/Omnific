@@ -29,9 +29,35 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <foundations/resources/audio.hpp>
 #include <scene/components/audio_source.hpp>
+#include <scene/components/audio_listener.hpp>
+#include <scene/components/physics_body.hpp>
+#include <al.h>
+#include <alc.h>
 
 namespace Omnific
 {
+	class Audible
+	{
+	public:
+		std::string entity_name;
+		std::shared_ptr<Transform> transform;
+		SceneLayerID scene_layer_id;
+		EntityID entity_id;
+		std::shared_ptr<AudioSource> audio_source;
+		std::shared_ptr<PhysicsBody> physics_body;
+	private:
+	};
+
+	class AudibleLayer
+	{
+	public:
+		bool is_2d = false;
+		std::shared_ptr<AudioListener> audio_listener;
+		std::shared_ptr<Transform> audio_listener_transform;
+		std::vector<Audible> audibles;
+	private:
+	};
+
 	/* Processes Components that enable playback of audio and outputs its waveforms. */
 	class AudioSystem : public System
 	{
@@ -53,6 +79,9 @@ namespace Omnific
 		virtual void on_update(std::shared_ptr<Scene> scene) override;
 		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
+
+		ALCdevice* alc_device;
+		ALCcontext* alc_context;
 	private:
 		std::shared_ptr<Audio> query_active_audio_by_event(
 			std::unordered_map<UID, std::shared_ptr<AudioSource>> mapped_audio_sources,

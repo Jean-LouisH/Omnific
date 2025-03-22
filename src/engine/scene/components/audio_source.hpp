@@ -32,7 +32,6 @@
 #include <memory>
 #include "foundations/resources/audio.hpp"
 #include "scene/components/component.hpp"
-#include "foundations/resources/audio_synthesis.hpp"
 
 
 namespace Omnific
@@ -44,7 +43,6 @@ namespace Omnific
 		{
 			PLAYING,
 			PAUSED,
-			RESUMING,
 			STOPPED
 		};
 

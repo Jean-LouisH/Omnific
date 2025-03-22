@@ -20,36 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "openal_listener.hpp"
+#include <al.h>
 
-#include <vector>
-#include <foundations/transform.hpp>
-#include <scene/components/model.hpp>
-
-#include <scene/components/camera.hpp>
-#include <foundations/resources/image.hpp>
-#include <foundations/resources/material.hpp>
-#include <foundations/resources/mesh.hpp>
-#include <foundations/resources/shader.hpp>
-#include <foundations/aliases.hpp>
-#include <glm.hpp>
-#include <memory>
-
-namespace Omnific
+Omnific::OpenALListener::OpenALListener()
 {
-	/* Caches memory locations for values 
-	   relevant to rendering a single Entity. */
-	class Renderable
-	{
-	public:
-		std::string entity_name; //For debug.
-		std::shared_ptr<Transform> transform;
-		SceneLayerID scene_layer_id;
-		EntityID entity_id;
-		std::shared_ptr<Model> model;
-		std::shared_ptr<Shader> overriding_shader;
-		std::shared_ptr<ShaderParameters> overriding_shader_parameters;
-	private:
-	};
+
 }
 
+Omnific::OpenALListener::OpenALListener(std::shared_ptr<AudioListener> audio_listener)
+{
+	// if (mesh != nullptr)
+	// {
+	// 	if (mesh->get_is_indexed())
+	// 	{
+	// 		this->index_count = mesh->indices.size();
+	// 		glGenBuffers(1, &this->index_buffer_id);
+	// 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_buffer_id);
+	// 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(uint32_t),
+	// 			&mesh->indices[0], GL_STATIC_DRAW);
+	// 	}
+	// }
+}
+
+Omnific::OpenALListener::~OpenALListener()
+{
+	this->delete_listener();
+}
+
+void Omnific::OpenALListener::bind()
+{
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_buffer_id);
+}
+
+void Omnific::OpenALListener::delete_listener()
+{
+	//glDeleteBuffers(1, &this->index_buffer_id);
+}

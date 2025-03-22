@@ -22,34 +22,24 @@
 
 #pragma once
 
-#include "audio.hpp"
+#include <vector>
 #include <string>
+#include <scene/components/audio_source.hpp>
 #include <memory>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API AudioStream : public Audio
+	class OpenALSource
 	{
 	public:
-		static constexpr const char* TYPE_STRING = "AudioStream";
-		AudioStream() 
-		{ 
-			this->type = TYPE_STRING; 
-		};
-		~AudioStream();
-		AudioStream(std::string filepath);
 
-		virtual Registerable* instance() override
-		{
-			AudioStream* clone = new AudioStream(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
-		}
-		bool get_is_music();
-
-		float get_playback_length() override;
-		std::vector<uint16_t> get_spectrum_data() override;
+		OpenALSource();
+		~OpenALSource();
+		OpenALSource(std::shared_ptr<AudioSource> audio_source);
+		void bind();
+		void delete_source();
 	private:
-		bool is_music = false;
+		//GLuint texture_id = 0;
 	};
 }
+

@@ -66,44 +66,44 @@ void Omnific::PhysicsSystem::finalize()
 
 void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<Timer> timer : scene_layer->get_components_by_type<Timer>())
-		timer->update(seconds_per_compute_update);
+		timer->update(seconds_per_fixed_update);
 }
 
 void Omnific::PhysicsSystem::displace(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
 		std::shared_ptr<Transform> transform = scene_layer->get_entity(physics_body->get_entity_id())->get_transform();
 		if (transform != nullptr)
-			transform->translation += physics_body->linear_velocity * seconds_per_compute_update;
+			transform->translation += physics_body->linear_velocity * seconds_per_fixed_update;
 	}
 }
 
 void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
-		if (physics_body->is_rigid_body)
-			physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_compute_update;
+		if (physics_body->has_gravity)
+			physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_fixed_update;
 }
 
 void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 {
-	const float seconds_per_compute_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
+	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
-		if (physics_body->is_rigid_body)
+		if (physics_body->has_gravity)
 		{
-			physics_body->linear_velocity.x *= pow(physics_body->drag_ratio.x, seconds_per_compute_update);
-			physics_body->linear_velocity.y *= pow(physics_body->drag_ratio.y, seconds_per_compute_update);
-			physics_body->linear_velocity.z *= pow(physics_body->drag_ratio.z, seconds_per_compute_update);
+			physics_body->linear_velocity.x *= pow(physics_body->drag_ratio.x, seconds_per_fixed_update);
+			physics_body->linear_velocity.y *= pow(physics_body->drag_ratio.y, seconds_per_fixed_update);
+			physics_body->linear_velocity.z *= pow(physics_body->drag_ratio.z, seconds_per_fixed_update);
 		}
 	}
 }
@@ -225,17 +225,33 @@ void Omnific::PhysicsSystem::handle_collisions(std::shared_ptr<SceneLayer> scene
 				
 			switch (physics_body->collision_response_type)
 			{
-				case CollisionResponseType::SOFT: 
-					//adjust mesh offsets with the collision shape
-					break;
 				case CollisionResponseType::RIGID: 
 					if (other_physics_body != nullptr)
 					{
-						if (other_physics_body->collision_response_type == CollisionResponseType::KINEMATIC)
+						CollisionResponseType collision_response_type = other_physics_body->collision_response_type;
+						if (collision_response_type == CollisionResponseType::KINEMATIC)
 						{
 							glm::vec3 reversed_linear_velocity = physics_body->linear_velocity * -1.0f;
 							entity->get_transform()->translation += reversed_linear_velocity * 1.5f * (float)(Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S));
 							physics_body->linear_velocity = (reversed_linear_velocity * physics_body->elasticity_ratio) + other_physics_body->linear_velocity;
+						}
+						else if (collision_response_type == CollisionResponseType::RIGID)
+						{
+							//Elastic collision response for now.
+							std::shared_ptr<Entity> other_entity = scene_layer->get_entity(other_physics_body->get_entity_id());
+							glm::vec3 v1 = physics_body->linear_velocity;
+							glm::vec3 v2 = other_physics_body->linear_velocity;
+							float m1 = physics_body->mass;
+							float m2 = other_physics_body->mass;
+							glm::vec3 n = entity->get_transform()->translation - other_entity->get_transform()->translation;
+							physics_body->linear_velocity = v1 - (float)(((2.0 * m2)/(m1 + m2)) * ((glm::dot(v1-v2, n))/(pow(n.length(), 2.0)))) * n;
+						}
+						else if (collision_response_type == CollisionResponseType::FLUID)
+						{
+							std::shared_ptr<Collider> collider = scene_layer->get_component_by_type<Collider>(entity->get_id());
+							float approximate_radius = (collider->box.aabb.max - collider->box.aabb.min).length();
+							glm::vec3 deceleration = (float)(6.0 * M_PI * other_physics_body->viscosity * approximate_radius * (1.0 / physics_body->mass)) * physics_body->linear_velocity;
+							physics_body->linear_velocity -= deceleration;
 						}
 					}
 					break;

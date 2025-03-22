@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include <foundations/resources/audio_stream.hpp>
+#include <foundations/resources/audio.hpp>
 #include <foundations/resources/font.hpp>
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/material.hpp>
@@ -147,15 +147,15 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_entities", &Omnific::SceneLayer::get_entities)
 		.def("get_id", &Omnific::SceneLayer::get_id);
 
-	/*Asset classes*/
+	/*Resource classes*/
 
-	pybind11::class_<Omnific::Resource, std::shared_ptr<Omnific::Resource>>(m, "Asset")
+	pybind11::class_<Omnific::Resource, std::shared_ptr<Omnific::Resource>>(m, "Resource")
 		.def("get_id", &Omnific::Resource::get_id)
 		.def("set_name", &Omnific::Resource::set_name)
 		.def("get_name", &Omnific::Resource::get_name)
 		.def("get_type", &Omnific::Resource::get_type);
 
-	pybind11::class_<Omnific::AudioStream, Omnific::Resource, std::shared_ptr<Omnific::AudioStream>>(m, Omnific::AudioStream::TYPE_STRING);
+	pybind11::class_<Omnific::Audio, Omnific::Resource, std::shared_ptr<Omnific::Audio>>(m, Omnific::Audio::TYPE_STRING);
 	pybind11::class_<Omnific::Font, Omnific::Resource, std::shared_ptr<Omnific::Font>>(m, Omnific::Font::TYPE_STRING);
 	pybind11::class_<Omnific::Image, Omnific::Resource, std::shared_ptr<Omnific::Image>>(m, Omnific::Image::TYPE_STRING);
 	pybind11::class_<Omnific::Text, Omnific::Resource, std::shared_ptr<Omnific::Text>>(m, Omnific::Text::TYPE_STRING);

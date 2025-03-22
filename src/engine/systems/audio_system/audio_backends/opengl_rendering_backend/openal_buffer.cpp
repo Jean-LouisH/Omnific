@@ -20,29 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "openal_buffer.hpp"
+#include <al.h>
 
-#include <vector>
-#include <foundations/transform.hpp>
-#include <scene/components/camera.hpp>
-#include <scene/components/light.hpp>
-#include <memory>
-#include "renderable.hpp"
-
-namespace Omnific
+Omnific::OpenALBuffer::OpenALBuffer()
 {
-	/* Caches memory locations for values
-	   relevant to rendering from a given Camera. */
-	class RenderableLayer
-	{
-	public:
-		bool is_2d = false;
-		std::shared_ptr<Camera> camera;
-		std::shared_ptr<Transform> camera_transform;
-		std::vector<std::shared_ptr<Light>> lights;
-		std::vector<std::shared_ptr<Transform>> light_transforms;
-		std::vector<Renderable> renderables;
-	private:
-	};
+
 }
 
+Omnific::OpenALBuffer::OpenALBuffer(std::shared_ptr<Audio> audio)
+{
+	// if (mesh != nullptr)
+	// {
+	// 	this->vertex_count = mesh->vertices.size();
+	// 	glGenBuffers(1, &this->vertex_buffer_id);
+	// 	glBindBuffer(GL_ARRAY_BUFFER, this->vertex_buffer_id);
+	// 	glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Mesh::Vertex), mesh->vertices.data(), GL_STATIC_DRAW);
+	// }
+}
+
+Omnific::OpenALBuffer::~OpenALBuffer()
+{
+	this->delete_buffer();
+}
+
+void Omnific::OpenALBuffer::bind()
+{
+	//glBindBuffer(GL_ARRAY_BUFFER, this->vertex_buffer_id);
+}
+
+void Omnific::OpenALBuffer::delete_buffer()
+{
+	//glDeleteBuffers(1, &this->vertex_buffer_id);
+}

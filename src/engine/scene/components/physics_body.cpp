@@ -32,7 +32,7 @@ void Omnific::PhysicsBody::deserialize(YAML::Node yaml_node)
 		}
 		else if (it3->first.as<std::string>() == "is_rigidbody")
 		{
-			this->is_rigid_body = it3->second.as<bool>();
+			this->has_gravity = it3->second.as<bool>();
 		}
 		else if (it3->first.as<std::string>() == "drag_ratio")
 		{

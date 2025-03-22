@@ -35,6 +35,7 @@
 
 void Omnific::PythonScriptingSystem::initialize()
 {
+	this->is_initialized = true;
 	FileAccess& file_access = Platform::get_file_access();
 	Logger& logger = Platform::get_logger();
 	logger.write("Initializing Python Scripting System...");
@@ -260,6 +261,8 @@ void Omnific::PythonScriptingSystem::finalize()
 		Py_Finalize();
 		//pybind11::finalize_interpreter();
 	}
+
+	this->is_initialized = false;
 }
 
 void Omnific::PythonScriptingSystem::execute_queued_methods(

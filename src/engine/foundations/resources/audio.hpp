@@ -39,6 +39,8 @@ namespace Omnific
 			this->type = TYPE_STRING;
 		};
 
+		Audio(std::string filepath);
+
 		virtual Registerable* instance() override
 		{
 			Audio* clone = new Audio(*this);
@@ -46,9 +48,14 @@ namespace Omnific
 			return clone;
 		}
 
-		virtual float get_playback_length();
-		virtual std::vector<uint16_t> get_spectrum_data();
+		int get_sample_rate();
+		int get_channel_count();
+		float get_playback_length();
+		std::vector<int16_t> get_spectrum_data();
 
+		std::shared_ptr<int16_t> data;
 	private:
+		int sample_rate = 44100;
+		int channel_count = 2;
 	};
 }

@@ -20,4 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "renderable_layer.hpp"
+#pragma once
+
+#include <unordered_map>
+#include <foundations/aliases.hpp>
+#include "openal_buffer.hpp"
+#include "openal_listener.hpp"
+#include "openal_source.hpp"
+#include <memory>
+#include <foundations/resources/audio.hpp>
+#include <scene/components/audio_source.hpp>
+#include <scene/components/audio_listener.hpp>
+#include <al.h>
+
+
+namespace Omnific
+{
+	/* The object that calls the rendering API functions. */
+	class OpenALAudioBackend
+	{
+	public:
+		std::unordered_map<AssetID, std::shared_ptr<OpenALBuffer>> buffers;
+		std::unordered_map<ComponentID, std::shared_ptr<OpenALListener>> listeners;
+		std::unordered_map<ComponentID, std::shared_ptr<OpenALSource>> sources;
+		uint8_t allowable_missed_frames = 0;
+		std::unordered_map<UID, uint8_t> missed_frame_counts;
+
+		void initialize();
+		std::shared_ptr<OpenALBuffer> get_buffer(std::shared_ptr<Audio> audio);
+		std::shared_ptr<OpenALListener> get_listener(std::shared_ptr<AudioListener> listener);
+		std::shared_ptr<OpenALSource> get_source(std::shared_ptr<AudioSource> source);
+		void collect_garbage();
+	private:
+	};
+}
+

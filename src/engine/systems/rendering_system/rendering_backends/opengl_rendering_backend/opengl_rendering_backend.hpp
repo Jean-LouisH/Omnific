@@ -30,7 +30,6 @@
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/shader.hpp>
 #include <scene/scene.hpp>
-#include "../../renderable_layer.hpp"
 #include "foundations/aliases.hpp"
 #include <string>
 #include <map>
