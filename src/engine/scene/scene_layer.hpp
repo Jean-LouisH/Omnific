@@ -57,7 +57,7 @@ namespace Omnific
 		void remove_entity(EntityID entity_id);
 		void remove_component(EntityID entity_id, std::string type);
 
-		std::shared_ptr<Transform> compute_global_transform(EntityID local_transform_entity_id);
+		std::shared_ptr<Transform> calculate_global_transform(EntityID local_transform_entity_id);
 
 		void clear_start_entity_queue();
 		void clear_finish_entity_queue();
@@ -100,6 +100,21 @@ namespace Omnific
 				components_by_type.push_back(std::dynamic_pointer_cast<T>(components.at(component_indices.at(i))));
 
 			return components_by_type;
+		}
+
+		template <class T>
+		std::unordered_map<ComponentID, std::shared_ptr<T>> get_components_by_type_in_dictionary()
+		{
+			std::unordered_map<ComponentID, std::shared_ptr<T>> component_dictionary;
+			std::vector<std::shared_ptr<T>> components_by_type = this->get_components_by_type<T>();
+
+			for (int i = 0; i < components_by_type.size(); i++)
+			{
+				std::shared_ptr<T> component = components_by_type.at(i);
+				component_dictionary.emplace(component->get_id(), component);
+			}
+
+			return component_dictionary;
 		}
 	private:
 		SceneLayerID id = 0;

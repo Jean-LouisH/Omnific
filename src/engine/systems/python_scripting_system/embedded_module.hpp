@@ -179,7 +179,14 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("set_mat4_uniform", &Omnific::ShaderParameters::set_mat4_uniform);
 
 	pybind11::class_<Omnific::AudioListener, Omnific::Component, std::shared_ptr<Omnific::AudioListener>>(m, Omnific::AudioListener::TYPE_STRING);
-	pybind11::class_<Omnific::AudioSource, Omnific::Component, std::shared_ptr<Omnific::AudioSource>>(m, Omnific::AudioSource::TYPE_STRING);
+	pybind11::class_<Omnific::AudioSource, Omnific::Component, std::shared_ptr<Omnific::AudioSource>>(m, Omnific::AudioSource::TYPE_STRING)
+		.def("play_audio", &Omnific::AudioSource::play_audio)
+		.def("play_audio_infinitely", &Omnific::AudioSource::play_audio_infinitely)
+		.def("play", &Omnific::AudioSource::play)
+		.def("play_infinitely", &Omnific::AudioSource::play_infinitely)
+		.def("stop", &Omnific::AudioSource::stop)
+		.def("pause", &Omnific::AudioSource::pause)
+		.def("reset", &Omnific::AudioSource::reset);
 	pybind11::class_<Omnific::Camera, Omnific::Component, std::shared_ptr<Omnific::Camera>>(m, Omnific::Camera::TYPE_STRING)
 		.def("toggle_wireframe_mode", &Omnific::Camera::toggle_wireframe_mode);
 	pybind11::class_<Omnific::Timer, Omnific::Component, std::shared_ptr<Omnific::Timer>>(m, Omnific::Timer::TYPE_STRING)

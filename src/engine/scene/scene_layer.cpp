@@ -208,7 +208,7 @@ void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 	}
 }
 
-std::shared_ptr<Omnific::Transform> Omnific::SceneLayer::compute_global_transform(EntityID local_transform_entity_id)
+std::shared_ptr<Omnific::Transform> Omnific::SceneLayer::calculate_global_transform(EntityID local_transform_entity_id)
 {
 	std::shared_ptr<Transform> global_transform = std::shared_ptr<Transform>(new Transform());
 	std::shared_ptr<Entity> current_entity = this->get_entity(local_transform_entity_id);

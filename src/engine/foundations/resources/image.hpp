@@ -76,7 +76,6 @@ namespace Omnific
 		glm::vec2 get_dimensions();
 		uint8_t get_bytes_per_pixel();
 		Alignment get_alignment();
-		virtual size_t get_size() override;
 
 		static void normal_blend(
 			uint8_t* lower_image_data,

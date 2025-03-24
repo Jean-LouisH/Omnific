@@ -68,6 +68,8 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 
 	if (sdl_surface != nullptr)
 		this->set_to_parameters(sdl_surface->format->BytesPerPixel, sdl_surface->w, sdl_surface->h, (uint8_t*)sdl_surface->pixels);
+
+	this->size = this->width * this->height * this->colour_channel_count;
 }
 
 Omnific::Image::Image(std::shared_ptr<Colour> colour)
@@ -76,12 +78,14 @@ Omnific::Image::Image(std::shared_ptr<Colour> colour)
 	int height = 256;
 	this->alignment = Alignment::CENTRE;
 	this->set_to_colour(colour, width, height);
+	this->size = this->width * this->height * this->colour_channel_count;
 }
 
 Omnific::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
 {
 	this->alignment = Alignment::CENTRE;
 	this->set_to_colour(colour, width, height);
+	this->size = this->width * this->height * this->colour_channel_count;
 }
 
 Omnific::Image::Image(uint8_t* data, int width, int height, int colour_channels)
@@ -89,6 +93,7 @@ Omnific::Image::Image(uint8_t* data, int width, int height, int colour_channels)
 	this->type = TYPE_STRING;
 	this->alignment = Alignment::CENTRE;
 	this->set_to_parameters(colour_channels, width, height, data);
+	this->size = this->width * this->height * this->colour_channel_count;
 }
 
 Omnific::Image::Image(std::string filepath)
@@ -115,6 +120,8 @@ Omnific::Image::Image(std::string filepath)
 	{
 		this->data = std::shared_ptr<uint8_t>(stbi_load(filepath.c_str(), &this->width, &this->height, &this->colour_channel_count, 0), stbi_image_free);
 	}
+
+	this->size = this->width * this->height * this->colour_channel_count;
 }
 
 uint8_t* Omnific::Image::get_data()
@@ -169,11 +176,6 @@ uint8_t Omnific::Image::get_bytes_per_pixel()
 Omnific::Image::Alignment Omnific::Image::get_alignment()
 {
 	return this->alignment;
-}
-
-size_t Omnific::Image::get_size()
-{
-	return this->width * this->height * this->colour_channel_count;
 }
 
 void Omnific::Image::normal_blend(

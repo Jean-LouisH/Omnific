@@ -6,6 +6,7 @@ import constants
 class omnific_script:
 
     def __init__(self):
+        self.is_song_playing = False
         pass
 
     def reset_ball(self):
@@ -22,6 +23,7 @@ class omnific_script:
 
     def on_entity_start(self):
         omnific_script.reset_ball(self)
+        omnific.get_component("AudioSource").play_infinitely()
 
     def on_update(self):
         scene_layer = omnific.get_scene_layer()

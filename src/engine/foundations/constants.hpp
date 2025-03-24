@@ -28,8 +28,6 @@
 
 #define DEFAULT_APP_DATA_PATH_NAME "app_data"
 #define DEFAULT_APP_DATA_PATH "app_data/"
-#define DEFAULT_DEBUG_STUDIO_DATA_PATH "../../../../../app_data/studio_data/"
-#define DEFAULT_DEBUG_DEMO_DATA_PATH "../../../../../app_data/demo_data/"
 
 #ifdef _DEBUG
 	#define DEBUG_CONSOLE_ENABLED

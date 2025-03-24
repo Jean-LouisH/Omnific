@@ -51,11 +51,14 @@ namespace Omnific
 		int get_sample_rate();
 		int get_channel_count();
 		float get_playback_length();
-		std::vector<int16_t> get_spectrum_data();
+		std::vector<int16_t> get_spectrum();
 
-		std::shared_ptr<int16_t> data;
+		std::vector<int16_t> data;
 	private:
-		int sample_rate = 44100;
-		int channel_count = 2;
+		int sample_rate = 0;
+		int channel_count = 0;
+		int samples_per_channel = 0;
+		float playback_length = 0.0;
+		int bytes_per_sample = sizeof(int16_t);
 	};
 }

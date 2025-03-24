@@ -29,12 +29,16 @@ Omnific::Audio::Audio(std::string filepath)
 {
 	this->type = TYPE_STRING;
 	std::string file_extension = Platform::get_file_access().get_file_extension(filepath);
+	std::string full_filepath = Platform::get_file_access().find_path(filepath);
 
 	if (file_extension == "ogg")
 	{
-		int16_t** data_output;
-		stb_vorbis_decode_filename(filepath.c_str(), &this->channel_count, &this->sample_rate, (short**)data_output);
-		this->data = std::shared_ptr<int16_t>(*data_output, free);
+		short* data_output;
+		this->samples_per_channel = stb_vorbis_decode_filename(full_filepath.c_str(), &this->channel_count, &this->sample_rate, &data_output);
+		this->playback_length = this->samples_per_channel / this->sample_rate;
+		this->data = std::vector<int16_t>(data_output, data_output + this->samples_per_channel * this->channel_count);
+		free(data_output);
+		this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
 	}
 	// else if (file_extension == "wav")
 	// {
@@ -59,11 +63,10 @@ int Omnific::Audio::get_channel_count()
 
 float Omnific::Audio::get_playback_length()
 {
-	return 0.0;
+	return this->playback_length;
 }
 
-std::vector<int16_t> Omnific::Audio::get_spectrum_data()
+std::vector<int16_t> Omnific::Audio::get_spectrum()
 {
-	std::vector<int16_t> spectrum;
-	return spectrum;
+	return this->data;
 }

@@ -145,7 +145,7 @@ std::string Omnific::FileAccess::get_file_extension(std::string filepath)
 		;
 
 	//append from the start index to the extension name.
-	for (int j = name_index_start + 1; filepath.at(j) != '\0'; j++)
+	for (int j = name_index_start + 1; j < filepath.size(); j++)
 		file_name += filepath.at(j);
 
 	return file_name;

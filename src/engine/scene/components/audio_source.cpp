@@ -28,9 +28,7 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
-		std::string audio_type = it3->first.as<std::string>();
-
-		if (audio_type == "audios")
+		if (it3->first.as<std::string>() == "audio")
 		{
 			for (int i = 0; i < it3->second.size(); i++)
 			{
@@ -43,6 +41,9 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 
 void Omnific::AudioSource::add_audio(std::shared_ptr<Audio> audio)
 {
+	if (this->active_audio_name == "")
+		this->active_audio_name = audio->get_name();
+
 	this->audio_collection.emplace(audio->get_name(), audio);
 }
 
@@ -78,8 +79,23 @@ void Omnific::AudioSource::play_audio(std::string audio_name)
 	if (this->active_audio_name != "")
 	{
 		this->playback_state = PlaybackState::PLAYING;
-		EventBus::publish("playing_audio_source", {}, {{"id", this->get_id()}});
+		EventBus::publish(
+			"playing_audio_source", 
+			{}, 
+			{{"id", this->get_id()}}, 
+			{}, 
+			{}, 
+			this->active_audio_name, 
+			true);
 	}
+
+	this->is_looping = false;
+}
+
+void Omnific::AudioSource::play_audio_infinitely(std::string audio_name)
+{
+	this->play_audio(audio_name);
+	this->is_looping = true;
 }
 
 void Omnific::AudioSource::play()
@@ -87,12 +103,24 @@ void Omnific::AudioSource::play()
 	this->play_audio(this->active_audio_name);
 }
 
+void Omnific::AudioSource::play_infinitely()
+{
+	this->play_audio_infinitely(this->active_audio_name);
+}
+
 void Omnific::AudioSource::pause()
 {
 	if (this->active_audio_name != "")
 	{
 		this->playback_state = PlaybackState::PAUSED;
-		EventBus::publish("pausing_audio_source", {}, {{"id", this->get_id()}});
+		EventBus::publish(
+			"pausing_audio_source",
+			 {},
+			 {{"id", this->get_id()}},
+			 {}, 
+			 {}, 
+			 this->active_audio_name, 
+			 true);
 	}
 }
 
@@ -101,21 +129,42 @@ void Omnific::AudioSource::resume()
 	if (this->active_audio_name != "")
 	{
 		this->playback_state = PlaybackState::PLAYING;
-		EventBus::publish("resuming_audio_source", {}, {{"id", this->get_id()}});
+		EventBus::publish(
+			"resuming_audio_source", 
+			{}, 
+			{{"id", this->get_id()}}, 
+			{}, 
+			{}, 
+			this->active_audio_name, 
+			true);
 	}
 }
 
 void Omnific::AudioSource::stop()
 {
 	this->playback_state = PlaybackState::STOPPED;
-	EventBus::publish("stopping_audio_source", {}, {{"id", this->get_id()}});
+	EventBus::publish(
+		"stopping_audio_source", 
+		{}, 
+		{{"id", this->get_id()}}, 
+		{}, 
+		{}, 
+		this->active_audio_name, 
+		true);
 }
 
 void Omnific::AudioSource::reset()
 {
 	if (this->active_audio_name != "")
 	{
-		EventBus::publish("reseting_audio_source", {}, {{"id", this->get_id()}});
+		EventBus::publish(
+			"reseting_audio_source", 
+			{}, 
+			{{"id", this->get_id()}}, 
+			{}, 
+			{}, 
+			this->active_audio_name, 
+			true);
 	}
 }
 
@@ -125,22 +174,18 @@ void Omnific::AudioSource::jump(float time_point)
 	{
 		if (time_point >= 0.0 && time_point <= this->get_active_audio()->get_playback_length())
 		{
-			EventBus::publish("jumping_audio_source", {}, {
+			EventBus::publish(
+				"jumping_audio_source", 
+				{}, 
+				{
 				{"id", this->get_id()},
-				{"time_point", time_point} });
+				{"time_point", time_point} }, 
+				{}, 
+				{}, 
+				this->active_audio_name, 
+				true);
 		}
 	}
-}
-
-void Omnific::AudioSource::set_panning(float value)
-{
-	if (value < -1.0)
-		value = -1.0;
-	else if (value > 1.0)
-		value = 1.0;
-
-	this->panning = value;
-	EventBus::publish("panned_audio_source", {}, {{"id", this->get_id()}});
 }
 
 float Omnific::AudioSource::get_current_playback_time()

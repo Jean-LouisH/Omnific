@@ -38,6 +38,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API AudioSource : public Component
 	{
+		friend class AudioSystem;
 	public:
 		enum class PlaybackState
 		{
@@ -67,26 +68,28 @@ namespace Omnific
 		void clear_audio();
 		void remove_audio(std::string audio_name);
 		void play_audio(std::string audio_name);
+		void play_audio_infinitely(std::string audio_name);
 		void play();
+		void play_infinitely();
 		void pause();
 		void resume();
 		void stop();
 		void reset();
 		void jump(float time_point);
 		void set_volume(float value);
-		void set_panning(float value);
 		float get_volume();
 		float get_current_playback_time();
 		std::vector<std::string> get_audio_names();
 		std::shared_ptr<Audio> get_active_audio();
 		std::shared_ptr<Audio> get_audio_by_name(std::string audio_name);
+
+		bool is_looping = false;
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Audio>> audio_collection;
 		std::string active_audio_name;
 		PlaybackState playback_state;
-		float volume;
-		float panning;
-		float playback_time;
+		float volume = 1.0;
+		float playback_time = 0.0;
 
 		float clamp(float value);
 	};

@@ -41,5 +41,5 @@ std::string Omnific::Resource::get_name()
 
 size_t Omnific::Resource::get_size()
 {
-	return 0;
+	return this->size;
 }

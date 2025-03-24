@@ -164,7 +164,7 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 						shader_parameters = renderable.model->shader_parameters;
 					}
 
-					global_transform = scene->get_scene_layer(renderable.scene_layer_id)->compute_global_transform(renderable.entity_id);
+					global_transform = scene->get_scene_layer(renderable.scene_layer_id)->calculate_global_transform(renderable.entity_id);
 					glm::mat4 model_to_world_matrix = global_transform->get_transform_matrix();
 					glm::mat4 mvp = view_to_projection_matrix * world_to_view_matrix * model_to_world_matrix;
 					float alpha = renderable.model->get_alpha_in_percentage();

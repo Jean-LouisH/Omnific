@@ -39,9 +39,9 @@ namespace Omnific
 		virtual ~Resource() = default;
 		void set_name(std::string name);
 		std::string get_name();
-		virtual size_t get_size();
-	private:
+		size_t get_size();
+	protected:
 		std::string name = "";
-
+		size_t size = 0;
 	};
 }

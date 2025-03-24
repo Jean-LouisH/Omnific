@@ -48,9 +48,11 @@ namespace Omnific
 		void rotate_x(float angle);
 		void rotate_y(float angle);
 		void rotate_z(float angle);
+		void flatten_to_2d();
 		float calculate_distance_from(glm::vec3 position);
 		float calculate_azimuth_from(glm::vec3 position);
 		float calculate_elevation_from(glm::vec3 position);
+		glm::vec3 get_up_vector();
 		glm::mat4 get_transform_matrix();
 	private:
 	};

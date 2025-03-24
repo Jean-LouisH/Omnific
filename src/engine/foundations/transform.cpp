@@ -3,6 +3,7 @@
 #include <gtc/type_ptr.hpp>
 #include <gtx/matrix_decompose.hpp>
 #include <gtx/rotate_vector.hpp>
+#include <gtx/euler_angles.hpp>
 
 
 void Omnific::Transform::translate_x(float offset)
@@ -35,6 +36,14 @@ void Omnific::Transform::rotate_z(float angle)
 	this->rotation.z += angle;
 }
 
+void Omnific::Transform::flatten_to_2d()
+{
+	this->translation.z = 0.0;
+	this->rotation.x = 0.0;
+	this->rotation.y = 0.0;
+	this->scale.z = 0.0;
+}
+
 float Omnific::Transform::calculate_distance_from(glm::vec3 position)
 {
 	return sqrt(
@@ -52,6 +61,12 @@ float Omnific::Transform::calculate_azimuth_from(glm::vec3 position)
 float Omnific::Transform::calculate_elevation_from(glm::vec3 position)
 {
 	return atan2(position.x - this->translation.x, position.z - this->translation.z);
+}
+
+glm::vec3 Omnific::Transform::get_up_vector()
+{
+	glm::mat4 rotation_matrix = glm::yawPitchRoll(this->rotation.y, this->rotation.x, this->rotation.z);
+	return glm::vec3(rotation_matrix * glm::vec4(0, 1, 0, 0));
 }
 
 glm::mat4 Omnific::Transform::get_transform_matrix()

@@ -31,41 +31,17 @@
 #include <scene/components/audio_source.hpp>
 #include <scene/components/audio_listener.hpp>
 #include <scene/components/physics_body.hpp>
+#include "audio_backends/openal_audio_backend/openal_audio_backend.hpp"
 #include <al.h>
 #include <alc.h>
 
 namespace Omnific
 {
-	class Audible
-	{
-	public:
-		std::string entity_name;
-		std::shared_ptr<Transform> transform;
-		SceneLayerID scene_layer_id;
-		EntityID entity_id;
-		std::shared_ptr<AudioSource> audio_source;
-		std::shared_ptr<PhysicsBody> physics_body;
-	private:
-	};
-
-	class AudibleLayer
-	{
-	public:
-		bool is_2d = false;
-		std::shared_ptr<AudioListener> audio_listener;
-		std::shared_ptr<Transform> audio_listener_transform;
-		std::vector<Audible> audibles;
-	private:
-	};
-
 	/* Processes Components that enable playback of audio and outputs its waveforms. */
 	class AudioSystem : public System
 	{
 	public:
-		AudioSystem()
-		{
-			this->type = TYPE_STRING;
-		};
+		AudioSystem();
 		~AudioSystem();
 
 		static constexpr const char* TYPE_STRING = "AudioSystem";
@@ -76,16 +52,15 @@ namespace Omnific
 		}
 
 		virtual void initialize() override;
-		virtual void on_update(std::shared_ptr<Scene> scene) override;
 		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 
 		ALCdevice* alc_device;
 		ALCcontext* alc_context;
+		bool has_eax2_0_extension = false;
 	private:
-		std::shared_ptr<Audio> query_active_audio_by_event(
-			std::unordered_map<UID, std::shared_ptr<AudioSource>> mapped_audio_sources,
-			Event audio_event);
+		std::shared_ptr<OpenALAudioBackend> openal_backend;
+		bool song_playing = false;
 	};
 }
 
