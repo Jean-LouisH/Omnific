@@ -53,6 +53,7 @@
 
 #include <systems/animation_system/animation_system.hpp>
 #include <systems/audio_system/audio_system.hpp>
+#include <systems/camera_system/camera_system.hpp>
 #include <systems/cpp_scripting_system/cpp_scripting_system.hpp>
 #include <systems/gui_system/gui_system.hpp>
 #include <systems/haptic_system/haptic_system.hpp>
@@ -106,6 +107,8 @@ namespace Omnific
 				registry->add<AnimationSystem, System>();
 			if (configuration->enabled_systems.audio_system)
 				registry->add<AudioSystem, System>();
+			if (configuration->enabled_systems.camera_system)
+				registry->add<CameraSystem, System>();
 			if (configuration->enabled_systems.cpp_scripting_system)
 				registry->add<CPPScriptingSystem, System>();
 			if (configuration->enabled_systems.gui_system)

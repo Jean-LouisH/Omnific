@@ -22,63 +22,31 @@
 
 #pragma once
 
-#include <string>
-#include <engine_api.hpp>
-#include <stdint.h>
+#include "scene/scene.hpp"
+#include "systems/system.hpp"
 
-namespace Omnific 
+namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Configuration
+	class CameraSystem : public System
 	{
 	public:
-		struct Metadata
+		CameraSystem()
 		{
-			std::string title;
-			std::string version;
-			std::string developer;
-			std::string icon_filepath;
-			std::string entry_scene_filepath;
-		} metadata;
+			this->type = TYPE_STRING;
+		};
 
-		struct WindowSettings
+		~CameraSystem();
+		static constexpr const char* TYPE_STRING = "CameraSystem";
+
+		virtual Registerable* instance() override
 		{
-			uint16_t height;
-			uint16_t width;
-			bool is_starting_fullscreen;
-			bool is_starting_maximized;
-			bool is_resizable;
-		} window_settings;
+			return new CameraSystem(*this);
+		}
 
-		struct PerformanceSettings
-		{
-			uint32_t target_input_fps;
-			uint32_t target_update_fps;
-			uint32_t target_output_fps;
-			uint32_t fixed_frame_time;
-			bool enable_multithreading;
-		} performance_settings;
-
-		struct EnabledSystems
-		{
-			bool animation_system;
-			bool audio_system;
-			bool camera_system;
-			bool cpp_scripting_system;
-			bool gui_system;
-			bool haptic_system;
-			bool physics_system;
-			bool python_scripting_system;
-			bool rendering_system;
-		} enabled_systems;
-
-		//Status
-		bool is_loaded = false;
-
-		static void load_from_file(std::string boot_filepath);
-		static uint32_t get_max_target_fps();
-
-		static Configuration* get_instance();
+		virtual void initialize() override;
+		virtual void on_update(std::shared_ptr<Scene> scene) override;
+		virtual void finalize() override;
 	private:
-		static Configuration* instance;
 	};
 }
+

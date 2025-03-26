@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "audio.hpp"
+#define DR_WAV_IMPLEMENTATION
 #include <dr_wav.h>
 #include <foundations/singletons/platform/platform.hpp>
 #include <stb_vorbis.c>
@@ -30,25 +31,29 @@ Omnific::Audio::Audio(std::string filepath)
 	this->type = TYPE_STRING;
 	std::string file_extension = Platform::get_file_access().get_file_extension(filepath);
 	std::string full_filepath = Platform::get_file_access().find_path(filepath);
+	short* data_output;
 
 	if (file_extension == "ogg")
 	{
-		short* data_output;
 		this->samples_per_channel = stb_vorbis_decode_filename(full_filepath.c_str(), &this->channel_count, &this->sample_rate, &data_output);
-		this->playback_length = this->samples_per_channel / this->sample_rate;
 		this->data = std::vector<int16_t>(data_output, data_output + this->samples_per_channel * this->channel_count);
 		free(data_output);
-		this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
 	}
-	// else if (file_extension == "wav")
-	// {
-	// 	unsigned int* channels;
-	// 	unsigned int* sample_rate;
-	// 	drwav_uint64* total_frame_count;
-	// 	const drwav_allocation_callbacks* p_allocation_callbacks;
+	else if (file_extension == "wav")
+	{
+		unsigned int* channels;
+		unsigned int* sample_rate;
+		drwav_uint64* total_frame_count;
+		data_output = (short*)drwav_open_file_and_read_pcm_frames_s16(filepath.c_str(), channels, sample_rate, total_frame_count, NULL);
+		this->channel_count = (int)*channels;
+		this->sample_rate = (int)*sample_rate;
+		this->samples_per_channel = (int)*total_frame_count;
+		this->data = std::vector<int16_t>(data_output, data_output + this->samples_per_channel * this->channel_count);
+		drwav_free(data_output, NULL);
+	}
 
-	// 	this->data = std::shared_ptr<int16_t>((int16_t*)drwav_open_file_and_read_pcm_frames_s16(filepath.c_str(), channels, sample_rate, total_frame_count, p_allocation_callbacks), drwav_free);
-	// }
+	this->playback_length = this->samples_per_channel / this->sample_rate;
+	this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
 }
 
 int Omnific::Audio::get_sample_rate()

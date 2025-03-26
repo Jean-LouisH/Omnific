@@ -148,6 +148,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 			}
 		}
 	}
+	this->openal_backend->collect_garbage();
 }
 
 void Omnific::AudioSystem::finalize()

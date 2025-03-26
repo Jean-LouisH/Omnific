@@ -20,41 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "camera_system.hpp"
+#include <foundations/singletons/platform/platform.hpp>
 
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
 
-namespace Omnific
+Omnific::CameraSystem::~CameraSystem()
 {
-	/* Processes Components related to time and classical mechanics physics simulations. */
-	class PhysicsSystem : public System
-	{
-	public:
-		PhysicsSystem()
-		{
-			this->type = TYPE_STRING;
-		};
-
-		~PhysicsSystem();
-		static constexpr const char* TYPE_STRING = "PhysicsSystem";
-
-		virtual Registerable* instance() override
-		{
-			return new PhysicsSystem(*this);
-		}
-
-		virtual void initialize() override;
-		virtual void on_fixed_update(std::shared_ptr<Scene> scene) override;
-		virtual void finalize() override;
-	private:
-
-		void update_timers(std::shared_ptr<SceneLayer> scene_layer);
-		void displace(std::shared_ptr<SceneLayer> scene_layer);
-		void gravitate(std::shared_ptr<SceneLayer> scene_layer);
-		void decelerate(std::shared_ptr<SceneLayer> scene_layer);
-		void detect_collisions(std::shared_ptr<SceneLayer> scene_layer);
-		void handle_collisions_and_displacements(std::shared_ptr<SceneLayer> scene_layer);
-	};
+	this->finalize();
 }
 
+void Omnific::CameraSystem::initialize()
+{
+	this->is_initialized = true;
+	Platform::get_logger().write("Initialized Camera System");
+}
+
+void Omnific::CameraSystem::on_update(std::shared_ptr<Scene> scene)
+{
+	for (const auto scene_layer_it : scene->get_scene_layers())
+	{
+
+	}
+}
+
+void Omnific::CameraSystem::finalize()
+{
+	this->is_initialized = false;
+}

@@ -66,6 +66,7 @@ void Omnific::RenderingSystem::initialize()
 
 	this->opengl_backend->initialize();
 	this->is_initialized = true;
+	Platform::get_logger().write("Initialized Rendering System");
 }
 
 void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)

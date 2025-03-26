@@ -128,6 +128,10 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 					{
 						configuration->enabled_systems.audio_system = it1->second.as<bool>();
 					}
+					else if (it1->first.as<std::string>() == "camera_system")
+					{
+						configuration->enabled_systems.camera_system = it1->second.as<bool>();
+					}
 					else if (it1->first.as<std::string>() == "cpp_scripting_system")
 					{
 						configuration->enabled_systems.cpp_scripting_system = it1->second.as<bool>();
@@ -198,6 +202,7 @@ Omnific::Configuration* Omnific::Configuration::get_instance()
 
 		configuration->enabled_systems.animation_system = true;
 		configuration->enabled_systems.audio_system = true;
+		configuration->enabled_systems.camera_system = true;
 		configuration->enabled_systems.cpp_scripting_system = true;
 		configuration->enabled_systems.gui_system = true;
 		configuration->enabled_systems.haptic_system = true;
