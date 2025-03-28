@@ -33,6 +33,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Camera : public Component
 	{
+		friend class CameraSystem;
 	public:
 		static constexpr const char* TYPE_STRING = "Camera";
 		Camera()
@@ -60,6 +61,8 @@ namespace Omnific
 		void set_is_streaming(bool value);
 		void set_wireframe_mode(bool value);
 		glm::mat4 get_view_to_projection_matrix();
+
+		glm::vec3 clear_colour;
 	private:
 		const float default_aspect = 1920.0 / 1080.0;
 		float aspect = default_aspect;
@@ -72,5 +75,7 @@ namespace Omnific
 		bool keep_aspect = true;
 		bool is_streaming = true;
 		bool is_wire_frame = false;
+		std::string follow_target_entity;
+		std::string viewport_target_entity;
 	};
 }

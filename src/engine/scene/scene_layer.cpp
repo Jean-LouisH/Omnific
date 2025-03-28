@@ -55,6 +55,7 @@ void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 	if (entity->parent_id != 0)
 		this->entities.at(entity->parent_id)->child_ids.push_back(entity->id);
 
+	entity->scene_layer_id = this->id;
 	this->start_entities_queue.emplace(entity->id);
 	this->entities.emplace(entity->id, entity);
 	this->last_entity_id = entity->id;
@@ -93,6 +94,7 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 	//this->remove_component(entity_id, type);
 	component->entity_id = entity_id;
 	component->entity_name = entity->get_name();
+	component->scene_layer_id = this->id;
 	this->components.push_back(component);
 	this->components_by_id.emplace(component->get_id(), component);
 	entity->component_ids.emplace(type, component->get_id());
@@ -113,7 +115,7 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 
 	if (component->is_renderable())
 	{
-		entity->renderable_component_id = component->get_id();
+		entity->model_id = component->get_id();
 		this->render_order_index_cache.push_back(last_index);
 	}
 }
@@ -301,16 +303,21 @@ std::vector<std::shared_ptr<Omnific::Component>> Omnific::SceneLayer::get_compon
 
 std::shared_ptr<Omnific::Entity> Omnific::SceneLayer::get_entity(EntityID entity_id)
 {
-	return this->entities.at(entity_id);
+	std::shared_ptr<Entity> entity;
+
+	if (this->entities.count(entity_id))
+		entity = this->entities.at(entity_id);
+
+	return entity;
 }
 
 std::shared_ptr<Omnific::Entity> Omnific::SceneLayer::get_entity_by_name(std::string name)
 {
-	std::shared_ptr<Entity> entity(new Entity());
+	std::shared_ptr<Entity> entity;
 
 	for (auto it = this->entities.begin(); it != this->entities.end(); it++)
 		if (it->second->name == name)
-			return it->second;
+			entity = it->second;
 
 	return entity;
 }

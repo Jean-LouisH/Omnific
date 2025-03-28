@@ -207,41 +207,44 @@ void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr
 
 		if (physics_body != nullptr)
 		{
-			std::shared_ptr<PhysicsBody> other_physics_body = std::dynamic_pointer_cast<PhysicsBody>(components.at("other_physics_body"));
-			std::shared_ptr<Entity> entity = scene_layer->get_entity(physics_body->get_entity_id());
-				
-			switch (physics_body->collision_response_type)
+			if (physics_body->get_scene_layer_id() == scene_layer->get_id())
 			{
-				case CollisionResponseType::RIGID: 
-					if (other_physics_body != nullptr)
-					{
-						CollisionResponseType collision_response_type = other_physics_body->collision_response_type;
-						if (collision_response_type == CollisionResponseType::KINEMATIC)
+				std::shared_ptr<PhysicsBody> other_physics_body = std::dynamic_pointer_cast<PhysicsBody>(components.at("other_physics_body"));
+				std::shared_ptr<Entity> entity = scene_layer->get_entity(physics_body->get_entity_id());
+					
+				switch (physics_body->collision_response_type)
+				{
+					case CollisionResponseType::RIGID: 
+						if (other_physics_body != nullptr)
 						{
-							glm::vec3 reversed_linear_velocity = physics_body->linear_velocity * -1.0f;
-							entity->get_transform()->translation += reversed_linear_velocity * 1.5f * (float)(Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S));
-							physics_body->linear_velocity = (reversed_linear_velocity * physics_body->elasticity_ratio) + other_physics_body->linear_velocity;
+							CollisionResponseType collision_response_type = other_physics_body->collision_response_type;
+							if (collision_response_type == CollisionResponseType::KINEMATIC)
+							{
+								glm::vec3 reversed_linear_velocity = physics_body->linear_velocity * -1.0f;
+								entity->get_transform()->translation += reversed_linear_velocity * 1.5f * (float)(Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S));
+								physics_body->linear_velocity = (reversed_linear_velocity * physics_body->elasticity_ratio) + other_physics_body->linear_velocity;
+							}
+							else if (collision_response_type == CollisionResponseType::RIGID)
+							{
+								//Elastic collision response for now.
+								std::shared_ptr<Entity> other_entity = scene_layer->get_entity(other_physics_body->get_entity_id());
+								glm::vec3 v1 = physics_body->linear_velocity;
+								glm::vec3 v2 = other_physics_body->linear_velocity;
+								float m1 = physics_body->mass;
+								float m2 = other_physics_body->mass;
+								glm::vec3 n = entity->get_transform()->translation - other_entity->get_transform()->translation;
+								physics_body->linear_velocity = v1 - (float)(((2.0 * m2)/(m1 + m2)) * ((glm::dot(v1-v2, n))/(pow(n.length(), 2.0)))) * n;
+							}
+							else if (collision_response_type == CollisionResponseType::FLUID)
+							{
+								std::shared_ptr<Collider> collider = scene_layer->get_component_by_type<Collider>(entity->get_id());
+								float approximate_radius = (collider->box.aabb.max - collider->box.aabb.min).length();
+								glm::vec3 deceleration = (float)(6.0 * M_PI * other_physics_body->viscosity * approximate_radius * (1.0 / physics_body->mass)) * physics_body->linear_velocity;
+								physics_body->linear_velocity -= deceleration;
+							}
 						}
-						else if (collision_response_type == CollisionResponseType::RIGID)
-						{
-							//Elastic collision response for now.
-							std::shared_ptr<Entity> other_entity = scene_layer->get_entity(other_physics_body->get_entity_id());
-							glm::vec3 v1 = physics_body->linear_velocity;
-							glm::vec3 v2 = other_physics_body->linear_velocity;
-							float m1 = physics_body->mass;
-							float m2 = other_physics_body->mass;
-							glm::vec3 n = entity->get_transform()->translation - other_entity->get_transform()->translation;
-							physics_body->linear_velocity = v1 - (float)(((2.0 * m2)/(m1 + m2)) * ((glm::dot(v1-v2, n))/(pow(n.length(), 2.0)))) * n;
-						}
-						else if (collision_response_type == CollisionResponseType::FLUID)
-						{
-							std::shared_ptr<Collider> collider = scene_layer->get_component_by_type<Collider>(entity->get_id());
-							float approximate_radius = (collider->box.aabb.max - collider->box.aabb.min).length();
-							glm::vec3 deceleration = (float)(6.0 * M_PI * other_physics_body->viscosity * approximate_radius * (1.0 / physics_body->mass)) * physics_body->linear_velocity;
-							physics_body->linear_velocity -= deceleration;
-						}
-					}
-					break;
+						break;
+				}
 			}
 		}
 	}

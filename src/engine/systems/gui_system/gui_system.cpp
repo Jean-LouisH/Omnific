@@ -44,19 +44,19 @@ void Omnific::GUISystem::initialize()
 
 void Omnific::GUISystem::on_early_update(std::shared_ptr<Scene> scene)
 {
-	Input& input = Platform::get_input();
+	Inputs& inputs = Platform::get_inputs();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
 
 	/* Sends an Engine loop event for a detected file drop. */
-	if (input.is_drop_file_detected())
+	if (inputs.is_drop_file_detected())
 	{
-		numbers.emplace((std::string)"drop_file_window_id", (double)input.get_drop_file_window_id());
-		strings.emplace((std::string)"drop_file_path", input.get_drop_file_path());
+		numbers.emplace((std::string)"drop_file_window_id", (double)inputs.get_drop_file_window_id());
+		strings.emplace((std::string)"drop_file_path", inputs.get_drop_file_path());
 		EventBus::publish("file dropped on window", strings, numbers);
 	}
 
-	glm::vec2 mouse_position = input.get_mouse_position();
+	glm::vec2 mouse_position = inputs.get_mouse_position();
 	
 	/*Invert the y to increase from bottom to top.*/
 	mouse_position.y = Platform::get_window().get_window_size().y - mouse_position.y;
@@ -165,7 +165,7 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 {
 	if (!gui_element->is_hidden)
 	{
-		Input& input = Platform::get_input();
+		Inputs& inputs = Platform::get_inputs();
 		glm::vec2 gui_element_global_position = gui_position + gui_element->position;
 
 		glm::vec2 gui_element_dimensions = gui_element->get_image()->get_dimensions();
@@ -180,9 +180,9 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 		(box_bottom <= mouse_position.y && box_top >= mouse_position.y));
 
 		if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_hovered_in_focus) ||
-			!(input.is_left_mouse_button_pressed() || 
-			input.is_middle_mouse_button_pressed() || 
-			input.is_right_mouse_button_pressed())))
+			!(inputs.is_left_mouse_button_pressed() || 
+			inputs.is_middle_mouse_button_pressed() || 
+			inputs.is_right_mouse_button_pressed())))
 		{
 			gui_element->is_hovered_in_focus = true;
 		}

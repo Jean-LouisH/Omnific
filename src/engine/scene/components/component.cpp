@@ -33,6 +33,11 @@ void Omnific::Component::deserialize(YAML::Node yaml_node)
 
 }
 
+Omnific::SceneLayerID Omnific::Component::get_scene_layer_id()
+{
+	return this->scene_layer_id;
+}
+
 Omnific::EntityID Omnific::Component::get_entity_id()
 {
 	return this->entity_id;

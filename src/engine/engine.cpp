@@ -184,12 +184,12 @@ void Omnific::Engine::detect_input()
 		MS_IN_S / Configuration::get_instance()->performance_settings.target_input_fps)
 	{
 		input_frame_skip_clock->set_start();
-		Input& input = Platform::get_input();
-		input.detect_game_controllers();
-		input.poll_input_events();
-		if (input.has_requested_shutdown())
+		Inputs& inputs = Platform::get_inputs();
+		inputs.detect_game_controllers();
+		inputs.poll_input_events();
+		if (inputs.has_requested_shutdown())
 			this->state = State::FINALIZING;
-		if (input.has_requested_restart())
+		if (inputs.has_requested_restart())
 			this->state = State::RESTARTING;
 	}
 }
@@ -231,7 +231,7 @@ void Omnific::Engine::run_loop()
 	{
 		update_frame_skip_clock->set_start();
 
-		if (Platform::get_input().get_has_detected_input_changes())
+		if (Platform::get_inputs().get_has_detected_input_changes())
 			for (auto system : this->systems)
 		system.second->on_input(active_scene);
 

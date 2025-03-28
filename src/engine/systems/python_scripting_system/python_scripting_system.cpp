@@ -164,7 +164,7 @@ void Omnific::PythonScriptingSystem::on_entity_start(std::shared_ptr<Scene> scen
 		this->load_script_modules(scene);
 
 #ifdef DEBUG_CONSOLE_ENABLED
-	if (Platform::get_input().has_requested_command_line())
+	if (Platform::get_inputs().has_requested_command_line())
 	{
 		std::string command;
 

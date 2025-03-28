@@ -53,6 +53,8 @@ namespace Omnific
 		float calculate_azimuth_from(glm::vec3 position);
 		float calculate_elevation_from(glm::vec3 position);
 		glm::vec3 get_up_vector();
+		glm::vec3 get_front_vector();
+		glm::vec3 get_right_vector();
 		glm::mat4 get_transform_matrix();
 	private:
 	};

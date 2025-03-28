@@ -6,7 +6,7 @@ class omnific_script:
         pass
 
     def on_update(self):
-        if omnific.get_input().is_on_release("escape"):
+        if omnific.get_inputs().is_on_release("escape"):
             omnific.load_scene("selection_menu/scenes/entry.yml")
         pass
     

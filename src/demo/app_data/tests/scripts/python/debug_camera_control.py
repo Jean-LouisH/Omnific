@@ -7,7 +7,7 @@ class omnific_script:
 
     def on_update(self):
         movement_speed = 1.0
-        input = omnific.get_input()
+        input = omnific.get_inputs()
         transform = omnific.get_transform()
 
         if input.is_pressed(["down"]):

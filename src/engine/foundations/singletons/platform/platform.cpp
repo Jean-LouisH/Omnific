@@ -62,7 +62,7 @@ void Omnific::Platform::initialize(
 
 	new_instance->shared_library_access = std::unique_ptr<SharedLibraryAccess>(new SharedLibraryAccess());
 	new_instance->logger = std::unique_ptr<Logger>(new Logger());
-	new_instance->input = std::unique_ptr<Input>(new Input());
+	new_instance->inputs = std::unique_ptr<Inputs>(new Inputs());
 	new_instance->file_access = std::unique_ptr<FileAccess>(new FileAccess(command_line_arguments[0]));
 	new_instance->network_access = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 	new_instance->window = std::unique_ptr<Window>(new Window());
@@ -155,9 +155,9 @@ Omnific::Window& Omnific::Platform::get_window()
 	return *get_instance()->window;
 }
 
-Omnific::Input& Omnific::Platform::get_input()
+Omnific::Inputs& Omnific::Platform::get_inputs()
 {
-	return *get_instance()->input;
+	return *get_instance()->inputs;
 }
 
 Omnific::Logger& Omnific::Platform::get_logger()

@@ -55,6 +55,14 @@ void Omnific::Camera::deserialize(YAML::Node yaml_node)
 		{
 			this->set_wireframe_mode(it3->second.as<bool>());
 		}
+		else if (it3->first.as<std::string>() == "follow_target_entity")
+		{
+			this->follow_target_entity = it3->second.as<std::string>();
+		}
+		else if (it3->first.as<std::string>() == "viewport_target_entity")
+		{
+			this->viewport_target_entity = it3->second.as<std::string>();
+		}
 	}
 }
 

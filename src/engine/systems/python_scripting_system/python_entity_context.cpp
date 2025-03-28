@@ -37,7 +37,7 @@ void Omnific::PythonEntityContext::bind_entity(SceneLayerID scene_layer_id, Enti
 
 bool Omnific::PythonEntityContext::has_component(std::string type)
 {
-	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->component_ids.count(type) > 0;
+	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->get_component_ids().count(type) > 0;
 }
 
 std::shared_ptr<Omnific::Entity> Omnific::PythonEntityContext::get_entity()
@@ -68,7 +68,7 @@ std::shared_ptr<Omnific::Component> Omnific::PythonEntityContext::get_component(
 	std::vector<std::shared_ptr<Component>> components = get_instance()->get_scene_layer()->get_components();
 
 	for (int i = 0; i < components.size(); i++)
-		if (components.at(i)->get_id() == entity->component_ids.at(type))
+		if (components.at(i)->get_id() == entity->get_component_ids().at(type))
 			component = components.at(i);
 
 	return component;

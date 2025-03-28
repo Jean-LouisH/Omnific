@@ -9,6 +9,6 @@ class omnific_script:
         pass
 
     def on_late_update(self):
-        if omnific.get_input().is_on_release("escape"):
+        if omnific.get_inputs().is_on_release("escape"):
             omnific.change_to_scene("selection_menu.yml")
         pass

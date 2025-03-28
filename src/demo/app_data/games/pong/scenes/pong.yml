@@ -1,6 +1,23 @@
 # Omnific Pong
 
 SceneLayer:
+  name: "Background SceneLayer"
+  spatial_dimension: 2
+  Entity:
+    name: "Background"
+    transform: default
+    Sprite:
+      image: "Image::default"
+  Entity:
+    name: "Camera"
+    transform: default
+    Camera: 
+      viewport_target_entity: "Background"
+  Entity:
+    name: "Viewport"
+    Viewport:
+      camera_entity: "Camera"
+SceneLayer:
   name: "Foreground SceneLayer"
   spatial_dimension: 3
   Entity:

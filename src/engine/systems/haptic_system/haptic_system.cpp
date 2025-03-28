@@ -39,7 +39,7 @@ void Omnific::HapticSystem::initialize()
 
 void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
 {
-	Input& input = Platform::get_input();
+	Inputs& inputs = Platform::get_inputs();
 	std::vector<Event> haptic_signal_events = EventBus::query_events(OMNIFIC_EVENT_HAPTIC_SIGNAL);
 
 	for (size_t i = 0; i < haptic_signal_events.size(); i ++)
@@ -47,7 +47,7 @@ void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
 		Event& haptic_signal_event = haptic_signal_events.at(i);
 		Event::Parameters event_parameters = haptic_signal_event.get_parameters();
 		std::unordered_map<std::string, double> event_numbers = haptic_signal_event.get_parameters().numbers;
-		std::vector<SDL_Haptic*> haptics = input.get_haptics();
+		std::vector<SDL_Haptic*> haptics = inputs.get_haptics();
 
 		PlayerID player_id = 0;
 		uint16_t duration = 0;

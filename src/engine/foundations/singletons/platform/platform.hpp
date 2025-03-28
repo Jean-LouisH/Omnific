@@ -82,7 +82,7 @@ namespace Omnific
 
 		static SharedLibraryAccess& get_shared_library_access();
 		static Window& get_window();
-		static Input& get_input();
+		static Inputs& get_inputs();
 		static Logger& get_logger();
 		static FileAccess& get_file_access();
 		static NetworkAccess& get_network_access();
@@ -98,7 +98,7 @@ namespace Omnific
 		std::unique_ptr<SharedLibraryAccess> shared_library_access;
 		std::unique_ptr<Clock> run_clock;
 		std::unique_ptr<Window> window;
-		std::unique_ptr<Input> input;
+		std::unique_ptr<Inputs> inputs;
 		std::unique_ptr<Logger> logger;
 		std::unique_ptr<FileAccess> file_access;
 		std::unique_ptr<NetworkAccess> network_access;

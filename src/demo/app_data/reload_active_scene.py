@@ -9,6 +9,6 @@ class omnific_script:
         pass
 
     def on_update(self):
-        if omnific.get_input().is_on_release("f5"):
+        if omnific.get_inputs().is_on_release("f5"):
             omnific.reload_active_scene()
         pass

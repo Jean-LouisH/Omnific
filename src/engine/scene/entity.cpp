@@ -33,6 +33,11 @@ std::string Omnific::Entity::get_name()
 	return this->name;
 }
 
+Omnific::SceneLayerID Omnific::Entity::get_scene_layer_id()
+{
+	return this->scene_layer_id;
+}
+
 Omnific::EntityID Omnific::Entity::get_id()
 {
 	return this->id;
@@ -41,4 +46,19 @@ Omnific::EntityID Omnific::Entity::get_id()
 std::shared_ptr<Omnific::Transform> Omnific::Entity::get_transform()
 {
 	return this->transform;
+}
+
+std::vector<std::string> Omnific::Entity::get_tags()
+{
+	return this->tags;
+}
+
+std::unordered_map<std::string, Omnific::ComponentID> Omnific::Entity::get_component_ids()
+{
+	return this->component_ids;
+}
+
+Omnific::ComponentID Omnific::Entity::get_model_id()
+{
+	return this->model_id;
 }

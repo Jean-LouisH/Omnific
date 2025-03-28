@@ -44,9 +44,6 @@ namespace Omnific
 	public:
 		EntityID parent_id = 0;
 		std::vector<EntityID> child_ids;
-		std::vector<std::string> tags;
-		std::unordered_map<std::string, ComponentID> component_ids;
-		ComponentID renderable_component_id = 0;
 
 		Entity()
 		{
@@ -58,12 +55,20 @@ namespace Omnific
 		/*Sets name publicly only when it is not attached to a SceneLayer.*/
 		void set_name(std::string name);
 		std::string get_name();
+		SceneLayerID get_scene_layer_id();
 		EntityID get_id();
 		std::shared_ptr<Transform> get_transform();
+		std::vector<std::string> get_tags();
+		std::unordered_map<std::string, ComponentID> get_component_ids();
+		ComponentID get_model_id();
 	private:
 		std::string name;
+		SceneLayerID scene_layer_id = 0;
 		EntityID id = 0;
 		std::shared_ptr<Transform> transform;
+		std::vector<std::string> tags;
+		std::unordered_map<std::string, ComponentID> component_ids;
+		ComponentID model_id = 0;
 
 		bool is_attached_to_scene_layer = false;
 	};

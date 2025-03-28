@@ -22,6 +22,8 @@
 
 #include "camera_system.hpp"
 #include <foundations/singletons/platform/platform.hpp>
+#include <scene/components/camera.hpp>
+#include <scene/components/model.hpp>
 
 
 Omnific::CameraSystem::~CameraSystem()
@@ -39,11 +41,27 @@ void Omnific::CameraSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-
+		this->set_viewports_to_model_widths(scene_layer_it.second);
 	}
 }
 
 void Omnific::CameraSystem::finalize()
 {
 	this->is_initialized = false;
+}
+
+void Omnific::CameraSystem::set_viewports_to_model_widths(std::shared_ptr<SceneLayer> scene_layer)
+{
+	for (std::shared_ptr<Camera> camera: scene_layer->get_components_by_type<Camera>())
+	{
+		std::shared_ptr<Entity> target_entity = scene_layer->get_entity_by_name(camera->viewport_target_entity);
+		if (target_entity != nullptr)
+		{
+			std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(scene_layer->get_component_by_id(target_entity->get_model_id()));
+			if (model != nullptr)
+			{
+				camera->set_viewport_width(model->get_dimensions().x);
+			}	
+		}
+	}
 }

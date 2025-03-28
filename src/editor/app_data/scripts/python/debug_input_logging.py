@@ -10,7 +10,7 @@ class omnific_script:
         shutdown_inputs = ["z"]
         restart_inputs = ["x"]
         playerID = 0
-        inputs = omnific.get_input()
+        inputs = omnific.get_inputs()
         logger = omnific.get_logger()
     
         if inputs.is_on_release(log_inputs, playerID):

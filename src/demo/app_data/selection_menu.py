@@ -46,10 +46,10 @@ class omnific_script:
         pass
 
     def on_update(self):
-        inp = omnific.get_input()
+        inputs = omnific.get_inputs()
         
         for letter, project_path in self.project_paths.items():
-            if inp.is_on_release(letter):
+            if inputs.is_on_release(letter):
                 omnific.load_scene(project_path)
                 break
         pass

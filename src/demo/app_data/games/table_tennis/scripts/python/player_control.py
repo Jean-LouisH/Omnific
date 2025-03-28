@@ -8,13 +8,13 @@ class omnific_script:
 
     def on_update(self):
         physics_body = omnific.get_component("PhysicsBody")
-        inp = omnific.get_input()
+        inputs = omnific.get_inputs()
 
-        control_stick_strength = inp.get_axis("left_axis_x")
+        control_stick_strength = inputs.get_axis("left_axis_x")
 
-        if inp.is_pressed(["d", "dpad_right"]):
+        if inputs.is_pressed(["d", "dpad_right"]):
             physics_body.accelerate_x(constants.acceleration, constants.maximum_speed)
-        elif inp.is_pressed(["a", "dpad_left"]):
+        elif inputs.is_pressed(["a", "dpad_left"]):
             physics_body.accelerate_x(-constants.acceleration, constants.maximum_speed)
         elif abs(control_stick_strength) > 0.01:
             physics_body.accelerate_x(constants.acceleration * control_stick_strength, constants.maximum_speed)

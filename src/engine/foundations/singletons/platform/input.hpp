@@ -34,11 +34,11 @@
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Input
+	class OMNIFIC_ENGINE_API Inputs
 	{
 		friend class Engine;
 	public:
-		Input();
+		Inputs();
 
 		bool is_on_press(std::string input_code);
 		bool is_on_press(std::vector<std::string> input_codes);

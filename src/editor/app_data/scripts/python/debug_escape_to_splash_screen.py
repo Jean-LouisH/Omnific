@@ -6,6 +6,6 @@ class omnific_script:
         pass
 
     def on_input(self):
-        if omnific.get_input().is_on_release("escape"):
+        if omnific.get_inputs().is_on_release("escape"):
             omnific.load_scene("assets/scenes/splash_screen.yml")
 

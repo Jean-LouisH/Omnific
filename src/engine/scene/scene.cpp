@@ -250,7 +250,7 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 
 											scene_layer->add_entity(sub_scene_entity);
 
-											std::unordered_map<std::string, ComponentID> sub_scene_entity_component_ids = sub_scene_entity->component_ids;
+											std::unordered_map<std::string, ComponentID> sub_scene_entity_component_ids = sub_scene_entity->get_component_ids();
 
 											for (auto it2 = sub_scene_entity_component_ids.begin(); it2 != sub_scene_entity_component_ids.end(); it2++)
 												scene_layer->add_component_to_last_entity(sub_scene_layer->get_component_by_id(it2->second));

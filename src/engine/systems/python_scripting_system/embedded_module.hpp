@@ -56,37 +56,37 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	pybind11::class_<Omnific::FileAccess>(m, "FileAccess");
 
-	pybind11::class_<Omnific::Input>(m, "Input")
-		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnific::Input::is_on_press))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnific::Input::is_on_press))
-		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::Input::is_on_press))
-		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnific::Input::is_on_double_press))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnific::Input::is_on_double_press))
-		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnific::Input::is_on_double_press))
-		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnific::Input::is_pressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnific::Input::is_pressed))
-		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::Input::is_pressed))
-		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnific::Input::is_on_release))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnific::Input::is_on_release))
-		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::Input::is_on_release))
-		.def("is_released", pybind11::overload_cast<std::string>(&Omnific::Input::is_released))
-		.def("is_released", pybind11::overload_cast<std::string, Omnific::PlayerID>(&Omnific::Input::is_released))
-		.def("get_axis", pybind11::overload_cast<std::string>(&Omnific::Input::get_axis))
-		.def("get_axis", pybind11::overload_cast<std::string, Omnific::PlayerID>(&Omnific::Input::get_axis))
-		.def("is_left_mouse_button_on_press", &Omnific::Input::is_left_mouse_button_on_press)
-		.def("is_left_mouse_button_on_release", &Omnific::Input::is_left_mouse_button_on_release)
-		.def("is_left_mouse_button_double_clicked", &Omnific::Input::is_left_mouse_button_double_clicked)
-		.def("is_middle_mouse_button_on_press", &Omnific::Input::is_middle_mouse_button_on_press)
-		.def("is_middle_mouse_button_on_release", &Omnific::Input::is_middle_mouse_button_on_release)
-		.def("is_middle_mouse_button_double_clicked", &Omnific::Input::is_middle_mouse_button_double_clicked)
-		.def("is_right_mouse_button_on_press", &Omnific::Input::is_right_mouse_button_on_press)
-		.def("is_right_mouse_button_on_release", &Omnific::Input::is_right_mouse_button_on_release)
-		.def("is_right_mouse_button_double_clicked", &Omnific::Input::is_right_mouse_button_double_clicked)
-		.def("get_mouse_position", &Omnific::Input::get_mouse_position)
-		.def("get_mouse_wheel_velocity", &Omnific::Input::get_mouse_wheel_velocity)
-		.def("get_mouse_motion_velocity", &Omnific::Input::get_mouse_motion_velocity)
-		.def("request_shutdown", &Omnific::Input::request_shutdown)
-		.def("request_restart", &Omnific::Input::request_restart);
+	pybind11::class_<Omnific::Inputs>(m, "Input")
+		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnific::Inputs::is_on_press))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>>(&Omnific::Inputs::is_on_press))
+		.def("is_on_press", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::Inputs::is_on_press))
+		.def("is_on_double_press", pybind11::overload_cast<std::string, unsigned int>(&Omnific::Inputs::is_on_double_press))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnific::Inputs::is_on_double_press))
+		.def("is_on_double_press", pybind11::overload_cast<std::vector<std::string>, unsigned int>(&Omnific::Inputs::is_on_double_press))
+		.def("is_pressed", pybind11::overload_cast<std::string>(&Omnific::Inputs::is_pressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>>(&Omnific::Inputs::is_pressed))
+		.def("is_pressed", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::Inputs::is_pressed))
+		.def("is_on_release", pybind11::overload_cast<std::string>(&Omnific::Inputs::is_on_release))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>>(&Omnific::Inputs::is_on_release))
+		.def("is_on_release", pybind11::overload_cast<std::vector<std::string>, Omnific::PlayerID>(&Omnific::Inputs::is_on_release))
+		.def("is_released", pybind11::overload_cast<std::string>(&Omnific::Inputs::is_released))
+		.def("is_released", pybind11::overload_cast<std::string, Omnific::PlayerID>(&Omnific::Inputs::is_released))
+		.def("get_axis", pybind11::overload_cast<std::string>(&Omnific::Inputs::get_axis))
+		.def("get_axis", pybind11::overload_cast<std::string, Omnific::PlayerID>(&Omnific::Inputs::get_axis))
+		.def("is_left_mouse_button_on_press", &Omnific::Inputs::is_left_mouse_button_on_press)
+		.def("is_left_mouse_button_on_release", &Omnific::Inputs::is_left_mouse_button_on_release)
+		.def("is_left_mouse_button_double_clicked", &Omnific::Inputs::is_left_mouse_button_double_clicked)
+		.def("is_middle_mouse_button_on_press", &Omnific::Inputs::is_middle_mouse_button_on_press)
+		.def("is_middle_mouse_button_on_release", &Omnific::Inputs::is_middle_mouse_button_on_release)
+		.def("is_middle_mouse_button_double_clicked", &Omnific::Inputs::is_middle_mouse_button_double_clicked)
+		.def("is_right_mouse_button_on_press", &Omnific::Inputs::is_right_mouse_button_on_press)
+		.def("is_right_mouse_button_on_release", &Omnific::Inputs::is_right_mouse_button_on_release)
+		.def("is_right_mouse_button_double_clicked", &Omnific::Inputs::is_right_mouse_button_double_clicked)
+		.def("get_mouse_position", &Omnific::Inputs::get_mouse_position)
+		.def("get_mouse_wheel_velocity", &Omnific::Inputs::get_mouse_wheel_velocity)
+		.def("get_mouse_motion_velocity", &Omnific::Inputs::get_mouse_motion_velocity)
+		.def("request_shutdown", &Omnific::Inputs::request_shutdown)
+		.def("request_restart", &Omnific::Inputs::request_restart);
 
 	pybind11::class_<Omnific::Logger>(m, "Logger")
 		.def("write", &Omnific::Logger::write)
@@ -130,7 +130,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_transform", &Omnific::Entity::get_transform)
 		.def_readwrite("parent_id", &Omnific::Entity::parent_id)
 		.def_readwrite("child_ids", &Omnific::Entity::child_ids)
-		.def_readwrite("tags", &Omnific::Entity::tags);
+		.def("get_tags", &Omnific::Entity::get_tags);
 
 	pybind11::class_<Omnific::SceneLayer, std::shared_ptr<Omnific::SceneLayer>>(m, "SceneLayer")
 		.def("add_entity", &Omnific::SceneLayer::add_entity)
@@ -315,7 +315,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	m.def("get_shared_library_access", &Omnific::Platform::get_shared_library_access, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnific::Platform::get_file_access, pybind11::return_value_policy::reference);
-	m.def("get_input", &Omnific::Platform::get_input, pybind11::return_value_policy::reference);
+	m.def("get_inputs", &Omnific::Platform::get_inputs, pybind11::return_value_policy::reference);
 	m.def("get_logger", &Omnific::Platform::get_logger, pybind11::return_value_policy::reference);
 	m.def("get_network_access", &Omnific::Platform::get_network_access, pybind11::return_value_policy::reference);
 	m.def("get_window", &Omnific::Platform::get_window, pybind11::return_value_policy::reference);

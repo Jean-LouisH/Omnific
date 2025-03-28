@@ -9,9 +9,9 @@ class omnific_script:
         pass
 
     def on_update(self):
-        inp = omnific.get_input()
+        inputs = omnific.get_inputs()
 
-        if inp.is_on_release("p"):
+        if inputs.is_on_release("p"):
             omnific.get_logger().write("P2 enabled")
             self.enable_ai_mode = not self.enable_ai_mode
 
@@ -40,9 +40,9 @@ class omnific_script:
         else:
             physics_body = omnific.get_component("PhysicsBody")
 
-            if inp.is_pressed("up"):
+            if inputs.is_pressed("up"):
                 physics_body.accelerate_y(constants.acceleration, constants.maximum_speed)
-            elif inp.is_pressed("down"):
+            elif inputs.is_pressed("down"):
                 physics_body.accelerate_y(-constants.acceleration, -constants.maximum_speed)
             else:
                 physics_body.decelerate(constants.deceleration)

@@ -468,10 +468,10 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 						parent_entity_id = top_entity->parent_id;
 					}
 
-					if (top_entity->renderable_component_id != 0)
+					if (top_entity->get_model_id() != 0)
 					{
 						std::shared_ptr<Model> renderable_component =
-							std::dynamic_pointer_cast<Model>(scene_layer->get_component_by_id(top_entity->renderable_component_id));
+							std::dynamic_pointer_cast<Model>(scene_layer->get_component_by_id(top_entity->get_model_id()));
 
 						std::shared_ptr<Shader> overriding_shader = renderable_component->get_overriding_shader();
 
