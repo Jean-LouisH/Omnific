@@ -2,21 +2,18 @@
 
 SceneLayer:
   name: "Background SceneLayer"
-  spatial_dimension: 3
+  spatial_dimension: 2
   Entity:
     name: "Background Image"
     transform: default
     Sprite:
-      image: "Image::#44444444"
+      image: "Image::#444444FF"
   Entity:
     name: "Camera"
     transform:
       translation: [0, 0, 1]
-    Camera: "default"
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
+    Camera:
+      viewport_target_entity: "Background Image"
 SceneLayer:
   name: "Foreground SceneLayer"
   spatial_dimension: 3
@@ -72,10 +69,6 @@ SceneLayer:
       wireframe_mode: true
     ScriptCollection:
       Python: ["tests/scripts/python/camera_control.py"]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

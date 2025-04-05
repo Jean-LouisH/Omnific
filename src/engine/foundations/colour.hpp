@@ -22,42 +22,42 @@
 
 #pragma once
 
-#include "foundations/aliases.hpp"
-#include <vector>
-#include "foundations/constants.hpp"
+#include "foundations/resources/resource.hpp"
 #include <stdint.h>
-#include "scene/components/component.hpp"
+#include <string>
+#include <engine_api.hpp>
+#include <glm.hpp>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API PropertyAnimation : public Component
+	class OMNIFIC_ENGINE_API Colour
 	{
 	public:
-		float value = 0.0;
-		std::vector<float> key_frames;
-		float duration = 0.0;
-		float playback_speed_percentage = 1.0;
-		float delay = 0.0;
-		float progress = 0.0;
-		float maximum_value = 0.0;
-		float minimum_value = 0.0;
-		uint8_t repeats = 0;
-		uint8_t repeat_count = 0;
-		bool is_playing = false;
-
-		PropertyAnimation()
+		Colour()
 		{
-			this->type = TYPE_STRING;
+
 		};
-		static constexpr const char* TYPE_STRING = "PropertyAnimation";
+		Colour(std::string hex);
+		Colour(uint32_t value);
+		Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		Colour(double red, double green, double blue, double alpha);
 
-		virtual Registerable* instance() override
-		{
-			PropertyAnimation* clone = new PropertyAnimation(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
-		}
-		virtual void deserialize(YAML::Node yaml_node);
+		uint8_t get_red();
+		uint8_t get_green();
+		uint8_t get_blue();
+		uint8_t get_alpha();
+		uint32_t get_rgb();
+		uint32_t get_rgba();
+		glm::vec3 get_rgb_in_vec3();
+		glm::vec4 get_rgba_in_vec4();
+		
 	private:
+		float red = 1.0;
+		float green = 1.0;
+		float blue = 1.0;
+		float alpha = 1.0;
+
+		void set_rgb(uint32_t value);
+		void set_rgba(uint32_t value);
 	};
 }

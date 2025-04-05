@@ -10,10 +10,6 @@ SceneLayer:
     name: "Camera"
     transform: default
     Camera: default
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
 SceneLayer:
   name: "foreground"
   spatial_dimension: 3
@@ -49,10 +45,6 @@ SceneLayer:
   SubSceneLayer:
     name: ["tests/models/suzanne.glb", ""]
     parent: "Model"
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

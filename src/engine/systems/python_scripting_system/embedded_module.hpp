@@ -27,9 +27,7 @@
 #include <foundations/resources/audio.hpp>
 #include <foundations/resources/font.hpp>
 #include <foundations/resources/image.hpp>
-#include <foundations/resources/material.hpp>
 #include <foundations/resources/mesh.hpp>
-#include <foundations/resources/rig.hpp>
 #include "foundations/resources/script.hpp"
 #include <foundations/resources/shader.hpp>
 #include <foundations/resources/text.hpp>
@@ -209,7 +207,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def_readwrite("shader_parameters", &Omnific::Model::shader_parameters)
 		.def("set_to_cube", &Omnific::Model::set_to_cube)
 		.def("set_to_textured_cube", &Omnific::Model::set_to_textured_cube);
-	pybind11::class_<Omnific::PropertyAnimation, Omnific::Component, std::shared_ptr<Omnific::PropertyAnimation>>(m, Omnific::PropertyAnimation::TYPE_STRING);
+	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING);
 	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING);
 	pybind11::class_<Omnific::Sprite, Omnific::Model, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING);
 	pybind11::class_<Omnific::GUI, Omnific::Model, std::shared_ptr<Omnific::GUI>>(m, Omnific::GUI::TYPE_STRING)
@@ -289,10 +287,6 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("publish", pybind11::overload_cast<Omnific::Event, bool>(&Omnific::EventBus::publish));
 	m.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>, std::unordered_map<std::string, double>, std::unordered_map<std::string, bool>, std::unordered_map<std::string, std::shared_ptr<Omnific::Component>>, std::string, bool>(&Omnific::EventBus::publish));
 
-	m.def("preload_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::pre_load_scene));
-	m.def("preload_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::pre_load_scene));
-	m.def("change_to_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::change_to_scene));
-	m.def("change_to_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::change_to_scene));
 	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::load_scene));
 	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::load_scene));
 	m.def("remove_scene", &Omnific::SceneStorage::remove_scene);

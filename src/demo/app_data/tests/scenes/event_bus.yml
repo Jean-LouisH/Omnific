@@ -13,10 +13,6 @@ SceneLayer:
       dimensions: [40.0, 30.0, 0.1]
     transform:
       translation: [0, 0, 1]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"	
 SceneLayer:
   name: "foreground"
   spatial_dimension: 3
@@ -55,10 +51,6 @@ SceneLayer:
       models: ["Model::cube"]
     ScriptCollection:
       Python: ["tests/scripts/python/change_texture_on_collision.py"]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

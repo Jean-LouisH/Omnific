@@ -213,7 +213,9 @@ void Omnific::Engine::run_loop()
 
 		std::string app_data_entry_scene_filepath = file_access.find_path(entry_scene_filepath);
 		if (app_data_entry_scene_filepath != "")
+		{
 			SceneStorage::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
+		}
 
 		this->state = State::RUNNING;
 	}

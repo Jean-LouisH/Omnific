@@ -30,7 +30,3 @@ SceneLayer:
     transform:
       translation: [0, 0, 0]
     Camera: "default"
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"

@@ -31,11 +31,11 @@
 #include <foundations/singletons/scene_storage.hpp>
 #include <scene/entity.hpp>
 
+#include <foundations/resources/audio.hpp>
 #include <foundations/resources/font.hpp>
 #include <foundations/resources/image.hpp>
-#include <foundations/resources/material.hpp>
 #include <foundations/resources/mesh.hpp>
-#include <foundations/resources/rig.hpp>
+#include <foundations/resources/script.hpp>
 #include <foundations/resources/shader.hpp>
 #include <foundations/resources/text.hpp>
 
@@ -47,7 +47,8 @@
 #include "scene/components/light.hpp"
 #include "scene/components/model.hpp"
 #include "scene/components/physics_body.hpp"
-#include "scene/components/property_animation.hpp"
+#include "scene/components/animator.hpp"
+#include "scene/components/script_collection.hpp"
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
 #include "scene/components/viewport.hpp"

@@ -7,16 +7,12 @@ SceneLayer:
     name: "Background"
     transform: default
     Sprite:
-      image: "Image::default"
+      image: "Image::#FF0000"
   Entity:
     name: "Camera"
     transform: default
     Camera: 
       viewport_target_entity: "Background"
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
 SceneLayer:
   name: "Foreground SceneLayer"
   spatial_dimension: 3
@@ -113,10 +109,6 @@ SceneLayer:
       audio: ["games/pong/audio/click.ogg"]
     ScriptCollection:
       Python: ["games/pong/scripts/python/ball_collision_sounds.py"]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
   Entity:
     name: "UpperBoundary"
     parent: "GlobalShaderEntity"

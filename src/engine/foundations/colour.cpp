@@ -42,14 +42,11 @@ Omnific::Colour::Colour(std::string hex)
 		this->set_rgb(value);
 	else if (input_string.length() == 8)
 		this->set_rgba(value);
-
-	this->type = TYPE_STRING;
 }
 
 Omnific::Colour::Colour(uint32_t value)
 {
 	this->set_rgba(value);
-	this->type = TYPE_STRING;
 }
 
 Omnific::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
@@ -58,7 +55,6 @@ Omnific::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 	this->green = float(green) / 255.0;
 	this->blue = float(blue) / 255.0;
 	this->alpha = float(alpha) / 255.0;
-	this->type = TYPE_STRING;
 }
 
 Omnific::Colour::Colour(double red, double green, double blue, double alpha)
@@ -67,7 +63,6 @@ Omnific::Colour::Colour(double red, double green, double blue, double alpha)
 	this->green = green;
 	this->blue = blue;
 	this->alpha = alpha;
-	this->type = TYPE_STRING;
 }
 
 uint8_t Omnific::Colour::get_red()

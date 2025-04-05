@@ -20,19 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "property_animation.hpp"
+#pragma once
 
-void Omnific::PropertyAnimation::deserialize(YAML::Node yaml_node)
+#include "foundations/aliases.hpp"
+#include <vector>
+#include "foundations/constants.hpp"
+#include <stdint.h>
+#include "scene/components/component.hpp"
+
+namespace Omnific
 {
-	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
+	class OMNIFIC_ENGINE_API Animator : public Component
 	{
-		if (it3->first.as<std::string>() == "default")
-		{
+	public:
+		float value = 0.0;
+		std::vector<float> key_frames;
+		float duration = 0.0;
+		float playback_speed_percentage = 1.0;
+		float delay = 0.0;
+		float progress = 0.0;
+		float maximum_value = 0.0;
+		float minimum_value = 0.0;
+		uint8_t repeats = 0;
+		uint8_t repeat_count = 0;
+		bool is_playing = false;
 
-		}
-		else if (it3->first.as<std::string>() == "")
+		Animator()
 		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "PropertyAnimation";
 
+		virtual Registerable* instance() override
+		{
+			Animator* clone = new Animator(*this);
+			clone->id = UIDGenerator::get_new_uid();
+			return clone;
 		}
-	}
+		virtual void deserialize(YAML::Node yaml_node);
+	private:
+	};
 }

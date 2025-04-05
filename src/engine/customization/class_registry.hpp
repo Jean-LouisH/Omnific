@@ -45,7 +45,7 @@
 #include "scene/components/light.hpp"
 #include "scene/components/model.hpp"
 #include "scene/components/physics_body.hpp"
-#include "scene/components/property_animation.hpp"
+#include "scene/components/animator.hpp"
 #include "scene/components/script_collection.hpp"
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
@@ -96,7 +96,7 @@ namespace Omnific
 			registry->add<GUI, Component>();
 			registry->add<Light, Component>();
 			registry->add<PhysicsBody, Component>();
-			registry->add<PropertyAnimation, Component>();
+			registry->add<Animator, Component>();
 			registry->add<Model, Component>();
 			registry->add<ScriptCollection, Component>();
 			registry->add<Sprite, Component>();

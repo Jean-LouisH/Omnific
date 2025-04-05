@@ -27,14 +27,48 @@
 #include <foundations/resources/shader.hpp>
 #include <memory>
 #include <glm.hpp>
+#include <foundations/resources/mesh.hpp>
 #include <engine_api.hpp>
-#include "foundations/resources/mesh.hpp"
-#include "foundations/resources/material.hpp"
-#include "foundations/resources/skeletal_animation.hpp"
-#include "foundations/resources/rig.hpp"
 
 namespace Omnific
 {
+	class OMNIFIC_ENGINE_API Material
+	{
+	public:
+		Material()
+		{
+			//this->albedo_map = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
+			// this->metallic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+			// this->specular_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+			// this->roughness_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+			// this->anisotropic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+			// this->normal_map = std::shared_ptr<Image>(new Image("Image::#8080FFFF"));
+			// this->emission_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+			// this->displacement_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+			// this->occlusion_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+		};
+
+		std::shared_ptr<Image> albedo_map;
+		std::shared_ptr<Image> metallic_map;
+		std::shared_ptr<Image> specular_map;
+		std::shared_ptr<Image> roughness_map;
+		std::shared_ptr<Image> anisotropic_map;
+		std::shared_ptr<Image> emission_map;
+		std::shared_ptr<Image> normal_map;
+		std::shared_ptr<Image> displacement_map;
+		std::shared_ptr<Image> occlusion_map;
+	};
+
+	class OMNIFIC_ENGINE_API Rig
+	{
+	public:
+	};
+
+	class OMNIFIC_ENGINE_API SkeletalAnimation
+	{
+	public:
+	};
+
 	class OMNIFIC_ENGINE_API Model : public Component
 	{
 	public:

@@ -13,10 +13,6 @@ SceneLayer:
       dimensions: [40.0, 30.0, 0.1]
     transform:
       translation: [0, 0, 1]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"	
 SceneLayer:
   name: "middleground"
   spatial_dimension: 3
@@ -35,10 +31,6 @@ SceneLayer:
       models: ["Model::cube"]
     ScriptCollection:
       Python: ["tests/scripts/python/middleground_cube_rotate.py"]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
 SceneLayer:
   name: "foreground"
   spatial_dimension: 3
@@ -65,10 +57,6 @@ SceneLayer:
     Sprite:
       image: "Image::default"
       dimensions: [50.0, 50.0, 0.1]
-  Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "ForegroundCamera"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

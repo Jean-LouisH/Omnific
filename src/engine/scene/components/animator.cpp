@@ -20,53 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "animator.hpp"
 
-#include "foundations/resources/resource.hpp"
-#include <stdint.h>
-#include <string>
-#include <engine_api.hpp>
-#include <glm.hpp>
-
-namespace Omnific
+void Omnific::Animator::deserialize(YAML::Node yaml_node)
 {
-	class OMNIFIC_ENGINE_API Colour : public Resource
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
-	public:
-		static constexpr const char* TYPE_STRING = "Colour";
-
-		Colour()
+		if (it3->first.as<std::string>() == "default")
 		{
-			this->type = TYPE_STRING;
-		};
-		Colour(std::string hex);
-		Colour(uint32_t value);
-		Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
-		Colour(double red, double green, double blue, double alpha);
 
-		virtual Registerable* instance() override
-		{
-			Colour* clone = new Colour(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
 		}
+		else if (it3->first.as<std::string>() == "")
+		{
 
-		uint8_t get_red();
-		uint8_t get_green();
-		uint8_t get_blue();
-		uint8_t get_alpha();
-		uint32_t get_rgb();
-		uint32_t get_rgba();
-		glm::vec3 get_rgb_in_vec3();
-		glm::vec4 get_rgba_in_vec4();
-		
-	private:
-		float red = 1.0;
-		float green = 1.0;
-		float blue = 1.0;
-		float alpha = 1.0;
-
-		void set_rgb(uint32_t value);
-		void set_rgba(uint32_t value);
-	};
+		}
+	}
 }

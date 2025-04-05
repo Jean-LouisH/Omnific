@@ -379,6 +379,16 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, indices));
 				std::shared_ptr<Material> material(new Material());
 
+				material->albedo_map = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
+				material->metallic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->specular_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->roughness_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+				material->anisotropic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->normal_map = std::shared_ptr<Image>(new Image("Image::#8080FFFF"));
+				material->emission_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->displacement_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->occlusion_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+
 				std::shared_ptr<Entity> entity(new Entity());
 				entity->parent_id = gltf_scene_root_entity->get_id();
 				scene_layer->add_entity(entity);
@@ -489,10 +499,6 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 						material->occlusion_map = this->read_gltfimage(gltf_model, occlusion_texture_index);
 					}
 
-				}
-				else
-				{
-					material->set_to_default();
 				}
 
 				if (gltf_node.translation.size() == 3)

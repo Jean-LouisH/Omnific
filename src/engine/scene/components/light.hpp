@@ -23,7 +23,7 @@
 #pragma once
 
 #include "scene/components/component.hpp"
-#include <foundations/resources/colour.hpp>
+#include <foundations/colour.hpp>
 
 namespace Omnific
 {

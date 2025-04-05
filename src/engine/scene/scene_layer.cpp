@@ -35,19 +35,11 @@ Omnific::SceneLayer::SceneLayer()
 {
 	this->id = UIDGenerator::get_new_uid();
 	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
-
-	// std::shared_ptr<Entity> camera_entity = std::shared_ptr<Entity>(new Entity());
-	// std::shared_ptr<Transform> camera_transform = std::shared_ptr<Transform>(new Transform());
-	// std::shared_ptr<Camera> camera = std::shared_ptr<Camera>(new Camera());
-	// camera_entity->set_name("Camera");
-	// this->add_entity(camera_entity);
-	// this->add_component_to_last_entity(camera_transform);
-	// this->add_component_to_last_entity(camera);
-	// std::shared_ptr<Entity> viewport_entity = std::shared_ptr<Entity>(new Entity());
-	// std::shared_ptr<Viewport> viewport = std::shared_ptr<Viewport>(new Viewport());
-	// this->add_entity(viewport_entity);
-	// viewport->set_camera_entity_name("Camera");
-	// this->add_component_to_last_entity(viewport);
+	std::shared_ptr<Entity> viewport_entity = std::shared_ptr<Entity>(new Entity());
+	std::shared_ptr<Viewport> viewport = std::shared_ptr<Viewport>(new Viewport());
+	this->add_entity(viewport_entity);
+	this->set_entity_name(viewport_entity->get_id(), "Viewport");
+	this->add_component_to_last_entity(viewport);
 }
 
 void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
@@ -117,6 +109,17 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 	{
 		entity->model_id = component->get_id();
 		this->render_order_index_cache.push_back(last_index);
+	}
+
+	std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name("Viewport");
+	std::shared_ptr<Viewport> viewport = this->get_component_by_type<Viewport>(viewport_entity->get_id());
+
+	if (viewport->get_camera_entity_name() == "")
+	{
+		if (std::dynamic_pointer_cast<Camera>(component) != nullptr)
+		{
+			viewport->set_camera_entity_name(entity->get_name());
+		}
 	}
 }
 

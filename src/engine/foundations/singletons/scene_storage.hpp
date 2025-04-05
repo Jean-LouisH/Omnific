@@ -33,11 +33,8 @@ namespace Omnific
 	/* Loads and stores multiple Scenes at once. */
 	class OMNIFIC_ENGINE_API SceneStorage
 	{
+		friend class Engine;
 	public:
-		static void pre_load_scene(std::shared_ptr<Scene> scene);
-		static void pre_load_scene(std::string filepath);
-		static void change_to_scene(std::shared_ptr<Scene> scene);
-		static void change_to_scene(std::string scene_name);
 		static void load_scene(std::shared_ptr<Scene> scene);
 		static void load_scene(std::string scene_name);
 		static void remove_scene(std::string scene_name);
@@ -55,6 +52,7 @@ namespace Omnific
 		std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> removed_scenes;
 		std::string active_scene_name;
+		std::shared_ptr<Scene> scene_change_request;
 		bool active_scene_changed = false;
 	};
 }

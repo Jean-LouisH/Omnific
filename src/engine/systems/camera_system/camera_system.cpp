@@ -41,7 +41,7 @@ void Omnific::CameraSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
-		this->set_viewports_to_model_widths(scene_layer_it.second);
+		this->autofit_viewports_to_model_widths(scene_layer_it.second);
 	}
 }
 
@@ -50,7 +50,7 @@ void Omnific::CameraSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnific::CameraSystem::set_viewports_to_model_widths(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::CameraSystem::autofit_viewports_to_model_widths(std::shared_ptr<SceneLayer> scene_layer)
 {
 	for (std::shared_ptr<Camera> camera: scene_layer->get_components_by_type<Camera>())
 	{

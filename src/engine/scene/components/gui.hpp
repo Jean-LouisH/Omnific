@@ -27,7 +27,7 @@
 #include <foundations/resources/default_assets/shaders/gui_element_glsl.hpp>
 #include "model.hpp"
 #include "scene/components/component.hpp"
-#include "foundations/resources/colour.hpp"
+#include "foundations/colour.hpp"
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -51,6 +51,7 @@ namespace Omnific
 			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
 			this->target_highlight_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
 			this->target_clicked_colour = std::shared_ptr<Colour>(new Colour(0.7, 0.7, 0.7, 1.0));
+			this->target_current_colour = target_default_background_colour;
 			this->dimensions = glm::vec2(0.0);
 			this->position = glm::vec2(0.0);
 		}
