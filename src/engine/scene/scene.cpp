@@ -379,7 +379,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, indices));
 				std::shared_ptr<Material> material(new Material());
 
-				material->albedo_map = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
+				material->albedo_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
 				material->metallic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
 				material->specular_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
 				material->roughness_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));

@@ -35,6 +35,10 @@ void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 	{
 		scene_storage->scenes.emplace(scene_name, scene);
 	}
+	else
+	{
+		scene_storage->scenes.at(scene_name)->reload();
+	}
 
 	scene_storage->active_scene_name = scene_name;
 	scene_storage->active_scene_changed = true;

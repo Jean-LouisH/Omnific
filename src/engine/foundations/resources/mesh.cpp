@@ -30,8 +30,6 @@ Omnific::Mesh::Mesh(std::string filepath)
 		this->set_to_cube();
     else if (filepath == "Mesh::quad")
         this->set_to_quad();
-    else if (filepath == "Mesh::plane")
-        this->set_to_plane();
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
@@ -204,30 +202,6 @@ void Omnific::Mesh::set_to_quad()
     std::vector<float> bitangents;
 
     this->populate_data(quad_positions, quad_texture_coords, normals, tangents, bitangents, quad_indices);
-}
-
-void Omnific::Mesh::set_to_plane()
-{
-    const std::vector<float> plane_positions =
-    {
-
-    };
-
-    const std::vector<float> plane_texture_coords =
-    {
-
-    };
-
-    const std::vector<uint32_t> plane_indices =
-    {
-
-    };
-
-    std::vector<float> normals;
-    std::vector<float> tangents;
-    std::vector<float> bitangents;
-
-    this->populate_data(plane_positions, plane_texture_coords, normals, tangents, bitangents, plane_indices);
 }
 
 void Omnific::Mesh::populate_data(

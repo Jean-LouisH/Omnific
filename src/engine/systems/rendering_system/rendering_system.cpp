@@ -420,72 +420,75 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 		{
 			std::shared_ptr<Viewport> ui_viewport = ui_viewports.at(i);
 			std::shared_ptr<Entity> camera_entity = scene_layer->get_entity_by_name(ui_viewport->get_camera_entity_name());
-			std::shared_ptr<Camera> camera = scene_layer->get_component_by_type<Camera>(camera_entity->get_id());
-			RenderableLayer renderable_layer;
-			std::shared_ptr<Transform> camera_transform = camera_entity->get_transform();
-
-			renderable_layer.is_2d = scene_layer->is_2d;
-			renderable_layer.camera = camera;
-			renderable_layer.camera_transform = camera_transform;
-
-			for (std::shared_ptr<Light> light : scene_layer->get_components_by_type<Light>())
+			if (camera_entity != nullptr)
 			{
-				renderable_layer.lights.push_back(light);
-				renderable_layer.light_transforms.push_back(scene_layer->get_entity(light->get_entity_id())->get_transform());
-			}
-
-			/* Entity RenderableLayer for each Viewport*/
-			for (int i = 0; i < render_order_index_cache.size(); i++)
-			{
-				Renderable entity_renderable;
-				std::shared_ptr<Model> renderable_component =
-					std::dynamic_pointer_cast<Model>(scene_layer->get_components().at(render_order_index_cache.at(i)));
-
-				/* GUI Components are deferred to a final RenderableLayer, 
-				   while other Renderables are in the usual order. */
-				if (renderable_component->is_type(GUI::TYPE_STRING))
+				std::shared_ptr<Camera> camera = scene_layer->get_component_by_type<Camera>(camera_entity->get_id());
+				RenderableLayer renderable_layer;
+				std::shared_ptr<Transform> camera_transform = camera_entity->get_transform();
+	
+				renderable_layer.is_2d = scene_layer->is_2d;
+				renderable_layer.camera = camera;
+				renderable_layer.camera_transform = camera_transform;
+	
+				for (std::shared_ptr<Light> light : scene_layer->get_components_by_type<Light>())
 				{
-					gui_renderable_components.push_back(renderable_component);
-					gui_scene_layers.push_back(scene_layer);
+					renderable_layer.lights.push_back(light);
+					renderable_layer.light_transforms.push_back(scene_layer->get_entity(light->get_entity_id())->get_transform());
 				}
-				else
+	
+				/* Entity RenderableLayer for each Viewport*/
+				for (int i = 0; i < render_order_index_cache.size(); i++)
 				{
-					std::shared_ptr<Entity> entity = scene_layer->get_entity(renderable_component->get_entity_id());
-					entity_renderable.entity_name = entity->get_name();
-					entity_renderable.transform = entity->get_transform();
-					entity_renderable.model = renderable_component;
-					entity_renderable.scene_layer_id = scene_layer->get_id();
-					entity_renderable.entity_id = entity->get_id();
-
-					std::shared_ptr<Entity> top_entity = entity;
-					EntityID parent_entity_id = entity->parent_id;
-
-					/*Find the top entity of the hierarchy for the
-					  overriding shader. */
-					while (parent_entity_id != 0)
+					Renderable entity_renderable;
+					std::shared_ptr<Model> renderable_component =
+						std::dynamic_pointer_cast<Model>(scene_layer->get_components().at(render_order_index_cache.at(i)));
+	
+					/* GUI Components are deferred to a final RenderableLayer, 
+					   while other Renderables are in the usual order. */
+					if (renderable_component->is_type(GUI::TYPE_STRING))
 					{
-						top_entity = scene_layer->get_entity(parent_entity_id);
-						parent_entity_id = top_entity->parent_id;
+						gui_renderable_components.push_back(renderable_component);
+						gui_scene_layers.push_back(scene_layer);
 					}
-
-					if (top_entity->get_model_id() != 0)
+					else
 					{
-						std::shared_ptr<Model> renderable_component =
-							std::dynamic_pointer_cast<Model>(scene_layer->get_component_by_id(top_entity->get_model_id()));
-
-						std::shared_ptr<Shader> overriding_shader = renderable_component->get_overriding_shader();
-
-						if (overriding_shader != nullptr)
+						std::shared_ptr<Entity> entity = scene_layer->get_entity(renderable_component->get_entity_id());
+						entity_renderable.entity_name = entity->get_name();
+						entity_renderable.transform = entity->get_transform();
+						entity_renderable.model = renderable_component;
+						entity_renderable.scene_layer_id = scene_layer->get_id();
+						entity_renderable.entity_id = entity->get_id();
+	
+						std::shared_ptr<Entity> top_entity = entity;
+						EntityID parent_entity_id = entity->parent_id;
+	
+						/*Find the top entity of the hierarchy for the
+						  overriding shader. */
+						while (parent_entity_id != 0)
 						{
-							entity_renderable.overriding_shader = overriding_shader;
-							entity_renderable.overriding_shader_parameters = renderable_component->shader_parameters;
+							top_entity = scene_layer->get_entity(parent_entity_id);
+							parent_entity_id = top_entity->parent_id;
 						}
+	
+						if (top_entity->get_model_id() != 0)
+						{
+							std::shared_ptr<Model> renderable_component =
+								std::dynamic_pointer_cast<Model>(scene_layer->get_component_by_id(top_entity->get_model_id()));
+	
+							std::shared_ptr<Shader> overriding_shader = renderable_component->get_overriding_shader();
+	
+							if (overriding_shader != nullptr)
+							{
+								entity_renderable.overriding_shader = overriding_shader;
+								entity_renderable.overriding_shader_parameters = renderable_component->shader_parameters;
+							}
+						}
+	
+						renderable_layer.renderables.push_back(entity_renderable);
 					}
-
-					renderable_layer.renderables.push_back(entity_renderable);
 				}
+				renderable_layer_list.push_back(renderable_layer);
 			}
-			renderable_layer_list.push_back(renderable_layer);
 		}
 
 		this->renderable_layer_lists.push_back(renderable_layer_list);

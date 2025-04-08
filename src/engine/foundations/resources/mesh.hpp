@@ -85,7 +85,6 @@ namespace Omnific
 
 		void set_to_cube();
 		void set_to_quad();
-		void set_to_plane();
 
 		void populate_data(
 			std::vector<float> positions,

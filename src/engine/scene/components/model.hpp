@@ -35,19 +35,6 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Material
 	{
 	public:
-		Material()
-		{
-			//this->albedo_map = std::shared_ptr<Image>(new Image("Image::#CCCCCCCC"));
-			// this->metallic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
-			// this->specular_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
-			// this->roughness_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
-			// this->anisotropic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
-			// this->normal_map = std::shared_ptr<Image>(new Image("Image::#8080FFFF"));
-			// this->emission_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
-			// this->displacement_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
-			// this->occlusion_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
-		};
-
 		std::shared_ptr<Image> albedo_map;
 		std::shared_ptr<Image> metallic_map;
 		std::shared_ptr<Image> specular_map;

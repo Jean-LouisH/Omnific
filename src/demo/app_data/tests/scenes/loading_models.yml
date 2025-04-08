@@ -9,7 +9,8 @@ SceneLayer:
   Entity:
     name: "Camera"
     transform: default
-    Camera: default
+    Camera:
+      viewport_target_entity: "Image"
 SceneLayer:
   name: "foreground"
   spatial_dimension: 3
