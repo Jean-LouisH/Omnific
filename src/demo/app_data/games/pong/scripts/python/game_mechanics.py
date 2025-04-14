@@ -25,7 +25,7 @@ class omnific_script:
         omnific_script.reset_ball(self)
         omnific.get_component("AudioSource").play_infinitely()
 
-    def on_update(self):
+    def on_fixed_update(self):
         scene_layer = omnific.get_scene_layer()
         ball_entity = scene_layer.get_entity_by_name("Ball")
         ball_physics_body = scene_layer.get_component("PhysicsBody", ball_entity.get_id())

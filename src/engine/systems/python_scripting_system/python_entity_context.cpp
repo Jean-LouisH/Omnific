@@ -25,6 +25,7 @@
 #include "python_entity_context.hpp"
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
+#include <foundations/singletons/configuration.hpp>
 #include <foundations/constants.hpp>
 
 Omnific::PythonEntityContext* Omnific::PythonEntityContext::instance = nullptr;
@@ -77,6 +78,11 @@ std::shared_ptr<Omnific::Component> Omnific::PythonEntityContext::get_component(
 float Omnific::PythonEntityContext::get_time_delta()
 {
 	return Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds();
+}
+
+float Omnific::PythonEntityContext::get_fixed_time_delta()
+{
+	return (float)((double)(Configuration::get_instance()->performance_settings.fixed_frame_time) / MS_IN_S);
 }
 
 Omnific::PythonEntityContext* Omnific::PythonEntityContext::get_instance()

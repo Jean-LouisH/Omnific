@@ -8,7 +8,7 @@ class omnific_script:
         self.enable_ai_mode = True
         pass
 
-    def on_update(self):
+    def on_fixed_update(self):
         inputs = omnific.get_inputs()
 
         if inputs.is_on_release("p"):

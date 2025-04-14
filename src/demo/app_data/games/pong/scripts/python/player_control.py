@@ -6,7 +6,7 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_update(self):
+    def on_fixed_update(self):
         physics_body = omnific.get_component("PhysicsBody")
         inputs = omnific.get_inputs()
 

@@ -20,44 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "animation_system.hpp"
-#include "scene/scene.hpp"
-#include <foundations/singletons/configuration.hpp>
-#include <foundations/singletons/platform/platform.hpp>
+#pragma once
 
-#include <scene/components/sprite.hpp>
+#include <foundations/aliases.hpp>
+#include <foundations/constants.hpp>
+#include "scene/components/component.hpp"
 
-Omnific::AnimationSystem::~AnimationSystem()
+namespace Omnific
 {
-	this->finalize();
-}
-
-void Omnific::AnimationSystem::initialize()
-{
-	this->is_initialized = true;
-	Platform::get_logger().write("Initialized Animation System");
-}
-
-void Omnific::AnimationSystem::on_fixed_update(std::shared_ptr<Scene> scene)
-{
-	for (const auto scene_layer_it : scene->get_scene_layers())
+	class OMNIFIC_ENGINE_API PhysicsConstraint : public Component
 	{
-		this->update_sprites(scene_layer_it.second);
-	}
-}
+	public:
+	PhysicsConstraint()
+		{
 
-void Omnific::AnimationSystem::finalize()
-{
-	this->is_initialized = false;
-}
+		};
+		static constexpr const char* TYPE_STRING = "PhysicsConstraint";
 
-void Omnific::AnimationSystem::update_sprites(std::shared_ptr<SceneLayer> scene_layer)
-{
-	const uint32_t ms_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time;
-	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();
+		virtual Registerable* instance() override
+		{
+			PhysicsConstraint* clone = new PhysicsConstraint(*this);
+			clone->id = UIDGenerator::get_new_uid();
+			return clone;
+		}
+		virtual void deserialize(YAML::Node yaml_node);
+	private:
 
-	for (size_t i = 0; i < sprite_containers.size(); i++)
-	{
-		sprite_containers.at(i)->update(ms_per_fixed_update * 1.0 / MS_IN_S);
-	}
+	};
 }

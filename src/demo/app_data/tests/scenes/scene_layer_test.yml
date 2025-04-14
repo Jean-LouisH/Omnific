@@ -1,18 +1,15 @@
 SceneLayer:
   name: "background"
-  spatial_dimension: 3
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 30]
-    Camera: "default"
+  spatial_dimension: 2
   Entity:
     name: "Background"
     Sprite:
       image: "tests/images/brown_wooden_planks_edited.jpg"
       dimensions: [40.0, 30.0, 0.1]
-    transform:
-      translation: [0, 0, 1]
+  Entity:
+    name: "Camera"
+    Camera:
+      viewport_target_entity: "Background"
 SceneLayer:
   name: "middleground"
   spatial_dimension: 3
@@ -27,8 +24,11 @@ SceneLayer:
     transform:
       translation: [0, 15, -5]
       scale: [25, 25, 25]
-    ModelContainer:
-      models: ["Model::cube"]
+    Model:
+      mesh: "Mesh::cube"
+      albedo: "tests/images/brown_wooden_planks_edited.jpg"
+      shader: 
+        preset: "Shader::UNLIT"
     ScriptCollection:
       Python: ["tests/scripts/python/middleground_cube_rotate.py"]
 SceneLayer:
@@ -47,6 +47,9 @@ SceneLayer:
       scale: [25, 25, 25]
     Model:
       mesh: "Mesh::cube"
+      albedo: "tests/images/scraped_from_the_black.jpg"
+      shader: 
+        preset: "Shader::UNLIT"
     ScriptCollection:
       Python: ["tests/scripts/python/foreground_cube_rotate.py"]
   Entity:
@@ -55,8 +58,10 @@ SceneLayer:
       translation: [0, 0, -5]
       rotation: [-90, 0, 0]
     Sprite:
-      image: "Image::default"
+      image: "Image::#00FF00"
       dimensions: [50.0, 50.0, 0.1]
+      shader: 
+        preset: "Shader::UNLIT"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

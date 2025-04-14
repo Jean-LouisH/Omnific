@@ -1,36 +1,13 @@
 # Components Demonstration
 
 SceneLayer:
-  name: "Background SceneLayer"
-  spatial_dimension: 2
-  Entity:
-    name: "Background Image"
-    transform: default
-    Sprite:
-      image: "Image::#444444FF"
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 1]
-    Camera:
-      viewport_target_entity: "Background Image"
-SceneLayer:
   name: "Foreground SceneLayer"
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    transform: default
     Model:
       overriding_shader:
-        fragment: "tests/shaders/unlit.glsl"
-  Entity:
-    name: "ScriptableShaderEntity"
-    transform: default
-    Model:
-      overriding_shader:
-        fragment: "tests/shaders/unlit_and_coloured.glsl"
-    ScriptCollection:
-      Python: ["tests/scripts/python/rainbow.py"]
+        preset: "Shader::UNLIT"
   Entity:
     name: "Model"
     parent: "GlobalShaderEntity"
@@ -51,7 +28,7 @@ SceneLayer:
     parent: "Model + PhysicsBody"
   Entity:
     name: "Model + PhysicsBody + ScriptCollection"
-    parent: "ScriptableShaderEntity"
+    parent: "GlobalShaderEntity"
     transform:
       translation: [5.0, 0.0, 0.0]
     PhysicsBody:

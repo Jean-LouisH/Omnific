@@ -30,6 +30,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Configuration
 	{
+		friend class Engine;
 	public:
 		struct Metadata
 		{
@@ -71,14 +72,14 @@ namespace Omnific
 			bool rendering_system;
 		} enabled_systems;
 
-		//Status
-		bool is_loaded = false;
-
 		static void load_from_file(std::string boot_filepath);
 		static uint32_t get_max_target_fps();
 
 		static Configuration* get_instance();
 	private:
 		static Configuration* instance;
+
+		//Status
+		bool is_loaded = false;
 	};
 }

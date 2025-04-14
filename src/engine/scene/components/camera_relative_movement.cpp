@@ -20,44 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "animation_system.hpp"
-#include "scene/scene.hpp"
-#include <foundations/singletons/configuration.hpp>
-#include <foundations/singletons/platform/platform.hpp>
+#include "camera_relative_movement.hpp"
 
-#include <scene/components/sprite.hpp>
-
-Omnific::AnimationSystem::~AnimationSystem()
+void Omnific::CameraRelativeMovement::deserialize(YAML::Node yaml_node)
 {
-	this->finalize();
-}
-
-void Omnific::AnimationSystem::initialize()
-{
-	this->is_initialized = true;
-	Platform::get_logger().write("Initialized Animation System");
-}
-
-void Omnific::AnimationSystem::on_fixed_update(std::shared_ptr<Scene> scene)
-{
-	for (const auto scene_layer_it : scene->get_scene_layers())
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
-		this->update_sprites(scene_layer_it.second);
-	}
-}
+		if (it3->first.as<std::string>() == "")
+		{
 
-void Omnific::AnimationSystem::finalize()
-{
-	this->is_initialized = false;
-}
-
-void Omnific::AnimationSystem::update_sprites(std::shared_ptr<SceneLayer> scene_layer)
-{
-	const uint32_t ms_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time;
-	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();
-
-	for (size_t i = 0; i < sprite_containers.size(); i++)
-	{
-		sprite_containers.at(i)->update(ms_per_fixed_update * 1.0 / MS_IN_S);
+		}
 	}
 }

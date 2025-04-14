@@ -306,6 +306,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("get_scene", &Omnific::PythonEntityContext::get_scene);
 	m.def("get_scene_layer", &Omnific::PythonEntityContext::get_scene_layer);
 	m.def("get_time_delta", &Omnific::PythonEntityContext::get_time_delta);
+	m.def("get_fixed_time_delta", &Omnific::PythonEntityContext::get_fixed_time_delta);
 
 	m.def("get_shared_library_access", &Omnific::Platform::get_shared_library_access, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnific::Platform::get_file_access, pybind11::return_value_policy::reference);

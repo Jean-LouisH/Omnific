@@ -35,6 +35,8 @@ namespace Omnific
 	enum class CollisionShapeType
 	{
 		BOX,
+		SPHERE,
+		CAPSULE,
 		MESH
 	};
 

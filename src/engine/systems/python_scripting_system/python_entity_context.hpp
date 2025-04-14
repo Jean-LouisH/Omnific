@@ -52,6 +52,7 @@ namespace Omnific
 		static std::shared_ptr<SceneLayer> get_scene_layer();
 		static std::shared_ptr<Component> get_component(std::string type);
 		static float get_time_delta();
+		static float get_fixed_time_delta();
 
 		static PythonEntityContext* get_instance();
 	private:

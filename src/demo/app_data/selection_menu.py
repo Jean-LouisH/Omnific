@@ -3,14 +3,10 @@ import sys
 
 
 project_name_type_pairs = {
-    "paper_airplanes": "game",
     "pong": "game",
     "gui_test": "test",
-    "components_demonstration": "test",
-    "entity_tree_rotation_demo": "test",
-    "event_bus": "test",
-    "loading_models": "test",
-    "scene_tree_layers": "test"
+    "entity_tree_rotation_test": "test",
+    "models_test": "test",
     }
 
 

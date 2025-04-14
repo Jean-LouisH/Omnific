@@ -5,10 +5,9 @@ SceneLayer:
   spatial_dimension: 3
   Entity:
     name: "GlobalShaderEntity"
-    transform: default
     Model:
       overriding_shader:
-        fragment: "tests/shaders/unlit.glsl"
+        preset: "Shader::UNLIT"
   Entity:
     name: "Model1"
     parent: "GlobalShaderEntity"
@@ -18,19 +17,22 @@ SceneLayer:
       Python: ["tests/scripts/python/z_rotation.py"]
     Model:
       mesh: "Mesh::cube"
+      albedo: "Image::#FF0000"
   Entity:
     name: "Model2"
     parent: "Model1"
     transform:
-      translation: [0.0, -1.0, 0.0]
+      translation: [0.0, -1.2, 0.0]
     Model:
       mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
+    ScriptCollection:
+      Python: ["tests/scripts/python/x_vibration.py"]
   Entity:
     name: "Camera"
     transform:
-      translation: [0, -2, 10]
-    Camera:
-      wireframe_mode: true
+      translation: [0, 0, 5]
+    Camera: default
     ScriptCollection:
       Python: ["tests/scripts/python/camera_control.py"]
   Entity:

@@ -5,8 +5,8 @@ class omnific_script:
     def __init__(self):
         pass
 
-    def on_update(self):
-        movement_speed = 1.0
+    def on_fixed_update(self):
+        movement_speed = 1.0 * omnific.movement_speed
         input = omnific.get_inputs()
         transform = omnific.get_transform()
 
