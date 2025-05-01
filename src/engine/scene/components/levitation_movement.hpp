@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API LevitationMovement : public Component
 	{
 	public:
-	LevitationMovement()
+		LevitationMovement()
 		{
 
 		};

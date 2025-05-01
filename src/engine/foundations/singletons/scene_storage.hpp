@@ -54,5 +54,6 @@ namespace Omnific
 		std::string active_scene_name;
 		std::shared_ptr<Scene> scene_change_request;
 		bool active_scene_changed = false;
+		std::string active_scene_last_modified_time;
 	};
 }

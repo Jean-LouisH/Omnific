@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API AIPerception : public Component
 	{
 	public:
-	AIPerception()
+		AIPerception()
 		{
 
 		};

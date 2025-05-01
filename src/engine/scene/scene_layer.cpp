@@ -52,7 +52,7 @@ void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 	this->entities.emplace(entity->id, entity);
 	this->last_entity_id = entity->id;
 	this->set_entity_name(entity->id, entity->name);
-	EventBus::publish(OMNIFIC_EVENT_ENTITY_ADDED);
+	EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
 }
 
 void Omnific::SceneLayer::add_empty_entity()
@@ -68,14 +68,14 @@ void Omnific::SceneLayer::set_entity_name(EntityID entity_id, std::string name)
 
 	this->get_entity(entity_id)->name = name;
 	this->entity_names.emplace(name, entity_id);
-	EventBus::publish(OMNIFIC_EVENT_ENTITY_NAME_SET);
+	EventBus::publish_event(OMNIFIC_EVENT_ENTITY_NAME_SET);
 }
 
 void Omnific::SceneLayer::add_entity_tag(EntityID entity_id, std::string tag)
 {
 	this->get_entity(entity_id)->tags.push_back(tag);
 	this->entity_tags.emplace(tag, entity_id);
-	EventBus::publish(OMNIFIC_EVENT_ENTITY_TAG_SET);
+	EventBus::publish_event(OMNIFIC_EVENT_ENTITY_TAG_SET);
 }
 
 void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Component> component)
@@ -103,7 +103,7 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 		this->component_index_caches.emplace(type, component_indices);
 	}
 
-	EventBus::publish(OMNIFIC_EVENT_COMPONENT_ADDED);
+	EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED);
 
 	if (component->is_renderable())
 	{
@@ -162,7 +162,7 @@ void Omnific::SceneLayer::remove_entity(EntityID entity_id)
 		/* Remove the entity itself*/
 
 		this->entities.erase(entity_id);
-		EventBus::publish(OMNIFIC_EVENT_ENTITY_REMOVED);
+		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_REMOVED);
 	}
 }
 
@@ -193,7 +193,7 @@ void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 				}
 			}
 
-			EventBus::publish(OMNIFIC_EVENT_COMPONENT_REMOVED);
+			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED);
 
 			/* Rebuild index caches */
 

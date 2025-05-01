@@ -33,6 +33,13 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Mesh : public Resource
 	{
 	public:
+		enum class PrimitiveMode
+		{
+			TRIANGLES,
+			POINTS,
+			LINE_STRIP
+		};
+
 		Mesh() 
 		{ 
 			this->type = TYPE_STRING;
@@ -40,6 +47,8 @@ namespace Omnific
 		static constexpr const char* TYPE_STRING = "Mesh";
 
 		Mesh(std::string filepath);
+		Mesh(std::vector<float> positions,
+			PrimitiveMode primitive_mode);
 		Mesh(std::vector<float> positions,
 			std::vector<float> texture_coords);
 		Mesh(std::vector<float> positions,
@@ -79,9 +88,11 @@ namespace Omnific
 		}
 
 		bool get_is_indexed();
+		PrimitiveMode get_primitive_mode();
 
 	private:
 		bool is_indexed = true;
+		PrimitiveMode primitive_mode = PrimitiveMode::TRIANGLES;
 
 		void set_to_cube();
 		void set_to_quad();

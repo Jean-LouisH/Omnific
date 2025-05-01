@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Particles : public Component
 	{
 	public:
-	Particles()
+		Particles()
 		{
 
 		};

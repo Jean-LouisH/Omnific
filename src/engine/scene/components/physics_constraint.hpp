@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API PhysicsConstraint : public Component
 	{
 	public:
-	PhysicsConstraint()
+		PhysicsConstraint()
 		{
 
 		};

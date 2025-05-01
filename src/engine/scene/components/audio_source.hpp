@@ -79,6 +79,7 @@ namespace Omnific
 		void set_volume(float value);
 		float get_volume();
 		float get_current_playback_time();
+		PlaybackState get_playback_state();
 		std::vector<std::string> get_audio_names();
 		std::shared_ptr<Audio> get_active_audio();
 		std::shared_ptr<Audio> get_audio_by_name(std::string audio_name);

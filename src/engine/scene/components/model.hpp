@@ -71,6 +71,7 @@ namespace Omnific
 		{
 			this->type = TYPE_STRING;
 			this->shader_parameters = std::shared_ptr<ShaderParameters>(new ShaderParameters());
+			this->highlight_colour = std::shared_ptr<Colour>(new Colour("#FFFFFF00"));
 		};
 		static constexpr const char* TYPE_STRING = "Model";
 
@@ -109,6 +110,7 @@ namespace Omnific
 		bool is_renderable() override;
 		glm::vec3 get_dimensions();
 
+		std::shared_ptr<Colour> highlight_colour;
 		std::shared_ptr<Mesh> mesh;
 		std::shared_ptr<Material> material;
 		std::shared_ptr<Rig> rig;

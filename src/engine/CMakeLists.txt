@@ -32,7 +32,6 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	)
 else()
 	set (THIRD_PARTY_PROJECTS ${THIRD_PARTY_PROJECTS} glad)
-	find_package(OpenAL REQUIRED)
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
 
@@ -49,7 +48,6 @@ else()
 
 	target_link_libraries (omnific_engine 
 		${THIRD_PARTY_PROJECTS}
-		OpenAL::OpenAL
 		SDL2::SDL2
 		${SDL2_TTF_MODULE}
 		Python::Python

@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API ParticleForce : public Component
 	{
 	public:
-	ParticleForce()
+		ParticleForce()
 		{
 
 		};

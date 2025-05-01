@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API ConstantForce : public Component
 	{
 	public:
-	ConstantForce()
+		ConstantForce()
 		{
 
 		};

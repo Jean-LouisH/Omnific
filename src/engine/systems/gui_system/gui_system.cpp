@@ -53,7 +53,7 @@ void Omnific::GUISystem::on_early_update(std::shared_ptr<Scene> scene)
 	{
 		numbers.emplace((std::string)"drop_file_window_id", (double)inputs.get_drop_file_window_id());
 		strings.emplace((std::string)"drop_file_path", inputs.get_drop_file_path());
-		EventBus::publish("file dropped on window", strings, numbers);
+		EventBus::publish_event("file dropped on window", strings, numbers);
 	}
 
 	glm::vec2 mouse_position = inputs.get_mouse_position();

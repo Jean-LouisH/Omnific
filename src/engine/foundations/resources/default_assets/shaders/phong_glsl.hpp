@@ -39,6 +39,7 @@ namespace Omnific
             in vec3 normal;
             in vec3 fragment_translation;
             out vec4 colour;
+            uniform vec4 highlight_colour;
             uniform int light_count;
             uniform int light_modes[MAX_LIGHTS];
             uniform vec3 light_colours[MAX_LIGHTS];
@@ -65,6 +66,7 @@ namespace Omnific
                 vec3 diffuse = max(dot(normal_direction, light_direction), 0.0) * light_colour;
                 vec3 specular = pow(max(dot(view_direction, reflection_direction), 0.0), shininess) * specular_intensity * light_colour;
                 colour = vec4(ambient + diffuse + specular, 1.0) * texture(albedo_texture_sampler, uv);
+                colour = mix(colour, highlight_colour, highlight_colour.a);
                 colour.a *= alpha;
             }
         )";

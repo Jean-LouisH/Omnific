@@ -159,7 +159,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 						OMNIFIC_EVENT_ENTITY_IS_COLLIDING, 
 						collision_event_key))
 					{
-						EventBus::publish(
+						EventBus::publish_event(
 							OMNIFIC_EVENT_ENTITY_IS_ON_COLLISION, 
 							strings, 
 							{}, 
@@ -167,7 +167,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 							components, 
 							collision_event_key);
 
-						EventBus::publish(
+						EventBus::publish_event(
 							OMNIFIC_EVENT_ENTITY_IS_COLLIDING, 
 							strings, 
 							{}, 
@@ -186,7 +186,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 					strings.emplace("collider_name", entity1->get_name());
 					strings.emplace("other_collider_name", entity2->get_name());
 					EventBus::remove_continuous_event(OMNIFIC_EVENT_ENTITY_IS_COLLIDING, collision_event_key);
-					EventBus::publish(OMNIFIC_EVENT_ENTITY_IS_OFF_COLLISION, strings);
+					EventBus::publish_event(OMNIFIC_EVENT_ENTITY_IS_OFF_COLLISION, strings);
 				}
 			}
 		}

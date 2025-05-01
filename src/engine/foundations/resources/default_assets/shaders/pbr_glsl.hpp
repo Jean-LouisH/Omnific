@@ -42,6 +42,7 @@ namespace Omnific
             in vec3 normal;
             in vec3 fragment_translation;
             out vec4 colour;
+            uniform vec4 highlight_colour;
             uniform int light_count;
             uniform int light_modes[MAX_LIGHTS];
             uniform vec3 light_colours[MAX_LIGHTS];
@@ -165,6 +166,7 @@ namespace Omnific
 
                 vec3 ambient = vec3(0.03) * albedo;
                 vec3 outgoing_light = emitted_light + reflected_light + ambient;
+                colour = mix(colour, highlight_colour, highlight_colour.a);
                 colour = vec4(outgoing_light, 1.0);
             }  
         )";

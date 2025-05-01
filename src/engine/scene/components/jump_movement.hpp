@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API JumpMovement : public Component
 	{
 	public:
-	JumpMovement()
+		JumpMovement()
 		{
 
 		};

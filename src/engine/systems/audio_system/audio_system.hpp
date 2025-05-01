@@ -26,14 +26,6 @@
 #include <memory>
 #include "scene/scene.hpp"
 #include "systems/system.hpp"
-#include <foundations/singletons/event_bus.hpp>
-#include <foundations/resources/audio.hpp>
-#include <scene/components/audio_source.hpp>
-#include <scene/components/audio_listener.hpp>
-#include <scene/components/physics_body.hpp>
-#include "audio_backends/openal_audio_backend/openal_audio_backend.hpp"
-#include <al.h>
-#include <alc.h>
 
 namespace Omnific
 {
@@ -55,12 +47,11 @@ namespace Omnific
 		virtual void on_output(std::shared_ptr<Scene> scene) override;
 		virtual void finalize() override;
 
-		ALCdevice* alc_device;
-		ALCcontext* alc_context;
-		bool has_eax2_0_extension = false;
+		SDL_AudioDeviceID device_id;
 	private:
-		std::shared_ptr<OpenALAudioBackend> openal_backend;
-		bool song_playing = false;
+		const int mix_sample_frequency = 44100;
+		const int mix_samples_per_channel = 1024;
+		const int mix_channel_count = 2;
 	};
 }
 

@@ -188,166 +188,188 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 					this->opengl_backend->enable_blending();
 
 					std::shared_ptr<Mesh> mesh = renderable.model->mesh;
-					std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(mesh);
-					vertex_array->bind();
 
-					std::shared_ptr<Material> material = renderable.model->material;
-					this->opengl_backend->get_texture(material->albedo_map)->bind(OpenGLTexture::Unit::_0);
-					this->opengl_backend->get_texture(material->metallic_map)->bind(OpenGLTexture::Unit::_1);
-					this->opengl_backend->get_texture(material->roughness_map)->bind(OpenGLTexture::Unit::_2);
-					this->opengl_backend->get_texture(material->emission_map)->bind(OpenGLTexture::Unit::_3);
-					this->opengl_backend->get_texture(material->normal_map)->bind(OpenGLTexture::Unit::_4);
-					this->opengl_backend->get_texture(material->occlusion_map)->bind(OpenGLTexture::Unit::_5);
-
-					std::shared_ptr<OpenGLShaderProgram> shader_program;
-
-					if (shader != nullptr)
+					if (mesh != nullptr)
 					{
-						AssetID shader_id = shader->get_id();
-						std::string default_vertex_input;
-						std::string default_fragment_input;
+						std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(mesh);
+						vertex_array->bind();
 
-						if (renderable_layer.is_2d)
+						std::shared_ptr<Material> material = renderable.model->material;
+						this->opengl_backend->get_texture(material->albedo_map)->bind(OpenGLTexture::Unit::_0);
+						this->opengl_backend->get_texture(material->metallic_map)->bind(OpenGLTexture::Unit::_1);
+						this->opengl_backend->get_texture(material->roughness_map)->bind(OpenGLTexture::Unit::_2);
+						this->opengl_backend->get_texture(material->emission_map)->bind(OpenGLTexture::Unit::_3);
+						this->opengl_backend->get_texture(material->normal_map)->bind(OpenGLTexture::Unit::_4);
+						this->opengl_backend->get_texture(material->occlusion_map)->bind(OpenGLTexture::Unit::_5);
+
+						std::shared_ptr<OpenGLShaderProgram> shader_program;
+
+						if (shader != nullptr)
 						{
-							default_vertex_input = this->opengl_backend->get_default_2d_vertex_input();
-							default_fragment_input = this->opengl_backend->get_default_2d_fragment_input();
+							AssetID shader_id = shader->get_id();
+							std::string default_vertex_input;
+							std::string default_fragment_input;
+
+							if (renderable_layer.is_2d)
+							{
+								default_vertex_input = this->opengl_backend->get_default_2d_vertex_input();
+								default_fragment_input = this->opengl_backend->get_default_2d_fragment_input();
+							}
+							else
+							{
+								default_vertex_input = this->opengl_backend->get_default_3d_vertex_input();
+								default_fragment_input = this->opengl_backend->get_default_3d_fragment_input();
+							}
+
+							if (!this->opengl_backend->shader_programs.count(shader_id))
+							{
+								std::shared_ptr<Shader> complete_shader;
+
+								//Check for a selected Shader preset. Otherwise, load custom shaders.
+								std::string preset = shader->get_preset();
+
+								if (renderable_layer.is_2d || (!renderable_layer.is_2d && preset == "Shader::CUSTOM"))
+								{
+									std::string vertex_source_input = default_vertex_input;
+									std::string fragment_source_input = default_fragment_input;
+
+									if (shader->get_vertex_source() != "")
+										vertex_source_input = shader->get_vertex_source();
+
+									if (shader->get_fragment_source() != "")
+										fragment_source_input = shader->get_fragment_source();
+
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										vertex_source_input,
+										fragment_source_input,
+										false,
+										false));
+								}
+								else if (preset == "Shader::LIGHT_SOURCE")
+								{
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										default_vertex_input,
+										this->opengl_backend->get_light_source_fragment_input(),
+										false,
+										false));
+								}
+								else if (preset == "Shader::UNLIT")
+								{
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										default_vertex_input,
+										this->opengl_backend->get_unlit_fragment_input(),
+										false,
+										false));
+								}
+								else if (preset == "Shader::PHONG")
+								{
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										default_vertex_input,
+										this->opengl_backend->get_phong_fragment_input(),
+										false,
+										false));
+								}
+								else if (preset == "Shader::PBR")
+								{
+									complete_shader = std::shared_ptr<Shader>(new Shader(
+										default_vertex_input,
+										this->opengl_backend->get_pbr_fragment_input(),
+										false,
+										false));
+								}
+
+								this->opengl_backend->shader_programs.emplace(
+									shader_id,
+									std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(complete_shader)));
+							}
+
+							shader_program = this->opengl_backend->shader_programs.at(shader_id);
+						}
+						else if (!renderable_layer.is_2d)
+						{
+							shader_program = this->opengl_backend->built_in_shader_program_3d;
 						}
 						else
 						{
-							default_vertex_input = this->opengl_backend->get_default_3d_vertex_input();
-							default_fragment_input = this->opengl_backend->get_default_3d_fragment_input();
+							shader_program = this->opengl_backend->built_in_shader_program_2d;
 						}
 
-						if (!this->opengl_backend->shader_programs.count(shader_id))
+						shader_program->use();
+
+						/* Custom uniforms. */
+						for (auto const& int_uniform_pair : shader_parameters->int_uniforms)
+							shader_program->set_int(int_uniform_pair.first, int_uniform_pair.second);
+
+						for (auto const& bool_uniform_pair : shader_parameters->bool_uniforms)
+							shader_program->set_bool(bool_uniform_pair.first, bool_uniform_pair.second);
+
+						for (auto const& float_uniform_pair : shader_parameters->float_uniforms)
+							shader_program->set_float(float_uniform_pair.first, float_uniform_pair.second);
+
+						for (auto const& vec2_uniform_pair : shader_parameters->vec2_uniforms)
+							shader_program->set_vec2(vec2_uniform_pair.first, vec2_uniform_pair.second);
+
+						for (auto const& vec3_uniform_pair : shader_parameters->vec3_uniforms)
+							shader_program->set_vec3(vec3_uniform_pair.first, vec3_uniform_pair.second);
+
+						for (auto const& vec4_uniform_pair : shader_parameters->vec4_uniforms)
+							shader_program->set_vec4(vec4_uniform_pair.first, vec4_uniform_pair.second);
+
+						for (auto const& mat4_uniform_pair : shader_parameters->mat4_uniforms)
+							shader_program->set_mat4(mat4_uniform_pair.first, mat4_uniform_pair.second);
+
+						/* Standard uniforms */
+						shader_program->set_mat4("mvp", mvp);
+						shader_program->set_mat4("model_to_world_matrix", model_to_world_matrix);
+						shader_program->set_mat4("world_to_model_matrix", glm::inverse(model_to_world_matrix));
+						shader_program->set_int("albedo_texture_sampler", 0);
+						shader_program->set_int("metallicity_texture_sampler", 1);
+						shader_program->set_int("roughness_texture_sampler", 2);
+						shader_program->set_int("emission_texture_sampler", 3);
+						shader_program->set_int("normal_texture_sampler", 4);
+						shader_program->set_int("occlusion_texture_sampler", 5);
+						shader_program->set_float("alpha", alpha);
+						shader_program->set_vec4("highlight_colour", renderable.model->highlight_colour->get_rgba_in_vec4());
+						shader_program->set_int("light_count", lights_count);
+						shader_program->set_int_array("light_modes", light_modes);
+						shader_program->set_vec3_array("light_colours", light_colours);
+						shader_program->set_vec3_array("shadow_colours", shadow_colours);
+						shader_program->set_float_array("light_intensities", light_intensities);
+						shader_program->set_float_array("light_ranges", light_ranges);
+						shader_program->set_bool_array("are_shadows_enabled", are_shadows_enabled);
+						shader_program->set_vec3_array("light_translations", light_translations);
+						shader_program->set_vec3_array("light_rotations", light_rotations);
+						shader_program->set_vec2("camera_viewport", renderable_layer.camera->get_viewport());
+						shader_program->set_vec3("camera_translation", renderable_layer.camera_transform->translation);
+						shader_program->set_vec3("camera_rotation", renderable_layer.camera_transform->rotation);
+						shader_program->set_vec3("entity_translation", renderable.transform->translation);
+						shader_program->set_vec3("entity_rotation", renderable.transform->rotation);
+						shader_program->set_vec3("entity_scale", renderable.transform->scale);
+
+						if (vertex_array->get_index_count() > 0)
 						{
-							std::shared_ptr<Shader> complete_shader;
-
-							//Check for a selected Shader preset. Otherwise, load custom shaders.
-							std::string preset = shader->get_preset();
-
-							if (renderable_layer.is_2d || (!renderable_layer.is_2d && preset == "Shader::CUSTOM"))
+							this->opengl_backend->draw_triangles_from_elements(vertex_array->get_index_count());
+						}
+						else
+						{
+							Mesh::PrimitiveMode primitive_mode = mesh->get_primitive_mode();
+							if (primitive_mode == Mesh::PrimitiveMode::TRIANGLES)
 							{
-								std::string vertex_source_input = default_vertex_input;
-								std::string fragment_source_input = default_fragment_input;
-
-								if (shader->get_vertex_source() != "")
-									vertex_source_input = shader->get_vertex_source();
-
-								if (shader->get_fragment_source() != "")
-									fragment_source_input = shader->get_fragment_source();
-
-								complete_shader = std::shared_ptr<Shader>(new Shader(
-									vertex_source_input,
-									fragment_source_input,
-									false,
-									false));
+								this->opengl_backend->draw_triangles_from_arrays(vertex_array->get_vertex_count());
 							}
-							else if (preset == "Shader::LIGHT_SOURCE")
+							else if (primitive_mode == Mesh::PrimitiveMode::POINTS)
 							{
-								complete_shader = std::shared_ptr<Shader>(new Shader(
-									default_vertex_input,
-									this->opengl_backend->get_light_source_fragment_input(),
-									false,
-									false));
+								this->opengl_backend->draw_points_from_arrays(vertex_array->get_vertex_count());
 							}
-							else if (preset == "Shader::UNLIT")
+							else if (primitive_mode == Mesh::PrimitiveMode::LINE_STRIP)
 							{
-								complete_shader = std::shared_ptr<Shader>(new Shader(
-									default_vertex_input,
-									this->opengl_backend->get_unlit_fragment_input(),
-									false,
-									false));
+								this->opengl_backend->draw_line_strip_from_arrays(vertex_array->get_vertex_count());
 							}
-							else if (preset == "Shader::PHONG")
-							{
-								complete_shader = std::shared_ptr<Shader>(new Shader(
-									default_vertex_input,
-									this->opengl_backend->get_phong_fragment_input(),
-									false,
-									false));
-							}
-							else if (preset == "Shader::PBR")
-							{
-								complete_shader = std::shared_ptr<Shader>(new Shader(
-									default_vertex_input,
-									this->opengl_backend->get_pbr_fragment_input(),
-									false,
-									false));
-							}
-
-							this->opengl_backend->shader_programs.emplace(
-								shader_id,
-								std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(complete_shader)));
 						}
 
-						shader_program = this->opengl_backend->shader_programs.at(shader_id);
+						vertex_array->unbind();
 					}
-					else if (!renderable_layer.is_2d)
-					{
-						shader_program = this->opengl_backend->built_in_shader_program_3d;
-					}
-					else
-					{
-						shader_program = this->opengl_backend->built_in_shader_program_2d;
-					}
-
-					shader_program->use();
-
-					/* Custom uniforms. */
-					for (auto const& int_uniform_pair : shader_parameters->int_uniforms)
-						shader_program->set_int(int_uniform_pair.first, int_uniform_pair.second);
-
-					for (auto const& bool_uniform_pair : shader_parameters->bool_uniforms)
-						shader_program->set_bool(bool_uniform_pair.first, bool_uniform_pair.second);
-
-					for (auto const& float_uniform_pair : shader_parameters->float_uniforms)
-						shader_program->set_float(float_uniform_pair.first, float_uniform_pair.second);
-
-					for (auto const& vec2_uniform_pair : shader_parameters->vec2_uniforms)
-						shader_program->set_vec2(vec2_uniform_pair.first, vec2_uniform_pair.second);
-
-					for (auto const& vec3_uniform_pair : shader_parameters->vec3_uniforms)
-						shader_program->set_vec3(vec3_uniform_pair.first, vec3_uniform_pair.second);
-
-					for (auto const& vec4_uniform_pair : shader_parameters->vec4_uniforms)
-						shader_program->set_vec4(vec4_uniform_pair.first, vec4_uniform_pair.second);
-
-					for (auto const& mat4_uniform_pair : shader_parameters->mat4_uniforms)
-						shader_program->set_mat4(mat4_uniform_pair.first, mat4_uniform_pair.second);
-
-					/* Standard uniforms */
-					shader_program->set_mat4("mvp", mvp);
-					shader_program->set_mat4("model_to_world_matrix", model_to_world_matrix);
-					shader_program->set_mat4("world_to_model_matrix", glm::inverse(model_to_world_matrix));
-					shader_program->set_int("albedo_texture_sampler", 0);
-					shader_program->set_int("metallicity_texture_sampler", 1);
-					shader_program->set_int("roughness_texture_sampler", 2);
-					shader_program->set_int("emission_texture_sampler", 3);
-					shader_program->set_int("normal_texture_sampler", 4);
-					shader_program->set_int("occlusion_texture_sampler", 5);
-					shader_program->set_float("alpha", alpha);
-					shader_program->set_int("light_count", lights_count);
-					shader_program->set_int_array("light_modes", light_modes);
-					shader_program->set_vec3_array("light_colours", light_colours);
-					shader_program->set_vec3_array("shadow_colours", shadow_colours);
-					shader_program->set_float_array("light_intensities", light_intensities);
-					shader_program->set_float_array("light_ranges", light_ranges);
-					shader_program->set_bool_array("are_shadows_enabled", are_shadows_enabled);
-					shader_program->set_vec3_array("light_translations", light_translations);
-					shader_program->set_vec3_array("light_rotations", light_rotations);
-					shader_program->set_vec2("camera_viewport", renderable_layer.camera->get_viewport());
-					shader_program->set_vec3("camera_translation", renderable_layer.camera_transform->translation);
-					shader_program->set_vec3("camera_rotation", renderable_layer.camera_transform->rotation);
-					shader_program->set_vec3("entity_translation", renderable.transform->translation);
-					shader_program->set_vec3("entity_rotation", renderable.transform->rotation);
-					shader_program->set_vec3("entity_scale", renderable.transform->scale);
-
-					if (vertex_array->get_index_count() > 0)
-						this->opengl_backend->draw_triangles_from_elements(vertex_array->get_index_count());
-					else
-						this->opengl_backend->draw_triangles_from_arrays(vertex_array->get_vertex_count());
-
-					vertex_array->unbind();
+				
 					this->opengl_backend->disable_blending();
 				}
 			}

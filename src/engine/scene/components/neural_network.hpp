@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API NeuralNetwork : public Component
 	{
 	public:
-	NeuralNetwork()
+		NeuralNetwork()
 		{
 
 		};

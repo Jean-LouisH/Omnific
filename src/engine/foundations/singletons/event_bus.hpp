@@ -82,11 +82,11 @@ namespace Omnific
 		friend class Engine;
 		friend class SceneStorage;
 	public:
-		static void publish(
+		static void publish_event(
 			Event event,
 			bool is_continuous = false);
 
-		static void publish(
+		static void publish_event(
 			std::string event_name,
 			std::unordered_map<std::string, std::string> strings = {},
 			std::unordered_map<std::string, double> numbers = {},

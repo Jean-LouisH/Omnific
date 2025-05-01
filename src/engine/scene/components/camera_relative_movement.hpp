@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API CameraRelativeMovement : public Component
 	{
 	public:
-	CameraRelativeMovement()
+		CameraRelativeMovement()
 		{
 
 		};

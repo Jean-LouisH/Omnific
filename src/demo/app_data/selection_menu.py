@@ -3,10 +3,23 @@ import sys
 
 
 project_name_type_pairs = {
-    "pong": "game",
+    "platformer" : "game",
+    "fps" : "game",
+    "racing" : "game",
+    "bullet_hell" : "game",
+    "flight_sim" : "game",
+    "clock" : "app",
+    "calculator" : "app",
+    "music_keyboard" : "app",
+    "drawing_editor" : "app",
+    "scene_inheritance_test" : "test",
+    "loaded_models_test" : "test",
+    "haptics_test" : "test",
+    "inputs_test" : "test",
+    "audio_test" : "test",
+    "physics_simulation_test" : "test",
+    "shader_test" : "test",
     "gui_test": "test",
-    "entity_tree_rotation_test": "test",
-    "models_test": "test",
     }
 
 
@@ -24,6 +37,7 @@ class omnific_script:
         pass
 
     def on_entity_start(self):
+        omnific.get_window().resize(853, 480)
         print("Python: " + sys.version)
         project_print_string = ""
 

@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API InputBuffer : public Component
 	{
 	public:
-	InputBuffer()
+		InputBuffer()
 		{
 
 		};

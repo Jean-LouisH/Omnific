@@ -221,6 +221,7 @@ void Omnific::Engine::run_loop()
 	}
 
 	std::shared_ptr<Scene> active_scene = SceneStorage::get_active_scene();
+	std::string name = active_scene->get_name();
 	std::shared_ptr<Clock> lag_clock = Profiler::get_clock(LAG_CLOCK_NAME);
 
 	std::shared_ptr<Clock> update_frame_skip_clock = Profiler::get_clock(UPDATE_FRAME_SKIP_CLOCK_NAME);

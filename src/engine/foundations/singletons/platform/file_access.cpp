@@ -26,6 +26,8 @@
 #include <algorithm>
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/platform/logger.hpp>
+#include <filesystem>
+#include <chrono>
 
 Omnific::FileAccess::FileAccess(std::string executable_filepath)
 {
@@ -179,6 +181,19 @@ std::string Omnific::FileAccess::get_path_before_file(std::string filepath)
 	path += "/";
 
 	return path;
+}
+
+std::string Omnific::FileAccess::get_last_modified_time(std::string filepath)
+{
+	std::filesystem::path file = filepath.c_str();
+	std::filesystem::file_time_type file_time = std::filesystem::last_write_time(file);
+	auto file_time_point = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+        file_time - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now()
+    );
+    std::time_t file_time_point_time_t = std::chrono::system_clock::to_time_t(file_time_point);
+    std::ostringstream oss;
+    oss << std::put_time(std::localtime(&file_time_point_time_t), "%F %T");
+    return oss.str(); 
 }
 
 bool Omnific::FileAccess::exists(std::string filepath)

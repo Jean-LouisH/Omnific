@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API ParticleCollider : public Component
 	{
 	public:
-	ParticleCollider()
+		ParticleCollider()
 		{
 
 		};

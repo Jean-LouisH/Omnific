@@ -33,6 +33,25 @@ Omnific::Mesh::Mesh(std::string filepath)
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
+    PrimitiveMode primitive_mode)
+{
+    std::vector<float> texture_coords;
+    std::vector<float> normals;
+    std::vector<float> tangents;
+    std::vector<float> bitangents;
+    std::vector<uint32_t> indices;
+
+    this->type = TYPE_STRING;
+    this->primitive_mode = primitive_mode;
+    this->populate_data(positions,
+        texture_coords,
+        normals,
+        tangents,
+        bitangents,
+        indices);
+}
+
+Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords)
 {
     std::vector<float> normals;
@@ -119,6 +138,11 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
 bool Omnific::Mesh::get_is_indexed()
 {
     return this->is_indexed;
+}
+
+Omnific::Mesh::PrimitiveMode Omnific::Mesh::get_primitive_mode()
+{
+    return this->primitive_mode;
 }
 
 void Omnific::Mesh::set_to_cube()

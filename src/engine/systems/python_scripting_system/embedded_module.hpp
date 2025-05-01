@@ -48,6 +48,45 @@
 
 PYBIND11_EMBEDDED_MODULE(omnific, m) 
 {
+		/*Utility classes*/
+		pybind11::class_<glm::vec2>(m, "Vector2")
+		.def_readwrite("x", &glm::vec2::x)
+		.def_readwrite("y", &glm::vec2::y);
+
+	pybind11::class_<glm::vec3>(m, "Vector3")
+		.def_readwrite("x", &glm::vec3::x)
+		.def_readwrite("y", &glm::vec3::y)
+		.def_readwrite("z", &glm::vec3::z);
+
+	pybind11::class_<Omnific::Transform, std::shared_ptr<Omnific::Transform>>(m, "Transform")
+		.def_readwrite("translation", &Omnific::Transform::translation)
+		.def_readwrite("rotation", &Omnific::Transform::rotation)
+		.def_readwrite("scale", &Omnific::Transform::scale)
+		.def("translate_x", &Omnific::Transform::translate_x)
+		.def("translate_y", &Omnific::Transform::translate_y)
+		.def("translate_z", &Omnific::Transform::translate_z)
+		.def("rotate_x", &Omnific::Transform::rotate_x)
+		.def("rotate_y", &Omnific::Transform::rotate_y)
+		.def("rotate_z", &Omnific::Transform::rotate_z);
+
+	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "HiResTimer")
+		.def("set_start", &Omnific::Clock::set_start)
+		.def("set_end", &Omnific::Clock::set_end)
+		.def("get_delta", &Omnific::Clock::get_delta)
+		.def("get_delta_in_seconds", &Omnific::Clock::get_delta_in_seconds);
+
+	pybind11::class_<Omnific::Colour>(m, "Colour")
+		.def(pybind11::init<std::string>())
+		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
+		.def("get_red", &Omnific::Colour::get_red)
+		.def("get_green", &Omnific::Colour::get_green)
+		.def("get_blue", &Omnific::Colour::get_blue)
+		.def("get_alpha", &Omnific::Colour::get_alpha);
+
+	pybind11::class_<Omnific::AABB2D>(m, "AABB2D")
+		.def_readwrite("max", &Omnific::AABB2D::max)
+		.def_readwrite("min", &Omnific::AABB2D::min);
+
 	/*OS Classes*/
 
 	pybind11::class_<Omnific::SharedLibraryAccess>(m, "SharedLibraryAccess");
@@ -118,7 +157,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("raise", &Omnific::Window::raise)
 		.def("restore", &Omnific::Window::restore)
 		.def("hide", &Omnific::Window::hide)
-		.def("show", &Omnific::Window::show);
+		.def("show", &Omnific::Window::show)
+		.def("get_window_size", &Omnific::Window::get_window_size)
+		.def("get_window_position", &Omnific::Window::get_window_position);
 
 	/*Scene classes*/
 
@@ -214,45 +255,6 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("set_to_label", &Omnific::GUI::set_to_label);
 	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING);
 
-	/*Utility classes*/
-	pybind11::class_<glm::vec2>(m, "Vector2")
-		.def_readwrite("x", &glm::vec2::x)
-		.def_readwrite("y", &glm::vec2::y);
-
-	pybind11::class_<glm::vec3>(m, "Vector3")
-		.def_readwrite("x", &glm::vec3::x)
-		.def_readwrite("y", &glm::vec3::y)
-		.def_readwrite("z", &glm::vec3::z);
-
-	pybind11::class_<Omnific::Transform, std::shared_ptr<Omnific::Transform>>(m, "Transform")
-		.def_readwrite("translation", &Omnific::Transform::translation)
-		.def_readwrite("rotation", &Omnific::Transform::rotation)
-		.def_readwrite("scale", &Omnific::Transform::scale)
-		.def("translate_x", &Omnific::Transform::translate_x)
-		.def("translate_y", &Omnific::Transform::translate_y)
-		.def("translate_z", &Omnific::Transform::translate_z)
-		.def("rotate_x", &Omnific::Transform::rotate_x)
-		.def("rotate_y", &Omnific::Transform::rotate_y)
-		.def("rotate_z", &Omnific::Transform::rotate_z);
-
-	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "HiResTimer")
-		.def("set_start", &Omnific::Clock::set_start)
-		.def("set_end", &Omnific::Clock::set_end)
-		.def("get_delta", &Omnific::Clock::get_delta)
-		.def("get_delta_in_seconds", &Omnific::Clock::get_delta_in_seconds);
-
-	pybind11::class_<Omnific::Colour>(m, "Colour")
-		.def(pybind11::init<std::string>())
-		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
-		.def("get_red", &Omnific::Colour::get_red)
-		.def("get_green", &Omnific::Colour::get_green)
-		.def("get_blue", &Omnific::Colour::get_blue)
-		.def("get_alpha", &Omnific::Colour::get_alpha);
-
-	pybind11::class_<Omnific::AABB2D>(m, "AABB2D")
-		.def_readwrite("max", &Omnific::AABB2D::max)
-		.def_readwrite("min", &Omnific::AABB2D::min);
-
 	/*Singletons*/
 
 	pybind11::class_<Omnific::Event::Parameters>(m, "EventParameters")
@@ -284,8 +286,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("query_event_count", &Omnific::EventBus::query_event_count);
 	m.def("has_event_with_parameter_key", &Omnific::EventBus::has_event_with_parameter_key);
 	m.def("has_event", &Omnific::EventBus::has_event);
-	m.def("publish", pybind11::overload_cast<Omnific::Event, bool>(&Omnific::EventBus::publish));
-	m.def("publish", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>, std::unordered_map<std::string, double>, std::unordered_map<std::string, bool>, std::unordered_map<std::string, std::shared_ptr<Omnific::Component>>, std::string, bool>(&Omnific::EventBus::publish));
+	m.def("publish_event", pybind11::overload_cast<Omnific::Event, bool>(&Omnific::EventBus::publish_event));
+	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>, std::unordered_map<std::string, double>, std::unordered_map<std::string, bool>, std::unordered_map<std::string, std::shared_ptr<Omnific::Component>>, std::string, bool>(&Omnific::EventBus::publish_event));
 
 	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::load_scene));
 	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::load_scene));

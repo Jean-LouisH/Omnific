@@ -32,6 +32,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Audio : public Resource
 	{
+		friend class AudioSystem;
 	public:
 		static constexpr const char* TYPE_STRING = "Audio";
 		Audio()

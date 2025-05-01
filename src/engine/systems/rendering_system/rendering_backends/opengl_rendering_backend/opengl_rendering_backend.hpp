@@ -65,6 +65,8 @@ namespace Omnific
 		void set_face_culling_to_front_and_back();
 		void draw_triangles_from_elements(unsigned int index_count);
 		void draw_triangles_from_arrays(unsigned int vertex_count);
+		void draw_points_from_arrays(unsigned int vertex_count);
+		void draw_line_strip_from_arrays(unsigned int vertex_count);
 		void swap_buffers();
 		std::string get_rendering_backend_name();
 		std::string get_default_2d_vertex_input();

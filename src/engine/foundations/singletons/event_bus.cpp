@@ -63,14 +63,14 @@ Omnific::Event::Parameters Omnific::Event::get_parameters()
 	return this->parameters;
 }
 
-void Omnific::EventBus::publish(
+void Omnific::EventBus::publish_event(
 	Event event,
 	bool is_continuous)
 {
 	EventBus::publish_with_parameters(event, is_continuous);
 }
 
-void Omnific::EventBus::publish(
+void Omnific::EventBus::publish_event(
 	std::string name,
 	std::unordered_map<std::string, std::string> strings,
 	std::unordered_map<std::string, double> numbers,

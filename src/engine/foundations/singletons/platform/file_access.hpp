@@ -46,6 +46,7 @@ namespace Omnific
 		std::string get_file_name_without_extension(std::string filepath);
 		std::string get_file_extension(std::string filepath);
 		std::string get_path_before_file(std::string filepath);
+		std::string get_last_modified_time(std::string filepath);
 		bool exists(std::string filepath);
 
 		std::string read_string(std::string filepath, bool apply_app_data_path = true);

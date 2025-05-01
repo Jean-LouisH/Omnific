@@ -48,9 +48,9 @@ class omnific_script:
             event_parameters.numbers = {"ball_speed": ball_speed}
 
             if ball_transform.translation.x < left_post_transform.translation.x:
-                omnific.publish(omnific.Event("AI won", event_parameters), False)
+                omnific.publish_event(omnific.Event("AI won", event_parameters), False)
             if ball_transform.translation.x > right_post_transform.translation.x:
-                omnific.publish(omnific.Event("Player won", event_parameters), False)
+                omnific.publish_event(omnific.Event("Player won", event_parameters), False)
 
             omnific_script.reset_ball(self)
         

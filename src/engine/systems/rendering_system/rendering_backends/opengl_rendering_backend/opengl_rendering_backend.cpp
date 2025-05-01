@@ -162,6 +162,16 @@ void Omnific::OpenGLRenderingBackend::draw_triangles_from_arrays(unsigned int ve
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertex_count);
 }
 
+void Omnific::OpenGLRenderingBackend::draw_points_from_arrays(unsigned int vertex_count)
+{
+	glDrawArrays(GL_POINTS, 0, (GLsizei)vertex_count);
+}
+
+void Omnific::OpenGLRenderingBackend::draw_line_strip_from_arrays(unsigned int vertex_count)
+{
+	glDrawArrays(GL_LINE_STRIP, 0, (GLsizei)vertex_count);
+}
+
 void Omnific::OpenGLRenderingBackend::swap_buffers()
 {
 	SDL_GL_SwapWindow(Platform::get_window().get_sdlwindow());

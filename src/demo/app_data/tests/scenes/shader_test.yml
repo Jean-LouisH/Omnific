@@ -1,0 +1,30 @@
+SceneLayer:
+  name: "Foreground SceneLayer"
+  spatial_dimension: 3
+  Entity:
+    name: "Unlit Object"
+    transform:
+      translation: [-0.5, 0.0, 0.0]
+    Model: 
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
+      shader:
+        preset: "Shader::UNLIT"
+  Entity:
+    name: "Phong Object"
+    transform:
+      translation: [0.5, 0.0, 0.0]
+    Model: 
+      mesh: "Mesh::cube"
+      albedo: "Image::#FFFFFF"
+      shader:
+        preset: "Shader::PHONG"
+  Entity:
+    name: "DemoUtilityScripts"
+    ScriptCollection:
+      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+  Entity:
+    name: "Camera"
+    transform:
+      translation: [0.0, 0.0, 5.0]
+    Camera: "default"

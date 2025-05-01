@@ -31,7 +31,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Pathfinding : public Component
 	{
 	public:
-	Pathfinding()
+		Pathfinding()
 		{
 
 		};
