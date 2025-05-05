@@ -22,7 +22,7 @@
 
 
 #include "engine.hpp"
-#include "demo.hpp"
+#include "cpp_tests.hpp"
 
 #undef main
 
@@ -31,7 +31,17 @@
 int main(int argc, char* argv[])
 {
 	Omnific::Engine* omnific_engine = new Omnific::Engine(argc, argv);
-	initialize_application(omnific_engine);
+
+	omnific_engine->add_app_data_paths(
+		{
+			PROJECT_SOURCE_DIRECTORY, 
+			PROJECT_APP_DATA_DIRECTORY,
+			PROJECT_BUILD_DIRECTORY
+		}
+	);
+
+	Omnific::ClassRegistry::add<OmnificDemo::CPPTests, Omnific::CPPScriptInstance>();
+
 	omnific_engine->run();
 	return 0;
 }

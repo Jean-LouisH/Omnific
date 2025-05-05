@@ -42,7 +42,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 	set (THIRD_PARTY_BINS) 
 else ()
-	message (STATUS "Demo Python version: ${PYTHON_VERSION_CACHED}")
+	message (STATUS "Editor Python version: ${PYTHON_VERSION_CACHED}")
 	string(REGEX MATCH "[0-9]+\\.[0-9]+" Python_VERSION_MAJOR_MINOR "${PYTHON_VERSION_CACHED}")
 	set (PYTHON_DIR_NAME "python${Python_VERSION_MAJOR_MINOR}")
 

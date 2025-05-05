@@ -1,28 +1,16 @@
 SceneLayer:
   name: "main"
-  spatial_dimension: 3
-  Entity:
-    name: "Camera"
-    Transform:
-      translation: [0, 0, 3]
-    Camera: "default"
+  spatial_dimension: 2
   Entity:
     name: "SplashScreenSprite"
-    Transform: default
     Sprite:
       image: "icon.png"
   Entity:
-    name: "Text"
-    Transform:
-      translation: [0, 0, 1]
-    GUI: 
-      text: "This is a UITextLabel test"
-      font: ["assets/fonts/Lato-Regular.ttf", 32]
-      colour: [255, 0, 0, 255]
+    name: "Transition"
     ScriptCollection:
-      Python: ["assets/scripts/python/debug_time_display.py"]
-      CPP: ["SplashScreenTransition"]
+      Python: ["scripts/python/splash_screen_transition.py"]
+    Timer: default
   Entity:
-    name: "Viewport"
-    Viewport:
-      camera_entity: "Camera"
+    name: "Camera"
+    Camera: 
+      viewport_target_entity: "SplashScreenSprite"

@@ -22,8 +22,6 @@
 
 #include "engine.hpp"
 
-#include "splash_screen_transition.hpp"
-
 #undef main
 
 /**Regular entry point*/
@@ -39,9 +37,6 @@ int main(int argc, char* argv[])
 			PROJECT_BUILD_DIRECTORY
 		}
 	);
-
-	/*Register Editor scripts.*/
-	Omnific::ClassRegistry::add<OmnificEditor::SplashScreenTransition, Omnific::CPPScriptInstance>();
 
 	omnific_engine->run();
 	return 0;

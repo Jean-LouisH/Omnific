@@ -20,21 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "splash_screen_transition.hpp"
+#include "cpp_tests.hpp"
 
-void OmnificEditor::SplashScreenTransition::on_entity_start()
+void OmnificDemo::CPPTests::on_entity_start()
 {
-    std::shared_ptr<Omnific::Timer> timer = Omnific::CPPEntityContext::get_component_by_type<Omnific::Timer>();
-    float countdown_value = 5.0f;
-    timer->start(countdown_value);
+
 }
 
-void OmnificEditor::SplashScreenTransition::on_update()
+void OmnificDemo::CPPTests::on_update()
 {
-    if (Omnific::CPPEntityContext::get_component_by_type<Omnific::Timer>()->is_finished())
-    {
-        std::string scene_path = "assets/scenes/debug.yml";
-        Omnific::Platform::get_logger().write("Timer ran out!");
-        //Omnific::SceneStorage::change_to_scene(std::shared_ptr<Omnific::Scene>(new Omnific::Scene(scene_path)));
-    }
+
 }
