@@ -25,11 +25,10 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
+#include <gtc/quaternion.hpp>
 
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <gtx/matrix_decompose.hpp>
-#include <gtx/rotate_vector.hpp>
 
 Omnific::SceneLayer::SceneLayer()
 {
@@ -215,7 +214,6 @@ void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 
 std::shared_ptr<Omnific::Transform> Omnific::SceneLayer::calculate_global_transform(EntityID local_transform_entity_id)
 {
-	std::shared_ptr<Transform> global_transform = std::shared_ptr<Transform>(new Transform());
 	std::shared_ptr<Entity> current_entity = this->get_entity(local_transform_entity_id);
 	std::vector<std::shared_ptr<Transform>> local_transforms;
 
@@ -229,42 +227,30 @@ std::shared_ptr<Omnific::Transform> Omnific::SceneLayer::calculate_global_transf
 		local_transforms.push_back(current_entity->transform);
 	}
 
-	/* Accumulate the local transforms from the root transform and down. */
+	glm::mat4 global_matrix = glm::mat4(1.0f);
 
-	std::shared_ptr<Transform> root_transform = current_entity->get_transform();
-	global_transform->translation = root_transform->translation;
-	global_transform->rotation = root_transform->rotation;
-	global_transform->scale = root_transform->scale;
+    for (int i = local_transforms.size() - 1; i >= 0; --i)
+    {
+        std::shared_ptr<Transform> local_transform = local_transforms[i];
+		glm::mat4 local_matrix = local_transform->get_transform_matrix();
+        global_matrix *= local_matrix;
+    }
 
-	for (int i = local_transforms.size() - 2; //The last transform index after the root
-	i >= 0; 
-	i--)
-	{
-		std::shared_ptr<Transform> local_transform = local_transforms.at(i);
+    glm::vec3 skew;
+    glm::vec4 perspective;
+    glm::quat orientation_quat;
+    glm::vec3 translation, scale;
 
-		glm::vec3 radians_rotation = glm::vec3(
-			glm::radians(global_transform->rotation.x),
-			glm::radians(global_transform->rotation.y),
-			glm::radians(global_transform->rotation.z)
-		);
+    glm::decompose(global_matrix, scale, orientation_quat, translation, skew, perspective);
 
-		glm::vec3 distance_vector = local_transform->translation - global_transform->translation;
-		float distance = glm::length(distance_vector);
-		glm::vec3 direction = glm::normalize(distance_vector);
+    glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(orientation_quat));
 
-		if (!(std::isnan(direction.x) || std::isnan(direction.y) || std::isnan(direction.z)))
-		{
-			direction = glm::rotateX(direction, radians_rotation.x);
-			direction = glm::rotateY(direction, radians_rotation.y);
-			direction = glm::rotateZ(direction, radians_rotation.z);
-			global_transform->translation += direction * distance;
-		}
+    std::shared_ptr<Transform> global_transform = std::make_shared<Transform>();
+    global_transform->translation = translation;
+    global_transform->rotation = euler_angles;
+    global_transform->scale = scale;
 
-		global_transform->rotation += local_transform->rotation;
-		global_transform->scale *= local_transform->scale;
-	}
-
-	return global_transform;
+    return global_transform;
 }
 
 std::vector<size_t> Omnific::SceneLayer::get_render_order_index_cache()

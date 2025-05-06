@@ -67,7 +67,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("translate_z", &Omnific::Transform::translate_z)
 		.def("rotate_x", &Omnific::Transform::rotate_x)
 		.def("rotate_y", &Omnific::Transform::rotate_y)
-		.def("rotate_z", &Omnific::Transform::rotate_z);
+		.def("rotate_z", &Omnific::Transform::rotate_z)
+		.def("set_xyz_scale", &Omnific::Transform::set_xyz_scale);
 
 	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "HiResTimer")
 		.def("set_start", &Omnific::Clock::set_start)

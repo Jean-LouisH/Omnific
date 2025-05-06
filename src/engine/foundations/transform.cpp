@@ -1,7 +1,8 @@
 #include "transform.hpp"
+
+#define GLM_ENABLE_EXPERIMENTAL
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
-#include <gtx/matrix_decompose.hpp>
 #include <gtx/rotate_vector.hpp>
 #include <gtx/euler_angles.hpp>
 
@@ -34,6 +35,13 @@ void Omnific::Transform::rotate_y(float angle)
 void Omnific::Transform::rotate_z(float angle)
 {
 	this->rotation.z += angle;
+}
+
+void Omnific::Transform::set_xyz_scale(float amount)
+{
+	this->scale.x = amount;
+	this->scale.y = amount;
+	this->scale.z = amount; 
 }
 
 void Omnific::Transform::flatten_to_2d()

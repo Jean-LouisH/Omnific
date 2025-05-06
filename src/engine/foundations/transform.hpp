@@ -48,6 +48,7 @@ namespace Omnific
 		void rotate_x(float angle);
 		void rotate_y(float angle);
 		void rotate_z(float angle);
+		void set_xyz_scale(float amount);
 		void flatten_to_2d();
 		float calculate_distance_from(glm::vec3 position);
 		float calculate_azimuth_from(glm::vec3 position);
