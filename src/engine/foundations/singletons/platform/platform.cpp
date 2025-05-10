@@ -26,6 +26,16 @@
 #include "foundations/constants.hpp"
 #include <thread>
 
+Omnific::Clock::Clock(std::string clock_name)
+{
+	this->clock_name = clock_name;
+}
+
+std::string Omnific::Clock::get_name()
+{
+	return this->clock_name;
+}
+
 uint64_t Omnific::Clock::get_delta()
 {
 	return this->delta;
@@ -66,7 +76,7 @@ void Omnific::Platform::initialize(
 	new_instance->file_access = std::unique_ptr<FileAccess>(new FileAccess(command_line_arguments[0]));
 	new_instance->network_access = std::unique_ptr<NetworkAccess>(new NetworkAccess());
 	new_instance->window = std::unique_ptr<Window>(new Window());
-	new_instance->run_clock = std::unique_ptr<Clock>(new Clock());
+	new_instance->run_clock = std::unique_ptr<Clock>(new Clock("run_clock"));
 	new_instance->run_clock->set_start();
 
 	new_instance->command_line_arguments = command_line_arguments;

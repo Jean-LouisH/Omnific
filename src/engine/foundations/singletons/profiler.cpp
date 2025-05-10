@@ -26,12 +26,31 @@
 
 Omnific::Profiler* Omnific::Profiler::instance = nullptr;
 
-void Omnific::Profiler::add_clock(std::string clock_name, bool is_removable)
+void Omnific::Profiler::add_clock(std::string clock_name)
 {
 	Profiler* instance = Profiler::get_instance();
-	std::shared_ptr<Clock> clock = std::shared_ptr<Clock>(new Clock());
+	instance->add_clock(clock_name, {}, true);
+}
+
+void Omnific::Profiler::add_clock(std::string clock_name, std::vector<std::string> tags, bool is_removable)
+{
+	Profiler* instance = Profiler::get_instance();
+	std::shared_ptr<Clock> clock = std::shared_ptr<Clock>(new Clock(clock_name));
 	clock->set_start();
 	instance->clocks.emplace(clock_name, clock);
+	for (std::string tag: tags)
+	{
+		if (instance->clocks_by_tags.count(tag) > 0)
+		{
+			instance->clocks_by_tags.at(tag).push_back(clock);
+		}
+		else
+		{
+			std::vector<std::shared_ptr<Clock>> clocks;
+			clocks.push_back(clock);
+			instance->clocks_by_tags.emplace(tag, clocks);
+		}
+	}
 	instance->is_removable_map.emplace(clock_name, is_removable);
 }
 
@@ -45,6 +64,10 @@ void Omnific::Profiler::remove_clock(std::string clock_name)
 		{
 			instance->clocks.erase(clock_name);
 			instance->is_removable_map.erase(clock_name);
+			// for (auto tag_clock_pair: instance->clocks_by_tags)
+			// {
+
+			// }
 		}
 	}
 }
@@ -58,6 +81,33 @@ std::shared_ptr<Omnific::Clock> Omnific::Profiler::get_clock(std::string clock_n
 		clock = instance->clocks.at(clock_name);
 
 	return clock;
+}
+
+std::vector<std::shared_ptr<Omnific::Clock>> Omnific::Profiler::get_clocks_by_tag(std::string tag)
+{
+	std::vector<std::shared_ptr<Clock>> clocks_by_tag;
+	Profiler* instance = Profiler::get_instance();
+
+	if (instance->clocks_by_tags.count(tag))
+	{
+		clocks_by_tag = instance->clocks_by_tags.at(tag);
+	}
+
+	return clocks_by_tag;
+}
+
+std::string Omnific::Profiler::get_clock_deltas_to_string_by_tag(std::string tag)
+{
+	std::string clock_deltas_string;
+	Profiler* instance = Profiler::get_instance();
+	std::vector<std::shared_ptr<Clock>> clocks_by_tag = instance->get_clocks_by_tag(tag);
+
+	for (std::shared_ptr<Clock> clock: clocks_by_tag)
+	{
+		clock_deltas_string += clock->get_name() + ": " + std::to_string(clock->get_delta()) + " ms\n"; 
+	}
+
+	return clock_deltas_string;
 }
 
 void Omnific::Profiler::increment_frame_count()

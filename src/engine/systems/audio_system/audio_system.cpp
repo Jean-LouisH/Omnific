@@ -31,6 +31,8 @@
 #include <SDL.h>
 #include <math.h>
 
+#define AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "audio_system_on_entity_finish_frame_time_clock"
+
 Omnific::AudioSystem::AudioSystem()
 {
 	this->type = TYPE_STRING;
@@ -67,11 +69,14 @@ void Omnific::AudioSystem::initialize()
 		SDL_PauseAudioDevice(this->device_id, 0);
 	}
 
+	Profiler::add_clock(AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"audio_system", "on_output_frame_time"});
 	Platform::get_logger().write("Initialized Audio System.");
 }
 
 void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
 	if (EventBus::has_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED))
 	{
 		SDL_ClearQueuedAudio(this->device_id);
@@ -152,6 +157,8 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 	
 		SDL_QueueAudio(this->device_id, mix_buffer.data(), mix_buffer.size() * sizeof(int16_t));
 	}
+
+	frame_time_clock->set_end();
 }
 
 void Omnific::AudioSystem::finalize()

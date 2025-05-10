@@ -59,7 +59,7 @@ namespace Omnific
 		typedef struct HapticPlayback
 		{
 			std::string event_key;
-			Clock clock;
+			std::shared_ptr<Clock> clock;
 			uint16_t duration;
 			float strength;
 		};

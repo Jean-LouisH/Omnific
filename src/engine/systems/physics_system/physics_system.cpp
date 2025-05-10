@@ -32,7 +32,9 @@
 #include <foundations/transform.hpp>
 
 #include <foundations/singletons/event_bus.hpp>
+#include <foundations/singletons/profiler.hpp>
 
+#define PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "physics_system_on_fixed_update_frame_time_clock"
 
 Omnific::PhysicsSystem::~PhysicsSystem()
 {
@@ -42,11 +44,14 @@ Omnific::PhysicsSystem::~PhysicsSystem()
 void Omnific::PhysicsSystem::initialize()
 {
 	this->is_initialized = true;
+	Profiler::add_clock(PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME, {"physics_system", "on_fixed_update_frame_time"});
 	Platform::get_logger().write("Initialized Physics System");
 }
 
 void Omnific::PhysicsSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
 	for (const auto scene_layer_it : scene->get_scene_layers())
 	{
 		std::shared_ptr<SceneLayer> scene_layer = scene_layer_it.second;
@@ -56,6 +61,7 @@ void Omnific::PhysicsSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 		this->detect_collisions(scene_layer);
 		this->handle_collisions_and_displacements(scene_layer);
 	}
+	frame_time_clock->set_end();
 }
 
 void Omnific::PhysicsSystem::finalize()

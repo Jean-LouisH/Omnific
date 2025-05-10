@@ -70,7 +70,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("rotate_z", &Omnific::Transform::rotate_z)
 		.def("set_xyz_scale", &Omnific::Transform::set_xyz_scale);
 
-	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "HiResTimer")
+	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "Clock")
+		.def(pybind11::init<std::string>())
 		.def("set_start", &Omnific::Clock::set_start)
 		.def("set_end", &Omnific::Clock::set_end)
 		.def("get_delta", &Omnific::Clock::get_delta)
@@ -141,7 +142,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_os_name", &Omnific::Platform::get_platform_name);
 
 	pybind11::class_<Omnific::Profiler>(m, "Profiler")
-		.def("add_timer", &Omnific::Profiler::add_clock)
+		.def("add_timer", pybind11::overload_cast<std::string>(&Omnific::Profiler::add_clock))
+		.def("add_timer", pybind11::overload_cast<std::string, std::vector<std::string>, bool>(&Omnific::Profiler::add_clock))
 		.def("get_timer", &Omnific::Profiler::get_clock);
 
 	pybind11::class_<Omnific::ThreadPool>(m, "ThreadPool");
@@ -309,7 +311,6 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("get_scene", &Omnific::PythonEntityContext::get_scene);
 	m.def("get_scene_layer", &Omnific::PythonEntityContext::get_scene_layer);
 	m.def("get_time_delta", &Omnific::PythonEntityContext::get_time_delta);
-	m.def("get_fixed_time_delta", &Omnific::PythonEntityContext::get_fixed_time_delta);
 
 	m.def("get_shared_library_access", &Omnific::Platform::get_shared_library_access, pybind11::return_value_policy::reference);
 	m.def("get_file_access", &Omnific::Platform::get_file_access, pybind11::return_value_policy::reference);

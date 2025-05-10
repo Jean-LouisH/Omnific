@@ -29,15 +29,19 @@
 #include <string>
 #include <foundations/singletons/platform/platform.hpp>
 #include <engine_api.hpp>
+#include <vector>
 
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Profiler
 	{
 	public:
-		static void add_clock(std::string clock_name, bool is_removable = false);
+		static void add_clock(std::string clock_name);
+		static void add_clock(std::string clock_name, std::vector<std::string> tags, bool is_removable = false);
 		static void remove_clock(std::string clock_name);
 		static std::shared_ptr<Clock> get_clock(std::string clock_name);
+		static std::vector<std::shared_ptr<Clock>> get_clocks_by_tag(std::string tag);
+		static std::string get_clock_deltas_to_string_by_tag(std::string tag);
 
 		static void increment_frame_count();
 		static void increment_lag_count(uint64_t delta_time);
@@ -47,6 +51,7 @@ namespace Omnific
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Clock>> clocks;
 		std::unordered_map<std::string, bool> is_removable_map;
+		std::unordered_map<std::string, std::vector<std::shared_ptr<Clock>>> clocks_by_tags;
 		/* In milliseconds */
 		uint64_t lag = 0;
 		uint64_t frame_count = 0;

@@ -28,6 +28,9 @@
 #include <foundations/transform.hpp>
 #include <scene/components/viewport.hpp>
 #include <scene/components/camera.hpp>
+#include <foundations/singletons/profiler.hpp>
+
+#define GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME "gui_system_on_early_update_frame_time_clock"
 
 Omnific::GUISystem::~GUISystem()
 {
@@ -37,6 +40,7 @@ Omnific::GUISystem::~GUISystem()
 void Omnific::GUISystem::initialize()
 {
 	this->is_initialized = true;
+	Profiler::add_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME, {"gui_system", "on_early_update_frame_time"});
 	Platform::get_logger().write("Initialized GUI System.");
 	if (TTF_Init() == -1)
 		printf("TTF_Init: %s\n", TTF_GetError());
@@ -44,6 +48,8 @@ void Omnific::GUISystem::initialize()
 
 void Omnific::GUISystem::on_early_update(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
 	Inputs& inputs = Platform::get_inputs();
 	std::unordered_map<std::string, double> numbers;
 	std::unordered_map<std::string, std::string> strings;
@@ -151,6 +157,7 @@ void Omnific::GUISystem::on_early_update(std::shared_ptr<Scene> scene)
 			gui->update_image();
 		}
 	}
+	frame_time_clock->set_end();
 }
 
 void Omnific::GUISystem::finalize()

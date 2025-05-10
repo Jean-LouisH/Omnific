@@ -30,6 +30,9 @@
 #include <scene/components/gui.hpp>
 #include <scene/components/light.hpp>
 #include <foundations/singletons/configuration.hpp>
+#include <foundations/singletons/profiler.hpp>
+
+#define RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "rendering_system_on_output_frame_time_clock"
 
 Omnific::RenderingSystem::RenderingSystem()
 {
@@ -66,11 +69,14 @@ void Omnific::RenderingSystem::initialize()
 
 	this->opengl_backend->initialize();
 	this->is_initialized = true;
+	Profiler::add_clock(RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"rendering_system", "on_output_frame_time"});
 	Platform::get_logger().write("Initialized Rendering System");
 }
 
 void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
 	this->on_window_resize();
 
 	if (this->has_scene_changed(scene))
@@ -378,6 +384,7 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 
 	this->opengl_backend->collect_garbage();
 	this->opengl_backend->swap_buffers();
+	frame_time_clock->set_end();
 }
 
 void Omnific::RenderingSystem::finalize()

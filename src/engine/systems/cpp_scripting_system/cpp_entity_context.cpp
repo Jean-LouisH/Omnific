@@ -32,6 +32,11 @@ void Omnific::CPPEntityContext::bind_entity(SceneLayerID scene_layer_id, EntityI
 	get_instance()->bound_entity_id = entity_id;
 }
 
+void Omnific::CPPEntityContext::bind_time_delta(float time_delta)
+{
+	get_instance()->time_delta = time_delta;
+}
+
 bool Omnific::CPPEntityContext::has_component(std::string type)
 {
 	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->get_component_ids().count(type) > 0;

@@ -31,6 +31,16 @@
 #include "embedded_module.hpp"
 #include <SDL_platform.h>
 #include <set>
+#include <foundations/singletons/profiler.hpp>
+
+#define PYTHON_SCRIPTING_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_input_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_entity_start_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_early_update_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_update_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_fixed_update_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_late_update_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_entity_finish_frame_time_clock"
+#define PYTHON_SCRIPTING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_entity_finish_frame_time_clock"
 
 
 void Omnific::PythonScriptingSystem::initialize()
@@ -63,6 +73,14 @@ void Omnific::PythonScriptingSystem::initialize()
 	pybind11::str version_info_major = pybind11::str(version_info.attr("major"));
 	pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
 	this->is_vmstarted = true;
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_input_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_entity_start_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_early_update_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_update_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_fixed_update_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_late_update_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_entity_finish_frame_time"});
+	Profiler::add_clock(PYTHON_SCRIPTING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"python_scripting_system", "on_output_frame_time"});
 }
 
 void Omnific::PythonScriptingSystem::execute_command(std::string command)
@@ -160,6 +178,9 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 
 void Omnific::PythonScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
@@ -180,60 +201,88 @@ void Omnific::PythonScriptingSystem::on_entity_start(std::shared_ptr<Scene> scen
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
 			this->execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_entity_start");
+
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
 			this->execute_update_methods(it.second, "on_input");
+
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_early_update(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
 			this->execute_update_methods(it.second, "on_early_update");
+
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_update(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
 			this->execute_update_methods(it.second, "on_update");
+
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
 			this->execute_update_methods(it.second, "on_fixed_update");
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_late_update(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 		for (auto it : PythonEntityContext::get_scene()->get_scene_layers())
 			this->execute_update_methods(it.second, "on_late_update");
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_entity_finish(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
@@ -242,10 +291,14 @@ void Omnific::PythonScriptingSystem::on_entity_finish(std::shared_ptr<Scene> sce
 			this->execute_queued_methods(it.second->get_finish_entity_queue(), it.second, "on_entity_finish");
 
 	this->has_modules_loaded_on_this_update = false;
+	frame_time_clock->set_end();
 }
 
 void Omnific::PythonScriptingSystem::on_output(std::shared_ptr<Scene> scene)
 {
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PYTHON_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
 	if (this->has_scene_changed(scene))
 		this->load_script_modules(scene);
 
@@ -311,6 +364,15 @@ void Omnific::PythonScriptingSystem::bind_and_call(
 				PythonEntityContext::bind_entity(
 					scene_layer_id,
 					entity_id);
+
+				if (method_name == "on_update")
+				{
+					PythonEntityContext::bind_time_delta(Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds());
+				}
+				else if (method_name == "on_fixed_update")
+				{
+					PythonEntityContext::bind_time_delta((float)((double)(Configuration::get_instance()->performance_settings.fixed_frame_time) / MS_IN_S));
+				}
 
 				try
 				{

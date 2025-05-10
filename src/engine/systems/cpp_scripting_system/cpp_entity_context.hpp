@@ -43,6 +43,7 @@ namespace Omnific
 	{
 	public:
 		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);
+		static void bind_time_delta(float time_delta);
 		static bool has_component(std::string type);
 		static std::shared_ptr<Entity> get_entity();
 		static std::shared_ptr<Scene> get_scene();
@@ -62,6 +63,7 @@ namespace Omnific
 
 		SceneLayerID bound_scene_layer_id = 0;
 		EntityID bound_entity_id = 0;
+		float time_delta = 0.0;
 	};
 }
 

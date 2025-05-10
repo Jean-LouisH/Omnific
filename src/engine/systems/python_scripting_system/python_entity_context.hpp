@@ -45,6 +45,7 @@ namespace Omnific
 	{
 	public:
 		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);
+		static void bind_time_delta(float time_delta);
 		static bool has_component(std::string type);
 		static std::shared_ptr<Entity> get_entity();
 		static std::shared_ptr<Transform> get_transform();
@@ -52,7 +53,6 @@ namespace Omnific
 		static std::shared_ptr<SceneLayer> get_scene_layer();
 		static std::shared_ptr<Component> get_component(std::string type);
 		static float get_time_delta();
-		static float get_fixed_time_delta();
 
 		static PythonEntityContext* get_instance();
 	private:
@@ -60,6 +60,7 @@ namespace Omnific
 
 		SceneLayerID bound_scene_layer_id = 0;
 		EntityID bound_entity_id = 0;
+		float time_delta = 0.0;
 	};
 }
 

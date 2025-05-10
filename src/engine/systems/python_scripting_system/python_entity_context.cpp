@@ -36,6 +36,11 @@ void Omnific::PythonEntityContext::bind_entity(SceneLayerID scene_layer_id, Enti
 	get_instance()->bound_entity_id = entity_id;
 }
 
+void Omnific::PythonEntityContext::bind_time_delta(float time_delta)
+{
+	get_instance()->time_delta = time_delta;
+}
+
 bool Omnific::PythonEntityContext::has_component(std::string type)
 {
 	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->get_component_ids().count(type) > 0;
@@ -77,12 +82,7 @@ std::shared_ptr<Omnific::Component> Omnific::PythonEntityContext::get_component(
 
 float Omnific::PythonEntityContext::get_time_delta()
 {
-	return Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds();
-}
-
-float Omnific::PythonEntityContext::get_fixed_time_delta()
-{
-	return (float)((double)(Configuration::get_instance()->performance_settings.fixed_frame_time) / MS_IN_S);
+	return get_instance()->time_delta;
 }
 
 Omnific::PythonEntityContext* Omnific::PythonEntityContext::get_instance()

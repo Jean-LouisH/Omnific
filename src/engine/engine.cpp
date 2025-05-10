@@ -48,18 +48,30 @@ void Omnific::Engine::run()
 {
 	Logger& logger = Platform::get_logger();
 
-	/* These timers persist throughout Engine runtime and
-		keep track of elapsed times in nanoseconds. */
-	Profiler::add_clock(MAIN_THREAD_CLOCK_NAME);
-	Profiler::add_clock(ENGINE_LOOP_THREAD_CLOCK_NAME);
+	/* These timers persist throughout Engine runtime */
+	Profiler::add_clock(MAIN_THREAD_CLOCK_NAME, {"thread"});
+	Profiler::add_clock(LOOP_THREAD_CLOCK_NAME, {"thread"});
 
-	/* Frame skipping clocks*/
-	Profiler::add_clock(INPUT_FRAME_SKIP_CLOCK_NAME);
-	Profiler::add_clock(UPDATE_FRAME_SKIP_CLOCK_NAME);
-	Profiler::add_clock(OUTPUT_FRAME_SKIP_CLOCK_NAME);
+	Profiler::add_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
+	Profiler::add_clock(UPDATE_LOOP_FRAME_SKIP_CLOCK_NAME);
+	Profiler::add_clock(OUTPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
 
-	Profiler::add_clock(LAG_CLOCK_NAME);
+	Profiler::add_clock(UPDATE_LAG_CLOCK_NAME);
+
+	Profiler::add_clock(INPUT_LOOP_FRAME_TIME_CLOCK_NAME);
+	Profiler::add_clock(UPDATE_LOOP_FRAME_TIME_CLOCK_NAME);
+	Profiler::add_clock(OUTPUT_LOOP_FRAME_TIME_CLOCK_NAME);
 	Profiler::add_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME);
+
+	Profiler::add_clock(TOTAL_ON_INPUT_FRAME_TIME_CLOCK_NAME, {"total", "on_input_frame_time"});
+	Profiler::add_clock(TOTAL_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME, {"total", "on_entity_start_frame_time"});
+	Profiler::add_clock(TOTAL_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME, {"total", "on_early_update_frame_time"});
+	Profiler::add_clock(TOTAL_ON_UPDATE_FRAME_TIME_CLOCK_NAME, {"total", "on_update_frame_time"});
+	Profiler::add_clock(TOTAL_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME, {"total", "on_fixed_update_frame_time"});
+	Profiler::add_clock(TOTAL_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME, {"total", "on_late_update_frame_time"});
+	Profiler::add_clock(TOTAL_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME, {"total", "on_entity_finish_frame_time"});
+	Profiler::add_clock(TOTAL_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"total", "on_output_frame_time"});
+	
 
 	do
 	{
@@ -67,7 +79,7 @@ void Omnific::Engine::run()
 
 		if (this->state != State::FINALIZING)
 		{
-			std::shared_ptr<Clock> input_frame_skip_clock = Profiler::get_clock(INPUT_FRAME_SKIP_CLOCK_NAME);
+			std::shared_ptr<Clock> input_frame_skip_clock = Profiler::get_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
 
 			std::shared_ptr<Clock> main_thread_clock = Profiler::get_clock(MAIN_THREAD_CLOCK_NAME);
 			uint8_t logical_core_count = Platform::get_logical_core_count();
@@ -99,7 +111,7 @@ void Omnific::Engine::run()
 			{
 				/* Multithreaded mode. */
 				ThreadPool::initialize();
-				std::thread engine_loop_thread = std::thread(&Engine::run_loop_on_thread, this);
+				std::thread loop_thread = std::thread(&Engine::run_loop_on_thread, this);
 
 				while (this->state == State::INITIALIZING || 
 					this->state == State::RUNNING) 
@@ -112,7 +124,7 @@ void Omnific::Engine::run()
 						main_thread_clock);
 				}
 
-				engine_loop_thread.join();
+				loop_thread.join();
 				logger.write("Finalizing Engine loops...");
 				this->finalize();
 			}
@@ -177,13 +189,15 @@ void Omnific::Engine::initialize()
 
 void Omnific::Engine::detect_input()
 {
-	std::shared_ptr<Clock> input_frame_skip_clock = Profiler::get_clock(INPUT_FRAME_SKIP_CLOCK_NAME);
-	input_frame_skip_clock->set_end();
+	std::shared_ptr<Clock> input_loop_frame_skip_clock = Profiler::get_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
+	input_loop_frame_skip_clock->set_end();
 
-	if (input_frame_skip_clock->get_delta() >= 
+	if (input_loop_frame_skip_clock->get_delta() >= 
 		MS_IN_S / Configuration::get_instance()->performance_settings.target_input_fps)
 	{
-		input_frame_skip_clock->set_start();
+		std::shared_ptr<Clock> input_loop_frame_time_clock = Profiler::get_clock(INPUT_LOOP_FRAME_TIME_CLOCK_NAME);
+		input_loop_frame_time_clock->set_start();
+		input_loop_frame_skip_clock->set_start();
 		Inputs& inputs = Platform::get_inputs();
 		inputs.detect_game_controllers();
 		inputs.poll_input_events();
@@ -191,6 +205,7 @@ void Omnific::Engine::detect_input()
 			this->state = State::FINALIZING;
 		if (inputs.has_requested_restart())
 			this->state = State::RESTARTING;
+		input_loop_frame_time_clock->set_end();
 	}
 }
 
@@ -222,33 +237,54 @@ void Omnific::Engine::run_loop()
 
 	std::shared_ptr<Scene> active_scene = SceneStorage::get_active_scene();
 	std::string name = active_scene->get_name();
-	std::shared_ptr<Clock> lag_clock = Profiler::get_clock(LAG_CLOCK_NAME);
+	std::shared_ptr<Clock> update_lag_clock = Profiler::get_clock(UPDATE_LAG_CLOCK_NAME);
 
-	std::shared_ptr<Clock> update_frame_skip_clock = Profiler::get_clock(UPDATE_FRAME_SKIP_CLOCK_NAME);
-	std::shared_ptr<Clock> output_frame_skip_clock = Profiler::get_clock(OUTPUT_FRAME_SKIP_CLOCK_NAME);
-	update_frame_skip_clock->set_end();
-	output_frame_skip_clock->set_end();
+	std::shared_ptr<Clock> update_loop_frame_skip_clock = Profiler::get_clock(UPDATE_LOOP_FRAME_SKIP_CLOCK_NAME);
+	std::shared_ptr<Clock> output_loop_frame_skip_clock = Profiler::get_clock(OUTPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
 
-	if (update_frame_skip_clock->get_delta() >= 
+	std::shared_ptr<Clock> update_loop_frame_time_clock = Profiler::get_clock(UPDATE_LOOP_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> output_loop_frame_time_clock = Profiler::get_clock(OUTPUT_LOOP_FRAME_TIME_CLOCK_NAME);
+
+	std::shared_ptr<Clock> total_on_input_frame_time_clock = Profiler::get_clock(TOTAL_ON_INPUT_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_entity_start_frame_time_clock = Profiler::get_clock(TOTAL_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_early_update_frame_time_clock = Profiler::get_clock(TOTAL_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_update_frame_time_clock = Profiler::get_clock(TOTAL_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_fixed_update_frame_time_clock = Profiler::get_clock(TOTAL_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_late_update_frame_time_clock = Profiler::get_clock(TOTAL_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_entity_finish_frame_time_clock = Profiler::get_clock(TOTAL_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME);
+	std::shared_ptr<Clock> total_on_output_frame_time_clock = Profiler::get_clock(TOTAL_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
+
+	update_loop_frame_skip_clock->set_end();
+
+	if (update_loop_frame_skip_clock->get_delta() >= 
 		MS_IN_S / configuration->performance_settings.target_update_fps)
 	{
-		update_frame_skip_clock->set_start();
+		update_loop_frame_time_clock->set_start();
+		update_loop_frame_skip_clock->set_start();
 
+		total_on_input_frame_time_clock->set_start();
 		if (Platform::get_inputs().get_has_detected_input_changes())
 			for (auto system : this->systems)
-		system.second->on_input(active_scene);
+				system.second->on_input(active_scene);
+		total_on_input_frame_time_clock->set_end();
 
+		total_on_entity_start_frame_time_clock->set_start();
 		for (auto system : this->systems)
 			system.second->on_entity_start(active_scene);
+		total_on_entity_start_frame_time_clock->set_end();
 
 		for (auto it : active_scene->get_scene_layers())
 			it.second->clear_start_entity_queue();
 
+		total_on_early_update_frame_time_clock->set_start();
 		for (auto system : this->systems)
 			system.second->on_early_update(active_scene);
+		total_on_early_update_frame_time_clock->set_end();
 
+		total_on_update_frame_time_clock->set_start();
 		for (auto system : this->systems)
 			system.second->on_update(active_scene);
+		total_on_update_frame_time_clock->set_end();
 
 		/* This calls the compute based Systems repeatedly until the accumulated
 			lag milliseconds are depleted. This ensures compute operations
@@ -256,6 +292,8 @@ void Omnific::Engine::run_loop()
 
 		uint32_t target_fixed_frame_time = Configuration::get_instance()->performance_settings.fixed_frame_time;
 
+		output_loop_frame_skip_clock->set_end();
+		total_on_fixed_update_frame_time_clock->set_start();
 		while (Profiler::get_lag_count() >= target_fixed_frame_time &&
 			this->state == State::RUNNING)
 		{
@@ -263,30 +301,41 @@ void Omnific::Engine::run_loop()
 				system.second->on_fixed_update(active_scene);
 			Profiler::decrement_lag_count(target_fixed_frame_time);
 		}
+		total_on_fixed_update_frame_time_clock->set_end();
 
+		total_on_late_update_frame_time_clock->set_start();
 		for (auto system : this->systems)
 			system.second->on_late_update(active_scene);
+		total_on_late_update_frame_time_clock->set_end();
 
+		total_on_entity_finish_frame_time_clock->set_start();
 		for (auto system : this->systems)
 			system.second->on_entity_finish(active_scene);
+		total_on_entity_finish_frame_time_clock->set_end();
 
 		for (auto it : active_scene->get_scene_layers())
 			it.second->clear_finish_entity_queue();
+
+		update_loop_frame_time_clock->set_end();
 	}
 
-	if ( output_frame_skip_clock->get_delta() >= 
+	if ( output_loop_frame_skip_clock->get_delta() >= 
 		MS_IN_S / configuration->performance_settings.target_output_fps)
 	{
-		output_frame_skip_clock->set_start();
+		total_on_output_frame_time_clock->set_start();
+		output_loop_frame_time_clock->set_start();
+		output_loop_frame_skip_clock->set_start();
 		for (auto system : this->systems)
 			system.second->on_output(active_scene);
+		output_loop_frame_time_clock->set_end();
+		total_on_output_frame_time_clock->set_end();
 	}
 
-	lag_clock->set_end();
-	lag_clock->set_start();
+	update_lag_clock->set_end();
+	update_lag_clock->set_start();
 
 	EventBus::clear_instant_events();
-	Profiler::increment_lag_count(lag_clock->get_delta());
+	Profiler::increment_lag_count(update_lag_clock->get_delta());
 
 	if (this->state == State::RESTARTING || 
 		this->state == State::FINALIZING) 
@@ -306,7 +355,7 @@ void Omnific::Engine::run_loop()
 
 void Omnific::Engine::run_loop_on_thread()
 {
-	std::shared_ptr<Clock> engine_loop_thread_clock = Profiler::get_clock(ENGINE_LOOP_THREAD_CLOCK_NAME);
+	std::shared_ptr<Clock> engine_loop_thread_clock = Profiler::get_clock(LOOP_THREAD_CLOCK_NAME);
 	while (this->state == State::INITIALIZING || 
 		this->state == State::RUNNING)
 	{
