@@ -138,5 +138,6 @@ namespace Omnific
 
 		std::unordered_map<std::string, std::vector<size_t>> component_index_caches;
 		std::vector<size_t> render_order_index_cache;
+		std::unordered_map<EntityID, std::shared_ptr<Transform>> cached_global_transforms;
 	};
 }

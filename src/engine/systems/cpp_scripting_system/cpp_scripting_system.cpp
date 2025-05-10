@@ -104,8 +104,8 @@ void Omnific::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-	for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-		execute_update_methods(it.second, "on_input");
+		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
+			execute_update_methods(it.second, "on_input");
 	}
 
 	frame_time_clock->set_end();
@@ -121,8 +121,8 @@ void Omnific::CPPScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-	for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
-		execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_entity_start");
+		for (auto it : CPPEntityContext::get_scene()->get_scene_layers())
+			execute_queued_methods(it.second->get_start_entity_queue(), it.second, "on_entity_start");
 	}
 
 	frame_time_clock->set_end();
@@ -233,8 +233,12 @@ void Omnific::CPPScriptingSystem::bind_and_call(
 	EntityID entityID,
 	std::string methodName)
 {
-	for (auto script : scriptCollection->scripts)
+	std::shared_ptr<Script>* scripts = scriptCollection->scripts.data();
+	int scripts_count = scriptCollection->scripts.size();
+
+	for (int i = 0; i < scripts_count; i++)
 	{
+		std::shared_ptr<Script> script = scripts[i];
 		std::string script_instance_name = script->get_name() + std::to_string(entityID);
 
 		if (this->cpp_script_instances.count(script_instance_name))
@@ -244,6 +248,8 @@ void Omnific::CPPScriptingSystem::bind_and_call(
 			Omnific::CPPEntityContext::bind_entity(
 				sceneLayerID,
 				entityID);
+
+			CPPEntityContext::bind_time_delta(Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds());
 
 			if (methodName == "on_entity_start")
 			{
@@ -259,7 +265,6 @@ void Omnific::CPPScriptingSystem::bind_and_call(
 			}
 			else if (methodName == "on_update")
 			{
-				CPPEntityContext::bind_time_delta(Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds());
 				script_instance->on_update();
 			}
 			else if (methodName == "on_fixed_update")

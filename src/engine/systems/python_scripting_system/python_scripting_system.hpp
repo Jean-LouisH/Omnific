@@ -73,6 +73,7 @@ namespace Omnific
 		bool is_vmstarted = false;
 		bool has_modules_loaded_on_this_update = false;
 		std::unordered_map<std::string, PythonScriptInstance> python_script_instances;
+		std::unordered_map<std::string, std::vector<std::string>> methods_with_instances;
 
 		void execute_queued_methods(
 			std::queue<EntityID> entity_queue,
@@ -84,7 +85,7 @@ namespace Omnific
 		void bind_and_call(std::shared_ptr<ScriptCollection> script_collection,
 			SceneLayerID scene_layer_id,
 			EntityID entity_id,
-			const char* method_name);
+			std::string method_name);
 	};
 }
 

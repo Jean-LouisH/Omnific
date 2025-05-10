@@ -3,6 +3,7 @@ import sys
 
 
 project_name_type_pairs = {
+    "pong" : "game",
     "platformer" : "game",
     "fps" : "game",
     "racing" : "game",

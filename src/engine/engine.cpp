@@ -351,6 +351,7 @@ void Omnific::Engine::run_loop()
     }
 
 	total_loop_frame_time_clock->set_end();
+	Platform::get_logger().write(Profiler::get_clock_deltas_to_string_by_tag("on_fixed_update_frame_time"));
 }
 
 void Omnific::Engine::run_loop_on_thread()

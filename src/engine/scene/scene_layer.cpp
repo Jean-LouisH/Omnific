@@ -245,7 +245,12 @@ std::shared_ptr<Omnific::Transform> Omnific::SceneLayer::calculate_global_transf
 
     glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(orientation_quat));
 
-    std::shared_ptr<Transform> global_transform = std::make_shared<Transform>();
+	std::shared_ptr<Transform> global_transform;
+
+	if (this->cached_global_transforms.count(local_transform_entity_id) == 0)
+		this->cached_global_transforms.emplace(local_transform_entity_id, std::make_shared<Transform>());
+
+    global_transform = this->cached_global_transforms.at(local_transform_entity_id);
     global_transform->translation = translation;
     global_transform->rotation = euler_angles;
     global_transform->scale = scale;
