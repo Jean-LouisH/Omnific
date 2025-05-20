@@ -287,7 +287,7 @@ void Omnific::OpenGLRenderingBackend::collect_garbage()
 		}
 	}
 
-	for (size_t i = 0; i < assets_to_delete.size(); i++)
+	for (size_t i = 0; i < assets_to_delete.size(); ++i)
 		this->missed_frame_counts.erase(assets_to_delete.at(i));
 
 	for (auto it = this->missed_frame_counts.begin(); it != this->missed_frame_counts.end(); it++)

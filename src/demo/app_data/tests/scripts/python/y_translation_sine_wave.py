@@ -7,7 +7,7 @@ class omnific_script:
         self.time = 0
         pass
 
-    def on_update(self):
+    def on_fixed_update(self):
         delta = omnific.get_time_delta()
         y_translation_speed = 1.0
         amplitude = 1.0

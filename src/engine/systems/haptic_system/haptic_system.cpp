@@ -26,7 +26,7 @@
 #include <foundations/singletons/profiler.hpp>
 #include <SDL.h>
 
-#define HAPTIC_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "haptic_system_on_entity_finish_frame_time_clock"
+#define HAPTIC_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "haptic_system_on_entity_finish_frame_time"
 
 Omnific::HapticSystem::~HapticSystem()
 {
@@ -99,7 +99,7 @@ void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
 				float total_strength = 0.0;
 				std::vector<std::string> haptic_playbacks_to_remove;
 
-				for (auto haptic_playback_it : haptic_playback_hashtable)
+				for (auto& haptic_playback_it : haptic_playback_hashtable)
 				{
 					HapticPlayback& haptic_playback = haptic_playback_it.second;
 					haptic_playback.clock->set_end();
@@ -115,7 +115,7 @@ void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
 					}
 				}
 
-				for (size_t i = 0; i < haptic_playbacks_to_remove.size(); i++)
+				for (size_t i = 0; i < haptic_playbacks_to_remove.size(); ++i)
 				{
 					haptic_playback_hashtable.erase(haptic_playbacks_to_remove.at(i));
 				}

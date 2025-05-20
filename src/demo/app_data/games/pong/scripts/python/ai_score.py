@@ -4,12 +4,17 @@ class omnific_script:
 
     def __init__(self):
         self.score = 0
+        self.gui = None
+        pass
+
+    def on_entity_start(self):
+        self.gui = omnific.get_component("GUI")
         pass
 
     def on_late_update(self):
         if omnific.has_event("AI won"):
             self.score += 1
 
-        omnific.get_component("GUI").set_to_label("AI: " + str(self.score))
+        self.gui.set_to_label("AI: " + str(self.score))
         pass
     

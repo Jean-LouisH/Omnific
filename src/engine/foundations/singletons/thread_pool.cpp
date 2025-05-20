@@ -31,7 +31,7 @@ void Omnific::ThreadPool::initialize()
 	int thread_count = Platform::get_logical_core_count();
 	ThreadPool* instance = ThreadPool::get_instance();
 
-	for (int i = 0; i < (thread_count); i++)
+	for (int i = 0; i < (thread_count); ++i)
 		instance->threads.push_back(std::thread(&ThreadPool::run_worker_thread));
 
 	instance->busy_thread_count = 0;

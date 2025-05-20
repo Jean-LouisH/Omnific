@@ -33,10 +33,30 @@ namespace Omnific
     class System : public Registerable
     {
     public:
+    	enum class LoopEventIndex
+		{
+			ON_INPUT,
+			ON_ENTITY_START,
+			ON_EARLY_UPDATE,
+			ON_UPDATE,
+			ON_FIXED_UPDATE,
+			ON_LATE_UPDATE,
+			ON_ENTITY_FINISH,
+			ON_OUTPUT
+		};
+
         static constexpr const char* TYPE_STRING = "System";
         System()
         {
             this->type = TYPE_STRING;
+            loop_event_indices.emplace("on_input", LoopEventIndex::ON_INPUT);
+            loop_event_indices.emplace("on_entity_start", LoopEventIndex::ON_ENTITY_START);
+            loop_event_indices.emplace("on_early_update", LoopEventIndex::ON_EARLY_UPDATE);
+            loop_event_indices.emplace("on_update", LoopEventIndex::ON_UPDATE);
+            loop_event_indices.emplace("on_fixed_update", LoopEventIndex::ON_FIXED_UPDATE);
+            loop_event_indices.emplace("on_late_update", LoopEventIndex::ON_LATE_UPDATE);
+            loop_event_indices.emplace("on_entity_finish", LoopEventIndex::ON_ENTITY_FINISH);
+            loop_event_indices.emplace("on_output", LoopEventIndex::ON_OUTPUT);
         };
         ~System();
 
@@ -53,6 +73,7 @@ namespace Omnific
         bool get_is_initialized();
 
     protected:
+    	std::unordered_map<std::string, LoopEventIndex> loop_event_indices;
         bool is_initialized = false;
 
         bool has_scene_changed(std::shared_ptr<Scene> scene);

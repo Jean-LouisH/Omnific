@@ -52,16 +52,16 @@ void Omnific::Engine::run()
 	Profiler::add_clock(MAIN_THREAD_CLOCK_NAME, {"thread"});
 	Profiler::add_clock(LOOP_THREAD_CLOCK_NAME, {"thread"});
 
-	Profiler::add_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
-	Profiler::add_clock(UPDATE_LOOP_FRAME_SKIP_CLOCK_NAME);
-	Profiler::add_clock(OUTPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
+	Profiler::add_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME, {"loop_frame_skip"});
+	Profiler::add_clock(UPDATE_LOOP_FRAME_SKIP_CLOCK_NAME, {"loop_frame_skip"});
+	Profiler::add_clock(OUTPUT_LOOP_FRAME_SKIP_CLOCK_NAME, {"loop_frame_skip"});
 
-	Profiler::add_clock(UPDATE_LAG_CLOCK_NAME);
+	Profiler::add_clock(UPDATE_LAG_CLOCK_NAME, {"lag"});
 
-	Profiler::add_clock(INPUT_LOOP_FRAME_TIME_CLOCK_NAME);
-	Profiler::add_clock(UPDATE_LOOP_FRAME_TIME_CLOCK_NAME);
-	Profiler::add_clock(OUTPUT_LOOP_FRAME_TIME_CLOCK_NAME);
-	Profiler::add_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME);
+	Profiler::add_clock(INPUT_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
+	Profiler::add_clock(UPDATE_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
+	Profiler::add_clock(OUTPUT_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
+	Profiler::add_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
 
 	Profiler::add_clock(TOTAL_ON_INPUT_FRAME_TIME_CLOCK_NAME, {"total", "on_input_frame_time"});
 	Profiler::add_clock(TOTAL_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME, {"total", "on_entity_start_frame_time"});
@@ -71,6 +71,15 @@ void Omnific::Engine::run()
 	Profiler::add_clock(TOTAL_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME, {"total", "on_late_update_frame_time"});
 	Profiler::add_clock(TOTAL_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME, {"total", "on_entity_finish_frame_time"});
 	Profiler::add_clock(TOTAL_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"total", "on_output_frame_time"});
+
+	Profiler::add_clock("debug_1", {"debug"});
+	Profiler::add_clock("debug_2", {"debug"});
+	Profiler::add_clock("debug_3", {"debug"});
+	Profiler::add_clock("debug_4", {"debug"});
+	Profiler::add_clock("debug_5", {"debug"});
+	Profiler::add_clock("debug_6", {"debug"});
+	Profiler::add_clock("debug_7", {"debug"});
+	Profiler::add_clock("debug_8", {"debug"});
 	
 
 	do
@@ -351,7 +360,7 @@ void Omnific::Engine::run_loop()
     }
 
 	total_loop_frame_time_clock->set_end();
-	Platform::get_logger().write(Profiler::get_clock_deltas_to_string_by_tag("on_fixed_update_frame_time"));
+	Platform::get_logger().write(Profiler::get_clock_deltas_to_string_by_tag("python_scripting_system"));
 }
 
 void Omnific::Engine::run_loop_on_thread()

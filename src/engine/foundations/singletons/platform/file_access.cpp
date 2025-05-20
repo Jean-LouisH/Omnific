@@ -48,7 +48,7 @@ void Omnific::FileAccess::add_app_data_paths(std::vector<std::string> app_data_p
 	/*Generate string for logging, and add '/' at the end of 
 	  directories where necessary.*/
 	size_t directories_size = app_data_paths.size();
-	for (int i = 0; i < directories_size; i++)
+	for (int i = 0; i < directories_size; ++i)
 	{
 		std::string& directory = app_data_paths.at(i);
 		size_t last_character_index = directory.size() - 1;
@@ -78,7 +78,7 @@ std::string Omnific::FileAccess::find_path(std::string filepath)
 {
 	std::string combined_filepath;
 
-	for (int i = 0; i < this->app_data_paths.size(); i++)
+	for (int i = 0; i < this->app_data_paths.size(); ++i)
 	{
 		std::string app_data_path = app_data_paths[i];
 		std::string tentative_combined_filepath = app_data_path + filepath;
@@ -124,7 +124,7 @@ std::string Omnific::FileAccess::get_file_name_without_extension(std::string fil
 	}
 
 	//append from the start index to the extension name or the end of string.
-	for (int j = name_index_start + 1; j < filepath_size; j++)
+	for (int j = name_index_start + 1; j < filepath_size; ++j)
 	{
 		if (filepath.at(j) == '.')
 			break;
@@ -147,7 +147,7 @@ std::string Omnific::FileAccess::get_file_extension(std::string filepath)
 		;
 
 	//append from the start index to the extension name.
-	for (int j = name_index_start + 1; j < filepath.size(); j++)
+	for (int j = name_index_start + 1; j < filepath.size(); ++j)
 		file_name += filepath.at(j);
 
 	return file_name;
@@ -173,7 +173,7 @@ std::string Omnific::FileAccess::get_path_before_file(std::string filepath)
 	}
 
 	//append from the start index to the extension name.
-	for (int j = 0; j < name_end_index; j++)
+	for (int j = 0; j < name_end_index; ++j)
 	{
 		path += filepath.at(j);
 	}

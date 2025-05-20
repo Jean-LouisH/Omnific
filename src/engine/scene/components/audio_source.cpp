@@ -30,7 +30,7 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 	{
 		if (it3->first.as<std::string>() == "audio")
 		{
-			for (int i = 0; i < it3->second.size(); i++)
+			for (int i = 0; i < it3->second.size(); ++i)
 			{
 				std::shared_ptr<Audio> audio(Platform::get_file_access().load_resource_by_type<Audio>(it3->second[i].as<std::string>(), false));
 				this->add_audio(audio);

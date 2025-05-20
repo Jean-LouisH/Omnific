@@ -228,7 +228,7 @@ uint64_t Omnific::EventBus::query_event_count_with_parameter_key(std::string eve
 {
 	uint64_t event_count = 0;
 	std::vector<Event> event_list = EventBus::query_events((event_name));
-	for (size_t i = 0; i < event_list.size(); i++)
+	for (size_t i = 0; i < event_list.size(); ++i)
 	{
 		Event::Parameters parameters = event_list.at(i).get_parameters();
 		event_count += parameters.bools.count(event_parameter_name);

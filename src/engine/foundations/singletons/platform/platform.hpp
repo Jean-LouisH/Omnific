@@ -39,6 +39,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Clock
 	{
 	public:
+		Clock();
 		Clock(std::string clock_name);
 		/* Returns delta time in Milliseconds */
 		std::string get_name();

@@ -242,19 +242,19 @@ void Omnific::Mesh::populate_data(
     if (positions.size() != 0)
     {
         if (texture_coords.size() == 0)
-            for (size_t i = 0; i < positions.size(); i++)
+            for (size_t i = 0; i < positions.size(); ++i)
                 texture_coords.push_back(0.0);
 
         if (normals.size() == 0)
-            for (size_t i = 0; i < positions.size(); i++)
+            for (size_t i = 0; i < positions.size(); ++i)
                 normals.push_back(0.0);
 
         if (tangents.size() == 0)
-            for (size_t i = 0; i < positions.size(); i++)
+            for (size_t i = 0; i < positions.size(); ++i)
                 tangents.push_back(0.0);
 
         if (bitangents.size() == 0)
-            for (size_t i = 0; i < positions.size(); i++)
+            for (size_t i = 0; i < positions.size(); ++i)
                 bitangents.push_back(0.0);
 
         if (indices.size() == 0)
@@ -267,7 +267,7 @@ void Omnific::Mesh::populate_data(
         float* texture_coords_data = texture_coords.data();
         float* normals_data = normals.data();
 
-        for (size_t i = 0; i < vertex_count; i++)
+        for (size_t i = 0; i < vertex_count; ++i)
         {
             Vertex vertex;
             vertex.position = {

@@ -50,7 +50,7 @@ void Omnific::Line::generate_from_points(glm::vec3 point_a, glm::vec3 point_b, s
 void Omnific::Line::generate_from_point_list(std::vector<glm::vec3> points, std::shared_ptr<Colour> colour)
 {
 	std::vector<float> positions;
-	for (int i = 0; i < points.size(); i++)
+	for (int i = 0; i < points.size(); ++i)
 	{
 		glm::vec3 point = points.at(i);
 		positions.push_back(point.x);

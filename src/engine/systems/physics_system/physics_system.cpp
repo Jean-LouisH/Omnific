@@ -34,7 +34,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <foundations/singletons/profiler.hpp>
 
-#define PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "physics_system_on_fixed_update_frame_time_clock"
+#define PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "physics_system_on_fixed_update_frame_time"
 
 Omnific::PhysicsSystem::~PhysicsSystem()
 {
@@ -52,9 +52,8 @@ void Omnific::PhysicsSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	for (const auto scene_layer_it : scene->get_scene_layers())
+	for (const auto& [id, scene_layer] : scene->get_scene_layers())
 	{
-		std::shared_ptr<SceneLayer> scene_layer = scene_layer_it.second;
 		this->update_timers(scene_layer);
 		this->gravitate(scene_layer);
 		this->decelerate(scene_layer);
@@ -73,7 +72,7 @@ void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_lay
 {
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<Timer> timer : scene_layer->get_components_by_type<Timer>())
+	for (std::shared_ptr<Timer>& timer : scene_layer->get_components_by_type<Timer>())
 		timer->update(seconds_per_fixed_update);
 }
 
@@ -81,7 +80,7 @@ void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
+	for (std::shared_ptr<PhysicsBody>& physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 		if (physics_body->has_gravity)
 			physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_fixed_update;
 }
@@ -90,7 +89,7 @@ void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 {
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
+	for (std::shared_ptr<PhysicsBody>& physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
 		if (physics_body->has_gravity)
 		{
@@ -108,7 +107,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 	size_t colliders_count = colliders.size();
 	std::string collision_event_string;
 
-	for (size_t i = 0; i < colliders_count; i++)
+	for (size_t i = 0; i < colliders_count; ++i)
 	{
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
 		std::shared_ptr<Transform> transform1 = scene_layer->get_entity(collider1->get_entity_id())->get_transform();
@@ -117,7 +116,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 		scale1 *= 0.5;
 		AABB3D aabb1 = collider1->box.aabb;
 
-		for (size_t j = 0; j < colliders_count; j++)
+		for (size_t j = 0; j < colliders_count; ++j)
 		{
 			if (i != j)
 			{
@@ -205,7 +204,7 @@ void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr
 	size_t collision_event_count = collision_events.size();
 
 	/* Basic collision response on boxes */
-	for (size_t i = 0; i < collision_event_count; i++)
+	for (size_t i = 0; i < collision_event_count; ++i)
 	{
 		Event& collision_event = collision_events.at(i);
 		std::unordered_map<std::string, std::shared_ptr<Component>> components = collision_event.get_parameters().components;
@@ -258,7 +257,7 @@ void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr
 	/*Displacements*/
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<PhysicsBody> physics_body : scene_layer->get_components_by_type<PhysicsBody>())
+	for (std::shared_ptr<PhysicsBody>& physics_body : scene_layer->get_components_by_type<PhysicsBody>())
 	{
 		scene_layer->get_entity(physics_body->get_entity_id())->get_transform()->translation += physics_body->linear_velocity * seconds_per_fixed_update;
 	}

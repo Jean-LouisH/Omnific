@@ -33,6 +33,7 @@
 #include <scene/components/script_collection.hpp>
 #include <memory>
 #include <vector>
+#include <foundations/singletons/platform/platform.hpp>
 
 #include <unordered_map>
 #include "pybind11/pybind11.h"
@@ -47,6 +48,8 @@ namespace Omnific
 		PythonScriptingSystem()
 		{
 			this->type = TYPE_STRING;
+			this->script_modified_time_clock = std::shared_ptr<Clock>(new Clock());
+			this->script_modified_time_clock->set_start();
 		};
 
 		static constexpr const char* TYPE_STRING = "PythonScriptingSystem";
@@ -73,19 +76,21 @@ namespace Omnific
 		bool is_vmstarted = false;
 		bool has_modules_loaded_on_this_update = false;
 		std::unordered_map<std::string, PythonScriptInstance> python_script_instances;
-		std::unordered_map<std::string, std::vector<std::string>> methods_with_instances;
+		std::unordered_map<std::string, std::string> last_modified_times_for_script_files;
+		std::unordered_map<std::string, std::vector<std::string>> instances_with_methods;
+		std::unordered_map<std::string, std::shared_ptr<ScriptCollection>> script_collections_with_instances;
+		std::shared_ptr<Clock> script_modified_time_clock;
 
 		void execute_queued_methods(
 			std::queue<EntityID> entity_queue,
 			std::shared_ptr<SceneLayer> scene_layer,
 			const char* method_name);
-		void execute_update_methods(
-			std::shared_ptr<SceneLayer> scene_layer,
-			const char* method_name);
+		void execute_regular_methods(std::shared_ptr<Scene> scene, const char* method_name);
 		void bind_and_call(std::shared_ptr<ScriptCollection> script_collection,
-			SceneLayerID scene_layer_id,
-			EntityID entity_id,
+			std::string instance_name,
 			std::string method_name);
+
+		bool has_any_script_been_modified();
 	};
 }
 

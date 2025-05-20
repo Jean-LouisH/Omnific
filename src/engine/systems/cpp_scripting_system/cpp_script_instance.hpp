@@ -59,6 +59,7 @@ namespace Omnific
 {
     class OMNIFIC_ENGINE_API CPPScriptInstance : public Registerable
     {
+        friend class CPPScriptingSystem;
     public:
         CPPScriptInstance()
         {
@@ -82,5 +83,13 @@ namespace Omnific
         virtual void on_entity_finish();
         virtual void on_output();
     private:
+        bool has_on_input_method = true;
+        bool has_on_entity_start_method = true;
+        bool has_on_early_update_method = true;
+        bool has_on_update_method = true;
+        bool has_on_fixed_update_method = true;
+        bool has_on_late_update_method = true;
+        bool has_on_entity_finish_method = true;
+        bool has_on_output_method = true;
     };
 }

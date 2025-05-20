@@ -26,7 +26,7 @@
 #include <scene/components/model.hpp>
 #include <foundations/singletons/profiler.hpp>
 
-#define CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME "camera_system_on_update_frame_time_clock"
+#define CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME "camera_system_on_update_frame_time"
 
 Omnific::CameraSystem::~CameraSystem()
 {
@@ -44,9 +44,9 @@ void Omnific::CameraSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	for (const auto scene_layer_it : scene->get_scene_layers())
+	for (const auto& [id, scene_layer] : scene->get_scene_layers())
 	{
-		this->autofit_viewports_to_model_widths(scene_layer_it.second);
+		this->autofit_viewports_to_model_widths(scene_layer);
 	}
 	frame_time_clock->set_end();
 }
@@ -58,7 +58,7 @@ void Omnific::CameraSystem::finalize()
 
 void Omnific::CameraSystem::autofit_viewports_to_model_widths(std::shared_ptr<SceneLayer> scene_layer)
 {
-	for (std::shared_ptr<Camera> camera: scene_layer->get_components_by_type<Camera>())
+	for (std::shared_ptr<Camera>& camera: scene_layer->get_components_by_type<Camera>())
 	{
 		std::shared_ptr<Entity> target_entity = scene_layer->get_entity_by_name(camera->viewport_target_entity);
 		if (target_entity != nullptr)

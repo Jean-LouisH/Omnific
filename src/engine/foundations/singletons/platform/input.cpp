@@ -162,7 +162,7 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes)
 
 bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < input_codes.size(); i++)
+	for (int i = 0; i < input_codes.size(); ++i)
 	{
 		std::string input_code = input_codes.at(i);
 
@@ -202,7 +202,7 @@ bool Omnific::Inputs::is_on_double_press(std::vector<std::string> input_codes, u
 
 bool Omnific::Inputs::is_on_double_press(std::vector<std::string> input_codes, unsigned int timer_interval, PlayerID player_id)
 {
-	for (int i = 0; i < input_codes.size(); i++)
+	for (int i = 0; i < input_codes.size(); ++i)
 	{
 
 	}
@@ -224,7 +224,7 @@ bool Omnific::Inputs::is_pressed(std::vector<std::string> input_codes)
 
 bool Omnific::Inputs::is_pressed(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < input_codes.size(); i++)
+	for (int i = 0; i < input_codes.size(); ++i)
 	{
 		std::string input_code = input_codes.at(i);
 
@@ -262,7 +262,7 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes)
 
 bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < input_codes.size(); i++)
+	for (int i = 0; i < input_codes.size(); ++i)
 	{
 		std::string input_code = input_codes.at(i);
 

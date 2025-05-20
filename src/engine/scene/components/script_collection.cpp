@@ -33,7 +33,7 @@ void Omnific::ScriptCollection::deserialize(YAML::Node yaml_node)
 
 		if (language_name == "Python")
 		{
-			for (int i = 0; i < it3->second.size(); i++)
+			for (int i = 0; i < it3->second.size(); ++i)
 			{
 				std::shared_ptr<Script> python_script(Platform::get_file_access().load_resource_by_type<Script>(it3->second[i].as<std::string>(), false));
 				python_script->set_language_name(language_name);
@@ -42,7 +42,7 @@ void Omnific::ScriptCollection::deserialize(YAML::Node yaml_node)
 		}
 		else if (language_name == "CPP")
 		{
-			for (int i = 0; i < it3->second.size(); i++)
+			for (int i = 0; i < it3->second.size(); ++i)
 			{
 				std::shared_ptr<Script> cpp_script(Platform::get_file_access().load_resource_by_type<Script>(it3->second[i].as<std::string>(), false));
 				cpp_script->set_language_name(language_name);

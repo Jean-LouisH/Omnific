@@ -130,7 +130,7 @@ namespace Omnific
 
                 vec3 reflected_light = vec3(0.0);
 
-                for (int i = 0; i < light_count; i++)
+                for (int i = 0; i < light_count; ++i)
                 {
                     vec3 light_direction = get_light_direction(
                                     light_modes[i],

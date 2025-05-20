@@ -139,7 +139,7 @@ void Omnific::SceneLayer::remove_entity(EntityID entity_id)
 		/* Remove the children */
 		std::vector<EntityID> child_ids = this->get_entity(entity_id)->child_ids;
 
-		for (int i = 0; i < child_ids.size(); i++)
+		for (int i = 0; i < child_ids.size(); ++i)
 			this->remove_entity(child_ids.at(i));
 
 		/* Remove the ID from the parent children list */
@@ -202,7 +202,7 @@ void Omnific::SceneLayer::remove_component(EntityID entity_id, std::string type)
 			std::vector<size_t> component_indices;
 			this->component_index_caches.emplace(type, component_indices);
 
-			for (size_t i = 0; i < components.size(); i++)
+			for (size_t i = 0; i < components.size(); ++i)
 			{
 				this->component_index_caches.at(type).push_back(i);
 				if (components.at(i)->is_renderable())

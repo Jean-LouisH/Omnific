@@ -241,7 +241,7 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 										}
 
 
-										for (size_t i = 0; i < sorted_entities.size(); i++)
+										for (size_t i = 0; i < sorted_entities.size(); ++i)
 										{
 											std::shared_ptr<Entity> sub_scene_entity = sorted_entities[i];
 
@@ -363,7 +363,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 		std::shared_ptr<Entity> gltf_scene_root_entity(new Entity());
 		scene_layer->add_entity(gltf_scene_root_entity);
 
-		for (size_t i = 0; i < gltf_model.nodes.size(); i++)
+		for (size_t i = 0; i < gltf_model.nodes.size(); ++i)
 		{
 			tinygltf::Node gltf_node = gltf_model.nodes[i];
 			int mesh_index = gltf_node.mesh;
@@ -563,7 +563,7 @@ std::vector<float> Omnific::Scene::read_gltfprimitive_attribute(tinygltf::Model 
 		float* float_byte_data = (float*)bytes.data();
 		size_t float_byte_size = bytes.size() / sizeof(float);
 
-		for (size_t i = 0; i < float_byte_size; i++)
+		for (size_t i = 0; i < float_byte_size; ++i)
 			attribute.push_back(float_byte_data[i]);
 	}
 
@@ -582,7 +582,7 @@ std::vector<uint32_t> Omnific::Scene::read_gltfprimitive_indices(tinygltf::Model
 	uint16_t* short_index_byte_data = (uint16_t*)index_bytes.data();
 	size_t short_index_byte_size = index_bytes.size() / sizeof(uint16_t);
 
-	for (size_t i = 0; i < short_index_byte_size; i++)
+	for (size_t i = 0; i < short_index_byte_size; ++i)
 		indices.push_back((uint32_t)short_index_byte_data[i]);
 
 	return indices;

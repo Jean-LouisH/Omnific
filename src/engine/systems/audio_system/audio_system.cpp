@@ -31,7 +31,7 @@
 #include <SDL.h>
 #include <math.h>
 
-#define AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "audio_system_on_entity_finish_frame_time_clock"
+#define AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "audio_system_on_entity_finish_frame_time"
 
 Omnific::AudioSystem::AudioSystem()
 {
@@ -90,15 +90,13 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 		std::vector<int16_t> mix_buffer;
 		mix_buffer.reserve(chunk_size);
 
-		for (int i = 0; i < chunk_size; i++)
+		for (int i = 0; i < chunk_size; ++i)
 		{
 			mix_buffer.push_back(0);
 		}
 
-		for (auto it = scene_layers.begin(); it != scene_layers.end(); it++)
+		for (auto& [id, scene_layer] : scene_layers)
 		{
-			std::shared_ptr<SceneLayer> scene_layer = it->second;
-	
 			for (std::shared_ptr<AudioListener>& audio_listener : scene_layer->get_components_by_type<AudioListener>())
 			{
 				std::shared_ptr<Entity> listener_entity = scene_layer->get_entity(audio_listener->get_entity_id());
@@ -135,7 +133,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 	
 					if (audio_channel_count == 1)
 					{
-						for (int i = sample_start_point; i < sample_end_point; i++)
+						for (int i = sample_start_point; i < sample_end_point; ++i)
 						{
 							int16_t mix_value = (int16_t)(audio->data[i] * gain);
 							mix_buffer[i * 2] += mix_value;

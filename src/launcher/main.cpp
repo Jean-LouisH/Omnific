@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	executable_filepath.insert(directory_slash_index + 1, application_relative_directory);
 	std::string arg_strings;
 
-	for (int i = 1; i < argc; i++)
+	for (int i = 1; i < argc; ++i)
 	{
 		arg_strings += " ";
 		arg_strings += argv[i];

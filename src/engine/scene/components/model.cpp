@@ -272,7 +272,7 @@ void Omnific::Model::build_uniform_references_from_shader(std::shared_ptr<Shader
 
 	std::string concatenated_sources = shader->get_vertex_source() + shader->get_fragment_source();
 
-	for (int i = 0; i < concatenated_sources.size(); i++)
+	for (int i = 0; i < concatenated_sources.size(); ++i)
 	{
 		char c = concatenated_sources[i];
 

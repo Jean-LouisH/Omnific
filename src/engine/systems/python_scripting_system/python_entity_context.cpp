@@ -73,7 +73,7 @@ std::shared_ptr<Omnific::Component> Omnific::PythonEntityContext::get_component(
 	std::shared_ptr<Entity> entity = get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
 	std::vector<std::shared_ptr<Component>> components = get_instance()->get_scene_layer()->get_components();
 
-	for (int i = 0; i < components.size(); i++)
+	for (int i = 0; i < components.size(); ++i)
 		if (components.at(i)->get_id() == entity->get_component_ids().at(type))
 			component = components.at(i);
 

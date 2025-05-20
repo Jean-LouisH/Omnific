@@ -32,7 +32,7 @@
 #include <foundations/singletons/configuration.hpp>
 #include <foundations/singletons/profiler.hpp>
 
-#define RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "rendering_system_on_output_frame_time_clock"
+#define RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "rendering_system_on_output_frame_time"
 
 Omnific::RenderingSystem::RenderingSystem()
 {
@@ -84,13 +84,13 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 
 	this->opengl_backend->clear_colour_buffer(0, 0, 0, 255);
 
-	for (int i = 0; i < this->renderable_layer_lists.size(); i++)
+	for (int i = 0; i < this->renderable_layer_lists.size(); ++i)
 	{
 		std::vector<RenderableLayer> renderable_layer_list = this->renderable_layer_lists[i];
 		RenderableLayer* renderable_layer_list_data = renderable_layer_list.data();
 		size_t renderable_layer_list_count = renderable_layer_list.size();
 
-		for (size_t j = 0; j < renderable_layer_list_count; j++)
+		for (size_t j = 0; j < renderable_layer_list_count; ++j)
 		{
 			RenderableLayer& renderable_layer = renderable_layer_list_data[j];
 
@@ -142,7 +142,7 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 				std::vector<glm::vec3> light_rotations;
 
 				size_t lights_count = active_lights.size();
-				for (size_t k = 0; k < lights_count; k++)
+				for (size_t k = 0; k < lights_count; ++k)
 				{
 					std::shared_ptr<Light> light = active_lights[k];
 					std::shared_ptr<Transform> light_transform = active_light_transforms[k];
@@ -159,7 +159,7 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 
 
 				/* Forward Rendering */
-				for (size_t k = 0; k < renderable_count; k++)
+				for (size_t k = 0; k < renderable_count; ++k)
 				{
 					Renderable& renderable = renderables_data[k];
 					std::shared_ptr<Shader> shader = renderable.overriding_shader;
@@ -303,26 +303,26 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 						shader_program->use();
 
 						/* Custom uniforms. */
-						for (auto const& int_uniform_pair : shader_parameters->int_uniforms)
-							shader_program->set_int(int_uniform_pair.first, int_uniform_pair.second);
+						for (auto const& [name, int_uniform] : shader_parameters->int_uniforms)
+							shader_program->set_int(name, int_uniform);
 
-						for (auto const& bool_uniform_pair : shader_parameters->bool_uniforms)
-							shader_program->set_bool(bool_uniform_pair.first, bool_uniform_pair.second);
+						for (auto const& [name, bool_uniform] : shader_parameters->bool_uniforms)
+							shader_program->set_bool(name, bool_uniform);
 
-						for (auto const& float_uniform_pair : shader_parameters->float_uniforms)
-							shader_program->set_float(float_uniform_pair.first, float_uniform_pair.second);
+						for (auto const& [name, float_uniform] : shader_parameters->float_uniforms)
+							shader_program->set_float(name, float_uniform);
 
-						for (auto const& vec2_uniform_pair : shader_parameters->vec2_uniforms)
-							shader_program->set_vec2(vec2_uniform_pair.first, vec2_uniform_pair.second);
+						for (auto const& [name, vec2_uniform] : shader_parameters->vec2_uniforms)
+							shader_program->set_vec2(name, vec2_uniform);
 
-						for (auto const& vec3_uniform_pair : shader_parameters->vec3_uniforms)
-							shader_program->set_vec3(vec3_uniform_pair.first, vec3_uniform_pair.second);
+						for (auto const& [name, vec3_uniform] : shader_parameters->vec3_uniforms)
+							shader_program->set_vec3(name, vec3_uniform);
 
-						for (auto const& vec4_uniform_pair : shader_parameters->vec4_uniforms)
-							shader_program->set_vec4(vec4_uniform_pair.first, vec4_uniform_pair.second);
+						for (auto const& [name, vec4_uniform] : shader_parameters->vec4_uniforms)
+							shader_program->set_vec4(name, vec4_uniform);
 
-						for (auto const& mat4_uniform_pair : shader_parameters->mat4_uniforms)
-							shader_program->set_mat4(mat4_uniform_pair.first, mat4_uniform_pair.second);
+						for (auto const& [name, mat4_uniform] : shader_parameters->mat4_uniforms)
+							shader_program->set_mat4(name, mat4_uniform);
 
 						/* Standard uniforms */
 						shader_program->set_mat4("mvp", mvp);
@@ -404,7 +404,7 @@ void Omnific::RenderingSystem::on_window_resize()
 	{
 		int renderable_layer_list_size = this->renderable_layer_lists.size();
 
-		for (int i = 0; renderable_layer_list_size; i++)
+		for (int i = 0; renderable_layer_list_size; ++i)
 		{
 			std::vector<RenderableLayer> renderable_layers = this->renderable_layer_lists.at(renderable_layer_list_size - 1);
 			int renderable_layer_size = renderable_layers.size();
@@ -436,16 +436,15 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 	std::vector<std::shared_ptr<Model>> gui_renderable_components;
 	std::vector<std::shared_ptr<SceneLayer>> gui_scene_layers;
 
-	for (const auto scene_layer_it : scene->get_scene_layers())
+	for (const auto& [id, scene_layer] : scene->get_scene_layers())
 	{
-		std::shared_ptr<SceneLayer> scene_layer = scene_layer_it.second;
 		std::vector<RenderableLayer> renderable_layer_list;
 
 		std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer->get_components_by_type<Viewport>();
 		std::vector<size_t> render_order_index_cache = scene_layer->get_render_order_index_cache();
 
 		/* One or more Viewport RenderableLayers for each SceneLayer. */
-		for (int i = 0; i < ui_viewports.size(); i++)
+		for (int i = 0; i < ui_viewports.size(); ++i)
 		{
 			std::shared_ptr<Viewport> ui_viewport = ui_viewports.at(i);
 			std::shared_ptr<Entity> camera_entity = scene_layer->get_entity_by_name(ui_viewport->get_camera_entity_name());
@@ -466,7 +465,7 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 				}
 	
 				/* Entity RenderableLayer for each Viewport*/
-				for (int i = 0; i < render_order_index_cache.size(); i++)
+				for (int i = 0; i < render_order_index_cache.size(); ++i)
 				{
 					Renderable entity_renderable;
 					std::shared_ptr<Model> renderable_component =
@@ -542,7 +541,7 @@ void Omnific::RenderingSystem::build_renderables(std::shared_ptr<Scene> scene)
 	renderable_layer.camera = camera;
 	renderable_layer.camera_transform = camera_transform;
 
-	for (int i = 0; i < gui_renderable_components.size(); i++)
+	for (int i = 0; i < gui_renderable_components.size(); ++i)
 	{
 		Renderable entity_renderable;
 		std::shared_ptr<Model> gui_renderable_component = gui_renderable_components[i];

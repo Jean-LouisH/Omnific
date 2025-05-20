@@ -68,6 +68,7 @@ namespace Omnific
 		void load_script_modules(std::shared_ptr<Scene> scene);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> cpp_script_instances;
+		std::unordered_map<std::string, std::string> instances_with_methods;
 
 		void bind_and_call(
 			std::shared_ptr<ScriptCollection> script_collection,

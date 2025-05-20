@@ -54,7 +54,7 @@ class omnific_script:
 """ + project_print_string)
         pass
 
-    def on_update(self):
+    def on_input(self):
         inputs = omnific.get_inputs()
         
         for letter, project_path in self.project_paths.items():

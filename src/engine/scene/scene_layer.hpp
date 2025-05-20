@@ -96,7 +96,7 @@ namespace Omnific
 
 			size_t component_index_count = component_indices.size();
 
-			for (size_t i = 0; i < component_index_count; i++)
+			for (size_t i = 0; i < component_index_count; ++i)
 				components_by_type.push_back(std::dynamic_pointer_cast<T>(components.at(component_indices.at(i))));
 
 			return components_by_type;
@@ -108,7 +108,7 @@ namespace Omnific
 			std::unordered_map<ComponentID, std::shared_ptr<T>> component_dictionary;
 			std::vector<std::shared_ptr<T>> components_by_type = this->get_components_by_type<T>();
 
-			for (int i = 0; i < components_by_type.size(); i++)
+			for (int i = 0; i < components_by_type.size(); ++i)
 			{
 				std::shared_ptr<T> component = components_by_type.at(i);
 				component_dictionary.emplace(component->get_id(), component);

@@ -26,6 +26,11 @@
 #include "foundations/constants.hpp"
 #include <thread>
 
+Omnific::Clock::Clock()
+{
+	this->clock_name = "unnamed";
+}
+
 Omnific::Clock::Clock(std::string clock_name)
 {
 	this->clock_name = clock_name;
@@ -67,7 +72,7 @@ void Omnific::Platform::initialize(
 
 	std::vector<std::string> command_line_arguments;
 
-	for (int i = 0; i < argc; i++)
+	for (int i = 0; i < argc; ++i)
 		command_line_arguments.push_back(argv[i]);
 
 	new_instance->shared_library_access = std::unique_ptr<SharedLibraryAccess>(new SharedLibraryAccess());

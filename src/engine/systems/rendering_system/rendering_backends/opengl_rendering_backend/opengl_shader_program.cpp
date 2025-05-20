@@ -98,7 +98,7 @@ void Omnific::OpenGLShaderProgram::set_int_array(std::string name, std::vector<i
 void Omnific::OpenGLShaderProgram::set_bool_array(std::string name, std::vector<bool> values)
 {
 	std::vector<int> int_values;
-	for (int i = 0; i < values.size(); i++)
+	for (int i = 0; i < values.size(); ++i)
 		int_values.push_back(values.at(i));
 	this->set_int_array(name, int_values);
 }
@@ -111,7 +111,7 @@ void Omnific::OpenGLShaderProgram::set_float_array(std::string name, std::vector
 void Omnific::OpenGLShaderProgram::set_vec2_array(std::string name, std::vector<glm::vec2> values)
 {
 	std::vector<float> vec2_values;
-	for (int i = 0; i < values.size(); i++)
+	for (int i = 0; i < values.size(); ++i)
 	{
 		glm::vec2 vec2_value = values.at(i);
 		vec2_values.push_back(vec2_value.x);
@@ -123,7 +123,7 @@ void Omnific::OpenGLShaderProgram::set_vec2_array(std::string name, std::vector<
 void Omnific::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<glm::vec3> values)
 {
 	std::vector<float> vec3_values;
-	for (int i = 0; i < values.size(); i++)
+	for (int i = 0; i < values.size(); ++i)
 	{
 		glm::vec3 vec3_value = values.at(i);
 		vec3_values.push_back(vec3_value.x);
@@ -136,7 +136,7 @@ void Omnific::OpenGLShaderProgram::set_vec3_array(std::string name, std::vector<
 void Omnific::OpenGLShaderProgram::set_vec4_array(std::string name, std::vector<glm::vec4> values)
 {
 	std::vector<float> vec4_values;
-	for (int i = 0; i < values.size(); i++)
+	for (int i = 0; i < values.size(); ++i)
 	{
 		glm::vec4 vec4_value = values.at(i);
 		vec4_values.push_back(vec4_value.x);

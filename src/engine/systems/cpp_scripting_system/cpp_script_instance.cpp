@@ -24,40 +24,40 @@
 
 void Omnific::CPPScriptInstance::on_entity_start()
 {
-
+    this->has_on_entity_start_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_input()
 {
-
+    this->has_on_input_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_early_update()
 {
-
+    this->has_on_early_update_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_update()
 {
-
+    this->has_on_update_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_fixed_update()
 {
-
+    this->has_on_fixed_update_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_late_update()
 {
-
+    this->has_on_late_update_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_output()
 {
-
+    this->has_on_output_method = false;
 }
 
 void Omnific::CPPScriptInstance::on_entity_finish()
 {
-
+    this->has_on_entity_finish_method = false;
 }
