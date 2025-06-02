@@ -5,6 +5,11 @@ class omnific_script:
 
     def __init__(self):
         self.time = 0
+        self.transform = None
+        pass
+
+    def on_entity_start(self):
+        self.transform = omnific.get_transform()
         pass
 
     def on_fixed_update(self):
@@ -12,7 +17,6 @@ class omnific_script:
         xyz_scale_speed = 1.0
         amplitude = 1.0
         
-        transform = omnific.get_transform()
-        transform.set_xyz_scale(amplitude * math.sin(self.time * xyz_scale_speed))
+        self.transform.set_xyz_scale(amplitude * math.sin(self.time * xyz_scale_speed))
         self.time += delta
         pass

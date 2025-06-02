@@ -44,14 +44,12 @@ class omnific_script:
                 self.paddle_physics_body.decelerate(constants.deceleration)
 
         else:
-            physics_body = omnific.get_component("PhysicsBody")
-
             if inputs.is_pressed("up"):
-                physics_body.accelerate_y(constants.acceleration, constants.maximum_speed)
+                self.paddle_physics_body.accelerate_y(constants.acceleration, constants.maximum_speed)
             elif inputs.is_pressed("down"):
-                physics_body.accelerate_y(-constants.acceleration, -constants.maximum_speed)
+                self.paddle_physics_body.accelerate_y(-constants.acceleration, -constants.maximum_speed)
             else:
-                physics_body.decelerate(constants.deceleration)
+                self.paddle_physics_body.decelerate(constants.deceleration)
             pass
             
         pass

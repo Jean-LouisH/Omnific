@@ -27,6 +27,7 @@
 #include <customization/class_registry.hpp>
 #include <gtx/quaternion.hpp>
 #include <cmath>
+#include <foundations/singletons/profiler.hpp>
 
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
@@ -45,9 +46,9 @@ Omnific::Scene::Scene(std::string filepath)
 	this->id = UIDGenerator::get_new_uid();
 }
 
-Omnific::Scene::Scene(std::string filepath, std::string name)
+Omnific::Scene::Scene(std::string filepath, std::string exclusive_scene_layer_name)
 {
-	this->deserialize_from(filepath, name);
+	this->deserialize_from(filepath, exclusive_scene_layer_name);
 	this->id = UIDGenerator::get_new_uid();
 }
 
@@ -61,12 +62,12 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 	return this->deserialize_from(filepath, "");
 }
 
-void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
+void Omnific::Scene::deserialize_from(std::string filepath, std::string exclusive_scene_layer_name)
 {
-	if (name == "")
+	if (exclusive_scene_layer_name == "")
 		Platform::get_logger().write("Loading all SceneLayers from Scene: \"" + filepath + "\"");
 	else
-		Platform::get_logger().write("Loading SceneLayer: \"" + name + "\" from Scene : \"" + filepath + "\"");
+		Platform::get_logger().write("Loading SceneLayer: \"" + exclusive_scene_layer_name + "\" from Scene : \"" + filepath + "\"");
 
 
 	this->name = filepath;
@@ -87,7 +88,7 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 					bool load_this_scene_layer = true;
 
 					/* If the name is an empty string, load all, otherwise search for the name */
-					if (name != "")
+					if (exclusive_scene_layer_name != "")
 					{
 						load_this_scene_layer = false;
 
@@ -95,7 +96,7 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 						{
 							if (it1->first.as<std::string>() == "name")
 							{
-								load_this_scene_layer = it1->second.as<std::string>() == name;
+								load_this_scene_layer = it1->second.as<std::string>() == exclusive_scene_layer_name;
 								break;
 							}
 						}
@@ -270,6 +271,28 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string name)
 
 		}
 	}
+
+	if (exclusive_scene_layer_name == "")
+	{
+		std::shared_ptr<SceneLayer> debug_scene_layer = std::make_shared<SceneLayer>();
+		std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>();
+		std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
+		std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
+
+		debug_gui->hide();
+	#ifdef _DEBUG
+		debug_gui->show();
+	#endif
+
+		debug_gui->set_to_label("");
+		debug_scene_layer->add_empty_entity();
+		debug_scene_layer->add_component_to_last_entity(debug_camera);
+		debug_scene_layer->add_entity(debug_gui_entity);
+		debug_scene_layer->add_component_to_last_entity(debug_gui);
+		this->add_scene_layer(debug_scene_layer);
+		debug_scene_layer->name = "debug_scene_layer";
+		debug_scene_layer->set_entity_name(debug_gui_entity->get_id(), "debug_gui_entity");
+	}
 }
 
 void Omnific::Scene::reload()
@@ -331,6 +354,26 @@ std::map<Omnific::SceneLayerID, std::shared_ptr<Omnific::SceneLayer>>& Omnific::
 Omnific::SceneID Omnific::Scene::get_id()
 {
 	return this->id;
+}
+
+void Omnific::Scene::update_debug_scene_layer()
+{
+	std::string debug_string = Profiler::get_clock_deltas_to_string_by_tag("total");
+	std::shared_ptr<SceneLayer> debug_scene_layer = this->get_scene_layer_by_name("debug_scene_layer");
+	std::shared_ptr<GUI> debug_gui = debug_scene_layer->get_component_by_type<GUI>(debug_scene_layer->get_entity_by_name("debug_gui_entity")->get_id());
+	debug_gui->set_to_label(debug_string);
+
+	if (Platform::get_inputs().is_on_release("f3"))
+	{
+		if (debug_gui->get_alpha_in_percentage() < 0.5)
+		{
+			debug_gui->show();
+		}
+		else
+		{
+			debug_gui->hide();
+		}
+	}
 }
 
 std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filepath)

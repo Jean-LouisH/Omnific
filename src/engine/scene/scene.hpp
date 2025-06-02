@@ -40,14 +40,15 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Scene
 	{
+		friend class Engine;
 	public:
 		Scene();
 		Scene(std::string filepath);
-		Scene(std::string filepath, std::string name);
+		Scene(std::string filepath, std::string exclusive_scene_layer_name);
 
 		void serialize_to(std::string filepath);
 		void deserialize_from(std::string filepath);
-		void deserialize_from(std::string filepath, std::string name);
+		void deserialize_from(std::string filepath, std::string exclusive_scene_layer_name);
 		void reload();
 
 		void add_scene_layer(std::shared_ptr<SceneLayer> scene_layer);
@@ -66,6 +67,8 @@ namespace Omnific
 		std::string name;
 		std::map<SceneLayerID, std::shared_ptr<SceneLayer>> scene_layers;
 		SceneLayerID last_scene_layer_id = 0;
+
+		void update_debug_scene_layer();
 
 		std::shared_ptr<SceneLayer> load_gltf(std::string filepath);
 		std::vector<uint8_t> read_gltfbuffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view);

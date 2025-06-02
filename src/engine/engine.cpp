@@ -360,7 +360,7 @@ void Omnific::Engine::run_loop()
     }
 
 	total_loop_frame_time_clock->set_end();
-	Platform::get_logger().write(Profiler::get_clock_deltas_to_string_by_tag("python_scripting_system"));
+	active_scene->update_debug_scene_layer();
 }
 
 void Omnific::Engine::run_loop_on_thread()

@@ -26,7 +26,7 @@
 #include <foundations/singletons/profiler.hpp>
 #include <SDL.h>
 
-#define HAPTIC_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "haptic_system_on_entity_finish_frame_time"
+#define HAPTIC_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "haptic_system_on_output_frame_time"
 
 Omnific::HapticSystem::~HapticSystem()
 {

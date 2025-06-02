@@ -40,15 +40,15 @@ void Omnific::Profiler::add_clock(std::string clock_name, std::vector<std::strin
 	instance->clocks.emplace(clock_name, clock);
 	for (std::string tag: tags)
 	{
-		if (instance->clocks_by_tags.count(tag) > 0)
+		if (instance->clock_names_by_tags.count(tag) > 0)
 		{
-			instance->clocks_by_tags.at(tag).push_back(clock);
+			instance->clock_names_by_tags.at(tag).push_back(clock_name);
 		}
 		else
 		{
-			std::vector<std::shared_ptr<Clock>> clocks;
-			clocks.push_back(clock);
-			instance->clocks_by_tags.emplace(tag, clocks);
+			std::vector<std::string> clock_names;
+			clock_names.push_back(clock_name);
+			instance->clock_names_by_tags.emplace(tag, clock_names);
 		}
 	}
 	instance->is_removable_map.emplace(clock_name, is_removable);
@@ -64,10 +64,7 @@ void Omnific::Profiler::remove_clock(std::string clock_name)
 		{
 			instance->clocks.erase(clock_name);
 			instance->is_removable_map.erase(clock_name);
-			// for (auto tag_clock_pair: instance->clocks_by_tags)
-			// {
 
-			// }
 		}
 	}
 }
@@ -88,9 +85,15 @@ std::vector<std::shared_ptr<Omnific::Clock>> Omnific::Profiler::get_clocks_by_ta
 	std::vector<std::shared_ptr<Clock>> clocks_by_tag;
 	Profiler* instance = Profiler::get_instance();
 
-	if (instance->clocks_by_tags.count(tag))
+	if (instance->clock_names_by_tags.count(tag))
 	{
-		clocks_by_tag = instance->clocks_by_tags.at(tag);
+		for (auto clock_name : instance->clock_names_by_tags.at(tag))
+		{
+			if (instance->clocks.count(clock_name) > 0)
+			{
+				clocks_by_tag.push_back(instance->clocks.at(clock_name));
+			}
+		}
 	}
 
 	return clocks_by_tag;

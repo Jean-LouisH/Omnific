@@ -51,7 +51,7 @@ namespace Omnific
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Clock>> clocks;
 		std::unordered_map<std::string, bool> is_removable_map;
-		std::unordered_map<std::string, std::vector<std::shared_ptr<Clock>>> clocks_by_tags;
+		std::unordered_map<std::string, std::vector<std::string>> clock_names_by_tags;
 		/* In milliseconds */
 		uint64_t lag = 0;
 		uint64_t frame_count = 0;

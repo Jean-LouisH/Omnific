@@ -31,7 +31,7 @@
 #include <SDL.h>
 #include <math.h>
 
-#define AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "audio_system_on_entity_finish_frame_time"
+#define AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "audio_system_on_output_frame_time"
 
 Omnific::AudioSystem::AudioSystem()
 {
