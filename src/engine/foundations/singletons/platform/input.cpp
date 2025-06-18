@@ -146,6 +146,30 @@ Omnific::Inputs::Inputs()
 	this->keyboard_events_by_string.emplace("up", SDLK_UP);
 	this->keyboard_events_by_string.emplace("right", SDLK_RIGHT);
 	this->keyboard_events_by_string.emplace("down", SDLK_DOWN);
+
+	this->action_button_map.insert({
+		{"dpad_left", {"dpad_left", "f"}},
+		{"dpad_right", {"dpad_right", "h"}},
+		{"dpad_up", {"dpad_up", "t"}},
+		{"dpad_down", {"dpad_down", "g"}},
+		{"button_extra", {"button_extra", "e"}},
+		{"button_menu", {"button_menu", "u"}},
+		{"button_x", {"button_x", "j"}},
+		{"button_y", {"button_y", "i"}},
+		{"button_a", {"button_a", "k"}},
+		{"button_b", {"button_b", "l"}},
+		{"left_shoulder_button", {"left_shoulder_button", "q"}},
+		{"left_stick_button", {"left_stick_button", "c"}},
+		{"right_shoulder_button", {"right_shoulder_button", "o"}},
+		{"right_stick_button", {"right_stick_button", "n"}}		
+	});
+
+	this->action_axis_map.insert({
+		{"left_axis_x", {{"left_axis_x", "left_axis_x"}, {"a", "d"}}},
+		{"left_axis_y", {{"left_axis_y", "left_axis_y"}, {"s", "w"}}},
+		{"right_axis_x", {{"right_axis_x", "right_axis_x"}, {";", "\""}}},	
+		{"left_axis_y", {{"right_axis_y", "right_axis_y"}, {"'", "["}}}
+	});
 }
 
 bool Omnific::Inputs::is_on_press(std::string input_code)
@@ -170,17 +194,18 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID
 		{
 			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
 			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN)
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN && !this->are_inputs_read)
 					return true;
 		}
-
+		
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
 					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
-						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id) && 
+						!this->are_inputs_read)
 						return true;
 		}
 	}
@@ -270,17 +295,18 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, Player
 		{
 			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
 			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYUP)
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYUP && !this->are_inputs_read)
 					return true;
 		}
-
+		
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
 					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
-						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id) && 
+						!this->are_inputs_read)
 						return true;
 		}
 	}
@@ -327,7 +353,8 @@ float Omnific::Inputs::get_axis(std::string input_code, PlayerID player_id)
 bool Omnific::Inputs::is_left_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN && 
+		!this->are_inputs_read;
 }
 
 bool Omnific::Inputs::is_left_mouse_button_pressed()
@@ -338,7 +365,8 @@ bool Omnific::Inputs::is_left_mouse_button_pressed()
 bool Omnific::Inputs::is_left_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP && 
+		!this->are_inputs_read;
 }
 
 bool Omnific::Inputs::is_left_mouse_button_released()
@@ -356,7 +384,8 @@ bool Omnific::Inputs::is_left_mouse_button_double_clicked()
 bool Omnific::Inputs::is_middle_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN && 
+		!this->are_inputs_read;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_pressed()
@@ -367,7 +396,8 @@ bool Omnific::Inputs::is_middle_mouse_button_pressed()
 bool Omnific::Inputs::is_middle_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP && 
+		!this->are_inputs_read;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_released()
@@ -385,7 +415,8 @@ bool Omnific::Inputs::is_middle_mouse_button_double_clicked()
 bool Omnific::Inputs::is_right_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN && 
+		!this->are_inputs_read;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_pressed()
@@ -396,7 +427,8 @@ bool Omnific::Inputs::is_right_mouse_button_pressed()
 bool Omnific::Inputs::is_right_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP && 
+		!this->are_inputs_read;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_released()
@@ -433,6 +465,56 @@ glm::vec2 Omnific::Inputs::get_mouse_motion_velocity()
 	vector2.x = this->mouse_motion_event.xrel;
 	vector2.y = this->mouse_motion_event.yrel;
 	return vector2;
+}
+
+bool Omnific::Inputs::is_action_on_press(std::string action_input_code)
+{
+	bool result = false;
+	if (this->action_button_map.count(action_input_code))
+		result = this->is_on_press(this->action_button_map.at(action_input_code));
+	return result;
+}
+
+bool Omnific::Inputs::is_action_on_double_press(std::string action_input_code, unsigned int time_interval)
+{
+	bool result = false;
+	if (this->action_button_map.count(action_input_code))
+		result = this->is_on_double_press(this->action_button_map.at(action_input_code), time_interval);
+	return result;
+}
+
+bool Omnific::Inputs::is_action_pressed(std::string action_input_code)
+{
+	bool result = false;
+	if (this->action_button_map.count(action_input_code))
+		result = this->is_pressed(this->action_button_map.at(action_input_code));
+	return result;
+}
+
+bool Omnific::Inputs::is_action_on_release(std::string action_input_code)
+{
+	bool result = false;
+	if (this->action_button_map.count(action_input_code))
+		result = this->is_on_release(this->action_button_map.at(action_input_code));
+	return result;
+}
+
+bool Omnific::Inputs::is_action_released(std::string action_input_code)
+{
+	bool result = false;
+	if (this->action_button_map.count(action_input_code))
+		result = this->is_released(this->action_button_map.at(action_input_code)[0]);
+	return result;
+}
+
+float Omnific::Inputs::get_action_axis(std::string action_input_code)
+{
+	float result = 0.0f;
+	if (this->action_axis_map.count(action_input_code))
+	{
+		
+	}
+	return result;
 }
 
 bool Omnific::Inputs::is_drop_file_detected()
@@ -507,7 +589,6 @@ void Omnific::Inputs::poll_input_events()
 	SDL_Event SDLEvents;
 
 	this->clear();
-	this->has_detected_input_changes = false;
 
 	while (SDL_PollEvent(&SDLEvents))
 	{
@@ -574,6 +655,17 @@ void Omnific::Inputs::poll_input_events()
 			break;
 		}
 	}
+}
+
+void Omnific::Inputs::on_start_of_frame()
+{
+	if (this->has_detected_input_changes)
+		this->are_inputs_read = false;
+}
+
+void Omnific::Inputs::on_end_of_frame()
+{
+	this->are_inputs_read = true;
 }
 
 bool Omnific::Inputs::has_requested_shutdown()

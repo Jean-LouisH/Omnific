@@ -73,7 +73,7 @@ std::shared_ptr<Omnific::Component> Omnific::CPPEntityContext::get_component(std
 
 float Omnific::CPPEntityContext::get_time_delta()
 {
-	return Profiler::get_clock("update_frame")->get_delta_in_seconds();
+	return get_instance()->time_delta;
 }
 
 Omnific::CPPEntityContext* Omnific::CPPEntityContext::get_instance()

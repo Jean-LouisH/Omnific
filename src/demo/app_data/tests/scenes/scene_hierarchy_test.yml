@@ -12,7 +12,8 @@ SceneLayer:
     transform:
       translation: [-2.0, 0.0, 0.0]
     ScriptCollection:
-      Python: ["tests/scripts/python/y_translation_sine_wave.py"]
+      CPP: [YTranslationSineWave]
+      #Python: ["tests/scripts/python/y_translation_sine_wave.py"]
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
@@ -30,7 +31,8 @@ SceneLayer:
     transform: 
       translation: [0.0, 0.0, 0.0]
     ScriptCollection:
-      Python: ["tests/scripts/python/z_rotation_sine_wave.py"]
+      CPP: [ZRotationSineWave]
+      #Python: ["tests/scripts/python/z_rotation_sine_wave.py"]
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
@@ -48,7 +50,8 @@ SceneLayer:
     transform:
       translation: [2.0, 0.0, 0.0]
     ScriptCollection:
-      Python: ["tests/scripts/python/xyz_scale_sine_wave.py"]
+      CPP: [XYZScaleSineWave]
+      #Python: ["tests/scripts/python/xyz_scale_sine_wave.py"]
     Model:
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"

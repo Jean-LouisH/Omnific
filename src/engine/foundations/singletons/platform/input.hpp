@@ -77,6 +77,13 @@ namespace Omnific
 		glm::vec2 get_mouse_wheel_velocity();
 		glm::vec2 get_mouse_motion_velocity();
 
+		bool is_action_on_press(std::string action_input_code);
+		bool is_action_on_double_press(std::string action_input_code, unsigned int time_interval);
+		bool is_action_pressed(std::string action_input_code);
+		bool is_action_on_release(std::string action_input_code);
+		bool is_action_released(std::string action_input_code);
+		float get_action_axis(std::string action_input_code);
+
 		bool is_drop_file_detected();
 		std::string get_drop_file_path();
 		uint32_t get_drop_file_window_id();
@@ -95,10 +102,15 @@ namespace Omnific
 	private:
 		void detect_game_controllers();
 		void poll_input_events();
+		void on_start_of_frame();
+		void on_end_of_frame();
 
 		std::unordered_map<std::string, SDL_Keycode> keyboard_events_by_string;
 		std::unordered_map<std::string, SDL_GameControllerButton> controller_buttons_by_string;
 		std::unordered_map<std::string, SDL_GameControllerAxis> controller_axis_events_by_string;
+
+		std::unordered_map<std::string, std::vector<std::string>> action_button_map;
+		std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> action_axis_map;
 
 		std::set<std::string> held_inputs;
 
@@ -122,6 +134,7 @@ namespace Omnific
 		std::queue<PlayerID> newly_loaded_player_ids;
 
 		bool has_detected_input_changes = false;
+		bool are_inputs_read = false;
 		bool shutdown_request = false;
 		bool restart_request = false;
 		void clear();

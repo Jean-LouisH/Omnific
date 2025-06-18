@@ -224,6 +224,8 @@ void Omnific::Engine::run_loop()
 	total_loop_frame_time_clock->set_start();
 
 	Configuration* configuration = Configuration::get_instance();
+	Inputs& inputs = Platform::get_inputs();
+	inputs.on_start_of_frame();
 
 	if (this->state == State::INITIALIZING)
 	{
@@ -361,6 +363,7 @@ void Omnific::Engine::run_loop()
 
 	total_loop_frame_time_clock->set_end();
 	active_scene->update_debug_scene_layer();
+	inputs.on_end_of_frame();
 }
 
 void Omnific::Engine::run_loop_on_thread()

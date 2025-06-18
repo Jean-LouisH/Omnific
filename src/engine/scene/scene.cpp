@@ -280,10 +280,6 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string exclusiv
 		std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
 
 		debug_gui->hide();
-	#ifdef _DEBUG
-		debug_gui->show();
-	#endif
-
 		debug_gui->set_to_label("");
 		debug_scene_layer->add_empty_entity();
 		debug_scene_layer->add_component_to_last_entity(debug_camera);
@@ -362,8 +358,9 @@ void Omnific::Scene::update_debug_scene_layer()
 	std::shared_ptr<SceneLayer> debug_scene_layer = this->get_scene_layer_by_name("debug_scene_layer");
 	std::shared_ptr<GUI> debug_gui = debug_scene_layer->get_component_by_type<GUI>(debug_scene_layer->get_entity_by_name("debug_gui_entity")->get_id());
 	debug_gui->set_to_label(debug_string);
+	Inputs& inputs = Platform::get_inputs();
 
-	if (Platform::get_inputs().is_on_release("f3"))
+	if (inputs.is_on_release("f3"))
 	{
 		if (debug_gui->get_alpha_in_percentage() < 0.5)
 		{

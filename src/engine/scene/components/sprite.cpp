@@ -28,17 +28,25 @@ void Omnific::Sprite::deserialize(YAML::Node yaml_node)
 {
 	Model::deserialize(yaml_node);
 
+	FileAccess& file_access = Platform::get_file_access();
+
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
 		if (it3->first.as<std::string>() == "image")
 		{
-			if (it3->second.as<std::string>() == "Image::default")
+			std::string image_string_value = it3->second.as<std::string>();
+			
+			if (image_string_value == "Image::default")
 			{
-				this->add_image(std::shared_ptr<Image>(new Image(it3->second.as<std::string>())));
+				this->add_image(std::shared_ptr<Image>(new Image(image_string_value)));
+			}
+			else if (file_access.exists(file_access.find_path(image_string_value)))
+			{
+				this->add_image(file_access.load_resource_by_type<Image>(image_string_value));
 			}
 			else
 			{
-				this->add_image(Platform::get_file_access().load_resource_by_type<Image>(it3->second.as<std::string>()));
+				this->add_image(std::make_shared<Image>(image_string_value));
 			}
 
 			this->set_dimensions(this->get_image()->get_width(), this->get_image()->get_height(), 0.0);

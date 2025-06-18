@@ -20,34 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-
-#include "engine.hpp"
-#include "cpp_tests.hpp"
 #include "xyz_scale_sine_wave.hpp"
-#include "y_translation_sine_wave.hpp"
-#include "z_rotation_sine_wave.hpp"
+#include <math.h>
 
-#undef main
-
-/**Regular entry point*/
-
-int main(int argc, char* argv[])
+void OmnificDemo::XYZScaleSineWave::on_entity_start()
 {
-	Omnific::Engine* omnific_engine = new Omnific::Engine(argc, argv);
+    this->time = 0.0;
+    this->transform = Omnific::CPPEntityContext::get_entity()->get_transform();
+}
 
-	omnific_engine->add_app_data_paths(
-		{
-			PROJECT_SOURCE_DIRECTORY, 
-			PROJECT_APP_DATA_DIRECTORY,
-			PROJECT_BUILD_DIRECTORY
-		}
-	);
-
-	Omnific::ClassRegistry::add<OmnificDemo::CPPTests, Omnific::CPPScriptInstance>();
-	Omnific::ClassRegistry::add<OmnificDemo::XYZScaleSineWave, Omnific::CPPScriptInstance>();
-	Omnific::ClassRegistry::add<OmnificDemo::YTranslationSineWave, Omnific::CPPScriptInstance>();
-	Omnific::ClassRegistry::add<OmnificDemo::ZRotationSineWave, Omnific::CPPScriptInstance>();
-
-	omnific_engine->run();
-	return 0;
+void OmnificDemo::XYZScaleSineWave::on_fixed_update()
+{
+    float delta = Omnific::CPPEntityContext::get_time_delta();
+    float xyz_scale_speed = 1.0;
+    float amplitude = 1.0;
+    this->transform->set_xyz_scale(amplitude * sin(this->time * xyz_scale_speed));
+    this->time += delta;
 }
