@@ -8,7 +8,7 @@ class omnific_script:
 
     def on_fixed_update(self):
         transform = omnific.get_transform()
-        movement_speed = 1.0 * omnific.get_fixed_time_delta()
+        movement_speed = 1.0 * omnific.get_time_delta()
 
         if (omnific.get_inputs().is_pressed("i")):
             transform.translate_z(-movement_speed)

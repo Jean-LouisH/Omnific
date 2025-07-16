@@ -357,6 +357,7 @@ void Omnific::Scene::update_debug_scene_layer()
 	std::string debug_string = Profiler::get_clock_deltas_to_string_by_tag("total");
 	std::shared_ptr<SceneLayer> debug_scene_layer = this->get_scene_layer_by_name("debug_scene_layer");
 	std::shared_ptr<GUI> debug_gui = debug_scene_layer->get_component_by_type<GUI>(debug_scene_layer->get_entity_by_name("debug_gui_entity")->get_id());
+	debug_string += Profiler::get_rendering_backend_name();
 	debug_gui->set_to_label(debug_string);
 	Inputs& inputs = Platform::get_inputs();
 

@@ -8,7 +8,7 @@ class omnific_script:
         pass
 
     def on_fixed_update(self):
-        fixed_delta = omnific.get_fixed_time_delta()
+        fixed_delta = omnific.get_time_delta()
         x_vibration_speed = 10.0
         amplitude = 10.0
         

@@ -2,6 +2,9 @@
 
 project ("omnific_engine")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 file(GLOB_RECURSE omnific_engine_sources "[a-zA-Z]*.cpp")
 file(GLOB_RECURSE omnific_engine_headers "[a-zA-Z]*.hpp")
 

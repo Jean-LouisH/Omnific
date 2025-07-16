@@ -4,21 +4,56 @@ SceneLayer:
   Entity:
     name: "Unlit Object"
     transform:
-      translation: [-0.5, 0.0, 0.0]
+      translation: [-2.0, 0.0, 0.0]
+      scale: [0.75, 0.75, 0.75]
     Model: 
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-      shader:
+      overriding_shader:
         preset: "Shader::UNLIT"
+    ScriptCollection:
+      Python: ["tests/scripts/python/constantly_rotate.py"]
+  SubSceneLayer:
+    name: ["tests/models/suzanne.glb", ""]
+    parent: "Unlit Object"
   Entity:
     name: "Phong Object"
     transform:
-      translation: [0.5, 0.0, 0.0]
+      translation: [0.0, 0.0, 0.0]
+      scale: [0.75, 0.75, 0.75]
+    Model: 
+      overriding_shader:
+        preset: "Shader::PHONG"
+    ScriptCollection:
+      Python: ["tests/scripts/python/constantly_rotate.py"]
+  SubSceneLayer:
+    name: ["tests/models/suzanne.glb", ""]
+    parent: "Phong Object"
+  Entity:
+    name: "PBR Object"
+    transform:
+      translation: [2.0, 0.0, 0.0]
+      scale: [0.75, 0.75, 0.75]
+    Model: 
+      overriding_shader:
+        preset: "Shader::PBR"
+    ScriptCollection:
+      Python: ["tests/scripts/python/constantly_rotate.py"]
+  SubSceneLayer:
+    name: ["tests/models/suzanne.glb", ""]
+    parent: "PBR Object"
+  Entity:
+    name: "Light Armature"
+    ScriptCollection:
+      Python: ["tests/scripts/python/constantly_rotate clockwise.py"]
+  Entity:
+    name: "Light"
+    parent: "Light Armature"
+    transform: 
+      translation: [0.0, 0.0, 6.0]
     Model: 
       mesh: "Mesh::cube"
       albedo: "Image::#FFFFFF"
       shader:
-        preset: "Shader::PHONG"
+        preset: "Shader::LIGHT_SOURCE"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

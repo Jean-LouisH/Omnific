@@ -9,5 +9,5 @@ class omnific_script:
         self.transform = omnific.get_transform()
 
     def on_fixed_update(self):
-        self.transform.rotate_y(30 * omnific.get_time_delta())
+        self.transform.rotate_y(30 * omnific.get_time_delta() * -1.0)
     

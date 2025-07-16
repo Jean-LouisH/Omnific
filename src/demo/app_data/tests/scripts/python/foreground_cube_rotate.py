@@ -6,4 +6,4 @@ class omnific_script:
         pass
 
     def on_fixed_update(self):
-        omnific.get_transform().rotate_y(1.0 * omnific.get_fixed_time_delta())
+        omnific.get_transform().rotate_y(1.0 * omnific.get_time_delta())

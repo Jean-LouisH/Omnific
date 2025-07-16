@@ -28,6 +28,7 @@
 #include <foundations/resources/default_assets/shaders/standard_3d_glsl.hpp>
 #include <foundations/resources/default_assets/shaders/unlit_glsl.hpp>
 #include <foundations/singletons/platform/platform.hpp>
+#include <foundations/singletons/profiler.hpp>
 #include <string>
 #include <SDL_video.h>
 
@@ -66,8 +67,9 @@ void Omnific::OpenGLRenderingBackend::initialize()
 
 		glm::vec2 window_size = window.get_window_size();
 		this->set_viewport(window_size.x, window_size.y);
-		Platform::get_logger().write((std::string)("Rendering Backend initialized with ") +
-			"OpenGL " + (char*)glGetString(GL_VERSION));
+		std::string rendering_backend_name = (std::string)("OpenGL ") + (char*)glGetString(GL_VERSION);
+		Profiler::set_rendering_backend_name(rendering_backend_name);
+		Platform::get_logger().write("Rendering Backend initialized with " + rendering_backend_name);
 	}
 }
 
