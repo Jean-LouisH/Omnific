@@ -37,7 +37,7 @@ void Omnific::Light::deserialize(YAML::Node yaml_node)
 			{
 				this->mode = LightMode::DIRECTIONAL;
 			}
-			else if (light_mode_value == "omnidirectional")
+			else if (light_mode_value == "point")
 			{
 				this->mode = LightMode::POINT;
 			}

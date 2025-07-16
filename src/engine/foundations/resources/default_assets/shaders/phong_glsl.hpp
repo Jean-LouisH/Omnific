@@ -53,18 +53,43 @@ namespace Omnific
 
             void main()
             {
-                float specular_intensity = 0.5;
                 float shininess = 32;
                 float ambient_strength = 0.1;
-                vec3 light_translation = light_translations[0];
-                vec3 light_colour = light_colours[0];
-                vec3 normal_direction = normalize(normal);
-                vec3 light_direction = normalize(light_translation - fragment_translation);
-                vec3 view_direction = normalize(camera_translation - fragment_translation);
-                vec3 reflection_direction = reflect(-light_direction, normal_direction);
-                vec3 ambient = ambient_strength * light_colour;
-                vec3 diffuse = max(dot(normal_direction, light_direction), 0.0) * light_colour;
-                vec3 specular = pow(max(dot(view_direction, reflection_direction), 0.0), shininess) * specular_intensity * light_colour;
+                float diffuse_strength = 0.7;
+                float specular_strength = 0.2;
+                vec3 ambient = vec3(0.0);
+                vec3 diffuse = vec3(0.0);
+                vec3 specular = vec3(0.0);
+
+                for (int i = 0; i < light_count && i < MAX_LIGHTS; ++i)
+                {
+                    int light_mode = light_modes[i];
+                    float light_intensity = light_intensities[i];
+                    vec3 light_translation = light_translations[i];
+                    vec3 light_colour = light_colours[i];
+                    vec3 normal_direction = normalize(normal);
+                    vec3 light_direction = vec3(0.0);
+                    vec3 light_rotation = light_rotations[i];
+
+                    if (light_mode == LIGHT_DIRECTIONAL)
+                    {
+                        light_direction = vec3(
+                                            cos(light_rotation.y) * cos(light_rotation.x), 
+                                            sin(light_rotation.y) * cos(light_rotation.x),
+                                            sin(light_rotation.x)
+                                            );
+                    }
+                    else if (light_mode == LIGHT_POINT || light_mode == LIGHT_SPOT)
+                    {
+                        light_direction = normalize(light_translation - fragment_translation);
+                    }
+
+                    vec3 view_direction = normalize(camera_translation - fragment_translation);
+                    vec3 reflection_direction = reflect(-light_direction, normal_direction);
+                    ambient += ambient_strength * light_intensity * light_colour;
+                    diffuse += max(dot(normal_direction, light_direction), 0.0) * light_colour * light_intensity * diffuse_strength;
+                    specular += pow(max(dot(view_direction, reflection_direction), 0.0), shininess) * specular_strength * light_colour * light_intensity;
+                }
                 colour = vec4(ambient + diffuse + specular, 1.0) * texture(albedo_texture_sampler, uv);
                 colour = mix(colour, highlight_colour, highlight_colour.a);
                 colour.a *= alpha;

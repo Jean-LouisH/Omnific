@@ -54,6 +54,10 @@ SceneLayer:
       albedo: "Image::#FFFFFF"
       shader:
         preset: "Shader::LIGHT_SOURCE"
+    Light:
+      light_mode: "point"
+      colour: "#FFFFFF"
+      intensity: 1.5
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

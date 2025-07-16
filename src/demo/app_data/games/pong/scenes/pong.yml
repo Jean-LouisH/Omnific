@@ -7,7 +7,7 @@ SceneLayer:
     name: "Background"
     transform: default
     Sprite:
-      image: "Image::#444444"
+      image: "Image::#222222"
   Entity:
     name: "Camera"
     transform: default
@@ -21,7 +21,7 @@ SceneLayer:
     transform: default
     Model:
       overriding_shader:
-       preset: "Shader::UNLIT"
+       preset: "Shader::PHONG"
   Entity:
     name: "Camera"
     transform:
@@ -147,6 +147,14 @@ SceneLayer:
     transform:
       translation: [22, 0, 0]
       scale: [1, 50, 1]
+  Entity:
+    name: "Light"
+    transform:
+      rotation: [0.0, 0.0, 0.0]
+    Light:
+      intensity: 10.0
+      colour: "#FFFFFF"
+      light_mode: "directional"
   Entity:
     name: "DemoUtilityScripts"
     ScriptCollection:

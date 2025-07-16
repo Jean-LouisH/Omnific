@@ -117,14 +117,19 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 					this->opengl_backend->disable_wireframe_mode();
 
 				/* Memory allocated out of the tight loop. */
-				std::shared_ptr<Transform> global_transform(new Transform());
+				std::shared_ptr<Transform> global_transform;
 				std::vector<std::shared_ptr<Light>> active_lights;
 				std::vector<std::shared_ptr<Transform>> active_light_transforms;
 
 				if (renderable_layer.lights.size() > 0)
 				{
 					active_lights = renderable_layer.lights;
-					active_light_transforms = renderable_layer.light_transforms;
+					for (int k = 0; k < renderable_layer.lights.size(); k++)
+					{
+						std::shared_ptr<Light> light = renderable_layer.lights[k];
+						std::shared_ptr<Transform> light_global_transform = scene->get_scene_layer(renderable_layer.renderables[0].scene_layer_id)->calculate_global_transform(light->get_entity_id());
+						active_light_transforms.push_back(light_global_transform);
+					}
 				}
 				else
 				{
