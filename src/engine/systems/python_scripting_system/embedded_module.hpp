@@ -197,7 +197,12 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_name", &Omnific::Resource::get_name)
 		.def("get_type", &Omnific::Resource::get_type);
 
-	pybind11::class_<Omnific::Audio, Omnific::Resource, std::shared_ptr<Omnific::Audio>>(m, Omnific::Audio::TYPE_STRING);
+	pybind11::class_<Omnific::Audio, Omnific::Resource, std::shared_ptr<Omnific::Audio>>(m, Omnific::Audio::TYPE_STRING)
+		.def("get_sample_rate", &Omnific::Audio::get_sample_rate)
+		.def("get_channel_count", &Omnific::Audio::get_channel_count)
+		.def("get_playback_length", &Omnific::Audio::get_playback_length)
+		.def("get_spectrum", &Omnific::Audio::get_spectrum);
+
 	pybind11::class_<Omnific::Font, Omnific::Resource, std::shared_ptr<Omnific::Font>>(m, Omnific::Font::TYPE_STRING);
 	pybind11::class_<Omnific::Image, Omnific::Resource, std::shared_ptr<Omnific::Image>>(m, Omnific::Image::TYPE_STRING);
 	pybind11::class_<Omnific::Text, Omnific::Resource, std::shared_ptr<Omnific::Text>>(m, Omnific::Text::TYPE_STRING);
@@ -222,13 +227,24 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	pybind11::class_<Omnific::AudioListener, Omnific::Component, std::shared_ptr<Omnific::AudioListener>>(m, Omnific::AudioListener::TYPE_STRING);
 	pybind11::class_<Omnific::AudioSource, Omnific::Component, std::shared_ptr<Omnific::AudioSource>>(m, Omnific::AudioSource::TYPE_STRING)
+		.def("clear_audio", &Omnific::AudioSource::clear_audio)
+		.def("remove_audio", &Omnific::AudioSource::remove_audio)
 		.def("play_audio", &Omnific::AudioSource::play_audio)
 		.def("play_audio_infinitely", &Omnific::AudioSource::play_audio_infinitely)
 		.def("play", &Omnific::AudioSource::play)
 		.def("play_infinitely", &Omnific::AudioSource::play_infinitely)
 		.def("stop", &Omnific::AudioSource::stop)
+		.def("resume", &Omnific::AudioSource::resume)
 		.def("pause", &Omnific::AudioSource::pause)
-		.def("reset", &Omnific::AudioSource::reset);
+		.def("reset", &Omnific::AudioSource::reset)
+		.def("jump", &Omnific::AudioSource::jump)
+		.def("set_volume", &Omnific::AudioSource::set_volume)
+		.def("get_volume", &Omnific::AudioSource::get_volume)
+		.def("get_current_playback_time", &Omnific::AudioSource::get_current_playback_time)
+		.def("get_playback_state", &Omnific::AudioSource::get_playback_state)
+		.def("get_audio_names", &Omnific::AudioSource::get_audio_names)
+		.def("get_active_audio", &Omnific::AudioSource::get_active_audio)
+		.def("get_audio_by_name", &Omnific::AudioSource::get_audio_by_name);
 	pybind11::class_<Omnific::Camera, Omnific::Component, std::shared_ptr<Omnific::Camera>>(m, Omnific::Camera::TYPE_STRING)
 		.def("toggle_wireframe_mode", &Omnific::Camera::toggle_wireframe_mode);
 	pybind11::class_<Omnific::Timer, Omnific::Component, std::shared_ptr<Omnific::Timer>>(m, Omnific::Timer::TYPE_STRING)

@@ -23,6 +23,7 @@
 #include "audio_system.hpp"
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
+#include <foundations/singletons/configuration.hpp>
 #include "scene/components/audio_listener.hpp"
 #include <scene/components/audio_source.hpp>
 #include <foundations/singletons/event_bus.hpp>
@@ -53,6 +54,7 @@ void Omnific::AudioSystem::initialize()
 	{
 		this->is_initialized = true;
 		SDL_AudioSpec desired = {0};
+		SDL_AudioSpec obtained;
 		desired.freq = this->mix_sample_frequency;
 		desired.format = AUDIO_S16SYS;
 		desired.channels = this->mix_channel_count;
@@ -63,7 +65,7 @@ void Omnific::AudioSystem::initialize()
 			NULL,
 			0,
 			&desired,
-			NULL,
+			&obtained,
 			NULL);
 
 		SDL_PauseAudioDevice(this->device_id, 0);
@@ -83,8 +85,9 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 	}
 
 	const int chunk_size = this->mix_samples_per_channel * this->mix_channel_count;
+	uint32_t queued_audio_size = SDL_GetQueuedAudioSize(this->device_id);
 
-    if (SDL_GetQueuedAudioSize(this->device_id) < chunk_size * sizeof(int16_t))
+    if (queued_audio_size < chunk_size * sizeof(int16_t))
 	{
 		std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 		std::vector<int16_t> mix_buffer;
@@ -118,37 +121,47 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 					std::shared_ptr<Audio> audio = audio_source->get_active_audio();
 					int audio_channel_count = audio->get_channel_count();
 					float gain = audio_source->get_volume() * audio_listener->get_volume();
-					int sample_start_point = 0;
-					int sample_end_point = 0;
+					int sample_start_point = (audio_source->playback_time / audio->playback_length) * audio->samples_per_channel * audio->channel_count;
+					int sample_end_point = sample_start_point + chunk_size;
 					AudioSource::PlaybackState playback_state = audio_source->get_playback_state();
 
 					if (playback_state == AudioSource::PlaybackState::PLAYING)
 					{
+						if (audio_channel_count == 1)
+						{
+							//Writing mono input to a stereo output
+							for (int i = 0; i < (chunk_size / 2); ++i)
+							{
+								int16_t mix_value = (int16_t)(audio->data[sample_start_point + i] * gain);
+								mix_buffer[i * 2] += mix_value;
+								mix_buffer[i * 2 + 1] += mix_value;
+							}
+						}
+						else if (audio_channel_count == 2)
+						{
+							//Writing stereo input to stereo output
+							for (int i = 0; i < chunk_size; ++i)
+							{
+								mix_buffer[i] += (int16_t)(audio->data[sample_start_point + i] * gain);
+							}
+						}
 
+						audio_source->playback_time += 1.0f / (float)Configuration::get_instance()->performance_settings.target_output_fps;
+
+						if (audio_source->playback_time > audio->playback_length)
+						{
+							audio_source->playback_time = 0.0;
+							if (!audio_source->is_looping)
+							{
+								audio_source->stop();
+							}
+						}
 					}
 					else if (playback_state == AudioSource::PlaybackState::STOPPED)
 					{
 
+						audio_source->playback_time = 0.0;
 					}
-	
-					if (audio_channel_count == 1)
-					{
-						for (int i = sample_start_point; i < sample_end_point; ++i)
-						{
-							int16_t mix_value = (int16_t)(audio->data[i] * gain);
-							mix_buffer[i * 2] += mix_value;
-							mix_buffer[i * 2 + 1] += mix_value;
-						}
-					}
-					else if (audio_channel_count == 2)
-					{
-						for (int i = sample_start_point; i < sample_end_point - 1; i += 2)
-						{
-							mix_buffer[i] += (int16_t)(audio->data[i] * gain);
-							mix_buffer[i + 1] += (int16_t)(audio->data[i + 1] * gain);
-						}
-					}
-					
 				}
 			}
 		}

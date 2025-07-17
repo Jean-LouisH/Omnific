@@ -36,6 +36,27 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 				this->add_audio(audio);
 			}
 		}
+		if (it3->first.as<std::string>() == "play_audio")
+		{
+			this->play_audio(it3->second.as<std::string>());
+		}
+		if (it3->first.as<std::string>() == "play_audio_infinitely")
+		{
+			this->play_audio_infinitely(it3->second.as<std::string>());
+		}
+		if (it3->first.as<std::string>() == "play_infinitely")
+		{
+			if (it3->second.as<bool>())
+				this->play_infinitely();
+		}
+		if (it3->first.as<std::string>() == "set_volume")
+		{
+			this->set_volume(it3->second.as<float>());
+		}
+		if (it3->first.as<std::string>() == "jump")
+		{
+			this->jump(it3->second.as<float>());
+		}
 	}
 }
 
