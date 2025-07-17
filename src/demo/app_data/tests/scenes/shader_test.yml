@@ -38,14 +38,14 @@ SceneLayer:
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate.py"]
   SubSceneLayer:
-    name: ["tests/models/suzanne.glb", ""]
+    name: ["tests/models/damaged_helmet.glb", ""]
     parent: "PBR Object"
   Entity:
     name: "Light Armature"
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate clockwise.py"]
   Entity:
-    name: "Light"
+    name: "Spot Light"
     parent: "Light Armature"
     transform: 
       translation: [0.0, 0.0, 6.0]
@@ -56,6 +56,14 @@ SceneLayer:
         preset: "Shader::LIGHT_SOURCE"
     Light:
       light_mode: "point"
+      colour: "#FFFFFF"
+      intensity: 1.5
+  Entity:
+    name: "Global Light"
+    transform:
+      rotation: [30.0, 0.0, 0.0]
+    Light:
+      light_mode: "directional"
       colour: "#FFFFFF"
       intensity: 1.5
   Entity:

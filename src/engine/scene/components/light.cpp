@@ -64,7 +64,7 @@ void Omnific::Light::deserialize(YAML::Node yaml_node)
 		}
 		else if (value == "angle")
 		{
-			this->angle = it3->second.as<float>();
+			this->inner_cutoff_angle = it3->second.as<float>();
 		}
 		else if (value == "is_shadow_enabled")
 		{

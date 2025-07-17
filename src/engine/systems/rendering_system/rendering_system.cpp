@@ -142,6 +142,8 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 				std::vector<glm::vec3> shadow_colours;
 				std::vector<float> light_intensities;
 				std::vector<float> light_ranges;
+				std::vector<float> light_inner_cutoff_angles;
+				std::vector<float> light_outer_cutoff_angles;
 				std::vector<bool> are_shadows_enabled;
 				std::vector<glm::vec3> light_translations;
 				std::vector<glm::vec3> light_rotations;
@@ -157,9 +159,14 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 					shadow_colours.push_back(light->shadow_colour->get_rgb_in_vec3());
 					light_intensities.push_back(light->intensity);
 					light_ranges.push_back(light->range);
+					light_inner_cutoff_angles.push_back(glm::radians(light->inner_cutoff_angle));
+					light_outer_cutoff_angles.push_back(glm::radians(light->outer_cutoff_angle));
 					are_shadows_enabled.push_back(light->is_shadow_enabled);
 					light_translations.push_back(light_transform->translation);
-					light_rotations.push_back(light_transform->rotation);
+					light_rotations.push_back(glm::vec3(
+							glm::radians(light_transform->rotation.x),
+							glm::radians(light_transform->rotation.y),
+							glm::radians(light_transform->rotation.z)));					
 				}
 
 
@@ -350,11 +357,19 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 						shader_program->set_bool_array("are_shadows_enabled", are_shadows_enabled);
 						shader_program->set_vec3_array("light_translations", light_translations);
 						shader_program->set_vec3_array("light_rotations", light_rotations);
+						shader_program->set_float_array("light_inner_cutoff_angles", light_inner_cutoff_angles);
+						shader_program->set_float_array("light_outer_cutoff_angles", light_outer_cutoff_angles);
 						shader_program->set_vec2("camera_viewport", renderable_layer.camera->get_viewport());
 						shader_program->set_vec3("camera_translation", renderable_layer.camera_transform->translation);
-						shader_program->set_vec3("camera_rotation", renderable_layer.camera_transform->rotation);
+						shader_program->set_vec3("camera_rotation", glm::vec3(
+							glm::radians(renderable_layer.camera_transform->rotation.x),
+							glm::radians(renderable_layer.camera_transform->rotation.y),
+							glm::radians(renderable_layer.camera_transform->rotation.z)));
 						shader_program->set_vec3("entity_translation", renderable.transform->translation);
-						shader_program->set_vec3("entity_rotation", renderable.transform->rotation);
+						shader_program->set_vec3("entity_rotation", glm::vec3(
+							glm::radians(renderable.transform->rotation.x),
+							glm::radians(renderable.transform->rotation.y),
+							glm::radians(renderable.transform->rotation.z)));
 						shader_program->set_vec3("entity_scale", renderable.transform->scale);
 
 						if (vertex_array->get_index_count() > 0)

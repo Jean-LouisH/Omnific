@@ -40,6 +40,8 @@ namespace Omnific
             in vec3 translation;
             in vec2 uv;
             in vec3 normal;
+            in vec3 tangent;
+            in vec3 bitangent;
             in vec3 fragment_translation;
             out vec4 colour;
             uniform vec4 highlight_colour;
@@ -50,6 +52,8 @@ namespace Omnific
             uniform float light_ranges[MAX_LIGHTS];
             uniform vec3 light_translations[MAX_LIGHTS];
             uniform vec3 light_rotations[MAX_LIGHTS];
+            uniform float light_inner_cutoff_angles[MAX_LIGHTS];
+		    uniform float light_outer_cutoff_angles[MAX_LIGHTS];
             uniform vec3 camera_translation;
             uniform float alpha;
             uniform sampler2D albedo_texture_sampler;
@@ -64,18 +68,32 @@ namespace Omnific
                 vec3 light_direction = vec3(0.0);
 
                 if (light_mode == LIGHT_DIRECTIONAL)
+                {
                     light_direction = vec3(
                                         cos(light_rotation.y) * cos(light_rotation.x), 
                                         sin(light_rotation.y) * cos(light_rotation.x),
                                         sin(light_rotation.x)
                                         );
+                }
                 else if (light_mode == LIGHT_POINT || light_mode == LIGHT_SPOT)
+                {
                     light_direction = normalize(light_translation - fragment_translation);
+                }
 
                 return light_direction;
             }
 
-            vec3 get_light_radiance(int light_mode, vec3 light_colour, float light_intensity, float light_range, vec3 light_translation, vec3 light_rotation, vec3 fragment_translation)
+            vec3 get_light_radiance(
+                int light_mode, 
+                vec3 light_colour, 
+                float light_intensity, 
+                float light_range, 
+                vec3 light_translation, 
+                vec3 light_rotation, 
+                vec3 fragment_translation, 
+                float light_inner_cutoff_angle,
+                float light_outer_cutoff_angle
+            )
             {
                 vec3 light_radiance = vec3(0.0);
                 float light_distance = length(light_translation - fragment_translation);
@@ -86,9 +104,27 @@ namespace Omnific
                 }
                 else if (light_mode == LIGHT_POINT || light_mode == LIGHT_SPOT)
                 {
-                    light_radiance = (light_colour * light_intensity * light_range) / light_distance * light_distance;
+                    float attenuation = 1.0 / (1.0 + (light_distance / light_range) * (light_distance / light_range));
+                    light_radiance = light_colour.rgb * light_intensity * attenuation;
+
                     if (light_mode == LIGHT_SPOT)
-                        ;
+                    {
+                        vec3 light_direction = get_light_direction(
+                                        light_mode,
+                                        light_translation, 
+                                        light_rotation,	
+                                        fragment_translation);
+                                        
+                        vec3 spot_direction = vec3(
+                                                    cos(light_rotation.y) * cos(light_rotation.x), 
+                                                    sin(light_rotation.y) * cos(light_rotation.x),
+                                                    sin(light_rotation.x)
+                                                );
+                        float theta = dot(light_direction, normalize(spot_direction));
+                        float epsilon = 0.1;
+                        float intensity = clamp((theta - cos(light_outer_cutoff_angle)) / (cos(light_inner_cutoff_angle) - cos(light_outer_cutoff_angle)), 0.0, 1.0);
+                        light_radiance *= intensity;
+                    }
                 }
 
                 return light_radiance;
@@ -123,14 +159,21 @@ namespace Omnific
                 float metalness = texture(metallicity_texture_sampler, uv).r;
                 float roughness = texture(roughness_texture_sampler, uv).r;
                 float emission = texture(emission_texture_sampler, uv).r;
-                vec3 normal = texture(normal_texture_sampler, uv).rgb;
 
+                //vec3 tangent_normal = texture(normal_texture_sampler, uv).rgb * 2.0 - 1.0;
+                vec3 normal = normalize(normal);
+
+                // vec3 T = normalize(tangent);
+                // vec3 B = normalize(bitangent);
+                // vec3 N = normalize(normal);
+                // mat3 TBN = mat3(T, B, N);
+                // vec3 tangent_normal = texture(normal_texture_sampler, uv).rgb * 2.0 - 1.0;
+                // vec3 normal = normalize(TBN * tangent_normal);
                 vec3 emitted_light = vec3(emission);
                 vec3 camera_direction = normalize(camera_translation - fragment_translation);
-
                 vec3 reflected_light = vec3(0.0);
 
-                for (int i = 0; i < light_count; ++i)
+                for (int i = 0; i < light_count && i < MAX_LIGHTS; ++i)
                 {
                     vec3 light_direction = get_light_direction(
                                     light_modes[i],
@@ -147,7 +190,9 @@ namespace Omnific
                                     light_ranges[i], 
                                     light_translations[i], 
                                     light_rotations[i], 
-                                    fragment_translation);
+                                    fragment_translation,
+                                    light_inner_cutoff_angles[i],
+                                    light_outer_cutoff_angles[i]);
 
                     float k = (roughness + 1.0) * (roughness + 1.0) / 8.0;
                     vec3 F0 = vec3(0.04);
@@ -158,16 +203,15 @@ namespace Omnific
                     vec3 specular = (distribution * geometry * fresnel) / 
                                     (4.0 * max(dot(normal, camera_direction), 0.0) * max(dot(normal, light_direction), 0.0));
                     vec3 k_s = fresnel;
-                    vec3 k_d = vec3(1.0) - k_s;
-                    k_d *= 1.0 - metalness;
+                    vec3 k_d = (1.0 - k_s) * (1.0 - metalness);
                     vec3 brdf = k_d * albedo / PI + specular;						
-                    reflected_light += brdf * light_radiance * max(dot(light_direction, normal), 0.0); 
+                    reflected_light += max(brdf * light_radiance * max(dot(light_direction, normal), 0.0), 0.0); 
                 }
 
                 vec3 ambient = vec3(0.03) * albedo;
                 vec3 outgoing_light = emitted_light + reflected_light + ambient;
+                colour = vec4(outgoing_light, alpha);
                 colour = mix(colour, highlight_colour, highlight_colour.a);
-                colour = vec4(outgoing_light, 1.0);
             }  
         )";
     }
