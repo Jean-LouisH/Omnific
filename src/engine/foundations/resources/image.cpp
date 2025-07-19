@@ -33,16 +33,18 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 	this->type = TYPE_STRING;
 	this->alignment = Alignment::TOP_LEFT;
 
+	// Having a space in the string ensures TTF_RenderUTF8 renders a texture.
 	if (text == "")
 		text = " ";
 
 	SDL_Color sdl_color = { colour->get_red(), colour->get_green(), colour->get_blue(), colour->get_alpha() };
-	std::shared_ptr<SDL_Surface> sdl_surface(SDL_ConvertSurfaceFormat(TTF_RenderUTF8_Blended_Wrapped(font->get_sdl_ttf_font(), text.c_str(), sdl_color, wrap_length), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> sdl_surface(TTF_RenderUTF8_Blended_Wrapped(font->get_sdl_ttf_font(), text.c_str(), sdl_color, wrap_length), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> converted_sdl_surface(SDL_ConvertSurfaceFormat(sdl_surface.get(), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
 
 	/*	SDL vertical pixel flip solution by 
 		vvanpelt on StackOverflow: https://stackoverflow.com/a/65817254 
 	*/
-	SDL_Surface* flipped_sdlsurface = sdl_surface.get();
+	SDL_Surface* flipped_sdlsurface = converted_sdl_surface.get();
 	SDL_LockSurface(flipped_sdlsurface);
 
 	int pitch = flipped_sdlsurface->pitch; // row size
@@ -66,8 +68,8 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 
 	/////////
 
-	if (sdl_surface != nullptr)
-		this->set_to_parameters(sdl_surface->format->BytesPerPixel, sdl_surface->w, sdl_surface->h, (uint8_t*)sdl_surface->pixels);
+	if (converted_sdl_surface != nullptr)
+		this->set_to_parameters(converted_sdl_surface->format->BytesPerPixel, converted_sdl_surface->w, converted_sdl_surface->h, (uint8_t*)converted_sdl_surface->pixels);
 
 	this->size = this->width * this->height * this->colour_channel_count;
 }

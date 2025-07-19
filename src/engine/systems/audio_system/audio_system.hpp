@@ -49,9 +49,12 @@ namespace Omnific
 
 		SDL_AudioDeviceID device_id;
 	private:
+		std::vector<int16_t> mix_buffer;
 		const int mix_sample_frequency = 44100;
-		const int mix_samples_per_channel = 1024;
+		const int mix_samples_per_channel_per_frame = 1024;
 		const int mix_channel_count = 2;
+		const int bytes_per_sample = sizeof(int16_t);
+		const int mix_samples_per_frame = this->mix_samples_per_channel_per_frame * this->mix_channel_count;
 	};
 }
 

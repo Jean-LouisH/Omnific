@@ -22,6 +22,7 @@ add_library(omnific_engine STATIC
 message (STATUS "Engine detected system name: ${CMAKE_SYSTEM_NAME}")
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
+	find_package(SampleRate REQUIRED)
 	add_definitions(-D_WEB_PLATFORM)
     set(USE_FLAGS "-sWASM=1 -sUSE_SDL=2 -sUSE_SDL_TTF=2 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
@@ -32,11 +33,13 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 
 	target_link_libraries (omnific_engine 
 		${THIRD_PARTY_PROJECTS}
+		SampleRate
 	)
 else()
 	set (THIRD_PARTY_PROJECTS ${THIRD_PARTY_PROJECTS} glad)
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
+	find_package(SampleRate REQUIRED)
 
 	if (WIN32)
 		add_definitions(/bigobj)
@@ -55,6 +58,7 @@ else()
 		${SDL2_TTF_MODULE}
 		Python::Python
 		pybind11::headers
+		SampleRate::samplerate
 	)
 endif()
 
