@@ -96,21 +96,21 @@ std::shared_ptr<Omnific::Image> Omnific::GUIElement::get_image()
 
 void Omnific::GUIElement::highlight_on_input()
 {
-	// if (this->is_highlightable)
-	// {
-	// 	if (this->detected_inputs.is_left_mouse_button_pressed)
-	// 	{
-	// 		this->target_current_colour = this->target_clicked_colour;
-	// 	}
-	// 	else if (this->is_hovered_in_focus)
-	// 	{
-	// 		this->target_current_colour  = this->target_highlight_colour;
-	// 	}
-	// 	else
-	// 	{
-	// 		this->target_current_colour  = this->target_default_background_colour;
-	// 	}
-	// }
+	if (this->is_highlightable)
+	{
+		if (Platform::get_inputs().is_left_mouse_button_pressed())
+		{
+			this->target_current_colour = this->target_clicked_colour;
+		}
+		else if (this->is_hovered_in_focus)
+		{
+			this->target_current_colour  = this->target_highlight_colour;
+		}
+		else
+		{
+			this->target_current_colour  = this->target_default_background_colour;
+		}
+	}
 }
 
 void Omnific::GUIColour::update_image()
@@ -125,9 +125,9 @@ void Omnific::GUIButton::update_image()
 {
 	if (!this->is_hidden)
 	{
-		//this->highlight_on_input();
+		this->highlight_on_input();
+		
 		/* The border of the button wraps around the text it contains by an offset. */
-		this->gui_label->update_image();
 		this->dimensions = this->gui_label->get_dimensions() + this->button_space_from_text;
 		std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->target_current_colour, this->dimensions.x, this->dimensions.y));
 		std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();

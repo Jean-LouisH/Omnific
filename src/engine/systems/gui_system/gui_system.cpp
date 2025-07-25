@@ -186,18 +186,21 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 		((box_left <= mouse_position.x && box_right >= mouse_position.x) &&
 		(box_bottom <= mouse_position.y && box_top >= mouse_position.y));
 
+		// Only update when the mouse is hovering over the element and 
+		// when none of the buttons are held pressed from a previous state 
+		// of the gui not hovered in focus. 
 		if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_hovered_in_focus) ||
 			!(inputs.is_left_mouse_button_pressed() || 
 			inputs.is_middle_mouse_button_pressed() || 
 			inputs.is_right_mouse_button_pressed())))
 		{
 			gui_element->is_hovered_in_focus = true;
+			gui_element->update_image();
 		}
-		else if (!is_mouse_hovering_over_gui_element)
+		else if (!is_mouse_hovering_over_gui_element && gui_element->is_hovered_in_focus)
 		{
 			gui_element->is_hovered_in_focus = false;
+			gui_element->update_image();
 		}
-		
-		//gui_element->update_image();
 	}
 }
