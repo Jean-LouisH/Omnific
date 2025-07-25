@@ -9,8 +9,8 @@ class omnific_script:
         self.gui = omnific.get_component("GUI")
         self.audio_source = omnific.get_component("AudioSource")
 
-    def on_fixed_update(self):
+    def on_update(self):
         self.gui.set_to_label(
-            str(self.audio_source.get_current_playback_time()) + " / " + str(self.audio_source.get_active_audio().get_playback_length())
+            str('%.2f' % self.audio_source.get_current_playback_time()) + " / " + str('%.2f' % self.audio_source.get_active_audio().get_playback_length())
             )
         pass

@@ -87,13 +87,13 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 		SDL_ClearQueuedAudio(this->device_id);
 	}
 
-	const int queue_refill_threshold = this->mix_samples_per_frame * this->bytes_per_sample * 2;
+	const int queue_refill_threshold = this->mix_samples_per_frame * this->bytes_per_sample * 8;
 	uint32_t queued_audio_size = SDL_GetQueuedAudioSize(this->device_id);
 
 	if (queued_audio_size < queue_refill_threshold)
 	{
 		std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
-		std::vector<int32_t> temp_cumulative_buffer(this->mix_samples_per_frame);
+		std::vector<float> temp_cumulative_buffer(this->mix_samples_per_frame, 0.0f);
 
 		for (auto& [id, scene_layer] : scene_layers)
 		{
@@ -118,7 +118,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 					std::shared_ptr<Audio> audio = audio_source->get_active_audio();
 					int audio_channel_count = audio->get_channel_count();
 					float gain = audio_source->get_volume() * audio_listener->get_volume();
-					const int current_sample_index = (audio_source->playback_time / audio->playback_length) * audio->samples_per_channel * audio->channel_count;
+					const int current_sample_index = (int)(audio_source->playback_time * audio->sample_rate) * audio->channel_count;
 					const double duration_per_sample = 1.0 / audio->sample_rate;
 					const int total_audio_samples = audio->data.size();
 					AudioSource::PlaybackState playback_state = audio_source->get_playback_state();
@@ -142,8 +142,8 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 									mix_value = (int16_t)(audio->data[looped_index] * gain);
 								}
 
-								temp_cumulative_buffer[i * 2] += mix_value;
-								temp_cumulative_buffer[i * 2 + 1] += mix_value;
+								temp_cumulative_buffer[i * 2] += (float)mix_value;
+								temp_cumulative_buffer[i * 2 + 1] += (float)mix_value;
 							}
 						}
 						else if (audio_channel_count == 2)
@@ -163,7 +163,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 									mix_value = (int16_t)(audio->data[looped_index] * gain);
 								}
 
-								temp_cumulative_buffer[i] += mix_value;
+								temp_cumulative_buffer[i] += (float)mix_value;
 							}
 						}
 
@@ -192,7 +192,7 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 
 		for (int i = 0; i < mix_samples_per_frame; ++i)
 		{
-			this->mix_buffer[i] = std::clamp(temp_cumulative_buffer[i], -maximum_possible_value / 2, maximum_possible_value / 2);
+			this->mix_buffer[i] = (int16_t)std::clamp(temp_cumulative_buffer[i], (float)-maximum_possible_value / 2, (float)maximum_possible_value / 2);
 		}
 
 		SDL_QueueAudio(this->device_id, this->mix_buffer.data(), this->mix_buffer.size() * this->bytes_per_sample);
