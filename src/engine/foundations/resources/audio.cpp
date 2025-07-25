@@ -56,6 +56,16 @@ Omnific::Audio::Audio(std::string filepath)
 	this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
 }
 
+Omnific::Audio::Audio(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel)
+{
+	this->data = data;
+	this->channel_count = channel_count;
+	this->sample_rate = sample_rate;
+	this->samples_per_channel = samples_per_channel;
+	this->playback_length = this->samples_per_channel / this->sample_rate;
+	this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
+}
+
 int Omnific::Audio::get_sample_rate()
 {
 	return this->sample_rate;

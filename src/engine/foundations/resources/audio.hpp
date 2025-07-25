@@ -41,6 +41,7 @@ namespace Omnific
 		};
 
 		Audio(std::string filepath);
+		Audio(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel);
 
 		virtual Registerable* instance() override
 		{

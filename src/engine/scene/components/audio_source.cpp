@@ -81,10 +81,13 @@ float Omnific::AudioSource::get_volume()
 void Omnific::AudioSource::clear_audio()
 {
 	this->audio_collection.clear();
+	this->active_audio_name = "";
 }
 
 void Omnific::AudioSource::remove_audio(std::string audio_name)
 {
+	if (audio_name == this->active_audio_name)
+		this->active_audio_name = "";
 	this->audio_collection.erase(audio_name);
 }
 
