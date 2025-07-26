@@ -220,6 +220,7 @@ void Omnific::AudioSystem::finalize()
 
 void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::AudioSource> audio_source)
 {
+	Logger& logger = Platform::get_logger();
 	std::shared_ptr<Audio> audio = audio_source->get_active_audio();
 	size_t input_size = audio->data.size();
 	int channel_count = audio->channel_count;
@@ -227,6 +228,11 @@ void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::A
     std::vector<float> output_float;
 
 	const int half_max_possible_value = std::pow(2, 8 * this->bytes_per_sample) / 2;
+
+	logger.write("Audio asset '" + audio->get_name() + "' has an input sample rate of " + 
+	std::to_string(audio->sample_rate) + " vs the output sample rate of " + std::to_string(this->mix_sample_frequency) + 
+	". Resampling in progress... " 
+	);
 
     // Convert int16_t to float
     for (size_t i = 0; i < input_size; ++i)
@@ -259,4 +265,5 @@ void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::A
 	std::shared_ptr<Audio> resampled_audio(new Audio(output_pcm, channel_count, this->mix_sample_frequency, output_pcm.size() / channel_count));
 	audio_source->remove_audio(audio->get_name());
 	audio_source->add_audio(resampled_audio);
+	logger.write("'" + audio->get_name() + "' resampled.");
 }

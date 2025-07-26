@@ -27,15 +27,16 @@ SceneLayer:
     transform:
       translation: [0, 0, 30]
     Camera: "default"
-    # AudioListener: "default"
+    AudioListener: "default"
     # ScriptCollection:
     #   Python: ["games/pong/scripts/python/camera_shake.py"]
   Entity:
     name: "Game Mechanics"
     ScriptCollection:
       Python: ["games/pong/scripts/python/game_mechanics.py"]
-    # AudioSource:
-    #   audio: ["games/pong/audio/nature.ogg"]
+    AudioSource:
+      audio: ["games/pong/audio/nature.ogg"]
+      play_infinitely: true
   Entity:
     name: "Paddle1"
     parent: "GlobalShaderEntity"
@@ -105,10 +106,10 @@ SceneLayer:
       collision_response_type: "intangible"
     Collider:
       is_trigger_only: true
-    # AudioSource:
-    #   audio: ["games/pong/audio/click.ogg"]
-    # ScriptCollection:
-    #   Python: ["games/pong/scripts/python/ball_collision_sounds.py"]
+    AudioSource:
+      audio: ["games/pong/audio/click.ogg"]
+    ScriptCollection:
+      Python: ["games/pong/scripts/python/ball_collision_sounds.py"]
   Entity:
     name: "UpperBoundary"
     parent: "GlobalShaderEntity"

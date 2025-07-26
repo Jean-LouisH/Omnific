@@ -31,7 +31,7 @@ class omnific_script:
         self.left_post_transform = scene_layer.get_entity_by_name("LeftGoalPost").get_transform()
         self.right_post_transform = scene_layer.get_entity_by_name("RightGoalPost").get_transform()
         omnific_script.reset_ball(self)
-        omnific.get_component("AudioSource").play_infinitely()
+        #omnific.get_component("AudioSource").play_infinitely()
         pass
 
     def on_fixed_update(self):
