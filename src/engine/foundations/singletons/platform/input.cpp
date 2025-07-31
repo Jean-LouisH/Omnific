@@ -46,106 +46,107 @@ Omnific::Inputs::Inputs()
 	this->controller_axis_events_by_string.emplace("left_trigger", SDL_CONTROLLER_AXIS_TRIGGERLEFT);
 	this->controller_axis_events_by_string.emplace("right_trigger", SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
 
-	this->keyboard_events_by_string.emplace("escape", SDLK_ESCAPE);
-	this->keyboard_events_by_string.emplace("f1", SDLK_F1);
-	this->keyboard_events_by_string.emplace("f2", SDLK_F2);
-	this->keyboard_events_by_string.emplace("f3", SDLK_F3);
-	this->keyboard_events_by_string.emplace("f4", SDLK_F4);
-	this->keyboard_events_by_string.emplace("f5", SDLK_F5);
-	this->keyboard_events_by_string.emplace("f6", SDLK_F6);
-	this->keyboard_events_by_string.emplace("f7", SDLK_F7);
-	this->keyboard_events_by_string.emplace("f8", SDLK_F8);
-	this->keyboard_events_by_string.emplace("f9", SDLK_F9);
-	this->keyboard_events_by_string.emplace("f10", SDLK_F10);
-	this->keyboard_events_by_string.emplace("f11", SDLK_F11);
-	this->keyboard_events_by_string.emplace("f12", SDLK_F12);
-	this->keyboard_events_by_string.emplace("printscreen", SDLK_PRINTSCREEN);
-	this->keyboard_events_by_string.emplace("pause", SDLK_PAUSE);
-	this->keyboard_events_by_string.emplace("insert", SDLK_INSERT);
-	this->keyboard_events_by_string.emplace("delete", SDLK_DELETE);
-	this->keyboard_events_by_string.emplace("home", SDLK_HOME);
-	this->keyboard_events_by_string.emplace("page_up", SDLK_PAGEUP);
-	this->keyboard_events_by_string.emplace("page_down", SDLK_PAGEDOWN);
-	this->keyboard_events_by_string.emplace("end", SDLK_END);
-	this->keyboard_events_by_string.emplace("backquote", SDLK_BACKQUOTE);
-	this->keyboard_events_by_string.emplace("1", SDLK_1);
-	this->keyboard_events_by_string.emplace("2", SDLK_2);
-	this->keyboard_events_by_string.emplace("3", SDLK_3);
-	this->keyboard_events_by_string.emplace("4", SDLK_4);
-	this->keyboard_events_by_string.emplace("5", SDLK_5);
-	this->keyboard_events_by_string.emplace("6", SDLK_6);
-	this->keyboard_events_by_string.emplace("7", SDLK_7);
-	this->keyboard_events_by_string.emplace("8", SDLK_8);
-	this->keyboard_events_by_string.emplace("9", SDLK_9);
-	this->keyboard_events_by_string.emplace("0", SDLK_0);
-	this->keyboard_events_by_string.emplace("-", SDLK_MINUS);
-	this->keyboard_events_by_string.emplace("+", SDLK_PLUS);
-	this->keyboard_events_by_string.emplace("backspace", SDLK_BACKSPACE);
-	this->keyboard_events_by_string.emplace("num_lock", SDLK_NUMLOCKCLEAR);
-	this->keyboard_events_by_string.emplace("forward_slash", SDLK_SLASH);
-	this->keyboard_events_by_string.emplace("asterisk", SDLK_ASTERISK);
-	this->keyboard_events_by_string.emplace("keypad_minus", SDLK_KP_MINUS);
-	this->keyboard_events_by_string.emplace("keypad_plus", SDLK_KP_PLUS);
-	this->keyboard_events_by_string.emplace("keypad_enter", SDLK_KP_ENTER);
-	this->keyboard_events_by_string.emplace("keypad_1", SDLK_KP_1);
-	this->keyboard_events_by_string.emplace("keypad_2", SDLK_KP_2);
-	this->keyboard_events_by_string.emplace("keypad_3", SDLK_KP_3);
-	this->keyboard_events_by_string.emplace("keypad_4", SDLK_KP_4);
-	this->keyboard_events_by_string.emplace("keypad_5", SDLK_KP_5);
-	this->keyboard_events_by_string.emplace("keypad_6", SDLK_KP_6);
-	this->keyboard_events_by_string.emplace("keypad_7", SDLK_KP_7);
-	this->keyboard_events_by_string.emplace("keypad_8", SDLK_KP_8);
-	this->keyboard_events_by_string.emplace("keypad_9", SDLK_KP_9);
-	this->keyboard_events_by_string.emplace("keypad_0", SDLK_KP_0);
-	this->keyboard_events_by_string.emplace("keypad_period", SDLK_KP_PERIOD);
-	this->keyboard_events_by_string.emplace("tab", SDLK_TAB);
-	this->keyboard_events_by_string.emplace("q", SDLK_q);
-	this->keyboard_events_by_string.emplace("w", SDLK_w);
-	this->keyboard_events_by_string.emplace("e", SDLK_e);
-	this->keyboard_events_by_string.emplace("r", SDLK_r);
-	this->keyboard_events_by_string.emplace("t", SDLK_t);
-	this->keyboard_events_by_string.emplace("y", SDLK_y);
-	this->keyboard_events_by_string.emplace("u", SDLK_u);
-	this->keyboard_events_by_string.emplace("i", SDLK_i);
-	this->keyboard_events_by_string.emplace("o", SDLK_o);
-	this->keyboard_events_by_string.emplace("p", SDLK_p);
-	this->keyboard_events_by_string.emplace("a", SDLK_a);
-	this->keyboard_events_by_string.emplace("s", SDLK_s);
-	this->keyboard_events_by_string.emplace("d", SDLK_d);
-	this->keyboard_events_by_string.emplace("f", SDLK_f);
-	this->keyboard_events_by_string.emplace("g", SDLK_g);
-	this->keyboard_events_by_string.emplace("h", SDLK_h);
-	this->keyboard_events_by_string.emplace("j", SDLK_j);
-	this->keyboard_events_by_string.emplace("k", SDLK_k);
-	this->keyboard_events_by_string.emplace("l", SDLK_l);
-	this->keyboard_events_by_string.emplace("z", SDLK_z);
-	this->keyboard_events_by_string.emplace("x", SDLK_x);
-	this->keyboard_events_by_string.emplace("c", SDLK_c);
-	this->keyboard_events_by_string.emplace("v", SDLK_v);
-	this->keyboard_events_by_string.emplace("b", SDLK_b);
-	this->keyboard_events_by_string.emplace("n", SDLK_n);
-	this->keyboard_events_by_string.emplace("m", SDLK_m);
-	this->keyboard_events_by_string.emplace("left_square_bracket", SDLK_LEFTBRACKET);
-	this->keyboard_events_by_string.emplace("right_square_bracket", SDLK_RIGHTBRACKET);
-	this->keyboard_events_by_string.emplace("semicolon", SDLK_SEMICOLON);
-	this->keyboard_events_by_string.emplace("quote", SDLK_QUOTE);
-	this->keyboard_events_by_string.emplace("backslash", SDLK_BACKSLASH);
-	this->keyboard_events_by_string.emplace("enter", SDLK_RETURN);
-	this->keyboard_events_by_string.emplace("comma", SDLK_COMMA);
-	this->keyboard_events_by_string.emplace("period", SDLK_PERIOD);
-	this->keyboard_events_by_string.emplace("left_shift", SDLK_LSHIFT);
-	this->keyboard_events_by_string.emplace("right_shift", SDLK_RSHIFT);
-	this->keyboard_events_by_string.emplace("left_control", SDLK_LCTRL);
-	this->keyboard_events_by_string.emplace("right_control", SDLK_RCTRL);
-	this->keyboard_events_by_string.emplace("function", SDLK_f);
-	this->keyboard_events_by_string.emplace("os", SDLK_LGUI);
-	this->keyboard_events_by_string.emplace("left_alt", SDLK_LALT);
-	this->keyboard_events_by_string.emplace("space", SDLK_SPACE);
-	this->keyboard_events_by_string.emplace("right_alt", SDLK_RALT);
-	this->keyboard_events_by_string.emplace("left", SDLK_LEFT);
-	this->keyboard_events_by_string.emplace("up", SDLK_UP);
-	this->keyboard_events_by_string.emplace("right", SDLK_RIGHT);
-	this->keyboard_events_by_string.emplace("down", SDLK_DOWN);
+	this->keyboard_events_by_string.emplace("escape", SDL_SCANCODE_ESCAPE);
+	this->keyboard_events_by_string.emplace("f1", SDL_SCANCODE_F1);
+	this->keyboard_events_by_string.emplace("f2", SDL_SCANCODE_F2);
+	this->keyboard_events_by_string.emplace("f3", SDL_SCANCODE_F3);
+	this->keyboard_events_by_string.emplace("f4", SDL_SCANCODE_F4);
+	this->keyboard_events_by_string.emplace("f5", SDL_SCANCODE_F5);
+	this->keyboard_events_by_string.emplace("f6", SDL_SCANCODE_F6);
+	this->keyboard_events_by_string.emplace("f7", SDL_SCANCODE_F7);
+	this->keyboard_events_by_string.emplace("f8", SDL_SCANCODE_F8);
+	this->keyboard_events_by_string.emplace("f9", SDL_SCANCODE_F9);
+	this->keyboard_events_by_string.emplace("f10", SDL_SCANCODE_F10);
+	this->keyboard_events_by_string.emplace("f11", SDL_SCANCODE_F11);
+	this->keyboard_events_by_string.emplace("f12", SDL_SCANCODE_F12);
+	this->keyboard_events_by_string.emplace("printscreen", SDL_SCANCODE_PRINTSCREEN);
+	this->keyboard_events_by_string.emplace("pause", SDL_SCANCODE_PAUSE);
+	this->keyboard_events_by_string.emplace("insert", SDL_SCANCODE_INSERT);
+	this->keyboard_events_by_string.emplace("delete", SDL_SCANCODE_DELETE);
+	this->keyboard_events_by_string.emplace("home", SDL_SCANCODE_HOME);
+	this->keyboard_events_by_string.emplace("page_up", SDL_SCANCODE_PAGEUP);
+	this->keyboard_events_by_string.emplace("page_down", SDL_SCANCODE_PAGEDOWN);
+	this->keyboard_events_by_string.emplace("end", SDL_SCANCODE_END);
+	this->keyboard_events_by_string.emplace("grave", SDL_SCANCODE_GRAVE);
+	this->keyboard_events_by_string.emplace("1", SDL_SCANCODE_1);
+	this->keyboard_events_by_string.emplace("2", SDL_SCANCODE_2);
+	this->keyboard_events_by_string.emplace("3", SDL_SCANCODE_3);
+	this->keyboard_events_by_string.emplace("4", SDL_SCANCODE_4);
+	this->keyboard_events_by_string.emplace("5", SDL_SCANCODE_5);
+	this->keyboard_events_by_string.emplace("6", SDL_SCANCODE_6);
+	this->keyboard_events_by_string.emplace("7", SDL_SCANCODE_7);
+	this->keyboard_events_by_string.emplace("8", SDL_SCANCODE_8);
+	this->keyboard_events_by_string.emplace("9", SDL_SCANCODE_9);
+	this->keyboard_events_by_string.emplace("0", SDL_SCANCODE_0);
+	this->keyboard_events_by_string.emplace("-", SDL_SCANCODE_MINUS);
+	this->keyboard_events_by_string.emplace("=", SDL_SCANCODE_EQUALS);
+//	this->keyboard_events_by_string.emplace("+", SDL_SCANCODE_PLUS);
+	this->keyboard_events_by_string.emplace("backspace", SDL_SCANCODE_BACKSPACE);
+	this->keyboard_events_by_string.emplace("num_lock", SDL_SCANCODE_NUMLOCKCLEAR);
+	this->keyboard_events_by_string.emplace("forward_slash", SDL_SCANCODE_SLASH);
+//	this->keyboard_events_by_string.emplace("asterisk", SDL_SCANCODE_ASTERISK);
+	this->keyboard_events_by_string.emplace("keypad_minus", SDL_SCANCODE_KP_MINUS);
+	this->keyboard_events_by_string.emplace("keypad_plus", SDL_SCANCODE_KP_PLUS);
+	this->keyboard_events_by_string.emplace("keypad_enter", SDL_SCANCODE_KP_ENTER);
+	this->keyboard_events_by_string.emplace("keypad_1", SDL_SCANCODE_KP_1);
+	this->keyboard_events_by_string.emplace("keypad_2", SDL_SCANCODE_KP_2);
+	this->keyboard_events_by_string.emplace("keypad_3", SDL_SCANCODE_KP_3);
+	this->keyboard_events_by_string.emplace("keypad_4", SDL_SCANCODE_KP_4);
+	this->keyboard_events_by_string.emplace("keypad_5", SDL_SCANCODE_KP_5);
+	this->keyboard_events_by_string.emplace("keypad_6", SDL_SCANCODE_KP_6);
+	this->keyboard_events_by_string.emplace("keypad_7", SDL_SCANCODE_KP_7);
+	this->keyboard_events_by_string.emplace("keypad_8", SDL_SCANCODE_KP_8);
+	this->keyboard_events_by_string.emplace("keypad_9", SDL_SCANCODE_KP_9);
+	this->keyboard_events_by_string.emplace("keypad_0", SDL_SCANCODE_KP_0);
+	this->keyboard_events_by_string.emplace("keypad_period", SDL_SCANCODE_KP_PERIOD);
+	this->keyboard_events_by_string.emplace("tab", SDL_SCANCODE_TAB);
+	this->keyboard_events_by_string.emplace("q", SDL_SCANCODE_Q);
+	this->keyboard_events_by_string.emplace("w", SDL_SCANCODE_W);
+	this->keyboard_events_by_string.emplace("e", SDL_SCANCODE_E);
+	this->keyboard_events_by_string.emplace("r", SDL_SCANCODE_R);
+	this->keyboard_events_by_string.emplace("t", SDL_SCANCODE_T);
+	this->keyboard_events_by_string.emplace("y", SDL_SCANCODE_T);
+	this->keyboard_events_by_string.emplace("u", SDL_SCANCODE_T);
+	this->keyboard_events_by_string.emplace("i", SDL_SCANCODE_I);
+	this->keyboard_events_by_string.emplace("o", SDL_SCANCODE_O);
+	this->keyboard_events_by_string.emplace("p", SDL_SCANCODE_P);
+	this->keyboard_events_by_string.emplace("a", SDL_SCANCODE_A);
+	this->keyboard_events_by_string.emplace("s", SDL_SCANCODE_S);
+	this->keyboard_events_by_string.emplace("d", SDL_SCANCODE_D);
+	this->keyboard_events_by_string.emplace("f", SDL_SCANCODE_F);
+	this->keyboard_events_by_string.emplace("g", SDL_SCANCODE_G);
+	this->keyboard_events_by_string.emplace("h", SDL_SCANCODE_H);
+	this->keyboard_events_by_string.emplace("j", SDL_SCANCODE_J);
+	this->keyboard_events_by_string.emplace("k", SDL_SCANCODE_K);
+	this->keyboard_events_by_string.emplace("l", SDL_SCANCODE_L);
+	this->keyboard_events_by_string.emplace("z", SDL_SCANCODE_Z);
+	this->keyboard_events_by_string.emplace("x", SDL_SCANCODE_X);
+	this->keyboard_events_by_string.emplace("c", SDL_SCANCODE_C);
+	this->keyboard_events_by_string.emplace("v", SDL_SCANCODE_V);
+	this->keyboard_events_by_string.emplace("b", SDL_SCANCODE_B);
+	this->keyboard_events_by_string.emplace("n", SDL_SCANCODE_N);
+	this->keyboard_events_by_string.emplace("m", SDL_SCANCODE_M);
+	this->keyboard_events_by_string.emplace("left_square_bracket", SDL_SCANCODE_LEFTBRACKET);
+	this->keyboard_events_by_string.emplace("right_square_bracket", SDL_SCANCODE_RIGHTBRACKET);
+	this->keyboard_events_by_string.emplace("semicolon", SDL_SCANCODE_SEMICOLON);
+	//this->keyboard_events_by_string.emplace("quote", SDL_SCANCODE_QUOTE);
+	this->keyboard_events_by_string.emplace("backslash", SDL_SCANCODE_BACKSLASH);
+	this->keyboard_events_by_string.emplace("enter", SDL_SCANCODE_RETURN);
+	this->keyboard_events_by_string.emplace("comma", SDL_SCANCODE_COMMA);
+	this->keyboard_events_by_string.emplace("period", SDL_SCANCODE_PERIOD);
+	this->keyboard_events_by_string.emplace("left_shift", SDL_SCANCODE_LSHIFT);
+	this->keyboard_events_by_string.emplace("right_shift", SDL_SCANCODE_RSHIFT);
+	this->keyboard_events_by_string.emplace("left_control", SDL_SCANCODE_LCTRL);
+	this->keyboard_events_by_string.emplace("right_control", SDL_SCANCODE_RCTRL);
+	//this->keyboard_events_by_string.emplace("function", SDL_SCANCODE_f);
+	this->keyboard_events_by_string.emplace("os", SDL_SCANCODE_LGUI);
+	this->keyboard_events_by_string.emplace("left_alt", SDL_SCANCODE_LALT);
+	this->keyboard_events_by_string.emplace("space", SDL_SCANCODE_SPACE);
+	this->keyboard_events_by_string.emplace("right_alt", SDL_SCANCODE_RALT);
+	this->keyboard_events_by_string.emplace("left", SDL_SCANCODE_LEFT);
+	this->keyboard_events_by_string.emplace("up", SDL_SCANCODE_UP);
+	this->keyboard_events_by_string.emplace("right", SDL_SCANCODE_RIGHT);
+	this->keyboard_events_by_string.emplace("down", SDL_SCANCODE_DOWN);
 
 	this->action_button_map.insert({
 		{"dpad_left", {"dpad_left", "f"}},
@@ -192,21 +193,28 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID
 
 		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
-			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN && !this->are_inputs_read)
-					return true;
+			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
+			this->on_press_key_indices[this->on_press_key_count] = sdl_scan_code;
+			this->on_press_key_count++;
+			if (this->on_press_keys[sdl_scan_code].load(std::memory_order_acquire) == true)
+				return true;
 		}
 		
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
-			if (this->controller_button_events.count(controller_button_code))
+			this->on_press_controller_button_indices[this->on_press_controller_button_count] = controller_button_code;
+			this->on_press_controller_button_count++;
+			if (this->on_press_controller_buttons[controller_button_code].load(std::memory_order_acquire) == true)
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
-						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id) && 
-						!this->are_inputs_read)
+					if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
+
+			// if (this->controller_button_events.count(controller_button_code))
+			// 	if (this->get_controller_player_map().count(player_id))
+			// 		if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
+			// 			this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+			// 			return true;
 		}
 	}
 
@@ -255,8 +263,8 @@ bool Omnific::Inputs::is_pressed(std::vector<std::string> input_codes, PlayerID 
 
 		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
-			if (this->held_keys.count(sdl_key_code))
+			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
+			if (this->held_keys.count(sdl_scan_code))
 				return true;
 		}
 
@@ -293,21 +301,29 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, Player
 
 		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
-			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYUP && !this->are_inputs_read)
-					return true;
+			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
+			this->on_release_key_indices[this->on_release_key_count] = sdl_scan_code;
+			this->on_release_key_count++;
+			if (this->on_release_keys[sdl_scan_code] == true)
+				return true;
 		}
 		
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
-			if (this->controller_button_events.count(controller_button_code))
+			this->on_release_controller_button_indices[this->on_release_controller_button_count] = controller_button_code;
+			this->on_release_controller_button_count++;
+			if (this->on_release_controller_buttons[controller_button_code] == true)
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
-						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id) && 
-						!this->are_inputs_read)
+					if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
+
+			// SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			// if (this->controller_button_events.count(controller_button_code))
+			// 	if (this->get_controller_player_map().count(player_id))
+			// 		if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
+			// 			this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+			// 			return true;
 		}
 	}
 
@@ -352,9 +368,9 @@ float Omnific::Inputs::get_axis(std::string input_code, PlayerID player_id)
 
 bool Omnific::Inputs::is_left_mouse_button_on_press()
 {
-	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN && 
-		!this->are_inputs_read;
+	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_LEFT;
+	this->on_press_mouse_button_count++;
+	return this->on_press_mouse_buttons[SDL_BUTTON_LEFT].load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::is_left_mouse_button_pressed()
@@ -364,9 +380,9 @@ bool Omnific::Inputs::is_left_mouse_button_pressed()
 
 bool Omnific::Inputs::is_left_mouse_button_on_release()
 {
-	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP && 
-		!this->are_inputs_read;
+	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_LEFT;
+	this->on_release_mouse_button_count++;
+	return this->on_release_mouse_buttons[SDL_BUTTON_LEFT].load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::is_left_mouse_button_released()
@@ -383,9 +399,9 @@ bool Omnific::Inputs::is_left_mouse_button_double_clicked()
 
 bool Omnific::Inputs::is_middle_mouse_button_on_press()
 {
-	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN && 
-		!this->are_inputs_read;
+	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_MIDDLE;
+	this->on_press_mouse_button_count++;
+	return this->on_press_mouse_buttons[SDL_BUTTON_MIDDLE].load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_pressed()
@@ -395,9 +411,9 @@ bool Omnific::Inputs::is_middle_mouse_button_pressed()
 
 bool Omnific::Inputs::is_middle_mouse_button_on_release()
 {
-	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP && 
-		!this->are_inputs_read;
+	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_MIDDLE;
+	this->on_release_mouse_button_count++;
+	return this->on_release_mouse_buttons[SDL_BUTTON_MIDDLE].load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_released()
@@ -414,9 +430,9 @@ bool Omnific::Inputs::is_middle_mouse_button_double_clicked()
 
 bool Omnific::Inputs::is_right_mouse_button_on_press()
 {
-	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN && 
-		!this->are_inputs_read;
+	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_RIGHT;
+	this->on_press_mouse_button_count++;
+	return this->on_press_mouse_buttons[SDL_BUTTON_RIGHT].load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::is_right_mouse_button_pressed()
@@ -426,9 +442,9 @@ bool Omnific::Inputs::is_right_mouse_button_pressed()
 
 bool Omnific::Inputs::is_right_mouse_button_on_release()
 {
-	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP && 
-		!this->are_inputs_read;
+	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_RIGHT;
+	this->on_release_mouse_button_count++;
+	return this->on_release_mouse_buttons[SDL_BUTTON_RIGHT].load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::is_right_mouse_button_released()
@@ -548,8 +564,6 @@ void Omnific::Inputs::clear()
 		SDL_free(drop_event.file);
 		drop_event = { 0 };
 	}
-
-	this->has_detected_input_changes = false;
 }
 
 void Omnific::Inputs::detect_game_controllers()
@@ -599,46 +613,52 @@ void Omnific::Inputs::poll_input_events()
 			break;
 
 		case SDL_KEYDOWN:
-			this->held_keys.insert(SDLEvents.key.keysym.sym);
-			this->keyboard_events.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
-			this->has_detected_input_changes = true;
+			this->held_keys.insert(SDLEvents.key.keysym.scancode);
+			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
+			this->on_press_keys[SDLEvents.key.keysym.scancode].store(true, std::memory_order_release);
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 		case SDL_KEYUP:
-			this->held_keys.erase(SDLEvents.key.keysym.sym);
-			this->keyboard_events.emplace(SDLEvents.key.keysym.sym, SDLEvents.key);
-			this->has_detected_input_changes = true;
+			this->held_keys.erase(SDLEvents.key.keysym.scancode);
+			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
+			this->on_release_keys[SDLEvents.key.keysym.scancode].store(true, std::memory_order_release);
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 			this->held_mouse_buttons.insert(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
-			this->has_detected_input_changes = true;
+			this->on_press_mouse_buttons[SDLEvents.button.button].store(true, std::memory_order_release);
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 		case SDL_MOUSEBUTTONUP:
 			this->held_mouse_buttons.erase(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
-			this->has_detected_input_changes = true;
+			this->on_release_mouse_buttons[SDLEvents.button.button].store(true, std::memory_order_release);
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 
 		case SDL_MOUSEMOTION:
 			this->mouse_motion_event = SDLEvents.motion;
-			this->has_detected_input_changes = true;
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 
 		case SDL_MOUSEWHEEL:
 			this->mouse_wheel_event = SDLEvents.wheel;
-			this->has_detected_input_changes = true;
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 
 		case SDL_CONTROLLERBUTTONDOWN:
 			this->held_controller_buttons.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton.which);
 			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
-			this->has_detected_input_changes = true;
+			this->on_press_controller_buttons[SDLEvents.cbutton.button].store(true, std::memory_order_release);
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 		case SDL_CONTROLLERBUTTONUP:
 			this->held_controller_buttons.erase((SDL_GameControllerButton)SDLEvents.cbutton.button);
 			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
-			this->has_detected_input_changes = true;
+			this->on_release_controller_buttons[SDLEvents.cbutton.button].store(true, std::memory_order_release);
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
@@ -646,26 +666,15 @@ void Omnific::Inputs::poll_input_events()
 				this->controller_axis_events.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
 			else
 				this->controller_axis_events.at((SDL_GameControllerAxis)SDLEvents.caxis.axis) = SDLEvents.caxis;
-			this->has_detected_input_changes = true;
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 
 		case SDL_DROPFILE:
 			this->drop_event = SDLEvents.drop;
-			this->has_detected_input_changes = true;
+			this->has_detected_input_changes.store(true, std::memory_order_release);
 			break;
 		}
 	}
-}
-
-void Omnific::Inputs::on_start_of_frame()
-{
-	if (this->has_detected_input_changes)
-		this->are_inputs_read = false;
-}
-
-void Omnific::Inputs::on_end_of_frame()
-{
-	this->are_inputs_read = true;
 }
 
 bool Omnific::Inputs::has_requested_shutdown()
@@ -692,17 +701,47 @@ void Omnific::Inputs::request_restart()
 	this->restart_request = true;
 }
 
+void Omnific::Inputs::reset_edge_transition_detections()
+{
+	for (int i = 0; i < this->on_press_key_count; ++i)
+		this->on_press_keys[this->on_press_key_indices[i]].store(false, std::memory_order_release);
+
+	for (int i = 0; i < this->on_release_key_count; ++i)
+		this->on_release_keys[this->on_release_key_indices[i]].store(false, std::memory_order_release);
+
+	for (int i = 0; i < this->on_press_controller_button_count; ++i)
+		this->on_press_controller_buttons[this->on_press_controller_button_indices[i]].store(false, std::memory_order_release);
+
+	for (int i = 0; i < this->on_release_controller_button_count; ++i)
+		this->on_release_controller_buttons[this->on_release_controller_button_indices[i]].store(false, std::memory_order_release);
+
+	for (int i = 0; i < this->on_press_mouse_button_count; ++i)
+		this->on_press_mouse_buttons[this->on_press_mouse_button_indices[i]].store(false, std::memory_order_release);
+
+	for (int i = 0; i < this->on_release_mouse_button_count; ++i)
+		this->on_release_mouse_buttons[this->on_release_mouse_button_indices[i]].store(false, std::memory_order_release);
+
+	this->on_press_key_count = 0;
+	this->on_release_key_count = 0;
+	this->on_press_controller_button_count = 0;
+	this->on_release_controller_button_count = 0;
+	this->on_press_mouse_button_count = 0;
+	this->on_release_mouse_button_count = 0;
+
+	this->has_detected_input_changes.store(false, std::memory_order_release);
+}
+
 bool Omnific::Inputs::get_has_detected_input_changes()
 {
-	return this->has_detected_input_changes;
+	return this->has_detected_input_changes.load(std::memory_order_acquire);
 }
 
 bool Omnific::Inputs::has_requested_command_line()
 {
 	bool backquote_released = false;
 
-	if (this->keyboard_events.count(SDLK_BACKQUOTE))
-		backquote_released = this->keyboard_events.at(SDLK_BACKQUOTE).type == SDL_KEYUP;
+	if (this->keyboard_events.count(SDL_SCANCODE_GRAVE))
+		backquote_released = this->keyboard_events.at(SDL_SCANCODE_GRAVE).type == SDL_KEYUP;
 
 	return backquote_released;	 
 }

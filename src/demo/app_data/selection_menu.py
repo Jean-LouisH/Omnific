@@ -20,6 +20,7 @@ project_name_type_pairs = {
     "physics_test" : "test",
     "shader_test" : "test",
     "gui_test": "test",
+    "animation_test": "test"
     }
 
 
