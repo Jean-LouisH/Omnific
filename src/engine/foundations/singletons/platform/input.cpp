@@ -196,6 +196,8 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID
 			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
 			this->on_press_key_indices[this->on_press_key_count] = sdl_scan_code;
 			this->on_press_key_count++;
+			if (this->on_press_key_count >= on_press_key_indices.size())
+				this->on_press_key_count = on_press_key_indices.size() - 1;
 			if (this->on_press_keys[sdl_scan_code].load(std::memory_order_acquire) == true)
 				return true;
 		}
@@ -205,6 +207,8 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			this->on_press_controller_button_indices[this->on_press_controller_button_count] = controller_button_code;
 			this->on_press_controller_button_count++;
+			if (this->on_press_controller_button_count >= on_press_controller_button_indices.size())
+				this->on_press_controller_button_count = on_press_controller_button_indices.size() - 1;
 			if (this->on_press_controller_buttons[controller_button_code].load(std::memory_order_acquire) == true)
 				if (this->get_controller_player_map().count(player_id))
 					if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
@@ -304,6 +308,8 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, Player
 			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
 			this->on_release_key_indices[this->on_release_key_count] = sdl_scan_code;
 			this->on_release_key_count++;
+			if (this->on_release_key_count >= on_release_key_indices.size())
+			this->on_release_key_count = on_release_key_indices.size() - 1;
 			if (this->on_release_keys[sdl_scan_code] == true)
 				return true;
 		}
@@ -313,6 +319,8 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, Player
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			this->on_release_controller_button_indices[this->on_release_controller_button_count] = controller_button_code;
 			this->on_release_controller_button_count++;
+			if (this->on_release_controller_button_count >= on_release_controller_button_indices.size())
+				this->on_release_controller_button_count = on_release_controller_button_indices.size() - 1;
 			if (this->on_release_controller_buttons[controller_button_code] == true)
 				if (this->get_controller_player_map().count(player_id))
 					if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
@@ -370,6 +378,8 @@ bool Omnific::Inputs::is_left_mouse_button_on_press()
 {
 	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_LEFT;
 	this->on_press_mouse_button_count++;
+	if (this->on_press_mouse_button_count >= on_press_mouse_button_indices.size())
+		this->on_press_mouse_button_count = on_press_mouse_button_indices.size() - 1;
 	return this->on_press_mouse_buttons[SDL_BUTTON_LEFT].load(std::memory_order_acquire);
 }
 
@@ -382,6 +392,8 @@ bool Omnific::Inputs::is_left_mouse_button_on_release()
 {
 	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_LEFT;
 	this->on_release_mouse_button_count++;
+	if (this->on_release_mouse_button_count >= on_release_mouse_button_indices.size())
+		this->on_release_mouse_button_count = on_release_mouse_button_indices.size() - 1;
 	return this->on_release_mouse_buttons[SDL_BUTTON_LEFT].load(std::memory_order_acquire);
 }
 
@@ -401,6 +413,8 @@ bool Omnific::Inputs::is_middle_mouse_button_on_press()
 {
 	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_MIDDLE;
 	this->on_press_mouse_button_count++;
+	if (this->on_press_mouse_button_count >= on_press_mouse_button_indices.size())
+		this->on_press_mouse_button_count = on_press_mouse_button_indices.size() - 1;
 	return this->on_press_mouse_buttons[SDL_BUTTON_MIDDLE].load(std::memory_order_acquire);
 }
 
@@ -413,6 +427,8 @@ bool Omnific::Inputs::is_middle_mouse_button_on_release()
 {
 	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_MIDDLE;
 	this->on_release_mouse_button_count++;
+	if (this->on_release_mouse_button_count >= on_release_mouse_button_indices.size())
+		this->on_release_mouse_button_count = on_release_mouse_button_indices.size() - 1;
 	return this->on_release_mouse_buttons[SDL_BUTTON_MIDDLE].load(std::memory_order_acquire);
 }
 
@@ -432,6 +448,8 @@ bool Omnific::Inputs::is_right_mouse_button_on_press()
 {
 	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_RIGHT;
 	this->on_press_mouse_button_count++;
+	if (this->on_press_mouse_button_count >= on_press_mouse_button_indices.size())
+		this->on_press_mouse_button_count = on_press_mouse_button_indices.size() - 1;
 	return this->on_press_mouse_buttons[SDL_BUTTON_RIGHT].load(std::memory_order_acquire);
 }
 
@@ -444,6 +462,8 @@ bool Omnific::Inputs::is_right_mouse_button_on_release()
 {
 	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_RIGHT;
 	this->on_release_mouse_button_count++;
+	if (this->on_release_mouse_button_count >= on_release_mouse_button_indices.size())
+		this->on_release_mouse_button_count = on_release_mouse_button_indices.size() - 1;
 	return this->on_release_mouse_buttons[SDL_BUTTON_RIGHT].load(std::memory_order_acquire);
 }
 

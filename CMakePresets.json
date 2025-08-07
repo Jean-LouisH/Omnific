@@ -43,29 +43,28 @@
             "displayName": "Windows Release",
             "inherits": "windows-debug",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS_RELEASE": "/O2 /GL /arch:SSE2 /favor:blend"
             }
         },
         {
             "name": "linux-base",
             "hidden": true,
-            "inherits": "all-binary-base",
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "/usr/bin/gcc",
-                "CMAKE_CXX_COMPILER": "/usr/bin/g++"
-            }
+            "inherits": "all-binary-base"
         },
         {
             "name": "linux-debug",
             "displayName": "Linux Debug x86_64",
             "inherits": "linux-base",
-            "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
+            "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
             },
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "/usr/bin/clang",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++"
             }
         },
         {
@@ -74,7 +73,10 @@
             "inherits": "linux-debug",
             "description": "Using compilers: C = /usr/bin/gcc, CXX = /usr/bin/g++",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release"
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER": "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+                "CMAKE_CXX_FLAGS_RELEASE": "-O2 -march=core2 -flto"
             }
         },
         {
