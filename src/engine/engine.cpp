@@ -50,15 +50,12 @@ void Omnific::Engine::run()
 
 	/* These timers persist throughout Engine runtime */
 	Profiler::add_clock(MAIN_THREAD_CLOCK_NAME, {"thread"});
-	Profiler::add_clock(LOOP_THREAD_CLOCK_NAME, {"thread"});
 
-	Profiler::add_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME, {"loop_frame_skip"});
 	Profiler::add_clock(UPDATE_LOOP_FRAME_SKIP_CLOCK_NAME, {"loop_frame_skip"});
 	Profiler::add_clock(OUTPUT_LOOP_FRAME_SKIP_CLOCK_NAME, {"loop_frame_skip"});
 
 	Profiler::add_clock(UPDATE_LAG_CLOCK_NAME, {"lag"});
 
-	Profiler::add_clock(INPUT_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
 	Profiler::add_clock(UPDATE_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
 	Profiler::add_clock(OUTPUT_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
 	Profiler::add_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME, {"loop_frame_time"});
@@ -75,69 +72,36 @@ void Omnific::Engine::run()
 	Profiler::add_clock("debug_1", {"debug"});
 	Profiler::add_clock("debug_2", {"debug"});
 	Profiler::add_clock("debug_3", {"debug"});
-	Profiler::add_clock("debug_4", {"debug"});
-	Profiler::add_clock("debug_5", {"debug"});
-	Profiler::add_clock("debug_6", {"debug"});
-	Profiler::add_clock("debug_7", {"debug"});
-	Profiler::add_clock("debug_8", {"debug"});
 	
-
 	do
 	{
 		this->initialize();
 
 		if (this->state != State::FINALIZING)
 		{
-			std::shared_ptr<Clock> input_frame_skip_clock = Profiler::get_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
-
 			std::shared_ptr<Clock> main_thread_clock = Profiler::get_clock(MAIN_THREAD_CLOCK_NAME);
 			uint8_t logical_core_count = Platform::get_logical_core_count();
 			Configuration* configuration = Configuration::get_instance();
 
-			if (!configuration->performance_settings.enable_multithreading ||
-				logical_core_count < 2 || 
-				Platform::get_platform_name() == "Emscripten")
-			{
-				logger.write("Engine single threading mode enabled.");
 #ifdef _WEB_PLATFORM
-				emscripten_set_main_loop_arg(run_loop_on_callback, this, 0, 1);
+			emscripten_set_main_loop_arg(run_loop_on_callback, this, 0, 1);
 #else
-				/* Single threaded mode. */
-				while (this->state == State::INITIALIZING || 
-						this->state == State::RUNNING) 
-				{
-					main_thread_clock->set_start();
-					this->detect_input();
-					this->run_loop(); 
-					main_thread_clock->set_end();
-					this->sleep_for(
-						configuration->get_max_target_fps(), 
-						main_thread_clock);
-				}
-#endif
-			}
-			else 
-			{
-				/* Multithreaded mode. */
-				ThreadPool::initialize();
-				std::thread loop_thread = std::thread(&Engine::run_loop_on_thread, this);
-
-				while (this->state == State::INITIALIZING || 
+			while (this->state == State::INITIALIZING || 
 					this->state == State::RUNNING) 
-				{
-					main_thread_clock->set_start();
-					this->detect_input();
-					main_thread_clock->set_end();
-					this->sleep_for(
-						configuration->performance_settings.target_input_fps, 
-						main_thread_clock);
-				}
-
-				loop_thread.join();
-				logger.write("Finalizing Engine loops...");
-				this->finalize();
+			{
+				main_thread_clock->set_start();
+				this->run_loop(); 
+				main_thread_clock->set_end();
+				this->sleep_for(
+					configuration->get_max_target_fps(), 
+					main_thread_clock);
 			}
+#endif
 		}
+
+		logger.write("Finalizing Engine...");
+		this->finalize();
+		
 	} while (this->state == State::RESTARTING);
 }
 
@@ -193,29 +157,6 @@ void Omnific::Engine::initialize()
 		logger.write("Shutting down Engine due to error in loading Configuration.");
 		this->state = State::FINALIZING;
 	}
-
-}
-
-void Omnific::Engine::detect_input()
-{
-	std::shared_ptr<Clock> input_loop_frame_skip_clock = Profiler::get_clock(INPUT_LOOP_FRAME_SKIP_CLOCK_NAME);
-	input_loop_frame_skip_clock->set_end();
-
-	if (input_loop_frame_skip_clock->get_delta() >= 
-		MS_IN_S / Configuration::get_instance()->performance_settings.target_input_fps)
-	{
-		std::shared_ptr<Clock> input_loop_frame_time_clock = Profiler::get_clock(INPUT_LOOP_FRAME_TIME_CLOCK_NAME);
-		input_loop_frame_time_clock->set_start();
-		input_loop_frame_skip_clock->set_start();
-		Inputs& inputs = Platform::get_inputs();
-		inputs.detect_game_controllers();
-		inputs.poll_input_events();
-		if (inputs.has_requested_shutdown())
-			this->state = State::FINALIZING;
-		if (inputs.has_requested_restart())
-			this->state = State::RESTARTING;
-		input_loop_frame_time_clock->set_end();
-	}
 }
 
 void Omnific::Engine::run_loop()
@@ -228,7 +169,7 @@ void Omnific::Engine::run_loop()
 
 	if (this->state == State::INITIALIZING)
 	{
-		Platform::get_logger().write("Engine loops currently running...");
+		Platform::get_logger().write("Engine currently running...");
 
 		for (auto system : this->systems)
 			system.second->initialize();
@@ -271,6 +212,14 @@ void Omnific::Engine::run_loop()
 	{
 		update_loop_frame_time_clock->set_start();
 		update_loop_frame_skip_clock->set_start();
+
+		inputs.detect_game_controllers();
+		inputs.poll_input_events();
+
+		if (inputs.has_requested_shutdown())
+			this->state = State::FINALIZING;
+		if (inputs.has_requested_restart())
+			this->state = State::RESTARTING;
 
 		total_on_input_frame_time_clock->set_start();
 		if (Platform::get_inputs().get_has_detected_input_changes())
@@ -362,22 +311,6 @@ void Omnific::Engine::run_loop()
 
 	total_loop_frame_time_clock->set_end();
 	active_scene->update_debug_scene_layer();
-	Platform::get_inputs().reset_edge_transition_detections();
-}
-
-void Omnific::Engine::run_loop_on_thread()
-{
-	std::shared_ptr<Clock> engine_loop_thread_clock = Profiler::get_clock(LOOP_THREAD_CLOCK_NAME);
-	while (this->state == State::INITIALIZING || 
-		this->state == State::RUNNING)
-	{
-		engine_loop_thread_clock->set_start();
-		this->run_loop();
-		engine_loop_thread_clock->set_end();
-		this->sleep_for(
-			Configuration::get_instance()->get_max_target_fps(), 
-			engine_loop_thread_clock);
-	}
 }
 
  void Omnific::Engine::run_loop_on_callback(void* arg)

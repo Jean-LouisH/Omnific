@@ -118,29 +118,8 @@ namespace Omnific
 
 		std::set<SDL_Keycode> held_keys;
 		std::set<Uint8> held_mouse_buttons;
-
-		std::array<std::atomic<bool>, SDL_NUM_SCANCODES> on_press_keys;
-		std::array<std::atomic<bool>, SDL_NUM_SCANCODES> on_release_keys;
-		std::array<std::atomic<bool>, SDL_CONTROLLER_BUTTON_MAX> on_press_controller_buttons;
-		std::array<std::atomic<bool>, SDL_CONTROLLER_BUTTON_MAX> on_release_controller_buttons;
-		std::array<std::atomic<bool>, 6> on_press_mouse_buttons;
-		std::array<std::atomic<bool>, 6> on_release_mouse_buttons;
-
-		std::array<int, SDL_NUM_SCANCODES> on_press_key_indices;
-		std::array<int, SDL_NUM_SCANCODES> on_release_key_indices;
-		std::array<int, SDL_CONTROLLER_BUTTON_MAX> on_press_controller_button_indices;
-		std::array<int, SDL_CONTROLLER_BUTTON_MAX> on_release_controller_button_indices;
-		std::array<int, 6> on_press_mouse_button_indices;
-		std::array<int, 6> on_release_mouse_button_indices;
-
-		int on_press_key_count = 0;
-		int on_release_key_count = 0;
-		int on_press_controller_button_count = 0;
-		int on_release_controller_button_count = 0;
-		int on_press_mouse_button_count = 0;
-		int on_release_mouse_button_count = 0;
-		
 		std::unordered_map<SDL_GameControllerButton, SDL_JoystickID> held_controller_buttons;
+
 		std::unordered_map<SDL_GameControllerButton, SDL_ControllerButtonEvent> controller_button_events;
 		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboard_events;
 		std::unordered_map<SDL_GameControllerAxis, SDL_ControllerAxisEvent> controller_axis_events;
@@ -156,7 +135,7 @@ namespace Omnific
 		std::unordered_map<PlayerID, SDL_JoystickID> controller_player_map;
 		std::queue<PlayerID> newly_loaded_player_ids;
 
-		std::atomic<bool> has_detected_input_changes = false;
+		bool has_detected_input_changes = false;
 		bool shutdown_request = false;
 		bool restart_request = false;
 		void clear();

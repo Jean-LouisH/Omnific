@@ -187,38 +187,26 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes)
 
 bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < input_codes.size(); ++i)
+	for (int i = 0; i < input_codes.size(); i++)
 	{
 		std::string input_code = input_codes.at(i);
 
 		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
-			this->on_press_key_indices[this->on_press_key_count] = sdl_scan_code;
-			this->on_press_key_count++;
-			if (this->on_press_key_count >= on_press_key_indices.size())
-				this->on_press_key_count = on_press_key_indices.size() - 1;
-			if (this->on_press_keys[sdl_scan_code].load(std::memory_order_acquire) == true)
-				return true;
+			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
+			if (this->keyboard_events.count(sdl_key_code))
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN)
+					return true;
 		}
-		
+
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
-			this->on_press_controller_button_indices[this->on_press_controller_button_count] = controller_button_code;
-			this->on_press_controller_button_count++;
-			if (this->on_press_controller_button_count >= on_press_controller_button_indices.size())
-				this->on_press_controller_button_count = on_press_controller_button_indices.size() - 1;
-			if (this->on_press_controller_buttons[controller_button_code].load(std::memory_order_acquire) == true)
+			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
-
-			// if (this->controller_button_events.count(controller_button_code))
-			// 	if (this->get_controller_player_map().count(player_id))
-			// 		if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
-			// 			this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
-			// 			return true;
 		}
 	}
 
@@ -299,39 +287,26 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes)
 
 bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, PlayerID player_id)
 {
-	for (int i = 0; i < input_codes.size(); ++i)
+	for (int i = 0; i < input_codes.size(); i++)
 	{
 		std::string input_code = input_codes.at(i);
 
 		if (this->keyboard_events_by_string.count(input_code))
 		{
-			SDL_Scancode sdl_scan_code = this->keyboard_events_by_string.at(input_code);
-			this->on_release_key_indices[this->on_release_key_count] = sdl_scan_code;
-			this->on_release_key_count++;
-			if (this->on_release_key_count >= on_release_key_indices.size())
-			this->on_release_key_count = on_release_key_indices.size() - 1;
-			if (this->on_release_keys[sdl_scan_code] == true)
-				return true;
+			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
+			if (this->keyboard_events.count(sdl_key_code))
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYUP)
+					return true;
 		}
-		
+
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
-			this->on_release_controller_button_indices[this->on_release_controller_button_count] = controller_button_code;
-			this->on_release_controller_button_count++;
-			if (this->on_release_controller_button_count >= on_release_controller_button_indices.size())
-				this->on_release_controller_button_count = on_release_controller_button_indices.size() - 1;
-			if (this->on_release_controller_buttons[controller_button_code] == true)
+			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
-
-			// SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
-			// if (this->controller_button_events.count(controller_button_code))
-			// 	if (this->get_controller_player_map().count(player_id))
-			// 		if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
-			// 			this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
-			// 			return true;
 		}
 	}
 
@@ -376,11 +351,8 @@ float Omnific::Inputs::get_axis(std::string input_code, PlayerID player_id)
 
 bool Omnific::Inputs::is_left_mouse_button_on_press()
 {
-	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_LEFT;
-	this->on_press_mouse_button_count++;
-	if (this->on_press_mouse_button_count >= on_press_mouse_button_indices.size())
-		this->on_press_mouse_button_count = on_press_mouse_button_indices.size() - 1;
-	return this->on_press_mouse_buttons[SDL_BUTTON_LEFT].load(std::memory_order_acquire);
+	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
 bool Omnific::Inputs::is_left_mouse_button_pressed()
@@ -390,11 +362,8 @@ bool Omnific::Inputs::is_left_mouse_button_pressed()
 
 bool Omnific::Inputs::is_left_mouse_button_on_release()
 {
-	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_LEFT;
-	this->on_release_mouse_button_count++;
-	if (this->on_release_mouse_button_count >= on_release_mouse_button_indices.size())
-		this->on_release_mouse_button_count = on_release_mouse_button_indices.size() - 1;
-	return this->on_release_mouse_buttons[SDL_BUTTON_LEFT].load(std::memory_order_acquire);
+	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
 bool Omnific::Inputs::is_left_mouse_button_released()
@@ -411,11 +380,8 @@ bool Omnific::Inputs::is_left_mouse_button_double_clicked()
 
 bool Omnific::Inputs::is_middle_mouse_button_on_press()
 {
-	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_MIDDLE;
-	this->on_press_mouse_button_count++;
-	if (this->on_press_mouse_button_count >= on_press_mouse_button_indices.size())
-		this->on_press_mouse_button_count = on_press_mouse_button_indices.size() - 1;
-	return this->on_press_mouse_buttons[SDL_BUTTON_MIDDLE].load(std::memory_order_acquire);
+	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_pressed()
@@ -425,11 +391,8 @@ bool Omnific::Inputs::is_middle_mouse_button_pressed()
 
 bool Omnific::Inputs::is_middle_mouse_button_on_release()
 {
-	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_MIDDLE;
-	this->on_release_mouse_button_count++;
-	if (this->on_release_mouse_button_count >= on_release_mouse_button_indices.size())
-		this->on_release_mouse_button_count = on_release_mouse_button_indices.size() - 1;
-	return this->on_release_mouse_buttons[SDL_BUTTON_MIDDLE].load(std::memory_order_acquire);
+	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_released()
@@ -446,11 +409,8 @@ bool Omnific::Inputs::is_middle_mouse_button_double_clicked()
 
 bool Omnific::Inputs::is_right_mouse_button_on_press()
 {
-	this->on_press_mouse_button_indices[this->on_press_mouse_button_count] = SDL_BUTTON_RIGHT;
-	this->on_press_mouse_button_count++;
-	if (this->on_press_mouse_button_count >= on_press_mouse_button_indices.size())
-		this->on_press_mouse_button_count = on_press_mouse_button_indices.size() - 1;
-	return this->on_press_mouse_buttons[SDL_BUTTON_RIGHT].load(std::memory_order_acquire);
+	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_pressed()
@@ -460,11 +420,8 @@ bool Omnific::Inputs::is_right_mouse_button_pressed()
 
 bool Omnific::Inputs::is_right_mouse_button_on_release()
 {
-	this->on_release_mouse_button_indices[this->on_release_mouse_button_count] = SDL_BUTTON_RIGHT;
-	this->on_release_mouse_button_count++;
-	if (this->on_release_mouse_button_count >= on_release_mouse_button_indices.size())
-		this->on_release_mouse_button_count = on_release_mouse_button_indices.size() - 1;
-	return this->on_release_mouse_buttons[SDL_BUTTON_RIGHT].load(std::memory_order_acquire);
+	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
+		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_released()
@@ -635,50 +592,44 @@ void Omnific::Inputs::poll_input_events()
 		case SDL_KEYDOWN:
 			this->held_keys.insert(SDLEvents.key.keysym.scancode);
 			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
-			this->on_press_keys[SDLEvents.key.keysym.scancode].store(true, std::memory_order_release);
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 		case SDL_KEYUP:
 			this->held_keys.erase(SDLEvents.key.keysym.scancode);
 			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
-			this->on_release_keys[SDLEvents.key.keysym.scancode].store(true, std::memory_order_release);
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
 			this->held_mouse_buttons.insert(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
-			this->on_press_mouse_buttons[SDLEvents.button.button].store(true, std::memory_order_release);
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 		case SDL_MOUSEBUTTONUP:
 			this->held_mouse_buttons.erase(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
-			this->on_release_mouse_buttons[SDLEvents.button.button].store(true, std::memory_order_release);
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_MOUSEMOTION:
 			this->mouse_motion_event = SDLEvents.motion;
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_MOUSEWHEEL:
 			this->mouse_wheel_event = SDLEvents.wheel;
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_CONTROLLERBUTTONDOWN:
 			this->held_controller_buttons.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton.which);
 			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
-			this->on_press_controller_buttons[SDLEvents.cbutton.button].store(true, std::memory_order_release);
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 		case SDL_CONTROLLERBUTTONUP:
 			this->held_controller_buttons.erase((SDL_GameControllerButton)SDLEvents.cbutton.button);
 			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
-			this->on_release_controller_buttons[SDLEvents.cbutton.button].store(true, std::memory_order_release);
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_CONTROLLERAXISMOTION:
@@ -686,12 +637,12 @@ void Omnific::Inputs::poll_input_events()
 				this->controller_axis_events.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
 			else
 				this->controller_axis_events.at((SDL_GameControllerAxis)SDLEvents.caxis.axis) = SDLEvents.caxis;
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 
 		case SDL_DROPFILE:
 			this->drop_event = SDLEvents.drop;
-			this->has_detected_input_changes.store(true, std::memory_order_release);
+			this->has_detected_input_changes = true;
 			break;
 		}
 	}
@@ -721,39 +672,9 @@ void Omnific::Inputs::request_restart()
 	this->restart_request = true;
 }
 
-void Omnific::Inputs::reset_edge_transition_detections()
-{
-	for (int i = 0; i < this->on_press_key_count; ++i)
-		this->on_press_keys[this->on_press_key_indices[i]].store(false, std::memory_order_release);
-
-	for (int i = 0; i < this->on_release_key_count; ++i)
-		this->on_release_keys[this->on_release_key_indices[i]].store(false, std::memory_order_release);
-
-	for (int i = 0; i < this->on_press_controller_button_count; ++i)
-		this->on_press_controller_buttons[this->on_press_controller_button_indices[i]].store(false, std::memory_order_release);
-
-	for (int i = 0; i < this->on_release_controller_button_count; ++i)
-		this->on_release_controller_buttons[this->on_release_controller_button_indices[i]].store(false, std::memory_order_release);
-
-	for (int i = 0; i < this->on_press_mouse_button_count; ++i)
-		this->on_press_mouse_buttons[this->on_press_mouse_button_indices[i]].store(false, std::memory_order_release);
-
-	for (int i = 0; i < this->on_release_mouse_button_count; ++i)
-		this->on_release_mouse_buttons[this->on_release_mouse_button_indices[i]].store(false, std::memory_order_release);
-
-	this->on_press_key_count = 0;
-	this->on_release_key_count = 0;
-	this->on_press_controller_button_count = 0;
-	this->on_release_controller_button_count = 0;
-	this->on_press_mouse_button_count = 0;
-	this->on_release_mouse_button_count = 0;
-
-	this->has_detected_input_changes.store(false, std::memory_order_release);
-}
-
 bool Omnific::Inputs::get_has_detected_input_changes()
 {
-	return this->has_detected_input_changes.load(std::memory_order_acquire);
+	return this->has_detected_input_changes;
 }
 
 bool Omnific::Inputs::has_requested_command_line()

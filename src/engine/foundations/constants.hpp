@@ -34,22 +34,19 @@
 #endif
 
 #define DEFAULT_TARGET_FPS 60.0
-#define DEFAULT_TARGET_INPUT_FPS 125.0
 #define DEFAULT_TARGET_UPDATE_FPS DEFAULT_TARGET_FPS
 #define DEFAULT_TARGET_OUTPUT_FPS DEFAULT_TARGET_FPS 
-#define DEFAULT_FIXED_FRAME_TIME 1000.0 / 50.0
+#define DEFAULT_FIXED_UPDATE_FPS 50.0
+#define DEFAULT_FIXED_FRAME_TIME 1000.0 / DEFAULT_FIXED_UPDATE_FPS
 
 #define BOOT_FILE_NAME "boot.yml"
 
 #define MAIN_THREAD_CLOCK_NAME "main_thread"
-#define LOOP_THREAD_CLOCK_NAME "loop_thread"
 #define UPDATE_LAG_CLOCK_NAME "update_lag"
 
-#define INPUT_LOOP_FRAME_TIME_CLOCK_NAME "input_loop_frame_time"
 #define UPDATE_LOOP_FRAME_TIME_CLOCK_NAME "update_loop_frame_time"
 #define OUTPUT_LOOP_FRAME_TIME_CLOCK_NAME "output_loop_frame_time"
 #define TOTAL_LOOP_FRAME_TIME_CLOCK_NAME "total_loop_frame_time"
-#define INPUT_LOOP_FRAME_SKIP_CLOCK_NAME "input_loop_frame_skip"
 #define UPDATE_LOOP_FRAME_SKIP_CLOCK_NAME "update_loop_frame_skip"
 #define OUTPUT_LOOP_FRAME_SKIP_CLOCK_NAME "output_loop_frame_skip"
 

@@ -52,7 +52,6 @@ namespace Omnific
 
 		struct PerformanceSettings
 		{
-			uint32_t target_input_fps;
 			uint32_t target_update_fps;
 			uint32_t target_output_fps;
 			uint32_t fixed_frame_time;

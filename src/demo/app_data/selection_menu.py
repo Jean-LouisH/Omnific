@@ -3,16 +3,15 @@ import sys
 
 
 project_name_type_pairs = {
-    "pong" : "game",
     "platformer" : "game",
     "fps" : "game",
     "racing" : "game",
-    "bullet_hell" : "game",
     "flight_sim" : "game",
     "clock" : "app",
     "calculator" : "app",
     "music_keyboard" : "app",
     "drawing_editor" : "app",
+    "model_viewer" : "app",
     "scene_hierarchy_test" : "test",
     "haptics_test" : "test",
     "inputs_test" : "test",

@@ -94,11 +94,7 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 			{
 				for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 				{
-					if (it1->first.as<std::string>() == "target_input_fps")
-					{
-						configuration->performance_settings.target_input_fps = it1->second.as<int>();
-					}
-					else if (it1->first.as<std::string>() == "target_update_fps")
+					if (it1->first.as<std::string>() == "target_update_fps")
 					{
 						configuration->performance_settings.target_update_fps = it1->second.as<int>();
 					}
@@ -106,7 +102,7 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 					{
 						configuration->performance_settings.target_output_fps = it1->second.as<int>();
 					}
-					else if (it1->first.as<std::string>() == "target_compute_frame_time")
+					else if (it1->first.as<std::string>() == "target_fixed_frame_time")
 					{
 						configuration->performance_settings.fixed_frame_time = it1->second.as<int>();
 					}
@@ -173,13 +169,10 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 uint32_t Omnific::Configuration::get_max_target_fps()
 {
 	Configuration* configuration = Configuration::get_instance();
-	uint32_t target_input_fps = configuration->performance_settings.target_input_fps;
 	uint32_t target_update_fps = configuration->performance_settings.target_update_fps;
 	uint32_t target_output_fps = configuration->performance_settings.target_output_fps;
 	uint32_t max_target_fps = 0;
 
-	if (target_input_fps > max_target_fps)
-		max_target_fps = target_input_fps;
 	if (target_update_fps > max_target_fps)
 		max_target_fps = target_update_fps;
 	if (target_output_fps > max_target_fps)
@@ -194,7 +187,6 @@ Omnific::Configuration* Omnific::Configuration::get_instance()
 	{
 		instance = new Configuration();
 		Omnific::Configuration* configuration = instance;
-		configuration->performance_settings.target_input_fps = DEFAULT_TARGET_INPUT_FPS;
 		configuration->performance_settings.target_update_fps = DEFAULT_TARGET_UPDATE_FPS;
 		configuration->performance_settings.target_output_fps = DEFAULT_TARGET_OUTPUT_FPS;
 		configuration->performance_settings.fixed_frame_time = DEFAULT_FIXED_FRAME_TIME;
