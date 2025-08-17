@@ -26,6 +26,7 @@
 Omnific::Registerable::Registerable()
 {
 	this->id = UIDGenerator::get_new_uid();
+	this->type = "Registerable";
 }
 
 Omnific::Registerable* Omnific::Registerable::instance()

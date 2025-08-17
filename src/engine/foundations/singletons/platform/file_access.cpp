@@ -284,3 +284,8 @@ void Omnific::FileAccess::write_binary_asynchronously(std::string filepath, std:
 {
 	this->write_binary(filepath, binary, apply_data_directory);
 }
+
+void Omnific::FileAccess::log_loading_resource_from_file(std::string filepath)
+{
+	Platform::get_logger().write("Loading resource from file: " + filepath);	
+}

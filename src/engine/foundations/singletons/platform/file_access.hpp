@@ -70,6 +70,7 @@ namespace Omnific
 			}
 			else
 			{
+				this->log_loading_resource_from_file(filepath);
 				derived_resource = std::shared_ptr<DerivedResource>(new DerivedResource(full_filepath));
 				std::shared_ptr<Resource> resource = std::static_pointer_cast<Resource>(derived_resource);
 				if (!this->resources.count(resource->get_name()))
@@ -89,5 +90,6 @@ namespace Omnific
 		std::string get_filepath_with_app_data_path(std::string filepath, bool apply_app_data_path = true);
 		void read_binary_asynchronously(std::string filepath, bool apply_app_data_path);
 		void write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_app_data_path);
+		void log_loading_resource_from_file(std::string filepath);
 	};
 }

@@ -33,7 +33,7 @@ namespace Omnific
 	public:
 		AIPerception()
 		{
-
+			this->type = TYPE_STRING;
 		};
 		static constexpr const char* TYPE_STRING = "AIPerception";
 

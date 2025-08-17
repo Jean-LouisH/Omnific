@@ -25,8 +25,8 @@
 
 Omnific::Resource::Resource()
 {
-	this->name = "Asset (ID:" + std::to_string(this->id) + ")";
 	this->type = TYPE_STRING;
+	this->name = this->type + " (ID:" + std::to_string(this->id) + ")";
 }
 
 void Omnific::Resource::set_name(std::string name)
