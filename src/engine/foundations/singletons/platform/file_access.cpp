@@ -142,9 +142,12 @@ std::string Omnific::FileAccess::get_file_extension(std::string filepath)
 
 	//Find the first slash from the end
 	for (name_index_start = filepath.size() - 1;
-		filepath.at(name_index_start) != '.';
+		filepath.at(name_index_start) != '.' && name_index_start != 0;
 		name_index_start--)
 		;
+
+	if (name_index_start == 0)
+		name_index_start = -1;
 
 	//append from the start index to the extension name.
 	for (int j = name_index_start + 1; j < filepath.size(); ++j)
@@ -287,5 +290,5 @@ void Omnific::FileAccess::write_binary_asynchronously(std::string filepath, std:
 
 void Omnific::FileAccess::log_loading_resource_from_file(std::string filepath)
 {
-	Platform::get_logger().write("Loading resource from file: " + filepath);	
+	Platform::get_logger().write("Loading and caching Resource from file: " + filepath);	
 }

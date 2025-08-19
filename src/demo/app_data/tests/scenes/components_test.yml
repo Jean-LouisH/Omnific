@@ -13,7 +13,7 @@ SceneLayer:
     parent: "GlobalShaderEntity"
     transform:
       translation: [-5.0, 0.0, 0.0]
-  SubSceneLayer:
+  Scene:
     name: ["tests/models/suzanne.glb", ""]
     parent: "Model"
   Entity:
@@ -23,7 +23,7 @@ SceneLayer:
       translation: [0.0, 0.0, 0.0]
     PhysicsBody:
       drag_ratio: [0.001, 0.001, 0.001]
-  SubSceneLayer:
+  Scene:
     name: ["tests/models/suzanne.glb", ""]
     parent: "Model + PhysicsBody"
   Entity:
@@ -35,7 +35,7 @@ SceneLayer:
       drag_ratio: [0.001, 0.001, 0.001]
     ScriptCollection:
       Python: ["tests/scripts/python/x_vibration.py"]
-  SubSceneLayer:
+  Scene:
     name: ["tests/models/suzanne.glb", ""]
     parent: "Model + PhysicsBody + ScriptCollection"
   Entity:

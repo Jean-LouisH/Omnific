@@ -43,7 +43,7 @@ SceneLayer:
     Model:
       overriding_shader:
         preset: "Shader::PHONG"
-  SubSceneLayer:
+  Scene:
     name: ["tests/models/suzanne.glb", ""]
     parent: "Model"
   Entity:

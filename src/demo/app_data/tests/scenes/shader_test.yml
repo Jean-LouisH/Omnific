@@ -11,8 +11,8 @@ SceneLayer:
         preset: "Shader::UNLIT"
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate.py"]
-  SubSceneLayer:
-    name: ["tests/models/suzanne.glb", ""]
+  Scene:
+    name: "Scene::monkey"
     parent: "Unlit Object"
   Entity:
     name: "Phong Object"
@@ -24,8 +24,8 @@ SceneLayer:
         preset: "Shader::PHONG"
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate.py"]
-  SubSceneLayer:
-    name: ["tests/models/suzanne.glb", ""]
+  Scene:
+    name: "Scene::monkey"
     parent: "Phong Object"
   Entity:
     name: "PBR Object"
@@ -37,8 +37,8 @@ SceneLayer:
         preset: "Shader::PBR"
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate.py"]
-  SubSceneLayer:
-    name: ["tests/models/damaged_helmet.glb", ""]
+  Scene:
+    name: "Scene::monkey"
     parent: "PBR Object"
   Entity:
     name: "Light Armature"

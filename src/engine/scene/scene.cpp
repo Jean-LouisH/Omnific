@@ -28,6 +28,14 @@
 #include <gtx/quaternion.hpp>
 #include <cmath>
 #include <foundations/singletons/profiler.hpp>
+#include <foundations/resources/default_assets/scenes/cone_glb.hpp>
+#include <foundations/resources/default_assets/scenes/cube_glb.hpp>
+#include <foundations/resources/default_assets/scenes/cylinder_glb.hpp>
+#include <foundations/resources/default_assets/scenes/icosphere_glb.hpp>
+#include <foundations/resources/default_assets/scenes/monkey_glb.hpp>
+#include <foundations/resources/default_assets/scenes/plane_glb.hpp>
+#include <foundations/resources/default_assets/scenes/sphere_glb.hpp>
+#include <foundations/resources/default_assets/scenes/torus_glb.hpp>
 
 #define TINYGLTF_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
@@ -46,12 +54,6 @@ Omnific::Scene::Scene(std::string filepath)
 	this->id = UIDGenerator::get_new_uid();
 }
 
-Omnific::Scene::Scene(std::string filepath, std::string exclusive_scene_layer_name)
-{
-	this->deserialize_from(filepath, exclusive_scene_layer_name);
-	this->id = UIDGenerator::get_new_uid();
-}
-
 void Omnific::Scene::serialize_to(std::string filepath)
 {
 
@@ -59,51 +61,27 @@ void Omnific::Scene::serialize_to(std::string filepath)
 
 void Omnific::Scene::deserialize_from(std::string filepath)
 {
-	return this->deserialize_from(filepath, "");
-}
-
-void Omnific::Scene::deserialize_from(std::string filepath, std::string exclusive_scene_layer_name)
-{
-	if (exclusive_scene_layer_name == "")
-		Platform::get_logger().write("Loading all SceneLayers from Scene: \"" + filepath + "\"");
-	else
-		Platform::get_logger().write("Loading SceneLayer: \"" + exclusive_scene_layer_name + "\" from Scene : \"" + filepath + "\"");
-
-
+	FileAccess& file_access = Platform::get_file_access();
+	Platform::get_logger().write("Loading Scene from: \"" + filepath + "\"");
 	this->name = filepath;
 
 	if (filepath != "")
 	{
 		const std::string full_filepath = Platform::get_file_access().find_path(filepath);
+		const std::string file_extension = file_access.get_file_extension(filepath);
 
-		try
+		if (file_extension == "yml" || file_extension == "yaml")
 		{
-			YAML::Node yaml_node = YAML::LoadFile(full_filepath);
-
-			for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
+			try
 			{
-				if (it0->first.as<std::string>() == "SceneLayer")
+				YAML::Node yaml_node = YAML::LoadFile(full_filepath);
+
+				for (YAML::const_iterator it0 = yaml_node.begin(); it0 != yaml_node.end(); ++it0)
 				{
-					std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
-					bool load_this_scene_layer = true;
-
-					/* If the name is an empty string, load all, otherwise search for the name */
-					if (exclusive_scene_layer_name != "")
+					if (it0->first.as<std::string>() == "SceneLayer")
 					{
-						load_this_scene_layer = false;
+						std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
 
-						for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
-						{
-							if (it1->first.as<std::string>() == "name")
-							{
-								load_this_scene_layer = it1->second.as<std::string>() == exclusive_scene_layer_name;
-								break;
-							}
-						}
-					}
-
-					if (load_this_scene_layer)
-					{
 						for (YAML::const_iterator it1 = it0->second.begin(); it1 != it0->second.end(); ++it1)
 						{
 							if (it1->first.as<std::string>() == "name")
@@ -161,10 +139,9 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string exclusiv
 											}
 										}					
 									}
-
-									//Components
 									else
 									{
+										//Components
 										std::shared_ptr<Registerable> registerable = ClassRegistry::query<Component>(it2->first.as<std::string>());
 
 										if (registerable != nullptr)
@@ -176,12 +153,11 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string exclusiv
 									}
 								}
 							}
-							/* Recursively load another SceneLayer into this one if the filename
+							/* Recursively load another Scene into this one if the filename
 							is not the same. */
-							else if (it1->first.as<std::string>() == "SubSceneLayer")
+							else if (it1->first.as<std::string>() == "Scene")
 							{
-								std::string sub_scene_filepath;
-								std::string sub_scene_layer_name;
+								std::string other_scene_filepath;
 								EntityID parent_id = 0;
 
 								for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
@@ -192,102 +168,93 @@ void Omnific::Scene::deserialize_from(std::string filepath, std::string exclusiv
 									}
 									else if (it2->first.as<std::string>() == "name")
 									{
-										sub_scene_filepath = it2->second[0].as<std::string>();
-										sub_scene_layer_name = it2->second[1].as<std::string>();
+										other_scene_filepath = it2->second.as<std::string>();
 									}
 								}
 
-								std::shared_ptr<SceneLayer> sub_scene_layer;
-
-								if (sub_scene_filepath != filepath)
+								if (other_scene_filepath != filepath)
 								{
-									/*The last SceneLayer is the only SceneTree, so this just extracts the one specified.*/
-									if (sub_scene_layer_name != "")
-										sub_scene_layer = Scene(sub_scene_filepath, sub_scene_layer_name).get_last_scene_layer();
-									else
-										sub_scene_layer = this->load_gltf(sub_scene_filepath);
+									std::shared_ptr<Scene> other_scene = std::shared_ptr<Scene>(new Scene(other_scene_filepath));
 
-
-									/* Only load the SceneLayer if it is the same spatial dimension. */
-									if (sub_scene_layer->is_2d == scene_layer->is_2d)
+									for (const auto& [id, other_scene_layer] : other_scene->get_scene_layers())
 									{
 										/* Transfer Entities and their Components */
 										std::shared_ptr<Entity> new_root_entity(new Entity());
-										new_root_entity->set_name(sub_scene_filepath);
+										new_root_entity->set_name(other_scene_filepath + "_" + std::to_string(id));
 										new_root_entity->parent_id = parent_id;
 										scene_layer->add_entity(new_root_entity);
-										std::unordered_map<EntityID, std::shared_ptr<Entity>>& sub_scene_entities = sub_scene_layer->get_entities();
+										std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene_layer->get_entities();
 
 										/*Entities without parents are listed before others.*/
 										std::vector<std::shared_ptr<Entity>> sorted_entities;
 
-
 										/*Without parents*/
-										for (auto it = sub_scene_entities.begin(); it != sub_scene_entities.end(); it++)
+										for (auto it = other_scene_entities.begin(); it != other_scene_entities.end(); it++)
 										{
-											std::shared_ptr<Entity> sub_scene_entity = it->second;
+											std::shared_ptr<Entity> other_scene_entity = it->second;
 
-											if (sub_scene_entity->parent_id == 0)
-												sorted_entities.push_back(sub_scene_entity);
+											if (other_scene_entity->parent_id == 0)
+												sorted_entities.push_back(other_scene_entity);
 										}
 
 										/*With parents*/
 
-										for (auto it = sub_scene_entities.begin(); it != sub_scene_entities.end(); it++)
+										for (auto it = other_scene_entities.begin(); it != other_scene_entities.end(); it++)
 										{
-											std::shared_ptr<Entity> sub_scene_entity = it->second;
+											std::shared_ptr<Entity> other_scene_entity = it->second;
 
-											if (sub_scene_entity->parent_id != 0)
-												sorted_entities.push_back(sub_scene_entity);
+											if (other_scene_entity->parent_id != 0)
+												sorted_entities.push_back(other_scene_entity);
 										}
 
 
 										for (size_t i = 0; i < sorted_entities.size(); ++i)
 										{
-											std::shared_ptr<Entity> sub_scene_entity = sorted_entities[i];
+											std::shared_ptr<Entity> other_scene_entity = sorted_entities[i];
 
-											if (sub_scene_entity->parent_id == 0)
-												sub_scene_entity->parent_id = new_root_entity->get_id();
+											if (other_scene_entity->parent_id == 0)
+												other_scene_entity->parent_id = new_root_entity->get_id();
 
-											scene_layer->add_entity(sub_scene_entity);
+											scene_layer->add_entity(other_scene_entity);
 
-											std::unordered_map<std::string, ComponentID> sub_scene_entity_component_ids = sub_scene_entity->get_component_ids();
+											std::unordered_map<std::string, ComponentID> other_scene_entity_component_ids = other_scene_entity->get_component_ids();
 
-											for (auto it2 = sub_scene_entity_component_ids.begin(); it2 != sub_scene_entity_component_ids.end(); it2++)
-												scene_layer->add_component_to_last_entity(sub_scene_layer->get_component_by_id(it2->second));
+											for (auto it2 = other_scene_entity_component_ids.begin(); it2 != other_scene_entity_component_ids.end(); it2++)
+												scene_layer->add_component_to_last_entity(other_scene_layer->get_component_by_id(it2->second));
 										}
 									}
 								}
 							}
 						}
-					}
 
-					this->add_scene_layer(scene_layer);
+						this->add_scene_layer(scene_layer);
+					}
 				}
 			}
+			catch (int e)
+			{
+
+			}
+
+			std::shared_ptr<SceneLayer> debug_scene_layer = std::make_shared<SceneLayer>();
+			std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>();
+			std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
+			std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
+
+			debug_gui->hide();
+			debug_gui->set_to_label("");
+			debug_scene_layer->add_empty_entity();
+			debug_scene_layer->add_component_to_last_entity(debug_camera);
+			debug_scene_layer->add_entity(debug_gui_entity);
+			debug_scene_layer->add_component_to_last_entity(debug_gui);
+			debug_scene_layer->name = "debug_scene_layer";
+			debug_scene_layer->set_entity_name(debug_gui_entity->get_id(), "debug_gui_entity");
+			this->add_scene_layer(debug_scene_layer);
 		}
-		catch (int e)
+		else
 		{
-
+			this->add_scene_layer(this->load_from_gltf(filepath));
 		}
-	}
-
-	if (exclusive_scene_layer_name == "")
-	{
-		std::shared_ptr<SceneLayer> debug_scene_layer = std::make_shared<SceneLayer>();
-		std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>();
-		std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
-		std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
-
-		debug_gui->hide();
-		debug_gui->set_to_label("");
-		debug_scene_layer->add_empty_entity();
-		debug_scene_layer->add_component_to_last_entity(debug_camera);
-		debug_scene_layer->add_entity(debug_gui_entity);
-		debug_scene_layer->add_component_to_last_entity(debug_gui);
-		this->add_scene_layer(debug_scene_layer);
-		debug_scene_layer->name = "debug_scene_layer";
-		debug_scene_layer->set_entity_name(debug_gui_entity->get_id(), "debug_gui_entity");
 	}
 }
 
@@ -378,20 +345,80 @@ void Omnific::Scene::update_debug_scene_layer()
 	}
 }
 
-std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filepath)
+std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_from_gltf(std::string filepath)
 {
 	std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
-
 	tinygltf::Model gltf_model;
 	tinygltf::TinyGLTF tiny_gltf;
 	std::string err;
 	std::string warn;
+	bool ret;
+	std::string delimitter = "Scene::";
+	size_t delimitter_position = filepath.find(delimitter);
+	size_t position = delimitter_position + delimitter.length();
 
-	bool ret = tiny_gltf.LoadBinaryFromFile(
+	if (delimitter_position < filepath.length())
+	{
+		std::string token = filepath.substr(position, filepath.length());
+		unsigned char* data = 0;
+		unsigned int size = 0;
+
+		if (token == "cone")
+		{
+			data = DefaultAssets::cone_glb;
+			size = DefaultAssets::cone_glb_len;
+		}
+		else if (token == "cube")
+		{
+			data = DefaultAssets::cube_glb;
+			size = DefaultAssets::cube_glb_len;
+		}
+		else if (token == "cylinder")
+		{
+			data = DefaultAssets::cylinder_glb;
+			size = DefaultAssets::cylinder_glb_len;
+		}
+		else if (token == "icosphere")
+		{
+			data = DefaultAssets::icosphere_glb;
+			size = DefaultAssets::icosphere_glb_len;
+		}	
+		else if (token == "monkey")
+		{
+			data = DefaultAssets::monkey_glb;
+			size = DefaultAssets::monkey_glb_len;
+		}	
+		else if (token == "plane")
+		{
+			data = DefaultAssets::plane_glb;
+			size = DefaultAssets::plane_glb_len;
+		}		
+		else if (token == "sphere")
+		{
+			data = DefaultAssets::sphere_glb;
+			size = DefaultAssets::sphere_glb_len;
+		}	
+		else if (token == "torus")
+		{
+			data = DefaultAssets::torus_glb;
+			size = DefaultAssets::torus_glb_len;
+		}
+			
+		ret = tiny_gltf.LoadBinaryFromMemory(
 		&gltf_model,
 		&err, 
 		&warn, 
-		Platform::get_file_access().find_path(filepath));
+		data,
+		size);
+	}
+	else
+	{
+		ret = tiny_gltf.LoadBinaryFromFile(
+			&gltf_model,
+			&err, 
+			&warn, 
+			Platform::get_file_access().find_path(filepath));
+	}
 
 	if (!warn.empty())
 		printf("Warn: %s\n", warn.c_str());
@@ -416,10 +443,10 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 			if (mesh_index != -1)
 			{
 				// GLTF data
-				std::vector<float> positions = this->read_gltfprimitive_attribute(gltf_model, "POSITION", mesh_index);
-				std::vector<float> texture_coords = this->read_gltfprimitive_attribute(gltf_model, "TEXCOORD_0", mesh_index);
-				std::vector<float> normals = this->read_gltfprimitive_attribute(gltf_model, "NORMAL", mesh_index);
-				std::vector<uint32_t> indices = this->read_gltfprimitive_indices(gltf_model, mesh_index);
+				std::vector<float> positions = this->read_gltf_primitive_attribute(gltf_model, "POSITION", mesh_index);
+				std::vector<float> texture_coords = this->read_gltf_primitive_attribute(gltf_model, "TEXCOORD_0", mesh_index);
+				std::vector<float> normals = this->read_gltf_primitive_attribute(gltf_model, "NORMAL", mesh_index);
+				std::vector<uint32_t> indices = this->read_gltf_primitive_indices(gltf_model, mesh_index);
 
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, indices));
 				std::shared_ptr<Material> material(new Material());
@@ -454,7 +481,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 					/* Albedo / BaseColour*/
 					if (base_colour_texture_index != -1)
 					{
-						material->albedo_map = this->read_gltfimage(gltf_model, base_colour_texture_index);
+						material->albedo_map = this->read_gltf_image(gltf_model, base_colour_texture_index);
 					}
 					else
 					{
@@ -483,7 +510,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 					/* Metallicity and Roughness */
 					if (metallic_rougness_texture_index != -1)
 					{
-						material->metallic_map = this->read_gltfimage(gltf_model, metallic_rougness_texture_index);
+						material->metallic_map = this->read_gltf_image(gltf_model, metallic_rougness_texture_index);
 					}
 					else
 					{
@@ -509,7 +536,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 					/* Normal Map*/
 					if (normal_texture_index != -1)
 					{
-						material->normal_map = this->read_gltfimage(gltf_model, normal_texture_index);
+						material->normal_map = this->read_gltf_image(gltf_model, normal_texture_index);
 					}
 					else
 					{
@@ -524,7 +551,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 					/* Emission */
 					if (emissive_texture_index != -1)
 					{
-						material->emission_map = this->read_gltfimage(gltf_model, emissive_texture_index);
+						material->emission_map = this->read_gltf_image(gltf_model, emissive_texture_index);
 					}
 					else
 					{
@@ -541,7 +568,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 					/* Occlusion */
 					if (occlusion_texture_index != -1)
 					{
-						material->occlusion_map = this->read_gltfimage(gltf_model, occlusion_texture_index);
+						material->occlusion_map = this->read_gltf_image(gltf_model, occlusion_texture_index);
 					}
 
 				}
@@ -585,7 +612,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_gltf(std::string filep
 	return scene_layer;
 }
 
-std::vector<uint8_t> Omnific::Scene::read_gltfbuffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view)
+std::vector<uint8_t> Omnific::Scene::read_gltf_buffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view)
 {
 	std::vector<uint8_t> bytes(
 		buffer_data.begin() + buffer_view.byteOffset,
@@ -594,7 +621,7 @@ std::vector<uint8_t> Omnific::Scene::read_gltfbuffer(std::vector<unsigned char> 
 	return bytes;
 }
 
-std::vector<float> Omnific::Scene::read_gltfprimitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index)
+std::vector<float> Omnific::Scene::read_gltf_primitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index)
 {
 	std::vector<float> attribute;
 	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
@@ -604,7 +631,7 @@ std::vector<float> Omnific::Scene::read_gltfprimitive_attribute(tinygltf::Model 
 		tinygltf::Accessor accessor = model.accessors.at(primitive.attributes.at(attribute_name));
 		tinygltf::BufferView buffer_view = model.bufferViews.at(accessor.bufferView);
 		std::vector<unsigned char> buffer = model.buffers.at(buffer_view.buffer).data;
-		std::vector<uint8_t> bytes = this->read_gltfbuffer(buffer, buffer_view);
+		std::vector<uint8_t> bytes = this->read_gltf_buffer(buffer, buffer_view);
 		float* float_byte_data = (float*)bytes.data();
 		size_t float_byte_size = bytes.size() / sizeof(float);
 
@@ -615,13 +642,13 @@ std::vector<float> Omnific::Scene::read_gltfprimitive_attribute(tinygltf::Model 
 	return attribute;
 }
 
-std::vector<uint32_t> Omnific::Scene::read_gltfprimitive_indices(tinygltf::Model model, size_t index)
+std::vector<uint32_t> Omnific::Scene::read_gltf_primitive_indices(tinygltf::Model model, size_t index)
 {
 	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
 	tinygltf::Accessor accessor = model.accessors.at(primitive.indices);
 	tinygltf::BufferView buffer_view = model.bufferViews.at(accessor.bufferView);
 	std::vector<unsigned char> buffer = model.buffers.at(buffer_view.buffer).data;
-	std::vector<uint8_t> index_bytes = this->read_gltfbuffer(buffer, buffer_view);
+	std::vector<uint8_t> index_bytes = this->read_gltf_buffer(buffer, buffer_view);
 	std::vector<uint32_t> indices;
 
 	uint16_t* short_index_byte_data = (uint16_t*)index_bytes.data();
@@ -633,13 +660,13 @@ std::vector<uint32_t> Omnific::Scene::read_gltfprimitive_indices(tinygltf::Model
 	return indices;
 }
 
-std::shared_ptr<Omnific::Image> Omnific::Scene::read_gltfimage(tinygltf::Model model, int texture_index)
+std::shared_ptr<Omnific::Image> Omnific::Scene::read_gltf_image(tinygltf::Model model, int texture_index)
 {
 	int image_index = model.textures[texture_index].source;
 	tinygltf::Image gltf_image = model.images[image_index];
 	tinygltf::BufferView buffer_view = model.bufferViews.at(gltf_image.bufferView);
 	std::vector<unsigned char> buffer = model.buffers.at(buffer_view.buffer).data;
-	std::vector<uint8_t> image_file_bytes = this->read_gltfbuffer(buffer, buffer_view);
+	std::vector<uint8_t> image_file_bytes = this->read_gltf_buffer(buffer, buffer_view);
 	int width = 0;
 	int height = 0;
 	int colour_channels = 0;

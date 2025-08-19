@@ -44,11 +44,9 @@ namespace Omnific
 	public:
 		Scene();
 		Scene(std::string filepath);
-		Scene(std::string filepath, std::string exclusive_scene_layer_name);
 
 		void serialize_to(std::string filepath);
 		void deserialize_from(std::string filepath);
-		void deserialize_from(std::string filepath, std::string exclusive_scene_layer_name);
 		void reload();
 
 		void add_scene_layer(std::shared_ptr<SceneLayer> scene_layer);
@@ -70,10 +68,10 @@ namespace Omnific
 
 		void update_debug_scene_layer();
 
-		std::shared_ptr<SceneLayer> load_gltf(std::string filepath);
-		std::vector<uint8_t> read_gltfbuffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view);
-		std::vector<float> read_gltfprimitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index);
-		std::vector<uint32_t> read_gltfprimitive_indices(tinygltf::Model model, size_t index);
-		std::shared_ptr<Image> read_gltfimage(tinygltf::Model model, int texture_index);
+		std::shared_ptr<SceneLayer> load_from_gltf(std::string filepath);
+		std::vector<uint8_t> read_gltf_buffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view);
+		std::vector<float> read_gltf_primitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index);
+		std::vector<uint32_t> read_gltf_primitive_indices(tinygltf::Model model, size_t index);
+		std::shared_ptr<Image> read_gltf_image(tinygltf::Model model, int texture_index);
 	};
 }

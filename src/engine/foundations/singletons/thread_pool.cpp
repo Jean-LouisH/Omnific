@@ -28,7 +28,7 @@ Omnific::ThreadPool* Omnific::ThreadPool::instance = nullptr;
 
 void Omnific::ThreadPool::initialize()
 {
-	int thread_count = Platform::get_logical_core_count();
+	int thread_count = Platform::get_logical_core_count() - 1;
 	ThreadPool* instance = ThreadPool::get_instance();
 
 	for (int i = 0; i < (thread_count); ++i)

@@ -118,6 +118,8 @@ void Omnific::Engine::initialize()
 	if (this->state != State::RESTARTING)
 		this->state = State::INITIALIZING;
 
+	ThreadPool::initialize();
+
 	FileAccess& file_access = Platform::get_file_access();
 	file_access.add_app_data_paths({"./", DEFAULT_APP_DATA_PATH});
 	std::string boot_filepath = file_access.find_path(BOOT_FILE_NAME);
