@@ -97,17 +97,19 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 								else if (value == 3)
 									scene_layer->is_2d = false;
 							}
-							else if (it1->first.as<std::string>() == "Entity")
+							else if (it1->first.as<std::string>() == "Entity" || it1->first.as<std::string>() == "Scene")
 							{
 								std::shared_ptr<Entity> entity(new Entity());
 								scene_layer->add_entity(entity);
+								std::string name;
 
 								for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 								{
 									//Entity attributes
 									if (it2->first.as<std::string>() == "name")
 									{
-										scene_layer->set_entity_name(scene_layer->get_last_entity()->get_id(), it2->second.as<std::string>());
+										name = it2->second.as<std::string>();
+										scene_layer->set_entity_name(scene_layer->get_last_entity()->get_id(), name);
 									}
 									else if (it2->first.as<std::string>() == "parent")
 									{
@@ -152,75 +154,46 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 										}
 									}
 								}
-							}
-							/* Recursively load another Scene into this one if the filename
-							is not the same. */
-							else if (it1->first.as<std::string>() == "Scene")
-							{
-								std::string other_scene_filepath;
-								EntityID parent_id = 0;
 
-								for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
+								if (it1->first.as<std::string>() == "Scene")
 								{
-									if (it2->first.as<std::string>() == "parent")
+									if (name != filepath)
 									{
-										parent_id = scene_layer->get_entity_by_name(it2->second.as<std::string>())->get_id();
-									}
-									else if (it2->first.as<std::string>() == "name")
-									{
-										other_scene_filepath = it2->second.as<std::string>();
-									}
-								}
+										std::shared_ptr<Scene> other_scene = std::shared_ptr<Scene>(new Scene(name));
 
-								if (other_scene_filepath != filepath)
-								{
-									std::shared_ptr<Scene> other_scene = std::shared_ptr<Scene>(new Scene(other_scene_filepath));
-
-									for (const auto& [id, other_scene_layer] : other_scene->get_scene_layers())
-									{
-										/* Transfer Entities and their Components */
-										std::shared_ptr<Entity> new_root_entity(new Entity());
-										new_root_entity->set_name(other_scene_filepath + "_" + std::to_string(id));
-										new_root_entity->parent_id = parent_id;
-										scene_layer->add_entity(new_root_entity);
-										std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene_layer->get_entities();
-
-										/*Entities without parents are listed before others.*/
-										std::vector<std::shared_ptr<Entity>> sorted_entities;
-
-										/*Without parents*/
-										for (auto it = other_scene_entities.begin(); it != other_scene_entities.end(); it++)
+										for (const auto& [id, other_scene_layer] : other_scene->get_scene_layers())
 										{
-											std::shared_ptr<Entity> other_scene_entity = it->second;
+											/* Transfer Entities and their Components */
+											std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene_layer->get_entities();
 
-											if (other_scene_entity->parent_id == 0)
-												sorted_entities.push_back(other_scene_entity);
-										}
+											/*Entities without parents are listed before others.*/
+											std::vector<std::shared_ptr<Entity>> sorted_entities;
 
-										/*With parents*/
+											/*Without parents*/
+											for (const auto& [id, other_scene_entity] : other_scene_entities)
+												if (other_scene_entity->parent_id == 0)
+													sorted_entities.push_back(other_scene_entity);
 
-										for (auto it = other_scene_entities.begin(); it != other_scene_entities.end(); it++)
-										{
-											std::shared_ptr<Entity> other_scene_entity = it->second;
-
-											if (other_scene_entity->parent_id != 0)
-												sorted_entities.push_back(other_scene_entity);
-										}
+											/*With parents*/
+											for (const auto& [id, other_scene_entity] : other_scene_entities)
+												if (other_scene_entity->parent_id != 0)
+													sorted_entities.push_back(other_scene_entity);
 
 
-										for (size_t i = 0; i < sorted_entities.size(); ++i)
-										{
-											std::shared_ptr<Entity> other_scene_entity = sorted_entities[i];
+											for (size_t i = 0; i < sorted_entities.size(); ++i)
+											{
+												std::shared_ptr<Entity> other_scene_entity = sorted_entities[i];
 
-											if (other_scene_entity->parent_id == 0)
-												other_scene_entity->parent_id = new_root_entity->get_id();
+												if (other_scene_entity->parent_id == 0)
+													other_scene_entity->parent_id = entity->get_id();
 
-											scene_layer->add_entity(other_scene_entity);
+												scene_layer->add_entity(other_scene_entity);
 
-											std::unordered_map<std::string, ComponentID> other_scene_entity_component_ids = other_scene_entity->get_component_ids();
+												std::unordered_map<std::string, ComponentID> other_scene_entity_component_ids = other_scene_entity->get_component_ids();
 
-											for (auto it2 = other_scene_entity_component_ids.begin(); it2 != other_scene_entity_component_ids.end(); it2++)
-												scene_layer->add_component_to_last_entity(other_scene_layer->get_component_by_id(it2->second));
+												for (const auto& [component_name, id] : other_scene_entity_component_ids)
+													scene_layer->add_component_to_last_entity(other_scene_layer->get_component_by_id(id));
+											}
 										}
 									}
 								}
@@ -603,7 +576,7 @@ std::shared_ptr<Omnific::SceneLayer> Omnific::Scene::load_from_gltf(std::string 
 
 				model->material = material;
 				model->mesh = mesh;
-
+				model->set_shader(std::shared_ptr<Shader>(new Shader("Shader::PBR")));
 				scene_layer->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(model));
 			}
 		}

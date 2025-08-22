@@ -42,7 +42,7 @@ void Omnific::Model::deserialize(YAML::Node yaml_node)
 		{
 			std::string vertex = "";
 			std::string fragment = "";
-			std::string preset = "Shader::UNLIT";
+			std::string preset = "Shader::PBR";
 
 			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
 			{

@@ -1,8 +1,8 @@
 SceneLayer:
   name: "Foreground SceneLayer"
   spatial_dimension: 3
-  Entity:
-    name: "Unlit Object"
+  Scene:
+    name: "Scene::monkey"
     transform:
       translation: [-2.0, 0.0, 0.0]
       scale: [0.75, 0.75, 0.75]
@@ -13,9 +13,6 @@ SceneLayer:
       Python: ["tests/scripts/python/constantly_rotate.py"]
   Scene:
     name: "Scene::monkey"
-    parent: "Unlit Object"
-  Entity:
-    name: "Phong Object"
     transform:
       translation: [0.0, 0.0, 0.0]
       scale: [0.75, 0.75, 0.75]
@@ -26,9 +23,6 @@ SceneLayer:
       Python: ["tests/scripts/python/constantly_rotate.py"]
   Scene:
     name: "Scene::monkey"
-    parent: "Phong Object"
-  Entity:
-    name: "PBR Object"
     transform:
       translation: [2.0, 0.0, 0.0]
       scale: [0.75, 0.75, 0.75]
@@ -37,9 +31,6 @@ SceneLayer:
         preset: "Shader::PBR"
     ScriptCollection:
       Python: ["tests/scripts/python/constantly_rotate.py"]
-  Scene:
-    name: "Scene::monkey"
-    parent: "PBR Object"
   Entity:
     name: "Light Armature"
     ScriptCollection:
