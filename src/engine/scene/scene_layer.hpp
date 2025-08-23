@@ -29,13 +29,10 @@
 #include <unordered_map>
 #include "scene/components/component.hpp"
 #include "entity.hpp"
-#include <unordered_map>
 #include "foundations/aliases.hpp"
 #include <string>
-
 #include <engine_api.hpp>
-
-#include <memory>
+#include <tiny_gltf.h>
 
 namespace Omnific
 {
@@ -46,9 +43,14 @@ namespace Omnific
 		std::string name;
 
 		SceneLayer();
+		SceneLayer(std::string gltf_filepath);
 
 		void add_entity(std::shared_ptr<Entity> entity);
 		void add_empty_entity();
+		void add_entity_to_parent_entity(std::shared_ptr<Entity> entity, EntityID parent_entity_id);
+		void add_entity_to_parent_entity_by_name(std::shared_ptr<Entity> entity, std::string parent_entity_name);
+		void merge_another_scene_layer_to_parent_entity(std::shared_ptr<SceneLayer> other_scene_layer, EntityID parent_entity_id);
+		void merge_another_scene_layer_to_parent_entity_by_name(std::shared_ptr<SceneLayer> other_scene_layer, std::string parent_entity_name);
 		void set_entity_name(EntityID entity_id, std::string name);
 		void add_entity_tag(EntityID entity_id, std::string tag);
 		void add_component(EntityID entity_id, std::shared_ptr<Component> component);
@@ -139,5 +141,11 @@ namespace Omnific
 		std::unordered_map<std::string, std::vector<size_t>> component_index_caches;
 		std::vector<size_t> render_order_index_cache;
 		std::unordered_map<EntityID, std::shared_ptr<Transform>> cached_global_transforms;
+
+		void load_from_gltf(std::string filepath);
+		std::vector<uint8_t> read_gltf_buffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view);
+		std::vector<float> read_gltf_primitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index);
+		std::vector<uint32_t> read_gltf_primitive_indices(tinygltf::Model model, size_t index);
+		std::shared_ptr<Image> read_gltf_image(tinygltf::Model model, int texture_index);
 	};
 }

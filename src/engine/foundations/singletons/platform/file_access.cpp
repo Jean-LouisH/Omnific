@@ -76,7 +76,7 @@ std::shared_ptr<Omnific::Scene> Omnific::FileAccess::load_scene(std::string file
 
 std::string Omnific::FileAccess::find_path(std::string filepath)
 {
-	std::string combined_filepath;
+	std::string combined_filepath = filepath;
 
 	for (int i = 0; i < this->app_data_paths.size(); ++i)
 	{

@@ -25,10 +25,26 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
+#include <scene/components/model.hpp>
 #include <gtc/quaternion.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <gtx/matrix_decompose.hpp>
+
+#include <foundations/resources/default_assets/scenes/cone_glb.hpp>
+#include <foundations/resources/default_assets/scenes/cube_glb.hpp>
+#include <foundations/resources/default_assets/scenes/cylinder_glb.hpp>
+#include <foundations/resources/default_assets/scenes/icosphere_glb.hpp>
+#include <foundations/resources/default_assets/scenes/monkey_glb.hpp>
+#include <foundations/resources/default_assets/scenes/plane_glb.hpp>
+#include <foundations/resources/default_assets/scenes/sphere_glb.hpp>
+#include <foundations/resources/default_assets/scenes/torus_glb.hpp>
+
+#define TINYGLTF_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+
+#include <tiny_gltf.h>
 
 Omnific::SceneLayer::SceneLayer()
 {
@@ -41,23 +57,93 @@ Omnific::SceneLayer::SceneLayer()
 	this->add_component_to_last_entity(viewport);
 }
 
+Omnific::SceneLayer::SceneLayer(std::string gltf_filepath)
+{
+	this->id = UIDGenerator::get_new_uid();
+	this->name = "SceneLayer (ID:" + std::to_string(this->id) + ")";
+	this->load_from_gltf(gltf_filepath);
+}
+
 void Omnific::SceneLayer::add_entity(std::shared_ptr<Entity> entity)
 {
 	if (entity->parent_id != 0)
 		this->entities.at(entity->parent_id)->child_ids.push_back(entity->id);
 
-	entity->scene_layer_id = this->id;
-	this->start_entities_queue.emplace(entity->id);
-	this->entities.emplace(entity->id, entity);
-	this->last_entity_id = entity->id;
-	this->set_entity_name(entity->id, entity->name);
-	EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
+	if (this->get_entity(entity->id) == nullptr)
+	{
+		entity->scene_layer_id = this->id;
+		this->start_entities_queue.emplace(entity->id);
+		this->entities.emplace(entity->id, entity);
+		this->last_entity_id = entity->id;
+		this->set_entity_name(entity->id, entity->name);
+		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
+	}
 }
 
 void Omnific::SceneLayer::add_empty_entity()
 {
 	std::shared_ptr<Entity> empty_entity(new Entity());
 	this->add_entity(empty_entity);
+}
+
+void Omnific::SceneLayer::add_entity_to_parent_entity(std::shared_ptr<Entity> entity, EntityID parent_entity_id)
+{
+	std::shared_ptr<Entity> parent_entity = this->get_entity(parent_entity_id);
+
+	if (parent_entity)
+	{
+		entity->parent_id = parent_entity_id;
+		this->add_entity(entity);
+	}
+}
+
+void Omnific::SceneLayer::add_entity_to_parent_entity_by_name(std::shared_ptr<Entity> entity, std::string parent_entity_name)
+{
+	std::shared_ptr<Entity> parent_entity = this->get_entity_by_name(parent_entity_name);
+	if (parent_entity)
+		this->add_entity_to_parent_entity(entity, parent_entity->id);
+}
+
+void Omnific::SceneLayer::merge_another_scene_layer_to_parent_entity(std::shared_ptr<SceneLayer> other_scene_layer, EntityID parent_entity_id)
+{
+	/* Transfer Entities and their Components */
+	std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene_layer->get_entities();
+
+	/*Entities without parents are listed before others.*/
+	std::vector<std::shared_ptr<Entity>> sorted_entities;
+
+	/*Without parents*/
+	for (const auto& [id, other_scene_entity] : other_scene_entities)
+		if (other_scene_entity->parent_id == 0)
+			sorted_entities.push_back(other_scene_entity);
+
+	/*With parents*/
+	for (const auto& [id, other_scene_entity] : other_scene_entities)
+		if (other_scene_entity->parent_id != 0)
+			sorted_entities.push_back(other_scene_entity);
+
+
+	for (size_t i = 0; i < sorted_entities.size(); ++i)
+	{
+		std::shared_ptr<Entity> other_scene_entity = sorted_entities[i];
+
+		if (other_scene_entity->parent_id == 0)
+			this->add_entity_to_parent_entity(other_scene_entity, parent_entity_id);
+		else
+			this->add_entity(other_scene_entity);
+
+		std::unordered_map<std::string, ComponentID> other_scene_entity_component_ids = other_scene_entity->get_component_ids();
+
+		for (const auto& [component_name, id] : other_scene_entity_component_ids)
+			this->add_component_to_last_entity(other_scene_layer->get_component_by_id(id));
+	}
+}
+
+void Omnific::SceneLayer::merge_another_scene_layer_to_parent_entity_by_name(std::shared_ptr<SceneLayer> other_scene_layer, std::string parent_entity_name)
+{
+	std::shared_ptr<Entity> parent_entity = this->get_entity_by_name(parent_entity_name);
+	if (parent_entity)
+		this->merge_another_scene_layer_to_parent_entity(other_scene_layer, parent_entity->id);
 }
 
 void Omnific::SceneLayer::set_entity_name(EntityID entity_id, std::string name)
@@ -111,13 +197,18 @@ void Omnific::SceneLayer::add_component(EntityID entity_id, std::shared_ptr<Comp
 	}
 
 	std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name("Viewport");
-	std::shared_ptr<Viewport> viewport = this->get_component_by_type<Viewport>(viewport_entity->get_id());
-
-	if (viewport->get_camera_entity_name() == "")
+	if (viewport_entity != nullptr)
 	{
-		if (std::dynamic_pointer_cast<Camera>(component) != nullptr)
+		std::shared_ptr<Viewport> viewport = this->get_component_by_type<Viewport>(viewport_entity->get_id());
+		if (viewport != nullptr)
 		{
-			viewport->set_camera_entity_name(entity->get_name());
+			if (viewport->get_camera_entity_name() == "")
+			{
+				if (std::dynamic_pointer_cast<Camera>(component) != nullptr)
+				{
+					viewport->set_camera_entity_name(entity->get_name());
+				}
+			}
 		}
 	}
 }
@@ -357,4 +448,345 @@ Omnific::SceneLayerID Omnific::SceneLayer::get_id()
 std::string Omnific::SceneLayer::get_name()
 {
 	return this->name;
+}
+
+void Omnific::SceneLayer::load_from_gltf(std::string filepath)
+{
+	std::shared_ptr<SceneLayer> scene_layer(new SceneLayer());
+	tinygltf::Model gltf_model;
+	tinygltf::TinyGLTF tiny_gltf;
+	std::string err;
+	std::string warn;
+	bool ret;
+	std::string delimitter = "Scene::";
+	size_t delimitter_position = filepath.find(delimitter);
+	size_t position = delimitter_position + delimitter.length();
+
+	if (delimitter_position < filepath.length())
+	{
+		std::string token = filepath.substr(position, filepath.length());
+		unsigned char* data = 0;
+		unsigned int size = 0;
+
+		if (token == "cone")
+		{
+			data = DefaultAssets::cone_glb;
+			size = DefaultAssets::cone_glb_len;
+		}
+		else if (token == "cube")
+		{
+			data = DefaultAssets::cube_glb;
+			size = DefaultAssets::cube_glb_len;
+		}
+		else if (token == "cylinder")
+		{
+			data = DefaultAssets::cylinder_glb;
+			size = DefaultAssets::cylinder_glb_len;
+		}
+		else if (token == "icosphere")
+		{
+			data = DefaultAssets::icosphere_glb;
+			size = DefaultAssets::icosphere_glb_len;
+		}	
+		else if (token == "monkey")
+		{
+			data = DefaultAssets::monkey_glb;
+			size = DefaultAssets::monkey_glb_len;
+		}	
+		else if (token == "plane")
+		{
+			data = DefaultAssets::plane_glb;
+			size = DefaultAssets::plane_glb_len;
+		}		
+		else if (token == "sphere")
+		{
+			data = DefaultAssets::sphere_glb;
+			size = DefaultAssets::sphere_glb_len;
+		}	
+		else if (token == "torus")
+		{
+			data = DefaultAssets::torus_glb;
+			size = DefaultAssets::torus_glb_len;
+		}
+			
+		ret = tiny_gltf.LoadBinaryFromMemory(
+		&gltf_model,
+		&err, 
+		&warn, 
+		data,
+		size);
+	}
+	else
+	{
+		ret = tiny_gltf.LoadBinaryFromFile(
+			&gltf_model,
+			&err, 
+			&warn, 
+			Platform::get_file_access().find_path(filepath));
+	}
+
+	if (!warn.empty())
+		printf("Warn: %s\n", warn.c_str());
+
+	if (!err.empty())
+		printf("Err: %s\n", err.c_str());
+
+	if (!ret)
+	{
+		printf("Failed to parse gl_tf\n");
+	}
+	else
+	{
+		std::shared_ptr<Entity> gltf_scene_root_entity(new Entity());
+		this->add_entity(gltf_scene_root_entity);
+
+		for (size_t i = 0; i < gltf_model.nodes.size(); ++i)
+		{
+			tinygltf::Node gltf_node = gltf_model.nodes[i];
+			int mesh_index = gltf_node.mesh;
+
+			if (mesh_index != -1)
+			{
+				// GLTF data
+				std::vector<float> positions = this->read_gltf_primitive_attribute(gltf_model, "POSITION", mesh_index);
+				std::vector<float> texture_coords = this->read_gltf_primitive_attribute(gltf_model, "TEXCOORD_0", mesh_index);
+				std::vector<float> normals = this->read_gltf_primitive_attribute(gltf_model, "NORMAL", mesh_index);
+				std::vector<uint32_t> indices = this->read_gltf_primitive_indices(gltf_model, mesh_index);
+
+				std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, indices));
+				std::shared_ptr<Material> material(new Material());
+
+				material->albedo_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+				material->metallic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->specular_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->roughness_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
+				material->anisotropic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->normal_map = std::shared_ptr<Image>(new Image("Image::#8080FFFF"));
+				material->emission_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->displacement_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+				material->occlusion_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));
+
+				std::shared_ptr<Entity> entity(new Entity());
+				entity->parent_id = gltf_scene_root_entity->get_id();
+				this->add_entity(entity);
+				std::shared_ptr<Transform> transform = entity->get_transform();
+				std::shared_ptr<Model> model(new Model());
+
+				int material_index = gltf_model.meshes.at(mesh_index).primitives.at(0).material;
+
+				if (material_index != -1)
+				{
+					tinygltf::Material gltf_material = gltf_model.materials.at(gltf_model.meshes.at(mesh_index).primitives.at(0).material);
+					int base_colour_texture_index = gltf_material.pbrMetallicRoughness.baseColorTexture.index;
+					int metallic_rougness_texture_index = gltf_material.pbrMetallicRoughness.metallicRoughnessTexture.index;
+					int normal_texture_index = gltf_material.normalTexture.index;
+					int emissive_texture_index = gltf_material.emissiveTexture.index;
+					int occlusion_texture_index = gltf_material.occlusionTexture.index;
+
+					/* Albedo / BaseColour*/
+					if (base_colour_texture_index != -1)
+					{
+						material->albedo_map = this->read_gltf_image(gltf_model, base_colour_texture_index);
+					}
+					else
+					{
+						std::vector<double> base_color_factor = gltf_material.pbrMetallicRoughness.baseColorFactor;
+
+						if (base_color_factor.size() == 3)
+						{
+							material->albedo_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+								base_color_factor[0],
+								base_color_factor[1],
+								base_color_factor[2],
+								1.0))
+							));
+						}
+						else if (base_color_factor.size() == 4)
+						{
+							material->albedo_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+								base_color_factor[0],
+								base_color_factor[1],
+								base_color_factor[2],
+								base_color_factor[3]))
+							));
+						}
+					}
+
+					/* Metallicity and Roughness */
+					if (metallic_rougness_texture_index != -1)
+					{
+						material->metallic_map = this->read_gltf_image(gltf_model, metallic_rougness_texture_index);
+					}
+					else
+					{
+						double metallic_factor = gltf_material.pbrMetallicRoughness.metallicFactor;
+						double roughness_factor = gltf_material.pbrMetallicRoughness.roughnessFactor;
+
+						material->metallic_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							metallic_factor,
+							metallic_factor,
+							metallic_factor,
+							1.0))
+						));
+
+						material->roughness_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							roughness_factor,
+							roughness_factor,
+							roughness_factor,
+							1.0))
+						));
+
+					}
+
+					/* Normal Map*/
+					if (normal_texture_index != -1)
+					{
+						material->normal_map = this->read_gltf_image(gltf_model, normal_texture_index);
+					}
+					else
+					{
+						material->normal_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							0.5,
+							0.5,
+							1.0,
+							1.0))
+						));
+					}
+
+					/* Emission */
+					if (emissive_texture_index != -1)
+					{
+						material->emission_map = this->read_gltf_image(gltf_model, emissive_texture_index);
+					}
+					else
+					{
+						std::vector<double> emissive_factor = gltf_material.emissiveFactor;
+
+						material->emission_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(
+							emissive_factor[0],
+							emissive_factor[1],
+							emissive_factor[2],
+							1.0))
+						));
+					}
+
+					/* Occlusion */
+					if (occlusion_texture_index != -1)
+					{
+						material->occlusion_map = this->read_gltf_image(gltf_model, occlusion_texture_index);
+					}
+
+				}
+
+				if (gltf_node.translation.size() == 3)
+				{
+					transform->translation = {
+						gltf_node.translation[0],
+						gltf_node.translation[1],
+						gltf_node.translation[2] };
+				}
+
+				if (gltf_node.rotation.size() == 4)
+				{
+					glm::quat unit_quaternion = glm::quat(
+						gltf_node.rotation[3],
+						gltf_node.rotation[0],
+						gltf_node.rotation[1],
+						gltf_node.rotation[2]);
+
+					transform->rotation = glm::eulerAngles(unit_quaternion);
+					transform->rotation *= 180.0 / M_PI;
+				}
+
+				if (gltf_node.scale.size() == 3)
+				{
+					transform->scale = {
+						gltf_node.scale[0],
+						gltf_node.scale[1],
+						gltf_node.scale[2] };
+				}
+
+				model->material = material;
+				model->mesh = mesh;
+				model->set_shader(std::shared_ptr<Shader>(new Shader("Shader::PBR")));
+				this->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(model));
+			}
+		}
+	}
+}
+
+std::vector<uint8_t> Omnific::SceneLayer::read_gltf_buffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view)
+{
+	std::vector<uint8_t> bytes(
+		buffer_data.begin() + buffer_view.byteOffset,
+		buffer_data.begin() + buffer_view.byteOffset + buffer_view.byteLength);
+
+	return bytes;
+}
+
+std::vector<float> Omnific::SceneLayer::read_gltf_primitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index)
+{
+	std::vector<float> attribute;
+	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
+
+	if (primitive.attributes.count(attribute_name) > 0)
+	{
+		tinygltf::Accessor accessor = model.accessors.at(primitive.attributes.at(attribute_name));
+		tinygltf::BufferView buffer_view = model.bufferViews.at(accessor.bufferView);
+		std::vector<unsigned char> buffer = model.buffers.at(buffer_view.buffer).data;
+		std::vector<uint8_t> bytes = this->read_gltf_buffer(buffer, buffer_view);
+		float* float_byte_data = (float*)bytes.data();
+		size_t float_byte_size = bytes.size() / sizeof(float);
+
+		for (size_t i = 0; i < float_byte_size; ++i)
+			attribute.push_back(float_byte_data[i]);
+	}
+
+	return attribute;
+}
+
+std::vector<uint32_t> Omnific::SceneLayer::read_gltf_primitive_indices(tinygltf::Model model, size_t index)
+{
+	tinygltf::Primitive primitive = model.meshes.at(index).primitives.at(0);
+	tinygltf::Accessor accessor = model.accessors.at(primitive.indices);
+	tinygltf::BufferView buffer_view = model.bufferViews.at(accessor.bufferView);
+	std::vector<unsigned char> buffer = model.buffers.at(buffer_view.buffer).data;
+	std::vector<uint8_t> index_bytes = this->read_gltf_buffer(buffer, buffer_view);
+	std::vector<uint32_t> indices;
+
+	uint16_t* short_index_byte_data = (uint16_t*)index_bytes.data();
+	size_t short_index_byte_size = index_bytes.size() / sizeof(uint16_t);
+
+	for (size_t i = 0; i < short_index_byte_size; ++i)
+		indices.push_back((uint32_t)short_index_byte_data[i]);
+
+	return indices;
+}
+
+std::shared_ptr<Omnific::Image> Omnific::SceneLayer::read_gltf_image(tinygltf::Model model, int texture_index)
+{
+	int image_index = model.textures[texture_index].source;
+	tinygltf::Image gltf_image = model.images[image_index];
+	tinygltf::BufferView buffer_view = model.bufferViews.at(gltf_image.bufferView);
+	std::vector<unsigned char> buffer = model.buffers.at(buffer_view.buffer).data;
+	std::vector<uint8_t> image_file_bytes = this->read_gltf_buffer(buffer, buffer_view);
+	int width = 0;
+	int height = 0;
+	int colour_channels = 0;
+
+	stbi_set_flip_vertically_on_load(0);
+
+	uint8_t* image_data = stbi_load_from_memory(
+		image_file_bytes.data(),
+		image_file_bytes.size(),
+		&width,
+		&height,
+		&colour_channels,
+		0);
+
+	return std::shared_ptr<Image>(new Image(
+		image_data,
+		width,
+		height,
+		colour_channels));
 }

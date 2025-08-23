@@ -46,6 +46,8 @@
 
 #define OMNIFIC_EVENT_HAPTIC_SIGNAL "haptic_signal"
 
+#define OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW "file_dropped_on_window"
+
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Event

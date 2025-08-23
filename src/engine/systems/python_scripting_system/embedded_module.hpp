@@ -175,8 +175,13 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_tags", &Omnific::Entity::get_tags);
 
 	pybind11::class_<Omnific::SceneLayer, std::shared_ptr<Omnific::SceneLayer>>(m, "SceneLayer")
+		.def(pybind11::init<std::string>())
 		.def("add_entity", &Omnific::SceneLayer::add_entity)
 		.def("add_empty_entity", &Omnific::SceneLayer::add_empty_entity)
+		.def("add_entity_to_parent_entity", &Omnific::SceneLayer::add_entity_to_parent_entity)
+		.def("add_entity_to_parent_entity_by_name", &Omnific::SceneLayer::add_entity_to_parent_entity_by_name)
+		.def("merge_another_scene_layer_to_parent_entity", &Omnific::SceneLayer::merge_another_scene_layer_to_parent_entity)
+		.def("merge_another_scene_layer_to_parent_entity_by_name", &Omnific::SceneLayer::merge_another_scene_layer_to_parent_entity_by_name)
 		.def("add_component", &Omnific::SceneLayer::add_component)
 		.def("add_component_to_last_entity", &Omnific::SceneLayer::add_component_to_last_entity)
 		.def("remove_entity", &Omnific::SceneLayer::remove_entity)
