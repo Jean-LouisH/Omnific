@@ -1,68 +1,65 @@
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Scene:
-    name: "Scene::monkey"
-    transform:
-      translation: [-2.0, 0.0, 0.0]
-      scale: [0.75, 0.75, 0.75]
-    Model: 
-      overriding_shader:
-        preset: "Shader::UNLIT"
-    ScriptCollection:
-      Python: ["tests/scripts/python/constantly_rotate.py"]
-  Scene:
-    name: "Scene::monkey"
-    transform:
-      translation: [0.0, 0.0, 0.0]
-      scale: [0.75, 0.75, 0.75]
-    Model: 
-      overriding_shader:
-        preset: "Shader::PHONG"
-    ScriptCollection:
-      Python: ["tests/scripts/python/constantly_rotate.py"]
-  Scene:
-    name: "Scene::monkey"
-    transform:
-      translation: [2.0, 0.0, 0.0]
-      scale: [0.75, 0.75, 0.75]
-    Model: 
-      overriding_shader:
-        preset: "Shader::PBR"
-    ScriptCollection:
-      Python: ["tests/scripts/python/constantly_rotate.py"]
-  Entity:
-    name: "Light Armature"
-    ScriptCollection:
-      Python: ["tests/scripts/python/constantly_rotate clockwise.py"]
-  Entity:
-    name: "Spot Light"
-    parent: "Light Armature"
-    transform: 
-      translation: [0.0, 0.0, 6.0]
-    Model: 
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-      shader:
-        preset: "Shader::LIGHT_SOURCE"
-    Light:
-      light_mode: "point"
-      colour: "#FFFFFF"
-      intensity: 1.5
-  Entity:
-    name: "Global Light"
-    transform:
-      rotation: [30.0, 0.0, 0.0]
-    Light:
-      light_mode: "directional"
-      colour: "#FFFFFF"
-      intensity: 1.5
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0.0, 0.0, 5.0]
-    Camera: "default"
+Scene:
+  name: "Scene::monkey"
+  transform:
+    translation: [-2.0, 0.0, 0.0]
+    scale: [0.75, 0.75, 0.75]
+  Model: 
+    overriding_shader:
+      preset: "Shader::UNLIT"
+  ScriptCollection:
+    Python: ["tests/scripts/python/constantly_rotate.py"]
+Scene:
+  name: "Scene::monkey"
+  transform:
+    translation: [0.0, 0.0, 0.0]
+    scale: [0.75, 0.75, 0.75]
+  Model: 
+    overriding_shader:
+      preset: "Shader::PHONG"
+  ScriptCollection:
+    Python: ["tests/scripts/python/constantly_rotate.py"]
+Scene:
+  name: "Scene::monkey"
+  transform:
+    translation: [2.0, 0.0, 0.0]
+    scale: [0.75, 0.75, 0.75]
+  Model: 
+    overriding_shader:
+      preset: "Shader::PBR"
+  ScriptCollection:
+    Python: ["tests/scripts/python/constantly_rotate.py"]
+Entity:
+  name: "Light Armature"
+  ScriptCollection:
+    Python: ["tests/scripts/python/constantly_rotate clockwise.py"]
+Entity:
+  name: "Spot Light"
+  parent: "Light Armature"
+  transform: 
+    translation: [0.0, 0.0, 6.0]
+  Model: 
+    mesh: "Mesh::cube"
+    albedo: "Image::#FFFFFF"
+    shader:
+      preset: "Shader::LIGHT_SOURCE"
+  Light:
+    light_mode: "point"
+    colour: "#FFFFFF"
+    intensity: 1.5
+Entity:
+  name: "Global Light"
+  transform:
+    rotation: [30.0, 0.0, 0.0]
+  Light:
+    light_mode: "directional"
+    colour: "#FFFFFF"
+    intensity: 1.5
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0.0, 0.0, 5.0]
+  Camera: "default"

@@ -15,7 +15,7 @@ class omnific_script:
         event_bus = omnific.get_event_bus()
         model = omnific.get_component("Model")
 
-        if omnific.get_scene_layer().get_collision_registry().is_colliding("Floor", "CollidingCube"):
+        if omnific.get_scene().get_collision_registry().is_colliding("Floor", "CollidingCube"):
             model.change_to_model(1)
         else:
             model.change_to_model(0)

@@ -72,21 +72,18 @@ void Omnific::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> sce
 
 		this->cpp_script_instances.clear();
 
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
+		for (std::shared_ptr<ScriptCollection>& script_collection : scene->get_components_by_type<ScriptCollection>())
 		{
-			for (std::shared_ptr<ScriptCollection>& script_collection : scene_layer->get_components_by_type<ScriptCollection>())
+			for (std::shared_ptr<Script>& script : script_collection->scripts)
 			{
-				for (std::shared_ptr<Script>& script : script_collection->scripts)
+				if (script->get_language_name() == "CPP")
 				{
-					if (script->get_language_name() == "CPP")
+					if (cpp_script_definitions.count(script->get_name()))
 					{
-						if (cpp_script_definitions.count(script->get_name()))
-						{
-							this->cpp_script_instances.emplace(
-								script->get_name() + std::to_string(script_collection->get_entity_id()),
-								std::dynamic_pointer_cast<CPPScriptInstance>(std::shared_ptr<Registerable>(cpp_script_definitions.at(script->get_name())->instance()))
-							);
-						}
+						this->cpp_script_instances.emplace(
+							script->get_name() + std::to_string(script_collection->get_entity_id()),
+							std::dynamic_pointer_cast<CPPScriptInstance>(std::shared_ptr<Registerable>(cpp_script_definitions.at(script->get_name())->instance()))
+						);
 					}
 				}
 			}
@@ -104,8 +101,7 @@ void Omnific::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_update_methods(scene_layer, "on_input");
+		execute_update_methods(scene, "on_input");
 	}
 
 	frame_time_clock->set_end();
@@ -121,8 +117,7 @@ void Omnific::CPPScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_queued_methods(scene_layer->get_start_entity_queue(), scene_layer, "on_entity_start");
+		execute_queued_methods(scene->get_start_entity_queue(), scene, "on_entity_start");
 	}
 
 	frame_time_clock->set_end();
@@ -138,8 +133,7 @@ void Omnific::CPPScriptingSystem::on_early_update(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_update_methods(scene_layer, "on_early_update");
+		execute_update_methods(scene, "on_early_update");
 	}
 
 	frame_time_clock->set_end();
@@ -155,8 +149,7 @@ void Omnific::CPPScriptingSystem::on_update(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_update_methods(scene_layer, "on_update");
+		execute_update_methods(scene, "on_update");
 	}
 
 	frame_time_clock->set_end();
@@ -171,8 +164,7 @@ void Omnific::CPPScriptingSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_update_methods(scene_layer, "on_fixed_update");
+		execute_update_methods(scene, "on_fixed_update");
 	}
 	frame_time_clock->set_end();
 }
@@ -187,8 +179,7 @@ void Omnific::CPPScriptingSystem::on_late_update(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_update_methods(scene_layer, "on_late_update");
+		execute_update_methods(scene, "on_late_update");
 	}
 
 	frame_time_clock->set_end();
@@ -204,8 +195,7 @@ void Omnific::CPPScriptingSystem::on_entity_finish(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_queued_methods(scene_layer->get_finish_entity_queue(), scene_layer, "on_entity_finish");
+		execute_queued_methods(scene->get_finish_entity_queue(), scene, "on_entity_finish");
 	}
 	frame_time_clock->set_end();
 }
@@ -220,34 +210,30 @@ void Omnific::CPPScriptingSystem::on_output(std::shared_ptr<Scene> scene)
 
 	if (scene != nullptr)
 	{
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			execute_update_methods(scene_layer, "on_output");
+		execute_update_methods(scene, "on_output");
 	}
 
 	frame_time_clock->set_end();
 }
 
 void Omnific::CPPScriptingSystem::bind_and_call(
-	std::shared_ptr<ScriptCollection> scriptCollection,
-	SceneLayerID sceneLayerID,
-	EntityID entityID,
+	std::shared_ptr<ScriptCollection> script_collection,
+	EntityID entity_id,
 	std::string method_name)
 {
-	std::shared_ptr<Script>* scripts = scriptCollection->scripts.data();
-	int scripts_count = scriptCollection->scripts.size();
+	std::shared_ptr<Script>* scripts = script_collection->scripts.data();
+	int scripts_count = script_collection->scripts.size();
 
 	for (int i = 0; i < scripts_count; ++i)
 	{
 		std::shared_ptr<Script> script = scripts[i];
-		std::string script_instance_name = script->get_name() + std::to_string(entityID);
+		std::string script_instance_name = script->get_name() + std::to_string(entity_id);
 
 		if (this->cpp_script_instances.count(script_instance_name))
 		{
 			std::shared_ptr<CPPScriptInstance> script_instance = this->cpp_script_instances.at(script_instance_name);
 
-			Omnific::CPPEntityContext::bind_entity(
-				sceneLayerID,
-				entityID);
+			Omnific::CPPEntityContext::bind_entity(entity_id);
 
 			CPPEntityContext::bind_time_delta(Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds());
 
@@ -270,28 +256,28 @@ void Omnific::CPPScriptingSystem::bind_and_call(
 }
 
 void Omnific::CPPScriptingSystem::execute_queued_methods(
-	std::queue<EntityID> entityQueue,
-	std::shared_ptr<SceneLayer> sceneLayer,
-	std::string methodName)
+	std::queue<EntityID> entity_queue,
+	std::shared_ptr<Scene> scene,
+	std::string method_name)
 {
-	while (!entityQueue.empty())
+	while (!entity_queue.empty())
 	{
-		std::shared_ptr<Entity> entity = sceneLayer->get_entity(entityQueue.front());
-		std::shared_ptr<ScriptCollection> scriptCollection = sceneLayer->get_component_by_type<ScriptCollection>(entity->get_id());
-		if (scriptCollection != nullptr)
+		std::shared_ptr<Entity> entity = scene->get_entity(entity_queue.front());
+		std::shared_ptr<ScriptCollection> script_collection = scene->get_component_by_type<ScriptCollection>(entity->get_id());
+		if (script_collection != nullptr)
 		{
-			bind_and_call(scriptCollection, sceneLayer->get_id(), scriptCollection->get_entity_id(), methodName);
+			bind_and_call(script_collection, script_collection->get_entity_id(), method_name);
 		}
-		entityQueue.pop();
+		entity_queue.pop();
 	}
 }
 
 void Omnific::CPPScriptingSystem::execute_update_methods(
-	std::shared_ptr<SceneLayer> sceneLayer,
-	std::string methodName)
+	std::shared_ptr<Scene> scene,
+	std::string method_name)
 {
-	for (auto& script_collection : sceneLayer->get_components_by_type<ScriptCollection>())
-		bind_and_call(script_collection, sceneLayer->get_id(), script_collection->get_entity_id(), methodName);
+	for (auto& script_collection : scene->get_components_by_type<ScriptCollection>())
+		bind_and_call(script_collection, script_collection->get_entity_id(), method_name);
 }
 
 void Omnific::CPPScriptingSystem::finalize()

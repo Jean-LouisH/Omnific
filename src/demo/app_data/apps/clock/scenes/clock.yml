@@ -1,21 +1,18 @@
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 2
-  Entity:
-    name: "Clock"
-    transform:
-      translation: [315, 215, 0]
-    GUI:
-      GUILabel: 
-        text: "This is a Label!"
-        font: ["apps/clock/fonts/Lato-Regular.ttf", 50]
-        colour: "#0000FFFF"
-    ScriptCollection:
-        Python: ["apps/clock/scripts/python/clock.py"]
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
-  Entity:
-    name: "Camera"
-    Camera: "default"
+Entity:
+  name: "Clock"
+  transform:
+    translation: [315, 215, 0]
+  GUI:
+    GUILabel: 
+      text: "This is a Label!"
+      font: ["apps/clock/fonts/Lato-Regular.ttf", 50]
+      colour: "#0000FFFF"
+  ScriptCollection:
+      Python: ["apps/clock/scripts/python/clock.py"]
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  Camera: "default"

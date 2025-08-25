@@ -24,18 +24,13 @@
 
 void Omnific::Entity::set_name(std::string name)
 {
-	if (!this->is_attached_to_scene_layer)
+	if (!this->is_attached_to_scene)
 		this->name = name;
 }
 
 std::string Omnific::Entity::get_name()
 {
 	return this->name;
-}
-
-Omnific::SceneLayerID Omnific::Entity::get_scene_layer_id()
-{
-	return this->scene_layer_id;
 }
 
 Omnific::EntityID Omnific::Entity::get_id()

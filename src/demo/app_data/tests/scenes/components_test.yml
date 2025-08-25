@@ -1,52 +1,49 @@
 # Components Demonstration
 
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Entity:
-    name: "GlobalShaderEntity"
-    Model:
-      overriding_shader:
-        preset: "Shader::UNLIT"
-  Entity:
-    name: "Model"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [-5.0, 0.0, 0.0]
-  Scene:
-    name: ["tests/models/suzanne.glb", ""]
-    parent: "Model"
-  Entity:
-    name: "Model + PhysicsBody"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [0.0, 0.0, 0.0]
-    PhysicsBody:
-      drag_ratio: [0.001, 0.001, 0.001]
-  Scene:
-    name: ["tests/models/suzanne.glb", ""]
-    parent: "Model + PhysicsBody"
-  Entity:
-    name: "Model + PhysicsBody + ScriptCollection"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [5.0, 0.0, 0.0]
-    PhysicsBody:
-      drag_ratio: [0.001, 0.001, 0.001]
-    ScriptCollection:
-      Python: ["tests/scripts/python/x_vibration.py"]
-  Scene:
-    name: ["tests/models/suzanne.glb", ""]
-    parent: "Model + PhysicsBody + ScriptCollection"
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, -2, 10]
-    Camera:
-      wireframe_mode: true
-    ScriptCollection:
-      Python: ["tests/scripts/python/camera_control.py"]
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "GlobalShaderEntity"
+  Model:
+    overriding_shader:
+      preset: "Shader::UNLIT"
+Entity:
+  name: "Model"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [-5.0, 0.0, 0.0]
+Scene:
+  name: ["tests/models/suzanne.glb", ""]
+  parent: "Model"
+Entity:
+  name: "Model + PhysicsBody"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [0.0, 0.0, 0.0]
+  PhysicsBody:
+    drag_ratio: [0.001, 0.001, 0.001]
+Scene:
+  name: ["tests/models/suzanne.glb", ""]
+  parent: "Model + PhysicsBody"
+Entity:
+  name: "Model + PhysicsBody + ScriptCollection"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [5.0, 0.0, 0.0]
+  PhysicsBody:
+    drag_ratio: [0.001, 0.001, 0.001]
+  ScriptCollection:
+    Python: ["tests/scripts/python/x_vibration.py"]
+Scene:
+  name: ["tests/models/suzanne.glb", ""]
+  parent: "Model + PhysicsBody + ScriptCollection"
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0, -2, 10]
+  Camera:
+    wireframe_mode: true
+  ScriptCollection:
+    Python: ["tests/scripts/python/camera_control.py"]
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

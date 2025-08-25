@@ -79,13 +79,12 @@ void Omnific::Engine::run()
 
 		if (this->state != State::FINALIZING)
 		{
-			std::shared_ptr<Clock> main_thread_clock = Profiler::get_clock(MAIN_THREAD_CLOCK_NAME);
-			uint8_t logical_core_count = Platform::get_logical_core_count();
-			Configuration* configuration = Configuration::get_instance();
-
 #ifdef _WEB_PLATFORM
 			emscripten_set_main_loop_arg(run_loop_on_callback, this, 0, 1);
 #else
+			std::shared_ptr<Clock> main_thread_clock = Profiler::get_clock(MAIN_THREAD_CLOCK_NAME);
+			Configuration* configuration = Configuration::get_instance();
+
 			while (this->state == State::INITIALIZING || 
 					this->state == State::RUNNING) 
 			{
@@ -234,8 +233,7 @@ void Omnific::Engine::run_loop()
 			system.second->on_entity_start(active_scene);
 		total_on_entity_start_frame_time_clock->set_end();
 
-		for (auto it : active_scene->get_scene_layers())
-			it.second->clear_start_entity_queue();
+		active_scene->clear_start_entity_queue();
 
 		total_on_early_update_frame_time_clock->set_start();
 		for (auto system : this->systems)
@@ -274,8 +272,7 @@ void Omnific::Engine::run_loop()
 			system.second->on_entity_finish(active_scene);
 		total_on_entity_finish_frame_time_clock->set_end();
 
-		for (auto it : active_scene->get_scene_layers())
-			it.second->clear_finish_entity_queue();
+		active_scene->clear_finish_entity_queue();
 
 		update_loop_frame_time_clock->set_end();
 	}
@@ -312,7 +309,7 @@ void Omnific::Engine::run_loop()
     }
 
 	total_loop_frame_time_clock->set_end();
-	active_scene->update_debug_scene_layer();
+	active_scene->update_debug_statistics();
 }
 
  void Omnific::Engine::run_loop_on_callback(void* arg)

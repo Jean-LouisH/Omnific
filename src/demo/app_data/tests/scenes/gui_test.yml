@@ -1,32 +1,29 @@
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Entity:
-    name: "GUI Label"
-    transform:
-      translation: [1.0, 0.0, 0.0]
-    GUI:
-      GUILabel: 
-        text: "This is a Label!"
-        font: ["tests/fonts/Lato-Regular.ttf", 20]
-        colour: "#FFFFFFFF"
-    # ScriptCollection:
-    #   Python: ["tests/scripts/python/gui_test.py"]
-  Entity:
-    name: "GUI Button"
-    transform:
-      translation: [100.0, 100.0, 0.0]
-    GUI:
-      GUIButton:
-        text: "Button!"
-        font: ["tests/fonts/Lato-Regular.ttf", 20]
-        text_colour: "#00000000"
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 0]
-    Camera: "default"
+Entity:
+  name: "GUI Label"
+  transform:
+    translation: [1.0, 0.0, 0.0]
+  GUI:
+    GUILabel: 
+      text: "This is a Label!"
+      font: ["tests/fonts/Lato-Regular.ttf", 20]
+      colour: "#FFFFFFFF"
+  # ScriptCollection:
+  #   Python: ["tests/scripts/python/gui_test.py"]
+Entity:
+  name: "GUI Button"
+  transform:
+    translation: [100.0, 100.0, 0.0]
+  GUI:
+    GUIButton:
+      text: "Button!"
+      font: ["tests/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#00000000"
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0, 0, 0]
+  Camera: "default"

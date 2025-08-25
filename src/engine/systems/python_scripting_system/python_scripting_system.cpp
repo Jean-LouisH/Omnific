@@ -106,88 +106,85 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 			pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
 			std::set<std::string> added_paths;
 
-			for (const auto& [id, scene_layer] : PythonEntityContext::get_scene()->get_scene_layers())
+			for (std::shared_ptr<ScriptCollection>& script_collection : scene->get_components_by_type<ScriptCollection>())
 			{
-				for (std::shared_ptr<ScriptCollection>& script_collection : scene_layer->get_components_by_type<ScriptCollection>())
+				for (std::shared_ptr<Script>& script : script_collection->scripts)
 				{
-					for (std::shared_ptr<Script>& script : script_collection->scripts)
+					std::string script_filepath = script->get_name();
+
+					if (script->get_language_name() == "Python")
 					{
-						std::string script_filepath = script->get_name();
-
-						if (script->get_language_name() == "Python")
+						try
 						{
-							try
+							if (added_paths.count(script_filepath) == 0)
 							{
-								if (added_paths.count(script_filepath) == 0)
-								{
-									FileAccess& file_access = Platform::get_file_access();
-									std::string new_path = file_access.get_path_before_file(
-										file_access.find_path(script_filepath));
-									std::string full_script_filepath = file_access.find_path(script_filepath);
+								FileAccess& file_access = Platform::get_file_access();
+								std::string new_path = file_access.get_path_before_file(
+									file_access.find_path(script_filepath));
+								std::string full_script_filepath = file_access.find_path(script_filepath);
 #ifdef WIN32
-									pybind11::str new_path_obj = pybind11::str(new_path);
-									new_path_obj = new_path_obj.attr("replace")("//", "/");
-									new_path_obj = new_path_obj.attr("replace")("/", "\\");
-									new_path = new_path_obj.cast<std::string>();
+								pybind11::str new_path_obj = pybind11::str(new_path);
+								new_path_obj = new_path_obj.attr("replace")("//", "/");
+								new_path_obj = new_path_obj.attr("replace")("/", "\\");
+								new_path = new_path_obj.cast<std::string>();
 #endif
-									path.attr("insert")(0, new_path);
-									added_paths.emplace(new_path);
+								path.attr("insert")(0, new_path);
+								added_paths.emplace(new_path);
 
-									this->last_modified_times_for_script_files.emplace(
-										full_script_filepath, 
-										Platform::get_file_access().get_last_modified_time(full_script_filepath)
-									);
-								}
-
-								std::string module_name = Platform::get_file_access().get_file_name_without_extension(script_filepath);
-								pybind11::module_ importlib = pybind11::module_::import("importlib");
-								pybind11::module_ module = pybind11::module_::import(module_name.c_str());
-								pybind11::object reloaded_module = importlib.attr("reload")(module);
-
-								PythonScriptInstance script_instance;
-								std::vector<std::string> method_names = {
-									"on_input",
-									"on_entity_start",
-									"on_early_update",
-									"on_update",
-									"on_fixed_update",
-									"on_late_update",
-									"on_entity_finish",
-									"on_output"
-								};
-								script_instance.set_data(reloaded_module.attr("omnific_script")());
-								std::string script_instance_name = script_filepath + std::to_string(script_collection->get_entity_id());
-								this->script_collections_with_instances.emplace(script_instance_name, script_collection);
-
-								for (int i = 0; i < method_names.size(); ++i)
-								{
-									try
-									{
-										std::string method_name = method_names.at(i);
-										pybind11::object test = script_instance.test(method_name.c_str());
-										script_instance.set_callable(method_name);
-										if (this->instances_with_methods.count(method_name))
-										{
-											this->instances_with_methods.at(method_name).push_back(script_instance_name);
-										}
-										else
-										{
-											std::vector<std::string> script_instance_names;
-											script_instance_names.push_back(script_instance_name);
-											this->instances_with_methods.emplace(method_name, script_instance_names);
-										}
-									}
-									catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
-									{
-
-									}
-								}
-								this->python_script_instances.emplace(script_instance_name, script_instance);
+								this->last_modified_times_for_script_files.emplace(
+									full_script_filepath, 
+									Platform::get_file_access().get_last_modified_time(full_script_filepath)
+								);
 							}
-							catch (const pybind11::error_already_set& e)
+
+							std::string module_name = Platform::get_file_access().get_file_name_without_extension(script_filepath);
+							pybind11::module_ importlib = pybind11::module_::import("importlib");
+							pybind11::module_ module = pybind11::module_::import(module_name.c_str());
+							pybind11::object reloaded_module = importlib.attr("reload")(module);
+
+							PythonScriptInstance script_instance;
+							std::vector<std::string> method_names = {
+								"on_input",
+								"on_entity_start",
+								"on_early_update",
+								"on_update",
+								"on_fixed_update",
+								"on_late_update",
+								"on_entity_finish",
+								"on_output"
+							};
+							script_instance.set_data(reloaded_module.attr("omnific_script")());
+							std::string script_instance_name = script_filepath + std::to_string(script_collection->get_entity_id());
+							this->script_collections_with_instances.emplace(script_instance_name, script_collection);
+
+							for (int i = 0; i < method_names.size(); ++i)
 							{
-								std::cout << e.what() << std::endl;
+								try
+								{
+									std::string method_name = method_names.at(i);
+									pybind11::object test = script_instance.test(method_name.c_str());
+									script_instance.set_callable(method_name);
+									if (this->instances_with_methods.count(method_name))
+									{
+										this->instances_with_methods.at(method_name).push_back(script_instance_name);
+									}
+									else
+									{
+										std::vector<std::string> script_instance_names;
+										script_instance_names.push_back(script_instance_name);
+										this->instances_with_methods.emplace(method_name, script_instance_names);
+									}
+								}
+								catch (const pybind11::error_already_set& e) //using the exception catch to detect if method is not callable
+								{
+
+								}
 							}
+							this->python_script_instances.emplace(script_instance_name, script_instance);
+						}
+						catch (const pybind11::error_already_set& e)
+						{
+							std::cout << e.what() << std::endl;
 						}
 					}
 				}
@@ -222,8 +219,7 @@ void Omnific::PythonScriptingSystem::on_entity_start(std::shared_ptr<Scene> scen
 
 
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
-		for (auto& [id, scene_layer] : scene->get_scene_layers())
-			this->execute_queued_methods(scene_layer->get_start_entity_queue(), scene_layer, method_name.c_str());
+		this->execute_queued_methods(scene->get_start_entity_queue(), scene, method_name.c_str());
 
 	frame_time_clock->set_end();
 }
@@ -278,8 +274,7 @@ void Omnific::PythonScriptingSystem::on_entity_finish(std::shared_ptr<Scene> sce
 		this->load_script_modules(scene);
 
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
-		for (auto& [id, scene_layer] : PythonEntityContext::get_scene()->get_scene_layers())
-			this->execute_queued_methods(scene_layer->get_finish_entity_queue(), scene_layer, method_name.c_str());
+		this->execute_queued_methods(scene->get_finish_entity_queue(), scene, method_name.c_str());
 
 	this->has_modules_loaded_on_this_update = false;
 	frame_time_clock->set_end();
@@ -306,13 +301,13 @@ void Omnific::PythonScriptingSystem::finalize()
 
 void Omnific::PythonScriptingSystem::execute_queued_methods(
 	std::queue<EntityID> entity_queue,
-	std::shared_ptr<SceneLayer> scene_layer,
+	std::shared_ptr<Scene> scene,
 	const char* method_name)
 {
 	while (!entity_queue.empty())
 	{
-		std::shared_ptr<Entity> entity = scene_layer->get_entity(entity_queue.front());
-		std::shared_ptr<ScriptCollection> script_collection = scene_layer->get_component_by_type<ScriptCollection>(entity->get_id());
+		std::shared_ptr<Entity> entity = scene->get_entity(entity_queue.front());
+		std::shared_ptr<ScriptCollection> script_collection = scene->get_component_by_type<ScriptCollection>(entity->get_id());
 		if (script_collection != nullptr)
 		{
 				for (size_t j = 0; j < script_collection->scripts.size(); ++j)
@@ -357,9 +352,7 @@ void Omnific::PythonScriptingSystem::bind_and_call(
 	std::string instance_name,
 	std::string method_name)
 {
-	PythonEntityContext::bind_entity(
-		script_collection->get_scene_layer_id(),
-		script_collection->get_entity_id());
+	PythonEntityContext::bind_entity(script_collection->get_entity_id());
 
 	if (method_name != "on_fixed_update")
 		PythonEntityContext::bind_time_delta(Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds());

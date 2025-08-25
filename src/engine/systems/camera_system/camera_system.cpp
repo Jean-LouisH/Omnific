@@ -44,10 +44,7 @@ void Omnific::CameraSystem::on_update(std::shared_ptr<Scene> scene)
 {
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	for (const auto& [id, scene_layer] : scene->get_scene_layers())
-	{
-		this->autofit_viewports_to_model_widths(scene_layer);
-	}
+	this->autofit_viewports_to_model_widths(scene);
 	frame_time_clock->set_end();
 }
 
@@ -56,14 +53,14 @@ void Omnific::CameraSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnific::CameraSystem::autofit_viewports_to_model_widths(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::CameraSystem::autofit_viewports_to_model_widths(std::shared_ptr<Scene> scene)
 {
-	for (std::shared_ptr<Camera>& camera: scene_layer->get_components_by_type<Camera>())
+	for (std::shared_ptr<Camera>& camera: scene->get_components_by_type<Camera>())
 	{
-		std::shared_ptr<Entity> target_entity = scene_layer->get_entity_by_name(camera->viewport_target_entity);
+		std::shared_ptr<Entity> target_entity = scene->get_entity_by_name(camera->viewport_target_entity);
 		if (target_entity != nullptr)
 		{
-			std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(scene_layer->get_component_by_id(target_entity->get_model_id()));
+			std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(scene->get_component_by_id(target_entity->get_model_id()));
 			if (model != nullptr)
 			{
 				camera->set_viewport_width(model->get_dimensions().x);

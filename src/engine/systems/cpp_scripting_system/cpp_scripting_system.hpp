@@ -72,17 +72,16 @@ namespace Omnific
 
 		void bind_and_call(
 			std::shared_ptr<ScriptCollection> script_collection,
-            SceneLayerID scene_layer_id,
             EntityID entity_id,
             std::string method_name);
 
         void execute_queued_methods(
             std::queue<EntityID> entity_queue,
-            std::shared_ptr<SceneLayer> scene_layer,
+            std::shared_ptr<Scene> scene,
             std::string method_name);
 
         void execute_update_methods(
-            std::shared_ptr<SceneLayer> scene_layer,
+            std::shared_ptr<Scene> scene,
             std::string method_name);
 	};
 }

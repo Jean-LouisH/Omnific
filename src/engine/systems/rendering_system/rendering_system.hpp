@@ -45,7 +45,6 @@ namespace Omnific
 	public:
 		std::string entity_name; //For debug.
 		std::shared_ptr<Transform> transform;
-		SceneLayerID scene_layer_id;
 		EntityID entity_id;
 		std::shared_ptr<Model> model;
 		std::shared_ptr<Shader> overriding_shader;

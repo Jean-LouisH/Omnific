@@ -94,101 +94,91 @@ void Omnific::AudioSystem::on_output(std::shared_ptr<Scene> scene)
 
 	if (queued_audio_size < queue_refill_threshold)
 	{
-		std::map<SceneLayerID, std::shared_ptr<SceneLayer>>& scene_layers = scene->get_scene_layers();
 		std::vector<float> temp_cumulative_buffer(this->mix_samples_per_frame, 0.0f);
 
-		for (auto& [id, scene_layer] : scene_layers)
+		for (std::shared_ptr<AudioListener>& audio_listener : scene->get_components_by_type<AudioListener>())
 		{
-			for (std::shared_ptr<AudioListener>& audio_listener : scene_layer->get_components_by_type<AudioListener>())
+			std::shared_ptr<Entity> listener_entity = scene->get_entity(audio_listener->get_entity_id());
+			std::shared_ptr<Transform> listener_global_transform = scene->calculate_global_transform(listener_entity->get_id());
+			std::shared_ptr<PhysicsBody> listener_physics_body = scene->get_component_by_type<PhysicsBody>(listener_entity->get_id());
+
+			for (std::shared_ptr<AudioSource>& audio_source: scene->get_components_by_type<AudioSource>())
 			{
-				std::shared_ptr<Entity> listener_entity = scene_layer->get_entity(audio_listener->get_entity_id());
-				std::shared_ptr<Transform> listener_global_transform = scene_layer->calculate_global_transform(listener_entity->get_id());
-				std::shared_ptr<PhysicsBody> listener_physics_body = scene_layer->get_component_by_type<PhysicsBody>(listener_entity->get_id());
+				std::shared_ptr<Entity> source_entity = scene->get_entity(audio_source->get_entity_id());
+				std::shared_ptr<PhysicsBody> source_physics_body = scene->get_component_by_type<PhysicsBody>(audio_source->get_entity_id());
+				std::shared_ptr<Transform> source_global_transform = scene->calculate_global_transform(source_entity->get_id());
 
-				if (scene_layer->is_2d)
-					listener_global_transform->flatten_to_2d();
+				std::shared_ptr<Audio> audio = audio_source->get_active_audio();
+				if (audio->sample_rate != this->mix_sample_frequency)
+					this->resample_and_replace_audio(audio_source);
+				const int audio_sample_rate = audio->sample_rate;
+				const int audio_channel_count = audio->get_channel_count();
+				const float gain = audio_source->get_volume() * audio_listener->get_volume();
+				const int current_sample_index = (int)(audio_source->playback_time * audio_sample_rate) * audio_channel_count;
+				const double duration_per_sample = 1.0 / audio_sample_rate;
+				const int total_audio_samples = audio->data.size();
+				AudioSource::PlaybackState playback_state = audio_source->get_playback_state();
 
-				for (std::shared_ptr<AudioSource>& audio_source: scene_layer->get_components_by_type<AudioSource>())
+				if (playback_state == AudioSource::PlaybackState::PLAYING)
 				{
-					std::shared_ptr<Entity> source_entity = scene_layer->get_entity(audio_source->get_entity_id());
-					std::shared_ptr<PhysicsBody> source_physics_body = scene_layer->get_component_by_type<PhysicsBody>(audio_source->get_entity_id());
-					std::shared_ptr<Transform> source_global_transform = scene_layer->calculate_global_transform(source_entity->get_id());
-
-					if (scene_layer->is_2d)
-						source_global_transform->flatten_to_2d();
-
-					std::shared_ptr<Audio> audio = audio_source->get_active_audio();
-					if (audio->sample_rate != this->mix_sample_frequency)
-						this->resample_and_replace_audio(audio_source);
-					const int audio_sample_rate = audio->sample_rate;
-					const int audio_channel_count = audio->get_channel_count();
-					const float gain = audio_source->get_volume() * audio_listener->get_volume();
-					const int current_sample_index = (int)(audio_source->playback_time * audio_sample_rate) * audio_channel_count;
-					const double duration_per_sample = 1.0 / audio_sample_rate;
-					const int total_audio_samples = audio->data.size();
-					AudioSource::PlaybackState playback_state = audio_source->get_playback_state();
-
-					if (playback_state == AudioSource::PlaybackState::PLAYING)
+					if (audio_channel_count == 1)
 					{
-						if (audio_channel_count == 1)
+						//Writing mono input to a stereo output
+						for (int i = 0; i < (mix_samples_per_frame / 2); ++i)
 						{
-							//Writing mono input to a stereo output
-							for (int i = 0; i < (mix_samples_per_frame / 2); ++i)
+							int16_t mix_value = 0;
+
+							if (current_sample_index + i < total_audio_samples)
 							{
-								int16_t mix_value = 0;
-
-								if (current_sample_index + i < total_audio_samples)
-								{
-									mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
-								}
-								else if (audio_source->is_looping)
-								{
-									int looped_index = (current_sample_index + i) % total_audio_samples;
-									mix_value = (int16_t)(audio->data[looped_index] * gain);
-								}
-
-								temp_cumulative_buffer[i * 2] += (float)mix_value;
-								temp_cumulative_buffer[i * 2 + 1] += (float)mix_value;
+								mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
 							}
-						}
-						else if (audio_channel_count == 2)
-						{
-							//Writing stereo input to stereo output
-							for (int i = 0; i < mix_samples_per_frame; ++i)
+							else if (audio_source->is_looping)
 							{
-								int16_t mix_value = 0;
-
-								if (current_sample_index + i < total_audio_samples)
-								{
-									mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
-								}
-								else if (audio_source->is_looping)
-								{
-									int looped_index = (current_sample_index + i) % total_audio_samples;
-									mix_value = (int16_t)(audio->data[looped_index] * gain);
-								}
-
-								temp_cumulative_buffer[i] += (float)mix_value;
+								int looped_index = (current_sample_index + i) % total_audio_samples;
+								mix_value = (int16_t)(audio->data[looped_index] * gain);
 							}
-						}
 
-						audio_source->playback_time += this->mix_samples_per_channel_per_frame * duration_per_sample;
-
-						if (audio_source->playback_time > audio->playback_length)
-						{
-							audio_source->playback_time = 0.0;
-
-							if (!audio_source->is_looping)
-							{
-								audio_source->stop();
-							}
+							temp_cumulative_buffer[i * 2] += (float)mix_value;
+							temp_cumulative_buffer[i * 2 + 1] += (float)mix_value;
 						}
 					}
-					else if (playback_state == AudioSource::PlaybackState::STOPPED)
+					else if (audio_channel_count == 2)
 					{
+						//Writing stereo input to stereo output
+						for (int i = 0; i < mix_samples_per_frame; ++i)
+						{
+							int16_t mix_value = 0;
 
+							if (current_sample_index + i < total_audio_samples)
+							{
+								mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
+							}
+							else if (audio_source->is_looping)
+							{
+								int looped_index = (current_sample_index + i) % total_audio_samples;
+								mix_value = (int16_t)(audio->data[looped_index] * gain);
+							}
+
+							temp_cumulative_buffer[i] += (float)mix_value;
+						}
+					}
+
+					audio_source->playback_time += this->mix_samples_per_channel_per_frame * duration_per_sample;
+
+					if (audio_source->playback_time > audio->playback_length)
+					{
 						audio_source->playback_time = 0.0;
+
+						if (!audio_source->is_looping)
+						{
+							audio_source->stop();
+						}
 					}
+				}
+				else if (playback_state == AudioSource::PlaybackState::STOPPED)
+				{
+
+					audio_source->playback_time = 0.0;
 				}
 			}
 		}

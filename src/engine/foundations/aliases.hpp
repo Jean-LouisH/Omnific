@@ -29,7 +29,6 @@ namespace Omnific
 	using UID = uint64_t;
 	using EntityID = UID;
 	using SceneID = UID;
-	using SceneLayerID = UID;
 	using ComponentID = UID;
 	using AssetID = UID;
 	using PlayerID = uint8_t;

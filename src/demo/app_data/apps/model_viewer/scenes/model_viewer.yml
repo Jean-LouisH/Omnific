@@ -1,34 +1,31 @@
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Entity: 
-    name: "ModelViewer"
-    ScriptCollection:
-      Python: ["apps/model_viewer/scripts/python/load_model_on_drag_and_drop.py", "apps/model_viewer/scripts/python/rotate_model_with_mouse_motion.py"]
-  Entity:
-    name: "ModelHolder"
-  Scene:
-    name: "Scene::monkey"
-    parent: "ModelHolder"
-  Entity:
-    name: "Global Light"
-    transform:
-      rotation: [30.0, 75.0, 0.0]
-    Light:
-      light_mode: "directional"
-      colour: "#FFFFFF"
-      intensity: 3.0
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
-  Entity:
-    name: "CameraPivot"
-    ScriptCollection:
-      Python: ["apps/model_viewer/scripts/python/scale_camera_to_model_size.py"]
-  Entity:
-    name: "Camera"
-    parent: "CameraPivot"
-    transform:
-      translation: [0.0, 0.0, 5.0]
-    Camera: "default"
+Entity: 
+  name: "ModelViewer"
+  ScriptCollection:
+    Python: ["apps/model_viewer/scripts/python/load_model_on_drag_and_drop.py", "apps/model_viewer/scripts/python/rotate_model_with_mouse_motion.py"]
+Entity:
+  name: "ModelHolder"
+Scene:
+  name: "Scene::monkey"
+  parent: "ModelHolder"
+Entity:
+  name: "Global Light"
+  transform:
+    rotation: [30.0, 75.0, 0.0]
+  Light:
+    light_mode: "directional"
+    colour: "#FFFFFF"
+    intensity: 3.0
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "CameraPivot"
+  ScriptCollection:
+    Python: ["apps/model_viewer/scripts/python/scale_camera_to_model_size.py"]
+Entity:
+  name: "Camera"
+  parent: "CameraPivot"
+  transform:
+    translation: [0.0, 0.0, 5.0]
+  Camera: "default"

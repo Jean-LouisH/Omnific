@@ -49,12 +49,12 @@ namespace Omnific
 		virtual void finalize() override;
 	private:
 
-		void update_timers(std::shared_ptr<SceneLayer> scene_layer);
-		void displace(std::shared_ptr<SceneLayer> scene_layer);
-		void gravitate(std::shared_ptr<SceneLayer> scene_layer);
-		void decelerate(std::shared_ptr<SceneLayer> scene_layer);
-		void detect_collisions(std::shared_ptr<SceneLayer> scene_layer);
-		void handle_collisions_and_displacements(std::shared_ptr<SceneLayer> scene_layer);
+		void update_timers(std::shared_ptr<Scene> scene);
+		void displace(std::shared_ptr<Scene> scene);
+		void gravitate(std::shared_ptr<Scene> scene);
+		void decelerate(std::shared_ptr<Scene> scene);
+		void detect_collisions(std::shared_ptr<Scene> scene);
+		void handle_collisions_and_displacements(std::shared_ptr<Scene> scene);
 	};
 }
 

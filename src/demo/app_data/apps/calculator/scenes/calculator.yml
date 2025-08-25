@@ -1,10 +1,7 @@
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
-  Entity:
-    name: "Camera"
-    Camera: "default"
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  Camera: "default"

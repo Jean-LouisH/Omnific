@@ -1,16 +1,13 @@
-SceneLayer:
-  name: "main"
-  spatial_dimension: 2
-  Entity:
-    name: "SplashScreenSprite"
-    Sprite:
-      image: "icon.png"
-  Entity:
-    name: "Transition"
-    ScriptCollection:
-      Python: ["scripts/python/splash_screen_transition.py"]
-    Timer: default
-  Entity:
-    name: "Camera"
-    Camera: 
-      viewport_target_entity: "SplashScreenSprite"
+Entity:
+  name: "SplashScreenSprite"
+  Sprite:
+    image: "icon.png"
+Entity:
+  name: "Transition"
+  ScriptCollection:
+    Python: ["scripts/python/splash_screen_transition.py"]
+  Timer: default
+Entity:
+  name: "Camera"
+  Camera: 
+    viewport_target_entity: "SplashScreenSprite"

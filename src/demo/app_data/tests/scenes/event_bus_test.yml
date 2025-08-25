@@ -1,57 +1,39 @@
-SceneLayer:
-  name: "background"
-  spatial_dimension: 3
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 30]
-    Camera: "default"
-  Entity:
-    name: "Background"
-    Sprite:
-      image: "tests/images/grey.jpg"
-      dimensions: [40.0, 30.0, 0.1]
-    transform:
-      translation: [0, 0, 1]
-SceneLayer:
-  name: "foreground"
-  spatial_dimension: 3
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [20, 30, 100]
-      rotation: [-10, 0, 0]
-    Camera: "default"
-  Entity:
-    name: "Floor"
-    transform:
-      translation: [-30, -10, -5]
-      scale: [50, 10, 50]
-    ModelContainer:
-      models: ["Model::cube"]
-    Collider:
-      dimensions: [1.0, 1.0, 1.0]
-  Entity:
-    name: "CollidingCube"
-    transform:
-      translation: [-30, 15, -5]
-      scale: [25, 25, 25]
-    ModelContainer:
-      models: ["Model::cube"]
-    ScriptCollection:
-      Python: ["tests/scripts/python/move_with_input.py"]
-    Collider:
-      dimensions: [1.0, 1.0, 1.0]
-  Entity:
-    name: "RespondingCube1"
-    transform:
-      translation: [30, 15, -5]
-      scale: [20, 20, 20]
-    ModelContainer:
-      models: ["Model::cube"]
-    ScriptCollection:
-      Python: ["tests/scripts/python/change_texture_on_collision.py"]
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  transform:
+    translation: [20, 30, 100]
+    rotation: [-10, 0, 0]
+  Camera: "default"
+Entity:
+  name: "Floor"
+  transform:
+    translation: [-30, -10, -5]
+    scale: [50, 10, 50]
+  ModelContainer:
+    models: ["Model::cube"]
+  Collider:
+    dimensions: [1.0, 1.0, 1.0]
+Entity:
+  name: "CollidingCube"
+  transform:
+    translation: [-30, 15, -5]
+    scale: [25, 25, 25]
+  ModelContainer:
+    models: ["Model::cube"]
+  ScriptCollection:
+    Python: ["tests/scripts/python/move_with_input.py"]
+  Collider:
+    dimensions: [1.0, 1.0, 1.0]
+Entity:
+  name: "RespondingCube1"
+  transform:
+    translation: [30, 15, -5]
+    scale: [20, 20, 20]
+  ModelContainer:
+    models: ["Model::cube"]
+  ScriptCollection:
+    Python: ["tests/scripts/python/change_texture_on_collision.py"]
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

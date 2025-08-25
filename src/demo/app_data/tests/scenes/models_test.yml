@@ -1,52 +1,36 @@
-SceneLayer:
-  name: "background"
-  spatial_dimension: 2
-  Entity: 
-    name: "Image"
-    transform: default
-    Sprite:
-      image: "Image::default"
-  Entity:
-    name: "Camera"
-    transform: default
-    Camera:
-      viewport_target_entity: "Image"
-SceneLayer:
-  name: "foreground"
-  spatial_dimension: 3
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 5]
-      rotation: [0, 0, 0]
-    Camera: "default"
-    ScriptCollection:
-      Python: ["tests/scripts/python/camera_control.py"]
-  Entity:
-    name: "LightSource"
-    transform:
-      translation: [2.0, 0.25, 0.0]
-      scale: [0.5, 0.5, 0.5]
-    Model:
-      mesh: "Mesh::cube"
-      shader:
-        preset: "Shader::LIGHT_SOURCE"
-    ScriptCollection:
-      Python: ["tests/scripts/python/light_movement.py"]
-    Light: default
-  Entity:
-    name: "Model"
-    transform:
-      translation: [0, 0, 0]
-    ScriptCollection:
-      Python: ["tests/scripts/python/constantly_rotate.py"]
-    Model:
-      overriding_shader:
-        preset: "Shader::PHONG"
-  Scene:
-    name: ["tests/models/suzanne.glb", ""]
-    parent: "Model"
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0, 0, 5]
+    rotation: [0, 0, 0]
+  Camera: "default"
+  ScriptCollection:
+    Python: ["tests/scripts/python/camera_control.py"]
+Entity:
+  name: "LightSource"
+  transform:
+    translation: [2.0, 0.25, 0.0]
+    scale: [0.5, 0.5, 0.5]
+  Model:
+    mesh: "Mesh::cube"
+    shader:
+      preset: "Shader::LIGHT_SOURCE"
+  ScriptCollection:
+    Python: ["tests/scripts/python/light_movement.py"]
+  Light: default
+Entity:
+  name: "Model"
+  transform:
+    translation: [0, 0, 0]
+  ScriptCollection:
+    Python: ["tests/scripts/python/constantly_rotate.py"]
+  Model:
+    overriding_shader:
+      preset: "Shader::PHONG"
+Scene:
+  name: ["tests/models/suzanne.glb", ""]
+  parent: "Model"
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

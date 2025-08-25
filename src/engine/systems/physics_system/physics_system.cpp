@@ -52,14 +52,11 @@ void Omnific::PhysicsSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	for (const auto& [id, scene_layer] : scene->get_scene_layers())
-	{
-		this->update_timers(scene_layer);
-		this->gravitate(scene_layer);
-		this->decelerate(scene_layer);
-		this->detect_collisions(scene_layer);
-		this->handle_collisions_and_displacements(scene_layer);
-	}
+	this->update_timers(scene);
+	this->gravitate(scene);
+	this->decelerate(scene);
+	this->detect_collisions(scene);
+	this->handle_collisions_and_displacements(scene);
 	frame_time_clock->set_end();
 }
 
@@ -68,28 +65,28 @@ void Omnific::PhysicsSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnific::PhysicsSystem::update_timers(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::update_timers(std::shared_ptr<Scene> scene)
 {
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<Timer>& timer : scene_layer->get_components_by_type<Timer>())
+	for (std::shared_ptr<Timer>& timer : scene->get_components_by_type<Timer>())
 		timer->update(seconds_per_fixed_update);
 }
 
-void Omnific::PhysicsSystem::gravitate(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::gravitate(std::shared_ptr<Scene> scene)
 {
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<PhysicsBody>& physics_body : scene_layer->get_components_by_type<PhysicsBody>())
+	for (std::shared_ptr<PhysicsBody>& physics_body : scene->get_components_by_type<PhysicsBody>())
 		if (physics_body->has_gravity)
 			physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_fixed_update;
 }
 
-void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::decelerate(std::shared_ptr<Scene> scene)
 {
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<PhysicsBody>& physics_body : scene_layer->get_components_by_type<PhysicsBody>())
+	for (std::shared_ptr<PhysicsBody>& physics_body : scene->get_components_by_type<PhysicsBody>())
 	{
 		if (physics_body->has_gravity)
 		{
@@ -100,17 +97,17 @@ void Omnific::PhysicsSystem::decelerate(std::shared_ptr<SceneLayer> scene_layer)
 	}
 }
 
-void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<Scene> scene)
 {
 	/* Very basic collision detection on boxes for now. */
-	std::vector<std::shared_ptr<Collider>> colliders = scene_layer->get_components_by_type<Collider>();
+	std::vector<std::shared_ptr<Collider>> colliders = scene->get_components_by_type<Collider>();
 	size_t colliders_count = colliders.size();
 	std::string collision_event_string;
 
 	for (size_t i = 0; i < colliders_count; ++i)
 	{
 		std::shared_ptr<Collider> collider1 = colliders.at(i);
-		std::shared_ptr<Transform> transform1 = scene_layer->get_entity(collider1->get_entity_id())->get_transform();
+		std::shared_ptr<Transform> transform1 = scene->get_entity(collider1->get_entity_id())->get_transform();
 		glm::vec3 translation1 = transform1->translation;
 		glm::vec3 scale1 = transform1->scale;
 		scale1 *= 0.5;
@@ -121,7 +118,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 			if (i != j)
 			{
 				std::shared_ptr<Collider> collider2 = colliders.at(j);
-				std::shared_ptr<Transform> transform2 = scene_layer->get_entity(collider2->get_entity_id())->get_transform();
+				std::shared_ptr<Transform> transform2 = scene->get_entity(collider2->get_entity_id())->get_transform();
 				glm::vec3 translation2 = transform2->translation;
 				glm::vec3 scale2 = transform2->scale;
 				scale2 *= 0.5;
@@ -141,8 +138,8 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 				float box2front = translation2.z + aabb2.max.z * scale2.z;
 				float box2back = translation2.z + aabb2.min.z * scale2.z;
 
-				std::shared_ptr<Entity> entity1 = scene_layer->get_entity(collider1->get_entity_id());
-				std::shared_ptr<Entity> entity2 = scene_layer->get_entity(collider2->get_entity_id());
+				std::shared_ptr<Entity> entity1 = scene->get_entity(collider1->get_entity_id());
+				std::shared_ptr<Entity> entity2 = scene->get_entity(collider2->get_entity_id());
 				std::string collision_event_key = entity1->get_name() + "_and_" + entity2->get_name();
 
 				/* Collision Detected */
@@ -155,8 +152,8 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 
 					components.emplace("collider", collider1);
 					components.emplace("other_collider", collider2);
-					components.emplace("physics_body", scene_layer->get_component_by_type<PhysicsBody>(entity1->get_id()));
-					components.emplace("other_physics_body", scene_layer->get_component_by_type<PhysicsBody>(entity2->get_id()));
+					components.emplace("physics_body", scene->get_component_by_type<PhysicsBody>(entity1->get_id()));
+					components.emplace("other_physics_body", scene->get_component_by_type<PhysicsBody>(entity2->get_id()));
 					strings.emplace("collider_name", entity1->get_name());
 					strings.emplace("other_collider_name", entity2->get_name());
 
@@ -198,7 +195,7 @@ void Omnific::PhysicsSystem::detect_collisions(std::shared_ptr<SceneLayer> scene
 	}
 }
 
-void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr<Scene> scene)
 {
 	std::vector<Event> collision_events = EventBus::query_events(OMNIFIC_EVENT_ENTITY_IS_COLLIDING);
 	size_t collision_event_count = collision_events.size();
@@ -212,44 +209,41 @@ void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr
 
 		if (physics_body != nullptr)
 		{
-			if (physics_body->get_scene_layer_id() == scene_layer->get_id())
+			std::shared_ptr<PhysicsBody> other_physics_body = std::dynamic_pointer_cast<PhysicsBody>(components.at("other_physics_body"));
+			std::shared_ptr<Entity> entity = scene->get_entity(physics_body->get_entity_id());
+				
+			switch (physics_body->collision_response_type)
 			{
-				std::shared_ptr<PhysicsBody> other_physics_body = std::dynamic_pointer_cast<PhysicsBody>(components.at("other_physics_body"));
-				std::shared_ptr<Entity> entity = scene_layer->get_entity(physics_body->get_entity_id());
-					
-				switch (physics_body->collision_response_type)
-				{
-					case CollisionResponseType::RIGID: 
-						if (other_physics_body != nullptr)
+				case CollisionResponseType::RIGID: 
+					if (other_physics_body != nullptr)
+					{
+						CollisionResponseType collision_response_type = other_physics_body->collision_response_type;
+						if (collision_response_type == CollisionResponseType::KINEMATIC)
 						{
-							CollisionResponseType collision_response_type = other_physics_body->collision_response_type;
-							if (collision_response_type == CollisionResponseType::KINEMATIC)
-							{
-								glm::vec3 reversed_linear_velocity = physics_body->linear_velocity * -1.0f;
-								entity->get_transform()->translation += reversed_linear_velocity * 1.5f * (float)(Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S));
-								physics_body->linear_velocity = (reversed_linear_velocity * physics_body->elasticity_ratio) + other_physics_body->linear_velocity;
-							}
-							else if (collision_response_type == CollisionResponseType::RIGID)
-							{
-								//Elastic collision response for now.
-								std::shared_ptr<Entity> other_entity = scene_layer->get_entity(other_physics_body->get_entity_id());
-								glm::vec3 v1 = physics_body->linear_velocity;
-								glm::vec3 v2 = other_physics_body->linear_velocity;
-								float m1 = physics_body->mass;
-								float m2 = other_physics_body->mass;
-								glm::vec3 n = entity->get_transform()->translation - other_entity->get_transform()->translation;
-								physics_body->linear_velocity = v1 - (float)(((2.0 * m2)/(m1 + m2)) * ((glm::dot(v1-v2, n))/(pow(n.length(), 2.0)))) * n;
-							}
-							else if (collision_response_type == CollisionResponseType::FLUID)
-							{
-								std::shared_ptr<Collider> collider = scene_layer->get_component_by_type<Collider>(entity->get_id());
-								float approximate_radius = (collider->box.aabb.max - collider->box.aabb.min).length();
-								glm::vec3 deceleration = (float)(6.0 * M_PI * other_physics_body->viscosity * approximate_radius * (1.0 / physics_body->mass)) * physics_body->linear_velocity;
-								physics_body->linear_velocity -= deceleration;
-							}
+							glm::vec3 reversed_linear_velocity = physics_body->linear_velocity * -1.0f;
+							entity->get_transform()->translation += reversed_linear_velocity * 1.5f * (float)(Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S));
+							physics_body->linear_velocity = (reversed_linear_velocity * physics_body->elasticity_ratio) + other_physics_body->linear_velocity;
 						}
-						break;
-				}
+						else if (collision_response_type == CollisionResponseType::RIGID)
+						{
+							//Elastic collision response for now.
+							std::shared_ptr<Entity> other_entity = scene->get_entity(other_physics_body->get_entity_id());
+							glm::vec3 v1 = physics_body->linear_velocity;
+							glm::vec3 v2 = other_physics_body->linear_velocity;
+							float m1 = physics_body->mass;
+							float m2 = other_physics_body->mass;
+							glm::vec3 n = entity->get_transform()->translation - other_entity->get_transform()->translation;
+							physics_body->linear_velocity = v1 - (float)(((2.0 * m2)/(m1 + m2)) * ((glm::dot(v1-v2, n))/(pow(n.length(), 2.0)))) * n;
+						}
+						else if (collision_response_type == CollisionResponseType::FLUID)
+						{
+							std::shared_ptr<Collider> collider = scene->get_component_by_type<Collider>(entity->get_id());
+							float approximate_radius = (collider->box.aabb.max - collider->box.aabb.min).length();
+							glm::vec3 deceleration = (float)(6.0 * M_PI * other_physics_body->viscosity * approximate_radius * (1.0 / physics_body->mass)) * physics_body->linear_velocity;
+							physics_body->linear_velocity -= deceleration;
+						}
+					}
+					break;
 			}
 		}
 	}
@@ -257,8 +251,8 @@ void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr
 	/*Displacements*/
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
-	for (std::shared_ptr<PhysicsBody>& physics_body : scene_layer->get_components_by_type<PhysicsBody>())
+	for (std::shared_ptr<PhysicsBody>& physics_body : scene->get_components_by_type<PhysicsBody>())
 	{
-		scene_layer->get_entity(physics_body->get_entity_id())->get_transform()->translation += physics_body->linear_velocity * seconds_per_fixed_update;
+		scene->get_entity(physics_body->get_entity_id())->get_transform()->translation += physics_body->linear_velocity * seconds_per_fixed_update;
 	}
 }

@@ -40,10 +40,11 @@ namespace Omnific
 	   identity, components and  hierarchy with other Entities. */
 	class OMNIFIC_ENGINE_API Entity
 	{
-		friend class SceneLayer;
+		friend class Scene;
 	public:
 		EntityID parent_id = 0;
 		std::vector<EntityID> child_ids;
+		bool is_2d = false;
 
 		Entity()
 		{
@@ -52,10 +53,9 @@ namespace Omnific
 			this->transform = std::shared_ptr<Transform>(new Transform());
 		}
 
-		/*Sets name publicly only when it is not attached to a SceneLayer.*/
+		/*Sets name publicly only when it is not attached to a Scene.*/
 		void set_name(std::string name);
 		std::string get_name();
-		SceneLayerID get_scene_layer_id();
 		EntityID get_id();
 		std::shared_ptr<Transform> get_transform();
 		std::vector<std::string> get_tags();
@@ -63,13 +63,12 @@ namespace Omnific
 		ComponentID get_model_id();
 	private:
 		std::string name;
-		SceneLayerID scene_layer_id = 0;
 		EntityID id = 0;
 		std::shared_ptr<Transform> transform;
 		std::vector<std::string> tags;
 		std::unordered_map<std::string, ComponentID> component_ids;
 		ComponentID model_id = 0;
 
-		bool is_attached_to_scene_layer = false;
+		bool is_attached_to_scene = false;
 	};
 }

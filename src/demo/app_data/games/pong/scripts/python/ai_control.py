@@ -14,10 +14,10 @@ class omnific_script:
         pass
 
     def on_entity_start(self):
-        scene_layer = omnific.get_scene_layer()
+        scene = omnific.get_scene()
         self.transform = omnific.get_transform()
-        self.ball_entity = scene_layer.get_entity_by_name("Ball")
-        self.ball_physics_body = scene_layer.get_component("PhysicsBody", self.ball_entity.get_id())
+        self.ball_entity = scene.get_entity_by_name("Ball")
+        self.ball_physics_body = scene.get_component("PhysicsBody", self.ball_entity.get_id())
         self.ball_transform = self.ball_entity.get_transform()
         self.paddle_physics_body = omnific.get_component("PhysicsBody")
         pass

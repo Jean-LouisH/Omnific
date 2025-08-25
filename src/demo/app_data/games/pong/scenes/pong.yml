@@ -1,162 +1,146 @@
 # Omnific Pong
 
-SceneLayer:
-  name: "Background SceneLayer"
-  spatial_dimension: 2
-  Entity:
-    name: "Background"
-    transform: default
-    Sprite:
-      image: "Image::#222222"
-  Entity:
-    name: "Camera"
-    transform: default
-    Camera: 
-      viewport_target_entity: "Background"
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Entity:
-    name: "GlobalShaderEntity"
-    transform: default
-    Model:
-      overriding_shader:
-       preset: "Shader::PHONG"
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 30]
-    Camera: "default"
-    AudioListener: "default"
-    # ScriptCollection:
-    #   Python: ["games/pong/scripts/python/camera_shake.py"]
-  Entity:
-    name: "Game Mechanics"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/game_mechanics.py"]
-    AudioSource:
-      audio: ["games/pong/audio/nature.ogg"]
-      play_infinitely: true
-  Entity:
-    name: "Paddle1"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [-17, 0, 0]
-      scale: [1, 5, 1]
-    PhysicsBody:
-      is_rigidbody: false
-      collision_response_type: "rigid"
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FF0000"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/player_control.py"]
-    Collider: default
-  Entity:
-    name: "ScoreCount1"
-    parent: "Paddle1"
-    transform:
-      translation: [0.0, 40.0, 0.0]
-      scale: [1.0, 1.0, 1.0]
-    GUI:
-      GUILabel: 
-        text: "a"
-        font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-        colour: "#FF0000FF"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/player_score.py"]
-  Entity:
-    name: "Paddle2"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [17, 0, 0]
-      scale: [1, 5, 1]
-    PhysicsBody:
-      is_rigidbody: false
-      collision_response_type: "rigid"
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#0000FF"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/ai_control.py"]
-    Collider: default
-  Entity:
-    name: "ScoreCount2"
-    parent: "Paddle2"
-    transform:
-      translation: [0.0, 0.0, 0.0]
-      scale: [1.0, 1.0, 1.0]
-    GUI:
-      GUILabel: 
-        text: "b"
-        font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-        colour: "#0000FFFF"
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/ai_score.py"]
-  Entity:
-    name: "Ball"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [0, 10, 0]
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-    PhysicsBody:
-      is_rigidbody: false
-      collision_response_type: "intangible"
-    Collider:
-      is_trigger_only: true
-    AudioSource:
-      audio: ["games/pong/audio/click.ogg"]
-    ScriptCollection:
-      Python: ["games/pong/scripts/python/ball_collision_sounds.py"]
-  Entity:
-    name: "UpperBoundary"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [0, 12, 0]
-      scale: [50, 1, 1]
-    Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-    PhysicsBody:
-      is_rigidbody: false
-      collision_response_type: "kinematic"
-  Entity:
-    name: "LowerBoundary"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [0, -12, 0]
-      scale: [50, 1, 1]
-    Collider: default
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-    PhysicsBody:
-      is_rigidbody: false
-      collision_response_type: "kinematic"
-  Entity:
-    name: "LeftGoalPost"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [-22, 0, 0]
-      scale: [1, 50, 1]
-  Entity:
-    name: "RightGoalPost"
-    parent: "GlobalShaderEntity"
-    transform:
-      translation: [22, 0, 0]
-      scale: [1, 50, 1]
-  Entity:
-    name: "Light"
-    transform:
-      rotation: [0.0, 0.0, 0.0]
-    Light:
-      intensity: 10.0
-      colour: "#FFFFFF"
-      light_mode: "directional"
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "GlobalShaderEntity"
+  transform: default
+  Model:
+    overriding_shader:
+      preset: "Shader::PHONG"
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0, 0, 30]
+  Camera: "default"
+  AudioListener: "default"
+  # ScriptCollection:
+  #   Python: ["games/pong/scripts/python/camera_shake.py"]
+Entity:
+  name: "Game Mechanics"
+  ScriptCollection:
+    Python: ["games/pong/scripts/python/game_mechanics.py"]
+  AudioSource:
+    audio: ["games/pong/audio/nature.ogg"]
+    play_infinitely: true
+Entity:
+  name: "Paddle1"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [-17, 0, 0]
+    scale: [1, 5, 1]
+  PhysicsBody:
+    is_rigidbody: false
+    collision_response_type: "rigid"
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#FF0000"
+  ScriptCollection:
+    Python: ["games/pong/scripts/python/player_control.py"]
+  Collider: default
+Entity:
+  name: "ScoreCount1"
+  parent: "Paddle1"
+  transform:
+    translation: [0.0, 40.0, 0.0]
+    scale: [1.0, 1.0, 1.0]
+  GUI:
+    GUILabel: 
+      text: "a"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+      colour: "#FF0000FF"
+  ScriptCollection:
+    Python: ["games/pong/scripts/python/player_score.py"]
+Entity:
+  name: "Paddle2"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [17, 0, 0]
+    scale: [1, 5, 1]
+  PhysicsBody:
+    is_rigidbody: false
+    collision_response_type: "rigid"
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#0000FF"
+  ScriptCollection:
+    Python: ["games/pong/scripts/python/ai_control.py"]
+  Collider: default
+Entity:
+  name: "ScoreCount2"
+  parent: "Paddle2"
+  transform:
+    translation: [0.0, 0.0, 0.0]
+    scale: [1.0, 1.0, 1.0]
+  GUI:
+    GUILabel: 
+      text: "b"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+      colour: "#0000FFFF"
+  ScriptCollection:
+    Python: ["games/pong/scripts/python/ai_score.py"]
+Entity:
+  name: "Ball"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [0, 10, 0]
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#FFFFFF"
+  PhysicsBody:
+    is_rigidbody: false
+    collision_response_type: "intangible"
+  Collider:
+    is_trigger_only: true
+  AudioSource:
+    audio: ["games/pong/audio/click.ogg"]
+  ScriptCollection:
+    Python: ["games/pong/scripts/python/ball_collision_sounds.py"]
+Entity:
+  name: "UpperBoundary"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [0, 12, 0]
+    scale: [50, 1, 1]
+  Collider: default
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#FFFFFF"
+  PhysicsBody:
+    is_rigidbody: false
+    collision_response_type: "kinematic"
+Entity:
+  name: "LowerBoundary"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [0, -12, 0]
+    scale: [50, 1, 1]
+  Collider: default
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#FFFFFF"
+  PhysicsBody:
+    is_rigidbody: false
+    collision_response_type: "kinematic"
+Entity:
+  name: "LeftGoalPost"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [-22, 0, 0]
+    scale: [1, 50, 1]
+Entity:
+  name: "RightGoalPost"
+  parent: "GlobalShaderEntity"
+  transform:
+    translation: [22, 0, 0]
+    scale: [1, 50, 1]
+Entity:
+  name: "Light"
+  transform:
+    rotation: [0.0, 0.0, 0.0]
+  Light:
+    intensity: 10.0
+    colour: "#FFFFFF"
+    light_mode: "directional"
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]

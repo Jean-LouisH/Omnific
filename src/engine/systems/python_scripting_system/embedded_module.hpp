@@ -174,25 +174,25 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def_readwrite("child_ids", &Omnific::Entity::child_ids)
 		.def("get_tags", &Omnific::Entity::get_tags);
 
-	pybind11::class_<Omnific::SceneLayer, std::shared_ptr<Omnific::SceneLayer>>(m, "SceneLayer")
+	pybind11::class_<Omnific::Scene, std::shared_ptr<Omnific::Scene>>(m, "Scene")
 		.def(pybind11::init<std::string>())
-		.def("add_entity", &Omnific::SceneLayer::add_entity)
-		.def("add_empty_entity", &Omnific::SceneLayer::add_empty_entity)
-		.def("add_entity_to_parent_entity", &Omnific::SceneLayer::add_entity_to_parent_entity)
-		.def("add_entity_to_parent_entity_by_name", &Omnific::SceneLayer::add_entity_to_parent_entity_by_name)
-		.def("merge_another_scene_layer_to_parent_entity", &Omnific::SceneLayer::merge_another_scene_layer_to_parent_entity)
-		.def("merge_another_scene_layer_to_parent_entity_by_name", &Omnific::SceneLayer::merge_another_scene_layer_to_parent_entity_by_name)
-		.def("add_component", &Omnific::SceneLayer::add_component)
-		.def("add_component_to_last_entity", &Omnific::SceneLayer::add_component_to_last_entity)
-		.def("remove_entity", &Omnific::SceneLayer::remove_entity)
-		.def("remove_component", &Omnific::SceneLayer::remove_component)
-		.def("get_component", pybind11::overload_cast<std::string, Omnific::EntityID>(&Omnific::SceneLayer::get_component))
-		.def("get_components", &Omnific::SceneLayer::get_components)
-		.def("get_entity", &Omnific::SceneLayer::get_entity)
-		.def("get_entity_by_name", &Omnific::SceneLayer::get_entity_by_name)
-		.def("get_last_entity", &Omnific::SceneLayer::get_last_entity)
-		.def("get_entities", &Omnific::SceneLayer::get_entities)
-		.def("get_id", &Omnific::SceneLayer::get_id);
+		.def("add_entity", &Omnific::Scene::add_entity)
+		.def("add_empty_entity", &Omnific::Scene::add_empty_entity)
+		.def("add_entity_to_parent_entity", &Omnific::Scene::add_entity_to_parent_entity)
+		.def("add_entity_to_parent_entity_by_name", &Omnific::Scene::add_entity_to_parent_entity_by_name)
+		.def("merge_another_scene_to_parent_entity", &Omnific::Scene::merge_another_scene_to_parent_entity)
+		.def("merge_another_scene_to_parent_entity_by_name", &Omnific::Scene::merge_another_scene_to_parent_entity_by_name)
+		.def("add_component", &Omnific::Scene::add_component)
+		.def("add_component_to_last_entity", &Omnific::Scene::add_component_to_last_entity)
+		.def("remove_entity", &Omnific::Scene::remove_entity)
+		.def("remove_component", &Omnific::Scene::remove_component)
+		.def("get_component", pybind11::overload_cast<std::string, Omnific::EntityID>(&Omnific::Scene::get_component))
+		.def("get_components", &Omnific::Scene::get_components)
+		.def("get_entity", &Omnific::Scene::get_entity)
+		.def("get_entity_by_name", &Omnific::Scene::get_entity_by_name)
+		.def("get_last_entity", &Omnific::Scene::get_last_entity)
+		.def("get_entities", &Omnific::Scene::get_entities)
+		.def("get_id", &Omnific::Scene::get_id);
 
 	/*Resource classes*/
 
@@ -330,7 +330,6 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("get_component", &Omnific::PythonEntityContext::get_component);
 	m.def("get_transform", &Omnific::PythonEntityContext::get_transform);
 	m.def("get_scene", &Omnific::PythonEntityContext::get_scene);
-	m.def("get_scene_layer", &Omnific::PythonEntityContext::get_scene_layer);
 	m.def("get_time_delta", &Omnific::PythonEntityContext::get_time_delta);
 
 	m.def("get_shared_library_access", &Omnific::Platform::get_shared_library_access, pybind11::return_value_policy::reference);

@@ -1,21 +1,18 @@
-SceneLayer:
-  name: "foreground"
-  spatial_dimension: 2
-  Entity:
-    name: "Project List"
-    transform:
-      translation: [50.0, 0.0, 0.0]
-    ScriptCollection:
-      Python: ["selection_menu.py"]
-    GUI:
-      GUILabel: 
-        text: ""
-        font: ["tests/fonts/Lato-Regular.ttf", 20]
-        colour: "#FFFFFFFF"
-        wrap_length: 1000
-  Entity:
-    name: "Camera"
-    transform:
-      translation: [0, 0, 0]
-    Camera: "default"
+Entity:
+  name: "Project List"
+  transform:
+    translation: [50.0, 0.0, 0.0]
+  ScriptCollection:
+    Python: ["selection_menu.py"]
+  GUI:
+    GUILabel: 
+      text: ""
+      font: ["tests/fonts/Lato-Regular.ttf", 20]
+      colour: "#FFFFFFFF"
+      wrap_length: 1000
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0, 0, 0]
+  Camera: "default"
 	  

@@ -42,13 +42,11 @@ namespace Omnific
     class OMNIFIC_ENGINE_API Component : public Registerable
     {
 		friend class Scene;
-		friend class SceneLayer;
 	public:
 		static constexpr const char* TYPE_STRING = "Component";
 
 		Component();
 
-		SceneLayerID get_scene_layer_id();
 		EntityID get_entity_id();
 		std::string get_entity_name();
 		bool is_attached_to_entity();
@@ -56,7 +54,6 @@ namespace Omnific
 	protected:
 		std::unordered_map<std::string, std::string> properties_with_types; //<PropertyName, PropertyType>
 	private:
-		SceneLayerID scene_layer_id = 0;
 		EntityID entity_id = 0;
 		std::string entity_name;
 		

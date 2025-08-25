@@ -31,15 +31,11 @@ void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::string scene_name = scene->get_name();
 
-	if (!scene_storage->has_scene(scene_name))
-	{
-		scene_storage->scenes.emplace(scene_name, scene);
-	}
-	else
-	{
-		scene_storage->scenes.at(scene_name)->reload();
-	}
+	if (scene_storage->has_scene(scene_name))
+		scene_storage->remove_scene(scene_name);
 
+	scene_storage->scenes.emplace(scene_name, scene);
+	
 	scene_storage->active_scene_name = scene_name;
 	scene_storage->active_scene_changed = true;
 	std::string active_scene_filepath = Platform::get_file_access().find_path(scene_name);
@@ -99,19 +95,8 @@ void Omnific::SceneStorage::reload_active_scene()
 	if (active_scene_name != "" &&
 		scene_storage->has_scene(active_scene_name))
 	{
-		if (scene_storage->removed_scenes.count(active_scene_name))
-		{
-			std::shared_ptr<Scene> previously_removed_scene = scene_storage->removed_scenes.at(active_scene_name);
-			scene_storage->remove_scene(active_scene_name);
-			previously_removed_scene->reload();
-			scene_storage->load_scene(previously_removed_scene);
-		}
-		else
-		{
-			scene_storage->remove_scene(active_scene_name);
-			scene_storage->load_scene(std::shared_ptr<Scene>(new Scene(active_scene_name)));
-		}
-
+		scene_storage->remove_scene(active_scene_name);
+		scene_storage->load_scene(std::shared_ptr<Scene>(new Scene(active_scene_name)));
 		EventBus::publish_event(OMNIFIC_EVENT_ACTIVE_SCENE_RELOADED);
 	}
 }

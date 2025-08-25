@@ -67,95 +67,78 @@ void Omnific::GUISystem::on_early_update(std::shared_ptr<Scene> scene)
 	/*Invert the y to increase from bottom to top.*/
 	mouse_position.y = Platform::get_window().get_window_size().y - mouse_position.y;
 
-	for (const auto& [id, scene_layer] : scene->get_scene_layers())
+	std::vector<std::shared_ptr<GUI>> guis = scene->get_components_by_type<GUI>();
+
+	for (int i = 0; i < guis.size(); ++i)
 	{
-		std::vector<std::shared_ptr<GUI>> guis = scene_layer->get_components_by_type<GUI>();
+		std::shared_ptr<GUI> gui = guis[i];
+		std::shared_ptr<Transform> gui_transform = scene->get_entity(gui->get_entity_id())->get_transform();
 
-		for (int i = 0; i < guis.size(); ++i)
+		/* To enforce the GUI following a target Entity by an offset. */
+		if (gui->is_following_entity)
 		{
-			std::shared_ptr<GUI> gui = guis[i];
-			std::shared_ptr<Transform> gui_transform = scene_layer->get_entity(gui->get_entity_id())->get_transform();
+			std::shared_ptr<Entity> followed_entity = scene->get_entity_by_name(gui->follow_target_entity_name);
 
-			/* To enforce the GUI following a target Entity by an offset. */
-			if (gui->is_following_entity)
+			if (followed_entity != nullptr)
 			{
-				std::shared_ptr<Entity> followed_entity = scene_layer->get_entity_by_name(gui->follow_target_entity_name);
-				
-				/* If the Entity is not in the current SceneLayer, check 
-				   through every other SceneLayer in the Scene. */
-				if (followed_entity == nullptr)
+				std::shared_ptr<Transform> followed_entity_transform = followed_entity->get_transform();
+				std::vector<std::shared_ptr<Viewport>> ui_viewports = scene->get_components_by_type<Viewport>();
+				std::shared_ptr<Camera> camera;
+				std::shared_ptr<Transform> camera_transform;
+
+				for (int i = 0; i < ui_viewports.size(); ++i)
 				{
-					for (auto& [id, scene_layer] : scene->get_scene_layers())
-					{
-						followed_entity = scene_layer->get_entity_by_name(gui->follow_target_entity_name);
-						if (followed_entity != nullptr)
-						{
-							break;
-						}
-					}
+					std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
+					std::shared_ptr<Entity> camera_entity = scene->get_entity_by_name(ui_viewport->get_camera_entity_name());
+					camera = scene->get_component_by_type<Camera>(camera_entity->get_id());
+					camera_transform = camera_entity->get_transform();
 				}
 
-				if (followed_entity != nullptr)
+				if (camera != nullptr && camera_transform != nullptr)
 				{
-					std::shared_ptr<Transform> followed_entity_transform = followed_entity->get_transform();
-					std::vector<std::shared_ptr<Viewport>> ui_viewports = scene_layer->get_components_by_type<Viewport>();
-					std::shared_ptr<Camera> camera;
-					std::shared_ptr<Transform> camera_transform;
+					/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
 
-					for (int i = 0; i < ui_viewports.size(); ++i)
+					if (scene->get_entity(gui->get_entity_id())->is_2d)
 					{
-						std::shared_ptr<Viewport> ui_viewport = ui_viewports[i];
-						std::shared_ptr<Entity> camera_entity = scene_layer->get_entity_by_name(ui_viewport->get_camera_entity_name());
-						camera = scene_layer->get_component_by_type<Camera>(camera_entity->get_id());
-						camera_transform = camera_entity->get_transform();
+
 					}
-
-					if (camera != nullptr && camera_transform != nullptr)
+					else
 					{
-						/* Set the GUI position on an offset relative to the followed Entity in the Camera view. */
 
-						if (scene_layer->is_2d)
-						{
-
-						}
-						else
-						{
-
-						}
 					}
 				}
 			}
-
-			glm::vec2 gui_position = gui_transform->translation;
-			std::shared_ptr<GUIElement> root_element = gui->get_root_element();
-
-			/* The root_element_dimensions is the boundary of the mouse position search
-			   regardless of the root_element being a GUIPanel or not. */
-			glm::vec2 root_element_dimensions = root_element->dimensions;
-
-			/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
-			if (root_element->get_gui_element_type() == GUIPanel::TYPE_STRING)
-			{
-
-			}
-			else if (root_element->get_gui_element_type() == GUIList::TYPE_STRING || 
-				root_element->get_parent_type() == GUIList::TYPE_STRING)
-			{
-				std::shared_ptr<GUIList> gui_list = std::dynamic_pointer_cast<GUIList>(root_element);
-				std::vector<std::shared_ptr<GUIButton>> gui_list_items =  gui_list->get_list_items();
-				this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
-				for (int i = 0; i < gui_list_items.size(); ++i)
-				{
-					this->detect_inputs_for_gui_element(std::dynamic_pointer_cast<GUIElement>(gui_list_items.at(i)), gui_position, mouse_position);
-				}
-			}
-			else
-			{
-				this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
-			}
-
-			gui->update_image();
 		}
+
+		glm::vec2 gui_position = gui_transform->translation;
+		std::shared_ptr<GUIElement> root_element = gui->get_root_element();
+
+		/* The root_element_dimensions is the boundary of the mouse position search
+			regardless of the root_element being a GUIPanel or not. */
+		glm::vec2 root_element_dimensions = root_element->dimensions;
+
+		/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
+		if (root_element->get_gui_element_type() == GUIPanel::TYPE_STRING)
+		{
+
+		}
+		else if (root_element->get_gui_element_type() == GUIList::TYPE_STRING || 
+			root_element->get_parent_type() == GUIList::TYPE_STRING)
+		{
+			std::shared_ptr<GUIList> gui_list = std::dynamic_pointer_cast<GUIList>(root_element);
+			std::vector<std::shared_ptr<GUIButton>> gui_list_items =  gui_list->get_list_items();
+			this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
+			for (int i = 0; i < gui_list_items.size(); ++i)
+			{
+				this->detect_inputs_for_gui_element(std::dynamic_pointer_cast<GUIElement>(gui_list_items.at(i)), gui_position, mouse_position);
+			}
+		}
+		else
+		{
+			this->detect_inputs_for_gui_element(root_element, gui_position, mouse_position);
+		}
+
+		gui->update_image();
 	}
 	frame_time_clock->set_end();
 }

@@ -30,9 +30,8 @@
 
 Omnific::PythonEntityContext* Omnific::PythonEntityContext::instance = nullptr;
 
-void Omnific::PythonEntityContext::bind_entity(SceneLayerID scene_layer_id, EntityID entity_id)
+void Omnific::PythonEntityContext::bind_entity(EntityID entity_id)
 {
-	get_instance()->bound_scene_layer_id = scene_layer_id;
 	get_instance()->bound_entity_id = entity_id;
 }
 
@@ -43,12 +42,12 @@ void Omnific::PythonEntityContext::bind_time_delta(float time_delta)
 
 bool Omnific::PythonEntityContext::has_component(std::string type)
 {
-	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id)->get_component_ids().count(type) > 0;
+	return get_instance()->get_scene()->get_entity(get_instance()->bound_entity_id)->get_component_ids().count(type) > 0;
 }
 
 std::shared_ptr<Omnific::Entity> Omnific::PythonEntityContext::get_entity()
 {
-	return get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
+	return get_instance()->get_scene()->get_entity(get_instance()->bound_entity_id);
 }
 
 std::shared_ptr<Omnific::Transform> Omnific::PythonEntityContext::get_transform()
@@ -61,21 +60,18 @@ std::shared_ptr<Omnific::Scene> Omnific::PythonEntityContext::get_scene()
 	return SceneStorage::get_active_scene();
 }
 
-std::shared_ptr<Omnific::SceneLayer> Omnific::PythonEntityContext::get_scene_layer()
-{
-	return get_instance()->get_scene()->get_scene_layers().at(get_instance()->bound_scene_layer_id);
-}
-
 std::shared_ptr<Omnific::Component> Omnific::PythonEntityContext::get_component(std::string type)
 {
-	std::shared_ptr<Component> component(new Component());
+	std::shared_ptr<Component> component;
+	std::shared_ptr<Entity> entity = get_instance()->get_scene()->get_entity(get_instance()->bound_entity_id);
+	if (entity != nullptr)
+	{
+		std::vector<std::shared_ptr<Component>> components = get_instance()->get_scene()->get_components();
 
-	std::shared_ptr<Entity> entity = get_instance()->get_scene_layer()->get_entity(get_instance()->bound_entity_id);
-	std::vector<std::shared_ptr<Component>> components = get_instance()->get_scene_layer()->get_components();
-
-	for (int i = 0; i < components.size(); ++i)
-		if (components.at(i)->get_id() == entity->get_component_ids().at(type))
-			component = components.at(i);
+		for (int i = 0; i < components.size(); ++i)
+			if (components.at(i)->get_id() == entity->get_component_ids().at(type))
+				component = components.at(i);
+	}
 
 	return component;
 }

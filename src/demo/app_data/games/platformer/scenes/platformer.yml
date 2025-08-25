@@ -1,44 +1,41 @@
-SceneLayer:
-  name: "Foreground SceneLayer"
-  spatial_dimension: 3
-  Entity:
-    name: "GlobalShader"
-    Model:
-      overriding_shader:
-        preset: "Shader::UNLIT"
-  Entity: 
-    name: "Floor"
-    parent: "GlobalShader"
-    transform: 
-      translation: [0.0, -2.0, 0.0]
-      scale: [20.0, 1.0, 40.0]
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#FFFFFF"
-  Entity:
-    name: "Player"
-    parent: "GlobalShader"
-    transform:
-      scale: [1.0, 2.0, 1.0]
-    Model:
-      mesh: "Mesh::cube"
-      albedo: "Image::#0000FF"
-  Entity:
-    name: "Light"
-    transform: 
-      translation: [0.0, 20.0, 1.0]
-    Model:
-      mesh: "Mesh::cube"
-      shader:
-        preset: "Shader::LIGHT_SOURCE"
-    Light: "default"
-  Entity:
-    name: "DemoUtilityScripts"
-    ScriptCollection:
-      Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
-  Entity:
-    name: "Camera"
-    transform: 
-      translation: [0.0, 2.0, 10.0]
-      rotation: [-10.0, 0.0, 0.0]
-    Camera: "default"
+Entity:
+  name: "GlobalShader"
+  Model:
+    overriding_shader:
+      preset: "Shader::UNLIT"
+Entity: 
+  name: "Floor"
+  parent: "GlobalShader"
+  transform: 
+    translation: [0.0, -2.0, 0.0]
+    scale: [20.0, 1.0, 40.0]
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#FFFFFF"
+Entity:
+  name: "Player"
+  parent: "GlobalShader"
+  transform:
+    scale: [1.0, 2.0, 1.0]
+  Model:
+    mesh: "Mesh::cube"
+    albedo: "Image::#0000FF"
+Entity:
+  name: "Light"
+  transform: 
+    translation: [0.0, 20.0, 1.0]
+  Model:
+    mesh: "Mesh::cube"
+    shader:
+      preset: "Shader::LIGHT_SOURCE"
+  Light: "default"
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Camera"
+  transform: 
+    translation: [0.0, 2.0, 10.0]
+    rotation: [-10.0, 0.0, 0.0]
+  Camera: "default"

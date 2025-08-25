@@ -21,11 +21,7 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 ![omnific_project](docs/images/omnific_project.png)
 
-- OpenGL Rendering Backend with GLSL, Scenes of multiple SceneLayers (2D and 3D) via depth buffer refresh
-
-![scene_layers](docs/images/scene_layers.gif)
-
-- SceneLayer EventBus for a publish/subscribe architecture
+- EventBus for a publish/subscribe architecture
 
 ![event_bus](docs/images/event_bus.gif)
 
@@ -53,26 +49,24 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 Omnific functions by retaining a collection of Scenes and processing them in a main Engine class. On every loop, one active Scene is passed to the Engine's collection of Systems where each of them can update the Scene and or generate outputs from it. 
 
-The Engine facilitates this by reading inputs on the main thread, allocating dedicated threads to update and output methods, and coordinating their loops through order of operations and target frame rates. At the same time it retains states for initializing, running, restarting and finalizing
+Scenes are generated through deserializing YAML files. Each Scene consists of collections of Entities and Components. It is also augmented with collections of IDs that help to optimize search queries on it, in real-time, to constant time complexity. 
 
-Scenes consist of 2D and 3D SceneLayers. They can generate these through deserializing YAML files. Each SceneLayer consists of collections of Entities and Components. It has objects for specialized and general events such; a CollisionRegistry; an EventBus; and a HapticSignalBuffer. It is also augmented with collections of IDs that help to optimize search queries on it, in real-time, to constant time complexity. 
-
-An Entity represents an object that exists in the SceneLayer. It mostly consists of IDs for other Entities that form a tree-like relationship with it through a parent ID and a list of child IDs. It also has a dictionary of component IDs that are attached to it.
+An Entity represents an object that exists in the Scene. It mostly consists of IDs for other Entities that form a tree-like relationship with it through a parent ID and a list of child IDs. It also has a dictionary of component IDs that are attached to it.
 
 ![Diagram showing the Entity tree with associated data for Component IDs.]()
 
 Components are data containers for their host Entities. Their data are specialized for specific ways in which an Entity is expected to be represented. For example, an Entity with a Transform and Model Component attached to it is capable of existing in physical locations as a visible 2D/3D object. With a PhysicsBody Component added to that, it would be capable of falling under gravity. Finally, with a ScriptCollection Component added to that, it would be able to override the properties of the PhysicsBody and Model and effectively store any additional data or have the Entity behave in any other way the developer wishes. 
 
 ![components](docs/images/components.gif)
-_Animation showing three Suzannes lined up with one stationary (Transform only), another falling under gravity (with a PhysicsBody), and another falling while zig-zagging and changing colour (with a ScriptCollection)._
+_Animation showing three monkeys lined up with one stationary (Transform only), another falling under gravity (with a PhysicsBody), and another falling while zig-zagging and changing colour (with a ScriptCollection)._
 
 Components may contain Assets, which are immutable objects containing resource data from memory or files. Some examples of these are Images and AudioStreams. Assets may appear in other parts of the Engine as needed, such as the Image object in the Window icon generation in Engine start up. Assets are immutable so that they may be reliably cached and instanced in Systems that need them to be constant, such as Images that represent textures in a cache that are already uploaded to the GPU in a RenderingSystem. If the Image were changeable in this case, the Image data would not match with the texture data in the GPU but would represent it in the texture cache. Consequently, the user would never see a change in texture on screen.
 
-Scenes, SceneLayers, Entities, Components, and Assets all retain IDs for caching wherever needed.
+Scenes, Entities, Components, and Assets all retain IDs for caching wherever needed.
 
-Systems process Scenes by events in the Engine loops. These include "onInput", "onStart", "onEarly", "onLogic", "onCompute", "onLate", "onFinish" and "onOutput". "onInput" represents the event in which an input state is changed. "onStart" and "onFinish" represent the events in which the SceneLayers would address Entities that are newly created or about to be deleted. "onEarly", "onLogic", "onLate" in that order represent a linear chain of events, that allow operations to be done in a specific order. "onCompute" is an event that enables the System to have fixed updates to real-time by catching up to dropped frames and simulation lag. This can be CPU intensive, so should it be reserved to small, optimized processes that depend on it. "onOutput" represents an event where processing occurs on a separate output thread to all of the other event names. Operations here are expected to be read-only.
+Systems process Scenes by events in the Engine loops. These include "on_input", "on_entity_start", "on_early_update", "on_update", "on_fixed_update", "on_late_update", "on_entity_finish" and "on_output". "on_input" represents the event in which an input state is changed. "on_entity_start" and "on_entity_finish" represent the events in which the Scenes would address Entities that are newly created or about to be deleted. "on_early_update", "on_update", "on_late_update" in that order represent a linear chain of events, that allow operations to be done in a specific order. "on_fixed_update" is an event that enables the System to have fixed updates to real-time by catching up to dropped frames and simulation lag. This can be CPU intensive, so should it be reserved to small, optimized processes that depend on it. "on_output" represents an event where processing occurs on a separate output thread to all of the other event names. Operations here are expected to be read-only.
 
-This summarizes how the Engine operates. Users can also extend it through the ClassRegistry header where their own custom Components or Systems can be made and instantiated in the ClassRegistry.addDefinitions() method.
+Users can also extend the Engine through the ClassRegistry header where their own custom Components or Systems can be made and instantiated in the ClassRegistry.add_definitions() method.
 
 # Compilation Instructions
 

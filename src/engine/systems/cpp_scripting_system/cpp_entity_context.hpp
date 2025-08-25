@@ -31,9 +31,6 @@
 
 #include <memory>
 #include <scene/components/component.hpp>
-#include <scene/scene.hpp>
-#include <foundations/singletons/scene_storage.hpp>
-#include <foundations/aliases.hpp>
 #include <foundations/singletons/event_bus.hpp>
 #include <engine_api.hpp>
 
@@ -42,12 +39,11 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API CPPEntityContext
 	{
 	public:
-		static void bind_entity(SceneLayerID scene_layer_id, EntityID entity_id);
+		static void bind_entity(EntityID entity_id);
 		static void bind_time_delta(float time_delta);
 		static bool has_component(std::string type);
 		static std::shared_ptr<Entity> get_entity();
 		static std::shared_ptr<Scene> get_scene();
-		static std::shared_ptr<SceneLayer> get_scene_layer();
 		static std::shared_ptr<Component> get_component(std::string type);
 		static float get_time_delta();
 
@@ -61,7 +57,6 @@ namespace Omnific
 	private:
 		static CPPEntityContext* instance;
 
-		SceneLayerID bound_scene_layer_id = 0;
 		EntityID bound_entity_id = 0;
 		float time_delta = 0.0;
 	};

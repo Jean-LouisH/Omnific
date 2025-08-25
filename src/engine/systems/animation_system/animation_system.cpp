@@ -45,10 +45,7 @@ void Omnific::AnimationSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 {
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(ANIMATION_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	for (const auto& [id, scene_layer] : scene->get_scene_layers())
-	{
-		this->update_sprites(scene_layer);
-	}
+	this->update_sprites(scene);
 	frame_time_clock->set_end();
 }
 
@@ -57,10 +54,10 @@ void Omnific::AnimationSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnific::AnimationSystem::update_sprites(std::shared_ptr<SceneLayer> scene_layer)
+void Omnific::AnimationSystem::update_sprites(std::shared_ptr<Scene> scene)
 {
 	const uint32_t ms_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time;
-	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene_layer->get_components_by_type<Sprite>();
+	std::vector<std::shared_ptr<Sprite>> sprite_containers = scene->get_components_by_type<Sprite>();
 
 	for (size_t i = 0; i < sprite_containers.size(); ++i)
 	{
