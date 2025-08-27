@@ -78,11 +78,6 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 	{
 		FileAccess& file_access = Platform::get_file_access();
 		Platform::get_logger().write("Loading Scene from: \"" + filepath + "\"");
-		std::shared_ptr<Entity> viewport_entity = std::shared_ptr<Entity>(new Entity());
-		std::shared_ptr<Viewport> viewport = std::shared_ptr<Viewport>(new Viewport());
-		this->add_entity(viewport_entity);
-		this->set_entity_name(viewport_entity->get_id(), "Viewport");
-		this->add_component_to_last_entity(viewport);
 
 		const std::string full_filepath = Platform::get_file_access().find_path(filepath);
 		const std::string file_extension = file_access.get_file_extension(filepath);
@@ -92,6 +87,12 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 			try
 			{
 				YAML::Node yaml_node = YAML::LoadFile(full_filepath);
+
+				std::shared_ptr<Entity> viewport_entity = std::shared_ptr<Entity>(new Entity());
+				std::shared_ptr<Viewport> viewport = std::shared_ptr<Viewport>(new Viewport());
+				this->add_entity(viewport_entity);
+				this->set_entity_name(viewport_entity->get_id(), "Viewport");
+				this->add_component_to_last_entity(viewport);
 
 				for (YAML::const_iterator it1 = yaml_node.begin(); it1 != yaml_node.end(); ++it1)
 				{
@@ -169,13 +170,15 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 			}
 
 			std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>();
+			std::shared_ptr<Entity> debug_camera_entity = std::make_shared<Entity>();
 			std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
 			std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
 
 			debug_gui->hide();
 			debug_gui->set_to_label("");
-			this->add_empty_entity();
+			this->add_entity(debug_camera_entity);
 			this->add_component_to_last_entity(debug_camera);
+			this->set_entity_name(debug_gui_entity->get_id(), "debug_camera_entity");
 			this->add_entity(debug_gui_entity);
 			this->add_component_to_last_entity(debug_gui);
 			this->set_entity_name(debug_gui_entity->get_id(), "debug_gui_entity");
@@ -189,16 +192,19 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 
 void Omnific::Scene::add_entity(std::shared_ptr<Entity> entity)
 {
-	if (entity->parent_id != 0)
-		this->entities.at(entity->parent_id)->child_ids.push_back(entity->id);
-
-	if (this->get_entity(entity->id) == nullptr)
+	if (entity != nullptr)
 	{
-		this->start_entities_queue.emplace(entity->id);
-		this->entities.emplace(entity->id, entity);
-		this->last_entity_id = entity->id;
-		this->set_entity_name(entity->id, entity->name);
-		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
+		if (entity->parent_id != 0)
+			this->entities.at(entity->parent_id)->child_ids.push_back(entity->id);
+
+		if (this->get_entity(entity->id) == nullptr)
+		{
+			this->start_entities_queue.emplace(entity->id);
+			this->entities.emplace(entity->id, entity);
+			this->last_entity_id = entity->id;
+			this->set_entity_name(entity->id, entity->name);
+			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
+		}
 	}
 }
 
@@ -228,36 +234,52 @@ void Omnific::Scene::add_entity_to_parent_entity_by_name(std::shared_ptr<Entity>
 
 void Omnific::Scene::merge_another_scene_to_parent_entity(std::shared_ptr<Scene> other_scene, EntityID parent_entity_id)
 {
-	/* Transfer Entities and their Components */
-	std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene->get_entities();
-
-	/*Entities without parents are listed before others.*/
-	std::vector<std::shared_ptr<Entity>> sorted_entities;
-
-	/*Without parents*/
-	for (const auto& [id, other_scene_entity] : other_scene_entities)
-		if (other_scene_entity->parent_id == 0)
-			sorted_entities.push_back(other_scene_entity);
-
-	/*With parents*/
-	for (const auto& [id, other_scene_entity] : other_scene_entities)
-		if (other_scene_entity->parent_id != 0)
-			sorted_entities.push_back(other_scene_entity);
-
-
-	for (size_t i = 0; i < sorted_entities.size(); ++i)
+	if (other_scene != nullptr)
 	{
-		std::shared_ptr<Entity> other_scene_entity = sorted_entities[i];
+		std::shared_ptr<Entity> viewport_entity = other_scene->get_entity_by_name("Viewport");
+		std::shared_ptr<Entity> debug_camera_entity = other_scene->get_entity_by_name("debug_camera_entity");
+		std::shared_ptr<Entity> debug_gui_entity = other_scene->get_entity_by_name("debug_gui_entity");
+		
+		if (viewport_entity != nullptr)
+			other_scene->remove_entity(viewport_entity->get_id());
+		if (debug_camera_entity != nullptr)
+			other_scene->remove_entity(debug_camera_entity->get_id());
+		if (debug_gui_entity != nullptr)
+			other_scene->remove_entity(debug_gui_entity->get_id());
 
-		if (other_scene_entity->parent_id == 0)
-			this->add_entity_to_parent_entity(other_scene_entity, parent_entity_id);
-		else
-			this->add_entity(other_scene_entity);
+		/* Transfer Entities and their Components */
+		std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene->get_entities();
 
-		std::unordered_map<std::string, ComponentID> other_scene_entity_component_ids = other_scene_entity->get_component_ids();
+		/*Entities without parents are listed before others.*/
+		std::vector<std::shared_ptr<Entity>> sorted_entities;
 
-		for (const auto& [component_name, id] : other_scene_entity_component_ids)
-			this->add_component_to_last_entity(other_scene->get_component_by_id(id));
+		/*Without parents*/
+		for (const auto& [id, other_scene_entity] : other_scene_entities)
+			if (other_scene_entity->parent_id == 0)
+				sorted_entities.push_back(other_scene_entity);
+
+		/*With parents*/
+		for (const auto& [id, other_scene_entity] : other_scene_entities)
+			if (other_scene_entity->parent_id != 0)
+				sorted_entities.push_back(other_scene_entity);
+
+
+		for (size_t i = 0; i < sorted_entities.size(); ++i)
+		{
+			std::shared_ptr<Entity> other_scene_entity = sorted_entities[i];
+
+			other_scene_entity->child_ids.clear();
+
+			if (other_scene_entity->parent_id == 0)
+				this->add_entity_to_parent_entity(other_scene_entity, parent_entity_id);
+			else
+				this->add_entity(other_scene_entity);
+
+			std::unordered_map<std::string, ComponentID> other_scene_entity_component_ids = other_scene_entity->get_component_ids();
+
+			for (const auto& [component_name, id] : other_scene_entity_component_ids)
+				this->add_component_to_last_entity(other_scene->get_component_by_id(id));
+		}
 	}
 }
 
@@ -271,63 +293,79 @@ void Omnific::Scene::merge_another_scene_to_parent_entity_by_name(std::shared_pt
 void Omnific::Scene::set_entity_name(EntityID entity_id, std::string name)
 {
 	if (this->entity_names.count(name))
-		name += " (Copy)";
+		if (this->entity_names.at(name) != entity_id)
+			name += " (Copy)";
 
-	this->get_entity(entity_id)->name = name;
-	this->entity_names.emplace(name, entity_id);
-	EventBus::publish_event(OMNIFIC_EVENT_ENTITY_NAME_SET);
+	std::shared_ptr<Entity> entity = this->get_entity(entity_id);
+	if (entity != nullptr)
+	{
+		this->entity_names.erase(entity->get_name());
+		entity->name = name;
+		this->entity_names.emplace(name, entity_id);
+		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_NAME_SET);
+	}
 }
 
 void Omnific::Scene::add_entity_tag(EntityID entity_id, std::string tag)
 {
-	this->get_entity(entity_id)->tags.push_back(tag);
-	this->entity_tags.emplace(tag, entity_id);
-	EventBus::publish_event(OMNIFIC_EVENT_ENTITY_TAG_SET);
+	std::shared_ptr<Entity> entity = this->get_entity(entity_id);
+	if (entity != nullptr)
+	{
+		entity->tags.push_back(tag);
+		this->entity_tags.emplace(tag, entity_id);
+		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_TAG_SET);
+	}
 }
 
 void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component> component)
 {
-	std::string type = component->get_type();
-	std::shared_ptr<Entity> entity = this->entities.at(entity_id);
-
-	//this->remove_component(entity_id, type);
-	component->entity_id = entity_id;
-	component->entity_name = entity->get_name();
-	this->components.push_back(component);
-	this->components_by_id.emplace(component->get_id(), component);
-	entity->component_ids.emplace(type, component->get_id());
-	size_t last_index = this->components.size() - 1;
-
-	if (this->component_index_caches.count(type) > 0)
+	if (component != nullptr)
 	{
-		this->component_index_caches.at(type).push_back(last_index);
-	}
-	else
-	{
-		std::vector<size_t> component_indices;
-		component_indices.push_back(last_index);
-		this->component_index_caches.emplace(type, component_indices);
-	}
+		std::string type = component->get_type();
+		std::shared_ptr<Entity> entity = this->entities.at(entity_id);
 
-	EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED);
+		if (entity != nullptr)
+		{			
+			//this->remove_component(entity_id, type);
+			component->entity_id = entity_id;
+			component->entity_name = entity->get_name();
+			this->components.push_back(component);
+			this->components_by_id.emplace(component->get_id(), component);
+			entity->component_ids.emplace(type, component->get_id());
+			size_t last_index = this->components.size() - 1;
 
-	if (component->is_renderable())
-	{
-		entity->model_id = component->get_id();
-		this->render_order_index_cache.push_back(last_index);
-	}
-
-	std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name("Viewport");
-	if (viewport_entity != nullptr)
-	{
-		std::shared_ptr<Viewport> viewport = this->get_component_by_type<Viewport>(viewport_entity->get_id());
-		if (viewport != nullptr)
-		{
-			if (viewport->get_camera_entity_name() == "")
+			if (this->component_index_caches.count(type) > 0)
 			{
-				if (std::dynamic_pointer_cast<Camera>(component) != nullptr)
+				this->component_index_caches.at(type).push_back(last_index);
+			}
+			else
+			{
+				std::vector<size_t> component_indices;
+				component_indices.push_back(last_index);
+				this->component_index_caches.emplace(type, component_indices);
+			}
+
+			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED);
+
+			if (component->is_renderable())
+			{
+				entity->model_id = component->get_id();
+				this->render_order_index_cache.push_back(last_index);
+			}
+
+			std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name("Viewport");
+			if (viewport_entity != nullptr)
+			{
+				std::shared_ptr<Viewport> viewport = this->get_component_by_type<Viewport>(viewport_entity->get_id());
+				if (viewport != nullptr)
 				{
-					viewport->set_camera_entity_name(entity->get_name());
+					if (viewport->get_camera_entity_name() == "")
+					{
+						if (std::dynamic_pointer_cast<Camera>(component) != nullptr)
+						{
+							viewport->set_camera_entity_name(entity->get_name());
+						}
+					}
 				}
 			}
 		}
@@ -343,16 +381,17 @@ void Omnific::Scene::remove_entity(EntityID entity_id)
 {
 	if (this->entities.count(entity_id) > 0)
 	{
-		std::unordered_map<std::string, ComponentID> entity_component_ids = this->get_entity(entity_id)->component_ids;
-
-		for (auto it = entity_component_ids.begin(); it != entity_component_ids.end(); it++)
-			this->remove_component(entity_id, it->first);
+		std::shared_ptr<Entity> entity = this->get_entity(entity_id);
+		std::unordered_map<std::string, ComponentID> entity_component_ids = entity->component_ids;
 
 		/* Remove the children */
 		std::vector<EntityID> child_ids = this->get_entity(entity_id)->child_ids;
-
+		
 		for (int i = 0; i < child_ids.size(); ++i)
 			this->remove_entity(child_ids.at(i));
+
+		for (auto& [component_name, component_id] : entity_component_ids)
+			this->remove_component(entity_id, component_name);
 
 		/* Remove the ID from the parent children list */
 		std::shared_ptr<Entity> parent_entity = this->get_entity(this->get_entity(entity_id)->parent_id);
@@ -371,7 +410,7 @@ void Omnific::Scene::remove_entity(EntityID entity_id)
 		}
 
 		/* Remove the entity itself*/
-
+		this->entity_names.erase(entity->get_name());
 		this->entities.erase(entity_id);
 		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_REMOVED);
 	}
@@ -390,82 +429,109 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 
 			/* Remove the component from the list. */
 
-			for (auto it = this->components.begin(); it != this->components.end();)
+			for (size_t i = 0; i < this->components.size();)
 			{
-				if ((*it)->get_id() == component_id)
+				if (this->components.at(i) != nullptr)
 				{
-					this->components_by_id.erase(component_id);
-					it = this->components.erase(it);
-					break;
+					if (this->components.at(i)->get_id() == component_id)
+					{
+						/*Blanks out the component instead of erasing so index caches 
+						do not have to be rebuilt. */
+						std::shared_ptr<Component> blank_component;
+						this->components_by_id.erase(component_id);
+						this->components.at(i) = blank_component;
+
+						/*Remove from its respective component index cache*/
+						std::vector<size_t> component_index_caches_by_type = component_index_caches.at(type);
+						for (size_t j = 0; j < component_index_caches_by_type.size();)
+						{
+							if (component_index_caches_by_type.at(j) == i)
+							{
+								component_index_caches_by_type.erase(component_index_caches_by_type.begin() + j);
+								break;
+							}
+							else
+							{
+								++j;
+							}
+						}
+
+						/*Remove from the render order index cache*/
+						for (size_t j = 0; j < this->render_order_index_cache.size();)
+						{
+							if (this->render_order_index_cache.at(j) == i)
+							{
+								this->render_order_index_cache.erase(this->render_order_index_cache.begin() + j);
+								break;
+							}
+							else
+							{
+								++j;
+							}
+						}
+						break;
+					}
+					else
+					{
+						++i;
+					}
 				}
 				else
 				{
-					++it;
+					++i;
 				}
 			}
 
 			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED);
-
-			/* Rebuild index caches */
-
-			this->component_index_caches.clear();
-			this->render_order_index_cache.clear();
-
-			std::vector<size_t> component_indices;
-			this->component_index_caches.emplace(type, component_indices);
-
-			for (size_t i = 0; i < components.size(); ++i)
-			{
-				this->component_index_caches.at(type).push_back(i);
-				if (components.at(i)->is_renderable())
-					this->render_order_index_cache.push_back(i);
-			}
 		}
 	}
 }
 
 std::shared_ptr<Omnific::Transform> Omnific::Scene::calculate_global_transform(EntityID local_transform_entity_id)
 {
-	std::shared_ptr<Entity> current_entity = this->get_entity(local_transform_entity_id);
-	std::vector<std::shared_ptr<Transform>> local_transforms;
-
-	/* Find the root transform. */
-
-	local_transforms.push_back(current_entity->transform);
-
-	while (current_entity->parent_id != 0)
-	{
-		current_entity = this->get_entity(current_entity->parent_id);
-		local_transforms.push_back(current_entity->transform);
-	}
-
-	glm::mat4 global_matrix = glm::mat4(1.0f);
-
-    for (int i = local_transforms.size() - 1; i >= 0; --i)
-    {
-        std::shared_ptr<Transform> local_transform = local_transforms[i];
-		glm::mat4 local_matrix = local_transform->get_transform_matrix();
-        global_matrix *= local_matrix;
-    }
-
-    glm::vec3 skew;
-    glm::vec4 perspective;
-    glm::quat orientation_quat;
-    glm::vec3 translation, scale;
-
-    glm::decompose(global_matrix, scale, orientation_quat, translation, skew, perspective);
-
-    glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(orientation_quat));
-
 	std::shared_ptr<Transform> global_transform;
+	std::shared_ptr<Entity> current_entity = this->get_entity(local_transform_entity_id);
 
-	if (this->cached_global_transforms.count(local_transform_entity_id) == 0)
-		this->cached_global_transforms.emplace(local_transform_entity_id, std::make_shared<Transform>());
+	if (current_entity != nullptr)
+	{
+		std::vector<std::shared_ptr<Transform>> local_transforms;
 
-    global_transform = this->cached_global_transforms.at(local_transform_entity_id);
-    global_transform->translation = translation;
-    global_transform->rotation = euler_angles;
-    global_transform->scale = scale;
+		/* Find the root transform. */
+
+		local_transforms.push_back(current_entity->transform);
+
+		while (current_entity->parent_id != 0)
+		{
+			current_entity = this->get_entity(current_entity->parent_id);
+			local_transforms.push_back(current_entity->transform);
+		}
+
+		glm::mat4 global_matrix = glm::mat4(1.0f);
+
+		for (int i = local_transforms.size() - 1; i >= 0; --i)
+		{
+			std::shared_ptr<Transform> local_transform = local_transforms[i];
+			glm::mat4 local_matrix = local_transform->get_transform_matrix();
+			global_matrix *= local_matrix;
+		}
+
+		glm::vec3 skew;
+		glm::vec4 perspective;
+		glm::quat orientation_quat;
+		glm::vec3 translation, scale;
+
+		glm::decompose(global_matrix, scale, orientation_quat, translation, skew, perspective);
+
+		glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(orientation_quat));
+
+		if (this->cached_global_transforms.count(local_transform_entity_id) == 0)
+			this->cached_global_transforms.emplace(local_transform_entity_id, std::make_shared<Transform>());
+
+		global_transform = this->cached_global_transforms.at(local_transform_entity_id);
+		global_transform->translation = translation;
+		global_transform->rotation = euler_angles;
+		global_transform->scale = scale;
+	}
 
     return global_transform;
 }

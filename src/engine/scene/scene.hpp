@@ -102,7 +102,13 @@ namespace Omnific
 			size_t component_index_count = component_indices.size();
 
 			for (size_t i = 0; i < component_index_count; ++i)
-				components_by_type.push_back(std::dynamic_pointer_cast<T>(components.at(component_indices.at(i))));
+			{
+				std::shared_ptr<T> casted_component = std::dynamic_pointer_cast<T>(components.at(component_indices.at(i)));
+				if (casted_component != nullptr)
+				{
+					components_by_type.push_back(casted_component);
+				}
+			}
 
 			return components_by_type;
 		}
