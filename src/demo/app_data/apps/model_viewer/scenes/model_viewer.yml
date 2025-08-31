@@ -1,12 +1,10 @@
 Entity: 
   name: "ModelViewer"
   ScriptCollection:
-    Python: ["apps/model_viewer/scripts/python/load_model_on_drag_and_drop.py", "apps/model_viewer/scripts/python/rotate_model_with_mouse_motion.py"]
-Entity:
-  name: "ModelHolder"
+    Python: ["apps/model_viewer/scripts/python/load_model_on_drag_and_drop.py", "apps/model_viewer/scripts/python/transform_model_on_input.py"]
 Scene:
   name: "Scene::monkey"
-  parent: "ModelHolder"
+  parent: "ModelViewer"
 Entity:
   name: "Global Light"
   transform:

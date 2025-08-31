@@ -40,7 +40,6 @@ void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 	scene_storage->active_scene_changed = true;
 	std::string active_scene_filepath = Platform::get_file_access().find_path(scene_name);
 	scene_storage->active_scene_last_modified_time = Platform::get_file_access().get_last_modified_time(active_scene_filepath);
-	EventBus::clear_instant_events();
 	EventBus::clear_continuous_events();
 	EventBus::publish_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
 	Platform::get_logger().write("Loaded Scene: \"" + scene_name + "\"");

@@ -98,7 +98,15 @@ void Omnific::RenderingSystem::on_output(std::shared_ptr<Scene> scene)
 			{
 				Renderable* renderables_data = renderable_layer.renderables.data();
 				size_t renderable_count = renderable_layer.renderables.size();
-				glm::mat4 world_to_view_matrix = glm::inverse(renderable_layer.camera_transform->get_transform_matrix());
+				std::shared_ptr<Transform> camera_global_transform;
+				EntityID camera_entity_id = renderable_layer.camera->get_entity_id();
+				
+				if (camera_entity_id != 0)
+					camera_global_transform = scene->calculate_global_transform(renderable_layer.camera->get_entity_id());
+				else
+					camera_global_transform = renderable_layer.camera_transform;
+
+				glm::mat4 world_to_view_matrix = glm::inverse(camera_global_transform->get_transform_matrix());
 				glm::mat4 view_to_projection_matrix = renderable_layer.camera->get_view_to_projection_matrix();
 
 				if (renderable_layer.is_2d)

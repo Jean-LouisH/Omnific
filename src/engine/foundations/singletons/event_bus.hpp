@@ -33,8 +33,10 @@
 #define OMNIFIC_EVENT_ENTITY_NAME_SET "entity_name_set"
 #define OMNIFIC_EVENT_ENTITY_TAG_SET "entity_tag_set"
 #define OMNIFIC_EVENT_ENTITY_REMOVED "entity_removed"
+#define OMNIFIC_EVENT_ENTITY_MODIFIED "entity_modified"
 #define OMNIFIC_EVENT_COMPONENT_ADDED "component_added"
 #define OMNIFIC_EVENT_COMPONENT_REMOVED "component_removed"
+#define OMNIFIC_EVENT_SCENE_MODIFIED "scene_modified"
 #define OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED "active_scene_changed"
 #define OMNIFIC_EVENT_SCENE_LOADED "scene_loaded"
 #define OMNIFIC_EVENT_SCENE_REMOVED "scene_removed"
@@ -101,6 +103,10 @@ namespace Omnific
 		static std::vector<Event> query_events(std::string event_name);
 		static std::unordered_map<std::string, Event> query_continuous_events(std::string event_name);
 		static Event query_continuous_event(std::string event_name, std::string event_key);
+		static std::vector<double> get_numbers(std::string event_name, std::string event_parameter_key);
+		static std::vector<std::string> get_strings(std::string event_name, std::string event_parameter_key);
+		static std::vector<bool> get_bools(std::string event_name, std::string event_parameter_key);
+		static std::vector<std::shared_ptr<Component>> get_components(std::string event_name, std::string event_parameter_key);
 		static std::vector<Event> query_events_with_number_parameter(std::string event_name, std::string event_parameter_key, double parameter_value);
 		static std::vector<Event> query_events_with_string_parameter(std::string event_name, std::string event_parameter_key, std::string parameter_value);
 		static std::vector<Event> query_events_with_bool_parameter(std::string event_name, std::string event_parameter_key, bool parameter_value);

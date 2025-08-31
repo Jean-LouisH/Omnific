@@ -143,6 +143,70 @@ Omnific::Event Omnific::EventBus::query_continuous_event(std::string event_name,
 	return continuous_event;
 }
 
+std::vector<double> Omnific::EventBus::get_numbers(std::string event_name, std::string event_parameter_key)
+{
+	std::vector<double> matched_numbers;
+
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.numbers.count(event_parameter_key))
+		{
+			matched_numbers.push_back(parameter.numbers.at(event_parameter_key));
+		}
+	}
+	
+	return matched_numbers;
+}
+
+std::vector<std::string> Omnific::EventBus::get_strings(std::string event_name, std::string event_parameter_key)
+{
+	std::vector<std::string> matched_strings;
+
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.strings.count(event_parameter_key))
+		{
+			matched_strings.push_back(parameter.strings.at(event_parameter_key));
+		}
+	}
+	
+	return matched_strings;
+}
+
+std::vector<bool> Omnific::EventBus::get_bools(std::string event_name, std::string event_parameter_key)
+{
+	std::vector<bool> matched_bools;
+
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.bools.count(event_parameter_key))
+		{
+			matched_bools.push_back(parameter.bools.at(event_parameter_key));
+		}
+	}
+	
+	return matched_bools;
+}
+
+std::vector<std::shared_ptr<Omnific::Component>> Omnific::EventBus::get_components(std::string event_name, std::string event_parameter_key)
+{
+	std::vector<std::shared_ptr<Component>> matched_components;
+
+	for (Event event: EventBus::query_events(event_name))
+	{
+		Event::Parameters parameter = event.get_parameters();
+		if (parameter.components.count(event_parameter_key))
+		{
+			matched_components.push_back(parameter.components.at(event_parameter_key));
+		}
+	}
+	
+	return matched_components;
+}
+
 std::vector<Omnific::Event> Omnific::EventBus::query_events_with_number_parameter(std::string event_name, std::string event_parameter_key, double parameter_value)
 {
 	std::vector<Event> matched_events;

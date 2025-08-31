@@ -71,7 +71,7 @@ namespace Omnific
 		virtual void on_output(std::shared_ptr<Scene> scene) override;
 
 		void execute_command(std::string command);
-		void load_script_modules(std::shared_ptr<Scene> scene);
+		void load_script_modules();
 	private:
 		bool is_vmstarted = false;
 		bool has_modules_loaded_on_this_update = false;

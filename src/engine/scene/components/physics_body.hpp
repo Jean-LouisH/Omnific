@@ -84,5 +84,6 @@ namespace Omnific
 		void move(glm::vec3 linear_velocity, glm::vec3 snap_direction, glm::vec3 up_direction);
 		void reload();
 	private:
+		uint32_t collision_layer_flags = 1;
 	};
 }

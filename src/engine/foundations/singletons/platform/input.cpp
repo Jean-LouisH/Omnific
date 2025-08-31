@@ -447,8 +447,8 @@ glm::vec2 Omnific::Inputs::get_mouse_position()
 glm::vec2 Omnific::Inputs::get_mouse_wheel_velocity()
 {
 	glm::vec2 vector2;
-	vector2.x = this->mouse_wheel_event.x;
-	vector2.y = this->mouse_wheel_event.y;
+	vector2.x = this->mouse_wheel_event.preciseX;
+	vector2.y = this->mouse_wheel_event.preciseY;
 	return vector2;
 }
 
@@ -532,15 +532,18 @@ uint32_t Omnific::Inputs::get_drop_file_window_id()
 
 void Omnific::Inputs::clear()
 {
-	//this->controller_axis_events.clear();
+	this->controller_axis_events.clear();
 	this->controller_button_events.clear();
 	this->keyboard_events.clear();
 
-	if (drop_event.file != NULL)
+	if (this->drop_event.file != NULL)
 	{
-		SDL_free(drop_event.file);
-		drop_event = { 0 };
+		SDL_free(this->drop_event.file);
+		this->drop_event = { 0 };
 	}
+
+	this->mouse_motion_event = {0};
+	this->mouse_wheel_event = {0};
 }
 
 void Omnific::Inputs::detect_game_controllers()

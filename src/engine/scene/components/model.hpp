@@ -120,6 +120,7 @@ namespace Omnific
 		glm::vec3 dimensions;
 		uint8_t alpha = 255;
 		FaceCullMode face_cull_mode = FaceCullMode::NONE;
+		uint32_t visibility_layer_flags = 1;
 		std::shared_ptr<Shader> shader;
 		std::shared_ptr<Shader> overriding_shader;
 	private:

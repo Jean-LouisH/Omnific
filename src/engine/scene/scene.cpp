@@ -204,6 +204,7 @@ void Omnific::Scene::add_entity(std::shared_ptr<Entity> entity)
 			this->last_entity_id = entity->id;
 			this->set_entity_name(entity->id, entity->name);
 			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
+			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
 		}
 	}
 }
@@ -345,7 +346,9 @@ void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component
 				this->component_index_caches.emplace(type, component_indices);
 			}
 
-			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED);
+			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
+			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_MODIFIED);
+			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
 
 			if (component->is_renderable())
 			{
@@ -413,6 +416,7 @@ void Omnific::Scene::remove_entity(EntityID entity_id)
 		this->entity_names.erase(entity->get_name());
 		this->entities.erase(entity_id);
 		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_REMOVED);
+		EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
 	}
 }
 
@@ -431,10 +435,14 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 
 			for (size_t i = 0; i < this->components.size();)
 			{
-				if (this->components.at(i) != nullptr)
+				std::shared_ptr<Component> component = this->components.at(i);
+
+				if (component != nullptr)
 				{
-					if (this->components.at(i)->get_id() == component_id)
+					if (component->get_id() == component_id)
 					{
+						EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
+
 						/*Blanks out the component instead of erasing so index caches 
 						do not have to be rebuilt. */
 						std::shared_ptr<Component> blank_component;
@@ -482,7 +490,8 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 				}
 			}
 
-			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED);
+			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_MODIFIED);
+			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
 		}
 	}
 }

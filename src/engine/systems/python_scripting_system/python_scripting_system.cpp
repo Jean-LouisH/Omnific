@@ -89,24 +89,30 @@ void Omnific::PythonScriptingSystem::execute_command(std::string command)
 	pybind11::exec(command);
 }
 
-void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
+void Omnific::PythonScriptingSystem::load_script_modules()
 {
-	if (scene != nullptr)
+	if (!this->has_modules_loaded_on_this_update && 
+		EventBus::has_event_with_parameter_key(OMNIFIC_EVENT_COMPONENT_ADDED, ScriptCollection::TYPE_STRING))
 	{
-		if (!this->has_modules_loaded_on_this_update)
+		if (EventBus::has_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED))
 		{
 			this->python_script_instances.clear();
 			this->last_modified_times_for_script_files.clear();
 			this->instances_with_methods.clear();
+		}
 
-			pybind11::module_ sys = pybind11::module_::import("sys");
-			pybind11::object path = sys.attr("path");
-			pybind11::object version_info = sys.attr("version_info");
-			pybind11::str version_info_major = pybind11::str(version_info.attr("major"));
-			pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
-			std::set<std::string> added_paths;
+		pybind11::module_ sys = pybind11::module_::import("sys");
+		pybind11::object path = sys.attr("path");
+		pybind11::object version_info = sys.attr("version_info");
+		pybind11::str version_info_major = pybind11::str(version_info.attr("major"));
+		pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
+		std::set<std::string> added_paths;
 
-			for (std::shared_ptr<ScriptCollection>& script_collection : scene->get_components_by_type<ScriptCollection>())
+		for (std::shared_ptr<Component> component : EventBus::get_components(OMNIFIC_EVENT_COMPONENT_ADDED, ScriptCollection::TYPE_STRING))
+		{
+			std::shared_ptr<ScriptCollection> script_collection = std::dynamic_pointer_cast<ScriptCollection>(component);
+			
+			if (script_collection != nullptr)
 			{
 				for (std::shared_ptr<Script>& script : script_collection->scripts)
 				{
@@ -122,12 +128,12 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 								std::string new_path = file_access.get_path_before_file(
 									file_access.find_path(script_filepath));
 								std::string full_script_filepath = file_access.find_path(script_filepath);
-#ifdef WIN32
+	#ifdef WIN32
 								pybind11::str new_path_obj = pybind11::str(new_path);
 								new_path_obj = new_path_obj.attr("replace")("//", "/");
 								new_path_obj = new_path_obj.attr("replace")("/", "\\");
 								new_path = new_path_obj.cast<std::string>();
-#endif
+	#endif
 								path.attr("insert")(0, new_path);
 								added_paths.emplace(new_path);
 
@@ -189,8 +195,8 @@ void Omnific::PythonScriptingSystem::load_script_modules(std::shared_ptr<Scene> 
 					}
 				}
 			}
-			this->has_modules_loaded_on_this_update = true;
 		}
+		this->has_modules_loaded_on_this_update = true;
 	}
 }
 
@@ -201,7 +207,7 @@ void Omnific::PythonScriptingSystem::on_entity_start(std::shared_ptr<Scene> scen
 	frame_time_clock->set_start();
 
 	if (this->has_scene_changed(scene) || this->has_any_script_been_modified())
-		this->load_script_modules(scene);
+		this->load_script_modules();
 
 #ifdef DEBUG_CONSOLE_ENABLED
 	if (Platform::get_inputs().has_requested_command_line())
@@ -271,7 +277,7 @@ void Omnific::PythonScriptingSystem::on_entity_finish(std::shared_ptr<Scene> sce
 	frame_time_clock->set_start();
 
 	if (this->has_scene_changed(scene) || this->has_any_script_been_modified())
-		this->load_script_modules(scene);
+		this->load_script_modules();
 
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
 		this->execute_queued_methods(scene->get_finish_entity_queue(), scene, method_name.c_str());
@@ -330,7 +336,7 @@ void Omnific::PythonScriptingSystem::execute_queued_methods(
 void Omnific::PythonScriptingSystem::execute_regular_methods(std::shared_ptr<Scene> scene, const char* method_name)
 {
 	if (this->has_scene_changed(scene) || this->has_any_script_been_modified())
-		this->load_script_modules(scene);
+		this->load_script_modules();
 
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
 	{
