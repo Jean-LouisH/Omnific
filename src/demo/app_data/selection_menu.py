@@ -3,23 +3,34 @@ import sys
 
 
 project_name_type_pairs = {
-    "platformer" : "game",
-    "fps" : "game",
-    "racing" : "game",
-    "flight_sim" : "game",
+    "pong" : "game",
+    #"spinning_tops" : "game",
+    "air_racing" : "game",
+    #"fighting" : "game",
+    #"pathfinding" : "simulation",
+    #"handwriting_recognition" : "simulation",
+    #"digital_circuits" : "simulation",
+    #"elastic_collisions" : "simulation",
+    #"n_body_gravitation" : "simulation",
+    #"cloth" : "simulation",
+    #"lightning" : "simulation",
+    #"water_waves" : "simulation",
+    #"path_tracing" : "simulation",
+    #"fluid_dynamics" : "simulation",
+    #"traffic" : "simulation",
     "clock" : "app",
-    "calculator" : "app",
-    "music_keyboard" : "app",
-    "drawing_editor" : "app",
+    #"calculator" : "app",
+    #"music_keyboard" : "app",
+    #"drawing_editor" : "app",
     "model_viewer" : "app",
     "scene_hierarchy_test" : "test",
-    "haptics_test" : "test",
-    "inputs_test" : "test",
+    #"haptics_test" : "test",
+    #"inputs_test" : "test",
     "audio_test" : "test",
-    "physics_test" : "test",
+    #"physics_test" : "test",
     "shader_test" : "test",
     "gui_test": "test",
-    "animation_test": "test"
+    #"animation_test": "test"
     }
 
 
@@ -67,14 +78,11 @@ class omnific_script:
 
         menu_item_path = ""
         
-        if project_type == "app":
-            menu_item_path = "apps/" + project_name + "/scenes/" + project_name + ".yml"
-            pass
-        elif project_type == "game":
-            menu_item_path = "games/" + project_name + "/scenes/" + project_name + ".yml"
-            pass
-        elif project_type == "test":
+        if project_type == "test":
             menu_item_path = "tests/scenes/" + project_name + ".yml"
+            pass
+        else:
+            menu_item_path = project_type + "s/" + project_name + "/scenes/" + project_name + ".yml"
             pass
 
         self.project_paths.update({self.last_letter : menu_item_path})

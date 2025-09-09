@@ -147,54 +147,206 @@ Omnific::Mesh::PrimitiveMode Omnific::Mesh::get_primitive_mode()
 
 void Omnific::Mesh::set_to_cube()
 {
-    const std::vector<float> cube_positions = 
-    {
-      -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5,
-      -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5,
+    std::vector<float> cube_positions = {
+        // Front face
+        -0.5f, -0.5f,  0.5f,
+        0.5f, -0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
 
-      0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5,
-      0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5,
+        // Back face
+        0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f, -0.5f,
 
-      0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5,
-      0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5,
+        // Left face
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
 
-      -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5,
-      -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5,
+        // Right face
+        0.5f, -0.5f,  0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f,  0.5f,
 
-      -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5,
-      -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5,
+        // Top face
+        -0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
 
-      -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5,
-      -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5
+        // Bottom face
+        -0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
     };
 
-    const std::vector<float> cube_texture_coords =
-    {
-      0, 0, 1, 0, 1, 1,
-      0, 0, 1, 1, 0, 1,
+    std::vector<float> cube_texture_coords = {
+        // Front
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
 
-      0, 0, 1, 0, 1, 1,
-      0, 0, 1, 1, 0, 1,
+        // Back
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
 
-      0, 0, 1, 0, 1, 1,
-      0, 0, 1, 1, 0, 1,
+        // Left
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
 
-      0, 0, 1, 0, 1, 1,
-      0, 0, 1, 1, 0, 1,
+        // Right
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
 
-      0, 0, 1, 0, 1, 1,
-      0, 0, 1, 1, 0, 1,
+        // Top
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
 
-      0, 0, 1, 0, 1, 1,
-      0, 0, 1, 1, 0, 1
+        // Bottom
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
     };
 
-    std::vector<float> normals;
-    std::vector<float> tangents;
-    std::vector<float> bitangents;
-    std::vector<uint32_t> indices;
+    std::vector<float> cube_normals = {
+        // Front
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
+        0.0f,  0.0f,  1.0f,
 
-    this->populate_data(cube_positions, cube_texture_coords, normals, tangents, bitangents, indices);
+        // Back
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
+        0.0f,  0.0f, -1.0f,
+
+        // Left
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
+        -1.0f,  0.0f,  0.0f,
+
+        // Right
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
+        1.0f,  0.0f,  0.0f,
+
+        // Top
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f,
+        0.0f,  1.0f,  0.0f,
+
+        // Bottom
+        0.0f, -1.0f,  0.0f,
+        0.0f, -1.0f,  0.0f,
+        0.0f, -1.0f,  0.0f,
+        0.0f, -1.0f,  0.0f,
+    };
+
+    std::vector<float> cube_tangents = {
+        // Front
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+
+        // Back
+        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f,
+
+        // Left
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+
+        // Right
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+
+        // Top
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+
+        // Bottom
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+    };
+
+    std::vector<float> cube_bitangents = {
+        // Front
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+
+        // Back
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+
+        // Left
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+
+        // Right
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+
+        // Top
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+
+        // Bottom
+        0.0f, 0.0f,  1.0f,
+        0.0f, 0.0f,  1.0f,
+        0.0f, 0.0f,  1.0f,
+        0.0f, 0.0f,  1.0f,
+    };
+
+    std::vector<uint32_t> cube_indices = {
+        0,  1,  2,  0,  2,  3,  // Front
+        4,  5,  6,  4,  6,  7,  // Back
+        8,  9, 10,  8, 10, 11,  // Left
+        12, 13, 14, 12, 14, 15,  // Right
+        16, 17, 18, 16, 18, 19,  // Top
+        20, 21, 22, 20, 22, 23   // Bottom
+    };
+
+    this->populate_data(cube_positions, cube_texture_coords, cube_normals, cube_tangents, cube_bitangents, cube_indices);
 }
 
 void Omnific::Mesh::set_to_quad()
@@ -221,11 +373,28 @@ void Omnific::Mesh::set_to_quad()
         1, 2, 3
     };
 
-    std::vector<float> normals;
-    std::vector<float> tangents;
-    std::vector<float> bitangents;
+    std::vector<float> quad_normals = {
+        0.0f, 0.0f, 1.0f,  // +Z
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+    };
 
-    this->populate_data(quad_positions, quad_texture_coords, normals, tangents, bitangents, quad_indices);
+    std::vector<float> quad_tangents = {
+        1.0f, 0.0f, 0.0f,  // +X
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f,
+    };
+
+    std::vector<float> quad_bitangents = {
+        0.0f, 1.0f, 0.0f,  // +Y
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+        0.0f, 1.0f, 0.0f,
+    };
+
+    this->populate_data(quad_positions, quad_texture_coords, quad_normals, quad_tangents, quad_bitangents, quad_indices);
 }
 
 void Omnific::Mesh::populate_data(

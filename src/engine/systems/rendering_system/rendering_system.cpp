@@ -46,7 +46,7 @@ Omnific::RenderingSystem::RenderingSystem()
 	this->dummy_light_transform = std::shared_ptr<Transform>(new Transform());
 	this->dummy_light_transform->translate_y(5.0);
 	this->dummy_light_transform->translate_z(5.0);
-	this->dummy_light_transform->rotate_x(45.0);
+	this->dummy_light_transform->rotate_x(-45.0);
 	this->opengl_backend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
 	this->type = TYPE_STRING;
 }

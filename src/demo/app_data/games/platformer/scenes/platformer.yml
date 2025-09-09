@@ -1,11 +1,5 @@
-Entity:
-  name: "GlobalShader"
-  Model:
-    overriding_shader:
-      preset: "Shader::UNLIT"
 Entity: 
   name: "Floor"
-  parent: "GlobalShader"
   transform: 
     translation: [0.0, -2.0, 0.0]
     scale: [20.0, 1.0, 40.0]
@@ -14,7 +8,6 @@ Entity:
     albedo: "Image::#FFFFFF"
 Entity:
   name: "Player"
-  parent: "GlobalShader"
   transform:
     scale: [1.0, 2.0, 1.0]
   Model:
@@ -24,6 +17,7 @@ Entity:
   name: "Light"
   transform: 
     translation: [0.0, 20.0, 1.0]
+    rotation: [0.0, 45.0, 45.0]
   Model:
     mesh: "Mesh::cube"
     shader:

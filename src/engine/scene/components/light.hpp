@@ -48,7 +48,7 @@ namespace Omnific
 		LightMode mode = LightMode::DIRECTIONAL;
 		std::shared_ptr<Colour> colour;
 		std::shared_ptr<Colour> shadow_colour;
-		float intensity = 1.0;
+		float intensity = 3.0;
 		float range = 20.0;
 		float inner_cutoff_angle = 10.0;
 		float outer_cutoff_angle = 15.0;
