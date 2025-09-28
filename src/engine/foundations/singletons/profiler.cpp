@@ -143,6 +143,11 @@ std::string Omnific::Profiler::get_rendering_backend_name()
 	return Profiler::get_instance()->rendering_backend_name;
 }
 
+uint64_t Omnific::Profiler::get_frame_count()
+{
+	return Profiler::get_instance()->frame_count;
+}
+
 Omnific::Profiler* Omnific::Profiler::get_instance()
 {
 	if (instance == nullptr)

@@ -64,8 +64,8 @@ namespace Omnific
 		std::unordered_map<std::string, std::shared_ptr<System>> systems;
 
 		void initialize();
-		void run_loop();
-		static void run_loop_on_callback(void* arg);
+		void run_frame();
+		static void run_frame_on_callback(void* arg);
 		void sleep_for(uint32_t target_fps, std::shared_ptr<Clock> run_clock);
 		void finalize();
 	};

@@ -25,6 +25,7 @@
 #include <scene/components/camera.hpp>
 #include <scene/components/model.hpp>
 #include <foundations/singletons/profiler.hpp>
+#include <foundations/singletons/scene_storage.hpp>
 
 #define CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME "camera_system_on_update_frame_time"
 
@@ -40,8 +41,9 @@ void Omnific::CameraSystem::initialize()
 	Platform::get_logger().write("Initialized Camera System");
 }
 
-void Omnific::CameraSystem::on_update(std::shared_ptr<Scene> scene)
+void Omnific::CameraSystem::on_update()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->autofit_viewports_to_model_widths(scene);

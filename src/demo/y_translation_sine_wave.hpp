@@ -28,7 +28,7 @@ namespace OmnificDemo
 
 		/* custom public methods. */
         private:
-			float time;
+			float time = 0.0;
 			std::shared_ptr<Omnific::Transform> transform;
     };
 }

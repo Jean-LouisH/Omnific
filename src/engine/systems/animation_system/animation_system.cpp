@@ -26,6 +26,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <scene/components/sprite.hpp>
+#include <foundations/singletons/scene_storage.hpp>
 
 #define ANIMATION_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "animation_system_on_fixed_update_frame_time"
 
@@ -41,8 +42,9 @@ void Omnific::AnimationSystem::initialize()
 	Platform::get_logger().write("Initialized Animation System");
 }
 
-void Omnific::AnimationSystem::on_fixed_update(std::shared_ptr<Scene> scene)
+void Omnific::AnimationSystem::on_fixed_update()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(ANIMATION_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->update_sprites(scene);

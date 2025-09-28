@@ -29,27 +29,27 @@ Omnific::SceneStorage* Omnific::SceneStorage::instance = nullptr;
 void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
-	std::string scene_name = scene->get_name();
-
-	if (scene_storage->has_scene(scene_name))
-		scene_storage->remove_scene(scene_name);
-
-	scene_storage->scenes.emplace(scene_name, scene);
-	
-	scene_storage->active_scene_name = scene_name;
-	scene_storage->active_scene_changed = true;
-	std::string active_scene_filepath = Platform::get_file_access().find_path(scene_name);
-	scene_storage->active_scene_last_modified_time = Platform::get_file_access().get_last_modified_time(active_scene_filepath);
-	EventBus::clear_continuous_events();
-	EventBus::publish_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
-	Platform::get_logger().write("Loaded Scene: \"" + scene_name + "\"");
+	scene_storage->scene_change_request = scene;
+	if (scene_storage->active_scene_name == "")
+		scene_storage->service_scene_change_requests();
 }
 
 void Omnific::SceneStorage::load_scene(std::string scene_name)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
-	std::shared_ptr<Scene> scene(new Scene(scene_name));
-	scene_storage->load_scene(scene);
+	EventBus::publish_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED, {{"scene_name", scene_name}});
+	
+	if (scene_storage->scene_change_request == nullptr)
+	{
+		scene_storage->load_scene(std::make_shared<Scene>(scene_name));
+	}
+	else
+	{
+		if (scene_storage->scene_change_request->get_name() != scene_name)
+		{
+			scene_storage->load_scene(std::make_shared<Scene>(scene_name));
+		}
+	}
 }
 
 void Omnific::SceneStorage::remove_scene(std::string scene_name)
@@ -100,16 +100,47 @@ void Omnific::SceneStorage::reload_active_scene()
 	}
 }
 
+void Omnific::SceneStorage::service_scene_change_requests()
+{
+	SceneStorage* scene_storage = SceneStorage::get_instance();
+	std::shared_ptr<Scene> scene = scene_storage->scene_change_request;
+
+	if (scene != nullptr)
+	{
+		std::string scene_name = scene->get_name();
+
+		if (scene_storage->has_scene(scene_name))
+			scene_storage->remove_scene(scene_name);
+
+		scene_storage->scenes.emplace(scene_name, scene);
+		
+		scene_storage->active_scene_name = scene_name;
+		scene_storage->active_scene_changed = true;
+		std::string active_scene_filepath = Platform::get_file_access().find_path(scene_name);
+		scene_storage->active_scene_last_modified_time = Platform::get_file_access().get_last_modified_time(active_scene_filepath);
+		EventBus::clear_continuous_events();
+		EventBus::publish_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
+		Platform::get_logger().write("Changed to Scene: \"" + scene_name + "\"");
+		scene_storage->scene_change_request = nullptr;
+	}
+}
+
 std::shared_ptr<Omnific::Scene> Omnific::SceneStorage::get_active_scene()
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	std::shared_ptr<Scene> scene = scene_storage->scenes.at(scene_storage->active_scene_name);
+	const int monitor_time_period = 1;
+	scene_storage->modified_active_scene_monitor_clock->set_end();
 
-	if (Platform::get_file_access().get_last_modified_time(Platform::get_file_access().find_path(scene->get_name())) != 
-		scene_storage->active_scene_last_modified_time)
+	if (scene_storage->modified_active_scene_monitor_clock->get_delta_in_seconds() >= monitor_time_period)
 	{
-		scene_storage->reload_active_scene();
-		scene = scene_storage->scenes.at(scene_storage->active_scene_name);
+		scene_storage->modified_active_scene_monitor_clock->set_start();
+		if (Platform::get_file_access().get_last_modified_time(Platform::get_file_access().find_path(scene->get_name())) != 
+			scene_storage->active_scene_last_modified_time)
+		{
+			scene_storage->reload_active_scene();
+			scene = scene_storage->scenes.at(scene_storage->active_scene_name);
+		}
 	}
 
 	return scene;
@@ -165,6 +196,8 @@ Omnific::SceneStorage* Omnific::SceneStorage::get_instance()
 		instance = new SceneStorage();
 		std::shared_ptr<Scene> dummy_scene(std::shared_ptr<Scene>(new Scene()));
 		instance->scenes.emplace(dummy_scene->get_name(), dummy_scene);
+		instance->modified_active_scene_monitor_clock = std::make_shared<Clock>();
+		instance->modified_active_scene_monitor_clock->set_start();
 	}
 	return instance;
 }

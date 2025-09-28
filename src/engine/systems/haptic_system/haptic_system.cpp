@@ -22,6 +22,7 @@
 
 #include "haptic_system.hpp"
 #include "foundations/singletons/platform/platform.hpp"
+#include <foundations/singletons/scene_storage.hpp>
 #include "foundations/singletons/event_bus.hpp"
 #include <foundations/singletons/profiler.hpp>
 #include <SDL.h>
@@ -41,8 +42,9 @@ void Omnific::HapticSystem::initialize()
 	Platform::get_logger().write("Initialized Haptic System");
 }
 
-void Omnific::HapticSystem::on_output(std::shared_ptr<Scene> scene)
+void Omnific::HapticSystem::on_output()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(HAPTIC_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	Inputs& inputs = Platform::get_inputs();

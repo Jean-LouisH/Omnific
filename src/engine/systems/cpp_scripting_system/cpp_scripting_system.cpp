@@ -57,7 +57,7 @@ void Omnific::CPPScriptingSystem::initialize()
 
 void Omnific::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> scene)
 {
-	if (scene != nullptr)
+	if (scene != nullptr && !this->has_modules_loaded_on_this_update)
 	{
 		std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> cpp_script_definitions;
 		for (auto& [class_name, registerable] : ClassRegistry::query_all<CPPScriptInstance>())
@@ -88,15 +88,17 @@ void Omnific::CPPScriptingSystem::load_script_modules(std::shared_ptr<Scene> sce
 				}
 			}
 		}
+		this->has_modules_loaded_on_this_update = true;
 	}
 }
 
-void Omnific::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_input()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -107,12 +109,13 @@ void Omnific::CPPScriptingSystem::on_input(std::shared_ptr<Scene> scene)
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_entity_start()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -123,12 +126,13 @@ void Omnific::CPPScriptingSystem::on_entity_start(std::shared_ptr<Scene> scene)
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_early_update(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_early_update()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -139,12 +143,13 @@ void Omnific::CPPScriptingSystem::on_early_update(std::shared_ptr<Scene> scene)
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_update(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_update()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -155,11 +160,12 @@ void Omnific::CPPScriptingSystem::on_update(std::shared_ptr<Scene> scene)
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_fixed_update(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_fixed_update()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -169,12 +175,13 @@ void Omnific::CPPScriptingSystem::on_fixed_update(std::shared_ptr<Scene> scene)
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_late_update(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_late_update()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -185,27 +192,30 @@ void Omnific::CPPScriptingSystem::on_late_update(std::shared_ptr<Scene> scene)
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_entity_finish(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_entity_finish()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
 	{
 		execute_queued_methods(scene->get_finish_entity_queue(), scene, "on_entity_finish");
 	}
+	this->has_modules_loaded_on_this_update = false;
 	frame_time_clock->set_end();
 }
 
-void Omnific::CPPScriptingSystem::on_output(std::shared_ptr<Scene> scene)
+void Omnific::CPPScriptingSystem::on_output()
 {
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CPP_SCRIPTING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
-	if (this->has_scene_changed(scene))
+	if (this->has_scene_changed())
 		this->load_script_modules(scene);
 
 	if (scene != nullptr)
@@ -235,7 +245,9 @@ void Omnific::CPPScriptingSystem::bind_and_call(
 
 			Omnific::CPPEntityContext::bind_entity(entity_id);
 
-			CPPEntityContext::bind_time_delta(Profiler::get_clock(TOTAL_LOOP_FRAME_TIME_CLOCK_NAME)->get_delta_in_seconds());
+			std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(FRAME_TIME_CLOCK_NAME);
+			frame_time_clock->set_end();
+			CPPEntityContext::bind_time_delta(frame_time_clock->get_delta_in_seconds());
 
 			switch (this->loop_event_indices.at(method_name))
 			{

@@ -37,6 +37,7 @@
 #define OMNIFIC_EVENT_COMPONENT_ADDED "component_added"
 #define OMNIFIC_EVENT_COMPONENT_REMOVED "component_removed"
 #define OMNIFIC_EVENT_SCENE_MODIFIED "scene_modified"
+#define OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED "change_scene_requested"
 #define OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED "active_scene_changed"
 #define OMNIFIC_EVENT_SCENE_LOADED "scene_loaded"
 #define OMNIFIC_EVENT_SCENE_REMOVED "scene_removed"

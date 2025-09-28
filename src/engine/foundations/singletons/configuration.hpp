@@ -52,8 +52,7 @@ namespace Omnific
 
 		struct PerformanceSettings
 		{
-			uint32_t target_update_fps;
-			uint32_t target_output_fps;
+			uint32_t target_fps;
 			uint32_t fixed_frame_time;
 			bool enable_multithreading;
 		} performance_settings;
@@ -72,7 +71,6 @@ namespace Omnific
 		} enabled_systems;
 
 		static void load_from_file(std::string boot_filepath);
-		static uint32_t get_max_target_fps();
 
 		static Configuration* get_instance();
 	private:

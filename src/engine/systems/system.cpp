@@ -33,42 +33,42 @@ void Omnific::System::initialize()
 
 }
 
-void Omnific::System::on_input(std::shared_ptr<Scene> scene)
+void Omnific::System::on_input()
 {
 
 }
 
-void Omnific::System::on_entity_start(std::shared_ptr<Scene> scene)
+void Omnific::System::on_entity_start()
 {
 
 }
 
-void Omnific::System::on_early_update(std::shared_ptr<Scene> scene)
+void Omnific::System::on_early_update()
 {
 
 }
 
-void Omnific::System::on_update(std::shared_ptr<Scene> scene)
+void Omnific::System::on_update()
 {
 
 }
 
-void Omnific::System::on_fixed_update(std::shared_ptr<Scene> scene)
+void Omnific::System::on_fixed_update()
 {
 
 }
 
-void Omnific::System::on_late_update(std::shared_ptr<Scene> scene)
+void Omnific::System::on_late_update()
 {
 
 }
 
-void Omnific::System::on_entity_finish(std::shared_ptr<Scene> scene)
+void Omnific::System::on_entity_finish()
 {
 
 }
 
-void Omnific::System::on_output(std::shared_ptr<Scene> scene)
+void Omnific::System::on_output()
 {
 
 }
@@ -83,14 +83,12 @@ bool Omnific::System::get_is_initialized()
 	return this->is_initialized;
 }
 
-bool Omnific::System::has_scene_changed(std::shared_ptr<Scene> scene)
+bool Omnific::System::has_scene_changed()
 {
-	bool active_scene_changed = this->active_scene_id != scene->get_id();
+	return EventBus::query_event_count(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
+}
 
-	if (active_scene_changed)
-		this->active_scene_id = scene->get_id();
-
-	return (EventBus::query_event_count(OMNIFIC_EVENT_COMPONENT_ADDED) ||
-		EventBus::query_event_count(OMNIFIC_EVENT_COMPONENT_REMOVED) ||
-		active_scene_changed);
+bool Omnific::System::have_components_changed()
+{
+	return EventBus::query_event_count(OMNIFIC_EVENT_SCENE_MODIFIED) || this->has_scene_changed();
 }

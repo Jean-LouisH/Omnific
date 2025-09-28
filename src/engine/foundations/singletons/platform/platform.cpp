@@ -26,42 +26,6 @@
 #include "foundations/constants.hpp"
 #include <thread>
 
-Omnific::Clock::Clock()
-{
-	this->clock_name = "unnamed";
-}
-
-Omnific::Clock::Clock(std::string clock_name)
-{
-	this->clock_name = clock_name;
-}
-
-std::string Omnific::Clock::get_name()
-{
-	return this->clock_name;
-}
-
-uint64_t Omnific::Clock::get_delta()
-{
-	return this->delta;
-}
-
-float Omnific::Clock::get_delta_in_seconds()
-{
-	return this->delta / MS_IN_S;
-}
-
-void Omnific::Clock::set_start()
-{
-	this->start = SDL_GetTicks();
-}
-
-void Omnific::Clock::set_end()
-{
-	this->finish = SDL_GetTicks();
-	this->delta = finish - start;
-}
-
 Omnific::Platform* Omnific::Platform::instance = nullptr;
 
 void Omnific::Platform::initialize(

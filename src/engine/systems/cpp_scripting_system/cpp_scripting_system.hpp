@@ -56,19 +56,20 @@ namespace Omnific
 
 		virtual void initialize() override;
 		virtual void finalize() override;
-		virtual void on_input(std::shared_ptr<Scene> scene) override;
-		virtual void on_entity_start(std::shared_ptr<Scene> scene) override;
-		virtual void on_early_update(std::shared_ptr<Scene> scene) override;
-		virtual void on_update(std::shared_ptr<Scene> scene) override;
-		virtual void on_fixed_update(std::shared_ptr<Scene> scene) override;
-		virtual void on_late_update(std::shared_ptr<Scene> scene) override;
-		virtual void on_entity_finish(std::shared_ptr<Scene> scene) override;
-		virtual void on_output(std::shared_ptr<Scene> scene) override;
+		virtual void on_input() override;
+		virtual void on_entity_start() override;
+		virtual void on_early_update() override;
+		virtual void on_update() override;
+		virtual void on_fixed_update() override;
+		virtual void on_late_update() override;
+		virtual void on_entity_finish() override;
+		virtual void on_output() override;
 
 		void load_script_modules(std::shared_ptr<Scene> scene);
 	private:
 		std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> cpp_script_instances;
 		std::unordered_map<std::string, std::string> instances_with_methods;
+		bool has_modules_loaded_on_this_update = false;
 
 		void bind_and_call(
 			std::shared_ptr<ScriptCollection> script_collection,

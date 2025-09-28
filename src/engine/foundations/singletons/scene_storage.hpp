@@ -27,6 +27,7 @@
 #include "foundations/aliases.hpp"
 #include <memory>
 #include <engine_api.hpp>
+#include <foundations/singletons/platform/platform.hpp>
 
 namespace Omnific
 {
@@ -39,6 +40,7 @@ namespace Omnific
 		static void load_scene(std::string scene_name);
 		static void remove_scene(std::string scene_name);
 		static void reload_active_scene();
+		static void service_scene_change_requests();
 		static std::shared_ptr<Scene> get_active_scene();
 		static std::string get_active_scene_name();
 		static bool has_no_scenes();
@@ -55,5 +57,6 @@ namespace Omnific
 		std::shared_ptr<Scene> scene_change_request;
 		bool active_scene_changed = false;
 		std::string active_scene_last_modified_time;
+		std::shared_ptr<Clock> modified_active_scene_monitor_clock;
 	};
 }

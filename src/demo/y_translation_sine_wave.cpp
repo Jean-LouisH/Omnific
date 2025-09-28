@@ -24,7 +24,6 @@
 
 void OmnificDemo::YTranslationSineWave::on_entity_start()
 {
-    this->time = 0.0;
     this->transform = Omnific::CPPEntityContext::get_entity()->get_transform();
 }
 

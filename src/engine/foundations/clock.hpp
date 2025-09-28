@@ -22,41 +22,27 @@
 
 #pragma once
 
-#include <queue>
-#include <memory>
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
-#include <scene/components/audio_source.hpp>
+#include <stdint.h>
+#include <string>
+#include <engine_api.hpp>
 
 namespace Omnific
 {
-	/* Processes Components that enable playback of audio and outputs its waveforms. */
-	class AudioSystem : public System
+	class OMNIFIC_ENGINE_API Clock
 	{
 	public:
-		AudioSystem();
-		~AudioSystem();
-
-		static constexpr const char* TYPE_STRING = "AudioSystem";
-
-		virtual Registerable* instance() override
-		{
-			return new AudioSystem(*this);
-		}
-
-		virtual void initialize() override;
-		virtual void on_output() override;
-		virtual void finalize() override;
-
-		SDL_AudioDeviceID device_id;
+		Clock();
+		Clock(std::string clock_name);
+		/* Returns delta time in Milliseconds */
+		std::string get_name();
+		uint64_t get_delta();
+		float get_delta_in_seconds();
+		void set_start();
+		void set_end();
 	private:
-		void resample_and_replace_audio(std::shared_ptr<AudioSource> audio_source);
-		std::vector<int16_t> mix_buffer;
-		const int mix_sample_frequency = 44100;
-		const int mix_samples_per_channel_per_frame = 1024;
-		const int mix_channel_count = 2;
-		const int bytes_per_sample = sizeof(int16_t);
-		const int mix_samples_per_frame = this->mix_samples_per_channel_per_frame * this->mix_channel_count;
+		std::string clock_name;
+		uint64_t delta = 0; //In milliseconds.
+		uint64_t start = 0;
+		uint64_t finish = 0;
 	};
 }
-

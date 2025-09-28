@@ -32,28 +32,10 @@
 #include "network_access.hpp"
 #include <string>
 #include <engine_api.hpp>
+#include <foundations/clock.hpp>
 
 namespace Omnific
 {
-
-	class OMNIFIC_ENGINE_API Clock
-	{
-	public:
-		Clock();
-		Clock(std::string clock_name);
-		/* Returns delta time in Milliseconds */
-		std::string get_name();
-		uint64_t get_delta();
-		float get_delta_in_seconds();
-		void set_start();
-		void set_end();
-	private:
-		std::string clock_name;
-		uint64_t delta = 0; //In milliseconds.
-		uint64_t start = 0;
-		uint64_t finish = 0;
-	};
-
 	/* Singleton for objects related to Operating System utilities. */
 	class OMNIFIC_ENGINE_API Platform
 	{

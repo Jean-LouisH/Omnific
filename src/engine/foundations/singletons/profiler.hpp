@@ -52,6 +52,7 @@ namespace Omnific
 		static uint64_t get_lag_count();
 
 		static std::string get_rendering_backend_name();
+		static uint64_t get_frame_count();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Clock>> clocks;
 		std::unordered_map<std::string, bool> is_removable_map;

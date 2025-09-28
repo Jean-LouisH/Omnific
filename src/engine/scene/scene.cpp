@@ -63,6 +63,9 @@ Omnific::Scene::Scene(std::string filepath)
 	this->id = UIDGenerator::get_new_uid();
 	this->name = "Scene (ID:" + std::to_string(this->id) + ")";
 	this->deserialize_from(filepath);
+	this->fps_monitor_clock = std::make_shared<Clock>();
+	this->fps_monitor_clock->set_start();
+
 }
 
 void Omnific::Scene::serialize_to(std::string filepath)
@@ -203,8 +206,12 @@ void Omnific::Scene::add_entity(std::shared_ptr<Entity> entity)
 			this->entities.emplace(entity->id, entity);
 			this->last_entity_id = entity->id;
 			this->set_entity_name(entity->id, entity->name);
-			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
-			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+
+			if (this->is_active())
+			{
+				EventBus::publish_event(OMNIFIC_EVENT_ENTITY_ADDED);
+				EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+			}
 		}
 	}
 }
@@ -303,7 +310,11 @@ void Omnific::Scene::set_entity_name(EntityID entity_id, std::string name)
 		this->entity_names.erase(entity->get_name());
 		entity->name = name;
 		this->entity_names.emplace(name, entity_id);
-		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_NAME_SET);
+
+		if (this->is_active())
+		{
+			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_NAME_SET);
+		}
 	}
 }
 
@@ -314,7 +325,11 @@ void Omnific::Scene::add_entity_tag(EntityID entity_id, std::string tag)
 	{
 		entity->tags.push_back(tag);
 		this->entity_tags.emplace(tag, entity_id);
-		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_TAG_SET);
+
+		if (this->is_active())
+		{
+			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_TAG_SET);
+		}
 	}
 }
 
@@ -346,9 +361,12 @@ void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component
 				this->component_index_caches.emplace(type, component_indices);
 			}
 
-			EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
-			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_MODIFIED);
-			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+			if (this->is_active())
+			{
+				EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_ADDED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
+				EventBus::publish_event(OMNIFIC_EVENT_ENTITY_MODIFIED);
+				EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+			}
 
 			if (component->is_renderable())
 			{
@@ -415,8 +433,12 @@ void Omnific::Scene::remove_entity(EntityID entity_id)
 		/* Remove the entity itself*/
 		this->entity_names.erase(entity->get_name());
 		this->entities.erase(entity_id);
-		EventBus::publish_event(OMNIFIC_EVENT_ENTITY_REMOVED);
-		EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+
+		if (this->is_active())
+		{
+			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_REMOVED);
+			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+		}
 	}
 }
 
@@ -441,7 +463,10 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 				{
 					if (component->get_id() == component_id)
 					{
-						EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
+						if (this->is_active())
+						{
+							EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
+						}
 
 						/*Blanks out the component instead of erasing so index caches 
 						do not have to be rebuilt. */
@@ -490,8 +515,11 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 				}
 			}
 
-			EventBus::publish_event(OMNIFIC_EVENT_ENTITY_MODIFIED);
-			EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+			if (this->is_active())
+			{
+				EventBus::publish_event(OMNIFIC_EVENT_ENTITY_MODIFIED);
+				EventBus::publish_event(OMNIFIC_EVENT_SCENE_MODIFIED);
+			}
 		}
 	}
 }
@@ -565,6 +593,20 @@ void Omnific::Scene::clear_finish_entity_queue()
 {
 	while (!this->finish_entities_queue.empty())
 		this->finish_entities_queue.pop();
+}
+
+bool Omnific::Scene::is_active()
+{
+	for (auto& change_scene_request_event : EventBus::query_events(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED))
+	{
+		if (change_scene_request_event.get_parameters().strings.at("scene_name") == this->name)
+		{
+			return true;
+		}
+	}
+
+	return SceneStorage::get_active_scene_name() == this->name || 
+		SceneStorage::get_active_scene_name() == "";
 }
 
 std::queue<Omnific::EntityID> Omnific::Scene::get_start_entity_queue()
@@ -991,11 +1033,18 @@ void Omnific::Scene::update_debug_statistics()
 	std::string debug_string = Profiler::get_clock_deltas_to_string_by_tag("total");
 	std::shared_ptr<GUI> debug_gui = this->get_component_by_type<GUI>(this->get_entity_by_name("debug_gui_entity")->get_id());
 	Inputs& inputs = Platform::get_inputs();
+	const int monitor_time_period = 1;
 
-	if (debug_gui->get_alpha_in_percentage() > 0.1)
+	this->fps_monitor_clock->set_end();
+
+	if (fps_monitor_clock->get_delta_in_seconds() >= monitor_time_period)
 	{
-		debug_string += Profiler::get_rendering_backend_name();
-		debug_gui->set_to_label(debug_string);
+		fps_monitor_clock->set_start();
+		if (debug_gui->get_alpha_in_percentage() > 0.1)
+		{
+			debug_string += Profiler::get_rendering_backend_name();
+			debug_gui->set_to_label(debug_string);
+		}
 	}
 
 	if (inputs.is_on_release("f3"))

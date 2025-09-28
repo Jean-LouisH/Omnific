@@ -37,6 +37,7 @@
 #include "scene/components/component.hpp"
 #include "entity.hpp"
 #include <tiny_gltf.h>
+#include <foundations/clock.hpp>
 
 namespace Omnific
 {
@@ -68,6 +69,8 @@ namespace Omnific
 
 		void clear_start_entity_queue();
 		void clear_finish_entity_queue();
+
+		bool is_active();
 
 		std::queue<EntityID> get_start_entity_queue();
 		std::queue<EntityID> get_finish_entity_queue();
@@ -133,6 +136,8 @@ namespace Omnific
 	private:
 		SceneID id = 0;
 		std::string name;
+
+		std::shared_ptr<Clock> fps_monitor_clock;
 
 		/*Entities are stored in maps for fast random access
 		when Components invoke changes in other Components

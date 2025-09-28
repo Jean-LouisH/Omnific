@@ -20,43 +20,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "clock.hpp"
+#include "constants.hpp"
+#include <string>
+#include "SDL.h"
 
-#include <queue>
-#include <memory>
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
-#include <scene/components/audio_source.hpp>
-
-namespace Omnific
+Omnific::Clock::Clock()
 {
-	/* Processes Components that enable playback of audio and outputs its waveforms. */
-	class AudioSystem : public System
-	{
-	public:
-		AudioSystem();
-		~AudioSystem();
-
-		static constexpr const char* TYPE_STRING = "AudioSystem";
-
-		virtual Registerable* instance() override
-		{
-			return new AudioSystem(*this);
-		}
-
-		virtual void initialize() override;
-		virtual void on_output() override;
-		virtual void finalize() override;
-
-		SDL_AudioDeviceID device_id;
-	private:
-		void resample_and_replace_audio(std::shared_ptr<AudioSource> audio_source);
-		std::vector<int16_t> mix_buffer;
-		const int mix_sample_frequency = 44100;
-		const int mix_samples_per_channel_per_frame = 1024;
-		const int mix_channel_count = 2;
-		const int bytes_per_sample = sizeof(int16_t);
-		const int mix_samples_per_frame = this->mix_samples_per_channel_per_frame * this->mix_channel_count;
-	};
+	this->clock_name = "unnamed";
 }
 
+Omnific::Clock::Clock(std::string clock_name)
+{
+	this->clock_name = clock_name;
+}
+
+std::string Omnific::Clock::get_name()
+{
+	return this->clock_name;
+}
+
+uint64_t Omnific::Clock::get_delta()
+{
+	return this->delta;
+}
+
+float Omnific::Clock::get_delta_in_seconds()
+{
+	return this->delta / MS_IN_S;
+}
+
+void Omnific::Clock::set_start()
+{
+	this->start = SDL_GetTicks();
+}
+
+void Omnific::Clock::set_end()
+{
+	this->finish = SDL_GetTicks();
+	this->delta = finish - start;
+}

@@ -61,14 +61,14 @@ namespace Omnific
         ~System();
 
         virtual void initialize();
-        virtual void on_input(std::shared_ptr<Scene> scene);
-        virtual void on_entity_start(std::shared_ptr<Scene> scene);
-        virtual void on_early_update(std::shared_ptr<Scene> scene);
-        virtual void on_update(std::shared_ptr<Scene> scene);
-        virtual void on_fixed_update(std::shared_ptr<Scene> scene);
-        virtual void on_late_update(std::shared_ptr<Scene> scene);
-        virtual void on_entity_finish(std::shared_ptr<Scene> scene);
-        virtual void on_output(std::shared_ptr<Scene> scene);
+        virtual void on_entity_start();
+        virtual void on_input();
+        virtual void on_early_update();
+        virtual void on_update();
+        virtual void on_fixed_update();
+        virtual void on_late_update();
+        virtual void on_output();
+        virtual void on_entity_finish();
         virtual void finalize();
         bool get_is_initialized();
 
@@ -76,7 +76,8 @@ namespace Omnific
     	std::unordered_map<std::string, LoopEventIndex> loop_event_indices;
         bool is_initialized = false;
 
-        bool has_scene_changed(std::shared_ptr<Scene> scene);
+        bool has_scene_changed();
+        bool have_components_changed();
     private:
         SceneID active_scene_id = 0;
 
