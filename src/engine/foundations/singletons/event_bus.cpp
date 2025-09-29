@@ -217,7 +217,7 @@ std::vector<Omnific::Event> Omnific::EventBus::query_events_with_number_paramete
 		if (parameter.numbers.count(event_parameter_key))
 		{
 			double value = parameter.numbers.at(event_parameter_key);
-			if (value + epsilon < parameter_value && parameter_value < value - epsilon)
+			if (value + epsilon > parameter_value && parameter_value > value - epsilon)
 			{
 				matched_events.push_back(event);
 			}

@@ -47,6 +47,13 @@
 #define OMNIFIC_EVENT_ENTITY_IS_COLLIDING "entity_is_colliding"
 #define OMNIFIC_EVENT_ENTITY_IS_OFF_COLLISION "entity_is_off_collision"
 
+#define OMNIFIC_EVENT_KEY_ON_PRESS "key_on_press"
+#define OMNIFIC_EVENT_KEY_PRESSED "key_pressed"
+#define OMNIFIC_EVENT_KEY_ON_RELEASE "key_on_release"
+#define OMNIFIC_EVENT_BUTTON_ON_PRESS "button_on_press"
+#define OMNIFIC_EVENT_BUTTON_PRESSED "button_pressed"
+#define OMNIFIC_EVENT_BUTTON_ON_RELEASE "button_on_release"
+
 #define OMNIFIC_EVENT_HAPTIC_SIGNAL "haptic_signal"
 
 #define OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW "file_dropped_on_window"

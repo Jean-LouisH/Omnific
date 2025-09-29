@@ -48,6 +48,9 @@ namespace Omnific
 		bool is_on_double_press(std::string input_code, unsigned int time_interval);
 		bool is_on_double_press(std::vector<std::string> input_codes, unsigned int timer_interval);
 		bool is_on_double_press(std::vector<std::string> input_codes, unsigned int timer_interval, PlayerID player_id);
+		bool is_pressed_event(std::string input_code);
+		bool is_pressed_event(std::vector<std::string> input_codes);
+		bool is_pressed_event(std::vector<std::string> input_codes, PlayerID player_id);
 		bool is_pressed(std::string input_code);
 		bool is_pressed(std::vector<std::string> input_codes);
 		bool is_pressed(std::vector<std::string> input_codes, PlayerID player_id);

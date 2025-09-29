@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "input.hpp"
+#include <foundations/singletons/event_bus.hpp>
 
 Omnific::Inputs::Inputs()
 {
@@ -192,21 +193,17 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID
 		std::string input_code = input_codes.at(i);
 
 		if (this->keyboard_events_by_string.count(input_code))
-		{
-			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
-			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN)
-					return true;
-		}
+			for (auto& event: EventBus::query_events_with_number_parameter(OMNIFIC_EVENT_KEY_ON_PRESS, "scancode", this->keyboard_events_by_string.at(input_code)))
+				return true;
 
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
-						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
-						return true;
+					for (auto& event: EventBus::query_events_with_number_parameter(OMNIFIC_EVENT_BUTTON_ON_PRESS, "scancode", controller_button_code))
+						if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+							return true;
 		}
 	}
 
@@ -273,6 +270,47 @@ bool Omnific::Inputs::is_pressed(std::vector<std::string> input_codes, PlayerID 
 	return false;
 }
 
+
+bool Omnific::Inputs::is_pressed_event(std::string input_code)
+{
+	std::vector<std::string> input_codes;
+	input_codes.push_back(input_code);
+	return this->is_on_press(input_codes);
+}
+
+bool Omnific::Inputs::is_pressed_event(std::vector<std::string> input_codes)
+{
+	return this->is_on_press(input_codes, 0);
+}
+
+bool Omnific::Inputs::is_pressed_event(std::vector<std::string> input_codes, PlayerID player_id)
+{
+	for (int i = 0; i < input_codes.size(); i++)
+	{
+		std::string input_code = input_codes.at(i);
+
+		if (this->keyboard_events_by_string.count(input_code))
+		{
+			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
+			if (this->keyboard_events.count(sdl_key_code))
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN)
+					return true;
+		}
+
+		if (this->controller_buttons_by_string.count(input_code))
+		{
+			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			if (this->controller_button_events.count(controller_button_code))
+				if (this->get_controller_player_map().count(player_id))
+					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
+						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+						return true;
+		}
+	}
+
+	return false;
+}
+
 bool Omnific::Inputs::is_on_release(std::string input_code)
 {
 	std::vector<std::string> input_codes;
@@ -292,21 +330,17 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, Player
 		std::string input_code = input_codes.at(i);
 
 		if (this->keyboard_events_by_string.count(input_code))
-		{
-			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
-			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYUP)
-					return true;
-		}
+			for (auto& event: EventBus::query_events_with_number_parameter(OMNIFIC_EVENT_KEY_ON_RELEASE, "scancode", this->keyboard_events_by_string.at(input_code)))
+				return true;
 
 		if (this->controller_buttons_by_string.count(input_code))
 		{
 			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONUP &&
-						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
-						return true;
+					for (auto& event: EventBus::query_events_with_number_parameter(OMNIFIC_EVENT_BUTTON_ON_RELEASE, "scancode", controller_button_code))
+						if (this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
+							return true;
 		}
 	}
 
@@ -593,11 +627,22 @@ void Omnific::Inputs::poll_input_events()
 			break;
 
 		case SDL_KEYDOWN:
+			
+			if (!EventBus::has_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.keysym.scancode)))
+			{
+				EventBus::publish_event(OMNIFIC_EVENT_KEY_ON_PRESS, {}, {{"scancode", SDLEvents.key.keysym.scancode}});
+				EventBus::publish_event(OMNIFIC_EVENT_KEY_PRESSED, {}, {}, {}, {}, std::to_string((int)SDLEvents.key.keysym.scancode), true);
+			}
 			this->held_keys.insert(SDLEvents.key.keysym.scancode);
 			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
 			this->has_detected_input_changes = true;
 			break;
 		case SDL_KEYUP:
+			if (EventBus::has_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.keysym.scancode)))
+			{
+				EventBus::publish_event(OMNIFIC_EVENT_KEY_ON_RELEASE, {}, {{"scancode", SDLEvents.key.keysym.scancode}});
+				EventBus::remove_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.keysym.scancode));
+			}
 			this->held_keys.erase(SDLEvents.key.keysym.scancode);
 			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
 			this->has_detected_input_changes = true;

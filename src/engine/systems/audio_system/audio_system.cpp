@@ -221,9 +221,9 @@ void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::A
 
 	const int half_max_possible_value = std::pow(2, 8 * this->bytes_per_sample) / 2;
 
-	logger.write("Audio asset '" + audio->get_name() + "' has an input sample rate of " + 
+	logger.write("Warning: Audio Resource '" + audio->get_name() + "' has an input sample rate of " + 
 	std::to_string(audio->sample_rate) + " vs the output sample rate of " + std::to_string(this->mix_sample_frequency) + 
-	". Resampling in progress... " 
+	". Resampling is needed. For less wait times in the future, convert all Audio files to match the output sample rate. Resampling in progress... " 
 	);
 
     // Convert int16_t to float
