@@ -29,6 +29,7 @@ Omnific::SceneStorage* Omnific::SceneStorage::instance = nullptr;
 void Omnific::SceneStorage::load_scene(std::shared_ptr<Scene> scene)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
+	EventBus::publish_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED, {{"scene_name", scene->get_name()}});
 	scene_storage->scene_change_request = scene;
 	if (scene_storage->active_scene_name == "")
 		scene_storage->service_scene_change_requests();
@@ -38,18 +39,9 @@ void Omnific::SceneStorage::load_scene(std::string scene_name)
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
 	EventBus::publish_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED, {{"scene_name", scene_name}});
-	
-	if (scene_storage->scene_change_request == nullptr)
-	{
-		scene_storage->load_scene(std::make_shared<Scene>(scene_name));
-	}
-	else
-	{
-		if (scene_storage->scene_change_request->get_name() != scene_name)
-		{
-			scene_storage->load_scene(std::make_shared<Scene>(scene_name));
-		}
-	}
+	scene_storage->scene_change_request_name = scene_name;
+	if (scene_storage->active_scene_name == "")
+		scene_storage->service_scene_change_requests();
 }
 
 void Omnific::SceneStorage::remove_scene(std::string scene_name)
@@ -103,7 +95,12 @@ void Omnific::SceneStorage::reload_active_scene()
 void Omnific::SceneStorage::service_scene_change_requests()
 {
 	SceneStorage* scene_storage = SceneStorage::get_instance();
-	std::shared_ptr<Scene> scene = scene_storage->scene_change_request;
+	std::shared_ptr<Scene> scene;
+
+	if (scene_storage->scene_change_request_name != "")
+		scene = std::make_shared<Scene>(scene_storage->scene_change_request_name);
+	else
+		scene = scene_storage->scene_change_request;
 
 	if (scene != nullptr)
 	{

@@ -55,6 +55,7 @@ namespace Omnific
 		std::unordered_map<std::string, std::shared_ptr<Scene>> removed_scenes;
 		std::string active_scene_name;
 		std::shared_ptr<Scene> scene_change_request;
+		std::string scene_change_request_name;
 		bool active_scene_changed = false;
 		std::string active_scene_last_modified_time;
 		std::shared_ptr<Clock> modified_active_scene_monitor_clock;
