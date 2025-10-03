@@ -256,7 +256,7 @@ void Omnific::Scene::merge_another_scene_to_parent_entity(std::shared_ptr<Scene>
 			other_scene->remove_entity(debug_gui_entity->get_id());
 
 		/* Transfer Entities and their Components */
-		std::unordered_map<EntityID, std::shared_ptr<Entity>>& other_scene_entities = other_scene->get_entities();
+		std::unordered_map<EntityID, std::shared_ptr<Entity>> other_scene_entities = other_scene->get_entities();
 
 		/*Entities without parents are listed before others.*/
 		std::vector<std::shared_ptr<Entity>> sorted_entities;
@@ -650,7 +650,7 @@ std::shared_ptr<Omnific::Entity> Omnific::Scene::get_last_entity()
 	return this->entities.at(this->last_entity_id);
 }
 
-std::unordered_map<Omnific::EntityID, std::shared_ptr<Omnific::Entity>>& Omnific::Scene::get_entities()
+std::unordered_map<Omnific::EntityID, std::shared_ptr<Omnific::Entity>> Omnific::Scene::get_entities()
 {
 	return this->entities;
 }

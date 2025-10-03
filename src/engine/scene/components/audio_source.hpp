@@ -30,7 +30,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "foundations/resources/audio.hpp"
+#include "foundations/resources/audio_clip.hpp"
 #include "scene/components/component.hpp"
 
 
@@ -47,7 +47,14 @@ namespace Omnific
 			STOPPED
 		};
 
-		friend class AudioSystem;
+		enum class AudioType
+		{
+			AUDIO_CLIP,
+			MUSIC_SYNTHESIS,
+			SOUND_FX_SYNTHESIS,
+			AMBIANCE_SYNTHESIS,
+			SPEECH_SYNTHESIS
+		};
 
 		AudioSource()
 		{
@@ -63,12 +70,15 @@ namespace Omnific
 			return clone;
 		}
 
+		bool is_capturing_waveform = false;
+		bool is_looping = false;
+
 		virtual void deserialize(YAML::Node yaml_node);
-		void add_audio(std::shared_ptr<Audio> audio);
-		void clear_audio();
-		void remove_audio(std::string audio_name);
-		void play_audio(std::string audio_name);
-		void play_audio_infinitely(std::string audio_name);
+		void add_audio_clip(std::shared_ptr<AudioClip> audio_clip);
+		void clear_audio_clip();
+		void remove_audio_clip(std::string audio_clip_name);
+		void play_audio_clip(std::string audio_clip_name);
+		void play_audio_clip_infinitely(std::string audio_clip_name);
 		void play();
 		void play_infinitely();
 		void pause();
@@ -80,17 +90,19 @@ namespace Omnific
 		float get_volume();
 		float get_current_playback_time();
 		PlaybackState get_playback_state();
-		std::vector<std::string> get_audio_names();
-		std::shared_ptr<Audio> get_active_audio();
-		std::shared_ptr<Audio> get_audio_by_name(std::string audio_name);
+		std::vector<std::string> get_audio_clip_names();
+		std::shared_ptr<AudioClip> get_active_audio_clip();
+		std::shared_ptr<AudioClip> get_audio_clip_by_name(std::string audio_clip_name);
+		std::vector<int16_t>& get_current_waveform();
 
-		bool is_looping = false;
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Audio>> audio_collection;
-		std::string active_audio_name;
+		std::unordered_map<std::string, std::shared_ptr<AudioClip>> audio_clip_collection;
+		std::vector<int16_t> current_waveform;
+		std::string active_audio_clip_name;
 		PlaybackState playback_state;
 		float volume = 1.0;
 		float playback_time = 0.0;
+		AudioType audio_type = AudioType::AUDIO_CLIP;
 
 		float clamp(float value);
 	};

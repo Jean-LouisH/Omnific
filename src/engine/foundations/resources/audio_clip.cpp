@@ -20,13 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "audio.hpp"
+#include "audio_clip.hpp"
 #define DR_WAV_IMPLEMENTATION
 #include <dr_wav.h>
 #include <foundations/singletons/platform/platform.hpp>
 #include <stb_vorbis.c>
 
-Omnific::Audio::Audio(std::string filepath)
+Omnific::AudioClip::AudioClip(std::string filepath)
 {
 	this->type = TYPE_STRING;
 	std::string file_extension = Platform::get_file_access().get_file_extension(filepath);
@@ -56,7 +56,7 @@ Omnific::Audio::Audio(std::string filepath)
 	this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
 }
 
-Omnific::Audio::Audio(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel)
+Omnific::AudioClip::AudioClip(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel)
 {
 	this->data = data;
 	this->channel_count = channel_count;
@@ -66,22 +66,22 @@ Omnific::Audio::Audio(std::vector<int16_t> data, int channel_count, int sample_r
 	this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
 }
 
-int Omnific::Audio::get_sample_rate()
+int Omnific::AudioClip::get_sample_rate()
 {
 	return this->sample_rate;
 }
 
-int Omnific::Audio::get_channel_count()
+int Omnific::AudioClip::get_channel_count()
 {
 	return this->channel_count;
 }
 
-float Omnific::Audio::get_playback_length()
+float Omnific::AudioClip::get_playback_length()
 {
 	return this->playback_length;
 }
 
-std::vector<int16_t> Omnific::Audio::get_spectrum()
+std::vector<int16_t> Omnific::AudioClip::get_spectrum()
 {
 	return this->data;
 }

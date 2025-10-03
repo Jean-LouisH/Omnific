@@ -39,3 +39,8 @@ void Omnific::AudioListener::unmute()
 {
 	this->volume = previous_volume;
 }
+
+std::vector<uint16_t>& Omnific::AudioListener::get_current_waveform()
+{
+	return this->current_waveform;
+}

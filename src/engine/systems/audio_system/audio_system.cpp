@@ -27,7 +27,7 @@
 #include "scene/components/audio_listener.hpp"
 #include <scene/components/audio_source.hpp>
 #include <foundations/singletons/event_bus.hpp>
-#include <foundations/resources/audio.hpp>
+#include <foundations/resources/audio_clip.hpp>
 #include <scene/components/physics_body.hpp>
 #include <foundations/singletons/scene_storage.hpp>
 #include <SDL.h>
@@ -73,7 +73,7 @@ void Omnific::AudioSystem::initialize()
 			&obtained,
 			NULL);
 
-		SDL_PauseAudioDevice(this->device_id, 0);
+		SDL_PauseAudioDevice(this->device_id, false);
 	}
 
 	Profiler::add_clock(AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"audio_system", "on_output_frame_time"});
@@ -98,98 +98,135 @@ void Omnific::AudioSystem::on_output()
 	{
 		std::vector<float> temp_cumulative_buffer(this->mix_samples_per_frame, 0.0f);
 
-		for (std::shared_ptr<AudioListener>& audio_listener : scene->get_components_by_type<AudioListener>())
+		std::vector<std::shared_ptr<AudioListener>> audio_listeners = scene->get_components_by_type<AudioListener>();
+
+		if (audio_listeners.size() == 0)
 		{
-			std::shared_ptr<Entity> listener_entity = scene->get_entity(audio_listener->get_entity_id());
-			std::shared_ptr<Transform> listener_global_transform = scene->calculate_global_transform(listener_entity->get_id());
-			std::shared_ptr<PhysicsBody> listener_physics_body = scene->get_component_by_type<PhysicsBody>(listener_entity->get_id());
+			SDL_PauseAudioDevice(this->device_id, true);
+		}
+		else
+		{
+			SDL_PauseAudioDevice(this->device_id, false);
 
-			for (std::shared_ptr<AudioSource>& audio_source: scene->get_components_by_type<AudioSource>())
+			for (std::shared_ptr<AudioListener>& audio_listener : scene->get_components_by_type<AudioListener>())
 			{
-				std::shared_ptr<Entity> source_entity = scene->get_entity(audio_source->get_entity_id());
-				std::shared_ptr<PhysicsBody> source_physics_body = scene->get_component_by_type<PhysicsBody>(audio_source->get_entity_id());
-				std::shared_ptr<Transform> source_global_transform = scene->calculate_global_transform(source_entity->get_id());
+				std::shared_ptr<Entity> listener_entity = scene->get_entity(audio_listener->get_entity_id());
+				std::shared_ptr<Transform> listener_global_transform = scene->calculate_global_transform(listener_entity->get_id());
+				std::shared_ptr<PhysicsBody> listener_physics_body = scene->get_component_by_type<PhysicsBody>(listener_entity->get_id());
 
-				std::shared_ptr<Audio> audio = audio_source->get_active_audio();
-				if (audio->sample_rate != this->mix_sample_frequency)
-					this->resample_and_replace_audio(audio_source);
-				const int audio_sample_rate = audio->sample_rate;
-				const int audio_channel_count = audio->get_channel_count();
-				const float gain = audio_source->get_volume() * audio_listener->get_volume();
-				const int current_sample_index = (int)(audio_source->playback_time * audio_sample_rate) * audio_channel_count;
-				const double duration_per_sample = 1.0 / audio_sample_rate;
-				const int total_audio_samples = audio->data.size();
-				AudioSource::PlaybackState playback_state = audio_source->get_playback_state();
-
-				if (playback_state == AudioSource::PlaybackState::PLAYING)
+				for (std::shared_ptr<AudioSource>& audio_source: scene->get_components_by_type<AudioSource>())
 				{
-					if (audio_channel_count == 1)
+					AudioSource::PlaybackState playback_state = audio_source->get_playback_state();
+
+					if (playback_state == AudioSource::PlaybackState::PLAYING)
 					{
-						//Writing mono input to a stereo output
-						for (int i = 0; i < (mix_samples_per_frame / 2); ++i)
+						std::shared_ptr<Entity> source_entity = scene->get_entity(audio_source->get_entity_id());
+						std::shared_ptr<PhysicsBody> source_physics_body = scene->get_component_by_type<PhysicsBody>(audio_source->get_entity_id());
+						std::shared_ptr<Transform> source_global_transform = scene->calculate_global_transform(source_entity->get_id());
+
+						std::shared_ptr<AudioClip> audio_clip = audio_source->get_active_audio_clip();
+						if (audio_clip->sample_rate != this->mix_sample_frequency)
+							this->resample_and_replace_audio(audio_source);
+						const int audio_sample_rate = audio_clip->sample_rate;
+						const int audio_channel_count = audio_clip->get_channel_count();
+						const float gain = audio_source->get_volume() * audio_listener->get_volume();
+						const int current_sample_index = (int)(audio_source->playback_time * audio_sample_rate) * audio_channel_count;
+						const double duration_per_sample = 1.0 / audio_sample_rate;
+						const int total_audio_samples = audio_clip->data.size();
+
+						if (audio_channel_count == 1)
 						{
-							int16_t mix_value = 0;
-
-							if (current_sample_index + i < total_audio_samples)
+							//Writing mono input to a stereo output
+							for (int i = 0; i < (mix_samples_per_frame / 2); ++i)
 							{
-								mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
+								int16_t mix_value = 0;
+
+								if (current_sample_index + i < total_audio_samples)
+								{
+									mix_value = (int16_t)(audio_clip->data[current_sample_index + i] * gain);
+								}
+								else if (audio_source->is_looping)
+								{
+									int looped_index = (current_sample_index + i) % total_audio_samples;
+									mix_value = (int16_t)(audio_clip->data[looped_index] * gain);
+								}
+
+								temp_cumulative_buffer[i * 2] += (float)mix_value;
+								temp_cumulative_buffer[i * 2 + 1] += (float)mix_value;
 							}
-							else if (audio_source->is_looping)
+						}
+						else if (audio_channel_count == 2)
+						{
+							//Writing stereo input to stereo output
+							for (int i = 0; i < mix_samples_per_frame; ++i)
 							{
-								int looped_index = (current_sample_index + i) % total_audio_samples;
-								mix_value = (int16_t)(audio->data[looped_index] * gain);
+								int16_t mix_value = 0;
+
+								if (current_sample_index + i < total_audio_samples)
+								{
+									mix_value = (int16_t)(audio_clip->data[current_sample_index + i] * gain);
+								}
+								else if (audio_source->is_looping)
+								{
+									int looped_index = (current_sample_index + i) % total_audio_samples;
+									mix_value = (int16_t)(audio_clip->data[looped_index] * gain);
+								}
+
+								temp_cumulative_buffer[i] += (float)mix_value;
+							}
+						}
+
+						if (audio_source->is_capturing_waveform)
+						{
+							if (audio_source->current_waveform.size() > 0)
+							{
+								audio_source->current_waveform.resize(this->mix_samples_per_frame, 0);
 							}
 
-							temp_cumulative_buffer[i * 2] += (float)mix_value;
-							temp_cumulative_buffer[i * 2 + 1] += (float)mix_value;
+							for (int i = 0; i < mix_samples_per_frame; ++i)
+							{
+								audio_source->current_waveform[i] = temp_cumulative_buffer[i];
+							}
+						}
+
+						audio_source->playback_time += this->mix_samples_per_channel_per_frame * duration_per_sample;
+
+						if (audio_source->playback_time > audio_clip->playback_length)
+						{
+							audio_source->playback_time = 0.0;
+
+							if (!audio_source->is_looping)
+							{
+								audio_source->stop();
+							}
 						}
 					}
-					else if (audio_channel_count == 2)
-					{
-						//Writing stereo input to stereo output
-						for (int i = 0; i < mix_samples_per_frame; ++i)
-						{
-							int16_t mix_value = 0;
-
-							if (current_sample_index + i < total_audio_samples)
-							{
-								mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
-							}
-							else if (audio_source->is_looping)
-							{
-								int looped_index = (current_sample_index + i) % total_audio_samples;
-								mix_value = (int16_t)(audio->data[looped_index] * gain);
-							}
-
-							temp_cumulative_buffer[i] += (float)mix_value;
-						}
-					}
-
-					audio_source->playback_time += this->mix_samples_per_channel_per_frame * duration_per_sample;
-
-					if (audio_source->playback_time > audio->playback_length)
+					else if (playback_state == AudioSource::PlaybackState::STOPPED)
 					{
 						audio_source->playback_time = 0.0;
-
-						if (!audio_source->is_looping)
-						{
-							audio_source->stop();
-						}
 					}
 				}
-				else if (playback_state == AudioSource::PlaybackState::STOPPED)
-				{
 
-					audio_source->playback_time = 0.0;
+				const int half_max_possible_value = std::pow(2, 8 * this->bytes_per_sample) / 2;
+
+				for (int i = 0; i < mix_samples_per_frame; ++i)
+				{
+					this->mix_buffer[i] = (int16_t)std::clamp(temp_cumulative_buffer[i], (float)-half_max_possible_value, (float)half_max_possible_value);
+				}
+
+				if (audio_listener->is_capturing_waveform)
+				{
+					if (audio_listener->current_waveform.size() > 0)
+					{
+						audio_listener->current_waveform.resize(this->mix_samples_per_frame, 0);
+					}
+
+					for (int i = 0; i < mix_samples_per_frame; ++i)
+					{
+						audio_listener->current_waveform[i] = mix_buffer[i];
+					}
 				}
 			}
-		}
-
-		const int half_max_possible_value = std::pow(2, 8 * this->bytes_per_sample) / 2;
-
-		for (int i = 0; i < mix_samples_per_frame; ++i)
-		{
-			this->mix_buffer[i] = (int16_t)std::clamp(temp_cumulative_buffer[i], (float)-half_max_possible_value, (float)half_max_possible_value);
 		}
 
 		SDL_QueueAudio(this->device_id, this->mix_buffer.data(), this->mix_buffer.size() * this->bytes_per_sample);
@@ -213,24 +250,24 @@ void Omnific::AudioSystem::finalize()
 void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::AudioSource> audio_source)
 {
 	Logger& logger = Platform::get_logger();
-	std::shared_ptr<Audio> audio = audio_source->get_active_audio();
-	size_t input_size = audio->data.size();
-	int channel_count = audio->channel_count;
+	std::shared_ptr<AudioClip> audio_clip = audio_source->get_active_audio_clip();
+	size_t input_size = audio_clip->data.size();
+	int channel_count = audio_clip->channel_count;
 	std::vector<float> input_float(input_size);
     std::vector<float> output_float;
 
 	const int half_max_possible_value = std::pow(2, 8 * this->bytes_per_sample) / 2;
 
-	logger.write("Warning: Audio Resource '" + audio->get_name() + "' has an input sample rate of " + 
-	std::to_string(audio->sample_rate) + " vs the output sample rate of " + std::to_string(this->mix_sample_frequency) + 
+	logger.write("Warning: Audio Resource '" + audio_clip->get_name() + "' has an input sample rate of " + 
+	std::to_string(audio_clip->sample_rate) + " vs the output sample rate of " + std::to_string(this->mix_sample_frequency) + 
 	". Resampling is needed. For less wait times in the future, convert all Audio files to match the output sample rate. Resampling in progress... " 
 	);
 
     // Convert int16_t to float
     for (size_t i = 0; i < input_size; ++i)
-        input_float[i] = audio->data[i] / (float)half_max_possible_value;
+        input_float[i] = audio_clip->data[i] / (float)half_max_possible_value;
 
-    double ratio = static_cast<double>(this->mix_sample_frequency) / audio->sample_rate;
+    double ratio = static_cast<double>(this->mix_sample_frequency) / audio_clip->sample_rate;
     size_t output_length = static_cast<size_t>(input_float.size() * ratio);
     output_float.resize(output_length + 4096);
 
@@ -254,8 +291,8 @@ void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::A
         output_pcm[i] = std::clamp(static_cast<int>(output_float[i] * half_max_possible_value), -half_max_possible_value, half_max_possible_value);
 
 	
-	std::shared_ptr<Audio> resampled_audio(new Audio(output_pcm, channel_count, this->mix_sample_frequency, output_pcm.size() / channel_count));
-	audio_source->remove_audio(audio->get_name());
-	audio_source->add_audio(resampled_audio);
-	logger.write("'" + audio->get_name() + "' resampled.");
+	std::shared_ptr<AudioClip> resampled_audio(new AudioClip(output_pcm, channel_count, this->mix_sample_frequency, output_pcm.size() / channel_count));
+	audio_source->remove_audio_clip(audio_clip->get_name());
+	audio_source->add_audio_clip(resampled_audio);
+	logger.write("'" + audio_clip->get_name() + "' resampled.");
 }

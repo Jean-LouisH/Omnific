@@ -118,7 +118,7 @@ void Omnific::Engine::initialize()
 	ClassRegistry::initialize();
 	logger.write("Loading Systems from ClassRegistry...");
 
-	for (auto it : ClassRegistry::query_all<System>())
+	for (auto& it : ClassRegistry::query_all<System>())
 	{
 		std::shared_ptr<System> system = std::dynamic_pointer_cast<System>(it.second);
 
@@ -160,7 +160,7 @@ void Omnific::Engine::run_frame()
 	{
 		Platform::get_logger().write("Engine currently running...");
 
-		for (auto system : this->systems)
+		for (auto& system : this->systems)
 			system.second->initialize();
 
 		FileAccess& file_access = Platform::get_file_access();
@@ -193,7 +193,7 @@ void Omnific::Engine::run_frame()
 		this->state = State::RESTARTING;
 
 	total_on_entity_start_frame_time_clock->set_start();
-	for (auto system : this->systems)
+	for (auto& system : this->systems)
 		system.second->on_entity_start();
 	total_on_entity_start_frame_time_clock->set_end();
 
@@ -201,17 +201,17 @@ void Omnific::Engine::run_frame()
 
 	total_on_input_frame_time_clock->set_start();
 	if (Platform::get_inputs().get_has_detected_input_changes())
-		for (auto system : this->systems)
+		for (auto& system : this->systems)
 			system.second->on_input();
 	total_on_input_frame_time_clock->set_end();
 
 	total_on_early_update_frame_time_clock->set_start();
-	for (auto system : this->systems)
+	for (auto& system : this->systems)
 		system.second->on_early_update();
 	total_on_early_update_frame_time_clock->set_end();
 
 	total_on_update_frame_time_clock->set_start();
-	for (auto system : this->systems)
+	for (auto& system : this->systems)
 		system.second->on_update();
 	total_on_update_frame_time_clock->set_end();
 
@@ -225,24 +225,24 @@ void Omnific::Engine::run_frame()
 	while (Profiler::get_lag_count() >= target_fixed_frame_time &&
 		this->state == State::RUNNING)
 	{
-		for (auto system : this->systems)
+		for (auto& system : this->systems)
 			system.second->on_fixed_update();
 		Profiler::decrement_lag_count(target_fixed_frame_time);
 	}
 	total_on_fixed_update_frame_time_clock->set_end();
 
 	total_on_late_update_frame_time_clock->set_start();
-	for (auto system : this->systems)
+	for (auto& system : this->systems)
 		system.second->on_late_update();
 	total_on_late_update_frame_time_clock->set_end();
 
 	total_on_output_frame_time_clock->set_start();
-	for (auto system : this->systems)
+	for (auto& system : this->systems)
 		system.second->on_output();
 	total_on_output_frame_time_clock->set_end();
 
 	total_on_entity_finish_frame_time_clock->set_start();
-	for (auto system : this->systems)
+	for (auto& system : this->systems)
 		system.second->on_entity_finish();
 	total_on_entity_finish_frame_time_clock->set_end();
 
@@ -251,7 +251,7 @@ void Omnific::Engine::run_frame()
 	if (this->state == State::RESTARTING || 
 		this->state == State::FINALIZING) 
 	{
-        for (auto system : this->systems)
+        for (auto& system : this->systems)
 			system.second->finalize();
 
 #ifdef _WEB_PLATFORM

@@ -11,6 +11,6 @@ class omnific_script:
 
     def on_update(self):
         self.gui.set_to_label(
-            str('%.2f' % self.audio_source.get_current_playback_time()) + " / " + str('%.2f' % self.audio_source.get_active_audio().get_playback_length())
+            str('%.2f' % self.audio_source.get_current_playback_time()) + " / " + str('%.2f' % self.audio_source.get_active_audio_clip().get_playback_length())
             )
         pass

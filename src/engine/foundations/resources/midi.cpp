@@ -20,42 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "foundations/aliases.hpp"
-#include "foundations/constants.hpp"
-#include "scene/components/component.hpp"
-
-
-namespace Omnific
-{
-	class OMNIFIC_ENGINE_API AudioListener : public Component
-	{
-		friend class AudioSystem;
-	public:
-		AudioListener()
-		{
-			this->type = TYPE_STRING;
-		};
-		static constexpr const char* TYPE_STRING = "AudioListener";
-
-		virtual Registerable* instance() override
-		{
-			AudioListener* clone = new AudioListener(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
-		}
-		bool is_capturing_waveform = false;
-
-		virtual void deserialize(YAML::Node yaml_node);
-		void set_volume(float value);
-		float get_volume();
-		void mute();
-		void unmute();
-		std::vector<uint16_t>& get_current_waveform();
-	private:
-		float volume = 1.0;
-		float previous_volume = 1.0;
-		std::vector<uint16_t> current_waveform;
-	};
-}
+#include "midi.hpp"

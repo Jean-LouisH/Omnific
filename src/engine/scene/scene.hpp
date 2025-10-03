@@ -81,7 +81,7 @@ namespace Omnific
 		std::shared_ptr<Entity> get_entity(EntityID entity_id);
 		std::shared_ptr<Entity> get_entity_by_name(std::string name);
 		std::shared_ptr<Entity> get_last_entity();
-		std::unordered_map<EntityID, std::shared_ptr<Entity>>& get_entities();
+		std::unordered_map<EntityID, std::shared_ptr<Entity>> get_entities();
 		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
 

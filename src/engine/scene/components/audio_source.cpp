@@ -32,17 +32,17 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 		{
 			for (int i = 0; i < it3->second.size(); ++i)
 			{
-				std::shared_ptr<Audio> audio(Platform::get_file_access().load_resource_by_type<Audio>(it3->second[i].as<std::string>(), false));
-				this->add_audio(audio);
+				std::shared_ptr<AudioClip> audio_clip(Platform::get_file_access().load_resource_by_type<AudioClip>(it3->second[i].as<std::string>(), false));
+				this->add_audio_clip(audio_clip);
 			}
 		}
 		if (it3->first.as<std::string>() == "play_audio")
 		{
-			this->play_audio(it3->second.as<std::string>());
+			this->play_audio_clip(it3->second.as<std::string>());
 		}
 		if (it3->first.as<std::string>() == "play_audio_infinitely")
 		{
-			this->play_audio_infinitely(it3->second.as<std::string>());
+			this->play_audio_clip_infinitely(it3->second.as<std::string>());
 		}
 		if (it3->first.as<std::string>() == "play_infinitely")
 		{
@@ -60,12 +60,12 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnific::AudioSource::add_audio(std::shared_ptr<Audio> audio)
+void Omnific::AudioSource::add_audio_clip(std::shared_ptr<AudioClip> audio_clip)
 {
-	if (this->active_audio_name == "")
-		this->active_audio_name = audio->get_name();
+	if (this->active_audio_clip_name == "")
+		this->active_audio_clip_name = audio_clip->get_name();
 
-	this->audio_collection.emplace(audio->get_name(), audio);
+	this->audio_clip_collection.emplace(audio_clip->get_name(), audio_clip);
 }
 
 void Omnific::AudioSource::set_volume(float value)
@@ -78,29 +78,29 @@ float Omnific::AudioSource::get_volume()
 	return this->volume;
 }
 
-void Omnific::AudioSource::clear_audio()
+void Omnific::AudioSource::clear_audio_clip()
 {
-	this->audio_collection.clear();
-	this->active_audio_name = "";
+	this->audio_clip_collection.clear();
+	this->active_audio_clip_name = "";
 }
 
-void Omnific::AudioSource::remove_audio(std::string audio_name)
+void Omnific::AudioSource::remove_audio_clip(std::string audio_clip_name)
 {
-	if (audio_name == this->active_audio_name)
-		this->active_audio_name = "";
-	this->audio_collection.erase(audio_name);
+	if (audio_clip_name == this->active_audio_clip_name)
+		this->active_audio_clip_name = "";
+	this->audio_clip_collection.erase(audio_clip_name);
 }
 
-void Omnific::AudioSource::play_audio(std::string audio_name)
+void Omnific::AudioSource::play_audio_clip(std::string audio_clip_name)
 {
 	this->stop();
 
-	if (this->audio_collection.count(audio_name))
-		this->active_audio_name = audio_name;
+	if (this->audio_clip_collection.count(audio_clip_name))
+		this->active_audio_clip_name = audio_clip_name;
 	else
-		this->active_audio_name = "";
+		this->active_audio_clip_name = "";
 
-	if (this->active_audio_name != "")
+	if (this->active_audio_clip_name != "")
 	{
 		this->playback_state = PlaybackState::PLAYING;
 		EventBus::publish_event(
@@ -109,32 +109,32 @@ void Omnific::AudioSource::play_audio(std::string audio_name)
 			{{"id", this->get_id()}}, 
 			{}, 
 			{}, 
-			this->active_audio_name, 
+			this->active_audio_clip_name, 
 			false);
 	}
 
 	this->is_looping = false;
 }
 
-void Omnific::AudioSource::play_audio_infinitely(std::string audio_name)
+void Omnific::AudioSource::play_audio_clip_infinitely(std::string audio_clip_name)
 {
-	this->play_audio(audio_name);
+	this->play_audio_clip(audio_clip_name);
 	this->is_looping = true;
 }
 
 void Omnific::AudioSource::play()
 {
-	this->play_audio(this->active_audio_name);
+	this->play_audio_clip(this->active_audio_clip_name);
 }
 
 void Omnific::AudioSource::play_infinitely()
 {
-	this->play_audio_infinitely(this->active_audio_name);
+	this->play_audio_clip_infinitely(this->active_audio_clip_name);
 }
 
 void Omnific::AudioSource::pause()
 {
-	if (this->active_audio_name != "")
+	if (this->active_audio_clip_name != "")
 	{
 		this->playback_state = PlaybackState::PAUSED;
 		EventBus::publish_event(
@@ -143,14 +143,14 @@ void Omnific::AudioSource::pause()
 			 {{"id", this->get_id()}},
 			 {}, 
 			 {}, 
-			 this->active_audio_name, 
+			 this->active_audio_clip_name, 
 			 false);
 	}
 }
 
 void Omnific::AudioSource::resume()
 {
-	if (this->active_audio_name != "")
+	if (this->active_audio_clip_name != "")
 	{
 		this->playback_state = PlaybackState::PLAYING;
 		EventBus::publish_event(
@@ -159,7 +159,7 @@ void Omnific::AudioSource::resume()
 			{{"id", this->get_id()}}, 
 			{}, 
 			{}, 
-			this->active_audio_name, 
+			this->active_audio_clip_name, 
 			false);
 	}
 }
@@ -173,13 +173,13 @@ void Omnific::AudioSource::stop()
 		{{"id", this->get_id()}}, 
 		{}, 
 		{}, 
-		this->active_audio_name, 
+		this->active_audio_clip_name, 
 		false);
 }
 
 void Omnific::AudioSource::reset()
 {
-	if (this->active_audio_name != "")
+	if (this->active_audio_clip_name != "")
 	{
 		EventBus::publish_event(
 			"reseting_audio_source", 
@@ -187,16 +187,16 @@ void Omnific::AudioSource::reset()
 			{{"id", this->get_id()}}, 
 			{}, 
 			{}, 
-			this->active_audio_name, 
+			this->active_audio_clip_name, 
 			false);
 	}
 }
 
 void Omnific::AudioSource::jump(float time_point)
 {
-	if (this->active_audio_name != "")
+	if (this->active_audio_clip_name != "")
 	{
-		if (time_point >= 0.0 && time_point <= this->get_active_audio()->get_playback_length())
+		if (time_point >= 0.0 && time_point <= this->get_active_audio_clip()->get_playback_length())
 		{
 			EventBus::publish_event(
 				"jumping_audio_source", 
@@ -206,7 +206,7 @@ void Omnific::AudioSource::jump(float time_point)
 				{"time_point", time_point} }, 
 				{}, 
 				{}, 
-				this->active_audio_name, 
+				this->active_audio_clip_name, 
 				false);
 		}
 	}
@@ -222,38 +222,43 @@ Omnific::AudioSource::PlaybackState Omnific::AudioSource::get_playback_state()
 	return this->playback_state;
 }
 
-std::vector<std::string> Omnific::AudioSource::get_audio_names()
+std::vector<std::string> Omnific::AudioSource::get_audio_clip_names()
 {
-	std::vector<std::string> audio_names;
+	std::vector<std::string> audio_clip_names;
 
-	for (std::unordered_map<std::string, std::shared_ptr<Audio>>::iterator it = this->audio_collection.begin();
-		it != this->audio_collection.end();
+	for (std::unordered_map<std::string, std::shared_ptr<AudioClip>>::iterator it = this->audio_clip_collection.begin();
+		it != this->audio_clip_collection.end();
 		++it)
 	{
-		audio_names.push_back(it->first);
+		audio_clip_names.push_back(it->first);
 	}
 
-	return audio_names;
+	return audio_clip_names;
 }
 
-std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_active_audio()
+std::shared_ptr<Omnific::AudioClip> Omnific::AudioSource::get_active_audio_clip()
 {
-	std::shared_ptr<Audio> active_audio;
+	std::shared_ptr<AudioClip> active_audio;
 
-	if (this->active_audio_name != "")
-		active_audio = this->get_audio_by_name(this->active_audio_name);
+	if (this->active_audio_clip_name != "")
+		active_audio = this->get_audio_clip_by_name(this->active_audio_clip_name);
 
 	return active_audio;
 }
 
-std::shared_ptr<Omnific::Audio> Omnific::AudioSource::get_audio_by_name(std::string audio_name)
+std::shared_ptr<Omnific::AudioClip> Omnific::AudioSource::get_audio_clip_by_name(std::string audio_clip_name)
 {
-	std::shared_ptr<Audio> audio;
+	std::shared_ptr<AudioClip> audio_clip;
 
-	if (this->audio_collection.count(audio_name))
-		audio = this->audio_collection.at(audio_name);
+	if (this->audio_clip_collection.count(audio_clip_name))
+		audio_clip = this->audio_clip_collection.at(audio_clip_name);
 
-	return audio;
+	return audio_clip;
+}
+
+std::vector<int16_t>& Omnific::AudioSource::get_current_waveform()
+{
+	return this->current_waveform;
 }
 
 float Omnific::AudioSource::clamp(float value)

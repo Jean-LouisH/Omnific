@@ -22,40 +22,45 @@
 
 #pragma once
 
-#include "foundations/aliases.hpp"
-#include "foundations/constants.hpp"
-#include "scene/components/component.hpp"
-
+#include "foundations/resources/resource.hpp"
+#include <string>
+#include <memory>
+#include <stdint.h>
+#include <vector>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API AudioListener : public Component
+	class OMNIFIC_ENGINE_API AudioClip : public Resource
 	{
 		friend class AudioSystem;
 	public:
-		AudioListener()
+		static constexpr const char* TYPE_STRING = "AudioClip";
+		AudioClip()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "AudioListener";
+
+		AudioClip(std::string filepath);
+		AudioClip(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel);
 
 		virtual Registerable* instance() override
 		{
-			AudioListener* clone = new AudioListener(*this);
+			AudioClip* clone = new AudioClip(*this);
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
-		bool is_capturing_waveform = false;
 
-		virtual void deserialize(YAML::Node yaml_node);
-		void set_volume(float value);
-		float get_volume();
-		void mute();
-		void unmute();
-		std::vector<uint16_t>& get_current_waveform();
+		int get_sample_rate();
+		int get_channel_count();
+		float get_playback_length();
+		std::vector<int16_t> get_spectrum();
+
+		std::vector<int16_t> data;
 	private:
-		float volume = 1.0;
-		float previous_volume = 1.0;
-		std::vector<uint16_t> current_waveform;
+		int sample_rate = 0;
+		int channel_count = 0;
+		int samples_per_channel = 0;
+		float playback_length = 0.0;
+		int bytes_per_sample = sizeof(int16_t);
 	};
 }
