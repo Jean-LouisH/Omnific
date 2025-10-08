@@ -23,6 +23,10 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 - EventBus for a publish/subscribe architecture
 
+![event_bus](docs/images/omnific_scene_hierarchy_demo.gif)
+
+- Scene hierarchy of Entities with inheritable Transforms of translations, rotations and scales.
+
 ![event_bus](docs/images/event_bus.gif)
 
 - Model loading via TinyGLTF, including Mesh and Material texture maps
@@ -85,7 +89,11 @@ Users can also extend the Engine through the ClassRegistry header where their ow
 
 - [Pong](https://github.com/Jean-LouisH/Omnific/releases/tag/0.1)
 
-![omnific_pong](docs/images/omnific_pong.gif)
+![omnific_pong](docs/images/omnific_pong_demo.gif)
+
+- Clock
+
+![omnific_pong](docs/images/omnific_clock_demo.gif)
 
 
 # License
