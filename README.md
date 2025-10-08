@@ -21,11 +21,11 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 ![omnific_project](docs/images/omnific_project.png)
 
-- EventBus for a publish/subscribe architecture
+- Scene hierarchy of Entities with inheritable Transforms of translations, rotations and scales.
 
 ![event_bus](docs/images/omnific_scene_hierarchy_demo.gif)
 
-- Scene hierarchy of Entities with inheritable Transforms of translations, rotations and scales.
+- EventBus for a publish/subscribe architecture
 
 ![event_bus](docs/images/event_bus.gif)
 
