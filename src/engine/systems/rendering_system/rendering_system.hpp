@@ -38,40 +38,19 @@
 
 namespace Omnific
 {
-	/* Caches memory locations for values 
-	relevant to rendering a single Entity. */
-	class Renderable
-	{
-	public:
-		std::string entity_name; //For debug.
-		std::shared_ptr<Transform> transform;
-		EntityID entity_id;
-		std::shared_ptr<Model> model;
-		std::shared_ptr<Shader> overriding_shader;
-		std::shared_ptr<ShaderParameters> overriding_shader_parameters;
-	private:
-	};
-
-	/* Caches memory locations for values
-	relevant to rendering from a given Camera. */
-	class RenderableLayer
-	{
-	public:
-		bool is_2d = false;
-		std::shared_ptr<Camera> camera;
-		std::shared_ptr<Transform> camera_transform;
-		std::vector<std::shared_ptr<Light>> lights;
-		std::vector<std::shared_ptr<Transform>> light_transforms;
-		std::vector<Renderable> renderables;
-	private:
-	};
-
 	/* Processes Renderables for output to graphics display. */
 	class RenderingSystem : public System
 	{
 	public:
 		RenderingSystem();
 		~RenderingSystem();
+
+		enum class RenderingPath
+		{
+			FORWARD,
+			CLUSTERED_FORWARD,
+			PATH_TRACING
+		};
 
 		static constexpr const char* TYPE_STRING = "RenderingSystem";
 
@@ -86,15 +65,15 @@ namespace Omnific
 		std::string get_rendering_backend_name();
 	private:
 		std::shared_ptr<OpenGLRenderingBackend> opengl_backend;
-		std::vector<std::vector<RenderableLayer>> renderable_layer_lists;
 		SceneID active_scene_id = 0;
 		glm::vec2 last_detected_window_size;
 
 		std::shared_ptr<Light> dummy_light;
 		std::shared_ptr<Transform> dummy_light_transform;
 
+		RenderingPath rendering_path;
+
 		void on_window_resize();
-		void build_renderables(std::shared_ptr<Scene> scene);
 	};
 }
 

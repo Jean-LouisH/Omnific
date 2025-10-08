@@ -26,7 +26,7 @@ namespace Omnific
 {
     namespace DefaultAssets
     {
-        const char phong_glsl[] = R"(
+        const char fragment_simple_glsl[] = R"(
             #version 330 core
             
             #define LIGHT_DIRECTIONAL 0

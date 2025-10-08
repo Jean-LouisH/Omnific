@@ -23,8 +23,8 @@
 #pragma once
 
 #include "foundations/resources/image.hpp"
-#include <foundations/resources/default_assets/shaders/standard_2d_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/gui_element_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/vertex_gui_element_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/fragment_gui_element_glsl.hpp>
 #include "model.hpp"
 #include "scene/components/component.hpp"
 #include "foundations/colour.hpp"
@@ -415,7 +415,7 @@ namespace Omnific
 		GUI()
 		{
 			this->type = TYPE_STRING;
-			this->shader = std::shared_ptr<Shader>(new Shader("", DefaultAssets::gui_element_glsl, false, false));
+			this->shader = std::shared_ptr<Shader>(new Shader(DefaultAssets::vertex_gui_element_glsl, DefaultAssets::fragment_gui_element_glsl, false, false));
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 

@@ -53,15 +53,15 @@ void Omnific::GUISystem::on_early_update()
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	Inputs& inputs = Platform::get_inputs();
-	std::unordered_map<std::string, double> numbers;
-	std::unordered_map<std::string, std::string> strings;
 
-	/* Sends an Engine loop event for a detected file drop. */
+	/* Sends an event for a detected file drop. */
 	if (inputs.is_drop_file_detected())
 	{
-		numbers.emplace((std::string)"drop_file_window_id", (double)inputs.get_drop_file_window_id());
-		strings.emplace((std::string)"drop_file_path", inputs.get_drop_file_path());
-		EventBus::publish_event(OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW, strings, numbers);
+		EventBus::publish_event(
+			OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW, 
+			{{"drop_file_path", inputs.get_drop_file_path()}},
+			{{"drop_file_window_id", (double)inputs.get_drop_file_window_id()}}
+		);
 	}
 
 	glm::vec2 mouse_position = inputs.get_mouse_position();
@@ -159,9 +159,7 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 	{
 		Inputs& inputs = Platform::get_inputs();
 		glm::vec2 gui_element_global_position = gui_position + gui_element->position;
-
 		glm::vec2 gui_element_dimensions = gui_element->get_image()->get_dimensions();
-
 		float box_left = gui_element_global_position.x - gui_element_dimensions.x / 2.0;
 		float box_right = gui_element_global_position.x + gui_element_dimensions.x / 2.0;
 		float box_top = gui_element_global_position.y + gui_element_dimensions.y / 2.0;

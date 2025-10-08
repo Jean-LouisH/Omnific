@@ -26,20 +26,30 @@ namespace Omnific
 {
     namespace DefaultAssets
     {
-        const char unlit_glsl[] = R"(
+        const char vertex_gui_element_glsl[] = R"(
             #version 330 core
-            in vec2 uv;
-            out vec4 colour;
-            uniform vec4 highlight_colour;
-            uniform float alpha;
-            uniform sampler2D albedo_texture_sampler;
-
+            layout (location = 0) in vec3 model_vertex_translation;
+            layout (location = 2) in vec2 model_vertex_uv;
+            out vec3 translation;
+            out vec2 uv;
+            uniform vec2 gui_element_position;
+            uniform vec2 screen_viewport;
+        
             void main()
-            {    
-                colour = texture(albedo_texture_sampler, uv);
-                colour = mix(colour, highlight_colour, highlight_colour.a);
-                colour.a *= alpha;
-            }  
+            {
+                translation = model_vertex_translation;
+                uv = vec2(model_vertex_uv.x, model_vertex_uv.y);
+        
+                float x = ((gui_element_position.x + translation.x) - (screen_viewport.x / 2.0)) / (screen_viewport.x / 2.0);
+                float y = ((gui_element_position.y + translation.y) - (screen_viewport.y / 2.0)) / (screen_viewport.y / 2.0);
+                float z_rotation = 0.0;
+        
+                gl_Position = vec4(
+                                    x * cos(z_rotation) - y * sin(z_rotation), 
+                                    x * sin(z_rotation) + y * cos(z_rotation), 
+                                    0.0, 
+                                    1.0);
+            }	
         )";
     }
 }

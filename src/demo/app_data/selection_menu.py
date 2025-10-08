@@ -4,8 +4,8 @@ import sys
 
 project_name_type_pairs = {
     "pong" : "game",
-    #"spinning_tops" : "game",
-    "air_racing" : "game",
+    "spinning_tops" : "game",
+    #"air_racing" : "game",
     #"fighting" : "game",
     #"pathfinding" : "simulation",
     #"handwriting_recognition" : "simulation",

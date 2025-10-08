@@ -5,8 +5,6 @@ Entity:
   Camera: "default"
 Entity:
   name: "Text"
-  Transform:
-    translation: [0, 0, 0]
   GUI: 
     text: "Time: "
     font: ["assets/fonts/Lato-Regular.ttf", 90]

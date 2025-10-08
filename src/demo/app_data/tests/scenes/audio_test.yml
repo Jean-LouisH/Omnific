@@ -1,12 +1,11 @@
 Entity:
   name: "Audio Label"
-  transform:
-    translation: [200, 215, 0]
   GUI:
     GUILabel: 
       text: "Playing Background Audio"
       font: ["tests/fonts/Lato-Regular.ttf", 40]
       colour: "#FFFFFFFF"
+      position: [200, 215]
   AudioSource:
       audio: ["tests/audio/nature.ogg"]
       play_infinitely: true

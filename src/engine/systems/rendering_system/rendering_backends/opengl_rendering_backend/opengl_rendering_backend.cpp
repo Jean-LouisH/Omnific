@@ -21,12 +21,12 @@
 // SOFTWARE.
 
 #include "opengl_rendering_backend.hpp"
-#include <foundations/resources/default_assets/shaders/light_source_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/pbr_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/phong_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/standard_2d_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/standard_3d_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/unlit_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/fragment_light_source_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/fragment_pbr_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/fragment_simple_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/vertex_2d_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/vertex_3d_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/fragment_unlit_glsl.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <string>
@@ -186,7 +186,7 @@ std::string Omnific::OpenGLRenderingBackend::get_rendering_backend_name()
 
 std::string Omnific::OpenGLRenderingBackend::get_default_2d_vertex_input()
 {
-	return DefaultAssets::standard_2d_glsl;
+	return DefaultAssets::vertex_2d_glsl;
 }
 
 std::string Omnific::OpenGLRenderingBackend::get_default_2d_fragment_input()
@@ -196,7 +196,7 @@ std::string Omnific::OpenGLRenderingBackend::get_default_2d_fragment_input()
 
 std::string Omnific::OpenGLRenderingBackend::get_default_3d_vertex_input()
 {
-	return DefaultAssets::standard_3d_glsl;
+	return DefaultAssets::vertex_3d_glsl;
 }
 
 std::string Omnific::OpenGLRenderingBackend::get_default_3d_fragment_input()
@@ -206,22 +206,22 @@ std::string Omnific::OpenGLRenderingBackend::get_default_3d_fragment_input()
 
 std::string Omnific::OpenGLRenderingBackend::get_light_source_fragment_input()
 {
-	return DefaultAssets::light_source_glsl;
+	return DefaultAssets::fragment_light_source_glsl;
 }
 
 std::string Omnific::OpenGLRenderingBackend::get_unlit_fragment_input()
 {
-	return DefaultAssets::unlit_glsl;
+	return DefaultAssets::fragment_unlit_glsl;
 }
 
 std::string Omnific::OpenGLRenderingBackend::get_phong_fragment_input()
 {
-	return DefaultAssets::phong_glsl;
+	return DefaultAssets::fragment_simple_glsl;
 }
 
 std::string Omnific::OpenGLRenderingBackend::get_pbr_fragment_input()
 {
-	return DefaultAssets::pbr_glsl;
+	return DefaultAssets::fragment_pbr_glsl;
 }
 
 std::shared_ptr<Omnific::OpenGLTexture> Omnific::OpenGLRenderingBackend::get_texture(std::shared_ptr<Image> image)

@@ -576,7 +576,6 @@ void Omnific::Inputs::clear()
 		this->drop_event = { 0 };
 	}
 
-	this->mouse_motion_event = {0};
 	this->mouse_wheel_event = {0};
 }
 

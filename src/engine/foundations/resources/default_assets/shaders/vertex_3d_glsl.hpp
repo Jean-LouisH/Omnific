@@ -26,25 +26,33 @@ namespace Omnific
 {
     namespace DefaultAssets
     {
-        const char gui_element_glsl[] = R"(
+        const char vertex_3d_glsl[] = R"(
             #version 330 core
-            in vec2 uv;
-            out vec4 colour;
-            uniform vec4 highlight_colour;
-            uniform float alpha;
-            uniform sampler2D albedo_texture_sampler;
-            uniform bool is_highlightable;
-            uniform bool is_xstretched_to_panel;
-		    uniform bool is_ystretched_to_panel;
-            uniform bool is_hovered_in_focus;
-		    uniform bool is_selected;
+            layout (location = 0) in vec3 model_vertex_translation;
+            layout (location = 1) in vec3 model_normal;
+            layout (location = 2) in vec2 model_vertex_uv;
+            layout (location = 3) in vec3 model_tangent;
+            layout (location = 4) in vec3 model_bitangent;
+            out vec3 translation;
+            out vec3 normal;
+            out vec2 uv;
+            out vec3 tangent;
+            out vec3 bitangent;
+            out vec3 fragment_translation;
+            uniform mat4 mvp;
+            uniform mat4 model_to_world_matrix;
+            uniform mat4 world_to_model_matrix;
 
             void main()
-            {    
-                colour = texture(albedo_texture_sampler, uv);
-                colour = mix(colour, highlight_colour, highlight_colour.a);
-                colour.a *= alpha;
-            }  
+            {
+                translation = model_vertex_translation;
+                normal = mat3(transpose(world_to_model_matrix)) * model_normal;
+                uv = model_vertex_uv;
+                tangent = model_tangent;
+                bitangent = model_bitangent;
+                fragment_translation = vec3(model_to_world_matrix * vec4(translation, 1.0));
+                gl_Position = mvp *	vec4(translation, 1.0);
+            }	
         )";
     }
 }

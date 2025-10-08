@@ -39,14 +39,12 @@ Entity:
 Entity:
   name: "ScoreCount1"
   parent: "Paddle1"
-  transform:
-    translation: [0.0, 40.0, 0.0]
-    scale: [1.0, 1.0, 1.0]
   GUI:
     GUILabel: 
       text: "a"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
       colour: "#FF0000FF"
+      position: [0.0, 40.0]
   ScriptCollection:
     Python: ["games/pong/scripts/python/player_score.py"]
 Entity:
@@ -67,14 +65,12 @@ Entity:
 Entity:
   name: "ScoreCount2"
   parent: "Paddle2"
-  transform:
-    translation: [0.0, 0.0, 0.0]
-    scale: [1.0, 1.0, 1.0]
   GUI:
     GUILabel: 
       text: "b"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
       colour: "#0000FFFF"
+      position: [0.0, 0.0]
   ScriptCollection:
     Python: ["games/pong/scripts/python/ai_score.py"]
 Entity:

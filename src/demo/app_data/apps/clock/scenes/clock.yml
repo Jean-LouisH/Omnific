@@ -1,12 +1,11 @@
 Entity:
   name: "Clock"
-  transform:
-    translation: [315, 215, 0]
   GUI:
     GUILabel: 
       text: "This is a Label!"
       font: ["apps/clock/fonts/Lato-Regular.ttf", 50]
       colour: "#0000FFFF"
+      position: [315, 215]
   ScriptCollection:
       Python: ["apps/clock/scripts/python/clock.py"]
 Entity:

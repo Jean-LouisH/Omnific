@@ -26,7 +26,7 @@ namespace Omnific
 {
     namespace DefaultAssets
     {
-        const char light_source_glsl[] = R"(
+        const char fragment_light_source_glsl[] = R"(
             #version 330 core
             out vec4 colour;
             uniform vec3 light_colours[1];

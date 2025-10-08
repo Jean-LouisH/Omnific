@@ -371,7 +371,7 @@ void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component
 			if (component->is_renderable())
 			{
 				entity->model_id = component->get_id();
-				this->render_order_index_cache.push_back(last_index);
+				this->rendering_order_index_cache.push_back(last_index);
 			}
 
 			std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name("Viewport");
@@ -490,11 +490,11 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 						}
 
 						/*Remove from the render order index cache*/
-						for (size_t j = 0; j < this->render_order_index_cache.size();)
+						for (size_t j = 0; j < this->rendering_order_index_cache.size();)
 						{
-							if (this->render_order_index_cache.at(j) == i)
+							if (this->rendering_order_index_cache.at(j) == i)
 							{
-								this->render_order_index_cache.erase(this->render_order_index_cache.begin() + j);
+								this->rendering_order_index_cache.erase(this->rendering_order_index_cache.begin() + j);
 								break;
 							}
 							else
@@ -573,9 +573,9 @@ std::shared_ptr<Omnific::Transform> Omnific::Scene::calculate_global_transform(E
     return global_transform;
 }
 
-std::vector<size_t> Omnific::Scene::get_render_order_index_cache()
+std::vector<size_t> Omnific::Scene::get_rendering_order_index_cache()
 {
-	return this->render_order_index_cache;
+	return this->rendering_order_index_cache;
 }
 
 std::unordered_map<std::string, std::vector<size_t>> Omnific::Scene::get_component_index_caches()
@@ -676,6 +676,23 @@ std::shared_ptr<Omnific::Component> Omnific::Scene::get_component(std::string ty
 		component = this->get_component_by_id(entity->component_ids.at(type));
 
 	return component;
+}
+
+std::vector<std::shared_ptr<Omnific::Model>> Omnific::Scene::get_models_in_rendering_order()
+{
+	std::vector<std::shared_ptr<Model>> models;
+	std::vector<std::shared_ptr<Component>> components = this->get_components();
+
+	for (int i = 0; i < this->rendering_order_index_cache.size(); ++i)
+	{
+		std::shared_ptr<Model> model =
+			std::dynamic_pointer_cast<Model>(components[this->rendering_order_index_cache[i]]);
+
+		if (model != nullptr)
+			models.push_back(model);
+	}
+
+	return models;
 }
 
 void Omnific::Scene::load_from_gltf(std::string filepath)

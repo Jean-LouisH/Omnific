@@ -35,6 +35,7 @@
 #include <foundations/resources/image.hpp>
 
 #include "scene/components/component.hpp"
+#include <scene/components/model.hpp>
 #include "entity.hpp"
 #include <tiny_gltf.h>
 #include <foundations/clock.hpp>
@@ -76,7 +77,7 @@ namespace Omnific
 		std::queue<EntityID> get_finish_entity_queue();
 
 		std::vector<std::shared_ptr<Component>> get_components();
-		std::vector<size_t> get_render_order_index_cache();
+		std::vector<size_t> get_rendering_order_index_cache();
 		std::unordered_map<std::string, std::vector<size_t>> get_component_index_caches();
 		std::shared_ptr<Entity> get_entity(EntityID entity_id);
 		std::shared_ptr<Entity> get_entity_by_name(std::string name);
@@ -84,6 +85,7 @@ namespace Omnific
 		std::unordered_map<EntityID, std::shared_ptr<Entity>> get_entities();
 		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
+		std::vector<std::shared_ptr<Model>> get_models_in_rendering_order();
 
 		template <class T>
 		std::shared_ptr<T> get_component_by_type(EntityID entity_id)
@@ -157,7 +159,7 @@ namespace Omnific
 		EntityID last_entity_id = 0;
 
 		std::unordered_map<std::string, std::vector<size_t>> component_index_caches;
-		std::vector<size_t> render_order_index_cache;
+		std::vector<size_t> rendering_order_index_cache;
 		std::unordered_map<EntityID, std::shared_ptr<Transform>> cached_global_transforms;
 
 		void load_from_gltf(std::string filepath);
