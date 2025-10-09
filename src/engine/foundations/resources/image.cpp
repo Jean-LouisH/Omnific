@@ -31,7 +31,6 @@
 Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrap_length)
 {
 	this->type = TYPE_STRING;
-	this->alignment = Alignment::TOP_LEFT;
 
 	// Having a space in the string ensures TTF_RenderUTF8 renders a texture.
 	if (text == "")
@@ -78,14 +77,12 @@ Omnific::Image::Image(std::shared_ptr<Colour> colour)
 {
 	int width = 256;
 	int height = 256;
-	this->alignment = Alignment::CENTRE;
 	this->set_to_colour(colour, width, height);
 	this->size = this->width * this->height * this->colour_channel_count;
 }
 
 Omnific::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
 {
-	this->alignment = Alignment::CENTRE;
 	this->set_to_colour(colour, width, height);
 	this->size = this->width * this->height * this->colour_channel_count;
 }
@@ -93,7 +90,6 @@ Omnific::Image::Image(std::shared_ptr<Colour> colour, int width, int height)
 Omnific::Image::Image(uint8_t* data, int width, int height, int colour_channels)
 {
 	this->type = TYPE_STRING;
-	this->alignment = Alignment::CENTRE;
 	this->set_to_parameters(colour_channels, width, height, data);
 	this->size = this->width * this->height * this->colour_channel_count;
 }
@@ -102,7 +98,6 @@ Omnific::Image::Image(std::string filepath)
 {
 	stbi_set_flip_vertically_on_load(0);
 	this->type = TYPE_STRING;
-	this->alignment = Alignment::CENTRE;
 	this->set_name(filepath);
 
 	std::string delimitter = "Image::";
@@ -173,11 +168,6 @@ glm::vec2 Omnific::Image::get_dimensions()
 uint8_t Omnific::Image::get_bytes_per_pixel()
 {
 	return this->colour_channel_count;
-}
-
-Omnific::Image::Alignment Omnific::Image::get_alignment()
-{
-	return this->alignment;
 }
 
 void Omnific::Image::normal_blend(

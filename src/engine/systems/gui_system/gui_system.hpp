@@ -52,7 +52,7 @@ namespace Omnific
 	private:
 		void detect_inputs_for_gui_element(
 			std::shared_ptr<Omnific::GUIElement> gui_element, 
-			glm::vec2 gui_position,
+			glm::vec2 gui_element_global_position,
 			glm::vec2 mouse_position);
 	};
 }

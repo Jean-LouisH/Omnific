@@ -43,13 +43,6 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Image : public Resource
 	{
 	public:
-		enum class Alignment
-		{
-			TOP_LEFT,
-			TOP_RIGHT,
-			CENTRE
-		};
-
 		static constexpr const char* TYPE_STRING = "Image";
 		Image() 
 		{ 
@@ -75,7 +68,6 @@ namespace Omnific
 		float get_aspect_ratio();
 		glm::vec2 get_dimensions();
 		uint8_t get_bytes_per_pixel();
-		Alignment get_alignment();
 
 		static void normal_blend(
 			uint8_t* lower_image_data,
@@ -91,7 +83,6 @@ namespace Omnific
 		int width = 0;
 		int height = 0;
 		int colour_channel_count = 0;
-		Alignment alignment;
 
 		void colourize_pixel(uint32_t fill_colour, int x, int y);
 		void set_to_default();

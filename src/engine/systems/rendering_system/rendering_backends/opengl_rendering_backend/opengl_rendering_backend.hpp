@@ -75,7 +75,7 @@ namespace Omnific
 		std::string get_default_3d_fragment_input();
 		std::string get_light_source_fragment_input();
 		std::string get_unlit_fragment_input();
-		std::string get_phong_fragment_input();
+		std::string get_simple_fragment_input();
 		std::string get_pbr_fragment_input();
 		std::shared_ptr<OpenGLTexture> get_texture(std::shared_ptr<Image> image);
 		std::shared_ptr<OpenGLVertexArray> get_vertex_array(std::shared_ptr<Mesh> mesh);

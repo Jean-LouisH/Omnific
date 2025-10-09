@@ -4,8 +4,10 @@ Entity:
     GUILabel: 
       text: "This is a Label!"
       font: ["apps/clock/fonts/Lato-Regular.ttf", 50]
-      colour: "#0000FFFF"
-      position: [315, 215]
+      text_colour: "#0000FFFF"
+      pivot: "centre"
+      anchoring: "centre"
+      #position: [315, 215]
   ScriptCollection:
       Python: ["apps/clock/scripts/python/clock.py"]
 Entity:

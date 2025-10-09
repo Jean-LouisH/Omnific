@@ -1,5 +1,6 @@
 Scene:
-  name: "Scene::monkey"
+  name: "Unlit"
+  source: "Scene::monkey"
   transform:
     translation: [-2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
@@ -8,18 +9,40 @@ Scene:
       preset: "Shader::UNLIT"
   ScriptCollection:
     Python: ["tests/scripts/python/constantly_rotate.py"]
+Entity:
+  name: "UnlitText"
+  GUI:
+    follow_target_entity_name: "Unlit"
+    offset: [0.0, -100.0]
+    GUILabel: 
+      text: "Unlit Shader"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_centre"
 Scene:
-  name: "Scene::monkey"
+  name: "Simple"
+  source: "Scene::monkey"
   transform:
     translation: [0.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
   Model: 
     overriding_shader:
-      preset: "Shader::PHONG"
+      preset: "Shader::SIMPLE"
   ScriptCollection:
     Python: ["tests/scripts/python/constantly_rotate.py"]
+Entity:
+  name: "SimpleText"
+  GUI:
+    follow_target_entity_name: "Simple"
+    offset: [0.0, -100.0]
+    GUILabel: 
+      text: "Simple Shader"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_centre"
 Scene:
-  name: "Scene::monkey"
+  name: "PBR"
+  source: "Scene::monkey"
   transform:
     translation: [2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
@@ -28,6 +51,16 @@ Scene:
       preset: "Shader::PBR"
   ScriptCollection:
     Python: ["tests/scripts/python/constantly_rotate.py"]
+Entity:
+  name: "PBRText"
+  GUI:
+    follow_target_entity_name: "PBR"
+    offset: [0.0, -100.0]
+    GUILabel: 
+      text: "PBR Shader"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_centre"
 Entity:
   name: "Light Armature"
   ScriptCollection:

@@ -71,7 +71,7 @@ namespace Omnific
 		std::shared_ptr<Light> dummy_light;
 		std::shared_ptr<Transform> dummy_light_transform;
 
-		RenderingPath rendering_path;
+		RenderingPath rendering_path = RenderingPath::FORWARD;
 
 		void on_window_resize();
 	};

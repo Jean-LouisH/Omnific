@@ -214,7 +214,7 @@ std::string Omnific::OpenGLRenderingBackend::get_unlit_fragment_input()
 	return DefaultAssets::fragment_unlit_glsl;
 }
 
-std::string Omnific::OpenGLRenderingBackend::get_phong_fragment_input()
+std::string Omnific::OpenGLRenderingBackend::get_simple_fragment_input()
 {
 	return DefaultAssets::fragment_simple_glsl;
 }

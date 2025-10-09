@@ -4,8 +4,9 @@ Entity:
     GUILabel: 
       text: "This is a Label!"
       font: ["tests/fonts/Lato-Regular.ttf", 20]
-      colour: "#FFFFFFFF"
-      position: [1.0, 0.0]
+      text_colour: "#FFFFFFFF"
+      #position: [1.0, 0.0]
+      anchoring: "top_left"
   # ScriptCollection:
   #   Python: ["tests/scripts/python/gui_test.py"]
 Entity:
@@ -16,6 +17,8 @@ Entity:
       font: ["tests/fonts/Lato-Regular.ttf", 20]
       text_colour: "#000000FF"
       position: [100.0, 100.0]
+      pivot: "centre"
+      anchoring: "centre"
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:

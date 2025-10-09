@@ -23,8 +23,8 @@
 #pragma once
 
 #include "foundations/resources/image.hpp"
-#include <foundations/resources/default_assets/shaders/vertex_gui_element_glsl.hpp>
-#include <foundations/resources/default_assets/shaders/fragment_gui_element_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/vertex_gui_glsl.hpp>
+#include <foundations/resources/default_assets/shaders/fragment_gui_glsl.hpp>
 #include "model.hpp"
 #include "scene/components/component.hpp"
 #include "foundations/colour.hpp"
@@ -42,6 +42,20 @@ namespace Omnific
 		friend class GUIPanel;
 		friend class GUIList;
 	public:
+		enum class GUIPoint
+		{
+			NONE,
+			TOP_LEFT,
+			TOP_CENTRE,
+			TOP_RIGHT,
+			CENTRE_LEFT,
+			CENTRE,
+			CENTRE_RIGHT,
+			BOTTOM_LEFT,
+			BOTTOM_CENTRE,
+			BOTTOM_RIGHT
+		};
+
 		static constexpr const char* TYPE_STRING = "GUIElement";
 		GUIElement()
 		{
@@ -54,6 +68,8 @@ namespace Omnific
 			this->target_current_colour = target_default_background_colour;
 			this->dimensions = glm::vec2(0.0);
 			this->position = glm::vec2(0.0);
+			this->pivot = GUIPoint::TOP_LEFT;
+			this->anchoring = GUIPoint::NONE;
 		}
 		/* The position has an increasing y that approaches the down direction. */
 		bool is_hidden = false;
@@ -62,13 +78,17 @@ namespace Omnific
 		bool is_draggable = false;
 		bool is_xstretched_to_panel = false;
 		bool is_ystretched_to_panel = false;
+		GUIPoint pivot;
+		GUIPoint anchoring;
 
 		virtual ~GUIElement() = default;
+		void deserialize_common_properties(YAML::Node yaml_node);
 		virtual void update_image();
 		bool get_is_in_focus();
 		bool get_is_selected();
 		glm::vec2 get_position();
 		glm::vec2 get_dimensions();
+		glm::vec2 get_pivot_offset();
 		std::string get_name();
 		std::string get_gui_element_type();
 		std::string get_parent_type();
@@ -79,6 +99,7 @@ namespace Omnific
 
 		glm::vec2 position;
 		glm::vec2 dimensions;
+		glm::vec2 pivot_offset;
 
 		std::string name;
 		std::string gui_element_type;
@@ -137,18 +158,18 @@ namespace Omnific
 			this->gui_element_type = TYPE_STRING;
 			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
 			this->parent_type = GUIElement::TYPE_STRING;
-			this->colour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
+			this->text_colour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
 			this->font = std::shared_ptr<Font>(new Font());
 		};
 		void set_text(std::string text);
 		void set_font(std::shared_ptr<Font> font);
-		void set_colour(std::shared_ptr<Colour> colour);
+		void set_text_colour(std::shared_ptr<Colour> colour);
 		virtual void update_image() override;
 	private:
 		std::string text;
 		std::shared_ptr<Font> font;
 		uint16_t wrap_length = 500;
-		std::shared_ptr<Colour> colour;
+		std::shared_ptr<Colour> text_colour;
 		bool is_edittable = false;
 	};
 
@@ -415,7 +436,7 @@ namespace Omnific
 		GUI()
 		{
 			this->type = TYPE_STRING;
-			this->shader = std::shared_ptr<Shader>(new Shader(DefaultAssets::vertex_gui_element_glsl, DefaultAssets::fragment_gui_element_glsl, false, false));
+			this->shader = std::shared_ptr<Shader>(new Shader(DefaultAssets::vertex_gui_glsl, DefaultAssets::fragment_gui_glsl, false, false));
 		};
 		static constexpr const char* TYPE_STRING = "GUI";
 
@@ -426,18 +447,21 @@ namespace Omnific
 			return clone;
 		}
 
+		bool is_2d_override = true;
+
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_to_label(std::string text);
 
 		std::shared_ptr<GUIElement> get_element(std::string gui_element_name);
 		std::shared_ptr<GUIElement> get_root_element();
+		glm::vec2 get_offset();
 		void update_image();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<GUIElement>> element_cache;
 		std::shared_ptr<GUIElement> root_element;
 
 		std::string follow_target_entity_name;
-		glm::vec2 follow_offset;
+		glm::vec2 offset;
 		bool is_following_entity = false;
 
 		std::shared_ptr<GUIElement> deserialize_gui_element(YAML::Node yaml_node);

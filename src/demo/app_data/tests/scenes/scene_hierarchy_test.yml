@@ -14,6 +14,16 @@ Entity:
   Model:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
+Entity:
+  name: "TranslationText"
+  GUI:
+    follow_target_entity_name: "Translation"
+    offset: [0.0, 75.0]
+    GUILabel: 
+      text: "Translation"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#FFFFFFFF"
+      pivot: "bottom_centre"
 Entity: 
   name: "Translation Child"
   parent: "Translation"
@@ -34,6 +44,16 @@ Entity:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity:
+  name: "RotationText"
+  GUI:
+    follow_target_entity_name: "Rotation"
+    offset: [0.0, 75.0]
+    GUILabel: 
+      text: "Rotation"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#FFFFFFFF"
+      pivot: "bottom_centre"
+Entity:
   name: "Rotation Child"
   parent: "Rotation"
   transform: 
@@ -52,6 +72,16 @@ Entity:
   Model:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
+Entity:
+  name: "ScaleText"
+  GUI:
+    follow_target_entity_name: "Scale"
+    offset: [0.0, 75.0]
+    GUILabel: 
+      text: "Scale"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#FFFFFFFF"
+      pivot: "bottom_centre"
 Entity:
   name: "Scale Child"
   parent: "Scale"

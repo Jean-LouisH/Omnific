@@ -26,7 +26,7 @@ Entity:
     Python: ["tests/scripts/python/constantly_rotate.py"]
   Model:
     overriding_shader:
-      preset: "Shader::PHONG"
+      preset: "Shader::SIMPLE"
 Scene:
   name: ["tests/models/suzanne.glb", ""]
   parent: "Model"

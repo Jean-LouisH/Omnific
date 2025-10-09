@@ -29,9 +29,9 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 ![event_bus](docs/images/event_bus.gif)
 
-- Model loading via TinyGLTF, including Mesh and Material texture maps
+- Scene loading via TinyGLTF, including Mesh and Materials and PBR shading.
 
-![opengl](docs/images/suzanne.gif)
+![opengl](docs/images/omnific_shader_demo.gif)
 
 - Python VM scripting via pybind11 with game loop calls to Python and Engine API calls from Python. Imports, including pip installed packages are supported.
 

@@ -5,7 +5,7 @@ Entity:
   transform: default
   Model:
     overriding_shader:
-      preset: "Shader::PHONG"
+      preset: "Shader::SIMPLE"
 Entity:
   name: "Camera"
   transform:
@@ -40,11 +40,14 @@ Entity:
   name: "ScoreCount1"
   parent: "Paddle1"
   GUI:
+    follow_target_entity_name: "Paddle1"
+    offset: [0.0, 50.0]
     GUILabel: 
       text: "a"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-      colour: "#FF0000FF"
-      position: [0.0, 40.0]
+      text_colour: "#FF0000FF"
+      pivot: "bottom_centre"
+      #position: [0.0, 40.0]
   ScriptCollection:
     Python: ["games/pong/scripts/python/player_score.py"]
 Entity:
@@ -66,11 +69,14 @@ Entity:
   name: "ScoreCount2"
   parent: "Paddle2"
   GUI:
+    follow_target_entity_name: "Paddle2"
+    offset: [0.0, 50.0]
     GUILabel: 
       text: "b"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-      colour: "#0000FFFF"
-      position: [0.0, 0.0]
+      text_colour: "#0000FFFF"
+      pivot: "bottom_centre"
+      #position: [0.0, 0.0]
   ScriptCollection:
     Python: ["games/pong/scripts/python/ai_score.py"]
 Entity:

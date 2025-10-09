@@ -110,22 +110,6 @@ void Omnific::Model::set_to_image(std::shared_ptr<Image> image)
 	int x_centre = width / 2;
 	int y_centre = height / 2;
 
-	if (image->get_alignment() == Image::Alignment::CENTRE)
-	{
-		x_centre = width / 2;
-		y_centre = height / 2;
-	}
-	else if (image->get_alignment() == Image::Alignment::TOP_LEFT)
-	{
-		x_centre = 0;
-		y_centre = 0;
-	}
-	else if (image->get_alignment() == Image::Alignment::TOP_RIGHT)
-	{
-		x_centre = width;
-		y_centre = 0;
-	}
-
 	/* This stretches the mesh dimensions to the model. */
 	mesh->vertices[0].position = glm::vec3(width - x_centre, height - y_centre, 0.0); //top right
 	mesh->vertices[1].position = glm::vec3(width - x_centre, 0 - y_centre, 0.0); //bottom right

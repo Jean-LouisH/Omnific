@@ -94,7 +94,7 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 				std::shared_ptr<Entity> viewport_entity = std::shared_ptr<Entity>(new Entity());
 				std::shared_ptr<Viewport> viewport = std::shared_ptr<Viewport>(new Viewport());
 				this->add_entity(viewport_entity);
-				this->set_entity_name(viewport_entity->get_id(), "Viewport");
+				this->set_entity_name(viewport_entity->get_id(), DEFAULT_VIEWPORT_NAME);
 				this->add_component_to_last_entity(viewport);
 
 				for (YAML::const_iterator it1 = yaml_node.begin(); it1 != yaml_node.end(); ++it1)
@@ -104,6 +104,7 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 						std::shared_ptr<Entity> entity(new Entity());
 						this->add_entity(entity);
 						std::string name;
+						std::string source;
 
 						for (YAML::const_iterator it2 = it1->second.begin(); it2 != it1->second.end(); ++it2)
 						{
@@ -113,6 +114,12 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 								name = it2->second.as<std::string>();
 								this->set_entity_name(this->get_last_entity()->get_id(), name);
 							}
+							else if (it2->first.as<std::string>() == "source")
+							{
+								source = it2->second.as<std::string>();
+								if (name == "")
+									this->set_entity_name(this->get_last_entity()->get_id(), source);
+							}					
 							else if (it2->first.as<std::string>() == "parent")
 							{
 								this->add_entity_to_parent_entity_by_name(entity, it2->second.as<std::string>());
@@ -159,9 +166,9 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 
 						if (it1->first.as<std::string>() == "Scene")
 						{
-							if (name != filepath)
+							if (source != filepath)
 							{
-								this->merge_another_scene_to_parent_entity(std::shared_ptr<Scene>(new Scene(name)), entity->get_id());
+								this->merge_another_scene_to_parent_entity(std::shared_ptr<Scene>(new Scene(source)), entity->get_id());
 							}
 						}
 					}
@@ -177,8 +184,12 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 			std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
 			std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
 
+			debug_gui_entity->is_2d = true;
 			debug_gui->hide();
 			debug_gui->set_to_label("");
+			std::shared_ptr<GUIElement> root_element = debug_gui->get_root_element();
+			root_element->pivot = GUIElement::GUIPoint::TOP_RIGHT;
+			root_element->anchoring = GUIElement::GUIPoint::TOP_RIGHT;
 			this->add_entity(debug_camera_entity);
 			this->add_component_to_last_entity(debug_camera);
 			this->set_entity_name(debug_gui_entity->get_id(), "debug_camera_entity");
@@ -244,7 +255,7 @@ void Omnific::Scene::merge_another_scene_to_parent_entity(std::shared_ptr<Scene>
 {
 	if (other_scene != nullptr)
 	{
-		std::shared_ptr<Entity> viewport_entity = other_scene->get_entity_by_name("Viewport");
+		std::shared_ptr<Entity> viewport_entity = other_scene->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
 		std::shared_ptr<Entity> debug_camera_entity = other_scene->get_entity_by_name("debug_camera_entity");
 		std::shared_ptr<Entity> debug_gui_entity = other_scene->get_entity_by_name("debug_gui_entity");
 		
@@ -374,7 +385,12 @@ void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component
 				this->rendering_order_index_cache.push_back(last_index);
 			}
 
-			std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name("Viewport");
+			if (component->type == GUI::TYPE_STRING)
+			{
+				entity->is_2d = std::dynamic_pointer_cast<GUI>(component)->is_2d_override;
+			}
+
+			std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
 			if (viewport_entity != nullptr)
 			{
 				std::shared_ptr<Viewport> viewport = this->get_component_by_type<Viewport>(viewport_entity->get_id());

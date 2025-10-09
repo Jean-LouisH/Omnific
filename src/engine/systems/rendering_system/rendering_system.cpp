@@ -164,8 +164,8 @@ void Omnific::RenderingSystem::on_output()
 							std::shared_ptr<Entity> entity = scene->get_entity(model->get_entity_id());
 							std::shared_ptr<Transform> transform = entity->get_transform();
 
-							if (!model->is_type(GUI::TYPE_STRING) && 
-								entity->is_2d == camera_entity->is_2d &&
+							if (entity->is_2d == camera_entity->is_2d &&
+								(!model->is_type(GUI::TYPE_STRING) || !entity->is_2d) &&
 								model->mesh != nullptr)
 							{
 								this->opengl_backend->enable_blending();
@@ -288,11 +288,11 @@ void Omnific::RenderingSystem::on_output()
 												false,
 												false));
 										}
-										else if (preset == "Shader::PHONG")
+										else if (preset == "Shader::SIMPLE")
 										{
 											complete_shader = std::shared_ptr<Shader>(new Shader(
 												default_vertex_input,
-												this->opengl_backend->get_phong_fragment_input(),
+												this->opengl_backend->get_simple_fragment_input(),
 												false,
 												false));
 										}
@@ -419,7 +419,9 @@ void Omnific::RenderingSystem::on_output()
 	/* Render all GUIs */
 	for (auto& gui : scene->get_components_by_type<GUI>())
 	{
-		if (gui->mesh != nullptr)
+		std::shared_ptr<Entity> gui_entity = scene->get_entity(gui->get_entity_id());
+
+		if (gui->mesh != nullptr && gui_entity->is_2d)
 		{
 			this->opengl_backend->enable_blending();
 			std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(gui->mesh);
@@ -440,8 +442,10 @@ void Omnific::RenderingSystem::on_output()
 			shader_program = this->opengl_backend->shader_programs.at(shader_id);
 			shader_program->use();
 
+			std::shared_ptr<GUIElement> root_element = gui->get_root_element();
+
 			/* Standard GUI uniforms */
-			shader_program->set_vec2("gui_element_position", gui->get_root_element()->get_position());
+			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_pivot_offset() + gui->get_offset());
 			shader_program->set_vec2("screen_viewport", Platform::get_window().get_window_size());
 			shader_program->set_int("albedo_texture_sampler", 0);
 			shader_program->set_float("alpha", gui->get_alpha_in_percentage());

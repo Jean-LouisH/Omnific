@@ -3,12 +3,14 @@ Entity:
   ScriptCollection:
     Python: ["selection_menu.py"]
   GUI:
+    offset: [20.0, -10.0]
     GUILabel: 
       text: ""
       font: ["tests/fonts/Lato-Regular.ttf", 20]
-      colour: "#FFFFFFFF"
+      text_colour: "#FFFFFFFF"
       wrap_length: 1000
-      position: [50.0, 0.0]
+      anchoring: "top_left"
+      #position: [50.0, 0.0]
 Entity:
   name: "Camera"
   Camera: "default"

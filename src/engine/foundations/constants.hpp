@@ -50,3 +50,5 @@
 #define TOTAL_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME "total_on_late_update_frame_time"
 #define TOTAL_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME "total_on_entity_finish_frame_time"
 #define TOTAL_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "total_on_output_frame_time"
+
+#define DEFAULT_VIEWPORT_NAME "Viewport"

@@ -35,10 +35,14 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 			this->follow_target_entity_name = it3->second.as<std::string>();
 			this->is_following_entity = true;
 		}
-		else if (it3->first.as<std::string>() == "follow_offset")
+		else if (it3->first.as<std::string>() == "offset")
 		{
-			this->follow_offset.x = it3->second[0].as<double>();
-			this->follow_offset.y = it3->second[1].as<double>();
+			this->offset.x = it3->second[0].as<double>();
+			this->offset.y = it3->second[1].as<double>();
+		}
+		else if (it3->first.as<std::string>() == "is_2d_override")
+		{
+			this->is_2d_override = it3->second.as<bool>();
 		}
 		else
 		{
@@ -47,6 +51,89 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 	}
 
 	this->update_image();
+}
+
+void Omnific::GUIElement::deserialize_common_properties(YAML::Node yaml_node)
+{
+	for (YAML::const_iterator it = yaml_node.begin(); it != yaml_node.end(); ++it)
+	{
+		if (it->first.as<std::string>() == "name")
+		{
+			this->name = it->second.as<std::string>();
+		}
+		else if (it->first.as<std::string>() == "position")
+		{
+			this->position.x = it->second[0].as<double>();
+			this->position.y = it->second[1].as<double>();
+		}
+		else if (it->first.as<std::string>() == "dimensions")
+		{
+			this->dimensions.x = it->second[0].as<double>();
+			this->dimensions.y = it->second[1].as<double>();
+		}
+		else if (it->first.as<std::string>() == "pivot")
+		{
+			if (it->second.as<std::string>() == "top_left")
+				this->pivot = GUIElement::GUIPoint::TOP_LEFT;
+			else if (it->second.as<std::string>() == "top_centre")
+				this->pivot = GUIElement::GUIPoint::TOP_CENTRE;
+			else if (it->second.as<std::string>() == "top_right")
+				this->pivot = GUIElement::GUIPoint::TOP_RIGHT;
+			else if (it->second.as<std::string>() == "centre_left")
+				this->pivot = GUIElement::GUIPoint::CENTRE_LEFT;
+			else if (it->second.as<std::string>() == "centre")
+				this->pivot = GUIElement::GUIPoint::CENTRE;
+			else if (it->second.as<std::string>() == "centre_right")
+				this->pivot = GUIElement::GUIPoint::CENTRE_RIGHT;
+			else if (it->second.as<std::string>() == "bottom_left")
+				this->pivot = GUIElement::GUIPoint::BOTTOM_LEFT;
+			else if (it->second.as<std::string>() == "bottom_centre")
+				this->pivot = GUIElement::GUIPoint::BOTTOM_CENTRE;
+			else if (it->second.as<std::string>() == "bottom_right")
+				this->pivot = GUIElement::GUIPoint::BOTTOM_RIGHT;
+		}
+		else if (it->first.as<std::string>() == "anchoring")
+		{
+			if (it->second.as<std::string>() == "top_left")
+				this->anchoring = GUIElement::GUIPoint::TOP_LEFT;
+			else if (it->second.as<std::string>() == "top_centre")
+				this->anchoring = GUIElement::GUIPoint::TOP_CENTRE;
+			else if (it->second.as<std::string>() == "top_right")
+				this->anchoring = GUIElement::GUIPoint::TOP_RIGHT;
+			else if (it->second.as<std::string>() == "centre_left")
+				this->anchoring = GUIElement::GUIPoint::CENTRE_LEFT;
+			else if (it->second.as<std::string>() == "centre")
+				this->anchoring = GUIElement::GUIPoint::CENTRE;
+			else if (it->second.as<std::string>() == "centre_right")
+				this->anchoring = GUIElement::GUIPoint::CENTRE_RIGHT;
+			else if (it->second.as<std::string>() == "bottom_left")
+				this->anchoring = GUIElement::GUIPoint::BOTTOM_LEFT;
+			else if (it->second.as<std::string>() == "bottom_centre")
+				this->anchoring = GUIElement::GUIPoint::BOTTOM_CENTRE;
+			else if (it->second.as<std::string>() == "bottom_right")
+				this->anchoring = GUIElement::GUIPoint::BOTTOM_RIGHT;
+		}
+		else if (it->first.as<std::string>() == "image")
+		{
+			;
+		}
+		else if (it->first.as<std::string>() == "is_clickable")
+		{
+			this->is_clickable = it->second.as<bool>();
+		}
+		else if (it->first.as<std::string>() == "is_highlightable")
+		{
+			this->is_highlightable = it->second.as<bool>();
+		}
+		else if (it->first.as<std::string>() == "is_x_stretched_to_panel")
+		{
+			this->is_xstretched_to_panel = it->second.as<bool>();
+		}
+		else if (it->first.as<std::string>() == "is_y_stretched_to_panel")
+		{
+			this->is_ystretched_to_panel = it->second.as<bool>();
+		}
+	}
 }
 
 void Omnific::GUIElement::update_image()
@@ -72,6 +159,11 @@ glm::vec2 Omnific::GUIElement::get_position()
 glm::vec2 Omnific::GUIElement::get_dimensions()
 {
 	return this->dimensions;
+}
+
+glm::vec2 Omnific::GUIElement::get_pivot_offset()
+{
+	return this->pivot_offset;
 }
 
 std::string Omnific::GUIElement::get_name()
@@ -223,19 +315,19 @@ void Omnific::GUILabel::set_font(std::shared_ptr<Omnific::Font> font)
 	this->update_image();
 }
 
-void Omnific::GUILabel::set_colour(std::shared_ptr<Colour> colour)
+void Omnific::GUILabel::set_text_colour(std::shared_ptr<Colour> colour)
 {
-	this->colour = colour;
+	this->text_colour = colour;
 	this->update_image();
 }
 
 void Omnific::GUILabel::update_image()
 {
-	if (!this->is_hidden && this->font != nullptr && this->colour != nullptr)
+	if (!this->is_hidden && this->font != nullptr && this->text_colour != nullptr)
 	{
 		if (this->font->get_sdl_ttf_font() != nullptr)
 		{
-			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->colour, this->wrap_length));
+			this->image = std::shared_ptr<Image>(new Image(this->text, this->font, this->text_colour, this->wrap_length));
 			this->dimensions = this->image->get_dimensions();
 		}
 	}
@@ -253,25 +345,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
-				if (it6->first.as<std::string>() == "name")
-				{
-					gui_panel->name = it6->second.as<std::string>();
-				}
-				else if (it6->first.as<std::string>() == "position")
-				{
-					gui_panel->position.x = it6->second[0].as<double>();
-					gui_panel->position.y = it6->second[1].as<double>();
-				}
-				else if (it6->first.as<std::string>() == "dimensions")
-				{
-					gui_panel->dimensions.x = it6->second[0].as<double>();
-					gui_panel->dimensions.y = it6->second[1].as<double>();
-				}
-				else if (it6->first.as<std::string>() == "colour")
-				{
-					gui_panel->target_default_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
-				}
-				else if (it6->first.as<std::string>() == "image")
+				if (it6->first.as<std::string>() == "x")
 				{
 					;
 				}
@@ -284,6 +358,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 					}
 				}
 			}
+			gui_panel->deserialize_common_properties(it5->second);
 			gui_panel->update_image();
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_panel);
 		}
@@ -299,6 +374,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_menu_bar->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_menu_bar);
 		}
 		else if (it5->first.as<std::string>() == "GUIContextMenu")
@@ -313,6 +389,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_context_menu->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_context_menu);
 		}
 		else if (it5->first.as<std::string>() == "GUIColour")
@@ -321,12 +398,13 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
-				if (it6->first.as<std::string>() == "colour")
+				if (it6->first.as<std::string>() == "")
 				{
-					gui_colour->target_default_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+
 				}
 			}
 
+			gui_colour->deserialize_common_properties(it5->second);
 			gui_colour->update_image();
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_colour);
 		}
@@ -338,25 +416,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
-				if (it6->first.as<std::string>() == "is_x_stretched_to_panel")
-				{
-					gui_button->is_xstretched_to_panel = it6->second.as<bool>();
-				}
-				else if (it6->first.as<std::string>() == "is_y_stretched_to_panel")
-				{
-					gui_button->is_ystretched_to_panel = it6->second.as<bool>();
-				}
-				else if (it6->first.as<std::string>() == "default_dimensions")
-				{
-					gui_button->dimensions.x = it6->second[0].as<double>();
-					gui_button->dimensions.y = it6->second[1].as<double>();
-				}
-				else if (it6->first.as<std::string>() == "position")
-				{
-					gui_button->position.x = it6->second[0].as<double>();
-					gui_button->position.y = it6->second[1].as<double>();
-				}
-				else if (it6->first.as<std::string>() == "text")
+				if (it6->first.as<std::string>() == "text")
 				{
 					gui_button->gui_label->text = it6->second.as<std::string>();
 				}
@@ -368,17 +428,10 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 				else if (it6->first.as<std::string>() == "text_colour")
 				{
-					gui_button->gui_label->colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
-				}
-				else if (it6->first.as<std::string>() == "colour")
-				{
-					gui_button->target_default_background_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
-				}
-				else if (it6->first.as<std::string>() == "image")
-				{
-					;
+					gui_button->gui_label->text_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 				}
 			}
+			gui_button->deserialize_common_properties(it5->second);
 			gui_button->gui_label->update_image();
 			gui_button->update_image();
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_button);
@@ -395,6 +448,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_toggle_button->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_toggle_button);
 		}
 		else if (it5->first.as<std::string>() == "GUIList")
@@ -409,6 +463,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_list->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_list);
 		}
 		else if (it5->first.as<std::string>() == "GUITree")
@@ -423,56 +478,37 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_tree->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_tree);
 		}
 		else if (it5->first.as<std::string>() == "GUILabel")
 		{
-			std::shared_ptr<GUILabel> gui_text(new GUILabel());
+			std::shared_ptr<GUILabel> gui_label(new GUILabel());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
-				if (it6->first.as<std::string>() == "is_clickable")
+				if (it6->first.as<std::string>() == "text")
 				{
-					gui_text->is_clickable = it6->second.as<bool>();
-				}
-				if (it6->first.as<std::string>() == "is_highlightable")
-				{
-					gui_text->is_highlightable = it6->second.as<bool>();
-				}
-				if (it6->first.as<std::string>() == "is_x_stretched_to_panel")
-				{
-					gui_text->is_xstretched_to_panel = it6->second.as<bool>();
-				}
-				else if (it6->first.as<std::string>() == "is_y_stretched_to_panel")
-				{
-					gui_text->is_ystretched_to_panel = it6->second.as<bool>();
-				}
-				else if (it6->first.as<std::string>() == "position")
-				{
-					gui_text->position.x = it6->second[0].as<double>();
-					gui_text->position.y = it6->second[1].as<double>();
-				}
-				else if (it6->first.as<std::string>() == "text")
-				{
-					gui_text->text = it6->second.as<std::string>();
+					gui_label->text = it6->second.as<std::string>();
 				}
 				else if (it6->first.as<std::string>() == "font")
 				{
 					std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_resource_by_type<Font>(it6->second[0].as<std::string>());
 					*font = Font(font->get_name(), it6->second[1].as<int>());
-					gui_text->font = font;
-				}
-				else if (it6->first.as<std::string>() == "colour")
-				{
-					gui_text->colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
+					gui_label->font = font;
 				}
 				else if (it6->first.as<std::string>() == "wrap_length")
 				{
-					gui_text->wrap_length = it6->second.as<int>();
+					gui_label->wrap_length = it6->second.as<int>();
+				}
+				else if (it6->first.as<std::string>() == "text_colour")
+				{
+					gui_label->text_colour = std::shared_ptr<Colour>(new Colour(it6->second.as<std::string>()));
 				}
 			}
-			gui_text->update_image();
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_text);
+			gui_label->deserialize_common_properties(it5->second);
+			gui_label->update_image();
+			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_label);
 		}
 		else if (it5->first.as<std::string>() == "GUITiles")
 		{
@@ -486,9 +522,10 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_tiles->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_tiles);
 		}
-		else if (it5->first.as<std::string>() == "GUIListBox")
+		else if (it5->first.as<std::string>() == "GUIList")
 		{
 			std::shared_ptr<GUIList> gui_list_box(new GUIList());
 
@@ -500,6 +537,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_list_box->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_list_box);
 		}
 		else if (it5->first.as<std::string>() == "GUISpinner")
@@ -514,6 +552,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_spinner->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_spinner);
 		}
 		else if (it5->first.as<std::string>() == "GUIDropDownList")
@@ -528,6 +567,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_drop_down_list->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_drop_down_list);
 		}
 		else if (it5->first.as<std::string>() == "GUISlider")
@@ -542,6 +582,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_slider->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_slider);
 		}
 		else if (it5->first.as<std::string>() == "GUILine")
@@ -556,6 +597,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 			}
 
+			gui_line->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_line);
 		}
 		else if (it5->first.as<std::string>() == "GUITreeView")
@@ -564,9 +606,13 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
+				if (it6->first.as<std::string>() == "")
+				{
 
+				}
 			}
 
+			gui_tree_view->deserialize_common_properties(it5->second);
 			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_tree_view);
 		}
 	}
@@ -595,7 +641,7 @@ void Omnific::GUI::set_to_label(std::string text)
 	{
 		this->element_cache.clear();
 		std::shared_ptr<GUILabel> gui_label = std::shared_ptr<GUILabel>(new GUILabel());
-		gui_label->set_colour(std::shared_ptr<Colour>(new Colour("#CCCCCC")));
+		gui_label->set_text_colour(std::shared_ptr<Colour>(new Colour("#CCCCCC")));
 		gui_label->set_font(std::shared_ptr<Font>(new Font()));
 		gui_label->set_text(text);
 		this->root_element = gui_label;
@@ -617,4 +663,9 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_element(std::string gui_e
 std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_root_element()
 {
 	return this->root_element;
+}
+
+glm::vec2 Omnific::GUI::get_offset()
+{
+	return this->offset;
 }
