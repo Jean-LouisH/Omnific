@@ -26,7 +26,7 @@
 
 void Omnific::GUI::deserialize(YAML::Node yaml_node)
 {
-	Model::deserialize(yaml_node);
+	Renderable::deserialize(yaml_node);
 
 	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
@@ -35,10 +35,10 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 			this->follow_target_entity_name = it3->second.as<std::string>();
 			this->is_following_entity = true;
 		}
-		else if (it3->first.as<std::string>() == "offset")
+		else if (it3->first.as<std::string>() == "follow_offset")
 		{
-			this->offset.x = it3->second[0].as<double>();
-			this->offset.y = it3->second[1].as<double>();
+			this->follow_offset.x = it3->second[0].as<double>();
+			this->follow_offset.y = it3->second[1].as<double>();
 		}
 		else if (it3->first.as<std::string>() == "is_2d_override")
 		{
@@ -112,6 +112,11 @@ void Omnific::GUIElement::deserialize_common_properties(YAML::Node yaml_node)
 				this->anchoring = GUIElement::GUIPoint::BOTTOM_CENTRE;
 			else if (it->second.as<std::string>() == "bottom_right")
 				this->anchoring = GUIElement::GUIPoint::BOTTOM_RIGHT;
+		}
+		else if (it->first.as<std::string>() == "margin")
+		{
+			this->margin.x = it->second[0].as<double>();
+			this->margin.y = it->second[1].as<double>();
 		}
 		else if (it->first.as<std::string>() == "image")
 		{
@@ -663,9 +668,4 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_element(std::string gui_e
 std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_root_element()
 {
 	return this->root_element;
-}
-
-glm::vec2 Omnific::GUI::get_offset()
-{
-	return this->offset;
 }

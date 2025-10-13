@@ -23,7 +23,7 @@
 #include "camera_system.hpp"
 #include <foundations/singletons/platform/platform.hpp>
 #include <scene/components/camera.hpp>
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/scene_storage.hpp>
 
@@ -46,7 +46,7 @@ void Omnific::CameraSystem::on_update()
 	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	this->autofit_viewports_to_model_widths(scene);
+	this->autofit_viewports_to_renderable_widths(scene);
 	frame_time_clock->set_end();
 }
 
@@ -55,17 +55,17 @@ void Omnific::CameraSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnific::CameraSystem::autofit_viewports_to_model_widths(std::shared_ptr<Scene> scene)
+void Omnific::CameraSystem::autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene)
 {
 	for (std::shared_ptr<Camera>& camera: scene->get_components_by_type<Camera>())
 	{
 		std::shared_ptr<Entity> target_entity = scene->get_entity_by_name(camera->viewport_target_entity);
 		if (target_entity != nullptr)
 		{
-			std::shared_ptr<Model> model = std::dynamic_pointer_cast<Model>(scene->get_component_by_id(target_entity->get_model_id()));
-			if (model != nullptr)
+			std::shared_ptr<Renderable> renderable = std::dynamic_pointer_cast<Renderable>(scene->get_component_by_id(target_entity->get_renderable_id()));
+			if (renderable != nullptr)
 			{
-				camera->set_viewport_width(model->get_dimensions().x);
+				camera->set_viewport_width(renderable->get_dimensions().x);
 			}	
 		}
 	}

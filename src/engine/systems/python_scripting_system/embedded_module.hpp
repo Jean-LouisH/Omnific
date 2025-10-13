@@ -268,14 +268,14 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("decelerate_y", &Omnific::PhysicsBody::decelerate_y)
 		.def("decelerate_z", &Omnific::PhysicsBody::decelerate_z);
 	pybind11::class_<Omnific::Light, Omnific::Component, std::shared_ptr<Omnific::Light>>(m, Omnific::Light::TYPE_STRING);
-	pybind11::class_<Omnific::Model, Omnific::Component, std::shared_ptr<Omnific::Model>>(m, Omnific::Model::TYPE_STRING)
-		.def_readwrite("shader_parameters", &Omnific::Model::shader_parameters)
-		.def("set_to_cube", &Omnific::Model::set_to_cube)
-		.def("set_to_textured_cube", &Omnific::Model::set_to_textured_cube);
+	pybind11::class_<Omnific::Renderable, Omnific::Component, std::shared_ptr<Omnific::Renderable>>(m, Omnific::Renderable::TYPE_STRING)
+		.def_readwrite("shader_parameters", &Omnific::Renderable::shader_parameters)
+		.def("set_to_cube", &Omnific::Renderable::set_to_cube)
+		.def("set_to_textured_cube", &Omnific::Renderable::set_to_textured_cube);
 	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING);
 	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING);
-	pybind11::class_<Omnific::Sprite, Omnific::Model, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING);
-	pybind11::class_<Omnific::GUI, Omnific::Model, std::shared_ptr<Omnific::GUI>>(m, Omnific::GUI::TYPE_STRING)
+	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING);
+	pybind11::class_<Omnific::GUI, Omnific::Renderable, std::shared_ptr<Omnific::GUI>>(m, Omnific::GUI::TYPE_STRING)
 		.def("set_to_label", &Omnific::GUI::set_to_label);
 	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING);
 

@@ -9,8 +9,8 @@ Entity:
   transform:
     translation: [-30, -10, -5]
     scale: [50, 10, 50]
-  ModelContainer:
-    models: ["Model::cube"]
+  RenderableContainer:
+    models: ["Renderable::cube"]
   Collider:
     dimensions: [1.0, 1.0, 1.0]
 Entity:
@@ -18,8 +18,8 @@ Entity:
   transform:
     translation: [-30, 15, -5]
     scale: [25, 25, 25]
-  ModelContainer:
-    models: ["Model::cube"]
+  RenderableContainer:
+    models: ["Renderable::cube"]
   ScriptCollection:
     Python: ["tests/scripts/python/move_with_input.py"]
   Collider:
@@ -29,8 +29,8 @@ Entity:
   transform:
     translation: [30, 15, -5]
     scale: [20, 20, 20]
-  ModelContainer:
-    models: ["Model::cube"]
+  RenderableContainer:
+    models: ["Renderable::cube"]
   ScriptCollection:
     Python: ["tests/scripts/python/change_texture_on_collision.py"]
 Entity:

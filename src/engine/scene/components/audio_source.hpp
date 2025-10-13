@@ -99,7 +99,7 @@ namespace Omnific
 		std::unordered_map<std::string, std::shared_ptr<AudioClip>> audio_clip_collection;
 		std::vector<int16_t> current_waveform;
 		std::string active_audio_clip_name;
-		PlaybackState playback_state;
+		PlaybackState playback_state = PlaybackState::STOPPED;
 		float volume = 1.0;
 		float playback_time = 0.0;
 		AudioType audio_type = AudioType::AUDIO_CLIP;

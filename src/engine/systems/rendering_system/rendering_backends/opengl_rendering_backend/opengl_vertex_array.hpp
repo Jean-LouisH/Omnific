@@ -32,7 +32,7 @@
 #include <string>
 #include "opengl_vertex_buffer.hpp"
 #include "opengl_index_buffer.hpp"
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 #include <foundations/resources/mesh.hpp>
 #include <memory>
 

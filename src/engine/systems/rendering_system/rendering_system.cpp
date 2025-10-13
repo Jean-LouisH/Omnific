@@ -159,21 +159,22 @@ void Omnific::RenderingSystem::on_output()
 
 					if (this->rendering_path == RenderingPath::FORWARD)
 					{
-						for (auto& model : scene->get_models_in_rendering_order())
+						for (auto& renderable : scene->get_renderables_in_rendering_order())
 						{
-							std::shared_ptr<Entity> entity = scene->get_entity(model->get_entity_id());
-							std::shared_ptr<Transform> transform = entity->get_transform();
+							std::shared_ptr<Entity> renderable_entity = scene->get_entity(renderable->get_entity_id());
+							std::shared_ptr<Transform> renderable_transform = renderable_entity->get_transform();
 
-							if (entity->is_2d == camera_entity->is_2d &&
-								(!model->is_type(GUI::TYPE_STRING) || !entity->is_2d) &&
-								model->mesh != nullptr)
+							if (renderable_entity->is_2d == camera_entity->is_2d &&
+								(!renderable->is_type(GUI::TYPE_STRING) || !renderable_entity->is_2d) &&
+								!renderable->is_hidden() &&
+								renderable->mesh != nullptr)
 							{
 								this->opengl_backend->enable_blending();
-								std::shared_ptr<Shader> shader = model->get_shader();
-								std::shared_ptr<ShaderParameters> shader_parameters = model->shader_parameters;
+								std::shared_ptr<Shader> shader = renderable->get_shader();
+								std::shared_ptr<ShaderParameters> shader_parameters = renderable->shader_parameters;
 
-								std::shared_ptr<Entity> top_entity = entity;
-								EntityID parent_entity_id = entity->parent_id;
+								std::shared_ptr<Entity> top_entity = renderable_entity;
+								EntityID parent_entity_id = renderable_entity->parent_id;
 
 								/*Find the top entity of the hierarchy for the
 									overriding shader. */
@@ -183,45 +184,45 @@ void Omnific::RenderingSystem::on_output()
 									parent_entity_id = top_entity->parent_id;
 								}
 
-								if (top_entity->get_model_id() != 0)
+								if (top_entity->get_renderable_id() != 0)
 								{
-									std::shared_ptr<Model> overriding_model =
-										std::dynamic_pointer_cast<Model>(scene->get_component_by_id(top_entity->get_model_id()));
+									std::shared_ptr<Renderable> overriding_renderable =
+										std::dynamic_pointer_cast<Renderable>(scene->get_component_by_id(top_entity->get_renderable_id()));
 
-									std::shared_ptr<Shader> overriding_shader = overriding_model->get_overriding_shader();
+									std::shared_ptr<Shader> overriding_shader = overriding_renderable->get_overriding_shader();
 									
 									if (overriding_shader != nullptr)
 									{
 										shader = overriding_shader;
-										shader_parameters = overriding_model->shader_parameters;
+										shader_parameters = overriding_renderable->shader_parameters;
 									}
 								}
 
-								std::shared_ptr<Transform> global_transform = scene->calculate_global_transform(entity->get_id());
+								std::shared_ptr<Transform> global_transform = scene->calculate_global_transform(renderable_entity->get_id());
 								glm::mat4 model_to_world_matrix = global_transform->get_transform_matrix();
 								glm::mat4 mvp = view_to_projection_matrix * world_to_view_matrix * model_to_world_matrix;
-								float alpha = model->get_alpha_in_percentage();
+								float alpha = renderable->get_alpha_in_percentage();
 								const float cull_alpha_threshold = 1.0 - 0.001;
-								Model::FaceCullMode face_cull_mode = model->get_face_cull_mode();
+								Renderable::FaceCullMode face_cull_mode = renderable->get_face_cull_mode();
 
 								switch (face_cull_mode)
 								{
-									case Model::FaceCullMode::NONE:
-									case Model::FaceCullMode::BACK: this->opengl_backend->set_face_culling_to_back(); break;
-									case Model::FaceCullMode::FRONT: this->opengl_backend->set_face_culling_to_front(); break;
-									case Model::FaceCullMode::FRONT_AND_BACK: this->opengl_backend->set_face_culling_to_front_and_back(); break;
+									case Renderable::FaceCullMode::NONE:
+									case Renderable::FaceCullMode::BACK: this->opengl_backend->set_face_culling_to_back(); break;
+									case Renderable::FaceCullMode::FRONT: this->opengl_backend->set_face_culling_to_front(); break;
+									case Renderable::FaceCullMode::FRONT_AND_BACK: this->opengl_backend->set_face_culling_to_front_and_back(); break;
 								}
 
-								if (face_cull_mode == Model::FaceCullMode::NONE)
+								if (face_cull_mode == Renderable::FaceCullMode::NONE)
 									this->opengl_backend->disable_face_culling();
 								else
 									this->opengl_backend->enable_face_culling();
 
 								
-								std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(model->mesh);
+								std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(renderable->mesh);
 								vertex_array->bind();
 
-								std::shared_ptr<Material> material = model->material;
+								std::shared_ptr<Material> material = renderable->material;
 								this->opengl_backend->get_texture(material->albedo_map)->bind(OpenGLTexture::Unit::_0);
 								this->opengl_backend->get_texture(material->metallic_map)->bind(OpenGLTexture::Unit::_1);
 								this->opengl_backend->get_texture(material->roughness_map)->bind(OpenGLTexture::Unit::_2);
@@ -237,7 +238,7 @@ void Omnific::RenderingSystem::on_output()
 									std::string default_vertex_input;
 									std::string default_fragment_input;
 
-									if (entity->is_2d)
+									if (renderable_entity->is_2d)
 									{
 										default_vertex_input = this->opengl_backend->get_default_2d_vertex_input();
 										default_fragment_input = this->opengl_backend->get_default_2d_fragment_input();
@@ -255,7 +256,7 @@ void Omnific::RenderingSystem::on_output()
 										//Check for a selected Shader preset. Otherwise, load custom shaders.
 										std::string preset = shader->get_preset();
 
-										if (entity->is_2d || (!entity->is_2d && preset == "Shader::CUSTOM"))
+										if (renderable_entity->is_2d || (!renderable_entity->is_2d && preset == "Shader::CUSTOM"))
 										{
 											std::string vertex_source_input = default_vertex_input;
 											std::string fragment_source_input = default_fragment_input;
@@ -312,7 +313,7 @@ void Omnific::RenderingSystem::on_output()
 
 									shader_program = this->opengl_backend->shader_programs.at(shader_id);
 								}
-								else if (entity->is_2d)
+								else if (renderable_entity->is_2d)
 								{
 									shader_program = this->opengl_backend->built_in_shader_program_2d;
 								}
@@ -356,7 +357,7 @@ void Omnific::RenderingSystem::on_output()
 								shader_program->set_int("normal_texture_sampler", 4);
 								shader_program->set_int("occlusion_texture_sampler", 5);
 								shader_program->set_float("alpha", alpha);
-								shader_program->set_vec4("highlight_colour", model->highlight_colour->get_rgba_in_vec4());
+								shader_program->set_vec4("highlight_colour", renderable->highlight_colour->get_rgba_in_vec4());
 								shader_program->set_int("light_count", lights_count);
 								shader_program->set_int_array("light_modes", light_modes);
 								shader_program->set_vec3_array("light_colours", light_colours);
@@ -374,12 +375,12 @@ void Omnific::RenderingSystem::on_output()
 									glm::radians(camera_transform->rotation.x),
 									glm::radians(camera_transform->rotation.y),
 									glm::radians(camera_transform->rotation.z)));
-								shader_program->set_vec3("entity_translation", transform->translation);
+								shader_program->set_vec3("entity_translation", renderable_transform->translation);
 								shader_program->set_vec3("entity_rotation", glm::vec3(
-									glm::radians(transform->rotation.x),
-									glm::radians(transform->rotation.y),
-									glm::radians(transform->rotation.z)));
-								shader_program->set_vec3("entity_scale", transform->scale);
+									glm::radians(renderable_transform->rotation.x),
+									glm::radians(renderable_transform->rotation.y),
+									glm::radians(renderable_transform->rotation.z)));
+								shader_program->set_vec3("entity_scale", renderable_transform->scale);
 
 								if (vertex_array->get_index_count() > 0)
 								{
@@ -387,7 +388,7 @@ void Omnific::RenderingSystem::on_output()
 								}
 								else
 								{
-									Mesh::PrimitiveMode primitive_mode = model->mesh->get_primitive_mode();
+									Mesh::PrimitiveMode primitive_mode = renderable->mesh->get_primitive_mode();
 									if (primitive_mode == Mesh::PrimitiveMode::TRIANGLES)
 									{
 										this->opengl_backend->draw_triangles_from_arrays(vertex_array->get_vertex_count());
@@ -445,7 +446,7 @@ void Omnific::RenderingSystem::on_output()
 			std::shared_ptr<GUIElement> root_element = gui->get_root_element();
 
 			/* Standard GUI uniforms */
-			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_pivot_offset() + gui->get_offset());
+			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_pivot_offset());
 			shader_program->set_vec2("screen_viewport", Platform::get_window().get_window_size());
 			shader_program->set_int("albedo_texture_sampler", 0);
 			shader_program->set_float("alpha", gui->get_alpha_in_percentage());

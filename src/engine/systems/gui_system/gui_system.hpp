@@ -48,6 +48,7 @@ namespace Omnific
 
 		virtual void initialize() override;
 		virtual void on_early_update() override;
+		virtual void on_fixed_update() override;
 		virtual void finalize() override;
 	private:
 		void detect_inputs_for_gui_element(

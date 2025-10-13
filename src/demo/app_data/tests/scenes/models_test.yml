@@ -11,7 +11,7 @@ Entity:
   transform:
     translation: [2.0, 0.25, 0.0]
     scale: [0.5, 0.5, 0.5]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     shader:
       preset: "Shader::LIGHT_SOURCE"
@@ -19,17 +19,17 @@ Entity:
     Python: ["tests/scripts/python/light_movement.py"]
   Light: default
 Entity:
-  name: "Model"
+  name: "Renderable"
   transform:
     translation: [0, 0, 0]
   ScriptCollection:
     Python: ["tests/scripts/python/constantly_rotate.py"]
-  Model:
+  Renderable:
     overriding_shader:
       preset: "Shader::SIMPLE"
 Scene:
   name: ["tests/models/suzanne.glb", ""]
-  parent: "Model"
+  parent: "Renderable"
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:

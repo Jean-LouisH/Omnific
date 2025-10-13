@@ -31,15 +31,24 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Transform
 	{
 	public:
+		enum class RotationOrder
+		{
+			XYZ,
+			YXZ,
+			YZX
+		};
+
 		glm::vec3 translation;
 		glm::vec3 rotation;
 		glm::vec3 scale;
+		RotationOrder rotation_order;
 
 		Transform()
 		{
 			this->translation = glm::vec3(0.0, 0.0, 0.0);
 			this->rotation = glm::vec3(0.0, 0.0, 0.0);
 			this->scale = glm::vec3(1.0, 1.0, 1.0);
+			this->rotation_order = RotationOrder::XYZ;
 		}
 
 		void translate_x(float offset);

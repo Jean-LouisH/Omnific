@@ -35,7 +35,7 @@
 #include <foundations/resources/image.hpp>
 
 #include "scene/components/component.hpp"
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 #include "entity.hpp"
 #include <tiny_gltf.h>
 #include <foundations/clock.hpp>
@@ -85,7 +85,7 @@ namespace Omnific
 		std::unordered_map<EntityID, std::shared_ptr<Entity>> get_entities();
 		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
-		std::vector<std::shared_ptr<Model>> get_models_in_rendering_order();
+		std::vector<std::shared_ptr<Renderable>> get_renderables_in_rendering_order();
 
 		template <class T>
 		std::shared_ptr<T> get_component_by_type(EntityID entity_id)

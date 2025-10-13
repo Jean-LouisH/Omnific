@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "opengl_vertex_buffer.hpp"
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 #include <scene/components/gui.hpp>
 
 Omnific::OpenGLVertexBuffer::OpenGLVertexBuffer()

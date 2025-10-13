@@ -56,7 +56,7 @@ namespace Omnific
 	public:
 	};
 
-	class OMNIFIC_ENGINE_API Model : public Component
+	class OMNIFIC_ENGINE_API Renderable : public Component
 	{
 	public:
 		enum class FaceCullMode
@@ -67,17 +67,17 @@ namespace Omnific
 			FRONT_AND_BACK
 		};
 
-		Model()
+		Renderable()
 		{
 			this->type = TYPE_STRING;
 			this->shader_parameters = std::shared_ptr<ShaderParameters>(new ShaderParameters());
 			this->highlight_colour = std::shared_ptr<Colour>(new Colour("#FFFFFF00"));
 		};
-		static constexpr const char* TYPE_STRING = "Model";
+		static constexpr const char* TYPE_STRING = "Renderable";
 
 		virtual Registerable* instance() override
 		{
-			Model* clone = new Model(*this);
+			Renderable* clone = new Renderable(*this);
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
@@ -101,6 +101,7 @@ namespace Omnific
 		bool is_front_face_culling();
 		bool is_back_face_culling();
 		bool is_front_and_back_face_culling();
+		bool is_hidden();
 		void hide();
 		void show();
 		FaceCullMode get_face_cull_mode();

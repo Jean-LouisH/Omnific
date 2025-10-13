@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "model.hpp"
+#include "renderable.hpp"
 #include <foundations/singletons/platform/platform.hpp>
 
 
-void Omnific::Model::deserialize(YAML::Node yaml_node)
+void Omnific::Renderable::deserialize(YAML::Node yaml_node)
 {
 	this->material = std::shared_ptr<Material>(new Material());
 
@@ -86,20 +86,20 @@ void Omnific::Model::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnific::Model::set_to_cube()
+void Omnific::Renderable::set_to_cube()
 {
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo_map = std::shared_ptr<Image>(new Image("Image::default"));
 }
 
-void Omnific::Model::set_to_textured_cube(std::shared_ptr<Material> material)
+void Omnific::Renderable::set_to_textured_cube(std::shared_ptr<Material> material)
 {
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
 	this->material = material;
 }
 
-void Omnific::Model::set_to_image(std::shared_ptr<Image> image)
+void Omnific::Renderable::set_to_image(std::shared_ptr<Image> image)
 {
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo_map = image;
@@ -117,128 +117,133 @@ void Omnific::Model::set_to_image(std::shared_ptr<Image> image)
 	mesh->vertices[3].position = glm::vec3(0 - x_centre, height - y_centre, 0.0); //top left
 }
 
-void Omnific::Model::set_dimensions(float width, float height)
+void Omnific::Renderable::set_dimensions(float width, float height)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 }
 
-void Omnific::Model::set_dimensions(float width, float height, float depth)
+void Omnific::Renderable::set_dimensions(float width, float height, float depth)
 {
 	this->dimensions.x = width;
 	this->dimensions.y = height;
 	this->dimensions.z = depth;
 }
 
-void Omnific::Model::set_shader(std::shared_ptr<Shader> shader)
+void Omnific::Renderable::set_shader(std::shared_ptr<Shader> shader)
 {
 	if (this->overriding_shader == nullptr)
 		this->build_uniform_references_from_shader(shader);
 	this->shader = shader;
 }
 
-void Omnific::Model::set_overriding_shader(std::shared_ptr<Shader> overriding_shader)
+void Omnific::Renderable::set_overriding_shader(std::shared_ptr<Shader> overriding_shader)
 {
 	this->build_uniform_references_from_shader(overriding_shader);
 	this->overriding_shader = overriding_shader;
 }
 
-void Omnific::Model::set_alpha(uint8_t value)
+void Omnific::Renderable::set_alpha(uint8_t value)
 {
 	this->alpha = value;
 }
 
-void Omnific::Model::set_face_culling_to_none()
+void Omnific::Renderable::set_face_culling_to_none()
 {
 	this->face_cull_mode = FaceCullMode::NONE;
 }
 
-void Omnific::Model::set_face_culling_to_front()
+void Omnific::Renderable::set_face_culling_to_front()
 {
 	this->face_cull_mode = FaceCullMode::FRONT;
 }
 
-void Omnific::Model::set_face_culling_to_back()
+void Omnific::Renderable::set_face_culling_to_back()
 {
 	this->face_cull_mode = FaceCullMode::BACK;
 }
 
-void Omnific::Model::set_face_culling_to_front_and_back()
+void Omnific::Renderable::set_face_culling_to_front_and_back()
 {
 	this->face_cull_mode = FaceCullMode::FRONT_AND_BACK;
 }
 
-uint8_t Omnific::Model::get_alpha()
+uint8_t Omnific::Renderable::get_alpha()
 {
 	return this->alpha;
 }
 
-float Omnific::Model::get_alpha_in_percentage()
+float Omnific::Renderable::get_alpha_in_percentage()
 {
 	return (this->alpha / 255.0);
 }
 
-bool Omnific::Model::is_no_face_culling()
+bool Omnific::Renderable::is_no_face_culling()
 {
 	return this->face_cull_mode == FaceCullMode::NONE;
 }
 
-bool Omnific::Model::is_front_face_culling()
+bool Omnific::Renderable::is_front_face_culling()
 {
 	return this->face_cull_mode == FaceCullMode::FRONT;
 }
 
-bool Omnific::Model::is_back_face_culling()
+bool Omnific::Renderable::is_back_face_culling()
 {
 	return this->face_cull_mode == FaceCullMode::BACK;
 }
 
-bool Omnific::Model::is_front_and_back_face_culling()
+bool Omnific::Renderable::is_front_and_back_face_culling()
 {
 	return this->face_cull_mode == FaceCullMode::FRONT_AND_BACK;
 }
 
-void Omnific::Model::hide()
+bool Omnific::Renderable::is_hidden()
+{
+	return this->alpha == 0;
+}
+
+void Omnific::Renderable::hide()
 {
 	this->alpha = 0;
 }
 
-void Omnific::Model::show()
+void Omnific::Renderable::show()
 {
 	this->alpha = 255;
 }
 
-Omnific::Model::FaceCullMode Omnific::Model::get_face_cull_mode()
+Omnific::Renderable::FaceCullMode Omnific::Renderable::get_face_cull_mode()
 {
 	return this->face_cull_mode;
 }
 
-std::shared_ptr<Omnific::Image> Omnific::Model::get_image()
+std::shared_ptr<Omnific::Image> Omnific::Renderable::get_image()
 {
 	return this->material->albedo_map;
 }
 
-std::shared_ptr<Omnific::Shader> Omnific::Model::get_shader()
+std::shared_ptr<Omnific::Shader> Omnific::Renderable::get_shader()
 {
 	return this->shader;
 }
 
-std::shared_ptr<Omnific::Shader> Omnific::Model::get_overriding_shader()
+std::shared_ptr<Omnific::Shader> Omnific::Renderable::get_overriding_shader()
 {
 	return this->overriding_shader;
 }
 
-glm::vec3 Omnific::Model::get_dimensions()
+glm::vec3 Omnific::Renderable::get_dimensions()
 {
 	return this->dimensions;
 }
 
-bool Omnific::Model::is_renderable()
+bool Omnific::Renderable::is_renderable()
 {
 	return true;
 }
 
-void Omnific::Model::build_uniform_references_from_shader(std::shared_ptr<Shader> shader)
+void Omnific::Renderable::build_uniform_references_from_shader(std::shared_ptr<Shader> shader)
 {
 	/* Parse GLSL shader sources for uniform declaration statements */
 

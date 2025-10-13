@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "opengl_index_buffer.hpp"
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 
 Omnific::OpenGLIndexBuffer::OpenGLIndexBuffer()
 {

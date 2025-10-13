@@ -2,19 +2,19 @@
 
 Entity:
   name: "GlobalShaderEntity"
-  Model:
+  Renderable:
     overriding_shader:
       preset: "Shader::UNLIT"
 Entity:
-  name: "Model"
+  name: "Renderable"
   parent: "GlobalShaderEntity"
   transform:
     translation: [-5.0, 0.0, 0.0]
 Scene:
   name: ["tests/models/suzanne.glb", ""]
-  parent: "Model"
+  parent: "Renderable"
 Entity:
-  name: "Model + PhysicsBody"
+  name: "Renderable + PhysicsBody"
   parent: "GlobalShaderEntity"
   transform:
     translation: [0.0, 0.0, 0.0]
@@ -22,9 +22,9 @@ Entity:
     drag_ratio: [0.001, 0.001, 0.001]
 Scene:
   name: ["tests/models/suzanne.glb", ""]
-  parent: "Model + PhysicsBody"
+  parent: "Renderable + PhysicsBody"
 Entity:
-  name: "Model + PhysicsBody + ScriptCollection"
+  name: "Renderable + PhysicsBody + ScriptCollection"
   parent: "GlobalShaderEntity"
   transform:
     translation: [5.0, 0.0, 0.0]
@@ -34,7 +34,7 @@ Entity:
     Python: ["tests/scripts/python/x_vibration.py"]
 Scene:
   name: ["tests/models/suzanne.glb", ""]
-  parent: "Model + PhysicsBody + ScriptCollection"
+  parent: "Renderable + PhysicsBody + ScriptCollection"
 Entity:
   name: "Camera"
   transform:

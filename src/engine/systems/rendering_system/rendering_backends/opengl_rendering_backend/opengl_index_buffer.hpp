@@ -30,7 +30,7 @@
 #include <glm.hpp>
 #include <vector>
 #include <string>
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/mesh.hpp>
 #include <memory>

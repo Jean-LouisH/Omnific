@@ -25,7 +25,7 @@
 #include "foundations/resources/image.hpp"
 #include <foundations/resources/default_assets/shaders/vertex_gui_glsl.hpp>
 #include <foundations/resources/default_assets/shaders/fragment_gui_glsl.hpp>
-#include "model.hpp"
+#include "renderable.hpp"
 #include "scene/components/component.hpp"
 #include "foundations/colour.hpp"
 #include <unordered_map>
@@ -70,6 +70,7 @@ namespace Omnific
 			this->position = glm::vec2(0.0);
 			this->pivot = GUIPoint::TOP_LEFT;
 			this->anchoring = GUIPoint::NONE;
+			this->margin = glm::vec2(0.0);
 		}
 		/* The position has an increasing y that approaches the down direction. */
 		bool is_hidden = false;
@@ -100,6 +101,7 @@ namespace Omnific
 		glm::vec2 position;
 		glm::vec2 dimensions;
 		glm::vec2 pivot_offset;
+		glm::vec2 margin;
 
 		std::string name;
 		std::string gui_element_type;
@@ -429,7 +431,7 @@ namespace Omnific
 		std::shared_ptr<Image> horizontal_scrollbar_thumb_image;
 	};
 
-	class OMNIFIC_ENGINE_API GUI : public Model
+	class OMNIFIC_ENGINE_API GUI : public Renderable
 	{
 		friend class GUISystem;
 	public:
@@ -448,20 +450,19 @@ namespace Omnific
 		}
 
 		bool is_2d_override = true;
+		glm::vec2 follow_offset;
 
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_to_label(std::string text);
 
 		std::shared_ptr<GUIElement> get_element(std::string gui_element_name);
 		std::shared_ptr<GUIElement> get_root_element();
-		glm::vec2 get_offset();
 		void update_image();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<GUIElement>> element_cache;
 		std::shared_ptr<GUIElement> root_element;
 
 		std::string follow_target_entity_name;
-		glm::vec2 offset;
 		bool is_following_entity = false;
 
 		std::shared_ptr<GUIElement> deserialize_gui_element(YAML::Node yaml_node);

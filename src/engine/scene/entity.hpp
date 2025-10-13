@@ -53,6 +53,13 @@ namespace Omnific
 			this->transform = std::shared_ptr<Transform>(new Transform());
 		}
 
+		Entity(std::string entity_name)
+		{
+			this->id = UIDGenerator::get_new_uid();
+			this->transform = std::shared_ptr<Transform>(new Transform());
+			this->name = entity_name;
+		}
+
 		/*Sets name publicly only when it is not attached to a Scene.*/
 		void set_name(std::string name);
 		std::string get_name();
@@ -60,14 +67,14 @@ namespace Omnific
 		std::shared_ptr<Transform> get_transform();
 		std::vector<std::string> get_tags();
 		std::unordered_map<std::string, ComponentID> get_component_ids();
-		ComponentID get_model_id();
+		ComponentID get_renderable_id();
 	private:
 		std::string name;
 		EntityID id = 0;
 		std::shared_ptr<Transform> transform;
 		std::vector<std::string> tags;
 		std::unordered_map<std::string, ComponentID> component_ids;
-		ComponentID model_id = 0;
+		ComponentID renderable_id = 0;
 
 		bool is_attached_to_scene = false;
 	};

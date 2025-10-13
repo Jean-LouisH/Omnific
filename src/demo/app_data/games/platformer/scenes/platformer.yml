@@ -3,14 +3,14 @@ Entity:
   transform: 
     translation: [0.0, -2.0, 0.0]
     scale: [20.0, 1.0, 40.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity:
   name: "Player"
   transform:
     scale: [1.0, 2.0, 1.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#0000FF"
 Entity:
@@ -18,7 +18,7 @@ Entity:
   transform: 
     translation: [0.0, 20.0, 1.0]
     rotation: [0.0, 45.0, 45.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     shader:
       preset: "Shader::LIGHT_SOURCE"

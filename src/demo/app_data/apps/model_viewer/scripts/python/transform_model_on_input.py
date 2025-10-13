@@ -26,6 +26,10 @@ class omnific_script:
             self.transform.rotation.y -= rotation_speed * time_delta
         if inputs.is_pressed(["d", "dpad_right"]):
             self.transform.rotation.y += rotation_speed * time_delta
+        if inputs.is_pressed(["q", "left_shoulder_button"]):
+            self.transform.rotation.z -= rotation_speed * time_delta
+        if inputs.is_pressed(["e", "right_shoulder_button"]):
+            self.transform.rotation.z += rotation_speed * time_delta
         
         mouse_wheel_velocity = inputs.get_mouse_wheel_velocity().y
 
@@ -33,7 +37,6 @@ class omnific_script:
             self.camera_zoom_scale += mouse_wheel_velocity * time_delta
             self.camera_pivot_transform.set_xyz_scale(self.camera_zoom_scale)
         
-        print(mouse_wheel_velocity)
-        print(self.camera_pivot_transform.scale.z)
+        print(self.transform.rotation.y)
 
         pass

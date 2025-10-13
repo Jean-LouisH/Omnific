@@ -3,7 +3,7 @@
 Entity:
   name: "GlobalShaderEntity"
   transform: default
-  Model:
+  Renderable:
     overriding_shader:
       preset: "Shader::SIMPLE"
 Entity:
@@ -30,7 +30,7 @@ Entity:
   PhysicsBody:
     is_rigidbody: false
     collision_response_type: "rigid"
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FF0000"
   ScriptCollection:
@@ -41,7 +41,7 @@ Entity:
   parent: "Paddle1"
   GUI:
     follow_target_entity_name: "Paddle1"
-    offset: [0.0, 50.0]
+    follow_follow_offset: [0.0, 50.0]
     GUILabel: 
       text: "a"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
@@ -59,7 +59,7 @@ Entity:
   PhysicsBody:
     is_rigidbody: false
     collision_response_type: "rigid"
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#0000FF"
   ScriptCollection:
@@ -70,7 +70,7 @@ Entity:
   parent: "Paddle2"
   GUI:
     follow_target_entity_name: "Paddle2"
-    offset: [0.0, 50.0]
+    follow_follow_offset: [0.0, 50.0]
     GUILabel: 
       text: "b"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
@@ -84,7 +84,7 @@ Entity:
   parent: "GlobalShaderEntity"
   transform:
     translation: [0, 10, 0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
   PhysicsBody:
@@ -103,7 +103,7 @@ Entity:
     translation: [0, 12, 0]
     scale: [50, 1, 1]
   Collider: default
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
   PhysicsBody:
@@ -116,7 +116,7 @@ Entity:
     translation: [0, -12, 0]
     scale: [50, 1, 1]
   Collider: default
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
   PhysicsBody:

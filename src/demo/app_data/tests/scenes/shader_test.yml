@@ -4,7 +4,7 @@ Scene:
   transform:
     translation: [-2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
-  Model: 
+  Renderable: 
     overriding_shader:
       preset: "Shader::UNLIT"
   ScriptCollection:
@@ -13,7 +13,7 @@ Entity:
   name: "UnlitText"
   GUI:
     follow_target_entity_name: "Unlit"
-    offset: [0.0, -100.0]
+    follow_offset: [0.0, -100.0]
     GUILabel: 
       text: "Unlit Shader"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
@@ -25,7 +25,7 @@ Scene:
   transform:
     translation: [0.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
-  Model: 
+  Renderable: 
     overriding_shader:
       preset: "Shader::SIMPLE"
   ScriptCollection:
@@ -34,7 +34,7 @@ Entity:
   name: "SimpleText"
   GUI:
     follow_target_entity_name: "Simple"
-    offset: [0.0, -100.0]
+    follow_offset: [0.0, -100.0]
     GUILabel: 
       text: "Simple Shader"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
@@ -46,7 +46,7 @@ Scene:
   transform:
     translation: [2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
-  Model: 
+  Renderable: 
     overriding_shader:
       preset: "Shader::PBR"
   ScriptCollection:
@@ -55,7 +55,7 @@ Entity:
   name: "PBRText"
   GUI:
     follow_target_entity_name: "PBR"
-    offset: [0.0, -100.0]
+    follow_offset: [0.0, -100.0]
     GUILabel: 
       text: "PBR Shader"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
@@ -70,7 +70,7 @@ Entity:
   parent: "Light Armature"
   transform: 
     translation: [0.0, 0.0, 6.0]
-  Model: 
+  Renderable: 
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
     shader:

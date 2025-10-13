@@ -25,13 +25,13 @@
 #include "foundations/aliases.hpp"
 #include "foundations/constants.hpp"
 #include "scene/components/component.hpp"
-#include "scene/components/model.hpp"
+#include "scene/components/renderable.hpp"
 #include <foundations/colour.hpp>
 
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Line : public Model
+	class OMNIFIC_ENGINE_API Line : public Renderable
 	{
 	public:
 		Line()

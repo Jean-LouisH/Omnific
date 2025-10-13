@@ -26,7 +26,7 @@
 
 void Omnific::Sprite::deserialize(YAML::Node yaml_node)
 {
-	Model::deserialize(yaml_node);
+	Renderable::deserialize(yaml_node);
 
 	FileAccess& file_access = Platform::get_file_access();
 

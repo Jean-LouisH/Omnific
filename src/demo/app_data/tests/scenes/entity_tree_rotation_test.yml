@@ -2,25 +2,25 @@
 
 Entity:
   name: "GlobalShaderEntity"
-  Model:
+  Renderable:
     overriding_shader:
       preset: "Shader::UNLIT"
 Entity:
-  name: "Model1"
+  name: "Renderable1"
   parent: "GlobalShaderEntity"
   transform:
     translation: [0.0, 0.0, 0.0]
   ScriptCollection:
     Python: ["tests/scripts/python/z_rotation.py"]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FF0000"
 Entity:
-  name: "Model2"
-  parent: "Model1"
+  name: "Renderable2"
+  parent: "Renderable1"
   transform:
     translation: [0.0, -1.2, 0.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
   ScriptCollection:

@@ -32,6 +32,7 @@
 #include <foundations/singletons/scene_storage.hpp>
 
 #define GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME "gui_system_on_early_update_frame_time"
+#define GUI_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "gui_system_on_fixed_update_frame_time"
 
 Omnific::GUISystem::~GUISystem()
 {
@@ -42,6 +43,7 @@ void Omnific::GUISystem::initialize()
 {
 	this->is_initialized = true;
 	Profiler::add_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME, {"gui_system", "on_early_update_frame_time"});
+	Profiler::add_clock(GUI_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME, {"gui_system", "on_fixed_update_frame_time"});
 	Platform::get_logger().write("Initialized GUI System.");
 	if (TTF_Init() == -1)
 		printf("TTF_Init: %s\n", TTF_GetError());
@@ -53,27 +55,69 @@ void Omnific::GUISystem::on_early_update()
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	Inputs& inputs = Platform::get_inputs();
-
-	/* Sends an event for a detected file drop. */
-	if (inputs.is_drop_file_detected())
-	{
-		EventBus::publish_event(
-			OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW, 
-			{{"drop_file_path", inputs.get_drop_file_path()}},
-			{{"drop_file_window_id", (double)inputs.get_drop_file_window_id()}}
-		);
-	}
-
 	glm::vec2 mouse_position = inputs.get_mouse_position();
 	
 	/*Invert the y to increase from bottom to top.*/
 	mouse_position.y = Platform::get_window().get_window_size().y - mouse_position.y;
 
-	std::vector<std::shared_ptr<GUI>> guis = scene->get_components_by_type<GUI>();
-
-	for (int i = 0; i < guis.size(); ++i)
+	for (auto& gui : scene->get_components_by_type<GUI>())
 	{
-		std::shared_ptr<GUI> gui = guis[i];
+		std::shared_ptr<GUIElement> element = gui->get_root_element();
+		glm::vec2 centre = element->dimensions * 0.5f;
+
+		/* The root_element_dimensions is the boundary of the mouse position search
+		regardless of the root_element being a GUIPanel or not. */
+		glm::vec2 root_element_dimensions = element->dimensions;
+
+		/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
+		if (element->get_gui_element_type() == GUIPanel::TYPE_STRING)
+		{
+
+		}
+		else if (element->get_gui_element_type() == GUIList::TYPE_STRING || 
+			element->get_parent_type() == GUIList::TYPE_STRING)
+		{
+			std::shared_ptr<GUIList> gui_list = std::dynamic_pointer_cast<GUIList>(element);
+			std::vector<std::shared_ptr<GUIButton>> gui_list_items =  gui_list->get_list_items();
+			this->detect_inputs_for_gui_element(
+				element, 
+				gui_list->get_position() - gui_list->get_pivot_offset(), 
+				mouse_position);
+
+			for (int i = 0; i < gui_list_items.size(); ++i)
+			{
+				std::shared_ptr<GUIButton>& gui_list_item = gui_list_items[i];
+				this->detect_inputs_for_gui_element(
+					std::dynamic_pointer_cast<GUIElement>(gui_list_item), 
+					gui_list_item->get_position() - gui_list_item->get_pivot_offset(),
+					mouse_position);
+			}
+		}
+		else
+		{
+			this->detect_inputs_for_gui_element(
+				element, 
+				element->get_position() - element->get_pivot_offset(),
+				mouse_position);
+		}
+		gui->update_image();
+	}
+	frame_time_clock->set_end();
+}
+
+void Omnific::GUISystem::on_fixed_update()
+{
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(GUI_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+	Inputs& inputs = Platform::get_inputs();
+	glm::vec2 mouse_position = inputs.get_mouse_position();
+	
+	/*Invert the y to increase from bottom to top.*/
+	mouse_position.y = Platform::get_window().get_window_size().y - mouse_position.y;
+
+	for (auto& gui : scene->get_components_by_type<GUI>())
+	{
 		std::shared_ptr<Transform> gui_transform = scene->get_entity(gui->get_entity_id())->get_transform();
 
 		std::shared_ptr<GUIElement> element = gui->get_root_element();
@@ -93,8 +137,10 @@ void Omnific::GUISystem::on_early_update()
 			case GUIElement::GUIPoint::BOTTOM_RIGHT: element->pivot_offset = glm::vec2(centre.x, -centre.y); break;
 		}
 
+		std::shared_ptr<Entity> gui_entity = scene->get_entity(gui->get_entity_id());
+
 		/* To enforce the GUI following a target Entity by an offset. */
-		if (gui->is_following_entity)
+		if (gui->is_following_entity && gui_entity->is_2d)
 		{
 			std::shared_ptr<Entity> followed_entity = scene->get_entity_by_name(gui->follow_target_entity_name);
 
@@ -121,7 +167,7 @@ void Omnific::GUISystem::on_early_update()
 						float y = followed_entity_global_transform->translation.y - camera_global_transform->translation.y;
 						float z_rotation = glm::radians(followed_entity_global_transform->rotation.z) - glm::radians(camera_global_transform->rotation.z);
 
-						gui->get_root_element()->position = glm::vec2(
+						gui->get_root_element()->position = gui->follow_offset + glm::vec2(
 							x * cos(z_rotation) - y * sin(z_rotation), 
 							x * sin(z_rotation) + y * cos(z_rotation)
 						);
@@ -141,7 +187,7 @@ void Omnific::GUISystem::on_early_update()
 
 						glm::vec3 ndc = glm::vec3(clip_space) / clip_space.w;
 
-						gui->get_root_element()->position = glm::vec2(
+						gui->get_root_element()->position = gui->follow_offset + glm::vec2(
 							(ndc.x + 1.0f) * 0.5f * window_size.x, 
 							(ndc.y + 1.0f) * 0.5f * window_size.y
 						);
@@ -157,54 +203,16 @@ void Omnific::GUISystem::on_early_update()
 		switch (element->anchoring)
 		{
 			case GUIElement::GUIPoint::NONE:; break;
-			case GUIElement::GUIPoint::TOP_LEFT: element->position = glm::vec2(0.0, window_size.y); break;
-			case GUIElement::GUIPoint::TOP_CENTRE: element->position = glm::vec2(window_size.x / 2.0, window_size.y); break;
-			case GUIElement::GUIPoint::TOP_RIGHT: element->position = glm::vec2(window_size.x, window_size.y); break;
-			case GUIElement::GUIPoint::CENTRE_LEFT: element->position = glm::vec2(0.0, window_size.y / 2.0); break;
-			case GUIElement::GUIPoint::CENTRE: element->position = glm::vec2(window_size.x / 2.0, window_size.y / 2.0); break;
-			case GUIElement::GUIPoint::CENTRE_RIGHT: element->position = glm::vec2(window_size.x, window_size.y / 2.0); break;
-			case GUIElement::GUIPoint::BOTTOM_LEFT: element->position = glm::vec2(0.0, 0.0); break;
-			case GUIElement::GUIPoint::BOTTOM_CENTRE: element->position = glm::vec2(window_size.x / 2.0, 0.0); break;
-			case GUIElement::GUIPoint::BOTTOM_RIGHT: element->position = glm::vec2(window_size.x, 0.0); break;
+			case GUIElement::GUIPoint::TOP_LEFT: element->position = glm::vec2(0.0, window_size.y) + element->margin; break;
+			case GUIElement::GUIPoint::TOP_CENTRE: element->position = glm::vec2(window_size.x / 2.0, window_size.y) + element->margin; break;
+			case GUIElement::GUIPoint::TOP_RIGHT: element->position = glm::vec2(window_size.x, window_size.y) + element->margin; break;
+			case GUIElement::GUIPoint::CENTRE_LEFT: element->position = glm::vec2(0.0, window_size.y / 2.0) + element->margin; break;
+			case GUIElement::GUIPoint::CENTRE: element->position = glm::vec2(window_size.x / 2.0, window_size.y / 2.0) + element->margin; break;
+			case GUIElement::GUIPoint::CENTRE_RIGHT: element->position = glm::vec2(window_size.x, window_size.y / 2.0) + element->margin; break;
+			case GUIElement::GUIPoint::BOTTOM_LEFT: element->position = glm::vec2(0.0, 0.0) + element->margin; break;
+			case GUIElement::GUIPoint::BOTTOM_CENTRE: element->position = glm::vec2(window_size.x / 2.0, 0.0) + element->margin; break;
+			case GUIElement::GUIPoint::BOTTOM_RIGHT: element->position = glm::vec2(window_size.x, 0.0) + element->margin; break;
 		}
-
-		/* The root_element_dimensions is the boundary of the mouse position search
-			regardless of the root_element being a GUIPanel or not. */
-		glm::vec2 root_element_dimensions = element->dimensions;
-
-		/* Informs GUIs if the mouse is hovering or clicking on them or their widgets. */
-		if (element->get_gui_element_type() == GUIPanel::TYPE_STRING)
-		{
-
-		}
-		else if (element->get_gui_element_type() == GUIList::TYPE_STRING || 
-			element->get_parent_type() == GUIList::TYPE_STRING)
-		{
-			std::shared_ptr<GUIList> gui_list = std::dynamic_pointer_cast<GUIList>(element);
-			std::vector<std::shared_ptr<GUIButton>> gui_list_items =  gui_list->get_list_items();
-			this->detect_inputs_for_gui_element(
-				element, 
-				gui_list->get_position() - gui_list->get_pivot_offset() + gui->get_offset(), 
-				mouse_position);
-
-			for (int i = 0; i < gui_list_items.size(); ++i)
-			{
-				std::shared_ptr<GUIButton>& gui_list_item = gui_list_items[i];
-				this->detect_inputs_for_gui_element(
-					std::dynamic_pointer_cast<GUIElement>(gui_list_item), 
-					gui_list_item->get_position() - gui_list_item->get_pivot_offset() + gui->get_offset(),
-					mouse_position);
-			}
-		}
-		else
-		{
-			this->detect_inputs_for_gui_element(
-				element, 
-				element->get_position() - element->get_pivot_offset() + gui->get_offset(),
-				mouse_position);
-		}
-
-		gui->update_image();
 	}
 	frame_time_clock->set_end();
 }

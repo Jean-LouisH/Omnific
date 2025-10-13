@@ -32,7 +32,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
-#include <scene/components/model.hpp>
+#include <scene/components/renderable.hpp>
 #include <gtc/quaternion.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -179,10 +179,8 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 
 			}
 
-			std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>();
-			std::shared_ptr<Entity> debug_camera_entity = std::make_shared<Entity>();
+			std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>("debug_gui_entity");
 			std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
-			std::shared_ptr<Camera> debug_camera = std::make_shared<Camera>();
 
 			debug_gui_entity->is_2d = true;
 			debug_gui->hide();
@@ -190,12 +188,8 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 			std::shared_ptr<GUIElement> root_element = debug_gui->get_root_element();
 			root_element->pivot = GUIElement::GUIPoint::TOP_RIGHT;
 			root_element->anchoring = GUIElement::GUIPoint::TOP_RIGHT;
-			this->add_entity(debug_camera_entity);
-			this->add_component_to_last_entity(debug_camera);
-			this->set_entity_name(debug_gui_entity->get_id(), "debug_camera_entity");
 			this->add_entity(debug_gui_entity);
 			this->add_component_to_last_entity(debug_gui);
-			this->set_entity_name(debug_gui_entity->get_id(), "debug_gui_entity");
 		}
 		else
 		{
@@ -381,7 +375,7 @@ void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component
 
 			if (component->is_renderable())
 			{
-				entity->model_id = component->get_id();
+				entity->renderable_id = component->get_id();
 				this->rendering_order_index_cache.push_back(last_index);
 			}
 
@@ -694,21 +688,21 @@ std::shared_ptr<Omnific::Component> Omnific::Scene::get_component(std::string ty
 	return component;
 }
 
-std::vector<std::shared_ptr<Omnific::Model>> Omnific::Scene::get_models_in_rendering_order()
+std::vector<std::shared_ptr<Omnific::Renderable>> Omnific::Scene::get_renderables_in_rendering_order()
 {
-	std::vector<std::shared_ptr<Model>> models;
+	std::vector<std::shared_ptr<Renderable>> renderables;
 	std::vector<std::shared_ptr<Component>> components = this->get_components();
 
 	for (int i = 0; i < this->rendering_order_index_cache.size(); ++i)
 	{
-		std::shared_ptr<Model> model =
-			std::dynamic_pointer_cast<Model>(components[this->rendering_order_index_cache[i]]);
+		std::shared_ptr<Renderable> renderable =
+			std::dynamic_pointer_cast<Renderable>(components[this->rendering_order_index_cache[i]]);
 
-		if (model != nullptr)
-			models.push_back(model);
+		if (renderable != nullptr)
+			renderables.push_back(renderable);
 	}
 
-	return models;
+	return renderables;
 }
 
 void Omnific::Scene::load_from_gltf(std::string filepath)
@@ -830,7 +824,7 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 				entity->parent_id = gltf_scene_root_entity->get_id();
 				this->add_entity(entity);
 				std::shared_ptr<Transform> transform = entity->get_transform();
-				std::shared_ptr<Model> model(new Model());
+				std::shared_ptr<Renderable> renderable(new Renderable());
 
 				int material_index = gltf_model.meshes.at(mesh_index).primitives.at(0).material;
 
@@ -966,10 +960,10 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 						gltf_node.scale[2] };
 				}
 
-				model->material = material;
-				model->mesh = mesh;
-				model->set_shader(std::shared_ptr<Shader>(new Shader("Shader::PBR")));
-				this->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(model));
+				renderable->material = material;
+				renderable->mesh = mesh;
+				renderable->set_shader(std::shared_ptr<Shader>(new Shader("Shader::PBR")));
+				this->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(renderable));
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 Entity:
   name: "GlobalShader"
-  Model:
+  Renderable:
     overriding_shader:
       preset: "Shader::UNLIT"
 Entity:
@@ -11,14 +11,14 @@ Entity:
   ScriptCollection:
     CPP: [YTranslationSineWave]
     #Python: ["tests/scripts/python/y_translation_sine_wave.py"]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity:
   name: "TranslationText"
   GUI:
     follow_target_entity_name: "Translation"
-    offset: [0.0, 75.0]
+    follow_offset: [0.0, 75.0]
     GUILabel: 
       text: "Translation"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
@@ -29,7 +29,7 @@ Entity:
   parent: "Translation"
   transform: 
     translation: [0.0, -1.1, 0.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity: 
@@ -40,14 +40,14 @@ Entity:
   ScriptCollection:
     CPP: [ZRotationSineWave]
     #Python: ["tests/scripts/python/z_rotation_sine_wave.py"]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity:
   name: "RotationText"
   GUI:
     follow_target_entity_name: "Rotation"
-    offset: [0.0, 75.0]
+    follow_offset: [0.0, 75.0]
     GUILabel: 
       text: "Rotation"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
@@ -58,7 +58,7 @@ Entity:
   parent: "Rotation"
   transform: 
     translation: [0.0, -1.1, 0.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity: 
@@ -69,14 +69,14 @@ Entity:
   ScriptCollection:
     CPP: [XYZScaleSineWave]
     #Python: ["tests/scripts/python/xyz_scale_sine_wave.py"]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity:
   name: "ScaleText"
   GUI:
     follow_target_entity_name: "Scale"
-    offset: [0.0, 75.0]
+    follow_offset: [0.0, 75.0]
     GUILabel: 
       text: "Scale"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
@@ -87,7 +87,7 @@ Entity:
   parent: "Scale"
   transform: 
     translation: [0.0, -1.1, 0.0]
-  Model:
+  Renderable:
     mesh: "Mesh::cube"
     albedo: "Image::#FFFFFF"
 Entity:

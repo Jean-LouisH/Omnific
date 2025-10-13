@@ -28,13 +28,13 @@
 #include "foundations/constants.hpp"
 #include <string>
 #include "foundations/resources/image.hpp"
-#include "model.hpp"
+#include "renderable.hpp"
 #include <glm.hpp>
 #include <memory>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Sprite : public Model
+	class OMNIFIC_ENGINE_API Sprite : public Renderable
 	{
 	public:
 		Sprite()

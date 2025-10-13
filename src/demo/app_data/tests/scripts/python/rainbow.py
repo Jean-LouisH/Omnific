@@ -12,7 +12,7 @@ class omnific_script:
         delta = omnific.get_time_delta()
         colour_change = 0.1
         
-        model = omnific.get_component("Model")
+        model = omnific.get_component("Renderable")
         
         model.shader_parameters.set_float_uniform("red", self.red)
         model.shader_parameters.set_float_uniform("green", self.green)

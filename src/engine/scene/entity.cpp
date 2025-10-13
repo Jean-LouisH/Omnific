@@ -53,7 +53,7 @@ std::unordered_map<std::string, Omnific::ComponentID> Omnific::Entity::get_compo
 	return this->component_ids;
 }
 
-Omnific::ComponentID Omnific::Entity::get_model_id()
+Omnific::ComponentID Omnific::Entity::get_renderable_id()
 {
-	return this->model_id;
+	return this->renderable_id;
 }

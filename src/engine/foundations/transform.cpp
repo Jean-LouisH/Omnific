@@ -92,9 +92,24 @@ glm::vec3 Omnific::Transform::get_right_vector()
 glm::mat4 Omnific::Transform::get_transform_matrix()
 {
 	glm::mat4 transform_matrix = glm::translate(glm::mat4(1.0f), this->translation);
-	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	switch(this->rotation_order)
+	{
+		case RotationOrder::XYZ: 
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+			break;
+		case RotationOrder::YXZ:
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+			break;
+		case RotationOrder::YZX: 
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+			break;
+	}                         
 	transform_matrix = glm::scale(transform_matrix, this->scale);
 	return transform_matrix;
 }

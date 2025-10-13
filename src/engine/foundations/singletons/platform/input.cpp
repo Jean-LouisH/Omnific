@@ -271,19 +271,19 @@ bool Omnific::Inputs::is_pressed(std::vector<std::string> input_codes, PlayerID 
 }
 
 
-bool Omnific::Inputs::is_pressed_event(std::string input_code)
+bool Omnific::Inputs::is_pressed_interrupt(std::string input_code)
 {
 	std::vector<std::string> input_codes;
 	input_codes.push_back(input_code);
 	return this->is_on_press(input_codes);
 }
 
-bool Omnific::Inputs::is_pressed_event(std::vector<std::string> input_codes)
+bool Omnific::Inputs::is_pressed_interrupt(std::vector<std::string> input_codes)
 {
 	return this->is_on_press(input_codes, 0);
 }
 
-bool Omnific::Inputs::is_pressed_event(std::vector<std::string> input_codes, PlayerID player_id)
+bool Omnific::Inputs::is_pressed_interrupt(std::vector<std::string> input_codes, PlayerID player_id)
 {
 	for (int i = 0; i < input_codes.size(); i++)
 	{
@@ -689,6 +689,11 @@ void Omnific::Inputs::poll_input_events()
 
 		case SDL_DROPFILE:
 			this->drop_event = SDLEvents.drop;
+			EventBus::publish_event(
+			OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW, 
+				{{"drop_file_path", this->drop_event.file}},
+				{{"drop_file_window_id", (double)this->drop_event.windowID}}
+			);
 			this->has_detected_input_changes = true;
 			break;
 		}

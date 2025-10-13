@@ -47,7 +47,7 @@ namespace Omnific
 		virtual void on_update() override;
 		virtual void finalize() override;
 	private:
-		void autofit_viewports_to_model_widths(std::shared_ptr<Scene> scene);
+		void autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene);
 	};
 }
 
