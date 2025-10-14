@@ -135,12 +135,26 @@ void Omnific::Renderable::set_shader(std::shared_ptr<Shader> shader)
 	if (this->overriding_shader == nullptr)
 		this->build_uniform_references_from_shader(shader);
 	this->shader = shader;
+	this->set_default_material_surface_modes_by_shader_preset(shader->get_preset());
 }
 
 void Omnific::Renderable::set_overriding_shader(std::shared_ptr<Shader> overriding_shader)
 {
 	this->build_uniform_references_from_shader(overriding_shader);
 	this->overriding_shader = overriding_shader;
+	this->set_default_material_surface_modes_by_shader_preset(overriding_shader->get_preset());
+}
+
+void Omnific::Renderable::set_material_diffuse_mode(Material::DiffuseMode diffuse_mode)
+{
+	if (this->shader->get_preset() != "Shader::SIMPLE")
+		this->material->diffuse_mode = diffuse_mode;
+}
+
+void Omnific::Renderable::set_material_specular_mode(Material::SpecularMode specular_mode)
+{
+	if (this->shader->get_preset() != "Shader::SIMPLE")
+		this->material->specular_mode = specular_mode;
 }
 
 void Omnific::Renderable::set_alpha(uint8_t value)
@@ -233,6 +247,30 @@ std::shared_ptr<Omnific::Shader> Omnific::Renderable::get_overriding_shader()
 	return this->overriding_shader;
 }
 
+std::string Omnific::Renderable::get_surface_mode_string()
+{
+	std::string surface_mode_string;
+
+	switch (this->material->diffuse_mode)
+	{
+		case Material::DiffuseMode::LAMBERT: surface_mode_string += "Lambert"; break;
+		case Material::DiffuseMode::BURLEY: surface_mode_string += "Burley"; break;
+		case Material::DiffuseMode::OREN_NAYER: surface_mode_string += "Oren-Nayer"; break;
+	}
+
+	surface_mode_string += " + ";
+
+	switch (this->material->specular_mode)
+	{
+		case Material::SpecularMode::PHONG: surface_mode_string += "Phong"; break;
+		case Material::SpecularMode::BLINN_PHONG: surface_mode_string += "Blinn-Phong"; break;
+		case Material::SpecularMode::GGX: surface_mode_string += "GGX"; break;
+		case Material::SpecularMode::BECKMANN: surface_mode_string += "Beckmann"; break;
+	}
+
+	return surface_mode_string;
+}
+
 glm::vec3 Omnific::Renderable::get_dimensions()
 {
 	return this->dimensions;
@@ -313,5 +351,19 @@ void Omnific::Renderable::build_uniform_references_from_shader(std::shared_ptr<S
 		{
 			uniform_name.push_back(c);
 		}
+	}
+}
+
+void Omnific::Renderable::set_default_material_surface_modes_by_shader_preset(std::string shader_preset)
+{
+	if (shader_preset == "Shader::SIMPLE")
+	{
+		this->material->diffuse_mode = Material::DiffuseMode::LAMBERT;
+		this->material->specular_mode = Material::SpecularMode::PHONG;
+	}
+	else if (shader_preset == "Shader::PBR")
+	{
+		this->material->diffuse_mode = Material::DiffuseMode::LAMBERT;
+		this->material->specular_mode = Material::SpecularMode::GGX;
 	}
 }

@@ -34,6 +34,8 @@ namespace Omnific
             #define LIGHT_SPOT 2
             #define MAX_LIGHTS 8
 
+            #define PI 3.1415926
+
             in vec3 translation;
             in vec2 uv;
             in vec3 normal;
@@ -51,15 +53,24 @@ namespace Omnific
             uniform float alpha;
             uniform sampler2D albedo_texture_sampler;
 
+            vec3 diffuse_lambert(vec3 normal_direction, vec3 light_direction, vec3 albedo, vec3 light_colour, float light_intensity)
+            {
+                return ((max(dot(normal_direction, light_direction), 0.0) * albedo) / PI) * light_colour * light_intensity;
+            }
+
+            vec3 specular_phong(vec3 view_direction, vec3 reflection_direction, float shininess, vec3 albedo, vec3 light_colour, float light_intensity)
+            {
+                return pow(max(dot(view_direction, reflection_direction), 0.0), shininess) * albedo * light_colour * light_intensity;
+            }
+
             void main()
             {
-                float shininess = 32;
-                float ambient_strength = 0.1;
-                float diffuse_strength = 0.7;
-                float specular_strength = 0.2;
-                vec3 ambient = vec3(0.0);
+                vec3 albedo = texture(albedo_texture_sampler, uv).rgb;
+                float shininess = 16;
+                vec3 ambient = vec3(0.2) * albedo;
                 vec3 diffuse = vec3(0.0);
                 vec3 specular = vec3(0.0);
+
 
                 for (int i = 0; i < light_count && i < MAX_LIGHTS; ++i)
                 {
@@ -86,11 +97,10 @@ namespace Omnific
 
                     vec3 view_direction = normalize(camera_translation - fragment_translation);
                     vec3 reflection_direction = reflect(-light_direction, normal_direction);
-                    ambient += ambient_strength * light_intensity * light_colour;
-                    diffuse += max(dot(normal_direction, light_direction), 0.0) * light_colour * light_intensity * diffuse_strength;
-                    specular += pow(max(dot(view_direction, reflection_direction), 0.0), shininess) * specular_strength * light_colour * light_intensity;
+                    diffuse += diffuse_lambert(normal_direction, light_direction, albedo, light_colour, light_intensity);
+                    specular += specular_phong(view_direction, reflection_direction, shininess, albedo, light_colour, light_intensity);
                 }
-                colour = vec4(ambient + diffuse + specular, 1.0) * texture(albedo_texture_sampler, uv);
+                colour = vec4(ambient + diffuse + specular, 1.0);
                 colour = mix(colour, highlight_colour, highlight_colour.a);
                 colour.a *= alpha;
             }

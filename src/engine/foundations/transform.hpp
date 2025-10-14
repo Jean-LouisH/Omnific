@@ -34,8 +34,11 @@ namespace Omnific
 		enum class RotationOrder
 		{
 			XYZ,
+			XZY,
 			YXZ,
-			YZX
+			YZX,
+			ZXY,
+			ZYZ
 		};
 
 		glm::vec3 translation;

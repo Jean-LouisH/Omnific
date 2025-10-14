@@ -34,7 +34,24 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Material
 	{
+		friend class Renderable;
+		friend class RenderingSystem;
 	public:
+		enum class DiffuseMode
+		{
+			LAMBERT = 0,
+			BURLEY = 1,
+			OREN_NAYER = 2
+		};
+
+		enum class SpecularMode
+		{
+			PHONG = 0,
+			BLINN_PHONG = 1,
+			GGX = 2,
+			BECKMANN = 3
+		};
+
 		std::shared_ptr<Image> albedo_map;
 		std::shared_ptr<Image> metallic_map;
 		std::shared_ptr<Image> specular_map;
@@ -44,6 +61,10 @@ namespace Omnific
 		std::shared_ptr<Image> normal_map;
 		std::shared_ptr<Image> displacement_map;
 		std::shared_ptr<Image> occlusion_map;
+
+	private:
+		DiffuseMode diffuse_mode = DiffuseMode::LAMBERT;
+		SpecularMode specular_mode = SpecularMode::GGX;
 	};
 
 	class OMNIFIC_ENGINE_API Rig
@@ -90,6 +111,8 @@ namespace Omnific
 		void set_dimensions(float width, float height, float depth);
 		void set_shader(std::shared_ptr<Shader> shader);
 		void set_overriding_shader(std::shared_ptr<Shader> overriding_shader);
+		void set_material_diffuse_mode(Material::DiffuseMode diffuse_mode);
+		void set_material_specular_mode(Material::SpecularMode specular_mode);
 		void set_alpha(uint8_t value);
 		void set_face_culling_to_none();
 		void set_face_culling_to_front();
@@ -108,6 +131,7 @@ namespace Omnific
 		std::shared_ptr<Image> get_image();
 		std::shared_ptr<Shader> get_shader();
 		std::shared_ptr<Shader> get_overriding_shader();
+		std::string get_surface_mode_string();
 		bool is_renderable() override;
 		glm::vec3 get_dimensions();
 
@@ -126,5 +150,6 @@ namespace Omnific
 		std::shared_ptr<Shader> overriding_shader;
 	private:
 		void build_uniform_references_from_shader(std::shared_ptr<Shader> shader);
+		void set_default_material_surface_modes_by_shader_preset(std::string shader_preset);
 	};
 }

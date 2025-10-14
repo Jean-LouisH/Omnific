@@ -4,6 +4,7 @@ import sys
 
 project_name_type_pairs = {
     "pong" : "game",
+    #"agario" : "game",
     "spinning_tops" : "game",
     #"air_racing" : "game",
     #"fighting" : "game",
@@ -23,6 +24,7 @@ project_name_type_pairs = {
     #"music_keyboard" : "app",
     #"drawing_editor" : "app",
     "model_viewer" : "app",
+    #"text_editor" : "app",
     "scene_hierarchy_test" : "test",
     #"haptics_test" : "test",
     #"inputs_test" : "test",

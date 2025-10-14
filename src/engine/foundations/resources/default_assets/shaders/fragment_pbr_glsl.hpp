@@ -202,9 +202,8 @@ namespace Omnific
                     vec3 fresnel = fresnel_schlick(halfway_vector, camera_direction, F0);
                     vec3 specular = (distribution * geometry * fresnel) / 
                                     (4.0 * max(dot(normal, camera_direction), 0.0) * max(dot(normal, light_direction), 0.0));
-                    vec3 k_s = fresnel;
-                    vec3 k_d = (1.0 - k_s) * (1.0 - metalness);
-                    vec3 brdf = k_d * albedo / PI + specular;						
+                    vec3 diffuse = ((1 - F0) * (1.0 - metalness) * albedo) / PI;
+                    vec3 brdf = diffuse + specular;						
                     reflected_light += max(brdf * light_radiance * max(dot(light_direction, normal), 0.0), 0.0); 
                 }
 

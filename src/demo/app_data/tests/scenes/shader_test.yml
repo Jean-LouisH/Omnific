@@ -19,6 +19,17 @@ Entity:
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
       pivot: "top_centre"
+Entity:
+  name: "UnlitSurfaceModes"
+  parent: "Unlit"
+  GUI:
+    follow_target_entity_name: "Unlit"
+    follow_offset: [0.0, -125.0]
+    GUILabel: 
+      text: "None + None"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 16]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_centre"
 Scene:
   name: "Simple"
   source: "Scene::monkey"
@@ -40,6 +51,19 @@ Entity:
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
       pivot: "top_centre"
+Entity:
+  name: "SimpleSurfaceModes"
+  parent: "Simple"
+  GUI:
+    follow_target_entity_name: "Simple"
+    follow_offset: [0.0, -125.0]
+    GUILabel: 
+      text: "None + None"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 16]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_centre"
+  ScriptCollection:
+    Python: ["tests/scripts/python/set_surface_modes_to_label_text.py"]
 Scene:
   name: "PBR"
   source: "Scene::monkey"
@@ -61,6 +85,19 @@ Entity:
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
       pivot: "top_centre"
+Entity:
+  name: "PBRSurfaceModes"
+  parent: "PBR"
+  GUI:
+    follow_target_entity_name: "PBR"
+    follow_offset: [0.0, -125.0]
+    GUILabel: 
+      text: "None + None"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 16]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_centre"
+  ScriptCollection:
+    Python: ["tests/scripts/python/set_surface_modes_to_label_text.py"]
 Entity:
   name: "Light Armature"
   ScriptCollection:

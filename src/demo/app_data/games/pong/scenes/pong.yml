@@ -5,7 +5,17 @@ Entity:
   transform: default
   Renderable:
     overriding_shader:
-      preset: "Shader::SIMPLE"
+      preset: "Shader::UNLIT"
+Entity:
+  name: "Instructions"
+  GUI:
+    GUILabel: 
+      text: "Controls: 'W' - Up, 'S' - Down"
+      font: ["games/pong/fonts/Lato-Regular.ttf", 16]
+      text_colour: "#FFFFFFFF"
+      pivot: "top_left"
+      anchoring: "top_left"
+      margin: [20.0, -20.0]
 Entity:
   name: "Camera"
   transform:
@@ -41,7 +51,7 @@ Entity:
   parent: "Paddle1"
   GUI:
     follow_target_entity_name: "Paddle1"
-    follow_follow_offset: [0.0, 50.0]
+    follow_offset: [0.0, 50.0]
     GUILabel: 
       text: "a"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
@@ -70,7 +80,7 @@ Entity:
   parent: "Paddle2"
   GUI:
     follow_target_entity_name: "Paddle2"
-    follow_follow_offset: [0.0, 50.0]
+    follow_offset: [0.0, 50.0]
     GUILabel: 
       text: "b"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]

@@ -198,8 +198,8 @@ void Omnific::RenderingSystem::on_output()
 									}
 								}
 
-								std::shared_ptr<Transform> global_transform = scene->calculate_global_transform(renderable_entity->get_id());
-								glm::mat4 model_to_world_matrix = global_transform->get_transform_matrix();
+								std::shared_ptr<Transform> renderable_global_transform = scene->calculate_global_transform(renderable_entity->get_id());
+								glm::mat4 model_to_world_matrix = renderable_global_transform->get_transform_matrix();
 								glm::mat4 mvp = view_to_projection_matrix * world_to_view_matrix * model_to_world_matrix;
 								float alpha = renderable->get_alpha_in_percentage();
 								const float cull_alpha_threshold = 1.0 - 0.001;
