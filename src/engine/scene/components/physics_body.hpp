@@ -45,7 +45,7 @@ namespace Omnific
 		PhysicsBody()
 		{
 			this->type = TYPE_STRING;
-			this->drag_ratio = glm::vec3(0.0001, 1.0, 0.0001);
+			this->drag_ratio = glm::vec3(1.0);
 			this->reload();
 		};
 		static constexpr const char* TYPE_STRING = "PhysicsBody";

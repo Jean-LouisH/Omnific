@@ -80,8 +80,7 @@ void Omnific::PhysicsSystem::gravitate(std::shared_ptr<Scene> scene)
 	const float seconds_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time * (1.0 / MS_IN_S);
 
 	for (std::shared_ptr<PhysicsBody>& physics_body : scene->get_components_by_type<PhysicsBody>())
-		if (physics_body->has_gravity)
-			physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_fixed_update;
+		physics_body->linear_velocity.y -= physics_body->gravity_scale * EARTH_GRAVITY * seconds_per_fixed_update * (float)physics_body->has_gravity;
 }
 
 void Omnific::PhysicsSystem::decelerate(std::shared_ptr<Scene> scene)
@@ -90,12 +89,9 @@ void Omnific::PhysicsSystem::decelerate(std::shared_ptr<Scene> scene)
 
 	for (std::shared_ptr<PhysicsBody>& physics_body : scene->get_components_by_type<PhysicsBody>())
 	{
-		if (physics_body->has_gravity)
-		{
-			physics_body->linear_velocity.x *= pow(physics_body->drag_ratio.x, seconds_per_fixed_update);
-			physics_body->linear_velocity.y *= pow(physics_body->drag_ratio.y, seconds_per_fixed_update);
-			physics_body->linear_velocity.z *= pow(physics_body->drag_ratio.z, seconds_per_fixed_update);
-		}
+		physics_body->linear_velocity.x *= pow(physics_body->drag_ratio.x, seconds_per_fixed_update);
+		physics_body->linear_velocity.y *= pow(physics_body->drag_ratio.y, seconds_per_fixed_update);
+		physics_body->linear_velocity.z *= pow(physics_body->drag_ratio.z, seconds_per_fixed_update);
 	}
 }
 

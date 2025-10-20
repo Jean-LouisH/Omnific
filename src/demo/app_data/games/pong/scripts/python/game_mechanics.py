@@ -63,7 +63,7 @@ class omnific_script:
         if ((omnific.has_continuous_event("entity_is_colliding", "Ball_and_Paddle1") and self.ball_physics_body.linear_velocity.x < 0.0) or 
         (omnific.has_continuous_event("entity_is_colliding", "Ball_and_Paddle2") and self.ball_physics_body.linear_velocity.x > 0.0)):
             self.ball_physics_body.linear_velocity.x *= -1.0 * ball_bounce_increase
-            self.ball_physics_body.linear_velocity.y = (self.ball_physics_body.linear_velocity.y / abs(self.ball_physics_body.linear_velocity.y)) * random.uniform(5.0, 16.0)
+            self.ball_physics_body.linear_velocity.y = (self.ball_physics_body.linear_velocity.y / abs(self.ball_physics_body.linear_velocity.y)) * random.uniform(3.0, 30.0)
             if abs(self.ball_physics_body.linear_velocity.x) > constants.ball_maximum_speed:
                 if self.ball_physics_body.linear_velocity.x < 0.0:
                     self.ball_physics_body.linear_velocity.x = -constants.ball_maximum_speed
