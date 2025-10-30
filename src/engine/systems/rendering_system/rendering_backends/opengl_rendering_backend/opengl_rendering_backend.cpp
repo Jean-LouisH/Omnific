@@ -83,6 +83,12 @@ void Omnific::OpenGLRenderingBackend::clear_colour_buffer(uint8_t red, uint8_t g
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void Omnific::OpenGLRenderingBackend::clear_colour_buffer(glm::vec4 colour)
+{
+	glClearColor(colour.x, colour.y, colour.z, colour.w);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void Omnific::OpenGLRenderingBackend::clear_depth_buffer()
 {
 	glClear(GL_DEPTH_BUFFER_BIT);

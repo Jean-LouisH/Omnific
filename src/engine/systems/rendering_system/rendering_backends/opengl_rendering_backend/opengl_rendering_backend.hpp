@@ -50,6 +50,7 @@ namespace Omnific
 
 		void initialize();
 		void clear_colour_buffer(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha);
+		void clear_colour_buffer(glm::vec4 colour);
 		void clear_depth_buffer();
 		void enable_depth_test();
 		void disable_depth_test();

@@ -32,12 +32,14 @@
 #include <glm.hpp>
 #include <memory>
 #include <foundations/colour.hpp>
+#include <foundations/resources/shader.hpp>
 
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API WorldEnvironment : Component
 	{
 	public:
+		friend class RenderingSystem;
 		enum class BackgroundMode
 		{
 			SKY,
@@ -64,8 +66,13 @@ namespace Omnific
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
+
+		std::shared_ptr<Colour> clear_colour;
+		BackgroundMode background_mode;
+		ToneMapper tone_mapper;
+		std::shared_ptr<Shader> shader;
+
 		virtual void deserialize(YAML::Node yaml_node);
 	private:
-		std::shared_ptr<Colour> clear_colour;
 	};
 }

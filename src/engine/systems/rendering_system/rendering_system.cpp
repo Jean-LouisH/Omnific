@@ -29,6 +29,7 @@
 #include <foundations/transform.hpp>
 #include <scene/components/gui.hpp>
 #include <scene/components/light.hpp>
+#include <scene/components/world_environment.hpp>
 #include <foundations/singletons/configuration.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/scene_storage.hpp>
@@ -81,7 +82,24 @@ void Omnific::RenderingSystem::on_output()
 	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
 	std::vector<size_t> rendering_order_index_cache = scene->get_rendering_order_index_cache();
 	this->on_window_resize();
-	this->opengl_backend->clear_colour_buffer(0, 0, 0, 255);
+
+	std::shared_ptr<WorldEnvironment> world_environment;
+	
+	for (auto current_world_environment : scene->get_components_by_type<WorldEnvironment>())
+		world_environment = current_world_environment;
+
+	if (world_environment != nullptr)
+	{
+		switch(world_environment->background_mode)
+		{
+			case WorldEnvironment::BackgroundMode::SKY:; break;
+			case WorldEnvironment::BackgroundMode::CLEAR_COLOUR: this->opengl_backend->clear_colour_buffer(world_environment->clear_colour->get_rgba_in_vec4()); break;
+		}
+	}
+	else
+	{
+		this->opengl_backend->clear_colour_buffer(0, 0, 0, 255);
+	}
 
 	/* Render all models except GUIs */
 	for (auto& viewport : scene->get_components_by_type<Viewport>())
@@ -172,6 +190,21 @@ void Omnific::RenderingSystem::on_output()
 								this->opengl_backend->enable_blending();
 								std::shared_ptr<Shader> shader = renderable->get_shader();
 								std::shared_ptr<ShaderParameters> shader_parameters = renderable->shader_parameters;
+
+								if (shader == nullptr)
+								{
+									if (camera->shader != nullptr)
+									{
+										shader = camera->shader;
+									}
+									else if (world_environment != nullptr)
+									{
+										if (world_environment->shader != nullptr)
+										{
+											shader = world_environment->shader;
+										}
+									}
+								}
 
 								std::shared_ptr<Entity> top_entity = renderable_entity;
 								EntityID parent_entity_id = renderable_entity->parent_id;
@@ -357,6 +390,8 @@ void Omnific::RenderingSystem::on_output()
 								shader_program->set_int("normal_texture_sampler", 4);
 								shader_program->set_int("occlusion_texture_sampler", 5);
 								shader_program->set_float("alpha", alpha);
+								shader_program->set_int("diffuse_mode", (int)renderable->material->diffuse_mode);
+								shader_program->set_int("specular_mode", (int)renderable->material->specular_mode);
 								shader_program->set_vec4("highlight_colour", renderable->highlight_colour->get_rgba_in_vec4());
 								shader_program->set_int("light_count", lights_count);
 								shader_program->set_int_array("light_modes", light_modes);

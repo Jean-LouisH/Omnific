@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "world_environment.hpp"
+#include <memory>
 
 void Omnific::WorldEnvironment::deserialize(YAML::Node yaml_node)
 {
@@ -28,7 +29,60 @@ void Omnific::WorldEnvironment::deserialize(YAML::Node yaml_node)
 	{
 		if (it3->first.as<std::string>() == "clear_colour")
 		{
-			
+			this->clear_colour = std::make_shared<Colour>(it3->second.as<std::string>());
+		}
+		else if (it3->first.as<std::string>() == "background_mode")
+		{
+			if (it3->second.as<std::string>() == "sky")
+			{
+				this->background_mode = BackgroundMode::SKY;
+			}
+			else if (it3->second.as<std::string>() == "clear_colour")
+			{
+				this->background_mode = BackgroundMode::CLEAR_COLOUR;
+			}
+		}
+		else if (it3->first.as<std::string>() == "tone_mapper")
+		{
+			if (it3->second.as<std::string>() == "linear")
+			{
+				this->tone_mapper = ToneMapper::LINEAR;
+			}
+			else if (it3->second.as<std::string>() == "agx")
+			{
+				this->tone_mapper = ToneMapper::AGX;
+			}
+			else if (it3->second.as<std::string>() == "aces")
+			{
+				this->tone_mapper = ToneMapper::ACES;
+			}
+		}
+		else if (it3->first.as<std::string>() == "world_environment_shader")
+		{
+			std::string vertex = "";
+			std::string fragment = "";
+			std::string preset = "Shader::PBR";
+
+			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
+			{
+				if (it4->first.as<std::string>() == "vertex")
+				{
+					vertex = it4->second.as<std::string>();
+				}
+				else if (it4->first.as<std::string>() == "fragment")
+				{
+					fragment = it4->second.as<std::string>();
+				}
+				else if (it4->first.as<std::string>() == "preset")
+				{
+					preset = it4->second.as<std::string>();
+				}
+			}
+
+			if (preset == "")
+				this->shader = std::make_shared<Shader>(vertex, fragment);
+			else
+				this->shader = std::make_shared<Shader>(preset);
 		}
 	}
 }

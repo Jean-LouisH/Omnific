@@ -63,6 +63,33 @@ void Omnific::Camera::deserialize(YAML::Node yaml_node)
 		{
 			this->viewport_target_entity = it3->second.as<std::string>();
 		}
+		else if (it3->first.as<std::string>() == "camera_shader")
+		{
+			std::string vertex = "";
+			std::string fragment = "";
+			std::string preset = "Shader::PBR";
+
+			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
+			{
+				if (it4->first.as<std::string>() == "vertex")
+				{
+					vertex = it4->second.as<std::string>();
+				}
+				else if (it4->first.as<std::string>() == "fragment")
+				{
+					fragment = it4->second.as<std::string>();
+				}
+				else if (it4->first.as<std::string>() == "preset")
+				{
+					preset = it4->second.as<std::string>();
+				}
+			}
+
+			if (preset == "")
+				this->shader = std::make_shared<Shader>(vertex, fragment);
+			else
+				this->shader = std::make_shared<Shader>(preset);
+		}
 	}
 }
 

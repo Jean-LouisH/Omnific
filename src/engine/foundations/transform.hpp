@@ -38,7 +38,7 @@ namespace Omnific
 			YXZ,
 			YZX,
 			ZXY,
-			ZYZ
+			ZYX
 		};
 
 		glm::vec3 translation;
@@ -51,7 +51,7 @@ namespace Omnific
 			this->translation = glm::vec3(0.0, 0.0, 0.0);
 			this->rotation = glm::vec3(0.0, 0.0, 0.0);
 			this->scale = glm::vec3(1.0, 1.0, 1.0);
-			this->rotation_order = RotationOrder::XYZ;
+			this->rotation_order = RotationOrder::ZYX;
 		}
 
 		void translate_x(float offset);

@@ -148,6 +148,33 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 										transform->scale.y = it3->second[1].as<double>();
 										transform->scale.z = it3->second[2].as<double>();
 									}
+									else if (it3->first.as<std::string>() == "rotation_order")
+									{
+										if (it3->second.as<std::string>() == "xyz")
+										{
+											transform->rotation_order = Transform::RotationOrder::XYZ;
+										}
+										else if (it3->second.as<std::string>() == "xzy")
+										{
+											transform->rotation_order = Transform::RotationOrder::XZY;
+										}
+										else if (it3->second.as<std::string>() == "yxz")
+										{
+											transform->rotation_order = Transform::RotationOrder::YXZ;
+										}
+										else if (it3->second.as<std::string>() == "yzx")
+										{
+											transform->rotation_order = Transform::RotationOrder::YZX;
+										}
+										else if (it3->second.as<std::string>() == "zxy")
+										{
+											transform->rotation_order = Transform::RotationOrder::ZXY;
+										}
+										else if (it3->second.as<std::string>() == "zyx")
+										{
+											transform->rotation_order = Transform::RotationOrder::ZYX;
+										}
+									}
 								}					
 							}
 							else

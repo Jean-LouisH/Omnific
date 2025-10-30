@@ -38,6 +38,40 @@ void Omnific::Renderable::deserialize(YAML::Node yaml_node)
 		{
 			this->material->albedo_map = std::shared_ptr<Image>(new Image(it3->second.as<std::string>()));
 		}
+		else if (it3->first.as<std::string>() == "diffuse_mode")
+		{
+			if (it3->second.as<std::string>() == "lambert")
+			{
+				this->material->diffuse_mode = Material::DiffuseMode::LAMBERT;
+			}
+			else if (it3->second.as<std::string>() == "burley")
+			{
+				this->material->diffuse_mode = Material::DiffuseMode::BURLEY;
+			}
+			else if (it3->second.as<std::string>() == "oren-nayer")
+			{
+				this->material->diffuse_mode = Material::DiffuseMode::OREN_NAYER;
+			}
+		}
+		else if (it3->first.as<std::string>() == "specular_mode")
+		{
+			if (it3->second.as<std::string>() == "phong")
+			{
+				this->material->specular_mode = Material::SpecularMode::PHONG;
+			}
+			else if (it3->second.as<std::string>() == "blinn-phong")
+			{
+				this->material->specular_mode = Material::SpecularMode::BLINN_PHONG;
+			}
+			else if (it3->second.as<std::string>() == "ggx")
+			{
+				this->material->specular_mode = Material::SpecularMode::GGX;
+			}
+			else if (it3->second.as<std::string>() == "beckmann")
+			{
+				this->material->specular_mode = Material::SpecularMode::BECKMANN;
+			}
+		}
 		else if (it3->first.as<std::string>() == "shader" || it3->first.as<std::string>() == "overriding_shader")
 		{
 			std::string vertex = "";
@@ -363,7 +397,7 @@ void Omnific::Renderable::set_default_material_surface_modes_by_shader_preset(st
 	}
 	else if (shader_preset == "Shader::PBR")
 	{
-		this->material->diffuse_mode = Material::DiffuseMode::LAMBERT;
+		this->material->diffuse_mode = Material::DiffuseMode::BURLEY;
 		this->material->specular_mode = Material::SpecularMode::GGX;
 	}
 }

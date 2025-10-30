@@ -34,6 +34,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API Camera : public Component
 	{
 		friend class CameraSystem;
+		friend class RenderingSystem;
 	public:
 		static constexpr const char* TYPE_STRING = "Camera";
 		Camera()
@@ -77,5 +78,6 @@ namespace Omnific
 		bool is_wire_frame = false;
 		std::string follow_target_entity;
 		std::string viewport_target_entity;
+		std::shared_ptr<Shader> shader;
 	};
 }
