@@ -177,7 +177,7 @@ void Omnific::RenderingSystem::on_output()
 
 					if (this->rendering_path == RenderingPath::FORWARD)
 					{
-						for (auto& renderable : scene->get_renderables_in_rendering_order())
+						for (auto& renderable : scene->get_renderables_in_order())
 						{
 							std::shared_ptr<Entity> renderable_entity = scene->get_entity(renderable->get_entity_id());
 							std::shared_ptr<Transform> renderable_transform = renderable_entity->get_transform();
@@ -188,6 +188,7 @@ void Omnific::RenderingSystem::on_output()
 								renderable->mesh != nullptr)
 							{
 								this->opengl_backend->enable_blending();
+								std::shared_ptr<Material> material = renderable->material;
 								std::shared_ptr<Shader> shader = renderable->get_shader();
 								std::shared_ptr<ShaderParameters> shader_parameters = renderable->shader_parameters;
 
@@ -210,7 +211,7 @@ void Omnific::RenderingSystem::on_output()
 								EntityID parent_entity_id = renderable_entity->parent_id;
 
 								/*Find the top entity of the hierarchy for the
-									overriding shader. */
+									overriding shader and material. */
 								while (parent_entity_id != 0)
 								{
 									top_entity = scene->get_entity(parent_entity_id);
@@ -222,8 +223,14 @@ void Omnific::RenderingSystem::on_output()
 									std::shared_ptr<Renderable> overriding_renderable =
 										std::dynamic_pointer_cast<Renderable>(scene->get_component_by_id(top_entity->get_renderable_id()));
 
+									std::shared_ptr<Material> overriding_material = overriding_renderable->overriding_material;
 									std::shared_ptr<Shader> overriding_shader = overriding_renderable->get_overriding_shader();
-									
+								
+									if (overriding_material != nullptr)
+									{
+										material = overriding_material;
+									}
+
 									if (overriding_shader != nullptr)
 									{
 										shader = overriding_shader;
@@ -255,7 +262,6 @@ void Omnific::RenderingSystem::on_output()
 								std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(renderable->mesh);
 								vertex_array->bind();
 
-								std::shared_ptr<Material> material = renderable->material;
 								this->opengl_backend->get_texture(material->albedo_map)->bind(OpenGLTexture::Unit::_0);
 								this->opengl_backend->get_texture(material->metallic_map)->bind(OpenGLTexture::Unit::_1);
 								this->opengl_backend->get_texture(material->roughness_map)->bind(OpenGLTexture::Unit::_2);
@@ -390,8 +396,8 @@ void Omnific::RenderingSystem::on_output()
 								shader_program->set_int("normal_texture_sampler", 4);
 								shader_program->set_int("occlusion_texture_sampler", 5);
 								shader_program->set_float("alpha", alpha);
-								shader_program->set_int("diffuse_mode", (int)renderable->material->diffuse_mode);
-								shader_program->set_int("specular_mode", (int)renderable->material->specular_mode);
+								shader_program->set_int("diffuse_reflection_model", (int)renderable->material->diffuse_reflection_model);
+								shader_program->set_int("specular_reflection_model", (int)renderable->material->specular_reflection_model);
 								shader_program->set_vec4("highlight_colour", renderable->highlight_colour->get_rgba_in_vec4());
 								shader_program->set_int("light_count", lights_count);
 								shader_program->set_int_array("light_modes", light_modes);

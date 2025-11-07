@@ -14,7 +14,8 @@ Entity:
     Python: ["tests/scripts/python/z_rotation.py"]
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FF0000"
+    material:
+      albedo: "Image::#FF0000"
 Entity:
   name: "Renderable2"
   parent: "Renderable1"
@@ -22,7 +23,8 @@ Entity:
     translation: [0.0, -1.2, 0.0]
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FFFFFF"
+    material:
+      albedo: "Image::#FFFFFF"
   ScriptCollection:
     Python: ["tests/scripts/python/x_vibration.py"]
 Entity:

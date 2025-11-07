@@ -34,43 +34,88 @@ void Omnific::Renderable::deserialize(YAML::Node yaml_node)
 		{
 			this->mesh = std::shared_ptr<Mesh>(new Mesh(it3->second.as<std::string>()));
 		}
-		else if (it3->first.as<std::string>() == "albedo")
+		else if (it3->first.as<std::string>() == "material" | it3->first.as<std::string>() == "overriding_material")
 		{
-			this->material->albedo_map = std::shared_ptr<Image>(new Image(it3->second.as<std::string>()));
-		}
-		else if (it3->first.as<std::string>() == "diffuse_mode")
-		{
-			if (it3->second.as<std::string>() == "lambert")
+			std::shared_ptr<Material> material(new Material());
+
+			for (YAML::const_iterator it4 = it3->second.begin(); it4 != it3->second.end(); ++it4)
 			{
-				this->material->diffuse_mode = Material::DiffuseMode::LAMBERT;
+				if (it4->first.as<std::string>() == "albedo")
+				{
+					material->albedo_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "metallic")
+				{
+					material->metallic_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "specular")
+				{
+					material->specular_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "roughness")
+				{
+					material->roughness_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "anisotropy")
+				{
+					material->anisotropic_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "emission")
+				{
+					material->emission_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "normal")
+				{
+					material->normal_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "displacement")
+				{
+					material->displacement_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "occlusion")
+				{
+					material->occlusion_map = std::shared_ptr<Image>(new Image(it4->second.as<std::string>()));
+				}
+				else if (it4->first.as<std::string>() == "diffuse_mode")
+				{
+					if (it4->second.as<std::string>() == "lambert")
+					{
+						material->diffuse_reflection_model = Material::DiffuseReflectionModel::LAMBERT;
+					}
+					else if (it4->second.as<std::string>() == "burley")
+					{
+						material->diffuse_reflection_model = Material::DiffuseReflectionModel::BURLEY;
+					}
+					else if (it4->second.as<std::string>() == "oren-nayer")
+					{
+						material->diffuse_reflection_model = Material::DiffuseReflectionModel::OREN_NAYER;
+					}
+				}
+				else if (it4->first.as<std::string>() == "specular_mode")
+				{
+					if (it4->second.as<std::string>() == "phong")
+					{
+						material->specular_reflection_model = Material::SpecularReflectionModel::PHONG;
+					}
+					else if (it4->second.as<std::string>() == "blinn-phong")
+					{
+						material->specular_reflection_model = Material::SpecularReflectionModel::BLINN_PHONG;
+					}
+					else if (it4->second.as<std::string>() == "ggx")
+					{
+						material->specular_reflection_model = Material::SpecularReflectionModel::GGX;
+					}
+					else if (it4->second.as<std::string>() == "beckmann")
+					{
+						material->specular_reflection_model = Material::SpecularReflectionModel::BECKMANN;
+					}
+				}
 			}
-			else if (it3->second.as<std::string>() == "burley")
-			{
-				this->material->diffuse_mode = Material::DiffuseMode::BURLEY;
-			}
-			else if (it3->second.as<std::string>() == "oren-nayer")
-			{
-				this->material->diffuse_mode = Material::DiffuseMode::OREN_NAYER;
-			}
-		}
-		else if (it3->first.as<std::string>() == "specular_mode")
-		{
-			if (it3->second.as<std::string>() == "phong")
-			{
-				this->material->specular_mode = Material::SpecularMode::PHONG;
-			}
-			else if (it3->second.as<std::string>() == "blinn-phong")
-			{
-				this->material->specular_mode = Material::SpecularMode::BLINN_PHONG;
-			}
-			else if (it3->second.as<std::string>() == "ggx")
-			{
-				this->material->specular_mode = Material::SpecularMode::GGX;
-			}
-			else if (it3->second.as<std::string>() == "beckmann")
-			{
-				this->material->specular_mode = Material::SpecularMode::BECKMANN;
-			}
+
+			if (it3->first.as<std::string>() == "overriding_material")
+				this->overriding_material = material;
+			else
+				this->material = material;
 		}
 		else if (it3->first.as<std::string>() == "shader" || it3->first.as<std::string>() == "overriding_shader")
 		{
@@ -169,26 +214,26 @@ void Omnific::Renderable::set_shader(std::shared_ptr<Shader> shader)
 	if (this->overriding_shader == nullptr)
 		this->build_uniform_references_from_shader(shader);
 	this->shader = shader;
-	this->set_default_material_surface_modes_by_shader_preset(shader->get_preset());
+	this->set_default_reflection_models_by_shader_preset(shader->get_preset());
 }
 
 void Omnific::Renderable::set_overriding_shader(std::shared_ptr<Shader> overriding_shader)
 {
 	this->build_uniform_references_from_shader(overriding_shader);
 	this->overriding_shader = overriding_shader;
-	this->set_default_material_surface_modes_by_shader_preset(overriding_shader->get_preset());
+	this->set_default_reflection_models_by_shader_preset(overriding_shader->get_preset());
 }
 
-void Omnific::Renderable::set_material_diffuse_mode(Material::DiffuseMode diffuse_mode)
+void Omnific::Renderable::set_diffuse_reflection_model(Material::DiffuseReflectionModel diffuse_mode)
 {
 	if (this->shader->get_preset() != "Shader::SIMPLE")
-		this->material->diffuse_mode = diffuse_mode;
+		this->material->diffuse_reflection_model = diffuse_mode;
 }
 
-void Omnific::Renderable::set_material_specular_mode(Material::SpecularMode specular_mode)
+void Omnific::Renderable::set_specular_reflection_model(Material::SpecularReflectionModel specular_mode)
 {
 	if (this->shader->get_preset() != "Shader::SIMPLE")
-		this->material->specular_mode = specular_mode;
+		this->material->specular_reflection_model = specular_mode;
 }
 
 void Omnific::Renderable::set_alpha(uint8_t value)
@@ -281,25 +326,25 @@ std::shared_ptr<Omnific::Shader> Omnific::Renderable::get_overriding_shader()
 	return this->overriding_shader;
 }
 
-std::string Omnific::Renderable::get_surface_mode_string()
+std::string Omnific::Renderable::get_reflection_models_as_string()
 {
 	std::string surface_mode_string;
 
-	switch (this->material->diffuse_mode)
+	switch (this->material->diffuse_reflection_model)
 	{
-		case Material::DiffuseMode::LAMBERT: surface_mode_string += "Lambert"; break;
-		case Material::DiffuseMode::BURLEY: surface_mode_string += "Burley"; break;
-		case Material::DiffuseMode::OREN_NAYER: surface_mode_string += "Oren-Nayer"; break;
+		case Material::DiffuseReflectionModel::LAMBERT: surface_mode_string += "Lambert"; break;
+		case Material::DiffuseReflectionModel::BURLEY: surface_mode_string += "Burley"; break;
+		case Material::DiffuseReflectionModel::OREN_NAYER: surface_mode_string += "Oren-Nayer"; break;
 	}
 
 	surface_mode_string += " + ";
 
-	switch (this->material->specular_mode)
+	switch (this->material->specular_reflection_model)
 	{
-		case Material::SpecularMode::PHONG: surface_mode_string += "Phong"; break;
-		case Material::SpecularMode::BLINN_PHONG: surface_mode_string += "Blinn-Phong"; break;
-		case Material::SpecularMode::GGX: surface_mode_string += "GGX"; break;
-		case Material::SpecularMode::BECKMANN: surface_mode_string += "Beckmann"; break;
+		case Material::SpecularReflectionModel::PHONG: surface_mode_string += "Phong"; break;
+		case Material::SpecularReflectionModel::BLINN_PHONG: surface_mode_string += "Blinn-Phong"; break;
+		case Material::SpecularReflectionModel::GGX: surface_mode_string += "GGX"; break;
+		case Material::SpecularReflectionModel::BECKMANN: surface_mode_string += "Beckmann"; break;
 	}
 
 	return surface_mode_string;
@@ -388,16 +433,16 @@ void Omnific::Renderable::build_uniform_references_from_shader(std::shared_ptr<S
 	}
 }
 
-void Omnific::Renderable::set_default_material_surface_modes_by_shader_preset(std::string shader_preset)
+void Omnific::Renderable::set_default_reflection_models_by_shader_preset(std::string shader_preset)
 {
 	if (shader_preset == "Shader::SIMPLE")
 	{
-		this->material->diffuse_mode = Material::DiffuseMode::LAMBERT;
-		this->material->specular_mode = Material::SpecularMode::PHONG;
+		this->material->diffuse_reflection_model = Material::DiffuseReflectionModel::LAMBERT;
+		this->material->specular_reflection_model = Material::SpecularReflectionModel::PHONG;
 	}
 	else if (shader_preset == "Shader::PBR")
 	{
-		this->material->diffuse_mode = Material::DiffuseMode::BURLEY;
-		this->material->specular_mode = Material::SpecularMode::GGX;
+		this->material->diffuse_reflection_model = Material::DiffuseReflectionModel::BURLEY;
+		this->material->specular_reflection_model = Material::SpecularReflectionModel::GGX;
 	}
 }

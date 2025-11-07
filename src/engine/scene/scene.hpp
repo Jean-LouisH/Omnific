@@ -85,7 +85,7 @@ namespace Omnific
 		std::unordered_map<EntityID, std::shared_ptr<Entity>> get_entities();
 		std::shared_ptr<Component> get_component_by_id(ComponentID component_id);
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
-		std::vector<std::shared_ptr<Renderable>> get_renderables_in_rendering_order();
+		std::vector<std::shared_ptr<Renderable>> get_renderables_in_order();
 
 		template <class T>
 		std::shared_ptr<T> get_component_by_type(EntityID entity_id)

@@ -715,7 +715,7 @@ std::shared_ptr<Omnific::Component> Omnific::Scene::get_component(std::string ty
 	return component;
 }
 
-std::vector<std::shared_ptr<Omnific::Renderable>> Omnific::Scene::get_renderables_in_rendering_order()
+std::vector<std::shared_ptr<Omnific::Renderable>> Omnific::Scene::get_renderables_in_order()
 {
 	std::vector<std::shared_ptr<Renderable>> renderables;
 	std::vector<std::shared_ptr<Component>> components = this->get_components();

@@ -11,7 +11,8 @@
 #     scale: [20.0, 1.0, 40.0]
 #   Renderable:
 #     mesh: "Mesh::cube"
-#     albedo: "Image::#FFFFFF"
+#     material:
+      albedo: "Image::#FFFFFF"
 # Entity: 
 #   name: "Player"
 # Entity:
@@ -34,7 +35,8 @@ Entity:
     scale: [0.5, 2.0, 0.5]
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#0000FF"
+    material:
+      albedo: "Image::#0000FF"
     shader:
       preset: "Shader::UNLIT"
 Entity:

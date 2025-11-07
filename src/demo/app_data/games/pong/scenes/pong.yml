@@ -10,12 +10,21 @@ Entity:
   name: "Instructions"
   GUI:
     GUILabel: 
-      text: "Controls: 'W' - Up, 'S' - Down"
+      text: "Controls: 'W' - Up, 'S' - Down                   'P' - Toggle AI/P2"
       font: ["games/pong/fonts/Lato-Regular.ttf", 16]
       text_colour: "#FFFFFFFF"
       pivot: "top_left"
       anchoring: "top_left"
       margin: [20.0, -20.0]
+Entity:
+  name: "MessageBoard"
+  GUI:
+    GUILabel: 
+      text: "Loading..."
+      font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+      text_colour: "#FFFFFFFF"
+      pivot: "centre"
+      anchoring: "centre"
 Entity:
   name: "Camera"
   transform:
@@ -42,7 +51,8 @@ Entity:
     collision_response_type: "rigid"
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FF0000"
+    material:
+      albedo: "Image::#FF0000"
   ScriptCollection:
     Python: ["games/pong/scripts/python/player_control.py"]
   Collider: default
@@ -71,7 +81,8 @@ Entity:
     collision_response_type: "rigid"
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#0000FF"
+    material:
+      albedo: "Image::#0000FF"
   ScriptCollection:
     Python: ["games/pong/scripts/python/ai_control.py"]
   Collider: default
@@ -96,7 +107,8 @@ Entity:
     translation: [0, 10, 0]
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FFFFFF"
+    material:
+      albedo: "Image::#FFFFFF"
   PhysicsBody:
     is_rigidbody: false
     collision_response_type: "intangible"
@@ -115,7 +127,8 @@ Entity:
   Collider: default
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FFFFFF"
+    material:
+      albedo: "Image::#FFFFFF"
   PhysicsBody:
     is_rigidbody: false
     collision_response_type: "kinematic"
@@ -128,7 +141,8 @@ Entity:
   Collider: default
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FFFFFF"
+    material:
+      albedo: "Image::#FFFFFF"
   PhysicsBody:
     is_rigidbody: false
     collision_response_type: "kinematic"

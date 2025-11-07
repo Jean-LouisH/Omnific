@@ -5,6 +5,8 @@ Scene:
     translation: [-2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
   Renderable: 
+    overriding_material:
+      albedo: "Image::#FF0000"
     overriding_shader:
       preset: "Shader::UNLIT"
   ScriptCollection:
@@ -37,6 +39,8 @@ Scene:
     translation: [0.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
   Renderable: 
+    overriding_material:
+      albedo: "Image::#FF0000"
     overriding_shader:
       preset: "Shader::SIMPLE"
   ScriptCollection:
@@ -71,6 +75,9 @@ Scene:
     translation: [2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
   Renderable: 
+    overriding_material:
+      albedo: "Image::#FF0000"
+      roughness: "Image::#FFFFFF"
     overriding_shader:
       preset: "Shader::PBR"
   ScriptCollection:
@@ -109,7 +116,8 @@ Entity:
     translation: [0.0, 0.0, 6.0]
   Renderable: 
     mesh: "Mesh::cube"
-    albedo: "Image::#FFFFFF"
+    material:
+      albedo: "Image::#FFFFFF"
     shader:
       preset: "Shader::LIGHT_SOURCE"
   Light:

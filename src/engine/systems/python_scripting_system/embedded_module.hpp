@@ -272,7 +272,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def_readwrite("shader_parameters", &Omnific::Renderable::shader_parameters)
 		.def("set_to_cube", &Omnific::Renderable::set_to_cube)
 		.def("set_to_textured_cube", &Omnific::Renderable::set_to_textured_cube)
-		.def("get_surface_mode_string", &Omnific::Renderable::get_surface_mode_string);
+		.def("get_surface_mode_string", &Omnific::Renderable::get_reflection_models_as_string)
+		.def("show", &Omnific::Renderable::show)
+		.def("hide", &Omnific::Renderable::hide);
 	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING);
 	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING);
 	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING);

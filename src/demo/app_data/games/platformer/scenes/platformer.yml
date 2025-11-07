@@ -5,14 +5,16 @@ Entity:
     scale: [20.0, 1.0, 40.0]
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#FFFFFF"
+    material:
+      albedo: "Image::#FFFFFF"
 Entity:
   name: "Player"
   transform:
     scale: [1.0, 2.0, 1.0]
   Renderable:
     mesh: "Mesh::cube"
-    albedo: "Image::#0000FF"
+    material:
+      albedo: "Image::#0000FF"
 Entity:
   name: "Light"
   transform: 

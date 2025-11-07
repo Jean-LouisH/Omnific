@@ -132,6 +132,23 @@ namespace Omnific
 	private:
 	};
 
+	class OMNIFIC_ENGINE_API GUIPlot : public GUIElement
+	{
+		friend class GUI;
+		friend class GUISystem;
+	public:
+		static constexpr const char* TYPE_STRING = "GUIPlot";
+		GUIPlot()
+		{
+			this->name = (std::string)TYPE_STRING + " ID: " + std::to_string(UIDGenerator::get_new_uid());
+			this->gui_element_type = TYPE_STRING;
+			this->parent_type = GUIElement::TYPE_STRING;
+		};
+
+		//virtual void update_image() override;
+	private:
+	};
+
 	class OMNIFIC_ENGINE_API GUIColour : public GUIElement
 	{
 		friend class GUI;

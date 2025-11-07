@@ -35,14 +35,15 @@ namespace Omnific
 
             const int MAX_LIGHTS = 8;
 
-            const int LAMBERT = 0;
-            const int BURLEY = 1; 
-            const int OREN_NAYER = 2;
+            const int NONE = 0;
+            const int LAMBERT = 1;
+            const int BURLEY = 2; 
+            const int OREN_NAYER = 3;
 
-            const int PHONG = 0;
-            const int BLINN_PHONG = 1;
-            const int GGX = 2;
-            const int BECKMANN = 3;
+            const int PHONG = 1;
+            const int BLINN_PHONG = 2;
+            const int GGX = 3;
+            const int BECKMANN = 4;
 
             const float PI = 3.14159265;
 
@@ -65,8 +66,8 @@ namespace Omnific
 		    uniform float light_outer_cutoff_angles[MAX_LIGHTS];
             uniform vec3 camera_translation;
             uniform float alpha;
-            uniform int diffuse_mode;
-            uniform int specular_mode;
+            uniform int diffuse_reflection_model;
+            uniform int specular_reflection_model;
             uniform sampler2D albedo_texture_sampler;
             uniform sampler2D metallicity_texture_sampler;
             uniform sampler2D roughness_texture_sampler;
@@ -163,18 +164,18 @@ namespace Omnific
 
                     vec3 fresnel = vec3(0.0);
 
-                    if (diffuse_mode == LAMBERT)
+                    if (diffuse_reflection_model == LAMBERT)
                     {
                         diffuse = 1.0 / PI;
                     }
-                    else if (diffuse_mode == BURLEY)
+                    else if (diffuse_reflection_model == BURLEY)
                     {
                         float Fd90 = 0.5 + 2.0 * l_dot_h * l_dot_h * roughness;
                         float light_scatter = 1.0 + (Fd90 - 1.0) * pow(1.0 - n_dot_l, 5.0);
                         float view_scatter  = 1.0 + (Fd90 - 1.0) * pow(1.0 - n_dot_v, 5.0);
                         diffuse = light_scatter * view_scatter / PI;
                     }
-                    else if (diffuse_mode == OREN_NAYER)
+                    else if (diffuse_reflection_model == OREN_NAYER)
                     {
                         float sigma = roughness * roughness;
                         float sigma_2 = sigma * sigma;
@@ -185,7 +186,7 @@ namespace Omnific
                         diffuse = (A + B * t) / PI;
                     }
 
-                    if (specular_mode == PHONG)
+                    if (specular_reflection_model == PHONG)
                     {
                         vec3 reflection_direction = reflect(-light_direction, normal_direction);
                         float r_dot_v = max(dot(camera_direction, reflection_direction), 0.0);
@@ -199,17 +200,17 @@ namespace Omnific
                             float distribution = 0.0;
                             float epsilon = 1e-8; // to mitigate division by zero
 
-                            if (specular_mode == GGX)
+                            if (specular_reflection_model == GGX)
                             {
                                 float alpha_r_2 = alpha_r * alpha_r;
                                 float denominator = (n_dot_h * n_dot_h * (alpha_r_2 - 1.0) + 1.0);
                                 distribution = alpha_r_2 / (PI * denominator * denominator + epsilon);
                             }
-                            else if (specular_mode == BLINN_PHONG)
+                            else if (specular_reflection_model == BLINN_PHONG)
                             {
                                 distribution = (shininess + 2.0) * pow(n_dot_h, shininess) / (2.0 * PI);
                             }
-                            else if (specular_mode == BECKMANN)
+                            else if (specular_reflection_model == BECKMANN)
                             {
                                 float n_dot_h_2 = n_dot_h * n_dot_h;
                                 float tan_2 = (1.0 - n_dot_h_2) / n_dot_h_2;
@@ -229,7 +230,7 @@ namespace Omnific
                         }
                     }
                     		
-                    if (specular_mode == PHONG)
+                    if (specular_reflection_model == PHONG)
                     {
                         fresnel = F0;
                     }

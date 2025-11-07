@@ -40,7 +40,7 @@ Omnific::Event::Event(std::string name)
 	this->name = name;
 	Platform::get_run_clock().set_end();
 	this->timestamp = Platform::get_run_clock().get_delta();
-	this->parameters.key = name + "_" + std::to_string(this->timestamp);
+	this->parameters.key = "";
 }
 
 Omnific::Event::Event()

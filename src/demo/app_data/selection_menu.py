@@ -19,6 +19,7 @@ project_name_type_pairs = {
     #"path_tracing" : "simulation",
     #"fluid_dynamics" : "simulation",
     #"traffic" : "simulation",
+    #"interior_design" : "simulation",
     "clock" : "app",
     #"calculator" : "app",
     #"music_keyboard" : "app",
