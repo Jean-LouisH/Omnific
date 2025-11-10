@@ -68,6 +68,7 @@ namespace Omnific
 			bool physics_system;
 			bool python_scripting_system;
 			bool rendering_system;
+			bool imperium_scripting_system;
 		} enabled_systems;
 
 		static void load_from_file(std::string boot_filepath);

@@ -22,57 +22,40 @@
 
 #pragma once
 
+#include "scene/scene.hpp"
+#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/configuration.hpp>
 #include "foundations/aliases.hpp"
-#include <vector>
-#include <unordered_map>
-#include "foundations/constants.hpp"
+#include "foundations/singletons/platform/platform.hpp"
 #include <string>
-#include "foundations/resources/image.hpp"
-#include <scene/components/component.hpp>
-#include <glm.hpp>
+
 #include <memory>
-#include <foundations/colour.hpp>
-#include <foundations/resources/shader.hpp>
+#include <scene/components/component.hpp>
+#include <scene/scene.hpp>
+#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/aliases.hpp>
+#include <foundations/singletons/event_bus.hpp>
+#include <engine_api.hpp>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API WorldEnvironment : public Component
+	class ImperiumEntityContext
 	{
 	public:
-		friend class RenderingSystem;
-		enum class BackgroundMode
-		{
-			SKY,
-			CLEAR_COLOUR
-		};
+		static void bind_entity(EntityID entity_id);
+		static void bind_time_delta(float time_delta);
+		static bool has_component(std::string type);
+		static std::shared_ptr<Entity> get_entity();
+		static std::shared_ptr<Transform> get_transform();
+		static std::shared_ptr<Scene> get_scene();
+		static std::shared_ptr<Component> get_component(std::string type);
+		static float get_time_delta();
 
-		enum class ToneMapper
-		{
-			LINEAR,
-			AGX,
-			ACES
-		};
-
-		WorldEnvironment()
-		{
-			this->type = TYPE_STRING;
-			this->clear_colour = std::shared_ptr<Colour>(new Colour("#888888"));
-		};
-		static constexpr const char* TYPE_STRING = "WorldEnvironment";
-
-		virtual Registerable* instance() override
-		{
-			WorldEnvironment* clone = new WorldEnvironment(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
-		}
-
-		std::shared_ptr<Colour> clear_colour;
-		BackgroundMode background_mode;
-		ToneMapper tone_mapper;
-		std::shared_ptr<Shader> shader;
-
-		virtual void deserialize(YAML::Node yaml_node);
+		static ImperiumEntityContext* get_instance();
 	private:
+		static ImperiumEntityContext* instance;
+
+		EntityID bound_entity_id = 0;
+		float time_delta = 0.0;
 	};
 }

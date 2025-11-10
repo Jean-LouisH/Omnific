@@ -50,6 +50,7 @@
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
 #include "scene/components/viewport.hpp"
+#include "scene/components/world_environment.hpp"
 
 #include <systems/animation_system/animation_system.hpp>
 #include <systems/audio_system/audio_system.hpp>
@@ -63,7 +64,10 @@
 #endif
 #include <systems/rendering_system/rendering_system.hpp>
 
+#include <systems/imperium_scripting_system/imperium_scripting_system.hpp>
+
 #include <systems/cpp_scripting_system/cpp_script_instance.hpp>
+#include <systems/imperium_scripting_system/imperium_script_instance.hpp>
 
 namespace Omnific
 {
@@ -89,6 +93,7 @@ namespace Omnific
 
 			// Core classes
 			///////////////////////////////////////////
+			registry->add<Animator, Component>();
 			registry->add<AudioListener, Component>();
 			registry->add<AudioSource, Component>();
 			registry->add<Camera, Component>();
@@ -96,12 +101,12 @@ namespace Omnific
 			registry->add<GUI, Component>();
 			registry->add<Light, Component>();
 			registry->add<PhysicsBody, Component>();
-			registry->add<Animator, Component>();
 			registry->add<Renderable, Component>();
 			registry->add<ScriptCollection, Component>();
 			registry->add<Sprite, Component>();
 			registry->add<Timer, Component>();
 			registry->add<Viewport, Component>();
+			registry->add<WorldEnvironment, Component>();
 
 			if (configuration->enabled_systems.animation_system)
 				registry->add<AnimationSystem, System>();
@@ -124,6 +129,8 @@ namespace Omnific
 			if (configuration->enabled_systems.rendering_system)
 				registry->add<RenderingSystem, System>();
 
+			if (configuration->enabled_systems.imperium_scripting_system)
+				registry->add<ImperiumScriptingSystem, System>();
 
 			////////////////////////////////////////////
 		};
