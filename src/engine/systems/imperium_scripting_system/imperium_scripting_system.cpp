@@ -56,7 +56,7 @@ void Omnific::ImperiumScriptingSystem::initialize()
 
 void Omnific::ImperiumScriptingSystem::load_script_modules()
 {
-	if (!this->has_modules_loaded_on_this_update && 
+	if (!this->has_modules_loaded_on_this_frame && 
 		EventBus::has_event_with_parameter_key(OMNIFIC_EVENT_COMPONENT_ADDED, ScriptCollection::TYPE_STRING))
 	{
 		if (EventBus::has_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED))
@@ -83,7 +83,7 @@ void Omnific::ImperiumScriptingSystem::load_script_modules()
 				}
 			}
 		}
-		this->has_modules_loaded_on_this_update = true;
+		this->has_modules_loaded_on_this_frame = true;
 	}
 }
 
@@ -161,7 +161,7 @@ void Omnific::ImperiumScriptingSystem::on_entity_finish()
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
 		this->execute_queued_methods(scene->get_finish_entity_queue(), scene, method_name.c_str());
 
-	this->has_modules_loaded_on_this_update = false;
+	this->has_modules_loaded_on_this_frame = false;
 	frame_time_clock->set_end();
 }
 

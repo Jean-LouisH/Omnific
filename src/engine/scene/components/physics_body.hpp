@@ -55,12 +55,12 @@ namespace Omnific
 		float mass = 1.0; //in kg
 		float friction_ratio = 1.0;
 		float angular_drag_ratio = 1.0;
-		float angular_velocity = 0.0;
 		float gravity_scale = 1.0;
 		float elasticity_ratio = 0.01;
 		float viscosity = 0.001; //in Pa * s
 		glm::vec3 drag_ratio;
 		glm::vec3 linear_velocity;
+		glm::vec3 angular_velocity;
 		glm::vec3 snap_direction;
 		glm::vec3 up_direction;
 		CollisionResponseType collision_response_type = CollisionResponseType::RIGID;

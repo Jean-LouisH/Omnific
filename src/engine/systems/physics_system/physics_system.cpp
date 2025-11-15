@@ -251,6 +251,8 @@ void Omnific::PhysicsSystem::handle_collisions_and_displacements(std::shared_ptr
 
 	for (std::shared_ptr<PhysicsBody>& physics_body : scene->get_components_by_type<PhysicsBody>())
 	{
-		scene->get_entity(physics_body->get_entity_id())->get_transform()->translation += physics_body->linear_velocity * seconds_per_fixed_update;
+		std::shared_ptr<Transform> transform = scene->get_entity(physics_body->get_entity_id())->get_transform();
+		transform->translation += physics_body->linear_velocity * seconds_per_fixed_update;
+		transform->rotation += physics_body->angular_velocity * seconds_per_fixed_update;
 	}
 }

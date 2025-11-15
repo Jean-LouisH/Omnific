@@ -78,9 +78,9 @@ namespace Omnific
                     if (light_mode == LIGHT_DIRECTIONAL)
                     {
                         light_direction = vec3(
-                                            cos(light_rotation.y) * cos(light_rotation.x), 
-                                            sin(light_rotation.y) * cos(light_rotation.x),
-                                            sin(light_rotation.x)
+                                            cos(light_rotation.x) * sin(light_rotation.y), 
+                                            -sin(light_rotation.x),
+                                            cos(light_rotation.x) * cos(light_rotation.y)
                                             );
 
                         light_radiance = light_colour * light_intensity;

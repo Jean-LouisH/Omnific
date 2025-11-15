@@ -32,4 +32,5 @@ namespace Omnific
 	using ComponentID = UID;
 	using AssetID = UID;
 	using PlayerID = uint8_t;
+	using FrameID = uint64_t;
 }

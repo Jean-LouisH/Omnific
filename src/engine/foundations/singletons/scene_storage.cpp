@@ -23,6 +23,7 @@
 #include "foundations/singletons/scene_storage.hpp"
 #include <foundations/singletons/event_bus.hpp>
 #include "platform/platform.hpp"
+#include <foundations/singletons/profiler.hpp>
 
 Omnific::SceneStorage* Omnific::SceneStorage::instance = nullptr;
 
@@ -87,6 +88,7 @@ void Omnific::SceneStorage::reload_active_scene()
 		scene_storage->has_scene(active_scene_name))
 	{
 		scene_storage->remove_scene(active_scene_name);
+		scene_storage->active_scene_name = "";
 		scene_storage->load_scene(std::shared_ptr<Scene>(new Scene(active_scene_name)));
 		EventBus::publish_event(OMNIFIC_EVENT_ACTIVE_SCENE_RELOADED);
 	}
@@ -98,9 +100,14 @@ void Omnific::SceneStorage::service_scene_change_requests()
 	std::shared_ptr<Scene> scene;
 
 	if (scene_storage->scene_change_request_name != "")
+	{
+		EventBus::publish_event(OMNIFIC_EVENT_SERVICING_SCENE_CHANGE, {{"scene_name", scene_storage->scene_change_request_name}});
 		scene = std::make_shared<Scene>(scene_storage->scene_change_request_name);
+	}
 	else
+	{
 		scene = scene_storage->scene_change_request;
+	}
 
 	if (scene != nullptr)
 	{
@@ -119,6 +126,7 @@ void Omnific::SceneStorage::service_scene_change_requests()
 		EventBus::publish_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED);
 		Platform::get_logger().write("Changed to Scene: \"" + scene_name + "\"");
 		scene_storage->scene_change_request = nullptr;
+		scene_storage->scene_change_request_name = "";
 	}
 }
 
@@ -131,12 +139,15 @@ std::shared_ptr<Omnific::Scene> Omnific::SceneStorage::get_active_scene()
 
 	if (scene_storage->modified_active_scene_monitor_clock->get_delta_in_seconds() >= monitor_time_period)
 	{
+		FrameID current_frame_id = Profiler::get_frame_count();
 		scene_storage->modified_active_scene_monitor_clock->set_start();
+
 		if (Platform::get_file_access().get_last_modified_time(Platform::get_file_access().find_path(scene->get_name())) != 
-			scene_storage->active_scene_last_modified_time)
+			scene_storage->active_scene_last_modified_time && current_frame_id != scene_storage->last_reload_frame_id)
 		{
 			scene_storage->reload_active_scene();
 			scene = scene_storage->scenes.at(scene_storage->active_scene_name);
+			scene_storage->last_reload_frame_id = current_frame_id;
 		}
 	}
 
@@ -195,6 +206,7 @@ Omnific::SceneStorage* Omnific::SceneStorage::get_instance()
 		instance->scenes.emplace(dummy_scene->get_name(), dummy_scene);
 		instance->modified_active_scene_monitor_clock = std::make_shared<Clock>();
 		instance->modified_active_scene_monitor_clock->set_start();
+		instance->last_reload_frame_id = 0;
 	}
 	return instance;
 }

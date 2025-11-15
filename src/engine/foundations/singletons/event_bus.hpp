@@ -38,6 +38,7 @@
 #define OMNIFIC_EVENT_COMPONENT_REMOVED "component_removed"
 #define OMNIFIC_EVENT_SCENE_MODIFIED "scene_modified"
 #define OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED "change_scene_requested"
+#define OMNIFIC_EVENT_SERVICING_SCENE_CHANGE "servicing_scene_change"
 #define OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED "active_scene_changed"
 #define OMNIFIC_EVENT_SCENE_LOADED "scene_loaded"
 #define OMNIFIC_EVENT_SCENE_REMOVED "scene_removed"
@@ -57,6 +58,8 @@
 #define OMNIFIC_EVENT_HAPTIC_SIGNAL "haptic_signal"
 
 #define OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW "file_dropped_on_window"
+
+#define OMNIFIC_EVENT_PYTHON_SCRIPT_FILE_MODIFIED "python_script_file_modified"
 
 namespace Omnific
 {

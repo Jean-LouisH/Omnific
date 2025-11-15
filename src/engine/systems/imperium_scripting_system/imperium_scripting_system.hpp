@@ -65,7 +65,7 @@ namespace Omnific
 		void load_script_modules();
 	private:
 		bool is_vmstarted = false;
-		bool has_modules_loaded_on_this_update = false;
+		bool has_modules_loaded_on_this_frame = false;
 		//std::unordered_map<std::string, ImperiumScriptInstance> imperium_script_instances;
 		std::unordered_map<std::string, std::string> last_modified_times_for_script_files;
 		std::unordered_map<std::string, std::vector<std::string>> instances_with_methods;

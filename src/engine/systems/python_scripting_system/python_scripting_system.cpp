@@ -32,6 +32,7 @@
 #include <SDL_platform.h>
 #include <set>
 #include <foundations/singletons/profiler.hpp>
+#include <foundations/singletons/event_bus.hpp>
 
 #define PYTHON_SCRIPTING_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_input_frame_time"
 #define PYTHON_SCRIPTING_SYSTEM_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME "python_scripting_system_on_entity_start_frame_time"
@@ -91,14 +92,21 @@ void Omnific::PythonScriptingSystem::execute_command(std::string command)
 
 void Omnific::PythonScriptingSystem::load_script_modules()
 {
-	if (!this->has_modules_loaded_on_this_update && 
-		EventBus::has_event_with_parameter_key(OMNIFIC_EVENT_COMPONENT_ADDED, ScriptCollection::TYPE_STRING))
+	if (!this->has_modules_loaded_on_this_frame)
 	{
-		if (EventBus::has_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED))
+		std::vector<std::shared_ptr<Component>> components;
+
+		if (EventBus::has_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED) || 
+			EventBus::has_event(OMNIFIC_EVENT_PYTHON_SCRIPT_FILE_MODIFIED))
 		{
 			this->python_script_instances.clear();
 			this->last_modified_times_for_script_files.clear();
 			this->instances_with_methods.clear();
+			components = SceneStorage::get_active_scene()->get_components();
+		}
+		else
+		{
+			components = EventBus::get_components(OMNIFIC_EVENT_COMPONENT_ADDED, ScriptCollection::TYPE_STRING);
 		}
 
 		pybind11::module_ sys = pybind11::module_::import("sys");
@@ -108,7 +116,7 @@ void Omnific::PythonScriptingSystem::load_script_modules()
 		pybind11::str version_info_minor = pybind11::str(version_info.attr("minor"));
 		std::set<std::string> added_paths;
 
-		for (std::shared_ptr<Component> component : EventBus::get_components(OMNIFIC_EVENT_COMPONENT_ADDED, ScriptCollection::TYPE_STRING))
+		for (std::shared_ptr<Component> component : components)
 		{
 			std::shared_ptr<ScriptCollection> script_collection = std::dynamic_pointer_cast<ScriptCollection>(component);
 			
@@ -196,7 +204,7 @@ void Omnific::PythonScriptingSystem::load_script_modules()
 				}
 			}
 		}
-		this->has_modules_loaded_on_this_update = true;
+		this->has_modules_loaded_on_this_frame = true;
 	}
 }
 
@@ -226,7 +234,23 @@ void Omnific::PythonScriptingSystem::on_entity_start()
 
 
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
-		this->execute_queued_methods(scene->get_start_entity_queue(), scene, method_name.c_str());
+	{
+		std::queue<EntityID> entity_queue;
+
+		if (EventBus::has_event(OMNIFIC_EVENT_PYTHON_SCRIPT_FILE_MODIFIED))
+		{
+			for (auto& [entity_id, entity] : scene->get_entities())
+			{
+				entity_queue.emplace(entity_id);
+			}
+		}
+		else
+		{
+			entity_queue = scene->get_start_entity_queue();
+		}
+		
+		this->execute_queued_methods(entity_queue, scene, method_name.c_str());
+	}
 
 	frame_time_clock->set_end();
 }
@@ -283,13 +307,10 @@ void Omnific::PythonScriptingSystem::on_entity_finish()
 	std::string method_name = "on_entity_finish";
 	frame_time_clock->set_start();
 
-	if (this->have_components_changed() || this->has_any_script_been_modified())
-		this->load_script_modules();
-
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
 		this->execute_queued_methods(scene->get_finish_entity_queue(), scene, method_name.c_str());
 
-	this->has_modules_loaded_on_this_update = false;
+	this->has_modules_loaded_on_this_frame = false;
 	frame_time_clock->set_end();
 }
 
@@ -343,9 +364,6 @@ void Omnific::PythonScriptingSystem::execute_queued_methods(
 
 void Omnific::PythonScriptingSystem::execute_regular_methods(std::shared_ptr<Scene> scene, const char* method_name)
 {
-	if (this->have_components_changed() || this->has_any_script_been_modified())
-		this->load_script_modules();
-
 	if (scene != nullptr && this->instances_with_methods.count(method_name))
 	{
 		std::vector<std::string> instance_names = this->instances_with_methods.at(method_name);
@@ -393,10 +411,12 @@ bool Omnific::PythonScriptingSystem::has_any_script_been_modified()
 {
 	bool has_been_modified = false;
 	const int script_check_update_time = 1;
+	FrameID current_frame_id = Profiler::get_frame_count();
 
 	this->script_modified_time_clock->set_end();
 
-	if (this->script_modified_time_clock->get_delta() >= script_check_update_time * MS_IN_S)
+	if (this->script_modified_time_clock->get_delta() >= script_check_update_time * MS_IN_S &&
+		this->last_reload_frame_id != current_frame_id)
 	{
 		this->script_modified_time_clock->set_start();
 		for (auto& [script_filepath, last_modified_time] : this->last_modified_times_for_script_files)
@@ -404,6 +424,8 @@ bool Omnific::PythonScriptingSystem::has_any_script_been_modified()
 			if (last_modified_time != Platform::get_file_access().get_last_modified_time(script_filepath))
 			{
 				has_been_modified = true;
+				EventBus::publish_event(OMNIFIC_EVENT_PYTHON_SCRIPT_FILE_MODIFIED);
+				this->last_reload_frame_id = current_frame_id;
 			}
 		}
 	}

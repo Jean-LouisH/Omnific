@@ -8,11 +8,11 @@ Scene:
 Entity:
   name: "Global Light"
   transform:
-    rotation: [30.0, 75.0, 0.0]
+    rotation: [0.0, 15.0, 0.0]
   Light:
     light_mode: "directional"
     colour: "#FFFFFF"
-    intensity: 3.0
+    intensity: 3.1
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:

@@ -30,15 +30,39 @@ void Omnific::PhysicsBody::deserialize(YAML::Node yaml_node)
 		{
 
 		}
-		else if (it3->first.as<std::string>() == "is_rigidbody")
+		else if (it3->first.as<std::string>() == "has_gravity")
 		{
 			this->has_gravity = it3->second.as<bool>();
 		}
 		else if (it3->first.as<std::string>() == "drag_ratio")
 		{
-			this->drag_ratio[0] = it3->second[0].as<float>();
-			this->drag_ratio[1] = it3->second[1].as<float>();
-			this->drag_ratio[2] = it3->second[2].as<float>();
+			drag_ratio.x = it3->second[0].as<double>();
+			drag_ratio.y = it3->second[1].as<double>();
+			drag_ratio.z = it3->second[2].as<double>();		
+		}
+		else if (it3->first.as<std::string>() == "linear_velocity")
+		{
+			linear_velocity.x = it3->second[0].as<double>();
+			linear_velocity.y = it3->second[1].as<double>();
+			linear_velocity.z = it3->second[2].as<double>();		
+		}
+		else if (it3->first.as<std::string>() == "angular_velocity")
+		{
+			angular_velocity.x = it3->second[0].as<double>();
+			angular_velocity.y = it3->second[1].as<double>();
+			angular_velocity.z = it3->second[2].as<double>();		
+		}
+		else if (it3->first.as<std::string>() == "snap_direction")
+		{
+			snap_direction.x = it3->second[0].as<double>();
+			snap_direction.y = it3->second[1].as<double>();
+			snap_direction.z = it3->second[2].as<double>();		
+		}
+		else if (it3->first.as<std::string>() == "up_direction")
+		{
+			up_direction.x = it3->second[0].as<double>();
+			up_direction.y = it3->second[1].as<double>();
+			up_direction.z = it3->second[2].as<double>();		
 		}
 		else if (it3->first.as<std::string>() == "collision_response_type")
 		{

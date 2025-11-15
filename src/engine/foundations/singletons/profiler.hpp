@@ -24,6 +24,7 @@
 
 #include <stdint.h>
 #include <unordered_map>
+#include <foundations/aliases.hpp>
 #include <memory>
 #include <chrono>
 #include <string>
@@ -60,7 +61,7 @@ namespace Omnific
 		std::string rendering_backend_name;
 		/* In milliseconds */
 		uint64_t lag = 0;
-		uint64_t frame_count = 0;
+		FrameID frame_count = 0;
 
 		static Profiler* instance;
 		static Profiler* get_instance();

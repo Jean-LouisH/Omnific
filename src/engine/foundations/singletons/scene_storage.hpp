@@ -59,5 +59,6 @@ namespace Omnific
 		bool active_scene_changed = false;
 		std::string active_scene_last_modified_time;
 		std::shared_ptr<Clock> modified_active_scene_monitor_clock;
+		FrameID last_reload_frame_id;
 	};
 }

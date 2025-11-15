@@ -634,9 +634,9 @@ void Omnific::Scene::clear_finish_entity_queue()
 
 bool Omnific::Scene::is_active()
 {
-	for (auto& change_scene_request_event : EventBus::query_events(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED))
+	for (auto& servicing_scene_change_event : EventBus::query_events(OMNIFIC_EVENT_SERVICING_SCENE_CHANGE))
 	{
-		if (change_scene_request_event.get_parameters().strings.at("scene_name") == this->name)
+		if (servicing_scene_change_event.get_parameters().strings.at("scene_name") == this->name)
 		{
 			return true;
 		}

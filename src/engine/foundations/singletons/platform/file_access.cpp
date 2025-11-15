@@ -290,5 +290,5 @@ void Omnific::FileAccess::write_binary_asynchronously(std::string filepath, std:
 
 void Omnific::FileAccess::log_loading_resource_from_file(std::string filepath)
 {
-	Platform::get_logger().write("Loading and caching Resource from file: " + filepath);	
+	Platform::get_logger().write("Loading Resource from file: " + filepath);	
 }

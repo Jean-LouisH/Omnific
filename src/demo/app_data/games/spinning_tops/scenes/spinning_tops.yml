@@ -1,7 +1,39 @@
 Entity:
+  name: "Arena"
+  transform:
+    translation: [0.0, -1.0, 0.0]
+    scale: [100.0, 0.5, 100.0]
+  Renderable:
+    mesh: "Mesh::cube"
+    material:
+      albedo: "Image::#222222"
+      roughness: "Image::#FFFFFF"
+      metallic: "Image::#888888"
+    shader: "Shader::PBR"
+Entity: 
+  name: "Test Player"
+  transform: 
+    scale: [1.0, 2.0, 1.0]
+  Renderable:
+    mesh: "Mesh::cube"
+    material:
+      albedo: "Image::#0000FF"
+      roughness: "Image:#FFFFFF"
+    shader:
+      preset: "Shader::PBR"
+Entity:
+  name: "Light"
+  transform:
+    rotation: [0.0, 0.0, 0.0]
+  Light:
+    light_mode: "directional"
+  PhysicsBody:
+    angular_velocity: [0.0, 60.0, 0.0]
+Entity:
   name: "Camera"
   transform: 
-    translation: [0.0, 0.0, 2.0]
+    translation: [0.0, 0.0, 5.0]
+    rotation: [0.0, 0.0, 0.0]
   Camera: "default"
 Entity:
   name: "DemoUtilityScripts"

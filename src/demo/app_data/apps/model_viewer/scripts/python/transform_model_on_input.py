@@ -14,7 +14,7 @@ class omnific_script:
     def on_fixed_update(self):
 
         rotation_speed = 90
-        zoom_speed = 15
+        zoom_speed = 5
         inputs = omnific.get_inputs()
         time_delta = omnific.get_time_delta()
 
@@ -34,9 +34,13 @@ class omnific_script:
         mouse_wheel_velocity = inputs.get_mouse_wheel_velocity().y
 
         if abs(mouse_wheel_velocity) > 0.5:
-            self.camera_zoom_scale += mouse_wheel_velocity * time_delta
+            near_zoom_limit = 0.6
+            far_zoom_limit = 5.0
+            self.camera_zoom_scale += mouse_wheel_velocity * zoom_speed * time_delta
+            if self.camera_zoom_scale < near_zoom_limit:
+                self.camera_zoom_scale = near_zoom_limit
+            elif self.camera_zoom_scale > far_zoom_limit:
+                self.camera_zoom_scale = far_zoom_limit
             self.camera_pivot_transform.set_xyz_scale(self.camera_zoom_scale)
-        
-        print(self.transform.rotation.y)
 
         pass

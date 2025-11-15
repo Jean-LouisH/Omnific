@@ -127,7 +127,7 @@ Entity:
 Entity:
   name: "Global Light"
   transform:
-    rotation: [30.0, 0.0, 0.0]
+    rotation: [10.0, 30.0, 0.0]
   Light:
     light_mode: "directional"
     colour: "#FFFFFF"

@@ -69,7 +69,7 @@ namespace Omnific
 	private:
 		std::unordered_map<std::string, std::shared_ptr<CPPScriptInstance>> cpp_script_instances;
 		std::unordered_map<std::string, std::string> instances_with_methods;
-		bool has_modules_loaded_on_this_update = false;
+		bool has_modules_loaded_on_this_frame = false;
 
 		void bind_and_call(
 			std::shared_ptr<ScriptCollection> script_collection,

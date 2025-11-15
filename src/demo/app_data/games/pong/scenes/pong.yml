@@ -47,7 +47,7 @@ Entity:
     translation: [-17, 0, 0]
     scale: [1, 5, 1]
   PhysicsBody:
-    is_rigidbody: false
+    has_gravity: false
     collision_response_type: "rigid"
   Renderable:
     mesh: "Mesh::cube"
@@ -77,7 +77,7 @@ Entity:
     translation: [17, 0, 0]
     scale: [1, 5, 1]
   PhysicsBody:
-    is_rigidbody: false
+    has_gravity: false
     collision_response_type: "rigid"
   Renderable:
     mesh: "Mesh::cube"
@@ -110,7 +110,7 @@ Entity:
     material:
       albedo: "Image::#FFFFFF"
   PhysicsBody:
-    is_rigidbody: false
+    has_gravity: false
     collision_response_type: "intangible"
   Collider:
     is_trigger_only: true
@@ -130,7 +130,7 @@ Entity:
     material:
       albedo: "Image::#FFFFFF"
   PhysicsBody:
-    is_rigidbody: false
+    has_gravity: false
     collision_response_type: "kinematic"
 Entity:
   name: "LowerBoundary"
@@ -144,7 +144,7 @@ Entity:
     material:
       albedo: "Image::#FFFFFF"
   PhysicsBody:
-    is_rigidbody: false
+    has_gravity: false
     collision_response_type: "kinematic"
 Entity:
   name: "LeftGoalPost"

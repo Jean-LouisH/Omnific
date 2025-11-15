@@ -74,12 +74,13 @@ namespace Omnific
 		void load_script_modules();
 	private:
 		bool is_vmstarted = false;
-		bool has_modules_loaded_on_this_update = false;
+		bool has_modules_loaded_on_this_frame = false;
 		std::unordered_map<std::string, PythonScriptInstance> python_script_instances;
 		std::unordered_map<std::string, std::string> last_modified_times_for_script_files;
 		std::unordered_map<std::string, std::vector<std::string>> instances_with_methods;
 		std::unordered_map<std::string, std::shared_ptr<ScriptCollection>> script_collections_with_instances;
 		std::shared_ptr<Clock> script_modified_time_clock;
+		FrameID last_reload_frame_id = 0;
 
 		void execute_queued_methods(
 			std::queue<EntityID> entity_queue,
