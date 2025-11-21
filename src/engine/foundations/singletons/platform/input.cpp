@@ -544,6 +544,11 @@ float Omnific::Inputs::get_action_axis(std::string action_input_code)
 	return result;
 }
 
+void Omnific::Inputs::set_relative_mouse_mode(bool value)
+{
+	SDL_SetRelativeMouseMode((SDL_bool)value);
+}
+
 bool Omnific::Inputs::is_drop_file_detected()
 {
 	return this->drop_event.type == SDL_DROPFILE;
@@ -577,6 +582,8 @@ void Omnific::Inputs::clear()
 	}
 
 	this->mouse_wheel_event = {0};
+	this->mouse_motion_event = {0};
+	this->window_event = {0};
 }
 
 void Omnific::Inputs::detect_game_controllers()

@@ -20,35 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "out_of_bounds_resetter.hpp"
 
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
-
-namespace Omnific
+void Omnific::OutOfBoundsResetter::deserialize(YAML::Node yaml_node)
 {
-	class CameraSystem : public System
+	for (YAML::const_iterator it3 = yaml_node.begin(); it3 != yaml_node.end(); ++it3)
 	{
-	public:
-		CameraSystem()
+		if (it3->first.as<std::string>() == "")
 		{
-			this->type = TYPE_STRING;
-		};
 
-		~CameraSystem();
-		static constexpr const char* TYPE_STRING = "CameraSystem";
-
-		virtual Registerable* instance() override
-		{
-			return new CameraSystem(*this);
 		}
-
-		virtual void initialize() override;
-		virtual void on_fixed_update() override;
-		virtual void finalize() override;
-	private:
-		void autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene);
-		void move_with_controller_state(std::shared_ptr<Scene> scene);
-	};
+	}
 }
-

@@ -22,33 +22,33 @@
 
 #pragma once
 
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
+#include <foundations/aliases.hpp>
+#include <foundations/constants.hpp>
+#include "scene/components/component.hpp"
 
 namespace Omnific
 {
-	class CameraSystem : public System
+	class OMNIFIC_ENGINE_API Flickering : public Component
 	{
 	public:
-		CameraSystem()
+		Flickering()
 		{
 			this->type = TYPE_STRING;
 		};
-
-		~CameraSystem();
-		static constexpr const char* TYPE_STRING = "CameraSystem";
+		static constexpr const char* TYPE_STRING = "Flickering";
 
 		virtual Registerable* instance() override
 		{
-			return new CameraSystem(*this);
+			Flickering* clone = new Flickering(*this);
+			clone->id = UIDGenerator::get_new_uid();
+			return clone;
 		}
+		virtual void deserialize(YAML::Node yaml_node);
 
-		virtual void initialize() override;
-		virtual void on_fixed_update() override;
-		virtual void finalize() override;
+		float frequency = 2.0;
+		float duty_cycle = 0.5;
+		float duration = 3.0;
 	private:
-		void autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene);
-		void move_with_controller_state(std::shared_ptr<Scene> scene);
+
 	};
 }
-

@@ -33,6 +33,15 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Camera : public Component
 	{
+		enum class ControllerState
+		{
+			NONE,
+			FLYBY,
+			FOLLOW,
+			FOLLOW_GROUP,
+			CINEMATIC
+		};
+
 		friend class CameraSystem;
 		friend class RenderingSystem;
 	public:
@@ -61,9 +70,13 @@ namespace Omnific
 		void set_keep_aspect(bool value);
 		void set_is_streaming(bool value);
 		void set_wireframe_mode(bool value);
+		void set_controller_state_by_string(std::string state);
 		glm::mat4 get_view_to_projection_matrix();
 
 		glm::vec3 clear_colour;
+		ControllerState controller_state;
+		float flyby_translation_speed = 3.0;
+		float flyby_rotation_speed = 60.0;
 	private:
 		const float default_aspect = 1920.0 / 1080.0;
 		float aspect = default_aspect;

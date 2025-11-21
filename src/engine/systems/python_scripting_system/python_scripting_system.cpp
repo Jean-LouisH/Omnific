@@ -421,11 +421,28 @@ bool Omnific::PythonScriptingSystem::has_any_script_been_modified()
 		this->script_modified_time_clock->set_start();
 		for (auto& [script_filepath, last_modified_time] : this->last_modified_times_for_script_files)
 		{
-			if (last_modified_time != Platform::get_file_access().get_last_modified_time(script_filepath))
+			std::string new_last_modified_time = Platform::get_file_access().get_last_modified_time(script_filepath);
+
+			if (last_modified_time != new_last_modified_time)
 			{
 				has_been_modified = true;
-				EventBus::publish_event(OMNIFIC_EVENT_PYTHON_SCRIPT_FILE_MODIFIED);
+				EntityID script_collection_entity_id = 0;
+
+				for (auto& script_collection : SceneStorage::get_active_scene()->get_components_by_type<ScriptCollection>())
+				{
+					for (auto& script : script_collection->scripts)
+					{
+						if (script->get_name() == script_filepath)
+						{
+							script_collection_entity_id = script_collection->get_entity_id();
+							break;
+						}
+					}
+				}
+
+				EventBus::publish_event(OMNIFIC_EVENT_PYTHON_SCRIPT_FILE_MODIFIED, {}, {{"script_collection_entity", script_collection_entity_id}});
 				this->last_reload_frame_id = current_frame_id;
+				last_modified_time = new_last_modified_time;
 			}
 		}
 	}

@@ -73,19 +73,19 @@ float Omnific::Transform::calculate_elevation_from(glm::vec3 position)
 
 glm::vec3 Omnific::Transform::get_up_vector()
 {
-	glm::mat4 rotation_matrix = glm::yawPitchRoll(this->rotation.y, this->rotation.x, this->rotation.z);
+	glm::mat4 rotation_matrix = glm::yawPitchRoll(glm::radians(this->rotation.y), glm::radians(this->rotation.x), glm::radians(this->rotation.z));
 	return glm::vec3(rotation_matrix * glm::vec4(0, 1, 0, 0));
 }
 
 glm::vec3 Omnific::Transform::get_front_vector()
 {
-	glm::mat4 rotation_matrix = glm::yawPitchRoll(this->rotation.y, this->rotation.x, this->rotation.z);
+	glm::mat4 rotation_matrix = glm::yawPitchRoll(glm::radians(this->rotation.y), glm::radians(this->rotation.x), glm::radians(this->rotation.z));
 	return glm::vec3(rotation_matrix * glm::vec4(0, 0, 1, 0));
 }
 
 glm::vec3 Omnific::Transform::get_right_vector()
 {
-	glm::mat4 rotation_matrix = glm::yawPitchRoll(this->rotation.y, this->rotation.x, this->rotation.z);
+	glm::mat4 rotation_matrix = glm::yawPitchRoll(glm::radians(this->rotation.y), glm::radians(this->rotation.x), glm::radians(this->rotation.z));
 	return glm::vec3(rotation_matrix * glm::vec4(1, 0, 0, 0));
 }
 

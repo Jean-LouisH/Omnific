@@ -63,6 +63,25 @@ void Omnific::Camera::deserialize(YAML::Node yaml_node)
 		{
 			this->viewport_target_entity = it3->second.as<std::string>();
 		}
+		else if (it3->first.as<std::string>() == "controller_state")
+		{
+			if (it3->second.as<std::string>() == "flyby")
+			{
+				this->controller_state = ControllerState::FLYBY;
+			}
+			else if (it3->second.as<std::string>() == "follow")
+			{
+				this->controller_state = ControllerState::FOLLOW;
+			}
+			else if (it3->second.as<std::string>() == "follow_group")
+			{
+				this->controller_state = ControllerState::FOLLOW_GROUP;
+			}
+			else if (it3->second.as<std::string>() == "cinematic")
+			{
+				this->controller_state = ControllerState::CINEMATIC;
+			}
+		}
 		else if (it3->first.as<std::string>() == "camera_shader")
 		{
 			std::string vertex = "";
@@ -156,6 +175,30 @@ void Omnific::Camera::set_is_streaming(bool value)
 void Omnific::Camera::set_wireframe_mode(bool value)
 {
 	this->is_wire_frame = value;
+}
+
+void Omnific::Camera::set_controller_state_by_string(std::string state)
+{
+	if (state == "none")
+	{
+		this->controller_state = ControllerState::NONE;
+	}
+	else if (state == "flyby")
+	{
+		this->controller_state = ControllerState::FLYBY;
+	}
+	else if (state == "follow")
+	{
+		this->controller_state = ControllerState::FOLLOW;
+	}
+	else if (state == "follow_group")
+	{
+		this->controller_state = ControllerState::FOLLOW_GROUP;
+	}
+	else if (state == "cinematic")
+	{
+		this->controller_state = ControllerState::CINEMATIC;
+	}
 }
 
 glm::mat4 Omnific::Camera::get_view_to_projection_matrix()

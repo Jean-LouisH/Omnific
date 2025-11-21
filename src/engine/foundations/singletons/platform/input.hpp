@@ -89,6 +89,8 @@ namespace Omnific
 		bool is_action_released(std::string action_input_code);
 		float get_action_axis(std::string action_input_code);
 
+		void set_relative_mouse_mode(bool value);
+
 		bool is_drop_file_detected();
 		std::string get_drop_file_path();
 		uint32_t get_drop_file_window_id();

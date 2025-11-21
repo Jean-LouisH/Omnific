@@ -9,8 +9,9 @@ Scene:
       albedo: "Image::#FF0000"
     overriding_shader:
       preset: "Shader::UNLIT"
-  ScriptCollection:
-    Python: ["tests/scripts/python/constantly_rotate.py"]
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -30.0, 0.0]
 Entity:
   name: "UnlitText"
   GUI:
@@ -43,8 +44,9 @@ Scene:
       albedo: "Image::#FF0000"
     overriding_shader:
       preset: "Shader::SIMPLE"
-  ScriptCollection:
-    Python: ["tests/scripts/python/constantly_rotate.py"]
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -30.0, 0.0]
 Entity:
   name: "SimpleText"
   GUI:
@@ -80,8 +82,9 @@ Scene:
       roughness: "Image::#FFFFFF"
     overriding_shader:
       preset: "Shader::PBR"
-  ScriptCollection:
-    Python: ["tests/scripts/python/constantly_rotate.py"]
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -30.0, 0.0]
 Entity:
   name: "PBRText"
   GUI:
@@ -107,8 +110,9 @@ Entity:
     Python: ["tests/scripts/python/set_surface_modes_to_label_text.py"]
 Entity:
   name: "Light Armature"
-  ScriptCollection:
-    Python: ["tests/scripts/python/constantly_rotate clockwise.py"]
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -45.0, 0.0]
 Entity:
   name: "Spot Light"
   parent: "Light Armature"
@@ -135,7 +139,7 @@ Entity:
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:
-    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py", "alternate_camera_controllers.py"]
 Entity:
   name: "Camera"
   transform:

@@ -22,33 +22,34 @@
 
 #pragma once
 
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
+#include <foundations/aliases.hpp>
+#include <foundations/constants.hpp>
+#include "scene/components/component.hpp"
+#include <foundations/aabb_2d.hpp>
+#include <glm.hpp>
 
 namespace Omnific
 {
-	class CameraSystem : public System
+	class OMNIFIC_ENGINE_API OutOfBoundsResetter : public Component
 	{
 	public:
-		CameraSystem()
+		OutOfBoundsResetter()
 		{
 			this->type = TYPE_STRING;
 		};
-
-		~CameraSystem();
-		static constexpr const char* TYPE_STRING = "CameraSystem";
+		static constexpr const char* TYPE_STRING = "OutOfBoundsResetter";
 
 		virtual Registerable* instance() override
 		{
-			return new CameraSystem(*this);
+			OutOfBoundsResetter* clone = new OutOfBoundsResetter(*this);
+			clone->id = UIDGenerator::get_new_uid();
+			return clone;
 		}
+		virtual void deserialize(YAML::Node yaml_node);
 
-		virtual void initialize() override;
-		virtual void on_fixed_update() override;
-		virtual void finalize() override;
+		AABB2D extents;
+		glm::vec3 reset_point;
 	private:
-		void autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene);
-		void move_with_controller_state(std::shared_ptr<Scene> scene);
+
 	};
 }
-
