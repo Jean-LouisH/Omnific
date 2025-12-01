@@ -4,7 +4,7 @@ Entity:
     translation: [0.0, -1.0, 0.0]
     scale: [100.0, 0.5, 100.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#222222"
       roughness: "Image::#FFFFFF"
@@ -15,7 +15,7 @@ Entity:
   transform: 
     scale: [1.0, 2.0, 1.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#0000FF"
       roughness: "Image:#FFFFFF"

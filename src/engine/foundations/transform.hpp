@@ -60,6 +60,11 @@ namespace Omnific
 		void rotate_x(float angle);
 		void rotate_y(float angle);
 		void rotate_z(float angle);
+		void rotate_around(glm::vec3 position, glm::vec3 angles);
+		void rotate_x_around(glm::vec3 position, float angle);
+		void rotate_y_around(glm::vec3 position, float angle);
+		void rotate_z_around(glm::vec3 position, float angle);
+		void look_at(glm::vec3 position, glm::vec3 up_vector);
 		void set_xyz_scale(float amount);
 		void flatten_to_2d();
 		float calculate_distance_from(glm::vec3 position);

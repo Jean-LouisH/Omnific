@@ -472,10 +472,7 @@ bool Omnific::Inputs::is_right_mouse_button_double_clicked()
 
 glm::vec2 Omnific::Inputs::get_mouse_position()
 {
-	glm::vec2 vector2;
-	vector2.x = this->mouse_motion_event.x;
-	vector2.y = this->mouse_motion_event.y;
-	return vector2;
+	return this->mouse_position;
 }
 
 glm::vec2 Omnific::Inputs::get_mouse_wheel_velocity()
@@ -667,6 +664,8 @@ void Omnific::Inputs::poll_input_events()
 
 		case SDL_MOUSEMOTION:
 			this->mouse_motion_event = SDLEvents.motion;
+			this->mouse_position.x = this->mouse_motion_event.x;
+			this->mouse_position.y = this->mouse_motion_event.y;
 			this->has_detected_input_changes = true;
 			break;
 

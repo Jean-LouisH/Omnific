@@ -1,6 +1,6 @@
 Scene:
   name: "Unlit"
-  source: "Scene::monkey"
+  source: "Scene::MONKEY"
   transform:
     translation: [-2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
@@ -35,7 +35,7 @@ Entity:
       pivot: "top_centre"
 Scene:
   name: "Simple"
-  source: "Scene::monkey"
+  source: "Scene::MONKEY"
   transform:
     translation: [0.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
@@ -72,7 +72,7 @@ Entity:
     Python: ["tests/scripts/python/set_surface_modes_to_label_text.py"]
 Scene:
   name: "PBR"
-  source: "Scene::monkey"
+  source: "Scene::MONKEY"
   transform:
     translation: [2.0, 0.0, 0.0]
     scale: [0.75, 0.75, 0.75]
@@ -119,7 +119,7 @@ Entity:
   transform: 
     translation: [0.0, 0.0, 6.0]
   Renderable: 
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
     shader:
@@ -139,9 +139,10 @@ Entity:
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:
-    Python: ["escape_to_selection_menu.py", "reload_active_scene.py", "alternate_camera_controllers.py"]
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
 Entity:
   name: "Camera"
   transform:
     translation: [0.0, 0.0, 5.0]
-  Camera: "default"
+  Camera:
+    enable_flyby_mode_on_default_input: true

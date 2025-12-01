@@ -254,6 +254,46 @@ void Omnific::Scene::add_empty_entity()
 	this->add_entity(empty_entity);
 }
 
+std::shared_ptr<Omnific::Entity> Omnific::Scene::add_preset_entity(EntityPreset preset)
+{
+	std::shared_ptr<Entity> preset_entity;
+
+	switch (preset)
+	{
+		case EntityPreset::CUBE: ; break;
+		case EntityPreset::CUBE_WITH_PHYSICS: ; break;
+		case EntityPreset::CHARACTER: ; break;
+		case EntityPreset::CAMERA: ; break;
+		case EntityPreset::LIGHT: ; break;
+	}
+
+	return preset_entity;
+}
+
+std::shared_ptr<Omnific::Entity> Omnific::Scene::add_preset_entity_by_string(std::string preset_string)
+{
+	std::shared_ptr<Entity> preset_entity;
+
+	if (preset_string == "EntityPreset::CUBE")
+	{
+		return this->add_preset_entity(EntityPreset::CUBE);
+	}
+	else if (preset_string == "EntityPreset::CUBE_WITH_PHYSICS")
+	{
+		return this->add_preset_entity(EntityPreset::CUBE_WITH_PHYSICS);
+	}
+	else if (preset_string == "EntityPreset::CHARACTER")
+	{
+		return this->add_preset_entity(EntityPreset::CHARACTER);
+	}
+	else if (preset_string == "EntityPreset::CAMERA")
+	{
+		return this->add_preset_entity(EntityPreset::CAMERA);
+	}
+
+	return preset_entity;
+}
+
 void Omnific::Scene::add_entity_to_parent_entity(std::shared_ptr<Entity> entity, EntityID parent_entity_id)
 {
 	std::shared_ptr<Entity> parent_entity = this->get_entity(parent_entity_id);
@@ -749,42 +789,42 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 		unsigned char* data = 0;
 		unsigned int size = 0;
 
-		if (token == "cone")
+		if (token == "CONE")
 		{
 			data = DefaultAssets::cone_glb;
 			size = DefaultAssets::cone_glb_len;
 		}
-		else if (token == "cube")
+		else if (token == "CUBE")
 		{
 			data = DefaultAssets::cube_glb;
 			size = DefaultAssets::cube_glb_len;
 		}
-		else if (token == "cylinder")
+		else if (token == "CYLINDER")
 		{
 			data = DefaultAssets::cylinder_glb;
 			size = DefaultAssets::cylinder_glb_len;
 		}
-		else if (token == "icosphere")
+		else if (token == "ICOSPHERE")
 		{
 			data = DefaultAssets::icosphere_glb;
 			size = DefaultAssets::icosphere_glb_len;
 		}	
-		else if (token == "monkey")
+		else if (token == "MONKEY")
 		{
 			data = DefaultAssets::monkey_glb;
 			size = DefaultAssets::monkey_glb_len;
 		}	
-		else if (token == "plane")
+		else if (token == "PLANE")
 		{
 			data = DefaultAssets::plane_glb;
 			size = DefaultAssets::plane_glb_len;
 		}		
-		else if (token == "sphere")
+		else if (token == "SPHERE")
 		{
 			data = DefaultAssets::sphere_glb;
 			size = DefaultAssets::sphere_glb_len;
 		}	
-		else if (token == "torus")
+		else if (token == "TORUS")
 		{
 			data = DefaultAssets::torus_glb;
 			size = DefaultAssets::torus_glb_len;

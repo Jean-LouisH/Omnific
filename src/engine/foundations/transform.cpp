@@ -5,6 +5,7 @@
 #include <gtc/type_ptr.hpp>
 #include <gtx/rotate_vector.hpp>
 #include <gtx/euler_angles.hpp>
+#include <gtx/matrix_decompose.hpp>
 
 
 void Omnific::Transform::translate_x(float offset)
@@ -35,6 +36,48 @@ void Omnific::Transform::rotate_y(float angle)
 void Omnific::Transform::rotate_z(float angle)
 {
 	this->rotation.z += angle;
+}
+
+void Omnific::Transform::rotate_around(glm::vec3 position, glm::vec3 angles)
+{
+	Transform transform;
+	transform.translation = position;
+	transform.rotation = angles;
+
+	glm::mat4 global_matrix = glm::mat4(1.0f);
+	global_matrix *= this->get_transform_matrix();
+
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::quat orientation_quat;
+	glm::vec3 translation, scale;
+
+	glm::decompose(global_matrix, scale, orientation_quat, translation, skew, perspective);
+	glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(orientation_quat));
+
+	this->translation = translation;
+	this->rotation = euler_angles;
+	this->scale = scale;
+}
+
+void Omnific::Transform::rotate_x_around(glm::vec3 position, float angle)
+{
+	this->rotate_around(position, glm::vec3(angle, 0.0, 0.0));
+}
+
+void Omnific::Transform::rotate_y_around(glm::vec3 position, float angle)
+{
+	this->rotate_around(position, glm::vec3(0.0, angle, 0.0));
+}
+
+void Omnific::Transform::rotate_z_around(glm::vec3 position, float angle)
+{
+	this->rotate_around(position, glm::vec3(0.0, 0.0, angle));
+}
+
+void Omnific::Transform::look_at(glm::vec3 position, glm::vec3 up_vector)
+{
+	
 }
 
 void Omnific::Transform::set_xyz_scale(float amount)

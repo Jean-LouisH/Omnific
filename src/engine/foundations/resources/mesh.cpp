@@ -26,9 +26,9 @@
 Omnific::Mesh::Mesh(std::string filepath)
 {
     this->type = TYPE_STRING;
-	if (filepath == "Mesh::cube")
+	if (filepath == "Mesh::CUBE")
 		this->set_to_cube();
-    else if (filepath == "Mesh::quad")
+    else if (filepath == "Mesh::QUAD")
         this->set_to_quad();
 }
 

@@ -140,6 +140,8 @@ namespace Omnific
 		std::unordered_map<PlayerID, SDL_JoystickID> controller_player_map;
 		std::queue<PlayerID> newly_loaded_player_ids;
 
+		glm::vec2 mouse_position;
+
 		bool has_detected_input_changes = false;
 		bool shutdown_request = false;
 		bool restart_request = false;

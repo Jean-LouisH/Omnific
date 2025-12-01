@@ -167,14 +167,14 @@ void Omnific::Renderable::deserialize(YAML::Node yaml_node)
 
 void Omnific::Renderable::set_to_cube()
 {
-	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
+	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::CUBE"));
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo_map = std::shared_ptr<Image>(new Image("Image::default"));
 }
 
 void Omnific::Renderable::set_to_textured_cube(std::shared_ptr<Material> material)
 {
-	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::cube"));
+	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::CUBE"));
 	this->material = material;
 }
 
@@ -183,7 +183,7 @@ void Omnific::Renderable::set_to_image(std::shared_ptr<Image> image)
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo_map = image;
 	glm::vec2 dimensions = image->get_dimensions();
-	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::quad"));
+	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::QUAD"));
 	int width = dimensions.x;
 	int height = dimensions.y;
 	int x_centre = width / 2;

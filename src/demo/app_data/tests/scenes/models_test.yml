@@ -12,7 +12,7 @@ Entity:
     translation: [2.0, 0.25, 0.0]
     scale: [0.5, 0.5, 0.5]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     shader:
       preset: "Shader::LIGHT_SOURCE"
   ScriptCollection:

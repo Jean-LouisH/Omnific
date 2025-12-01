@@ -29,6 +29,7 @@
 #include <scene/components/viewport.hpp>
 #include <foundations/singletons/configuration.hpp>
 
+#define CAMERA_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME "camera_system_on_input_frame_time"
 #define CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME "camera_system_on_update_frame_time"
 
 Omnific::CameraSystem::~CameraSystem()
@@ -39,8 +40,40 @@ Omnific::CameraSystem::~CameraSystem()
 void Omnific::CameraSystem::initialize()
 {
 	this->is_initialized = true;
+	Profiler::add_clock(CAMERA_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME, {"camera_system", "on_input_frame_time"});
 	Profiler::add_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME, {"camera_system", "on_update_frame_time"});
 	Platform::get_logger().write("Initialized Camera System");
+}
+
+void Omnific::CameraSystem::on_input()
+{
+	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME);
+	frame_time_clock->set_start();
+
+	std::shared_ptr<Entity> viewport_entity = scene->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
+	if (viewport_entity != nullptr)
+	{
+		std::shared_ptr<Viewport> viewport = scene->get_component_by_type<Viewport>(viewport_entity->get_id());
+		if (viewport != nullptr)
+		{
+			std::shared_ptr<Entity> camera_entity = scene->get_entity_by_name(viewport->get_camera_entity_name());
+			if (camera_entity != nullptr)
+			{
+				std::shared_ptr<Camera> camera = scene->get_component_by_type<Camera>(camera_entity->get_id());
+				if (camera->enable_flyby_mode_on_default_input)
+				{
+					Inputs& inputs = Platform::get_inputs();
+					if (inputs.is_right_mouse_button_pressed())
+						camera->controller_state = Camera::ControllerState::FLYBY;
+					else
+						camera->controller_state = Camera::ControllerState::NONE;
+				}
+			}
+		}
+	}
+
+	frame_time_clock->set_end();
 }
 
 void Omnific::CameraSystem::on_fixed_update()
@@ -49,7 +82,7 @@ void Omnific::CameraSystem::on_fixed_update()
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->autofit_viewports_to_renderable_widths(scene);
-	this->move_with_controller_state(scene);
+	this->accelerate_with_controller_state(scene);
 	frame_time_clock->set_end();
 }
 
@@ -74,7 +107,7 @@ void Omnific::CameraSystem::autofit_viewports_to_renderable_widths(std::shared_p
 	}
 }
 
-void Omnific::CameraSystem::move_with_controller_state(std::shared_ptr<Scene> scene)
+void Omnific::CameraSystem::accelerate_with_controller_state(std::shared_ptr<Scene> scene)
 {
 	std::shared_ptr<Entity> viewport_entity = scene->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
 	if (viewport_entity != nullptr)
@@ -91,8 +124,10 @@ void Omnific::CameraSystem::move_with_controller_state(std::shared_ptr<Scene> sc
 
 			switch (camera->controller_state)
 			{
+				case Camera::ControllerState::NONE: inputs.set_relative_mouse_mode(false); break;
 				case Camera::ControllerState::FLYBY: 
 
+					inputs.set_relative_mouse_mode(true);
 					camera->flyby_translation_speed += inputs.get_mouse_wheel_velocity().y;
 					
 					if (camera->flyby_translation_speed < 0)
@@ -107,9 +142,9 @@ void Omnific::CameraSystem::move_with_controller_state(std::shared_ptr<Scene> sc
 						camera_transform->get_up_vector() * (float)(inputs.is_pressed("e") - inputs.is_pressed("q"))) * 
 						camera->flyby_translation_speed * fixed_frame_time;
 				break;
-				case Camera::ControllerState::FOLLOW: ; break;
-				case Camera::ControllerState::FOLLOW_GROUP: ; break;
-				case Camera::ControllerState::CINEMATIC: ; break;
+				case Camera::ControllerState::FOLLOW: inputs.set_relative_mouse_mode(false); break;
+				case Camera::ControllerState::FOLLOW_GROUP: inputs.set_relative_mouse_mode(false); break;
+				case Camera::ControllerState::CINEMATIC: inputs.set_relative_mouse_mode(false); break;
 			}
 		}
 	}

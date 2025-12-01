@@ -22,34 +22,19 @@
 
 #pragma once
 
-#include "scene/scene.hpp"
-#include "systems/system.hpp"
-
 namespace Omnific
 {
-	class CameraSystem : public System
-	{
-	public:
-		CameraSystem()
-		{
-			this->type = TYPE_STRING;
-		};
-
-		~CameraSystem();
-		static constexpr const char* TYPE_STRING = "CameraSystem";
-
-		virtual Registerable* instance() override
-		{
-			return new CameraSystem(*this);
-		}
-
-		virtual void initialize() override;
-		virtual void on_input() override;
-		virtual void on_fixed_update() override;
-		virtual void finalize() override;
-	private:
-		void autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene);
-		void accelerate_with_controller_state(std::shared_ptr<Scene> scene);
-	};
+    namespace DefaultAssets
+    {
+        const char character_yml[] = R"(
+Scene:
+  name: Character
+  source: Scene::CUBE
+  transform:
+  scale: [1.0, 2.0, 1.0]
+  PhysicsBody: default
+  Collider: default
+  MovementRelativeToCamera: default     
+        )";
+    }
 }
-

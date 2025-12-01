@@ -65,22 +65,11 @@ void Omnific::Camera::deserialize(YAML::Node yaml_node)
 		}
 		else if (it3->first.as<std::string>() == "controller_state")
 		{
-			if (it3->second.as<std::string>() == "flyby")
-			{
-				this->controller_state = ControllerState::FLYBY;
-			}
-			else if (it3->second.as<std::string>() == "follow")
-			{
-				this->controller_state = ControllerState::FOLLOW;
-			}
-			else if (it3->second.as<std::string>() == "follow_group")
-			{
-				this->controller_state = ControllerState::FOLLOW_GROUP;
-			}
-			else if (it3->second.as<std::string>() == "cinematic")
-			{
-				this->controller_state = ControllerState::CINEMATIC;
-			}
+			this->set_controller_state_by_string(it3->second.as<std::string>());
+		}
+		else if (it3->first.as<std::string>() == "enable_flyby_mode_on_default_input")
+		{
+			this->enable_flyby_mode_on_default_input = it3->second.as<bool>();
 		}
 		else if (it3->first.as<std::string>() == "camera_shader")
 		{

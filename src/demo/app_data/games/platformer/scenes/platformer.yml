@@ -4,7 +4,7 @@ Entity:
     translation: [0.0, -2.0, 0.0]
     scale: [20.0, 1.0, 40.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity:
@@ -12,7 +12,7 @@ Entity:
   transform:
     scale: [1.0, 2.0, 1.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#0000FF"
 Entity:
@@ -21,7 +21,7 @@ Entity:
     translation: [0.0, 20.0, 1.0]
     rotation: [0.0, 45.0, 45.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     shader:
       preset: "Shader::LIGHT_SOURCE"
   Light: "default"

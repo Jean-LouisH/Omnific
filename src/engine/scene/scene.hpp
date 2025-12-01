@@ -46,6 +46,16 @@ namespace Omnific
 	{
 		friend class Engine;
 	public:
+
+		enum class EntityPreset
+		{
+			CUBE,
+			CUBE_WITH_PHYSICS,
+			CHARACTER,
+			CAMERA,
+			LIGHT
+		};
+
 		Scene();
 		Scene(std::string filepath);
 
@@ -54,6 +64,8 @@ namespace Omnific
 
 		void add_entity(std::shared_ptr<Entity> entity);
 		void add_empty_entity();
+		std::shared_ptr<Entity> add_preset_entity(EntityPreset preset);
+		std::shared_ptr<Entity> add_preset_entity_by_string(std::string preset_string);
 		void add_entity_to_parent_entity(std::shared_ptr<Entity> entity, EntityID parent_entity_id);
 		void add_entity_to_parent_entity_by_name(std::shared_ptr<Entity> entity, std::string parent_entity_name);
 		void merge_another_scene_to_parent_entity(std::shared_ptr<Scene> other_scene, EntityID parent_entity_id);

@@ -12,7 +12,7 @@ Entity:
     CPP: [YTranslationSineWave]
     #Python: ["tests/scripts/python/y_translation_sine_wave.py"]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity:
@@ -31,7 +31,7 @@ Entity:
   transform: 
     translation: [0.0, -1.1, 0.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity: 
@@ -43,7 +43,7 @@ Entity:
     CPP: [ZRotationSineWave]
     #Python: ["tests/scripts/python/z_rotation_sine_wave.py"]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity:
@@ -62,7 +62,7 @@ Entity:
   transform: 
     translation: [0.0, -1.1, 0.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity: 
@@ -74,7 +74,7 @@ Entity:
     CPP: [XYZScaleSineWave]
     #Python: ["tests/scripts/python/xyz_scale_sine_wave.py"]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity:
@@ -93,7 +93,7 @@ Entity:
   transform: 
     translation: [0.0, -1.1, 0.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
 Entity:

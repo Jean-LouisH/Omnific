@@ -39,6 +39,9 @@ namespace Omnific
 			FLYBY,
 			FOLLOW,
 			FOLLOW_GROUP,
+			FOLLOW_BY_ZOOMING,
+			LOOK_AT,
+			LOOK_AT_GROUP,
 			CINEMATIC
 		};
 
@@ -77,6 +80,7 @@ namespace Omnific
 		ControllerState controller_state;
 		float flyby_translation_speed = 3.0;
 		float flyby_rotation_speed = 60.0;
+		bool enable_flyby_mode_on_default_input = false;
 	private:
 		const float default_aspect = 1920.0 / 1080.0;
 		float aspect = default_aspect;
@@ -86,11 +90,28 @@ namespace Omnific
 		glm::vec2 min_limit;
 		glm::vec2 max_limit;
 		glm::vec2 viewport;
+		glm::vec3 linear_velocity;
+		glm::vec3 angular_velocity;
+
 		bool keep_aspect = true;
 		bool is_streaming = true;
 		bool is_wire_frame = false;
 		std::string follow_target_entity;
 		std::string viewport_target_entity;
 		std::shared_ptr<Shader> shader;
+
+		struct FollowMode
+		{
+			float target_max_linear_velocity;
+			float target_max_angular_velocity;
+			float linear_deceleration = 400;
+		} follow_mode;
+
+		struct FlybyMode
+		{
+			float target_max_linear_velocity;
+			float target_max_angular_velocity;
+			float linear_deceleration = 400;
+		} flyby_mode;
 	};
 }

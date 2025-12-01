@@ -13,7 +13,7 @@ Entity:
   ScriptCollection:
     Python: ["tests/scripts/python/z_rotation.py"]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FF0000"
 Entity:
@@ -22,7 +22,7 @@ Entity:
   transform:
     translation: [0.0, -1.2, 0.0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
   ScriptCollection:

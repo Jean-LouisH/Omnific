@@ -50,7 +50,7 @@ Entity:
     has_gravity: false
     collision_response_type: "rigid"
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FF0000"
   ScriptCollection:
@@ -80,7 +80,7 @@ Entity:
     has_gravity: false
     collision_response_type: "rigid"
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#0000FF"
   ScriptCollection:
@@ -106,7 +106,7 @@ Entity:
   transform:
     translation: [0, 10, 0]
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
   PhysicsBody:
@@ -126,7 +126,7 @@ Entity:
     scale: [50, 1, 1]
   Collider: default
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
   PhysicsBody:
@@ -140,7 +140,7 @@ Entity:
     scale: [50, 1, 1]
   Collider: default
   Renderable:
-    mesh: "Mesh::cube"
+    mesh: "Mesh::CUBE"
     material:
       albedo: "Image::#FFFFFF"
   PhysicsBody:
