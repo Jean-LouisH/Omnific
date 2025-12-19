@@ -2,6 +2,10 @@
   "dependencies": [
     "sdl2",
     "sdl2-ttf",
+    "glm",
+    "tinygltf",
+    "yaml-cpp",
+    "volk",
     "pybind11",
     "python3",
     "libsamplerate"
