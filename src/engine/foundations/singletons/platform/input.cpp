@@ -81,11 +81,9 @@ Omnific::Inputs::Inputs()
 	this->keyboard_events_by_string.emplace("0", SDL_SCANCODE_0);
 	this->keyboard_events_by_string.emplace("-", SDL_SCANCODE_MINUS);
 	this->keyboard_events_by_string.emplace("=", SDL_SCANCODE_EQUALS);
-//	this->keyboard_events_by_string.emplace("+", SDL_SCANCODE_PLUS);
 	this->keyboard_events_by_string.emplace("backspace", SDL_SCANCODE_BACKSPACE);
 	this->keyboard_events_by_string.emplace("num_lock", SDL_SCANCODE_NUMLOCKCLEAR);
 	this->keyboard_events_by_string.emplace("forward_slash", SDL_SCANCODE_SLASH);
-//	this->keyboard_events_by_string.emplace("asterisk", SDL_SCANCODE_ASTERISK);
 	this->keyboard_events_by_string.emplace("keypad_minus", SDL_SCANCODE_KP_MINUS);
 	this->keyboard_events_by_string.emplace("keypad_plus", SDL_SCANCODE_KP_PLUS);
 	this->keyboard_events_by_string.emplace("keypad_enter", SDL_SCANCODE_KP_ENTER);
@@ -130,7 +128,7 @@ Omnific::Inputs::Inputs()
 	this->keyboard_events_by_string.emplace("left_square_bracket", SDL_SCANCODE_LEFTBRACKET);
 	this->keyboard_events_by_string.emplace("right_square_bracket", SDL_SCANCODE_RIGHTBRACKET);
 	this->keyboard_events_by_string.emplace("semicolon", SDL_SCANCODE_SEMICOLON);
-	//this->keyboard_events_by_string.emplace("quote", SDL_SCANCODE_QUOTE);
+	this->keyboard_events_by_string.emplace("apostrophe", SDL_SCANCODE_APOSTROPHE);
 	this->keyboard_events_by_string.emplace("backslash", SDL_SCANCODE_BACKSLASH);
 	this->keyboard_events_by_string.emplace("enter", SDL_SCANCODE_RETURN);
 	this->keyboard_events_by_string.emplace("comma", SDL_SCANCODE_COMMA);

@@ -30,6 +30,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API CameraRelativeMovement : public Component
 	{
+		friend class AnimationSystem;
 	public:
 		CameraRelativeMovement()
 		{
@@ -43,8 +44,13 @@ namespace Omnific
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
+
+		float max_movement_speed = 7.0;
+		float max_acceleration = 35.0;
+		float max_deceleration = 8.0;
+
 		virtual void deserialize(YAML::Node yaml_node);
 	private:
-
+		glm::vec3 linear_velocity;
 	};
 }

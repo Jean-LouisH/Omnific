@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include <string>
 #include <engine_api.hpp>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnific
 {

@@ -12,7 +12,6 @@ set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/thirdparty)
 
 set(THIRD_PARTY_PROJECTS
 	ufbx
-	yaml_cpp
 )
 
 add_library(omnific_engine STATIC
@@ -40,6 +39,9 @@ else()
 	find_package(SDL2 REQUIRED)
 	find_package(SDL2_ttf REQUIRED)
 	find_package(SampleRate REQUIRED)
+	find_package(glm CONFIG REQUIRED)
+	find_package(yaml-cpp CONFIG REQUIRED)
+	find_package(volk CONFIG REQUIRED)
 
 	if (WIN32)
 		add_definitions(/bigobj)
@@ -51,6 +53,7 @@ else()
 	add_definitions(-DENABLE_PYTHON_BUILD)
 	find_package(Python COMPONENTS Interpreter Development REQUIRED)
 	find_package(pybind11 CONFIG REQUIRED)
+	
 
 	target_link_libraries (omnific_engine 
 		${THIRD_PARTY_PROJECTS}
@@ -58,7 +61,10 @@ else()
 		${SDL2_TTF_MODULE}
 		Python::Python
 		pybind11::headers
+		yaml-cpp::yaml-cpp
 		SampleRate::samplerate
+		glm::glm
+		volk::volk
 	)
 endif()
 
@@ -71,13 +77,11 @@ target_include_directories(omnific_engine PUBLIC
 	${THIRD_PARTY_DIR}/dr_mp3
 	${THIRD_PARTY_DIR}/dr_wav
 	${THIRD_PARTY_DIR}/glad/include
-	${THIRD_PARTY_DIR}/glm
 	${THIRD_PARTY_DIR}/stb_image
 	${THIRD_PARTY_DIR}/stb_vorbis
-	${THIRD_PARTY_DIR}/tinygltf
 	${THIRD_PARTY_DIR}/tinyobjloader
 	${THIRD_PARTY_DIR}/ufbx
-	${THIRD_PARTY_DIR}/yaml-cpp/include
+	${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include
 	.
 )
 

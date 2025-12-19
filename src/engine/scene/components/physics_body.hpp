@@ -23,7 +23,7 @@
 #pragma once
 
 #include "foundations/aliases.hpp"
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include "foundations/constants.hpp"
 #include "scene/components/component.hpp"
 
@@ -55,6 +55,7 @@ namespace Omnific
 		float mass = 1.0; //in kg
 		float friction_ratio = 1.0;
 		float angular_drag_ratio = 1.0;
+		float gravity = EARTH_GRAVITY;
 		float gravity_scale = 1.0;
 		float elasticity_ratio = 0.01;
 		float viscosity = 0.001; //in Pa * s

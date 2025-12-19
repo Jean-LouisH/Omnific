@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <engine_api.hpp>
 
 namespace Omnific

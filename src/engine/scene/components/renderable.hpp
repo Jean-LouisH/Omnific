@@ -26,7 +26,7 @@
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/shader.hpp>
 #include <memory>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <foundations/resources/mesh.hpp>
 #include <engine_api.hpp>
 

@@ -412,15 +412,9 @@ void Omnific::RenderingSystem::on_output()
 								shader_program->set_float_array("light_outer_cutoff_angles", light_outer_cutoff_angles);
 								shader_program->set_vec2("camera_viewport", camera->get_viewport());
 								shader_program->set_vec3("camera_translation", camera_transform->translation);
-								shader_program->set_vec3("camera_rotation", glm::vec3(
-									glm::radians(camera_transform->rotation.x),
-									glm::radians(camera_transform->rotation.y),
-									glm::radians(camera_transform->rotation.z)));
+								shader_program->set_vec3("camera_rotation", camera_transform->get_rotation_in_radians());
 								shader_program->set_vec3("entity_translation", renderable_transform->translation);
-								shader_program->set_vec3("entity_rotation", glm::vec3(
-									glm::radians(renderable_transform->rotation.x),
-									glm::radians(renderable_transform->rotation.y),
-									glm::radians(renderable_transform->rotation.z)));
+								shader_program->set_vec3("entity_rotation", renderable_transform->get_rotation_in_radians());
 								shader_program->set_vec3("entity_scale", renderable_transform->scale);
 
 								if (vertex_array->get_index_count() > 0)

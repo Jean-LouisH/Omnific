@@ -65,3 +65,15 @@ bool Omnific::Collider::has_entity_with_tag_entered(std::string entity_tag)
 {
 	return this->entering_entity_tags.count(entity_tag);
 }
+
+bool Omnific::Collider::is_on_floor()
+{
+	bool is_on_floor = false;
+	return is_on_floor;
+}
+
+bool Omnific::Collider::is_on_ceiling()
+{
+	bool is_on_ceiling = false;
+	return is_on_ceiling;
+}

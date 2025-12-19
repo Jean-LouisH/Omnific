@@ -23,10 +23,11 @@
 #pragma once
 
 #include "foundations/aliases.hpp"
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include "foundations/constants.hpp"
 #include "scene/components/component.hpp"
 #include "foundations/resources/shader.hpp"
+#include <foundations/transform.hpp>
 
 
 namespace Omnific
@@ -53,6 +54,7 @@ namespace Omnific
 		{
 			this->type = TYPE_STRING;
 			this->set_viewport_height(480);
+			this->follow_mode.target_transform = std::make_shared<Transform>();
 		};
 
 		virtual Registerable* instance() override
@@ -78,9 +80,35 @@ namespace Omnific
 
 		glm::vec3 clear_colour;
 		ControllerState controller_state;
-		float flyby_translation_speed = 3.0;
-		float flyby_rotation_speed = 60.0;
 		bool enable_flyby_mode_on_default_input = false;
+
+		bool is_x_rotation_limited = true;
+		bool is_y_rotation_limited = false;
+		bool is_z_rotation_limited = false;
+		glm::vec3 rotation_limits = glm::vec3(90.0, 90.0, 90.0);
+		bool is_x_rotation_inverted = true;
+		bool is_y_rotation_inverted = false;
+
+		struct FollowMode
+		{
+			std::string follow_target_entity;
+			glm::vec3 follow_distances = glm::vec3(0.0, 3.0, 5.0);
+			float interpolation_speed = 5.0;
+			float max_rotate_around_speed = 180.0;
+			float max_rotate_around_acceleration = 700.0;
+			float rotate_around_deceleration = 400.0;
+			bool is_x_rotated = false;
+			bool is_y_rotated = true;
+			std::shared_ptr<Transform> target_transform;
+		} follow_mode;
+
+		struct FlybyMode
+		{
+			float target_max_linear_speed = 3.0;
+			float target_max_angular_speed = 60.0;
+			float linear_deceleration = 40;
+		} flyby_mode;
+
 	private:
 		const float default_aspect = 1920.0 / 1080.0;
 		float aspect = default_aspect;
@@ -93,25 +121,13 @@ namespace Omnific
 		glm::vec3 linear_velocity;
 		glm::vec3 angular_velocity;
 
+		glm::vec2 rotate_around_velocity;
+		glm::vec3 follow_rotations;
+
 		bool keep_aspect = true;
 		bool is_streaming = true;
 		bool is_wire_frame = false;
-		std::string follow_target_entity;
 		std::string viewport_target_entity;
 		std::shared_ptr<Shader> shader;
-
-		struct FollowMode
-		{
-			float target_max_linear_velocity;
-			float target_max_angular_velocity;
-			float linear_deceleration = 400;
-		} follow_mode;
-
-		struct FlybyMode
-		{
-			float target_max_linear_velocity;
-			float target_max_angular_velocity;
-			float linear_deceleration = 400;
-		} flyby_mode;
 	};
 }

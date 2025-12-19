@@ -49,6 +49,8 @@ namespace Omnific
 		virtual void finalize() override;
 	private:
 		void update_sprites(std::shared_ptr<Scene> scene);
+		void execute_camera_relative_movements(std::shared_ptr<Scene> scene);
+		void execute_jump_movements(std::shared_ptr<Scene> scene);
 	};
 }
 

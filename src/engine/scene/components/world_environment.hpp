@@ -29,7 +29,7 @@
 #include <string>
 #include "foundations/resources/image.hpp"
 #include <scene/components/component.hpp>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <memory>
 #include <foundations/colour.hpp>
 #include <foundations/resources/shader.hpp>

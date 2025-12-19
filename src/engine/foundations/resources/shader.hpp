@@ -25,7 +25,7 @@
 #include <string>
 #include "foundations/resources/resource.hpp"
 #include <unordered_map>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnific
 {

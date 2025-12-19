@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <memory>
 #include <engine_api.hpp>
 
@@ -60,11 +60,15 @@ namespace Omnific
 		void rotate_x(float angle);
 		void rotate_y(float angle);
 		void rotate_z(float angle);
-		void rotate_around(glm::vec3 position, glm::vec3 angles);
-		void rotate_x_around(glm::vec3 position, float angle);
-		void rotate_y_around(glm::vec3 position, float angle);
-		void rotate_z_around(glm::vec3 position, float angle);
+		void rotate_around(glm::vec3 pivot, glm::vec3 angles);
+		void rotate_x_around(glm::vec3 pivot, float angle);
+		void rotate_y_around(glm::vec3 pivot, float angle);
+		void rotate_z_around(glm::vec3 pivot, float angle);
 		void look_at(glm::vec3 position, glm::vec3 up_vector);
+		void interpolate_with_transform(std::shared_ptr<Transform> target_transform, float interpolation_delta);
+		void interpolate_with_translation(glm::vec3 target_translation, float interpolation_delta);
+		void interpolate_with_rotation(glm::vec3 target_rotation, float interpolation_delta);
+		void interpolate_with_scale(glm::vec3 target_scale, float interpolation_delta);
 		void set_xyz_scale(float amount);
 		void flatten_to_2d();
 		float calculate_distance_from(glm::vec3 position);
@@ -73,6 +77,7 @@ namespace Omnific
 		glm::vec3 get_up_vector();
 		glm::vec3 get_front_vector();
 		glm::vec3 get_right_vector();
+		glm::vec3 get_rotation_in_radians();
 		glm::mat4 get_transform_matrix();
 	private:
 	};

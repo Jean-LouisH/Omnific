@@ -27,7 +27,7 @@
 #else
     #include <glad/glad.h>
 #endif
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <vector>
 #include <string>
 #include <memory>

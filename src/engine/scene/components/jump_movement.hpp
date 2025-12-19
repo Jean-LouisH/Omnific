@@ -30,6 +30,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API JumpMovement : public Component
 	{
+		friend class AnimationSystem;
 	public:
 		JumpMovement()
 		{
@@ -43,8 +44,14 @@ namespace Omnific
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
+
+		float max_jump_height = 5.0;
+		float jump_speed = 4.5;
+		int max_jump_count = 2;
+
 		virtual void deserialize(YAML::Node yaml_node);
 	private:
-
+		float jump_start_height = 0.0;
+		int jumps = 0;
 	};
 }

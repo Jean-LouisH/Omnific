@@ -26,7 +26,7 @@
 #include <foundations/constants.hpp>
 #include "scene/components/component.hpp"
 #include <foundations/aabb_2d.hpp>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 
 namespace Omnific
 {

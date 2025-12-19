@@ -6,12 +6,12 @@ Entity:
   Renderable:
     mesh: "Mesh::CUBE"
     material:
-      albedo: "Image::#222222"
+      albedo: "Image::#888888"
       roughness: "Image::#FFFFFF"
-      metallic: "Image::#888888"
+      metallic: "Image::FFFFFF"
     shader: "Shader::PBR"
 Entity: 
-  name: "Test Player"
+  name: "Player"
   transform: 
     scale: [1.0, 2.0, 1.0]
   Renderable:
@@ -21,20 +21,37 @@ Entity:
       roughness: "Image:#FFFFFF"
     shader:
       preset: "Shader::PBR"
+  CameraRelativeMovement: default
+Entity:
+  name: "Face"
+  parent: "Player"
+  transform:
+    translation: [0.0, 0.5, 1.0]
+    scale: [0.5, 0.5, 0.5]
+  Renderable:
+    mesh: "Mesh::CUBE"
+    material:
+      albedo: "Image::#CCCCCC"
+      roughness: "Image:#FFFFFF"
+    shader:
+      preset: "Shader::PBR"
 Entity:
   name: "Light"
   transform:
-    rotation: [0.0, 0.0, 0.0]
+    rotation: [-60.0, 0.0, 0.0]
   Light:
+    intensity: 5.0
     light_mode: "directional"
-  PhysicsBody:
-    angular_velocity: [0.0, 60.0, 0.0]
 Entity:
   name: "Camera"
   transform: 
-    translation: [0.0, 0.0, 5.0]
-    rotation: [0.0, 0.0, 0.0]
-  Camera: "default"
+    translation: [0.0, 4.0, 10.0]
+    rotation: [-20.0, 0.0, 0.0]
+  Camera:
+    controller_state: "follow"
+    follow_target_entity: "Player"
+  ScriptCollection:
+    Python: ["tests/scripts/python/camera_stats.py"]
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:

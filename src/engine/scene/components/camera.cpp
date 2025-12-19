@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 #include "camera.hpp"
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 
 void Omnific::Camera::deserialize(YAML::Node yaml_node)
@@ -57,7 +57,7 @@ void Omnific::Camera::deserialize(YAML::Node yaml_node)
 		}
 		else if (it3->first.as<std::string>() == "follow_target_entity")
 		{
-			this->follow_target_entity = it3->second.as<std::string>();
+			this->follow_mode.follow_target_entity = it3->second.as<std::string>();
 		}
 		else if (it3->first.as<std::string>() == "viewport_target_entity")
 		{

@@ -36,7 +36,7 @@
 #include "python_entity_context.hpp"
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <scene/scene.hpp>
 #include <foundations/aliases.hpp>
 #include <foundations/singletons/event_bus.hpp>
@@ -258,9 +258,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("toggle_wireframe_mode", &Omnific::Camera::toggle_wireframe_mode)
 		.def("set_controller_state_by_string", &Omnific::Camera::set_controller_state_by_string)
 		.def_readwrite("clear_colour", &Omnific::Camera::clear_colour)
-		.def_readwrite("controller_state", &Omnific::Camera::controller_state)
-		.def_readwrite("flyby_translation_speed", &Omnific::Camera::flyby_translation_speed)
-		.def_readwrite("flyby_rotation_speed", &Omnific::Camera::flyby_rotation_speed);
+		.def_readwrite("controller_state", &Omnific::Camera::controller_state);
 	pybind11::class_<Omnific::Timer, Omnific::Component, std::shared_ptr<Omnific::Timer>>(m, Omnific::Timer::TYPE_STRING)
 		.def("start", &Omnific::Timer::start)
 		.def("stop", &Omnific::Timer::stop)

@@ -23,7 +23,7 @@
 #pragma once
 
 #include "foundations/resources/resource.hpp"
-#include <glm.hpp>
+#include <glm/glm.hpp>
 #include <vector>
 #include <string>
 #include <stdint.h>

@@ -49,7 +49,7 @@ namespace Omnific
 		virtual void finalize() override;
 	private:
 		void autofit_viewports_to_renderable_widths(std::shared_ptr<Scene> scene);
-		void accelerate_with_controller_state(std::shared_ptr<Scene> scene);
+		void move_with_controller_states(std::shared_ptr<Scene> scene);
 	};
 }
 

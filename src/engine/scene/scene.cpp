@@ -25,7 +25,6 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <yaml-cpp/yaml.h>
 #include <customization/class_registry.hpp>
-#include <gtx/quaternion.hpp>
 #include <cmath>
 #include <foundations/singletons/profiler.hpp>
 
@@ -33,10 +32,11 @@
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
 #include <scene/components/renderable.hpp>
-#include <gtc/quaternion.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
-#include <gtx/matrix_decompose.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 #include <foundations/resources/default_assets/scenes/cone_glb.hpp>
 #include <foundations/resources/default_assets/scenes/cube_glb.hpp>

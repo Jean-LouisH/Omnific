@@ -84,6 +84,8 @@ namespace Omnific
 		bool is_collision_shape_type(CollisionShapeType collision_shape_type);
 		bool has_entity_entered(EntityID entity_id);
 		bool has_entity_with_tag_entered(std::string entity_tag);
+		bool is_on_floor();
+		bool is_on_ceiling();
 	private:
 		bool is_colliding = false;
 	};
