@@ -33,6 +33,6 @@ void OmnificDemo::ZRotationSineWave::on_fixed_update()
     float delta = Omnific::CPPEntityContext::get_time_delta();
     float z_rotation_speed = 1.0;
     float amplitude = 45.0;
-    this->transform->rotation.z = amplitude * sin(this->time * z_rotation_speed);
+    this->transform->set_z_rotation(amplitude * sin(this->time * z_rotation_speed));
     this->time += delta;
 }

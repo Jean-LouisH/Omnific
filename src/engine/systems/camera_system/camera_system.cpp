@@ -157,7 +157,7 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 				}
 
 				camera->angular_velocity = glm::vec3(camera->flyby_mode.target_max_angular_speed);
-				camera_transform->rotation -= glm::vec3(mouse_motion_velocity.y, mouse_motion_velocity.x, 0.0) * fixed_frame_time * camera->angular_velocity;
+				camera_transform->rotate(glm::vec3(mouse_motion_velocity.y, mouse_motion_velocity.x, 0.0) * fixed_frame_time * -camera->angular_velocity);
 
 				camera_transform->translation += (camera_transform->get_front_vector() * input_translation_vector.z + 
 					camera_transform->get_right_vector() * input_translation_vector.x + 
@@ -237,13 +237,13 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 					}
 
 					camera_transform->rotate_y_around(follow_entity_global_transform->translation, glm::degrees(camera->rotate_around_velocity.x) * fixed_frame_time);
-					// camera->follow_mode.follow_distances = glm::rotateY(camera->follow_mode.follow_distances, camera->rotate_around_velocity.x * fixed_frame_time);
+					camera->follow_mode.follow_distances = glm::rotateY(camera->follow_mode.follow_distances, camera->rotate_around_velocity.x * fixed_frame_time);
 
-					// //Translate with Entity
-					// camera_transform->interpolate_with_translation(follow_entity_global_transform->translation + camera->follow_mode.follow_distances, camera->follow_mode.interpolation_speed * fixed_frame_time);
+					//Translate with Entity
+					camera_transform->interpolate_with_translation(follow_entity_global_transform->translation + camera->follow_mode.follow_distances, camera->follow_mode.interpolation_speed * fixed_frame_time);
 
-					// std::shared_ptr<Transform> camera_global_transform = scene->calculate_global_transform(camera->get_entity_id());
-					// camera_transform->look_at(glm::normalize(camera_global_transform->translation - follow_entity_global_transform->translation), glm::vec3(0.0, 1.0, 0.0));
+					std::shared_ptr<Transform> camera_global_transform = scene->calculate_global_transform(camera->get_entity_id());
+					camera_transform->look_at(glm::normalize(camera_global_transform->translation - follow_entity_global_transform->translation), glm::vec3(0.0, 1.0, 0.0));
 				}
 			}
 			else if (camera->controller_state == Camera::ControllerState::FOLLOW_GROUP)

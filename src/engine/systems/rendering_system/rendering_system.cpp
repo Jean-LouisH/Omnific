@@ -169,10 +169,7 @@ void Omnific::RenderingSystem::on_output()
 						light_outer_cutoff_angles.push_back(glm::radians(light->outer_cutoff_angle));
 						are_shadows_enabled.push_back(light->is_shadow_enabled);
 						light_translations.push_back(light_transform->translation);
-						light_rotations.push_back(glm::vec3(
-								glm::radians(light_transform->rotation.x),
-								glm::radians(light_transform->rotation.y),
-								glm::radians(light_transform->rotation.z)));					
+						light_rotations.push_back(light_transform->get_rotation_in_euler_angles());					
 					}
 
 					if (this->rendering_path == RenderingPath::FORWARD)
@@ -412,9 +409,9 @@ void Omnific::RenderingSystem::on_output()
 								shader_program->set_float_array("light_outer_cutoff_angles", light_outer_cutoff_angles);
 								shader_program->set_vec2("camera_viewport", camera->get_viewport());
 								shader_program->set_vec3("camera_translation", camera_transform->translation);
-								shader_program->set_vec3("camera_rotation", camera_transform->get_rotation_in_radians());
+								shader_program->set_vec3("camera_rotation", camera_transform->get_rotation_in_radians_euler_angles());
 								shader_program->set_vec3("entity_translation", renderable_transform->translation);
-								shader_program->set_vec3("entity_rotation", renderable_transform->get_rotation_in_radians());
+								shader_program->set_vec3("entity_rotation", renderable_transform->get_rotation_in_radians_euler_angles());
 								shader_program->set_vec3("entity_scale", renderable_transform->scale);
 
 								if (vertex_array->get_index_count() > 0)

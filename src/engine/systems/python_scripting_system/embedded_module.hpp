@@ -68,7 +68,16 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("rotate_x", &Omnific::Transform::rotate_x)
 		.def("rotate_y", &Omnific::Transform::rotate_y)
 		.def("rotate_z", &Omnific::Transform::rotate_z)
-		.def("set_xyz_scale", &Omnific::Transform::set_xyz_scale);
+		.def("get_up_vector", &Omnific::Transform::get_up_vector)
+		.def("get_front_vector", &Omnific::Transform::get_front_vector)
+		.def("get_right_vector", &Omnific::Transform::get_right_vector)
+		.def("get_rotation_in_euler_angles", &Omnific::Transform::get_rotation_in_euler_angles)
+		.def("get_rotation_in_radians_euler_angles", &Omnific::Transform::get_rotation_in_radians_euler_angles)
+		.def("get_rotation_in_degrees_euler_angles", &Omnific::Transform::get_rotation_in_degrees_euler_angles)
+		.def("set_xyz_scale", &Omnific::Transform::set_xyz_scale)
+		.def("set_x_rotation", &Omnific::Transform::set_x_rotation)
+		.def("set_y_rotation", &Omnific::Transform::set_y_rotation)
+		.def("set_z_rotation", &Omnific::Transform::set_z_rotation);
 
 	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "Clock")
 		.def(pybind11::init<std::string>())

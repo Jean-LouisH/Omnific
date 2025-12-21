@@ -92,7 +92,7 @@ namespace Omnific
 		struct FollowMode
 		{
 			std::string follow_target_entity;
-			glm::vec3 follow_distances = glm::vec3(0.0, 3.0, 5.0);
+			glm::vec3 follow_distances = glm::vec3(0.0, 3.0, 10.0);
 			float interpolation_speed = 5.0;
 			float max_rotate_around_speed = 180.0;
 			float max_rotate_around_acceleration = 700.0;

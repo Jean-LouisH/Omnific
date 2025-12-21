@@ -16,6 +16,6 @@ class omnific_script:
         z_rotation_speed = 1.0
         amplitude = 45.0
         
-        self.transform.rotation.z = amplitude * math.sin(self.time * z_rotation_speed)
+        self.transform.set_z_rotation(amplitude * math.sin(self.time * z_rotation_speed))
         self.time += delta
         pass

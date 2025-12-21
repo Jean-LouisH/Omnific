@@ -138,42 +138,15 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 									}
 									else if (it3->first.as<std::string>() == "rotation")
 									{
-										transform->rotation.x = it3->second[0].as<double>();
-										transform->rotation.y = it3->second[1].as<double>();
-										transform->rotation.z = it3->second[2].as<double>();
+										transform->set_x_rotation(it3->second[0].as<double>());
+										transform->set_y_rotation(it3->second[1].as<double>());
+										transform->set_z_rotation(it3->second[2].as<double>());
 									}
 									else if (it3->first.as<std::string>() == "scale")
 									{
 										transform->scale.x = it3->second[0].as<double>();
 										transform->scale.y = it3->second[1].as<double>();
 										transform->scale.z = it3->second[2].as<double>();
-									}
-									else if (it3->first.as<std::string>() == "rotation_order")
-									{
-										if (it3->second.as<std::string>() == "xyz")
-										{
-											transform->rotation_order = Transform::RotationOrder::XYZ;
-										}
-										else if (it3->second.as<std::string>() == "xzy")
-										{
-											transform->rotation_order = Transform::RotationOrder::XZY;
-										}
-										else if (it3->second.as<std::string>() == "yxz")
-										{
-											transform->rotation_order = Transform::RotationOrder::YXZ;
-										}
-										else if (it3->second.as<std::string>() == "yzx")
-										{
-											transform->rotation_order = Transform::RotationOrder::YZX;
-										}
-										else if (it3->second.as<std::string>() == "zxy")
-										{
-											transform->rotation_order = Transform::RotationOrder::ZXY;
-										}
-										else if (it3->second.as<std::string>() == "zyx")
-										{
-											transform->rotation_order = Transform::RotationOrder::ZYX;
-										}
 									}
 								}					
 							}
@@ -636,14 +609,12 @@ std::shared_ptr<Omnific::Transform> Omnific::Scene::calculate_global_transform(E
 
 		glm::decompose(global_matrix, scale, orientation_quat, translation, skew, perspective);
 
-		glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(orientation_quat));
-
 		if (this->cached_global_transforms.count(local_transform_entity_id) == 0)
 			this->cached_global_transforms.emplace(local_transform_entity_id, std::make_shared<Transform>());
 
 		global_transform = this->cached_global_transforms.at(local_transform_entity_id);
 		global_transform->translation = translation;
-		global_transform->rotation = euler_angles;
+		global_transform->rotation = orientation_quat;
 		global_transform->scale = scale;
 	}
 
@@ -1015,8 +986,7 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 						gltf_node.rotation[1],
 						gltf_node.rotation[2]);
 
-					transform->rotation = glm::eulerAngles(unit_quaternion);
-					transform->rotation *= 180.0 / M_PI;
+					transform->rotation = unit_quaternion;
 				}
 
 				if (gltf_node.scale.size() == 3)

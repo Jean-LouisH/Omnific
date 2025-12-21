@@ -19,17 +19,17 @@ class omnific_script:
         time_delta = omnific.get_time_delta()
 
         if inputs.is_pressed(["w", "dpad_up"]):
-            self.transform.rotation.x -= rotation_speed * time_delta
+            self.transform.rotate_x(-rotation_speed * time_delta)
         if inputs.is_pressed(["s", "dpad_down"]):
-            self.transform.rotation.x += rotation_speed * time_delta
+            self.transform.rotate_x(rotation_speed * time_delta)
         if inputs.is_pressed(["a", "dpad_left"]):
-            self.transform.rotation.y -= rotation_speed * time_delta
+            self.transform.rotate_y(-rotation_speed * time_delta)
         if inputs.is_pressed(["d", "dpad_right"]):
-            self.transform.rotation.y += rotation_speed * time_delta
+            self.transform.rotate_y(rotation_speed * time_delta)
         if inputs.is_pressed(["q", "left_shoulder_button"]):
-            self.transform.rotation.z -= rotation_speed * time_delta
+            self.transform.rotate_z(-rotation_speed * time_delta)
         if inputs.is_pressed(["e", "right_shoulder_button"]):
-            self.transform.rotation.z += rotation_speed * time_delta
+            self.transform.rotate_z(rotation_speed * time_delta)
         
         mouse_wheel_velocity = inputs.get_mouse_wheel_velocity().y
 

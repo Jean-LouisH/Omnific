@@ -22,36 +22,38 @@ void Omnific::Transform::translate_z(float offset)
 	this->translation.z += offset;
 }
 
+void Omnific::Transform::rotate(glm::vec3 angles)
+{
+	this->rotate_x(angles.x);
+	this->rotate_y(angles.y);
+	this->rotate_z(angles.z);
+}
+
 void Omnific::Transform::rotate_x(float angle)
 {
-	this->rotation.x += angle;
+	this->rotation = glm::angleAxis(glm::radians(angle), glm::vec3(1, 0, 0)) * this->rotation;
 }
 
 void Omnific::Transform::rotate_y(float angle)
 {
-	this->rotation.y += angle;
+	this->rotation = glm::angleAxis(glm::radians(angle), glm::vec3(0, 1, 0)) * this->rotation;
 }
 
 void Omnific::Transform::rotate_z(float angle)
 {
-	this->rotation.z += angle;
+	this->rotation = glm::angleAxis(glm::radians(angle), glm::vec3(0, 0, 1)) * this->rotation;
 }
 
 void Omnific::Transform::rotate_around(glm::vec3 pivot, glm::vec3 angles)
 {
     glm::vec3 offset = this->translation - pivot;
-    
     glm::quat qX = glm::angleAxis(glm::radians(angles.x), glm::vec3(1, 0, 0));
     glm::quat qY = glm::angleAxis(glm::radians(angles.y), glm::vec3(0, 1, 0));
     glm::quat qZ = glm::angleAxis(glm::radians(angles.z), glm::vec3(0, 0, 1));
-    
     glm::quat rotation_to_apply = qX * qY * qZ; 
 
     this->translation = pivot + (rotation_to_apply * offset);
-
-    glm::quat current_q = glm::quat(glm::radians(this->rotation));
-    current_q = rotation_to_apply * current_q;
-    this->rotation = glm::degrees(glm::eulerAngles(current_q));
+	this->rotation = rotation_to_apply * this->rotation;
 }
 
 void Omnific::Transform::rotate_x_around(glm::vec3 pivot, float angle)
@@ -82,7 +84,7 @@ void Omnific::Transform::look_at(glm::vec3 position, glm::vec3 up_vector)
 		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
-	this->rotation = glm::degrees(glm::eulerAngles(glm::quat_cast(rotation_matrix)));
+	this->rotation = glm::quat_cast(rotation_matrix);
 }
 
 void Omnific::Transform::interpolate_with_transform(std::shared_ptr<Transform> target_transform, float interpolation_delta)
@@ -134,75 +136,14 @@ void Omnific::Transform::interpolate_with_translation(glm::vec3 target_translati
 	this->translation = glm::mix(this->translation, target_translation, interpolation_delta);
 }
 
-void Omnific::Transform::interpolate_with_rotation(glm::vec3 target_rotation, float interpolation_delta)
+void Omnific::Transform::interpolate_with_rotation(glm::quat target_rotation, float interpolation_delta)
 {
-	glm::mat4 transform_matrix_from = this->get_transform_matrix();
-
-	glm::vec3 scale_from;
-	glm::quat rotation_from;
-	glm::vec3 translation_from;
-	glm::vec3 skew_from;
-	glm::vec4 perspective_from;
-
-	glm::decompose(transform_matrix_from, scale_from, rotation_from, translation_from, skew_from, perspective_from);
-	
-	glm::quat interpolated_rotation = glm::slerp(
-		rotation_from, 
-		glm::quat(glm::vec3(glm::radians(target_rotation.x), glm::radians(target_rotation.y), glm::radians(target_rotation.z))), interpolation_delta
-	);
-	glm::mat4 interpolated_matrix = glm::mat4(1.0);
-	interpolated_matrix = glm::scale(interpolated_matrix, scale_from);
-	interpolated_matrix *= glm::mat4_cast(interpolated_rotation);
-	interpolated_matrix = glm::translate(interpolated_matrix, translation_from);
-		
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-
-	glm::decompose(interpolated_matrix, scale, rotation, translation, skew, perspective);
-
-	glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(rotation));
-	
-	this->translation = translation;
-	this->rotation = euler_angles;
-	this->scale = scale;
+	this->rotation = glm::slerp(this->rotation, target_rotation, interpolation_delta);
 }
 
 void Omnific::Transform::interpolate_with_scale(glm::vec3 target_scale, float interpolation_delta)
 {
-	glm::mat4 transform_matrix_from = this->get_transform_matrix();
-
-	glm::vec3 scale_from;
-	glm::quat rotation_from;
-	glm::vec3 translation_from;
-	glm::vec3 skew_from;
-	glm::vec4 perspective_from;
-
-	glm::decompose(transform_matrix_from, scale_from, rotation_from, translation_from, skew_from, perspective_from);
-
-	glm::vec3 interpolated_scale = glm::mix(scale_from, target_scale, interpolation_delta);
-	glm::mat4 interpolated_matrix = glm::mat4(1.0);
-	interpolated_matrix = glm::scale(interpolated_matrix, interpolated_scale);
-
-	interpolated_matrix = glm::scale(interpolated_matrix, interpolated_scale);
-	interpolated_matrix *= glm::mat4_cast(rotation_from);
-	interpolated_matrix = glm::translate(interpolated_matrix, translation_from);
-		
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-
-	glm::decompose(interpolated_matrix, scale, rotation, translation, skew, perspective);
-
-	glm::vec3 euler_angles = glm::degrees(glm::eulerAngles(rotation));
-	
-	this->translation = translation;
-	this->rotation = euler_angles;
-	this->scale = scale;
+	this->scale = glm::mix(this->scale, target_scale, interpolation_delta);
 }
 
 void Omnific::Transform::set_xyz_scale(float amount)
@@ -241,63 +182,78 @@ float Omnific::Transform::calculate_elevation_from(glm::vec3 position)
 
 glm::vec3 Omnific::Transform::get_up_vector()
 {
-	glm::mat4 rotation_matrix = glm::yawPitchRoll(glm::radians(this->rotation.y), glm::radians(this->rotation.x), glm::radians(this->rotation.z));
+	glm::mat4 rotation_matrix = glm::mat4_cast(this->rotation);
 	return glm::vec3(rotation_matrix * glm::vec4(0, 1, 0, 0));
 }
 
 glm::vec3 Omnific::Transform::get_front_vector()
 {
-	glm::mat4 rotation_matrix = glm::yawPitchRoll(glm::radians(this->rotation.y), glm::radians(this->rotation.x), glm::radians(this->rotation.z));
+	glm::mat4 rotation_matrix = glm::mat4_cast(this->rotation);
 	return glm::vec3(rotation_matrix * glm::vec4(0, 0, 1, 0));
 }
 
 glm::vec3 Omnific::Transform::get_right_vector()
 {
-	glm::mat4 rotation_matrix = glm::yawPitchRoll(glm::radians(this->rotation.y), glm::radians(this->rotation.x), glm::radians(this->rotation.z));
+	glm::mat4 rotation_matrix = glm::mat4_cast(this->rotation);
 	return glm::vec3(rotation_matrix * glm::vec4(1, 0, 0, 0));
 }
 
-glm::vec3 Omnific::Transform::get_rotation_in_radians()
+glm::vec3 Omnific::Transform::get_rotation_in_euler_angles()
 {
-	return glm::vec3(glm::radians(this->rotation.x), glm::radians(this->rotation.y), glm::radians(this->rotation.z));
+	return this->get_rotation_in_radians_euler_angles();
+}
+
+glm::vec3 Omnific::Transform::get_rotation_in_radians_euler_angles()
+{
+	return glm::eulerAngles(this->rotation);
+}
+
+glm::vec3 Omnific::Transform::get_rotation_in_degrees_euler_angles()
+{
+	return glm::degrees(this->get_rotation_in_radians_euler_angles());
 }
 
 glm::mat4 Omnific::Transform::get_transform_matrix()
 {
 	glm::mat4 transform_matrix = glm::translate(glm::mat4(1.0f), this->translation);
-	switch(this->rotation_order)
-	{
-		case RotationOrder::XYZ: 
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			break;
-		case RotationOrder::XZY:
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			break;
-		case RotationOrder::YXZ:
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			break;
-		case RotationOrder::YZX: 
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-			break;
-		case RotationOrder::ZXY: 
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			break;
-		case RotationOrder::ZYX: 
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-			transform_matrix = glm::rotate(transform_matrix, glm::radians(this->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-			break;
-	}                         
+	transform_matrix *= glm::mat4_cast(this->rotation);
 	transform_matrix = glm::scale(transform_matrix, this->scale);
 	return transform_matrix;
+}
+
+void Omnific::Transform::set_rotation(glm::vec3 angles)
+{
+	this->set_x_rotation(angles.x);
+	this->set_y_rotation(angles.y);
+	this->set_z_rotation(angles.z);
+}
+
+void Omnific::Transform::set_x_rotation(float angle)
+{
+	glm::vec3 euler_rotations = glm::eulerAngles(this->rotation);
+	euler_rotations.x = glm::radians(angle);
+	glm::quat qX = glm::angleAxis(euler_rotations.x, glm::vec3(1, 0, 0));
+    glm::quat qY = glm::angleAxis(euler_rotations.y, glm::vec3(0, 1, 0));
+    glm::quat qZ = glm::angleAxis(euler_rotations.z, glm::vec3(0, 0, 1));
+    this->rotation = qX * qY * qZ; 
+}
+
+void Omnific::Transform::set_y_rotation(float angle)
+{
+	glm::vec3 euler_rotations = glm::eulerAngles(this->rotation);
+	euler_rotations.y = glm::radians(angle);
+	glm::quat qX = glm::angleAxis(euler_rotations.x, glm::vec3(1, 0, 0));
+    glm::quat qY = glm::angleAxis(euler_rotations.y, glm::vec3(0, 1, 0));
+    glm::quat qZ = glm::angleAxis(euler_rotations.z, glm::vec3(0, 0, 1));
+    this->rotation = qX * qY * qZ; 
+}
+
+void Omnific::Transform::set_z_rotation(float angle)
+{
+	glm::vec3 euler_rotations = glm::eulerAngles(this->rotation);
+	euler_rotations.z = glm::radians(angle);
+	glm::quat qX = glm::angleAxis(euler_rotations.x, glm::vec3(1, 0, 0));
+    glm::quat qY = glm::angleAxis(euler_rotations.y, glm::vec3(0, 1, 0));
+    glm::quat qZ = glm::angleAxis(euler_rotations.z, glm::vec3(0, 0, 1));
+    this->rotation = qX * qY * qZ; 
 }

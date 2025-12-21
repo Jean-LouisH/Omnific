@@ -165,7 +165,7 @@ void Omnific::GUISystem::on_fixed_update()
 					{
 						float x = followed_entity_global_transform->translation.x - camera_global_transform->translation.x;
 						float y = followed_entity_global_transform->translation.y - camera_global_transform->translation.y;
-						float z_rotation = glm::radians(followed_entity_global_transform->rotation.z) - glm::radians(camera_global_transform->rotation.z);
+						float z_rotation = followed_entity_global_transform->get_rotation_in_euler_angles().z - camera_global_transform->get_rotation_in_euler_angles().z;
 
 						gui->get_root_element()->position = gui->follow_offset + glm::vec2(
 							x * cos(z_rotation) - y * sin(z_rotation), 
