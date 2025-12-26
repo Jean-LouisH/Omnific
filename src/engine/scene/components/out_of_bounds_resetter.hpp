@@ -48,7 +48,7 @@ namespace Omnific
 		virtual void deserialize(YAML::Node yaml_node);
 
 		AABB2D extents;
-		glm::vec3 reset_point;
+		glm::vec3 reset_point = glm::vec3(0.0);
 	private:
 
 	};

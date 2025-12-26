@@ -59,11 +59,11 @@ namespace Omnific
 		float gravity_scale = 1.0;
 		float elasticity_ratio = 0.01;
 		float viscosity = 0.001; //in Pa * s
-		glm::vec3 drag_ratio;
-		glm::vec3 linear_velocity;
-		glm::vec3 angular_velocity;
-		glm::vec3 snap_direction;
-		glm::vec3 up_direction;
+		glm::vec3 drag_ratio = glm::vec3(0.0);
+		glm::vec3 linear_velocity = glm::vec3(0.0);
+		glm::vec3 angular_velocity = glm::vec3(0.0);
+		glm::vec3 snap_direction = glm::vec3(0.0);
+		glm::vec3 up_direction = glm::vec3(0.0);
 		CollisionResponseType collision_response_type = CollisionResponseType::RIGID;
 
 		virtual Registerable* instance() override

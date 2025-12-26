@@ -175,8 +175,8 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 					std::shared_ptr<Transform> follow_entity_global_transform = scene->calculate_global_transform(follow_entity->get_id());
 
 					glm::vec2 input_rotation_vector = glm::vec2(
-						(float)(inputs.is_pressed("semicolon") - inputs.is_pressed("backslash")), 
-						(float)(inputs.is_pressed("apostrophe") - inputs.is_pressed("left_square_bracket"))
+						inputs.get_action_axis("right_axis_x"),
+						inputs.get_action_axis("right_axis_y")
 					);
 
 					//Rotate around Entity
@@ -184,8 +184,8 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 					float max_rotate_around_acceleration_radians = glm::radians(camera->follow_mode.max_rotate_around_acceleration);
 					float rotate_around_deceleration_radians = glm::radians(camera->follow_mode.rotate_around_deceleration);
 					glm::vec2 inversion = glm::vec2(1.0);
-					glm::vec2 target_rotate_around_velocity;
-					glm::vec2 target_rotate_around_acceleration;
+					glm::vec2 target_rotate_around_velocity = glm::vec2(0.0);
+					glm::vec2 target_rotate_around_acceleration = glm::vec2(0.0);
 
 					if (camera->is_x_rotation_inverted)
 						inversion.x = -1.0;
@@ -195,10 +195,16 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 					target_rotate_around_velocity += glm::vec2(1.0) * max_rotate_around_speed_radians * input_rotation_vector * inversion;
 					target_rotate_around_acceleration += glm::vec2(1.0) * max_rotate_around_acceleration_radians * input_rotation_vector * inversion;
 					camera->rotate_around_velocity += target_rotate_around_acceleration * fixed_frame_time;
+					glm::vec3 camera_rotations_in_degrees = camera_transform->get_rotation_in_degrees_euler_angles();
 
 					if (glm::length(camera->rotate_around_velocity) > glm::length(target_rotate_around_velocity) && !(abs(input_rotation_vector.x) < 0.1))
 					{
 						camera->rotate_around_velocity *= glm::length(target_rotate_around_velocity) / glm::length(camera->rotate_around_velocity);
+
+						if (camera->rotate_around_velocity.x > 0.0 && (camera->is_y_rotation_limited && camera_rotations_in_degrees.y > camera->rotation_upper_limits.y))
+							camera->rotate_around_velocity.x = 0.0;
+						else if (camera->rotate_around_velocity.x < 0.0 && (camera->is_y_rotation_limited && camera_rotations_in_degrees.y < camera->rotation_lower_limits.y))
+							camera->rotate_around_velocity.x = 0.0;
 					}
 					else if (abs(input_rotation_vector.x) < 0.1)
 					{
@@ -219,6 +225,11 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 					if (glm::length(camera->rotate_around_velocity) > glm::length(target_rotate_around_velocity) && !(abs(input_rotation_vector.y) < 0.1))
 					{
 						camera->rotate_around_velocity *= glm::length(target_rotate_around_velocity) / glm::length(camera->rotate_around_velocity);
+
+						if (camera->rotate_around_velocity.y > 0.0 && (camera->is_x_rotation_limited && camera_rotations_in_degrees.x > camera->rotation_upper_limits.x))
+							camera->rotate_around_velocity.y = 0.0;
+						else if (camera->rotate_around_velocity.y < 0.0 && (camera->is_x_rotation_limited && camera_rotations_in_degrees.x < camera->rotation_lower_limits.x))
+							camera->rotate_around_velocity.y = 0.0;
 					}
 					else if (abs(input_rotation_vector.y) < 0.1)
 					{
@@ -238,6 +249,8 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 
 					camera_transform->rotate_y_around(follow_entity_global_transform->translation, glm::degrees(camera->rotate_around_velocity.x) * fixed_frame_time);
 					camera->follow_mode.follow_distances = glm::rotateY(camera->follow_mode.follow_distances, camera->rotate_around_velocity.x * fixed_frame_time);
+					// camera_transform->rotate_x_around(follow_entity_global_transform->translation, glm::degrees(camera->rotate_around_velocity.y) * fixed_frame_time);
+					// camera->follow_mode.follow_distances = glm::rotateX(camera->follow_mode.follow_distances, camera->rotate_around_velocity.y * fixed_frame_time);
 
 					//Translate with Entity
 					camera_transform->interpolate_with_translation(follow_entity_global_transform->translation + camera->follow_mode.follow_distances, camera->follow_mode.interpolation_speed * fixed_frame_time);

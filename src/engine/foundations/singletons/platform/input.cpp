@@ -167,8 +167,8 @@ Omnific::Inputs::Inputs()
 	this->action_axis_map.insert({
 		{"left_axis_x", {{"left_axis_x", "left_axis_x"}, {"a", "d"}}},
 		{"left_axis_y", {{"left_axis_y", "left_axis_y"}, {"s", "w"}}},
-		{"right_axis_x", {{"right_axis_x", "right_axis_x"}, {";", "\""}}},	
-		{"left_axis_y", {{"right_axis_y", "right_axis_y"}, {"'", "["}}}
+		{"right_axis_x", {{"right_axis_x", "right_axis_x"}, {"semicolon", "backslash"}}},	
+		{"right_axis_y", {{"right_axis_y", "right_axis_y"}, {"apostrophe", "left_square_bracket"}}}
 	});
 }
 
@@ -534,7 +534,11 @@ float Omnific::Inputs::get_action_axis(std::string action_input_code)
 	float result = 0.0f;
 	if (this->action_axis_map.count(action_input_code))
 	{
-		
+		for (auto& axis : this->action_axis_map.at(action_input_code))
+		{
+			result += this->get_axis(axis.first);
+			result += (float)(this->is_pressed(axis.second)) - (float)(this->is_pressed(axis.first));
+		}
 	}
 	return result;
 }
@@ -566,7 +570,7 @@ uint32_t Omnific::Inputs::get_drop_file_window_id()
 
 void Omnific::Inputs::clear()
 {
-	this->controller_axis_events.clear();
+	//this->controller_axis_events.clear();
 	this->controller_button_events.clear();
 	this->keyboard_events.clear();
 

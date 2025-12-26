@@ -66,7 +66,7 @@ namespace Omnific
 	private:
 		std::shared_ptr<OpenGLRenderingBackend> opengl_backend;
 		SceneID active_scene_id = 0;
-		glm::vec2 last_detected_window_size;
+		glm::vec2 last_detected_window_size = glm::vec2(0.0);
 
 		std::shared_ptr<Light> dummy_light;
 		std::shared_ptr<Transform> dummy_light_transform;

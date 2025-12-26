@@ -98,10 +98,10 @@ namespace Omnific
 		bool is_hovered_in_focus = false;
 		bool is_selected = false;
 
-		glm::vec2 position;
-		glm::vec2 dimensions;
-		glm::vec2 pivot_offset;
-		glm::vec2 margin;
+		glm::vec2 position = glm::vec2(0.0);
+		glm::vec2 dimensions = glm::vec2(0.0);
+		glm::vec2 pivot_offset = glm::vec2(0.0);
+		glm::vec2 margin = glm::vec2(0.0);
 
 		std::string name;
 		std::string gui_element_type;
@@ -212,7 +212,7 @@ namespace Omnific
 		virtual void update_image() override;
 	protected:
 		std::shared_ptr<GUILabel> gui_label;
-		glm::vec2 button_space_from_text;
+		glm::vec2 button_space_from_text = glm::vec2(0.0);
 	};
 
 	class OMNIFIC_ENGINE_API GUIToggleButton : public GUIButton
@@ -388,8 +388,8 @@ namespace Omnific
 		};
 		//virtual void update_image() override;
 	private:
-		glm::vec2 start_point;
-		glm::vec2 end_point;
+		glm::vec2 start_point = glm::vec2(0.0);
+		glm::vec2 end_point = glm::vec2(0.0);
 	};
 
 	class OMNIFIC_ENGINE_API GUITreeView : public GUITree
@@ -467,7 +467,7 @@ namespace Omnific
 		}
 
 		bool is_2d_override = true;
-		glm::vec2 follow_offset;
+		glm::vec2 follow_offset = glm::vec2(0.0);
 
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_to_label(std::string text);

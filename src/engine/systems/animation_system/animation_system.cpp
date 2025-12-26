@@ -90,7 +90,7 @@ void Omnific::AnimationSystem::execute_camera_relative_movements(std::shared_ptr
 		{
 			std::shared_ptr<CameraRelativeMovement> camera_relative_movement = camera_relative_movements.at(i);
 			std::shared_ptr<Transform> entity_transform = scene->get_entity(camera_relative_movement->get_entity_id())->get_transform();
-			glm::vec2 input_vector = glm::vec2((float)(inputs.is_pressed("d") - inputs.is_pressed("a")), (float)(inputs.is_pressed("s") - inputs.is_pressed("w")));
+			glm::vec2 input_vector = glm::vec2(inputs.get_action_axis("left_axis_x"), -inputs.get_action_axis("left_axis_y"));
 			float deadzone = 0.1;
 			glm::vec3 camera_forward = current_camera_transform->get_front_vector();
 			glm::vec3 camera_right = current_camera_transform->get_right_vector();

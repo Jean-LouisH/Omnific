@@ -51,6 +51,6 @@ namespace Omnific
 
 		virtual void deserialize(YAML::Node yaml_node);
 	private:
-		glm::vec3 linear_velocity;
+		glm::vec3 linear_velocity = glm::vec3(0.0);
 	};
 }

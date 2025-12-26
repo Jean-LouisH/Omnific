@@ -78,14 +78,15 @@ namespace Omnific
 		void set_controller_state_by_string(std::string state);
 		glm::mat4 get_view_to_projection_matrix();
 
-		glm::vec3 clear_colour;
+		glm::vec3 clear_colour = glm::vec3(0.0);
 		ControllerState controller_state;
 		bool enable_flyby_mode_on_default_input = false;
 
 		bool is_x_rotation_limited = true;
 		bool is_y_rotation_limited = false;
 		bool is_z_rotation_limited = false;
-		glm::vec3 rotation_limits = glm::vec3(90.0, 90.0, 90.0);
+		glm::vec3 rotation_lower_limits = glm::vec3(-90.0, 0.0, -90.0);
+		glm::vec3 rotation_upper_limits = glm::vec3(90.0, 90.0, 90.0);
 		bool is_x_rotation_inverted = true;
 		bool is_y_rotation_inverted = false;
 
@@ -115,14 +116,14 @@ namespace Omnific
 		float field_of_view = 45.0;
 		float near_plane = 0.1;
 		float far_plane = 1000.0;
-		glm::vec2 min_limit;
-		glm::vec2 max_limit;
-		glm::vec2 viewport;
-		glm::vec3 linear_velocity;
-		glm::vec3 angular_velocity;
+		glm::vec2 min_limit = glm::vec2(0.0);
+		glm::vec2 max_limit = glm::vec2(0.0);
+		glm::vec2 viewport = glm::vec2(0.0);
+		glm::vec3 linear_velocity = glm::vec3(0.0);
+		glm::vec3 angular_velocity = glm::vec3(0.0);
 
-		glm::vec2 rotate_around_velocity;
-		glm::vec3 follow_rotations;
+		glm::vec2 rotate_around_velocity = glm::vec2(0.0);
+		glm::vec3 follow_rotations = glm::vec3(0.0);
 
 		bool keep_aspect = true;
 		bool is_streaming = true;

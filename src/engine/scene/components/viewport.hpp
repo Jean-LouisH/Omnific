@@ -52,7 +52,7 @@ namespace Omnific
 		void set_camera_entity_name(std::string camera_entity_name);
 		void set_dimensions(uint32_t width, uint32_t height);
 	private:
-		glm::vec2 dimensions;
+		glm::vec2 dimensions = glm::vec2(0.0);
 		std::string camera_entity_name;
 	};
 }
