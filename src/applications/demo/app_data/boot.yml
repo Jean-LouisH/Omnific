@@ -1,7 +1,7 @@
 metadata:
   title: Omnific Demo
   version: 1.0.0
-  developer: Jean-Louis Haywood
+  developer: OMNIFIC
   icon_filepath: icon.png
   entry_scene_filepath: selection_menu.yml
 window_settings:

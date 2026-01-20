@@ -8,18 +8,14 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 # Table of Contents
 
 * [Notable Features](#notable-features)
-* [Architecture](#architecture)
-* [Dependencies](#dependencies)
-* [Compilation Instructions](#compilation-instructions)
-* [Manual](#manual)
 * [Demos](#demos)
+* [Manual](#manual)
+* [Compilation Instructions](#compilation-instructions)
+* [Architecture](#architecture)
 * [License](#license)
 
 # Notable Features
 
-- Project-based, data-driven applications, deserialized from YAML files via [yaml-cpp](https://github.com/jbeder/yaml-cpp)
-
-![omnific_project](docs/images/omnific_project.png)
 
 - Scene hierarchy of Entities with inheritable Transforms of translations, rotations and scales.
 
@@ -33,6 +29,10 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 ![opengl](docs/images/omnific_shader_demo.gif)
 
+- Project-based, data-driven applications, deserialized from YAML files via [yaml-cpp](https://github.com/jbeder/yaml-cpp)
+
+![omnific_project](docs/images/omnific_project.png)
+
 - Python VM scripting via pybind11 with game loop calls to Python and Engine API calls from Python. Imports, including pip installed packages are supported.
 
 ![pong_ai_control](docs/images/pong_game_mechanics_python.png)
@@ -41,13 +41,34 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 ![omnific_editor_cpp](docs/images/omnific_editor_cpp.png)
 
-- Fully customizable as a core framework loading custom Component and System classes on initialization
-
-![class_registry](docs/images/class_registry.png)
-
-- Entity-Component-System (ECS) architecture
+- Fully customizable Entity-Component-System (ECS) architecture
 - Game Controller and Haptic Feedback support
-- Multithreaded Systems
+- Multithreading in Systems
+
+# Demos
+
+- [Pong](https://github.com/Jean-LouisH/Omnific/releases/tag/0.1)
+
+![omnific_pong](docs/images/omnific_pong_demo.gif)
+
+- Clock
+
+![omnific_pong](docs/images/omnific_clock_demo.gif)
+
+# Manual
+
+...
+
+# Compilation Instructions
+
+* Install [CMake](https://cmake.org/). On Debian-based Linux: `sudo apt-get install cmake`, Fedora-based Linux: `sudo dnf install cmake`
+* Git clone and install [vcpkg](https://vcpkg.io/en/): `git clone https://github.com/microsoft/vcpkg.git`. Assign the path to the environment variable "VCPKG_ROOT".
+* Optional for Web builds: Git clone and install [Emscripten SDK](https://github.com/emscripten-core/emsdk): `git clone https://github.com/emscripten-core/emsdk.git`. Assign the path to the environment variable "EMSDK_ROOT".
+* Include this source directory in CMake to generate a project from the top level CMakeLists.txt.
+* Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want.
+* Use your C++ IDE or compiler of choice to build Omnific from the project.
+* To be able to install third-party packages in the embedded Python build, uncomment the last line in python*._pth. Then download [get-pip.py](https://bootstrap.pypa.io/get-pip.py), place it in the embeddable python folder, and run `> python get-pip.py`. Install packages to the embeddable folder with `> python -m pip install package-name`.
+
 
 # Architecture
 
@@ -71,29 +92,6 @@ Scenes, Entities, Components, and Assets all retain IDs for caching wherever nee
 Systems process Scenes by events in the Engine loops. These include "on_input", "on_entity_start", "on_early_update", "on_update", "on_fixed_update", "on_late_update", "on_entity_finish" and "on_output". "on_input" represents the event in which an input state is changed. "on_entity_start" and "on_entity_finish" represent the events in which the Scenes would address Entities that are newly created or about to be deleted. "on_early_update", "on_update", "on_late_update" in that order represent a linear chain of events, that allow operations to be done in a specific order. "on_fixed_update" is an event that enables the System to have fixed updates to real-time by catching up to dropped frames and simulation lag. This can be CPU intensive, so should it be reserved to small, optimized processes that depend on it. "on_output" represents an event where processing occurs on a separate output thread to all of the other event names. Operations here are expected to be read-only.
 
 Users can also extend the Engine through the ClassRegistry header where their own custom Components or Systems can be made and instantiated in the ClassRegistry.add_definitions() method.
-
-# Compilation Instructions
-
-* Git clone and install [Vcpkg](https://vcpkg.io/en/). Assign the path to the environment variable "VCPKG_ROOT".
-* Git clone and install [Emscripten SDK](https://github.com/emscripten-core/emsdk). Assign the path to the environment variable "EMSDK_ROOT".
-* Include this source directory in CMake to generate a project from the top level CMakeLists.txt.
-* Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want.
-* Use your C++ IDE or compiler of choice to build Omnific from the project.
-* To be able to install third-party packages in the embedded Python build, uncomment the last line in python*._pth. Then download [get-pip.py](https://bootstrap.pypa.io/get-pip.py), place it in the embeddable python folder, and run `> python get-pip.py`. Install packages to the embeddable folder with `> python -m pip install package-name`.
-
-# Manual
-
-
-
-# Demos
-
-- [Pong](https://github.com/Jean-LouisH/Omnific/releases/tag/0.1)
-
-![omnific_pong](docs/images/omnific_pong_demo.gif)
-
-- Clock
-
-![omnific_pong](docs/images/omnific_clock_demo.gif)
 
 
 # License
