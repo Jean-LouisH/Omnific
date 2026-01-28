@@ -1,7 +1,7 @@
 {
   "dependencies": [
-    "sdl2",
-    "sdl2-ttf",
+    "sdl3",
+    "sdl3-ttf",
     "glm",
     "tinygltf",
     "yaml-cpp",

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <vector>
 #include <unordered_map>
 #include <queue>
@@ -113,8 +113,8 @@ namespace Omnific
 		void poll_input_events();
 
 		std::unordered_map<std::string, SDL_Scancode> keyboard_events_by_string;
-		std::unordered_map<std::string, SDL_GameControllerButton> controller_buttons_by_string;
-		std::unordered_map<std::string, SDL_GameControllerAxis> controller_axis_events_by_string;
+		std::unordered_map<std::string, SDL_GamepadButton> controller_buttons_by_string;
+		std::unordered_map<std::string, SDL_GamepadAxis> controller_axis_events_by_string;
 
 		std::unordered_map<std::string, std::vector<std::string>> action_button_map;
 		std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> action_axis_map;
@@ -123,18 +123,18 @@ namespace Omnific
 
 		std::set<SDL_Keycode> held_keys;
 		std::set<Uint8> held_mouse_buttons;
-		std::unordered_map<SDL_GameControllerButton, SDL_JoystickID> held_controller_buttons;
+		std::unordered_map<SDL_GamepadButton, SDL_JoystickID> held_controller_buttons;
 
-		std::unordered_map<SDL_GameControllerButton, SDL_ControllerButtonEvent> controller_button_events;
+		std::unordered_map<SDL_GamepadButton, SDL_GamepadButtonEvent> controller_button_events;
 		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboard_events;
-		std::unordered_map<SDL_GameControllerAxis, SDL_ControllerAxisEvent> controller_axis_events;
-		SDL_MouseButtonEvent mouse_button_event = { 0 };
-		SDL_MouseMotionEvent mouse_motion_event = { 0 };
-		SDL_MouseWheelEvent  mouse_wheel_event = { 0 };
-		SDL_WindowEvent window_event = { 0 };
-		SDL_DropEvent drop_event = { 0 };
+		std::unordered_map<SDL_GamepadAxis, SDL_GamepadAxisEvent> controller_axis_events;
+		SDL_MouseButtonEvent mouse_button_event;
+		SDL_MouseMotionEvent mouse_motion_event;
+		SDL_MouseWheelEvent  mouse_wheel_event;
+		SDL_WindowEvent window_event;
+		SDL_DropEvent drop_event;
 
-		std::vector<SDL_GameController*> game_controllers;
+		std::vector<SDL_Gamepad*> game_controllers;
 		std::vector<SDL_Haptic*> haptics;
 
 		std::unordered_map<PlayerID, SDL_JoystickID> controller_player_map;

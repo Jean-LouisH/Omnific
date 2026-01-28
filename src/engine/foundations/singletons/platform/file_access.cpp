@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "file_access.hpp"
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <fstream>
 #include <algorithm>
 #include <foundations/singletons/platform/platform.hpp>

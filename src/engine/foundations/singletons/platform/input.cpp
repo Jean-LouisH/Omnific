@@ -22,30 +22,31 @@
 
 #include "input.hpp"
 #include <foundations/singletons/event_bus.hpp>
+#include <foundations/singletons/platform/platform.hpp>
 
 Omnific::Inputs::Inputs()
 {
-	this->controller_buttons_by_string.emplace("dpad_left", SDL_CONTROLLER_BUTTON_DPAD_LEFT);
-	this->controller_buttons_by_string.emplace("dpad_right", SDL_CONTROLLER_BUTTON_DPAD_RIGHT);
-	this->controller_buttons_by_string.emplace("dpad_up", SDL_CONTROLLER_BUTTON_DPAD_UP);
-	this->controller_buttons_by_string.emplace("dpad_down", SDL_CONTROLLER_BUTTON_DPAD_DOWN);
-	this->controller_buttons_by_string.emplace("button_extra", SDL_CONTROLLER_BUTTON_BACK);
-	this->controller_buttons_by_string.emplace("button_menu", SDL_CONTROLLER_BUTTON_START);
-	this->controller_buttons_by_string.emplace("button_x", SDL_CONTROLLER_BUTTON_X);
-	this->controller_buttons_by_string.emplace("button_y", SDL_CONTROLLER_BUTTON_Y);
-	this->controller_buttons_by_string.emplace("button_a", SDL_CONTROLLER_BUTTON_A);
-	this->controller_buttons_by_string.emplace("button_b", SDL_CONTROLLER_BUTTON_B);
-	this->controller_buttons_by_string.emplace("left_shoulder_button", SDL_CONTROLLER_BUTTON_LEFTSHOULDER);
-	this->controller_buttons_by_string.emplace("left_stick_button", SDL_CONTROLLER_BUTTON_LEFTSTICK);
-	this->controller_buttons_by_string.emplace("right_shoulder_button", SDL_CONTROLLER_BUTTON_RIGHTSHOULDER);
-	this->controller_buttons_by_string.emplace("right_stick_button", SDL_CONTROLLER_BUTTON_RIGHTSTICK);
+	this->controller_buttons_by_string.emplace("dpad_left", SDL_GAMEPAD_BUTTON_DPAD_LEFT);
+	this->controller_buttons_by_string.emplace("dpad_right", SDL_GAMEPAD_BUTTON_DPAD_RIGHT);
+	this->controller_buttons_by_string.emplace("dpad_up", SDL_GAMEPAD_BUTTON_DPAD_UP);
+	this->controller_buttons_by_string.emplace("dpad_down", SDL_GAMEPAD_BUTTON_DPAD_DOWN);
+	this->controller_buttons_by_string.emplace("button_extra", SDL_GAMEPAD_BUTTON_BACK);
+	this->controller_buttons_by_string.emplace("button_menu", SDL_GAMEPAD_BUTTON_START);
+	this->controller_buttons_by_string.emplace("button_x", SDL_GAMEPAD_BUTTON_WEST);
+	this->controller_buttons_by_string.emplace("button_y", SDL_GAMEPAD_BUTTON_NORTH);
+	this->controller_buttons_by_string.emplace("button_a", SDL_GAMEPAD_BUTTON_SOUTH);
+	this->controller_buttons_by_string.emplace("button_b", SDL_GAMEPAD_BUTTON_EAST);
+	this->controller_buttons_by_string.emplace("left_shoulder_button", SDL_GAMEPAD_BUTTON_LEFT_SHOULDER);
+	this->controller_buttons_by_string.emplace("left_stick_button", SDL_GAMEPAD_BUTTON_LEFT_STICK);
+	this->controller_buttons_by_string.emplace("right_shoulder_button", SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER);
+	this->controller_buttons_by_string.emplace("right_stick_button", SDL_GAMEPAD_BUTTON_RIGHT_STICK);
 
-	this->controller_axis_events_by_string.emplace("left_axis_x", SDL_CONTROLLER_AXIS_LEFTX);
-	this->controller_axis_events_by_string.emplace("left_axis_y", SDL_CONTROLLER_AXIS_LEFTY);
-	this->controller_axis_events_by_string.emplace("right_axis_x", SDL_CONTROLLER_AXIS_RIGHTX);
-	this->controller_axis_events_by_string.emplace("right_axis_y", SDL_CONTROLLER_AXIS_RIGHTY);
-	this->controller_axis_events_by_string.emplace("left_trigger", SDL_CONTROLLER_AXIS_TRIGGERLEFT);
-	this->controller_axis_events_by_string.emplace("right_trigger", SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
+	this->controller_axis_events_by_string.emplace("left_axis_x", SDL_GAMEPAD_AXIS_LEFTX);
+	this->controller_axis_events_by_string.emplace("left_axis_y", SDL_GAMEPAD_AXIS_LEFTY);
+	this->controller_axis_events_by_string.emplace("right_axis_x", SDL_GAMEPAD_AXIS_RIGHTX);
+	this->controller_axis_events_by_string.emplace("right_axis_y", SDL_GAMEPAD_AXIS_RIGHTY);
+	this->controller_axis_events_by_string.emplace("left_trigger", SDL_GAMEPAD_AXIS_LEFT_TRIGGER);
+	this->controller_axis_events_by_string.emplace("right_trigger", SDL_GAMEPAD_AXIS_RIGHT_TRIGGER);
 
 	this->keyboard_events_by_string.emplace("escape", SDL_SCANCODE_ESCAPE);
 	this->keyboard_events_by_string.emplace("f1", SDL_SCANCODE_F1);
@@ -196,7 +197,7 @@ bool Omnific::Inputs::is_on_press(std::vector<std::string> input_codes, PlayerID
 
 		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			SDL_GamepadButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
 					for (auto& event: EventBus::query_events_with_number_parameter(OMNIFIC_EVENT_BUTTON_ON_PRESS, "scancode", controller_button_code))
@@ -257,7 +258,7 @@ bool Omnific::Inputs::is_pressed(std::vector<std::string> input_codes, PlayerID 
 
 		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			SDL_GamepadButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->held_controller_buttons.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
 					if (this->held_controller_buttons.at(controller_button_code) == this->get_controller_player_map().at(player_id))
@@ -291,16 +292,16 @@ bool Omnific::Inputs::is_pressed_interrupt(std::vector<std::string> input_codes,
 		{
 			SDL_Keycode sdl_key_code = this->keyboard_events_by_string.at(input_code);
 			if (this->keyboard_events.count(sdl_key_code))
-				if (this->keyboard_events.at(sdl_key_code).type == SDL_KEYDOWN)
+				if (this->keyboard_events.at(sdl_key_code).type == SDL_EVENT_KEY_DOWN)
 					return true;
 		}
 
 		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			SDL_GamepadButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
-					if (this->controller_button_events.at(controller_button_code).type == SDL_CONTROLLERBUTTONDOWN &&
+					if (this->controller_button_events.at(controller_button_code).type == SDL_EVENT_GAMEPAD_BUTTON_DOWN &&
 						this->controller_button_events.at(controller_button_code).which == this->get_controller_player_map().at(player_id))
 						return true;
 		}
@@ -333,7 +334,7 @@ bool Omnific::Inputs::is_on_release(std::vector<std::string> input_codes, Player
 
 		if (this->controller_buttons_by_string.count(input_code))
 		{
-			SDL_GameControllerButton controller_button_code = this->controller_buttons_by_string.at(input_code);
+			SDL_GamepadButton controller_button_code = this->controller_buttons_by_string.at(input_code);
 			if (this->controller_button_events.count(controller_button_code))
 				if (this->get_controller_player_map().count(player_id))
 					for (auto& event: EventBus::query_events_with_number_parameter(OMNIFIC_EVENT_BUTTON_ON_RELEASE, "scancode", controller_button_code))
@@ -368,7 +369,7 @@ float Omnific::Inputs::get_axis(std::string input_code, PlayerID player_id)
 
 	if (this->controller_axis_events_by_string.count(input_code))
 	{
-		SDL_GameControllerAxis controller_axis_code = this->controller_axis_events_by_string.at(input_code);
+		SDL_GamepadAxis controller_axis_code = this->controller_axis_events_by_string.at(input_code);
 		if (controller_axis_events.count(controller_axis_code))
 			if (this->get_controller_player_map().count(player_id))
 				if (controller_axis_events.at(controller_axis_code).which == this->get_controller_player_map().at(player_id))
@@ -384,7 +385,7 @@ float Omnific::Inputs::get_axis(std::string input_code, PlayerID player_id)
 bool Omnific::Inputs::is_left_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
 }
 
 bool Omnific::Inputs::is_left_mouse_button_pressed()
@@ -395,7 +396,7 @@ bool Omnific::Inputs::is_left_mouse_button_pressed()
 bool Omnific::Inputs::is_left_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_UP;
 }
 
 bool Omnific::Inputs::is_left_mouse_button_released()
@@ -406,14 +407,14 @@ bool Omnific::Inputs::is_left_mouse_button_released()
 bool Omnific::Inputs::is_left_mouse_button_double_clicked()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_LEFT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_UP &&
 		this->mouse_button_event.clicks == 2;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_pressed()
@@ -424,7 +425,7 @@ bool Omnific::Inputs::is_middle_mouse_button_pressed()
 bool Omnific::Inputs::is_middle_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_UP;
 }
 
 bool Omnific::Inputs::is_middle_mouse_button_released()
@@ -435,14 +436,14 @@ bool Omnific::Inputs::is_middle_mouse_button_released()
 bool Omnific::Inputs::is_middle_mouse_button_double_clicked()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_MIDDLE &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_UP &&
 		this->mouse_button_event.clicks == 2;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_on_press()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONDOWN;
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_pressed()
@@ -453,7 +454,7 @@ bool Omnific::Inputs::is_right_mouse_button_pressed()
 bool Omnific::Inputs::is_right_mouse_button_on_release()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP;
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_UP;
 }
 
 bool Omnific::Inputs::is_right_mouse_button_released()
@@ -464,7 +465,7 @@ bool Omnific::Inputs::is_right_mouse_button_released()
 bool Omnific::Inputs::is_right_mouse_button_double_clicked()
 {
 	return this->mouse_button_event.button == SDL_BUTTON_RIGHT &&
-		this->mouse_button_event.type == SDL_MOUSEBUTTONUP &&
+		this->mouse_button_event.type == SDL_EVENT_MOUSE_BUTTON_UP &&
 		this->mouse_button_event.clicks == 2;
 }
 
@@ -476,8 +477,8 @@ glm::vec2 Omnific::Inputs::get_mouse_position()
 glm::vec2 Omnific::Inputs::get_mouse_wheel_velocity()
 {
 	glm::vec2 vector2;
-	vector2.x = this->mouse_wheel_event.preciseX;
-	vector2.y = this->mouse_wheel_event.preciseY;
+	vector2.x = this->mouse_wheel_event.x;
+	vector2.y = this->mouse_wheel_event.y;
 	return vector2;
 }
 
@@ -545,17 +546,17 @@ float Omnific::Inputs::get_action_axis(std::string action_input_code)
 
 void Omnific::Inputs::set_relative_mouse_mode(bool value)
 {
-	SDL_SetRelativeMouseMode((SDL_bool)value);
+	SDL_SetWindowRelativeMouseMode(Platform::get_window().get_sdlwindow(), value);
 }
 
 bool Omnific::Inputs::is_drop_file_detected()
 {
-	return this->drop_event.type == SDL_DROPFILE;
+	return this->drop_event.type == SDL_EVENT_DROP_FILE;
 }
 
 std::string Omnific::Inputs::get_drop_file_path()
 {
-	return this->drop_event.file;
+	return this->drop_event.data;
 }
 
 uint32_t Omnific::Inputs::get_drop_file_window_id()
@@ -574,47 +575,52 @@ void Omnific::Inputs::clear()
 	this->controller_button_events.clear();
 	this->keyboard_events.clear();
 
-	if (this->drop_event.file != NULL)
+	if (this->drop_event.data != NULL)
 	{
-		SDL_free(this->drop_event.file);
-		this->drop_event = { 0 };
+		SDL_free((void*)this->drop_event.data);
+		SDL_zero(this->drop_event);
 	}
 
-	this->mouse_wheel_event = {0};
-	this->mouse_motion_event = {0};
-	this->window_event = {0};
+	SDL_zero(this->mouse_wheel_event);
+	SDL_zero(this->mouse_motion_event);
+	SDL_zero(this->window_event);
 }
 
 void Omnific::Inputs::detect_game_controllers()
 {
-	if (SDL_NumJoysticks() != this->game_controllers.size())
+	int joystick_count = 0;
+	SDL_JoystickID* joystick_ids = SDL_GetJoysticks(&joystick_count);
+
+	if (joystick_count != this->game_controllers.size())
 	{
 		for (int i = 0; i < this->game_controllers.size(); ++i)
 		{
-			SDL_GameControllerClose(this->game_controllers.at(i));
-			SDL_HapticClose(this->haptics.at(i));
+			SDL_CloseGamepad(this->game_controllers.at(i));
+			SDL_CloseHaptic(this->haptics.at(i));
 		}
 
 		this->game_controllers.clear();
 		this->haptics.clear();
 		this->controller_player_map.clear();
 
-		for (int i = 0; i < SDL_NumJoysticks(); ++i)
+		for (int i = 0; i < joystick_count; ++i)
 		{
-			if (SDL_IsGameController(i))
+			if (SDL_IsGamepad(i))
 			{
-				SDL_GameController* new_controller = SDL_GameControllerOpen(i);
-				SDL_Joystick* joystick = SDL_GameControllerGetJoystick(new_controller);
-				this->controller_player_map.emplace(i, SDL_JoystickInstanceID(joystick));
+				SDL_Gamepad* new_controller = SDL_OpenGamepad(i);
+				SDL_Joystick* joystick = SDL_GetGamepadJoystick(new_controller);
+				this->controller_player_map.emplace(i, SDL_GetJoystickID(joystick));
 				this->game_controllers.push_back(new_controller);
-				this->haptics.push_back(SDL_HapticOpenFromJoystick(joystick));
+				this->haptics.push_back(SDL_OpenHapticFromJoystick(joystick));
 				this->newly_loaded_player_ids.push(i);
-				SDL_HapticRumbleInit(this->haptics.back());
+				SDL_InitHapticRumble(this->haptics.back());
 				if (!this->game_controllers.back())
 					fprintf(stderr, "Could not open gamecontroller %i: %s\n", i, SDL_GetError());
 			}
 		}
 	}
+
+	SDL_free(joystick_ids);
 }
 
 void Omnific::Inputs::poll_input_events()
@@ -627,79 +633,79 @@ void Omnific::Inputs::poll_input_events()
 	{
 		switch (SDLEvents.type)
 		{
-		case SDL_QUIT:
+		case SDL_EVENT_QUIT:
 			this->shutdown_request = true;
 			break;
 
-		case SDL_KEYDOWN:
+		case SDL_EVENT_KEY_DOWN:
 			
-			if (!EventBus::has_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.keysym.scancode)))
+			if (!EventBus::has_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.scancode)))
 			{
-				EventBus::publish_event(OMNIFIC_EVENT_KEY_ON_PRESS, {}, {{"scancode", SDLEvents.key.keysym.scancode}});
-				EventBus::publish_event(OMNIFIC_EVENT_KEY_PRESSED, {}, {}, {}, {}, std::to_string((int)SDLEvents.key.keysym.scancode), true);
+				EventBus::publish_event(OMNIFIC_EVENT_KEY_ON_PRESS, {}, {{"scancode", SDLEvents.key.scancode}});
+				EventBus::publish_event(OMNIFIC_EVENT_KEY_PRESSED, {}, {}, {}, {}, std::to_string((int)SDLEvents.key.scancode), true);
 			}
-			this->held_keys.insert(SDLEvents.key.keysym.scancode);
-			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
+			this->held_keys.insert(SDLEvents.key.scancode);
+			this->keyboard_events.emplace(SDLEvents.key.scancode, SDLEvents.key);
 			this->has_detected_input_changes = true;
 			break;
-		case SDL_KEYUP:
-			if (EventBus::has_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.keysym.scancode)))
+		case SDL_EVENT_KEY_UP:
+			if (EventBus::has_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.scancode)))
 			{
-				EventBus::publish_event(OMNIFIC_EVENT_KEY_ON_RELEASE, {}, {{"scancode", SDLEvents.key.keysym.scancode}});
-				EventBus::remove_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.keysym.scancode));
+				EventBus::publish_event(OMNIFIC_EVENT_KEY_ON_RELEASE, {}, {{"scancode", SDLEvents.key.scancode}});
+				EventBus::remove_continuous_event(OMNIFIC_EVENT_KEY_PRESSED, std::to_string((int)SDLEvents.key.scancode));
 			}
-			this->held_keys.erase(SDLEvents.key.keysym.scancode);
-			this->keyboard_events.emplace(SDLEvents.key.keysym.scancode, SDLEvents.key);
+			this->held_keys.erase(SDLEvents.key.scancode);
+			this->keyboard_events.emplace(SDLEvents.key.scancode, SDLEvents.key);
 			this->has_detected_input_changes = true;
 			break;
 
-		case SDL_MOUSEBUTTONDOWN:
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			this->held_mouse_buttons.insert(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
 			this->has_detected_input_changes = true;
 			break;
-		case SDL_MOUSEBUTTONUP:
+		case SDL_EVENT_MOUSE_BUTTON_UP:
 			this->held_mouse_buttons.erase(SDLEvents.button.button);
 			this->mouse_button_event = SDLEvents.button;
 			this->has_detected_input_changes = true;
 			break;
 
-		case SDL_MOUSEMOTION:
+		case SDL_EVENT_MOUSE_MOTION:
 			this->mouse_motion_event = SDLEvents.motion;
 			this->mouse_position.x = this->mouse_motion_event.x;
 			this->mouse_position.y = this->mouse_motion_event.y;
 			this->has_detected_input_changes = true;
 			break;
 
-		case SDL_MOUSEWHEEL:
+		case SDL_EVENT_MOUSE_WHEEL:
 			this->mouse_wheel_event = SDLEvents.wheel;
 			this->has_detected_input_changes = true;
 			break;
 
-		case SDL_CONTROLLERBUTTONDOWN:
-			this->held_controller_buttons.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton.which);
-			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
+		case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+			this->held_controller_buttons.emplace((SDL_GamepadButton)SDLEvents.gbutton.button, SDLEvents.gbutton.which);
+			this->controller_button_events.emplace((SDL_GamepadButton)SDLEvents.gbutton.button, SDLEvents.gbutton);
 			this->has_detected_input_changes = true;
 			break;
-		case SDL_CONTROLLERBUTTONUP:
-			this->held_controller_buttons.erase((SDL_GameControllerButton)SDLEvents.cbutton.button);
-			this->controller_button_events.emplace((SDL_GameControllerButton)SDLEvents.cbutton.button, SDLEvents.cbutton);
+		case SDL_EVENT_GAMEPAD_BUTTON_UP:
+			this->held_controller_buttons.erase((SDL_GamepadButton)SDLEvents.gbutton.button);
+			this->controller_button_events.emplace((SDL_GamepadButton)SDLEvents.gbutton.button, SDLEvents.gbutton);
 			this->has_detected_input_changes = true;
 			break;
 
-		case SDL_CONTROLLERAXISMOTION:
-			if (!this->controller_axis_events.count((SDL_GameControllerAxis)SDLEvents.caxis.axis))
-				this->controller_axis_events.emplace((SDL_GameControllerAxis)SDLEvents.caxis.axis, SDLEvents.caxis);
+		case SDL_EVENT_GAMEPAD_AXIS_MOTION:
+			if (!this->controller_axis_events.count((SDL_GamepadAxis)SDLEvents.gaxis.axis))
+				this->controller_axis_events.emplace((SDL_GamepadAxis)SDLEvents.gaxis.axis, SDLEvents.gaxis);
 			else
-				this->controller_axis_events.at((SDL_GameControllerAxis)SDLEvents.caxis.axis) = SDLEvents.caxis;
+				this->controller_axis_events.at((SDL_GamepadAxis)SDLEvents.gaxis.axis) = SDLEvents.gaxis;
 			this->has_detected_input_changes = true;
 			break;
 
-		case SDL_DROPFILE:
+		case SDL_EVENT_DROP_FILE:
 			this->drop_event = SDLEvents.drop;
 			EventBus::publish_event(
 			OMNIFIC_EVENT_FILE_DROPPED_ON_WINDOW, 
-				{{"drop_file_path", this->drop_event.file}},
+				{{"drop_file_path", this->drop_event.data}},
 				{{"drop_file_window_id", (double)this->drop_event.windowID}}
 			);
 			this->has_detected_input_changes = true;
@@ -742,7 +748,7 @@ bool Omnific::Inputs::has_requested_command_line()
 	bool backquote_released = false;
 
 	if (this->keyboard_events.count(SDL_SCANCODE_GRAVE))
-		backquote_released = this->keyboard_events.at(SDL_SCANCODE_GRAVE).type == SDL_KEYUP;
+		backquote_released = this->keyboard_events.at(SDL_SCANCODE_GRAVE).type == SDL_EVENT_KEY_UP;
 
 	return backquote_released;	 
 }

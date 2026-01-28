@@ -20,9 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <SDL3/SDL_main.h>
 #include "engine.hpp"
-
-#undef main
 
 /**Regular entry point*/
 

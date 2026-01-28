@@ -29,7 +29,7 @@
 #include <iostream>
 
 #include "embedded_module.hpp"
-#include <SDL_platform.h>
+#include <SDL3/SDL_platform.h>
 #include <set>
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/event_bus.hpp>

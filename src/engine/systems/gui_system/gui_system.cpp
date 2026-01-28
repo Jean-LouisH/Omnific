@@ -23,7 +23,7 @@
 #include "gui_system.hpp"
 #include "foundations/singletons/platform/platform.hpp"
 #include <foundations/singletons/event_bus.hpp>
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <scene/components/gui.hpp>
 #include <foundations/transform.hpp>
 #include <scene/components/viewport.hpp>
@@ -45,8 +45,8 @@ void Omnific::GUISystem::initialize()
 	Profiler::add_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME, {"gui_system", "on_early_update_frame_time"});
 	Profiler::add_clock(GUI_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME, {"gui_system", "on_fixed_update_frame_time"});
 	Platform::get_logger().write("Initialized GUI System.");
-	if (TTF_Init() == -1)
-		printf("TTF_Init: %s\n", TTF_GetError());
+	if (!TTF_Init()) 
+		SDL_Log("Couldn't initialize SDL_ttf: %s\n", SDL_GetError());
 }
 
 void Omnific::GUISystem::on_early_update()

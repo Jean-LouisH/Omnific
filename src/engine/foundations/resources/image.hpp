@@ -26,8 +26,8 @@
 #include "stb_image_write.h"
 
 #include "foundations/aliases.hpp"
-#include <SDL_surface.h>
-#include <SDL_render.h>
+#include <SDL3/SDL_surface.h>
+#include <SDL3/SDL_render.h>
 #include <stdint.h>
 #include "foundations/resources/resource.hpp"
 #include "font.hpp"

@@ -21,13 +21,12 @@
 // SOFTWARE.
 
 
+#include <SDL3/SDL_main.h>
 #include "engine.hpp"
 #include "cpp_tests.hpp"
 #include "xyz_scale_sine_wave.hpp"
 #include "y_translation_sine_wave.hpp"
 #include "z_rotation_sine_wave.hpp"
-
-#undef main
 
 /**Regular entry point*/
 

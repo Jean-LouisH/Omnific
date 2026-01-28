@@ -27,7 +27,7 @@
 #include <foundations/aliases.hpp>
 #include <string>
 #include <memory>
-#include <SDL_ttf.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 
 namespace Omnific

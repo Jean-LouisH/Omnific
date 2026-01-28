@@ -49,6 +49,7 @@ namespace Omnific
 		virtual void finalize() override;
 
 		SDL_AudioDeviceID device_id;
+		SDL_AudioStream* audio_stream;
 	private:
 		void resample_and_replace_audio(std::shared_ptr<AudioSource> audio_source);
 		std::vector<int16_t> mix_buffer;

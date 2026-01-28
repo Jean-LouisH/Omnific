@@ -25,7 +25,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <iostream>
 
-#include <SDL_platform.h>
+#include <SDL3/SDL_platform.h>
 #include <set>
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/event_bus.hpp>

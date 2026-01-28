@@ -30,7 +30,7 @@
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <string>
-#include <SDL_video.h>
+#include <SDL3/SDL_video.h>
 
 #ifdef _WEB_PLATFORM
     #include <GLES3/gl3.h>

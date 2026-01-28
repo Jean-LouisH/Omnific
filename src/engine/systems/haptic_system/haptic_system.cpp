@@ -25,7 +25,7 @@
 #include <foundations/singletons/scene_storage.hpp>
 #include "foundations/singletons/event_bus.hpp"
 #include <foundations/singletons/profiler.hpp>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #define HAPTIC_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "haptic_system_on_output_frame_time"
 
@@ -124,7 +124,7 @@ void Omnific::HapticSystem::on_output()
 
 				if (haptic_playback_hashtable.size() < 1)
 				{
-					SDL_HapticRumbleStop(haptics.at(player_id));
+					SDL_StopHapticRumble(haptics.at(player_id));
 				}
 				else
 				{
@@ -133,8 +133,8 @@ void Omnific::HapticSystem::on_output()
 					if (!(previous_total_strength + epsilon > total_strength &&
 						total_strength > previous_total_strength - epsilon))  
 					{
-						SDL_HapticRumbleStop(haptics.at(player_id));
-						SDL_HapticRumblePlay(
+						SDL_StopHapticRumble(haptics.at(player_id));
+						SDL_PlayHapticRumble(
 							haptics.at(player_id),
 							total_strength,
 							duration);
@@ -152,7 +152,7 @@ void Omnific::HapticSystem::on_output()
 				haptic_playback.clock->set_start();
 				haptic_playback_hashtable.emplace(event_parameters.key, haptic_playback);
 
-				SDL_HapticRumblePlay(haptics.at(player_id),
+				SDL_PlayHapticRumble(haptics.at(player_id),
 					strength,
 					duration);
 			}

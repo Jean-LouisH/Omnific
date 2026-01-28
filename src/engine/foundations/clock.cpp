@@ -23,7 +23,7 @@
 #include "clock.hpp"
 #include "constants.hpp"
 #include <string>
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 Omnific::Clock::Clock()
 {

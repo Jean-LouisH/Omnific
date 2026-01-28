@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <vector>
 #include "shared_library_access.hpp"
 #include "input.hpp"
@@ -45,7 +45,7 @@ namespace Omnific
 			char* argv[]
 		);
 
-		static bool create_window(std::string title,
+		static void create_window(std::string title,
 			uint16_t width,
 			uint16_t height,
 			bool is_fullscreen,

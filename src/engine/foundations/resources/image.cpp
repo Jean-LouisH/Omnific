@@ -37,8 +37,8 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 		text = " ";
 
 	SDL_Color sdl_color = { colour->get_red(), colour->get_green(), colour->get_blue(), colour->get_alpha() };
-	std::shared_ptr<SDL_Surface> sdl_surface(TTF_RenderUTF8_Blended_Wrapped(font->get_sdl_ttf_font(), text.c_str(), sdl_color, wrap_length), SDL_FreeSurface);
-	std::shared_ptr<SDL_Surface> converted_sdl_surface(SDL_ConvertSurfaceFormat(sdl_surface.get(), SDL_PIXELFORMAT_RGBA32, 0), SDL_FreeSurface);
+	std::shared_ptr<SDL_Surface> sdl_surface(TTF_RenderText_Blended_Wrapped(font->get_sdl_ttf_font(), text.c_str(), text.size(), sdl_color, wrap_length), SDL_DestroySurface);
+	std::shared_ptr<SDL_Surface> converted_sdl_surface(SDL_ConvertSurface(sdl_surface.get(), SDL_PIXELFORMAT_RGBA32), SDL_DestroySurface);
 
 	/*	SDL vertical pixel flip solution by 
 		vvanpelt on StackOverflow: https://stackoverflow.com/a/65817254 
@@ -68,7 +68,7 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 	/////////
 
 	if (converted_sdl_surface != nullptr)
-		this->set_to_parameters(converted_sdl_surface->format->BytesPerPixel, converted_sdl_surface->w, converted_sdl_surface->h, (uint8_t*)converted_sdl_surface->pixels);
+		this->set_to_parameters(SDL_BYTESPERPIXEL(converted_sdl_surface->format), converted_sdl_surface->w, converted_sdl_surface->h, (uint8_t*)converted_sdl_surface->pixels);
 
 	this->size = this->width * this->height * this->colour_channel_count;
 }

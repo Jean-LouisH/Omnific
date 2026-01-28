@@ -23,7 +23,7 @@ message (STATUS "Engine detected system name: ${CMAKE_SYSTEM_NAME}")
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	find_package(SampleRate REQUIRED)
 	add_definitions(-D_WEB_PLATFORM)
-    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=2 -sUSE_SDL_TTF=2 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1")
+    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=3 -sUSE_SDL_TTF=3 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
@@ -35,9 +35,10 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 		SampleRate
 	)
 else()
+
 	set (THIRD_PARTY_PROJECTS ${THIRD_PARTY_PROJECTS} glad)
-	find_package(SDL2 REQUIRED)
-	find_package(SDL2_ttf REQUIRED)
+	find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
+	find_package(SDL3_ttf REQUIRED)
 	find_package(SampleRate REQUIRED)
 	find_package(glm CONFIG REQUIRED)
 	find_package(yaml-cpp CONFIG REQUIRED)
@@ -45,9 +46,9 @@ else()
 
 	if (WIN32)
 		add_definitions(/bigobj)
-		set (SDL2_TTF_MODULE "SDL2_ttf::SDL2_ttf")
+		set (SDL3_TTF_MODULE "SDL3_ttf::SDL3_ttf")
 	else ()
-		set (SDL2_TTF_MODULE "SDL2_ttf::SDL2_ttf-static")
+		set (SDL3_TTF_MODULE "SDL3_ttf::SDL3_ttf-static")
 	endif ()
 
 	add_definitions(-DENABLE_PYTHON_BUILD)
@@ -57,8 +58,8 @@ else()
 
 	target_link_libraries (omnific_engine 
 		${THIRD_PARTY_PROJECTS}
-		SDL2::SDL2
-		${SDL2_TTF_MODULE}
+		SDL3::SDL3
+		${SDL3_TTF_MODULE}
 		Python::Python
 		pybind11::headers
 		yaml-cpp::yaml-cpp

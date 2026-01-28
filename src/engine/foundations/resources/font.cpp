@@ -27,8 +27,8 @@ Omnific::Font::Font()
 { 
 	this->type = TYPE_STRING;
 	const uint16_t default_font_size = 16;
-	SDL_RWops* rw = SDL_RWFromConstMem(DefaultAssets::lato_regular_ttf, DefaultAssets::lato_regular_ttf_len);
-	TTF_Font* font = TTF_OpenFontRW(rw, 1, default_font_size);
+	SDL_IOStream* rw = SDL_IOFromConstMem(DefaultAssets::lato_regular_ttf, DefaultAssets::lato_regular_ttf_len);
+	TTF_Font* font = TTF_OpenFontIO(rw, 1, default_font_size);
 	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 };
 

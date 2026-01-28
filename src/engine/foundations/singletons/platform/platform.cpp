@@ -22,7 +22,7 @@
 
 #include "platform.hpp"
 #include <string>
-#include "SDL.h"
+#include <SDL3/SDL.h>
 #include "foundations/constants.hpp"
 #include <thread>
 
@@ -49,31 +49,21 @@ void Omnific::Platform::initialize(
 	new_instance->run_clock->set_start();
 
 	new_instance->command_line_arguments = command_line_arguments;
+
+	SDL_InitSubSystem(
+		SDL_INIT_EVENTS || 
+		SDL_INIT_GAMEPAD || 
+		SDL_INIT_HAPTIC
+	);
 }
 
-bool Omnific::Platform::create_window(std::string title,
+void Omnific::Platform::create_window(std::string title,
 	uint16_t width,
 	uint16_t height,
 	bool is_fullscreen,
 	std::string rendering_context)
 {
-	bool is_successful = !(bool)SDL_Init(SDL_INIT_EVERYTHING & ~SDL_INIT_AUDIO);
-
-	if (is_successful)
-	{
-		get_instance()->window->initialize(title, width, height, is_fullscreen, rendering_context);
-
-		if (TTF_Init() == -1)
-			printf("TTF_Init: %s\n", TTF_GetError());
-	}
-	else
-	{
-		SDL_Log(
-			"SDL could not initialize because: %s",
-			SDL_GetError());
-	}
-
-	return is_successful;
+	get_instance()->window->initialize(title, width, height, is_fullscreen, rendering_context);
 }
 
 void Omnific::Platform::yield_thread()
@@ -98,7 +88,7 @@ void Omnific::Platform::show_error_box(std::string title, std::string message)
 
 uint8_t Omnific::Platform::get_logical_core_count()
 {
-	return SDL_GetCPUCount();
+	return SDL_GetNumLogicalCPUCores();
 }
 
 uint32_t Omnific::Platform::get_l1_cache_line_size()
@@ -166,7 +156,7 @@ std::vector<std::string> Omnific::Platform::get_args()
 
 void Omnific::Platform::add_game_controller_mappings(std::string mapping_filepath)
 {
-	SDL_GameControllerAddMappingsFromFile(mapping_filepath.c_str());
+	SDL_AddGamepadMappingsFromFile(mapping_filepath.c_str());
 }
 
 Omnific::Platform* Omnific::Platform::get_instance()

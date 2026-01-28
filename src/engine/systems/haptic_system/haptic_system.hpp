@@ -23,7 +23,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <vector>
 #include <unordered_map>
 #include "systems/system.hpp"

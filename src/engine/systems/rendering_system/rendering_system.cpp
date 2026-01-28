@@ -38,12 +38,6 @@
 
 Omnific::RenderingSystem::RenderingSystem()
 {
-	Platform::create_window("",
-		640,
-		480,
-		false,
-		this->get_rendering_backend_name());
-
 	this->dummy_light = std::shared_ptr<Light>(new Light());
 	this->dummy_light_transform = std::shared_ptr<Transform>(new Transform());
 	this->dummy_light_transform->translate_y(5.0);
@@ -60,6 +54,14 @@ Omnific::RenderingSystem::~RenderingSystem()
 
 void Omnific::RenderingSystem::initialize()
 {
+	SDL_InitSubSystem(SDL_INIT_VIDEO);
+
+	Platform::create_window("",
+		640,
+		480,
+		false,
+		this->get_rendering_backend_name());
+
 	Image image = Image(
 		Platform::get_file_access().find_path(Configuration::get_instance()->metadata.icon_filepath));
 	Platform::get_window().change_icon(

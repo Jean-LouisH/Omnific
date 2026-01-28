@@ -30,7 +30,7 @@
 #include <foundations/resources/audio_clip.hpp>
 #include <scene/components/physics_body.hpp>
 #include <foundations/singletons/scene_storage.hpp>
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <math.h>
 #include <algorithm>
 #include <samplerate.h>
@@ -51,32 +51,33 @@ Omnific::AudioSystem::~AudioSystem()
 
 void Omnific::AudioSystem::initialize()
 {
-	if (SDL_Init(SDL_INIT_AUDIO) < 0)
-	{
-		SDL_Log("SDL_Init failed: %s", SDL_GetError());
-	}
-	else
-	{
-		this->is_initialized = true;
-		SDL_AudioSpec desired = {0};
-		SDL_AudioSpec obtained;
-		desired.freq = this->mix_sample_frequency;
-		desired.format = AUDIO_S16SYS;
-		desired.channels = this->mix_channel_count;
-		desired.samples = this->mix_samples_per_channel_per_frame * this->mix_channel_count * this->bytes_per_sample;
-		desired.callback = NULL;
-
-		this->device_id = SDL_OpenAudioDevice(
-			NULL,
-			0,
-			&desired,
-			&obtained,
-			NULL);
-
-		SDL_PauseAudioDevice(this->device_id, false);
-	}
-
 	Profiler::add_clock(AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"audio_system", "on_output_frame_time"});
+
+	if (!SDL_InitSubSystem(SDL_INIT_AUDIO)) 
+	{
+        SDL_Log("SDL_Init failed: %s", SDL_GetError());
+        return;
+    }
+
+	this->is_initialized = true;
+	this->device_id = SDL_OpenAudioDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, NULL);
+
+	if (this->device_id == 0) 
+	{
+		SDL_Log("Failed to open audio: %s", SDL_GetError());
+		return;
+	}
+
+	SDL_AudioSpec spec;
+	SDL_zero(spec);
+	spec.freq = this->mix_sample_frequency;
+	spec.format = SDL_AUDIO_S16;
+	spec.channels = this->mix_channel_count;
+
+	this->audio_stream = SDL_CreateAudioStream(&spec, &spec);
+	SDL_BindAudioStream(this->device_id, this->audio_stream);
+	SDL_ResumeAudioDevice(this->device_id);
+
 	Platform::get_logger().write("Initialized Audio System.");
 }
 
@@ -88,11 +89,11 @@ void Omnific::AudioSystem::on_output()
 
 	if (EventBus::has_event(OMNIFIC_EVENT_ACTIVE_SCENE_CHANGED))
 	{
-		SDL_ClearQueuedAudio(this->device_id);
+		SDL_ClearAudioStream(this->audio_stream);
 	}
 
 	const int queue_refill_threshold = this->mix_samples_per_frame * this->bytes_per_sample * 8;
-	uint32_t queued_audio_size = SDL_GetQueuedAudioSize(this->device_id);
+	int queued_audio_size = SDL_GetAudioStreamQueued(this->audio_stream);
 
 	if (queued_audio_size < queue_refill_threshold)
 	{
@@ -102,11 +103,11 @@ void Omnific::AudioSystem::on_output()
 
 		if (audio_listeners.size() == 0)
 		{
-			SDL_PauseAudioDevice(this->device_id, true);
+			SDL_PauseAudioDevice(this->device_id);
 		}
 		else
 		{
-			SDL_PauseAudioDevice(this->device_id, false);
+			SDL_ResumeAudioDevice(this->device_id);
 
 			for (std::shared_ptr<AudioListener>& audio_listener : scene->get_components_by_type<AudioListener>())
 			{
@@ -229,7 +230,11 @@ void Omnific::AudioSystem::on_output()
 			}
 		}
 
-		SDL_QueueAudio(this->device_id, this->mix_buffer.data(), this->mix_buffer.size() * this->bytes_per_sample);
+		SDL_PutAudioStreamData(
+            this->audio_stream, 
+            this->mix_buffer.data(), 
+            (int)(this->mix_buffer.size() * this->bytes_per_sample)
+        );
 	}
 
 	frame_time_clock->set_end();
@@ -237,14 +242,15 @@ void Omnific::AudioSystem::on_output()
 
 void Omnific::AudioSystem::finalize()
 {
-	if (this->is_initialized)
+	if (this->is_initialized) 
 	{
-		SDL_PauseAudioDevice(this->device_id, 1);
-		SDL_CloseAudioDevice(this->device_id);
-		SDL_CloseAudio();
-	}
+        SDL_UnbindAudioStream(this->audio_stream);
+        SDL_DestroyAudioStream(this->audio_stream);
+        SDL_CloseAudioDevice(this->device_id);
+        SDL_QuitSubSystem(SDL_INIT_AUDIO);
+    }
 
-	this->is_initialized = false;
+    this->is_initialized = false;
 }
 
 void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::AudioSource> audio_source)

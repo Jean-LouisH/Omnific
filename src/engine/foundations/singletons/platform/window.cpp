@@ -54,14 +54,12 @@ void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t hei
 
 	this->sdl_window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
 		title.c_str(),
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
 		width,
 		height,
-		SDL_WINDOW_FULLSCREEN_DESKTOP & is_fullscreen | rendering_context_flag), SDL_DestroyWindow);
+		SDL_WINDOW_FULLSCREEN & is_fullscreen | rendering_context_flag), SDL_DestroyWindow);
 
 	SDL_DisableScreenSaver();
-	SDL_GetCurrentDisplayMode(0, this->sdl_display_mode.get());
+	//SDL_GetCurrentDisplayMode(0, this->sdl_display_mode.get());
 #endif
 	this->is_fullscreen = is_fullscreen;
 }
@@ -98,7 +96,7 @@ void Omnific::Window::set_to_fullscreen()
 {
 	if (this->sdl_window != nullptr)
 	{
-		SDL_SetWindowDisplayMode(this->sdl_window.get(), this->sdl_display_mode.get());
+		SDL_SetWindowFullscreenMode(this->sdl_window.get(), this->sdl_display_mode.get());
 		SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN);
 		Platform::get_logger().write("Set Window to fullscreen.");
 	}
@@ -112,20 +110,20 @@ void Omnific::Window::toggle_windowed_fullscreen()
 
 		if (this->is_fullscreen)
 		{
-			SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+			SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN);
 			Platform::get_logger().write("Set Window to windowed fullscreen.");
+			SDL_HideCursor();
 		}
 		else
 		{
 			SDL_SetWindowFullscreen(this->sdl_window.get(), 0);
-			SDL_SetWindowPosition(
-				this->sdl_window.get(),
-				SDL_WINDOWPOS_CENTERED,
-				SDL_WINDOWPOS_CENTERED);
+			// SDL_SetWindowPosition(
+			// 	this->sdl_window.get(),
+			// 	SDL_WINDOWPOS_CENTERED,
+			// 	SDL_WINDOWPOS_CENTERED);
 			Platform::get_logger().write("Set Window to windowed.");
+			SDL_ShowCursor();
 		}
-
-		SDL_ShowCursor(!this->is_fullscreen);
 	}
 }
 
@@ -152,21 +150,17 @@ void Omnific::Window::change_icon(void* data, uint32_t width, uint32_t height, u
 {
 	if (this->sdl_window != nullptr)
 	{
-		SDL_Surface* sdl_surface = SDL_CreateRGBSurfaceFrom(
-			data,
+		SDL_Surface* sdl_surface = SDL_CreateSurfaceFrom(
 			width,
 			height,
-			depth,
-			pitch,
-			0,
-			0,
-			0,
-			0);
+			SDL_PIXELFORMAT_RGBA8888,
+			data,
+			pitch);
 
 		if (sdl_surface != nullptr)
 		{
 			SDL_SetWindowIcon(this->sdl_window.get(), sdl_surface);
-			SDL_FreeSurface(sdl_surface);
+			SDL_DestroySurface(sdl_surface);
 			Platform::get_logger().write("Changed Window icon.");
 		}
 	}

@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include <vector>
 #include <unordered_map>
 #include <foundations/resources/image.hpp>
