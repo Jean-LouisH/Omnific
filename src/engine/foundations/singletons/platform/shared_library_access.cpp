@@ -69,7 +69,7 @@ void* Omnific::SharedLibraryAccess::get_procedure(void* dynamic_library_handle, 
 	}
 
 #ifdef _WIN32
-	return GetProcAddress((HMODULE)dynamic_library_handle, procedure_name.c_str());
+	return (void*)GetProcAddress((HMODULE)dynamic_library_handle, procedure_name.c_str());
 #else
 	return dlsym(dynamic_library_handle, procedure_name.c_str());
 #endif

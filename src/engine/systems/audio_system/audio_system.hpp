@@ -51,7 +51,6 @@ namespace Omnific
 		SDL_AudioDeviceID device_id;
 		SDL_AudioStream* audio_stream;
 	private:
-		void resample_and_replace_audio(std::shared_ptr<AudioSource> audio_source);
 		std::vector<int16_t> mix_buffer;
 		const int mix_sample_frequency = 44100;
 		const int mix_samples_per_channel_per_frame = 1024;

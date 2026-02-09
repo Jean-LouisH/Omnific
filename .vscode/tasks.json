@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Emrun: Launch",
+            "type": "shell",
+            "command": "~/emsdk/upstream/emscripten/emrun",
+            "args": [
+                "${command:cmake.launchTargetDirectory}/${command:cmake.launchTargetName}.html"
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -33,7 +33,6 @@
 #include <SDL3/SDL.h>
 #include <math.h>
 #include <algorithm>
-#include <samplerate.h>
 #include <iostream>
 
 #define AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "audio_system_on_output_frame_time"
@@ -126,8 +125,6 @@ void Omnific::AudioSystem::on_output()
 						std::shared_ptr<Transform> source_global_transform = scene->calculate_global_transform(source_entity->get_id());
 
 						std::shared_ptr<AudioClip> audio_clip = audio_source->get_active_audio_clip();
-						if (audio_clip->sample_rate != this->mix_sample_frequency)
-							this->resample_and_replace_audio(audio_source);
 						const int audio_sample_rate = audio_clip->sample_rate;
 						const int audio_channel_count = audio_clip->get_channel_count();
 						const float gain = audio_source->get_volume() * audio_listener->get_volume();
@@ -251,54 +248,4 @@ void Omnific::AudioSystem::finalize()
     }
 
     this->is_initialized = false;
-}
-
-void Omnific::AudioSystem::resample_and_replace_audio(std::shared_ptr<Omnific::AudioSource> audio_source)
-{
-	Logger& logger = Platform::get_logger();
-	std::shared_ptr<AudioClip> audio_clip = audio_source->get_active_audio_clip();
-	size_t input_size = audio_clip->data.size();
-	int channel_count = audio_clip->channel_count;
-	std::vector<float> input_float(input_size);
-    std::vector<float> output_float;
-
-	const int half_max_possible_value = std::pow(2, 8 * this->bytes_per_sample) / 2;
-
-	logger.write("Warning: Audio Resource '" + audio_clip->get_name() + "' has an input sample rate of " + 
-	std::to_string(audio_clip->sample_rate) + " vs the output sample rate of " + std::to_string(this->mix_sample_frequency) + 
-	". Resampling is needed. For less wait times in the future, convert all Audio files to match the output sample rate. Resampling in progress... " 
-	);
-
-    // Convert int16_t to float
-    for (size_t i = 0; i < input_size; ++i)
-        input_float[i] = audio_clip->data[i] / (float)half_max_possible_value;
-
-    double ratio = static_cast<double>(this->mix_sample_frequency) / audio_clip->sample_rate;
-    size_t output_length = static_cast<size_t>(input_float.size() * ratio);
-    output_float.resize(output_length + 4096);
-
-    SRC_DATA src_data;
-    src_data.data_in = input_float.data();
-    src_data.input_frames = input_size / channel_count;
-    src_data.data_out = output_float.data();
-    src_data.output_frames = output_float.size() / channel_count;
-    src_data.src_ratio = ratio;
-    src_data.end_of_input = 1;
-
-    int error = src_simple(&src_data, SRC_SINC_FASTEST, channel_count);
-    if (error) {
-        std::cerr << "Resampling error: " << src_strerror(error) << "\n";
-        return;
-    }
-
-    // Convert back to int16_t
-    std::vector<int16_t> output_pcm(src_data.output_frames_gen * channel_count);
-    for (size_t i = 0; i < output_pcm.size(); ++i)
-        output_pcm[i] = std::clamp(static_cast<int>(output_float[i] * half_max_possible_value), -half_max_possible_value, half_max_possible_value);
-
-	
-	std::shared_ptr<AudioClip> resampled_audio(new AudioClip(output_pcm, channel_count, this->mix_sample_frequency, output_pcm.size() / channel_count));
-	audio_source->remove_audio_clip(audio_clip->get_name());
-	audio_source->add_audio_clip(resampled_audio);
-	logger.write("'" + audio_clip->get_name() + "' resampled.");
 }

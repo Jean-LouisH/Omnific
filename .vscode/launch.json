@@ -1,12 +1,13 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "type": "cmake",
+            "name": "Emrun: Launch HTML",
+            "type": "cppdbg", 
             "request": "launch",
-            "name": "Debug portfile(s)",
-            "cmakeDebugType": "external",
-            "pipeName": "/tmp/vcpkg_ext_portfile_dbg",
-            "preLaunchTask": "Debug vcpkg commands"
+            "program": "/usr/bin/true", // Dummy program because we just want the task to run
+            "preLaunchTask": "Emrun: Launch",
+            "cwd": "${command:cmake.launchTargetDirectory}"
         }
     ]
 }

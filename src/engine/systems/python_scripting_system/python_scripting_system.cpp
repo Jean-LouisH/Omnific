@@ -47,22 +47,34 @@
 void Omnific::PythonScriptingSystem::initialize()
 {
 	this->is_initialized = true;
-	FileAccess& file_access = Platform::get_file_access();
-	Logger& logger = Platform::get_logger();
-	logger.write("Initializing Python Scripting System...");
-	std::string python_home_path = file_access.get_executable_directory_path();
-    std::wstring python_home_wstring(python_home_path.begin(), python_home_path.end());
+    FileAccess& file_access = Platform::get_file_access();
+    Logger& logger = Platform::get_logger();
+    logger.write("Initializing Python Scripting System...");
 
-	PyConfig config;
-	PyConfig_InitIsolatedConfig(&config);
-	PyConfig_SetBytesString(&config, &config.program_name, (file_access.get_executable_name()).c_str());
-	PyConfig_SetBytesString(&config, &config.home, python_home_path.c_str());
-	PyWideStringList_Append(&config.module_search_paths, python_home_wstring.c_str());
-	config.isolated = 1;          
+    PyConfig config;
+    PyConfig_InitIsolatedConfig(&config);
+
+    // Use Py_DecodeLocale to safely get wstring for the home and program name
+    wchar_t* decoded_home = Py_DecodeLocale(file_access.get_executable_directory_path().c_str(), NULL);
+    
+    if (decoded_home) {
+		PyConfig_SetString(&config, &config.home, decoded_home);
+        PyConfig_SetString(&config, &config.base_exec_prefix, decoded_home);
+        PyConfig_SetString(&config, &config.base_prefix, decoded_home);
+        PyMem_RawFree(decoded_home);
+    }
+
+    config.isolated = 1; 
+	config.site_import = 1;          
     config.use_environment = 0;
-    config.site_import = 1; 
-	Py_InitializeFromConfig(&config);
-	PyConfig_Clear(&config);
+
+    PyStatus status = Py_InitializeFromConfig(&config);
+    if (PyStatus_Exception(status)) {
+        PyConfig_Clear(&config);
+        logger.write("CRITICAL: Python initialization failed!");
+        return;
+    }
+    PyConfig_Clear(&config);
 	pybind11::exec(R"(
         import sys
         print("Python home set to:", sys.prefix)

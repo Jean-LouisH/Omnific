@@ -38,7 +38,7 @@ add_definitions(-D_DEBUG)
 endif()
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
-    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=2 -sUSE_SDL_TTF=2 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1 --embed-file ${CMAKE_CURRENT_SOURCE_DIR}/app_data")
+    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=3 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1 --embed-file ${CMAKE_CURRENT_SOURCE_DIR}/app_data")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
@@ -49,21 +49,51 @@ else ()
 	string(REGEX MATCH "[0-9]+\\.[0-9]+" Python_VERSION_MAJOR_MINOR "${PYTHON_VERSION_CACHED}")
 	set (PYTHON_DIR_NAME "python${Python_VERSION_MAJOR_MINOR}")
 
-	if (WIN32)
-		set (VCPKG_PYTHON_LIB_SOURCE_PATH ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/tools/python3/Lib)
-		set (PYTHON_LIB_DESTINATION_DIR ${PROJECT_BINARY_DIR}/Lib)
-		set (PYTHON_LIB_DESTINATION_PATH ${PYTHON_LIB_DESTINATION_DIR})
-	else ()
-		set (VCPKG_PYTHON_LIB_SOURCE_PATH ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-linux/lib/${PYTHON_DIR_NAME}/)
-		set (PYTHON_LIB_DESTINATION_DIR ${PROJECT_BINARY_DIR}/lib)
-		set (PYTHON_LIB_DESTINATION_PATH ${PYTHON_LIB_DESTINATION_DIR}/${PYTHON_DIR_NAME}/)
-	endif()
+	if(MINGW AND CMAKE_CROSSCOMPILING)
+		set(MINGW_BIN "/usr/x86_64-w64-mingw32/sys-root/mingw/bin")
 
-	# Create the python directory in the out folder and copy the necessary files
-	add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${PYTHON_LIB_DESTINATION_DIR}
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${PYTHON_LIB_DESTINATION_PATH}
-		COMMAND ${CMAKE_COMMAND} -E copy_directory
-		${VCPKG_PYTHON_LIB_SOURCE_PATH} ${PYTHON_LIB_DESTINATION_PATH}
-	)
+		set(PYTHON_RUNTIME_DEPS
+			"${MINGW_BIN}/libpython3.11.dll"
+			"${MINGW_BIN}/libgcc_s_seh-1.dll"
+			"${MINGW_BIN}/libwinpthread-1.dll"
+			"${MINGW_BIN}/libstdc++-6.dll"
+		)
+
+		add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			${PYTHON_RUNTIME_DEPS}
+			${PROJECT_BINARY_DIR}
+			COMMENT "Deploying Windows/MinGW Runtime DLLs..."
+		)
+
+		set(MINGW_PYTHON_LIB_DIR "/usr/x86_64-w64-mingw32/sys-root/mingw/lib/python3.11")
+		set(PYTHON_LIB_DESTINATION_PATH "${PROJECT_BINARY_DIR}/lib/python3.11")
+
+		# Copy the entire directory to your build folder
+		add_custom_command(TARGET omnific_demo POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${PYTHON_LIB_DESTINATION_PATH}
+			COMMAND ${CMAKE_COMMAND} -E copy_directory
+			"${MINGW_PYTHON_LIB_DIR}"
+			"${PYTHON_LIB_DESTINATION_PATH}"
+			COMMENT "Deploying Python Standard Library (os.py, etc)..."
+		)
+	else ()
+		if (MSVC)
+			set (VCPKG_PYTHON_LIB_SOURCE_PATH ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-windows/tools/python3/Lib)
+			set (PYTHON_LIB_DESTINATION_DIR ${PROJECT_BINARY_DIR}/Lib)
+			set (PYTHON_LIB_DESTINATION_PATH ${PYTHON_LIB_DESTINATION_DIR})
+		else ()
+			set (VCPKG_PYTHON_LIB_SOURCE_PATH ${CMAKE_BINARY_DIR}/vcpkg_installed/x64-linux/lib/${PYTHON_DIR_NAME}/)
+			set (PYTHON_LIB_DESTINATION_DIR ${PROJECT_BINARY_DIR}/lib)
+			set (PYTHON_LIB_DESTINATION_PATH ${PYTHON_LIB_DESTINATION_DIR}/${PYTHON_DIR_NAME}/)
+		endif()
+
+		# Create the python directory in the out folder and copy the necessary files
+		add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${PYTHON_LIB_DESTINATION_DIR}
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${PYTHON_LIB_DESTINATION_PATH}
+			COMMAND ${CMAKE_COMMAND} -E copy_directory
+			${VCPKG_PYTHON_LIB_SOURCE_PATH} ${PYTHON_LIB_DESTINATION_PATH}
+		)
+	endif()
 endif()

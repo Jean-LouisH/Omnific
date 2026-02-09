@@ -72,7 +72,7 @@ void Omnific::Engine::run()
 		if (this->state != State::FINALIZING)
 		{
 #ifdef _WEB_PLATFORM
-			emscripten_set_main_loop_arg(run_loop_on_callback, this, 0, 1);
+			emscripten_set_main_loop_arg(run_frame_on_callback, this, 0, 1);
 #else
 			Configuration* configuration = Configuration::get_instance();
 

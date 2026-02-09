@@ -13,7 +13,43 @@
             }
         },
         {
-            "name": "windows-base",
+            "name": "windows-mingw-base",
+            "hidden": true,
+            "inherits": "all-binary-base",
+            "cacheVariables": {
+            "CMAKE_SYSTEM_NAME": "Windows",
+            "VCPKG_TARGET_TRIPLET": "x64-mingw-static",
+            "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/toolchains/mingw.cmake",
+
+            "CMAKE_C_COMPILER": "/usr/bin/x86_64-w64-mingw32-gcc",
+            "CMAKE_CXX_COMPILER": "/usr/bin/x86_64-w64-mingw32-g++",
+            "CMAKE_RC_COMPILER": "/usr/bin/x86_64-w64-mingw32-windres"
+            }
+
+        },
+                {
+            "name": "windows-mingw-debug",
+            "displayName": "Windows (MinGW) Debug",
+            "inherits": "windows-mingw-base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "windows-mingw-release",
+            "displayName": "Windows (MinGW) Release",
+            "inherits": "windows-mingw-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_FLAGS_RELEASE": "-O2 -msse2"
+            }
+        },
+        {
+            "name": "windows-msvc-base",
             "hidden": true,
             "inherits": "all-binary-base",
             "cacheVariables": {
@@ -27,9 +63,9 @@
             }
         },
         {
-            "name": "windows-debug",
-            "displayName": "Windows Debug",
-            "inherits": "windows-base",
+            "name": "windows-msvc-debug",
+            "displayName": "Windows (MSVC) Debug",
+            "inherits": "windows-msvc-base",
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
@@ -39,9 +75,9 @@
             }
         },
         {
-            "name": "windows-release",
-            "displayName": "Windows Release",
-            "inherits": "windows-debug",
+            "name": "windows-msvc-release",
+            "displayName": "Windows (MSVC) Release",
+            "inherits": "windows-msvc-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_CXX_FLAGS_RELEASE": "/O2 /GL /arch:SSE2 /favor:blend"
@@ -87,7 +123,9 @@
             "installDir": "${sourceDir}/out/install/${presetName}",
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-                "CMAKE_TOOLCHAIN_FILE": "$env{EMSDK_ROOT}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
+                "VCPKG_TARGET_TRIPLET": "wasm32-emscripten",
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_CHAINLOAD_TOOLCHAIN_FILE": "$env{EMSDK_ROOT}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
             },
             "environment": {
                 "EMSDK": "$env{EMSDK_ROOT}",
