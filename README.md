@@ -47,7 +47,9 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 # Demos
 
-- [Pong](https://github.com/Jean-LouisH/Omnific/releases/tag/0.1)
+Click the name of each project to download their Windows x86-64 builds.
+
+- [Pong](https://github.com/Jean-LouisH/Omnific/releases/download/0.1/pong.zip)
 
 ![omnific_pong](docs/images/omnific_pong_demo.gif)
 

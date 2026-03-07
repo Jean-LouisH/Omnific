@@ -23,6 +23,7 @@ message (STATUS "Engine detected system name: ${CMAKE_SYSTEM_NAME}")
 find_package(SDL3_ttf REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(yaml-cpp CONFIG REQUIRED)
+find_package(imgui CONFIG REQUIRED)
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	add_definitions(-D_WEB_PLATFORM)
@@ -38,6 +39,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 		SDL3_ttf::SDL3_ttf-static
 		yaml-cpp::yaml-cpp
 		glm::glm
+		imgui::imgui
 	)
 else()
 
@@ -88,6 +90,7 @@ else()
 			yaml-cpp::yaml-cpp
 			glm::glm
 			volk::volk
+			imgui::imgui
 		)
 	else()
 		find_package(Python COMPONENTS Interpreter Development REQUIRED)
@@ -102,6 +105,7 @@ else()
 			yaml-cpp::yaml-cpp
 			glm::glm
 			volk::volk
+			imgui::imgui
 		)
 	endif()
 endif()
@@ -112,8 +116,6 @@ add_dependencies (omnific_engine
 
 target_include_directories(omnific_engine PUBLIC
 	${THIRD_PARTY_DIR}/pybind11
-	${THIRD_PARTY_DIR}/dr_flac
-	${THIRD_PARTY_DIR}/dr_mp3
 	${THIRD_PARTY_DIR}/dr_wav
 	${THIRD_PARTY_DIR}/glad/include
 	${THIRD_PARTY_DIR}/stb_image

@@ -8,6 +8,22 @@
             "program": "/usr/bin/true", // Dummy program because we just want the task to run
             "preLaunchTask": "Emrun: Launch",
             "cwd": "${command:cmake.launchTargetDirectory}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Engine (Linux/LLDB)",
+            // This points to the executable CMake just built
+            "program": "${command:cmake.launchTargetPath}",
+            "args": [], 
+            //"cwd": "${workspaceFolder}/assets", // Sets the 'working directory' to your assets folder
+            "stopOnEntry": false,
+            "preLaunchTask": "CMake: build", // Automatically builds your code before debugging
+            "console": "integratedTerminal",
+            "sourceLanguages": ["cpp"],
+            "env": {
+                "LD_LIBRARY_PATH": "${env:LD_LIBRARY_PATH}:${workspaceFolder}/build/bin"
+            }
         }
     ]
 }

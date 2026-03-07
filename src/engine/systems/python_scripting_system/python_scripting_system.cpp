@@ -137,17 +137,16 @@ void Omnific::PythonScriptingSystem::load_script_modules()
 				for (std::shared_ptr<Script>& script : script_collection->scripts)
 				{
 					std::string script_filepath = script->get_name();
+					FileAccess& file_access = Platform::get_file_access();
+					std::string full_script_filepath = file_access.find_path(script_filepath);
 
-					if (script->get_language_name() == "Python")
+					if (script->get_language_name() == "Python" && file_access.exists(full_script_filepath))
 					{
 						try
 						{
 							if (added_paths.count(script_filepath) == 0)
 							{
-								FileAccess& file_access = Platform::get_file_access();
-								std::string new_path = file_access.get_path_before_file(
-									file_access.find_path(script_filepath));
-								std::string full_script_filepath = file_access.find_path(script_filepath);
+								std::string new_path = file_access.get_path_before_file(full_script_filepath);
 	#ifdef WIN32
 								pybind11::str new_path_obj = pybind11::str(new_path);
 								new_path_obj = new_path_obj.attr("replace")("//", "/");

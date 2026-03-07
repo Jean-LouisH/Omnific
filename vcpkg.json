@@ -19,6 +19,8 @@
     "sdl3-ttf",
     "glm",
     "tinygltf",
-    "yaml-cpp"
+    "yaml-cpp",
+    "imgui",
+    "doctest"
   ]
 }
