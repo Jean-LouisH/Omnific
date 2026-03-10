@@ -231,10 +231,10 @@ void Omnific::GUIButton::update_image()
 
 		Image::normal_blend(
 			base_button_image->get_data(), 
-			this->position, 
+			glm::vec2(0.0), 
 			this->dimensions, 
 			gui_label_image->get_data(), 
-			gui_label->get_position() + this->position, 
+			this->button_space_from_text * 0.5f, 
 			gui_label->get_dimensions());
 
 		this->image = std::shared_ptr<Image>(new Image(
@@ -242,6 +242,7 @@ void Omnific::GUIButton::update_image()
 			this->dimensions.x,
 			this->dimensions.y,
 			base_button_image->get_bytes_per_pixel()));
+
 	}
 }
 

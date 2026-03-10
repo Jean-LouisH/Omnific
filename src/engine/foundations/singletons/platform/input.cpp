@@ -574,6 +574,7 @@ void Omnific::Inputs::clear()
 	//this->controller_axis_events.clear();
 	this->controller_button_events.clear();
 	this->keyboard_events.clear();
+	this->has_detected_input_changes = false;
 
 	if (this->drop_event.data != NULL)
 	{
@@ -583,6 +584,7 @@ void Omnific::Inputs::clear()
 
 	SDL_zero(this->mouse_wheel_event);
 	SDL_zero(this->mouse_motion_event);
+	SDL_zero(this->mouse_button_event);
 	SDL_zero(this->window_event);
 }
 
