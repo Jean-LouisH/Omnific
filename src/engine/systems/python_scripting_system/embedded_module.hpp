@@ -48,17 +48,22 @@
 
 PYBIND11_EMBEDDED_MODULE(omnific, m) 
 {
-		/*Utility classes*/
-		pybind11::class_<glm::vec2>(m, "Vector2")
+	/*Utility classes*/
+	pybind11::class_<glm::vec2>(m, "Vector2")
+		.def(pybind11::init<>())
+		.def(pybind11::init<float, float>())
 		.def_readwrite("x", &glm::vec2::x)
 		.def_readwrite("y", &glm::vec2::y);
 
 	pybind11::class_<glm::vec3>(m, "Vector3")
+		.def(pybind11::init<>())
+		.def(pybind11::init<float, float, float>())
 		.def_readwrite("x", &glm::vec3::x)
 		.def_readwrite("y", &glm::vec3::y)
 		.def_readwrite("z", &glm::vec3::z);
 
 	pybind11::class_<Omnific::Transform, std::shared_ptr<Omnific::Transform>>(m, "Transform")
+		.def(pybind11::init<>())
 		.def_readwrite("translation", &Omnific::Transform::translation)
 		.def_readwrite("rotation", &Omnific::Transform::rotation)
 		.def_readwrite("scale", &Omnific::Transform::scale)
@@ -80,6 +85,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("set_z_rotation", &Omnific::Transform::set_z_rotation);
 
 	pybind11::class_<Omnific::Clock, std::shared_ptr<Omnific::Clock>>(m, "Clock")
+		.def(pybind11::init<>())
 		.def(pybind11::init<std::string>())
 		.def("set_start", &Omnific::Clock::set_start)
 		.def("set_end", &Omnific::Clock::set_end)
@@ -186,6 +192,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	/*Scene classes*/
 
 	pybind11::class_<Omnific::Entity, std::shared_ptr<Omnific::Entity>>(m, "Entity")
+		.def(pybind11::init<>())
+		.def(pybind11::init<std::string>())
 		.def("get_id", &Omnific::Entity::get_id)
 		.def("get_name", &Omnific::Entity::get_name)
 		.def("get_transform", &Omnific::Entity::get_transform)
@@ -194,6 +202,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_tags", &Omnific::Entity::get_tags);
 
 	pybind11::class_<Omnific::Scene, std::shared_ptr<Omnific::Scene>>(m, "Scene")
+		.def(pybind11::init<>())
 		.def(pybind11::init<std::string>())
 		.def("add_entity", &Omnific::Scene::add_entity)
 		.def("add_empty_entity", &Omnific::Scene::add_empty_entity)
@@ -222,14 +231,27 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_type", &Omnific::Resource::get_type);
 
 	pybind11::class_<Omnific::AudioClip, Omnific::Resource, std::shared_ptr<Omnific::AudioClip>>(m, Omnific::AudioClip::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def(pybind11::init<std::string>())
+		.def(pybind11::init<std::vector<int16_t>, int, int, int>())
 		.def("get_sample_rate", &Omnific::AudioClip::get_sample_rate)
 		.def("get_channel_count", &Omnific::AudioClip::get_channel_count)
 		.def("get_playback_length", &Omnific::AudioClip::get_playback_length)
 		.def("get_spectrum", &Omnific::AudioClip::get_spectrum);
 
-	pybind11::class_<Omnific::Font, Omnific::Resource, std::shared_ptr<Omnific::Font>>(m, Omnific::Font::TYPE_STRING);
-	pybind11::class_<Omnific::Image, Omnific::Resource, std::shared_ptr<Omnific::Image>>(m, Omnific::Image::TYPE_STRING);
-	pybind11::class_<Omnific::Text, Omnific::Resource, std::shared_ptr<Omnific::Text>>(m, Omnific::Text::TYPE_STRING);
+	pybind11::class_<Omnific::Font, Omnific::Resource, std::shared_ptr<Omnific::Font>>(m, Omnific::Font::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def(pybind11::init<std::string>())
+		.def(pybind11::init<std::string, uint16_t>());
+
+	pybind11::class_<Omnific::Image, Omnific::Resource, std::shared_ptr<Omnific::Image>>(m, Omnific::Image::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def(pybind11::init<std::string>())
+		.def(pybind11::init<std::shared_ptr<Omnific::Colour>>());
+
+	pybind11::class_<Omnific::Text, Omnific::Resource, std::shared_ptr<Omnific::Text>>(m, Omnific::Text::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def(pybind11::init<std::string>());
 
 	/*Component classes*/
 	pybind11::class_<Omnific::Component, std::shared_ptr<Omnific::Component>>(m, Omnific::Component::TYPE_STRING)
@@ -249,8 +271,10 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("set_vec4_uniform", &Omnific::ShaderParameters::set_vec4_uniform)
 		.def("set_mat4_uniform", &Omnific::ShaderParameters::set_mat4_uniform);
 
-	pybind11::class_<Omnific::AudioListener, Omnific::Component, std::shared_ptr<Omnific::AudioListener>>(m, Omnific::AudioListener::TYPE_STRING);
+	pybind11::class_<Omnific::AudioListener, Omnific::Component, std::shared_ptr<Omnific::AudioListener>>(m, Omnific::AudioListener::TYPE_STRING)
+		.def(pybind11::init<>());
 	pybind11::class_<Omnific::AudioSource, Omnific::Component, std::shared_ptr<Omnific::AudioSource>>(m, Omnific::AudioSource::TYPE_STRING)
+		.def(pybind11::init<>())
 		.def("clear_audio_clip", &Omnific::AudioSource::clear_audio_clip)
 		.def("remove_audio_clip", &Omnific::AudioSource::remove_audio_clip)
 		.def("play_audio_clip", &Omnific::AudioSource::play_audio_clip)
@@ -270,15 +294,18 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_active_audio_clip", &Omnific::AudioSource::get_active_audio_clip)
 		.def("get_audio_clip_by_name", &Omnific::AudioSource::get_audio_clip_by_name);
 	pybind11::class_<Omnific::Camera, Omnific::Component, std::shared_ptr<Omnific::Camera>>(m, Omnific::Camera::TYPE_STRING)
+		.def(pybind11::init<>())
 		.def("toggle_wireframe_mode", &Omnific::Camera::toggle_wireframe_mode)
 		.def("set_controller_state_by_string", &Omnific::Camera::set_controller_state_by_string)
 		.def_readwrite("clear_colour", &Omnific::Camera::clear_colour)
 		.def_readwrite("controller_state", &Omnific::Camera::controller_state);
 	pybind11::class_<Omnific::Timer, Omnific::Component, std::shared_ptr<Omnific::Timer>>(m, Omnific::Timer::TYPE_STRING)
+		.def(pybind11::init<>())
 		.def("start", &Omnific::Timer::start)
 		.def("stop", &Omnific::Timer::stop)
 		.def("is_finished", &Omnific::Timer::is_finished);
 	pybind11::class_<Omnific::PhysicsBody, Omnific::Component, std::shared_ptr<Omnific::PhysicsBody>>(m, Omnific::PhysicsBody::TYPE_STRING)
+		.def(pybind11::init<>())
 		.def_readwrite("linear_velocity", &Omnific::PhysicsBody::linear_velocity)
 		.def("accelerate", pybind11::overload_cast<glm::vec3, float>(&Omnific::PhysicsBody::accelerate))
 		.def("accelerate", pybind11::overload_cast<glm::vec3, float, float>(& Omnific::PhysicsBody::accelerate))
@@ -289,20 +316,64 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("decelerate_x", &Omnific::PhysicsBody::decelerate_x)
 		.def("decelerate_y", &Omnific::PhysicsBody::decelerate_y)
 		.def("decelerate_z", &Omnific::PhysicsBody::decelerate_z);
-	pybind11::class_<Omnific::Light, Omnific::Component, std::shared_ptr<Omnific::Light>>(m, Omnific::Light::TYPE_STRING);
+	pybind11::class_<Omnific::Light, Omnific::Component, std::shared_ptr<Omnific::Light>>(m, Omnific::Light::TYPE_STRING)
+		.def(pybind11::init<>());;
 	pybind11::class_<Omnific::Renderable, Omnific::Component, std::shared_ptr<Omnific::Renderable>>(m, Omnific::Renderable::TYPE_STRING)
+		.def(pybind11::init<>())
 		.def_readwrite("shader_parameters", &Omnific::Renderable::shader_parameters)
 		.def("set_to_cube", &Omnific::Renderable::set_to_cube)
 		.def("set_to_textured_cube", &Omnific::Renderable::set_to_textured_cube)
 		.def("get_surface_mode_string", &Omnific::Renderable::get_reflection_models_as_string)
 		.def("show", &Omnific::Renderable::show)
 		.def("hide", &Omnific::Renderable::hide);
-	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING);
-	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING);
-	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING);
-	pybind11::class_<Omnific::GUI, Omnific::Renderable, std::shared_ptr<Omnific::GUI>>(m, Omnific::GUI::TYPE_STRING)
-		.def("set_to_label", &Omnific::GUI::set_to_label);
-	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING);
+	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::GUI, Omnific::Renderable, std::shared_ptr<Omnific::GUI>> gui(m, Omnific::GUI::TYPE_STRING);
+		gui.def(pybind11::init<>());
+		gui.def("set_to_label", &Omnific::GUI::set_to_label);
+		pybind11::class_<Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Element>>(gui, Omnific::GUI::Element::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::Button, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Button>>(gui, Omnific::GUI::Button::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ButtonList, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ButtonList>>(gui, Omnific::GUI::ButtonList::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::DropDownButtonList, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::DropDownButtonList>>(gui, Omnific::GUI::DropDownButtonList::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ButtonTree, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ButtonTree>>(gui, Omnific::GUI::ButtonTree::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ButtonTreeView, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ButtonTreeView>>(gui, Omnific::GUI::ButtonTreeView::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ToggleButton, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ToggleButton>>(gui, Omnific::GUI::ToggleButton::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ColourCanvas, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ColourCanvas>>(gui, Omnific::GUI::ColourCanvas::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ImageCanvas, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ImageCanvas>>(gui, Omnific::GUI::ImageCanvas::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::PlotCanvas, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::PlotCanvas>>(gui, Omnific::GUI::PlotCanvas::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::ContextMenu, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ContextMenu>>(gui, Omnific::GUI::ContextMenu::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::LineElement, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::LineElement>>(gui, Omnific::GUI::LineElement::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::Label, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Label>>(gui, Omnific::GUI::Label::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::MenuBar, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::MenuBar>>(gui, Omnific::GUI::MenuBar::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::Panel, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Panel>>(gui, Omnific::GUI::Panel::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::Slider, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Slider>>(gui, Omnific::GUI::Slider::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::Spinner, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Spinner>>(gui, Omnific::GUI::Spinner::TYPE_STRING)
+			.def(pybind11::init<>());
+		pybind11::class_<Omnific::GUI::Tiles, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Tiles>>(gui, Omnific::GUI::Tiles::TYPE_STRING)
+			.def(pybind11::init<>());
+
+	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING)
+		.def(pybind11::init<>());
 
 	/*Singletons*/
 

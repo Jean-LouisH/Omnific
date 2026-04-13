@@ -18,6 +18,7 @@ class omnific_script:
         pass
 
     def on_entity_start(self):
+        omnific.get_window().change_title("Omnific Pong")
         scene = omnific.get_scene()
         self.ball_entity = scene.get_entity_by_name("Ball")
         self.ball_physics_body = scene.get_component("PhysicsBody", self.ball_entity.get_id())

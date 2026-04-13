@@ -9,22 +9,22 @@ Entity:
 Entity:
   name: "Instructions"
   GUI:
-    GUILabel: 
+    Label: 
       text: "Controls: 'W' - Up, 'S' - Down                   'P' - Toggle AI/P2"
       font: ["games/pong/fonts/Lato-Regular.ttf", 16]
       text_colour: "#FFFFFFFF"
       pivot: "top_left"
-      anchoring: "top_left"
+      anchor_pivot: "top_left"
       margin: [20.0, -20.0]
 Entity:
   name: "MessageBoard"
   GUI:
-    GUILabel: 
+    Label: 
       text: "Loading..."
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
       text_colour: "#FFFFFFFF"
       pivot: "centre"
-      anchoring: "centre"
+      anchor_pivot: "centre"
 Entity:
   name: "Camera"
   transform:
@@ -62,7 +62,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Paddle1"
     follow_offset: [0.0, 50.0]
-    GUILabel: 
+    Label: 
       text: "a"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
       text_colour: "#FF0000FF"
@@ -92,7 +92,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Paddle2"
     follow_offset: [0.0, 50.0]
-    GUILabel: 
+    Label: 
       text: "b"
       font: ["games/pong/fonts/Lato-Regular.ttf", 32]
       text_colour: "#0000FFFF"

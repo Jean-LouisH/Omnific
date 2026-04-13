@@ -17,7 +17,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Unlit"
     follow_offset: [0.0, -100.0]
-    GUILabel: 
+    Label: 
       text: "Unlit Shader"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
@@ -28,7 +28,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Unlit"
     follow_offset: [0.0, -125.0]
-    GUILabel: 
+    Label: 
       text: "None + None"
       font: ["games/pong/fonts/Lato-Regular.ttf", 16]
       text_colour: "#FFFFFFFF"
@@ -52,7 +52,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Simple"
     follow_offset: [0.0, -100.0]
-    GUILabel: 
+    Label: 
       text: "Simple Shader"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
@@ -63,7 +63,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Simple"
     follow_offset: [0.0, -125.0]
-    GUILabel: 
+    Label: 
       text: "None + None"
       font: ["games/pong/fonts/Lato-Regular.ttf", 16]
       text_colour: "#FFFFFFFF"
@@ -90,7 +90,7 @@ Entity:
   GUI:
     follow_target_entity_name: "PBR"
     follow_offset: [0.0, -100.0]
-    GUILabel: 
+    Label: 
       text: "PBR Shader"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
@@ -101,7 +101,7 @@ Entity:
   GUI:
     follow_target_entity_name: "PBR"
     follow_offset: [0.0, -125.0]
-    GUILabel: 
+    Label: 
       text: "None + None"
       font: ["games/pong/fonts/Lato-Regular.ttf", 16]
       text_colour: "#FFFFFFFF"

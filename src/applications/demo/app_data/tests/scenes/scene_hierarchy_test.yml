@@ -20,7 +20,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Translation"
     follow_offset: [0.0, 75.0]
-    GUILabel: 
+    Label: 
       text: "Translation"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
@@ -51,7 +51,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Rotation"
     follow_offset: [0.0, 75.0]
-    GUILabel: 
+    Label: 
       text: "Rotation"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"
@@ -82,7 +82,7 @@ Entity:
   GUI:
     follow_target_entity_name: "Scale"
     follow_offset: [0.0, 75.0]
-    GUILabel: 
+    Label: 
       text: "Scale"
       font: ["games/pong/fonts/Lato-Regular.ttf", 20]
       text_colour: "#FFFFFFFF"

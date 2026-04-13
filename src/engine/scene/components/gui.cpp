@@ -53,7 +53,7 @@ void Omnific::GUI::deserialize(YAML::Node yaml_node)
 	this->update_image();
 }
 
-void Omnific::GUIElement::deserialize_common_properties(YAML::Node yaml_node)
+void Omnific::GUI::Element::deserialize_common_properties(YAML::Node yaml_node)
 {
 	for (YAML::const_iterator it = yaml_node.begin(); it != yaml_node.end(); ++it)
 	{
@@ -74,44 +74,44 @@ void Omnific::GUIElement::deserialize_common_properties(YAML::Node yaml_node)
 		else if (it->first.as<std::string>() == "pivot")
 		{
 			if (it->second.as<std::string>() == "top_left")
-				this->pivot = GUIElement::GUIPoint::TOP_LEFT;
+				this->pivot = GUI::Element::PivotPoint::TOP_LEFT;
 			else if (it->second.as<std::string>() == "top_centre")
-				this->pivot = GUIElement::GUIPoint::TOP_CENTRE;
+				this->pivot = GUI::Element::PivotPoint::TOP_CENTRE;
 			else if (it->second.as<std::string>() == "top_right")
-				this->pivot = GUIElement::GUIPoint::TOP_RIGHT;
+				this->pivot = GUI::Element::PivotPoint::TOP_RIGHT;
 			else if (it->second.as<std::string>() == "centre_left")
-				this->pivot = GUIElement::GUIPoint::CENTRE_LEFT;
+				this->pivot = GUI::Element::PivotPoint::CENTRE_LEFT;
 			else if (it->second.as<std::string>() == "centre")
-				this->pivot = GUIElement::GUIPoint::CENTRE;
+				this->pivot = GUI::Element::PivotPoint::CENTRE;
 			else if (it->second.as<std::string>() == "centre_right")
-				this->pivot = GUIElement::GUIPoint::CENTRE_RIGHT;
+				this->pivot = GUI::Element::PivotPoint::CENTRE_RIGHT;
 			else if (it->second.as<std::string>() == "bottom_left")
-				this->pivot = GUIElement::GUIPoint::BOTTOM_LEFT;
+				this->pivot = GUI::Element::PivotPoint::BOTTOM_LEFT;
 			else if (it->second.as<std::string>() == "bottom_centre")
-				this->pivot = GUIElement::GUIPoint::BOTTOM_CENTRE;
+				this->pivot = GUI::Element::PivotPoint::BOTTOM_CENTRE;
 			else if (it->second.as<std::string>() == "bottom_right")
-				this->pivot = GUIElement::GUIPoint::BOTTOM_RIGHT;
+				this->pivot = GUI::Element::PivotPoint::BOTTOM_RIGHT;
 		}
-		else if (it->first.as<std::string>() == "anchoring")
+		else if (it->first.as<std::string>() == "anchor_pivot")
 		{
 			if (it->second.as<std::string>() == "top_left")
-				this->anchoring = GUIElement::GUIPoint::TOP_LEFT;
+				this->anchor_pivot = GUI::Element::PivotPoint::TOP_LEFT;
 			else if (it->second.as<std::string>() == "top_centre")
-				this->anchoring = GUIElement::GUIPoint::TOP_CENTRE;
+				this->anchor_pivot = GUI::Element::PivotPoint::TOP_CENTRE;
 			else if (it->second.as<std::string>() == "top_right")
-				this->anchoring = GUIElement::GUIPoint::TOP_RIGHT;
+				this->anchor_pivot = GUI::Element::PivotPoint::TOP_RIGHT;
 			else if (it->second.as<std::string>() == "centre_left")
-				this->anchoring = GUIElement::GUIPoint::CENTRE_LEFT;
+				this->anchor_pivot = GUI::Element::PivotPoint::CENTRE_LEFT;
 			else if (it->second.as<std::string>() == "centre")
-				this->anchoring = GUIElement::GUIPoint::CENTRE;
+				this->anchor_pivot = GUI::Element::PivotPoint::CENTRE;
 			else if (it->second.as<std::string>() == "centre_right")
-				this->anchoring = GUIElement::GUIPoint::CENTRE_RIGHT;
+				this->anchor_pivot = GUI::Element::PivotPoint::CENTRE_RIGHT;
 			else if (it->second.as<std::string>() == "bottom_left")
-				this->anchoring = GUIElement::GUIPoint::BOTTOM_LEFT;
+				this->anchor_pivot = GUI::Element::PivotPoint::BOTTOM_LEFT;
 			else if (it->second.as<std::string>() == "bottom_centre")
-				this->anchoring = GUIElement::GUIPoint::BOTTOM_CENTRE;
+				this->anchor_pivot = GUI::Element::PivotPoint::BOTTOM_CENTRE;
 			else if (it->second.as<std::string>() == "bottom_right")
-				this->anchoring = GUIElement::GUIPoint::BOTTOM_RIGHT;
+				this->anchor_pivot = GUI::Element::PivotPoint::BOTTOM_RIGHT;
 		}
 		else if (it->first.as<std::string>() == "margin")
 		{
@@ -141,57 +141,57 @@ void Omnific::GUIElement::deserialize_common_properties(YAML::Node yaml_node)
 	}
 }
 
-void Omnific::GUIElement::update_image()
+void Omnific::GUI::Element::update_image()
 {
 
 }
 
-bool Omnific::GUIElement::get_is_in_focus()
+bool Omnific::GUI::Element::get_is_in_focus()
 {
 	return this->is_hovered_in_focus;
 }
 
-bool Omnific::GUIElement::get_is_selected()
+bool Omnific::GUI::Element::get_is_selected()
 {
 	return this->is_selected;
 }
 
-glm::vec2 Omnific::GUIElement::get_position()
+glm::vec2 Omnific::GUI::Element::get_position()
 {
 	return this->position;
 }
 
-glm::vec2 Omnific::GUIElement::get_dimensions()
+glm::vec2 Omnific::GUI::Element::get_dimensions()
 {
 	return this->dimensions;
 }
 
-glm::vec2 Omnific::GUIElement::get_pivot_offset()
+glm::vec2 Omnific::GUI::Element::get_pivot_offset()
 {
 	return this->pivot_offset;
 }
 
-std::string Omnific::GUIElement::get_name()
+std::string Omnific::GUI::Element::get_name()
 {
 	return this->name;
 }
 	
-std::string Omnific::GUIElement::get_gui_element_type()
+std::string Omnific::GUI::Element::get_gui_element_type()
 {
 	return this->gui_element_type;
 }
 
-std::string Omnific::GUIElement::get_parent_type()
+std::string Omnific::GUI::Element::get_parent_type()
 {
 	return this->parent_type;
 }
 
-std::shared_ptr<Omnific::Image> Omnific::GUIElement::get_image()
+std::shared_ptr<Omnific::Image> Omnific::GUI::Element::get_image()
 {
 	return this->image;
 }
 
-void Omnific::GUIElement::highlight_on_input()
+void Omnific::GUI::Element::highlight_on_input()
 {
 	if (this->is_highlightable)
 	{
@@ -210,7 +210,7 @@ void Omnific::GUIElement::highlight_on_input()
 	}
 }
 
-void Omnific::GUIColour::update_image()
+void Omnific::GUI::ColourCanvas::update_image()
 {
 	if (!this->is_hidden)
 	{
@@ -218,7 +218,7 @@ void Omnific::GUIColour::update_image()
 	}
 }
 
-void Omnific::GUIButton::update_image()
+void Omnific::GUI::Button::update_image()
 {
 	if (!this->is_hidden)
 	{
@@ -246,24 +246,24 @@ void Omnific::GUIButton::update_image()
 	}
 }
 
-void Omnific::GUIList::update_image()
+void Omnific::GUI::ButtonList::update_image()
 {
 
 }
 
-void Omnific::GUIList::add_item(std::string button_name)
+void Omnific::GUI::ButtonList::add_item(std::string button_name)
 {
-	std::shared_ptr<GUIButton> button(new GUIButton());
+	std::shared_ptr<Button> button(new Button());
 	button->gui_label->set_text(button_name);
 	this->list_items.push_back(button);
 }
 
-std::vector<std::shared_ptr<Omnific::GUIButton>> Omnific::GUIList::get_list_items()
+std::vector<std::shared_ptr<Omnific::GUI::Button>> Omnific::GUI::ButtonList::get_list_items()
 {
 	return this->list_items;
 }
 
-void Omnific::GUIPanel::update_image()
+void Omnific::GUI::Panel::update_image()
 {
 	if (!this->is_hidden)
 	{
@@ -299,14 +299,14 @@ void Omnific::GUIPanel::update_image()
 	}
 }
 
-void Omnific::GUIPanel::add_gui_element(std::shared_ptr<GUIElement> gui_element)
+void Omnific::GUI::Panel::add_gui_element(std::shared_ptr<Element> gui_element)
 {
 	this->gui_elements.push_back(gui_element);
 	//Position the element if necessary.
 	this->update_image();
 }
 
-void Omnific::GUILabel::set_text(std::string text)
+void Omnific::GUI::Label::set_text(std::string text)
 {
 	if (text != this->text)
 	{
@@ -315,19 +315,19 @@ void Omnific::GUILabel::set_text(std::string text)
 	}
 }
 
-void Omnific::GUILabel::set_font(std::shared_ptr<Omnific::Font> font)
+void Omnific::GUI::Label::set_font(std::shared_ptr<Omnific::Font> font)
 {
 	this->font = font;
 	this->update_image();
 }
 
-void Omnific::GUILabel::set_text_colour(std::shared_ptr<Colour> colour)
+void Omnific::GUI::Label::set_text_colour(std::shared_ptr<Colour> colour)
 {
 	this->text_colour = colour;
 	this->update_image();
 }
 
-void Omnific::GUILabel::update_image()
+void Omnific::GUI::Label::update_image()
 {
 	if (!this->is_hidden && this->font != nullptr && this->text_colour != nullptr)
 	{
@@ -339,15 +339,15 @@ void Omnific::GUILabel::update_image()
 	}
 }
 
-std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML::Node yaml_node)
+std::shared_ptr<Omnific::GUI::Element> Omnific::GUI::deserialize_gui_element(YAML::Node yaml_node)
 {
-	std::shared_ptr<GUIElement> gui_element;
+	std::shared_ptr<Element> gui_element;
 
 	for (YAML::const_iterator it5 = yaml_node.begin(); it5 != yaml_node.end(); ++it5)
 	{
-		if (it5->first.as<std::string>() == "GUIPanel")
+		if (it5->first.as<std::string>() == "Panel")
 		{
-			std::shared_ptr<GUIPanel> gui_panel(new GUIPanel());
+			std::shared_ptr<Panel> gui_panel(new Panel());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -357,7 +357,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 				}
 				else
 				{
-					std::shared_ptr<GUIElement> gui_element = this->deserialize_gui_element(it5->second);
+					std::shared_ptr<Element> gui_element = this->deserialize_gui_element(it5->second);
 					if (gui_element != nullptr)
 					{
 						gui_panel->add_gui_element(gui_element);
@@ -366,11 +366,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 			gui_panel->deserialize_common_properties(it5->second);
 			gui_panel->update_image();
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_panel);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_panel);
 		}
-		else if (it5->first.as<std::string>() == "GUIMenuBar")
+		else if (it5->first.as<std::string>() == "MenuBar")
 		{
-			std::shared_ptr<GUIMenuBar> gui_menu_bar(new GUIMenuBar());
+			std::shared_ptr<MenuBar> gui_menu_bar(new MenuBar());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -381,11 +381,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_menu_bar->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_menu_bar);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_menu_bar);
 		}
-		else if (it5->first.as<std::string>() == "GUIContextMenu")
+		else if (it5->first.as<std::string>() == "ContextMenu")
 		{
-			std::shared_ptr<GUIContextMenu> gui_context_menu(new GUIContextMenu());
+			std::shared_ptr<ContextMenu> gui_context_menu(new ContextMenu());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -396,11 +396,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_context_menu->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_context_menu);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_context_menu);
 		}
-		else if (it5->first.as<std::string>() == "GUIColour")
+		else if (it5->first.as<std::string>() == "ColourCanvas")
 		{
-			std::shared_ptr<GUIColour> gui_colour(new GUIColour());
+			std::shared_ptr<ColourCanvas> gui_colour(new ColourCanvas());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -412,13 +412,13 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 
 			gui_colour->deserialize_common_properties(it5->second);
 			gui_colour->update_image();
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_colour);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_colour);
 		}
-		else if (it5->first.as<std::string>() == "GUIButton")
+		else if (it5->first.as<std::string>() == "Button")
 		{
-			std::shared_ptr<GUIButton> gui_button(new GUIButton());
+			std::shared_ptr<Button> gui_button(new Button());
 
-			gui_button->gui_label = std::shared_ptr<GUILabel>(new GUILabel());
+			gui_button->gui_label = std::shared_ptr<Label>(new Label());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -440,11 +440,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			gui_button->deserialize_common_properties(it5->second);
 			gui_button->gui_label->update_image();
 			gui_button->update_image();
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_button);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_button);
 		}
-		else if (it5->first.as<std::string>() == "GUIToggleButton")
+		else if (it5->first.as<std::string>() == "ToggleButton")
 		{
-			std::shared_ptr<GUIToggleButton> gui_toggle_button(new GUIToggleButton());
+			std::shared_ptr<ToggleButton> gui_toggle_button(new ToggleButton());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -455,11 +455,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_toggle_button->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_toggle_button);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_toggle_button);
 		}
-		else if (it5->first.as<std::string>() == "GUIList")
+		else if (it5->first.as<std::string>() == "ButtonList")
 		{
-			std::shared_ptr<GUIList> gui_list(new GUIList());
+			std::shared_ptr<ButtonList> gui_list(new ButtonList());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -470,11 +470,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_list->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_list);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_list);
 		}
-		else if (it5->first.as<std::string>() == "GUITree")
+		else if (it5->first.as<std::string>() == "ButtonTree")
 		{
-			std::shared_ptr<GUITree> gui_tree(new GUITree());
+			std::shared_ptr<ButtonTree> gui_tree(new ButtonTree());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -485,11 +485,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_tree->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_tree);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_tree);
 		}
-		else if (it5->first.as<std::string>() == "GUILabel")
+		else if (it5->first.as<std::string>() == "Label")
 		{
-			std::shared_ptr<GUILabel> gui_label(new GUILabel());
+			std::shared_ptr<Label> gui_label(new Label());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -514,11 +514,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 			gui_label->deserialize_common_properties(it5->second);
 			gui_label->update_image();
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_label);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_label);
 		}
-		else if (it5->first.as<std::string>() == "GUITiles")
+		else if (it5->first.as<std::string>() == "Tiles")
 		{
-			std::shared_ptr<GUITiles> gui_tiles(new GUITiles());
+			std::shared_ptr<Tiles> gui_tiles(new Tiles());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -529,11 +529,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_tiles->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_tiles);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_tiles);
 		}
-		else if (it5->first.as<std::string>() == "GUIList")
+		else if (it5->first.as<std::string>() == "ButtonList")
 		{
-			std::shared_ptr<GUIList> gui_list_box(new GUIList());
+			std::shared_ptr<ButtonList> gui_list_box(new ButtonList());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -544,11 +544,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_list_box->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_list_box);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_list_box);
 		}
-		else if (it5->first.as<std::string>() == "GUISpinner")
+		else if (it5->first.as<std::string>() == "Spinner")
 		{
-			std::shared_ptr<GUISpinner> gui_spinner(new GUISpinner());
+			std::shared_ptr<Spinner> gui_spinner(new Spinner());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -559,11 +559,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_spinner->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_spinner);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_spinner);
 		}
-		else if (it5->first.as<std::string>() == "GUIDropDownList")
+		else if (it5->first.as<std::string>() == "DropDownButtonList")
 		{
-			std::shared_ptr<GUIDropDownList> gui_drop_down_list(new GUIDropDownList());
+			std::shared_ptr<DropDownButtonList> gui_drop_down_list(new DropDownButtonList());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -574,11 +574,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_drop_down_list->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_drop_down_list);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_drop_down_list);
 		}
-		else if (it5->first.as<std::string>() == "GUISlider")
+		else if (it5->first.as<std::string>() == "Slider")
 		{
-			std::shared_ptr<GUISlider> gui_slider(new GUISlider());
+			std::shared_ptr<Slider> gui_slider(new Slider());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -589,11 +589,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_slider->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_slider);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_slider);
 		}
-		else if (it5->first.as<std::string>() == "GUILine")
+		else if (it5->first.as<std::string>() == "LineElement")
 		{
-			std::shared_ptr<GUILine> gui_line(new GUILine());
+			std::shared_ptr<LineElement> gui_line(new LineElement());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -604,11 +604,11 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_line->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_line);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_line);
 		}
-		else if (it5->first.as<std::string>() == "GUITreeView")
+		else if (it5->first.as<std::string>() == "ButtonTreeView")
 		{
-			std::shared_ptr<GUITreeView> gui_tree_view(new GUITreeView());
+			std::shared_ptr<ButtonTreeView> gui_tree_view(new ButtonTreeView());
 
 			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
 			{
@@ -619,7 +619,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::deserialize_gui_element(YAML:
 			}
 
 			gui_tree_view->deserialize_common_properties(it5->second);
-			gui_element = std::dynamic_pointer_cast<GUIElement>(gui_tree_view);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_tree_view);
 		}
 	}
 
@@ -635,18 +635,18 @@ void Omnific::GUI::set_to_label(std::string text)
 {
 	if (this->root_element == nullptr)
 	{
-		this->root_element = std::shared_ptr<GUIElement>(new GUIElement());
+		this->root_element = std::shared_ptr<Element>(new Element());
 	}
 
-	if (root_element->gui_element_type == GUILabel::TYPE_STRING)
+	if (root_element->gui_element_type == Label::TYPE_STRING)
 	{
-		std::shared_ptr<GUILabel> gui_label = std::dynamic_pointer_cast<GUILabel>(root_element);
+		std::shared_ptr<Label> gui_label = std::dynamic_pointer_cast<Label>(root_element);
 		gui_label->set_text(text);
 	}
 	else
 	{
 		this->element_cache.clear();
-		std::shared_ptr<GUILabel> gui_label = std::shared_ptr<GUILabel>(new GUILabel());
+		std::shared_ptr<Label> gui_label = std::shared_ptr<Label>(new Label());
 		gui_label->set_text_colour(std::shared_ptr<Colour>(new Colour("#CCCCCC")));
 		gui_label->set_font(std::shared_ptr<Font>(new Font()));
 		gui_label->set_text(text);
@@ -656,9 +656,9 @@ void Omnific::GUI::set_to_label(std::string text)
 	this->update_image();
 }
 
-std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_element(std::string gui_element_name)
+std::shared_ptr<Omnific::GUI::Element> Omnific::GUI::get_element(std::string gui_element_name)
 {
-	std::shared_ptr<GUIElement> gui_element;
+	std::shared_ptr<Element> gui_element;
 
 	if (this->element_cache.count(gui_element_name))
 		gui_element = this->element_cache.at(gui_element_name);
@@ -666,7 +666,7 @@ std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_element(std::string gui_e
 	return gui_element;
 }
 
-std::shared_ptr<Omnific::GUIElement> Omnific::GUI::get_root_element()
+std::shared_ptr<Omnific::GUI::Element> Omnific::GUI::get_root_element()
 {
 	return this->root_element;
 }

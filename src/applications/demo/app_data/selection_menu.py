@@ -10,6 +10,12 @@ project_name_type_pairs = {
     #"platformer": "game",
     #"shooter" : "game",
     #"fighting" : "game",
+    "clock" : "app",
+    "calculator" : "app",
+    #"music_keyboard" : "app",
+    #"drawing_editor" : "app",
+    "model_viewer" : "app",
+    #"text_editor" : "app",
     #"pathfinding" : "simulation",
     #"handwriting_recognition" : "simulation",
     #"digital_circuits" : "simulation",
@@ -22,12 +28,6 @@ project_name_type_pairs = {
     #"fluid_dynamics" : "simulation",
     #"traffic" : "simulation",
     #"interior_design" : "simulation",
-    "clock" : "app",
-    #"calculator" : "app",
-    #"music_keyboard" : "app",
-    #"drawing_editor" : "app",
-    "model_viewer" : "app",
-    #"text_editor" : "app",
     "scene_hierarchy_test" : "test",
     #"haptics_test" : "test",
     #"inputs_test" : "test",
@@ -54,6 +54,7 @@ class omnific_script:
 
     def on_entity_start(self):
         omnific.get_window().resize(853, 480)
+        omnific.get_window().change_title("Omnific Demo")
         print("Python: " + sys.version)
         project_print_string = ""
 
@@ -68,6 +69,7 @@ class omnific_script:
             """Select one of the following by pressing the corresponding letter key
 
 """ + project_print_string)
+
         pass
 
     def on_input(self):
@@ -76,6 +78,7 @@ class omnific_script:
         for letter, project_path in self.project_paths.items():
             if inputs.is_on_release(letter):
                 omnific.load_scene(project_path)
+                omnific.get_window().change_title("")
                 break
         pass
 

@@ -63,7 +63,7 @@ namespace Omnific
 		void deserialize_from(std::string filepath);
 
 		void add_entity(std::shared_ptr<Entity> entity);
-		void add_empty_entity();
+		void add_empty_entity(std::string entity_name = "");
 		std::shared_ptr<Entity> add_preset_entity(EntityPreset preset);
 		std::shared_ptr<Entity> add_preset_entity_by_string(std::string preset_string);
 		void add_entity_to_parent_entity(std::shared_ptr<Entity> entity, EntityID parent_entity_id);

@@ -50,8 +50,6 @@ Entity:
   Camera:
     controller_state: "follow"
     follow_target_entity: "Player"
-  ScriptCollection:
-    Python: ["tests/scripts/python/camera_stats.py"]
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:

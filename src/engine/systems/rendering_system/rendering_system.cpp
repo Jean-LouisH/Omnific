@@ -56,7 +56,7 @@ void Omnific::RenderingSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_VIDEO);
 
-	Platform::create_window("",
+	Platform::create_window(Configuration::get_instance()->metadata.title.c_str(),
 		640,
 		480,
 		false,
@@ -477,7 +477,7 @@ void Omnific::RenderingSystem::on_output()
 			shader_program = this->opengl_backend->shader_programs.at(shader_id);
 			shader_program->use();
 
-			std::shared_ptr<GUIElement> root_element = gui->get_root_element();
+			std::shared_ptr<GUI::Element> root_element = gui->get_root_element();
 
 			/* Standard GUI uniforms */
 			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_pivot_offset());

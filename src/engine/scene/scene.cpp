@@ -185,9 +185,9 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 			debug_gui_entity->is_2d = true;
 			debug_gui->hide();
 			debug_gui->set_to_label("");
-			std::shared_ptr<GUIElement> root_element = debug_gui->get_root_element();
-			root_element->pivot = GUIElement::GUIPoint::TOP_RIGHT;
-			root_element->anchoring = GUIElement::GUIPoint::TOP_RIGHT;
+			std::shared_ptr<GUI::Element> root_element = debug_gui->get_root_element();
+			root_element->pivot = GUI::Element::PivotPoint::TOP_RIGHT;
+			root_element->anchor_pivot = GUI::Element::PivotPoint::TOP_RIGHT;
 			this->add_entity(debug_gui_entity);
 			this->add_component_to_last_entity(debug_gui);
 		}
@@ -221,9 +221,9 @@ void Omnific::Scene::add_entity(std::shared_ptr<Entity> entity)
 	}
 }
 
-void Omnific::Scene::add_empty_entity()
+void Omnific::Scene::add_empty_entity(std::string entity_name)
 {
-	std::shared_ptr<Entity> empty_entity(new Entity());
+	std::shared_ptr<Entity> empty_entity(new Entity(entity_name));
 	this->add_entity(empty_entity);
 }
 
