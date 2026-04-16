@@ -1,0 +1,14 @@
+[name: Starman Theme][artist: Koji Kondo][key signature: C major][time signature: 4/4][tempo: 255]
+[dynamic: mf]
+
+{
+[panning: mono][timbre: square wave][octave: 6][loop: infinity]
+
+C1 C1 C1 -D/2 +C/2 | R/2 C1 -D/2 +C/2 -D/2 +C1 | -B1 B1 B1 C/2 B/2 | R/2 B1 C/2 B/2 C/2 B1 |
+}
+
+{
+[panning: mono][timbre: square wave][octave: 3]
+
+~ D1 R1 A1 R/2 +D/2 | R2 -A1 +D1 | -C1 R1 G1 R/2 +C/2 | R2 -G1 +C1 ~ |
+}

@@ -1,0 +1,7 @@
+[name: Dynamics Test][key signature: D major][time signature: 3/4][tempo: presto]
+
+{
+[panning: mono][timbre: square wave][octave: 5]
+
+[loop: infinity][dynamic: ppp] D3 |[dynamic: pp] D3 |[dynamic: p] D3 |[dynamic: mp] D3 |[dynamic: mf] D3 |[dynamic: f] D3 |[dynamic: ff] D3 |[dynamic: fff] D3 |
+}

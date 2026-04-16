@@ -1,0 +1,7 @@
+[name: Dotted Note Test][key signature: D major][time signature: 3/4][dynamic: mf][tempo: presto]
+
+{
+[panning: mono][timbre: square wave][octave: 5]
+
+[loop: infinity] D3 | E2. |
+}

@@ -9,7 +9,7 @@ Entity:
       anchor_pivot: "centre"
       #position: [200, 215]
   AudioSource:
-      audio: ["tests/audio/nature.ogg"]
+      audio: ["tests/audio/Mary Had a Little Lamb.txt"]
       play_infinitely: true
   ScriptCollection:
     Python: ["tests/scripts/python/audio_playback_time.py"]

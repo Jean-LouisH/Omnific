@@ -1,0 +1,31 @@
+[name: Multichannel Test][key signature: C major][time signature: 4/4][tempo: 110][dynamic: mf][loop: infinity]
+
+{
+[panning: left][timbre: square wave][octave: 5]
+
+~ C4 ~ |
+}
+
+{
+[panning: left][timbre: sine wave][octave: 5]
+
+~ E4 ~ |
+}
+
+{
+[panning: right][timbre: triangle wave][octave: 5]
+
+~ G4 ~ |
+}
+
+{
+[panning: right][timbre: sawtooth wave][octave: 6]
+
+~ C4 ~ | 
+}
+
+{
+[panning: mono][timbre: noise][octave: 6]
+
+~ A4 ~ |
+}

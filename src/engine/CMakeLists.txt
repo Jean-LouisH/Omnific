@@ -12,6 +12,7 @@ set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/thirdparty)
 
 set(THIRD_PARTY_PROJECTS
 	ufbx
+	libretti
 )
 
 add_library(omnific_engine STATIC
@@ -122,6 +123,7 @@ target_include_directories(omnific_engine PUBLIC
 	${THIRD_PARTY_DIR}/stb_vorbis
 	${THIRD_PARTY_DIR}/tinyobjloader
 	${THIRD_PARTY_DIR}/ufbx
+	${THIRD_PARTY_DIR}/libretti/include
 	${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/include
 	.
 )

@@ -1,0 +1,7 @@
+[name: Timbre Test][key signature: C major][time signature: 2/4][dynamic: mf][tempo: presto]
+
+{
+[panning: mono][octave: 5]
+
+[loop: infinity] [timbre: square wave] C2 |  [timbre: sine wave] C2 |  [timbre: triangle wave] C2 |  [timbre: sawtooth wave] C2 |  [timbre: pulse 10] C2 |  [timbre: pulse 25] C2 |  [timbre: noise] C2 |
+}

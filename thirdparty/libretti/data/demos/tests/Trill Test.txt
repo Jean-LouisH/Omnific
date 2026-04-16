@@ -1,0 +1,8 @@
+[name: Trill Test][key signature: G major][time signature: 4/4][tempo: presto]
+[dynamic: mf]
+
+{
+[panning: mono][timbre: square wave][octave: 5] 
+
+[loop: infinity] D1 E1 D1 R1 | ~ _ D1 E1 D1 _ ~ R2 | 
+}

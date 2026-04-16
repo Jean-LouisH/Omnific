@@ -1,0 +1,19 @@
+[name: Mary had a little lamb][artist: Sarah Josepha Hale][key signature: G major][time signature: 4/4][tempo: presto][reverb: standard][vibrato: standard]
+
+{
+[panning: mono][timbre: square wave][octave: 5] [dynamic: f]
+
+[loop: infinity] ~ B1 A1 G1 A1 ~ | B1> B1> B2* [cue: 2] | A1> A1> A2* [cue: 12]| B1> +D1> _ D1 E1 D1 _ |
+~ -B1 A1 G1 A1 ~ |  << B1 B1 B1 B1 << [dynamic: ff] | >> A1 A1 B1 A1 | [echo: standard] G2 >> [dynamic: pp] R2 |
+}
+
+{
+[panning: mono][timbre: triangle wave][octave: 4] [dynamic: mf]
+
+~ G2 D2 | G2 D2 | C2 D2 | G2 D2 | G2 D2 | G2 D2 | C2 D2 | G2 R2 ~ | 
+}
+
+{
+[lyric: mary had a] | [lyric: little lamb] | | | [lyric: mary had a] | [lyric: little lamb, its] |  
+[lyric: fleece were white as] | [lyric: snow] |
+}

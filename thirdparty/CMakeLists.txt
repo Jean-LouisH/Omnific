@@ -9,3 +9,4 @@ project("ufbx" LANGUAGES C)
 # Include sub-projects.
 add_subdirectory("glad")
 add_subdirectory("ufbx")
+add_subdirectory("libretti")

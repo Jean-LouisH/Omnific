@@ -1,0 +1,7 @@
+[name: Dynamic Accent Test][key signature: D major][time signature: 3/4][dynamic: mp][tempo: presto]
+
+{
+[panning: mono][timbre: square wave][octave: 5]
+
+[loop: infinity] D3 | D3> |
+}

@@ -21,10 +21,10 @@
 // SOFTWARE.
 
 #include "audio_clip.hpp"
-#define DR_WAV_IMPLEMENTATION
 #include <dr_wav.h>
 #include <foundations/singletons/platform/platform.hpp>
 #include <stb_vorbis.c>
+#include <libretti.h>
 
 Omnific::AudioClip::AudioClip(std::string filepath)
 {
@@ -42,18 +42,37 @@ Omnific::AudioClip::AudioClip(std::string filepath)
 	else if (file_extension == "wav")
 	{
 		unsigned int* channels;
+
+
 		unsigned int* sample_rate;
 		drwav_uint64* total_frame_count;
-		data_output = (short*)drwav_open_file_and_read_pcm_frames_s16(filepath.c_str(), channels, sample_rate, total_frame_count, NULL);
+		data_output = (short*)drwav_open_file_and_read_pcm_frames_s16(full_filepath.c_str(), channels, sample_rate, total_frame_count, NULL);
 		this->channel_count = (int)*channels;
 		this->sample_rate = (int)*sample_rate;
 		this->samples_per_channel = (int)*total_frame_count;
 		this->data = std::vector<int16_t>(data_output, data_output + this->samples_per_channel * this->channel_count);
 		drwav_free(data_output, NULL);
 	}
+	else if (file_extension == "libretti" || file_extension == "txt")
+	{
+		const uint32_t sample_rate = 44100;
+		const uint8_t channel_count = 2;
+		lb_Libretti* libretti = lb_create_libretti(full_filepath.c_str());
+		lb_AudioClip lb_audio_clip = lb_synthesize_audio_clip(libretti, sample_rate, channel_count);
+		data_output = lb_audio_clip.data;
+		this->channel_count = lb_audio_clip.channel_count;
+		this->sample_rate = lb_audio_clip.sample_rate;
+		this->samples_per_channel = lb_audio_clip.samples_per_channel;
+		this->data = std::vector<int16_t>(data_output, data_output + this->samples_per_channel * this->channel_count);
+		free(lb_audio_clip.data);
+		lb_free_libretti(libretti);
+	}
 
-	this->playback_length = this->samples_per_channel / this->sample_rate;
-	this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
+	if (this->sample_rate > 0 && this->channel_count > 0 && this->samples_per_channel > 0)
+	{
+		this->playback_length = this->samples_per_channel / this->sample_rate;
+		this->size = this->samples_per_channel * this->channel_count * sizeof(int16_t);
+	}
 }
 
 Omnific::AudioClip::AudioClip(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel)

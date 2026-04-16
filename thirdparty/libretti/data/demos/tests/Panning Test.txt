@@ -1,0 +1,7 @@
+[name: Panning test][key signature: C major][time signature: 4/4][tempo: 110][dynamic: mf][loop: infinity]
+
+{
+[timbre: sine wave][octave: 5]
+
+[panning: far left] A4 | [panning: left] A4 | [panning: mono] A4 | [panning: right] A4 | [panning: far right] A4 | 
+}

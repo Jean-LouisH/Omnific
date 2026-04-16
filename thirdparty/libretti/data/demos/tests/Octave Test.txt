@@ -1,0 +1,7 @@
+[name: Octave Test][key signature: D major][time signature: 3/4][tempo: presto][dynamic: mf]
+
+{
+[panning: mono][timbre: square wave][octave: 2]
+
+[loop: infinity] D3 | +D3 | +D3 | +D3 | +D3 |
+}
