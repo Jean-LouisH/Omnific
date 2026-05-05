@@ -57,6 +57,9 @@ namespace Omnific
 
 		static void show_error_box(std::string title, std::string message);
 
+		static std::string get_clipboard_text();
+		static void set_clipboard_text(std::string text);
+
 		static uint8_t get_logical_core_count();
 		/* In Bytes */
 		static uint32_t get_l1_cache_line_size();

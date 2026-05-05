@@ -622,7 +622,8 @@ void Omnific::Inputs::detect_game_controllers()
 		}
 	}
 
-	SDL_free(joystick_ids);
+	if (joystick_ids)
+		SDL_free(joystick_ids);
 }
 
 void Omnific::Inputs::poll_input_events()

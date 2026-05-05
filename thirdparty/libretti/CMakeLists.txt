@@ -12,8 +12,13 @@ add_library(libretti STATIC
 	  ${libretti_sources}
 	  ${libretti_headers})
 
-if (WIN32)
-add_definitions(/bigobj)
+
+if (MSVC)
+	add_definitions(/bigobj)
+else ()
+	if (MINGW)
+		target_compile_options(libretti PRIVATE "-Wa,-mbig-obj")
+	endif ()
 endif ()
 
 target_include_directories(libretti PRIVATE

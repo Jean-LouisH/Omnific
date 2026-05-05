@@ -1,0 +1,36 @@
+[name: Harder Better Faster Stronger]
+[artist: Daft Punk]
+[key signature: B minor]
+[time signature: 4/4]
+[tempo: 123]
+[dynamic: f]
+
+{
+[panning: mono][timbre: pulse 25][octave: 3]
+
+~ B2 D2 | E2 G2 | F#2 A2 | D2 C#2 ~ |
+~ B2 D2 | E2 G2 | F#2 A2 | D2 C#2 ~ |
+~ B2 D2 | E2 G2 | F#2 A2 | D2 C#2 ~ |
+~ B2 D2 | E2 G2 | F#2 A2 | D2 C#2 ~ |
+}
+
+{
+[panning: mono][timbre: square wave][octave: 4]
+[dynamic: mf]
+
+R4 | << B1 D1 F#2 << | R4 | << A1 C#1 E2 << |
+R4 | << B1 D1 F#2 << | R4 | << A1 C#1 E2 << |
+R4 | << B1 D1 F#2 << | R4 | << A1 C#1 E2 << |
+R4 | << B1 D1 F#2 << | R4 | << A1 C#1 E2 << |
+}
+
+{
+[panning: mono][timbre: sawtooth wave][octave: 4]
+[vibrato: standard][echo: standard]
+
+[loop: infinity]
+[lyric: work it]| [lyric: make it]| [lyric: do it]| [lyric: makes us] |
+[lyric: harder]| [lyric: better]| [lyric: faster]| [lyric: stronger]|
+[lyric: more than]| [lyric: ever]| [lyric: hour]| [lyric: after]|
+[lyric: our]| [lyric: work is]| [lyric: never]| [lyric: over]|
+}

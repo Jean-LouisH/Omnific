@@ -143,6 +143,7 @@ void build_composition_data(lb_Composition* composition, const char* script)
 	char note_to_play;
 
 	uint8_t parse_state = LB_PARSE_STATE_READING_NOTHING;
+	uint8_t previous_state = 0;
 	uint8_t previous_parse_state = 0;
 	lb_String header = lb_new_string("");
 	lb_String value = lb_new_string("");
@@ -153,20 +154,45 @@ void build_composition_data(lb_Composition* composition, const char* script)
 	{
 		switch (script[read_position])
 		{
+		case '#':
+			if (parse_state == LB_PARSE_STATE_READING_NOTHING || 
+				parse_state == LB_PARSE_STATE_READING_TRACK_SCOPE)
+			{
+				previous_parse_state = parse_state;
+				parse_state = LB_PARSE_STATE_READING_COMMENT;
+			}
+			break;
+		case '\n':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+			{
+				parse_state = previous_parse_state;
+				previous_parse_state = 0;
+			}
+			break;
 		case '{':
-			parse_state = LB_PARSE_STATE_READING_TRACK_SCOPE;
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
+			parse_state = LB_PARSE_STATE_READING_TRACK_SCOPE;		
 			break;
 		case '[':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			previous_parse_state = parse_state;
 			parse_state = LB_PARSE_STATE_READING_HEADER;
 			break;
 		case '_':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			tuplet_is_opened = !tuplet_is_opened;
 			break;
 		case '~':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			slur_is_opened = !slur_is_opened;
 			break;
 		case '<':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			if (is_reading_crescendo)
 			{
 				is_in_crescendo_state = !is_in_crescendo_state;
@@ -178,6 +204,8 @@ void build_composition_data(lb_Composition* composition, const char* script)
 			is_reading_crescendo = !is_reading_crescendo;
 			break;
 		case '>':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			if (parse_state == LB_PARSE_STATE_READING_NOTE_DURATION)
 			{
 				parse_state = LB_PARSE_STATE_READING_DYNAMIC_ACCENT;
@@ -196,16 +224,23 @@ void build_composition_data(lb_Composition* composition, const char* script)
 			}
 			break;
 		case '*':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			if (parse_state == LB_PARSE_STATE_READING_NOTE_DURATION)
 				parse_state = LB_PARSE_STATE_READING_STACCATO;
 			break;
 		case '|':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			bar_count++;
 			duration = (double)time_sig_upper;
 			duration *= (60.0 / (double)tempo) / (4.0 / (double)time_sig_lower);
 			currentTime_s = duration * bar_count;
 			break;
 		case ' ':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
+
 			if (is_reading_crescendo)
 				is_reading_crescendo = false;
 
@@ -277,9 +312,14 @@ void build_composition_data(lb_Composition* composition, const char* script)
 			}
 			break;
 		case ':':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			parse_state = LB_PARSE_STATE_IGNORING_FIRST_SPACE_IN_VALUE;
 			break;
 		case ']':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
+
 			if (strcmp(header.data, "name") == 0)
 			{
 				int value_read_position = 0;
@@ -646,6 +686,8 @@ void build_composition_data(lb_Composition* composition, const char* script)
 			parse_state = previous_parse_state;
 			break;
 		case '}':
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			composition->time_length = currentTime_s;
 			currentTime_s = 0.0;
 			current_note = 0;
@@ -654,6 +696,8 @@ void build_composition_data(lb_Composition* composition, const char* script)
 			parse_state = LB_PARSE_STATE_READING_NOTHING;
 			break;
 		default:
+			if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				break;
 			if (parse_state == LB_PARSE_STATE_READING_HEADER)
 			{
 				lb_append_string(&header, script[read_position]);

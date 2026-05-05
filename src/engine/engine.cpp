@@ -44,6 +44,13 @@ void Omnific::Engine::add_app_data_paths(std::vector<std::string> app_data_paths
 	Platform::get_file_access().add_app_data_paths(app_data_paths);
 }
 
+void Omnific::Engine::add_debug_app_data_paths(std::vector<std::string> app_data_paths)
+{
+#ifdef _DEBUG
+	this->add_app_data_paths(app_data_paths);
+#endif
+}
+
 void Omnific::Engine::run()
 {
 	Logger& logger = Platform::get_logger();

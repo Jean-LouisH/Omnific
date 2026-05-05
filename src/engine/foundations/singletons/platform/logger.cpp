@@ -21,25 +21,81 @@
 // SOFTWARE.
 
 #include "logger.hpp"
+#include <SDL3/SDL_oldnames.h>
 #include <iostream>
 #include <chrono>
 #include <ctime>
-#include <fstream>
+#include <SDL3/SDL_log.h>
+#include <SDL3/SDL_time.h>
+
+
+void Omnific::Logger::filter_priority(Priority log_priority)
+{
+	SDL_SetLogPriorities((SDL_LogPriority)log_priority);
+}
+
+void Omnific::Logger::filter_priority_for_category(Category log_category, Priority log_priority)
+{
+	SDL_SetLogPriority((int)log_category, (SDL_LogPriority)log_priority);
+}
 
 void Omnific::Logger::write(std::string message)
 {
 	std::string time_stamped_message = this->time_stamp(message);
-#ifdef _DEBUG
-	std::cout << time_stamped_message << std::endl;
-#endif
+	SDL_Log(time_stamped_message.c_str());
+	this->logs.push_back(time_stamped_message);
+}
+
+void Omnific::Logger::write_trace(std::string message, Category log_category)
+{
+	std::string time_stamped_message = this->time_stamp(message);
+	SDL_LogTrace((int)log_category, time_stamped_message.c_str());
+	this->logs.push_back(time_stamped_message);
+}
+
+void Omnific::Logger::write_verbose(std::string message, Category log_category)
+{
+	std::string time_stamped_message = this->time_stamp(message);
+	SDL_LogVerbose((int)log_category, time_stamped_message.c_str());
+	this->logs.push_back(time_stamped_message);
+}
+
+void Omnific::Logger::write_debug(std::string message, Category log_category)
+{
+	std::string time_stamped_message = this->time_stamp(message);
+	SDL_LogDebug((int)log_category, time_stamped_message.c_str());
+	this->logs.push_back(time_stamped_message);
+}
+
+void Omnific::Logger::write_info(std::string message)
+{
+	this->write(message);
+}
+
+void Omnific::Logger::write_warning(std::string message, Category log_category)
+{
+	std::string time_stamped_message = this->time_stamp(message);
+	SDL_LogWarn((int)log_category, time_stamped_message.c_str());
+	this->logs.push_back(time_stamped_message);
+}
+
+void Omnific::Logger::write_error(std::string message, Category log_category)
+{
+	std::string time_stamped_message = this->time_stamp(message);
+	SDL_LogError((int)log_category, time_stamped_message.c_str());
+	this->logs.push_back(time_stamped_message);
+}
+
+void Omnific::Logger::write_critical(std::string message, Category log_category)
+{
+	std::string time_stamped_message = this->time_stamp(message);
+	SDL_LogCritical((int)log_category, time_stamped_message.c_str());
 	this->logs.push_back(time_stamped_message);
 }
 
 void Omnific::Logger::write_to_file(std::string message)
 {
 	std::string time_stamped_message = this->time_stamp(message);
-
-
 
 	this->logs.push_back(time_stamped_message);
 }
@@ -56,8 +112,14 @@ std::vector<std::string> Omnific::Logger::get_logs()
 
 std::string Omnific::Logger::time_stamp(std::string message)
 {
-	auto now = std::chrono::system_clock::now();
-	std::time_t current_time = std::chrono::system_clock::to_time_t(now);
-	std::string result = std::ctime(&current_time);
-	return 	"[" + result.substr(0, result.find("\n")) + "]: " + message;
+	SDL_Time sdl_time;
+	SDL_DateTime sdl_data_time;
+	SDL_GetCurrentTime(&sdl_time);
+	SDL_TimeToDateTime(sdl_time, &sdl_data_time, true);
+	return "[" + std::to_string(sdl_data_time.year) + "/" +
+			std::to_string(sdl_data_time.month) + "/" + 
+			std::to_string(sdl_data_time.day) + ", " + 
+			std::to_string(sdl_data_time.hour) + ":" + 
+			std::to_string(sdl_data_time.minute) + ":" +
+			std::to_string(sdl_data_time.second) +  "]: " + message;
 }

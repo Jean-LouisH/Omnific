@@ -21,10 +21,15 @@
 // SOFTWARE.
 
 #include "platform.hpp"
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_gamepad.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_log.h>
 #include <string>
 #include <SDL3/SDL.h>
 #include "foundations/constants.hpp"
 #include <thread>
+#include <foundations/resources/default_assets/texts/gamecontrollerdb_txt.hpp>
 
 Omnific::Platform* Omnific::Platform::instance = nullptr;
 
@@ -50,11 +55,37 @@ void Omnific::Platform::initialize(
 
 	new_instance->command_line_arguments = command_line_arguments;
 
-	SDL_InitSubSystem(
+	SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
+	SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI, "0");
+	SDL_SetHint(SDL_HINT_JOYSTICK_DIRECTINPUT, "1");
+
+	if (!SDL_Init(
 		SDL_INIT_EVENTS || 
 		SDL_INIT_GAMEPAD || 
-		SDL_INIT_HAPTIC
-	);
+		SDL_INIT_JOYSTICK))
+	{
+		SDL_Log("SDL_Init failed: %s", SDL_GetError());
+	}
+
+	SDL_IOStream *stream = SDL_IOFromConstMem(gamecontrollerdb_txt, gamecontrollerdb_txt_len);
+    
+    if (stream) 
+	{
+        int gamepad_mappings_count = SDL_AddGamepadMappingsFromIO(stream, true);
+        
+        if (gamepad_mappings_count < 0) 
+		{
+            SDL_Log("Mapping error: %s", SDL_GetError());
+        } 
+		else 
+		{
+            SDL_Log("Loaded %d embedded mappings.", gamepad_mappings_count);
+        }
+    } 
+	else 
+	{
+        SDL_Log("Failed to create IOStream: %s", SDL_GetError());
+    }
 }
 
 void Omnific::Platform::create_window(std::string title,
@@ -84,6 +115,22 @@ void Omnific::Platform::show_error_box(std::string title, std::string message)
 		message.c_str(),
 		NULL
 	);
+}
+
+std::string Omnific::Platform::get_clipboard_text()
+{
+	std::string string_text;
+	char* text = SDL_GetClipboardText();
+	string_text = text;
+	SDL_free(text);
+}
+
+void Omnific::Platform::set_clipboard_text(std::string text)
+{
+	if (!SDL_SetClipboardText(text.c_str()))
+	{
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, SDL_GetError());
+	}
 }
 
 uint8_t Omnific::Platform::get_logical_core_count()

@@ -68,23 +68,48 @@ int validate_script(const char* script)
 		{
 			switch (symbol)
 			{
+			case '#':
+				if (parse_state == LB_PARSE_STATE_READING_NOTHING || 
+					parse_state == LB_PARSE_STATE_READING_TRACK_SCOPE)
+				{
+					previous_parse_state = parse_state;
+					parse_state = LB_PARSE_STATE_READING_COMMENT;
+				}
+				break;
+			case '\n':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+				{
+					parse_state = previous_parse_state;
+					previous_parse_state = 0;
+				}
+				break;
 			case '{':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				parse_state = LB_PARSE_STATE_READING_TRACK_SCOPE;
 				track_scope_count++;
 				unclosed_track_scopes++;
 				break;
 			case '[':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				previous_parse_state = parse_state;
 				parse_state = LB_PARSE_STATE_READING_HEADER;
 				unclosed_headers++;
 				break;
 			case '_':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				tuplet_is_unclosed = !tuplet_is_unclosed;
 				break;
 			case '~':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				slur_is_unclosed = !slur_is_unclosed;
 				break;
 			case '<':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				if (!is_reading_crescendo)
 				{
 					is_reading_crescendo = true;
@@ -99,6 +124,8 @@ int validate_script(const char* script)
 				}
 				break;
 			case '>':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				if (!is_reading_diminuendo)
 				{
 					is_reading_diminuendo = true;
@@ -113,6 +140,8 @@ int validate_script(const char* script)
 				}
 				break;
 			case ' ':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				if (is_reading_crescendo)
 					is_reading_crescendo = false;
 
@@ -147,6 +176,8 @@ int validate_script(const char* script)
 				}
 				break;
 			case '|':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				if (beats_in_a_bar != 0)
 					if (round(beats_in_a_bar) != time_sig_upper)
 					{
@@ -163,6 +194,8 @@ int validate_script(const char* script)
 				current_bar_count++;
 				break;
 			case ':':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				parse_state = LB_PARSE_STATE_IGNORING_FIRST_SPACE_IN_VALUE;
 				if (strcmp(header.data, "comment") != 0 &&
 					strcmp(header.data, "name") != 0 &&
@@ -197,6 +230,8 @@ int validate_script(const char* script)
 				}
 				break;
 			case ']':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				if (strcmp(header.data, "time signature") == 0)
 				{
 					int value_read_position = 0;
@@ -391,6 +426,8 @@ int validate_script(const char* script)
 				unclosed_headers--;
 				break;
 			case '}':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				parse_state = LB_PARSE_STATE_READING_NOTHING;
 				unclosed_track_scopes--;
 				if (octave < 1 || octave > 7)
@@ -421,12 +458,18 @@ int validate_script(const char* script)
 				current_bar_count = 0;
 				break;
 			case '+':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				octave++;
 				break;
 			case '-':
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				octave--;
 				break;
 			default:
+				if (parse_state == LB_PARSE_STATE_READING_COMMENT)
+					break;
 				if (symbol == '\n')
 				{
 					line_position++;
@@ -619,6 +662,13 @@ int validate_script(const char* script)
 
 bool validate_symbol(char symbol, uint8_t parse_state)
 {
+	if (((parse_state == LB_PARSE_STATE_READING_NOTHING || 
+		parse_state == LB_PARSE_STATE_READING_TRACK_SCOPE) &&
+		symbol == '#') || (parse_state == LB_PARSE_STATE_READING_COMMENT))
+	{
+		return true;
+	}
+
 	bool is_valid = false;
 
 	if (parse_state == LB_PARSE_STATE_READING_NOTHING)
