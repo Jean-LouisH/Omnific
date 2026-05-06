@@ -55,6 +55,12 @@ void Omnific::Platform::initialize(
 
 	new_instance->command_line_arguments = command_line_arguments;
 
+#ifdef _DEBUG
+	new_instance->logger->filter_priority(Logger::Priority::DEBUG);
+#else
+	new_instance->logger->filter_priority(Logger::Priority::ERROR);	
+#endif
+
 	SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
 	SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI, "0");
 	SDL_SetHint(SDL_HINT_JOYSTICK_DIRECTINPUT, "1");
@@ -64,7 +70,7 @@ void Omnific::Platform::initialize(
 		SDL_INIT_GAMEPAD || 
 		SDL_INIT_JOYSTICK))
 	{
-		SDL_Log("SDL_Init failed: %s", SDL_GetError());
+		new_instance->logger->write_error("Failed to initialize SDL: " + std::string(SDL_GetError()), Logger::Category::INPUT);
 	}
 
 	SDL_IOStream *stream = SDL_IOFromConstMem(gamecontrollerdb_txt, gamecontrollerdb_txt_len);
@@ -75,16 +81,16 @@ void Omnific::Platform::initialize(
         
         if (gamepad_mappings_count < 0) 
 		{
-            SDL_Log("Mapping error: %s", SDL_GetError());
+            new_instance->logger->write_error("Mapping error: " + std::string(SDL_GetError()), Logger::Category::INPUT);
         } 
 		else 
 		{
-            SDL_Log("Loaded %d embedded mappings.", gamepad_mappings_count);
+            new_instance->logger->write("Loaded " + std::to_string(gamepad_mappings_count) + " embedded mappings.");
         }
     } 
 	else 
 	{
-        SDL_Log("Failed to create IOStream: %s", SDL_GetError());
+        new_instance->logger->write_error("Failed to create IOStream: " + std::string(SDL_GetError()), Logger::Category::INPUT);
     }
 }
 
@@ -123,6 +129,7 @@ std::string Omnific::Platform::get_clipboard_text()
 	char* text = SDL_GetClipboardText();
 	string_text = text;
 	SDL_free(text);
+	return string_text;
 }
 
 void Omnific::Platform::set_clipboard_text(std::string text)
@@ -151,6 +158,101 @@ uint32_t Omnific::Platform::get_system_ram()
 std::string Omnific::Platform::get_platform_name()
 {
 	return SDL_GetPlatform();
+}
+
+int Omnific::Platform::get_hour()
+{
+	return get_current_date_time().hour;
+}
+
+int Omnific::Platform::get_minute()
+{
+	return get_current_date_time().minute;
+}
+
+int Omnific::Platform::get_second()
+{
+	return get_current_date_time().second;
+}
+
+std::string Omnific::Platform::get_time_string()
+{
+	std::string hour_string = std::to_string(get_hour());
+	std::string minute_string = std::to_string(get_minute());
+	std::string second_string = std::to_string(get_second());
+
+	if (minute_string.length() == 1)
+		minute_string = "0" + minute_string;
+	if (second_string.length() == 1)
+		second_string = "0" + second_string;
+
+	return hour_string + ":" + minute_string + ":" + second_string;
+}
+
+std::string Omnific::Platform::get_time_with_meridiem_string()
+{
+	int hour = get_hour();
+	std::string meridiem = "AM";
+
+	if (hour >= 12)
+	{
+		meridiem = "PM";
+		if (hour > 12)
+			hour -= 12;
+	}
+
+	std::string hour_string = std::to_string(hour);
+	std::string minute_string = std::to_string(get_minute());
+	std::string second_string = std::to_string(get_second());
+
+	if (minute_string.length() == 1)
+		minute_string = "0" + minute_string;
+	if (second_string.length() == 1)
+		second_string = "0" + second_string;
+
+	return hour_string + ":" + minute_string + ":" + second_string + " " + meridiem;
+}
+
+int Omnific::Platform::get_day_of_the_month()
+{
+	return get_current_date_time().day;
+}
+
+int Omnific::Platform::get_month()
+{
+	return get_current_date_time().month;
+}
+
+std::string Omnific::Platform::get_month_string()
+{
+	const char* months[] = {
+		"January", "February", "March", "April", "May", "June",
+		"July", "August", "September", "October", "November", "December"
+	};
+	return months[get_day_of_the_month() - 1];
+}
+
+std::string Omnific::Platform::get_calendar_date_string()
+{
+	return get_month_string() + " " + std::to_string(get_day_of_the_month()) + ", " + std::to_string(get_year());
+}
+
+std::string Omnific::Platform::get_weekday_string()
+{
+	const char* weekdays[] = {
+		"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+	};
+	return weekdays[get_current_date_time().day_of_week];
+}
+
+std::string Omnific::Platform::get_date_string()
+{
+	return get_weekday_string() + ", " + get_calendar_date_string();
+}
+
+int Omnific::Platform::get_year()
+{
+	return get_current_date_time().year;
 }
 
 void Omnific::Platform::finalize()
@@ -211,4 +313,13 @@ Omnific::Platform* Omnific::Platform::get_instance()
 	if (instance == nullptr)
 		instance = new Platform();
 	return instance;
+}
+
+SDL_DateTime Omnific::Platform::get_current_date_time()
+{
+	SDL_Time sdl_time;
+	SDL_DateTime sdl_data_time;
+	SDL_GetCurrentTime(&sdl_time);
+	SDL_TimeToDateTime(sdl_time, &sdl_data_time, true);
+	return sdl_data_time;
 }

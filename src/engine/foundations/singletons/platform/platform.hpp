@@ -33,6 +33,7 @@
 #include <string>
 #include <engine_api.hpp>
 #include <foundations/clock.hpp>
+#include <SDL3/SDL_time.h>
 
 namespace Omnific
 {
@@ -67,6 +68,19 @@ namespace Omnific
 		static uint32_t get_system_ram();
 		static std::string get_platform_name();
 
+		static int get_hour();
+		static int get_minute();
+		static int get_second();
+		static std::string get_time_string();
+		static std::string get_time_with_meridiem_string();
+		static int get_day_of_the_month();
+		static int get_month();
+		static std::string get_month_string();
+		static std::string get_calendar_date_string();
+		static std::string get_weekday_string();
+		static std::string get_date_string();
+		static int get_year();
+
 		static void finalize();
 
 		static SharedLibraryAccess& get_shared_library_access();
@@ -93,5 +107,6 @@ namespace Omnific
 		std::unique_ptr<NetworkAccess> network_access;
 
 		static Platform* get_instance();
+		static SDL_DateTime get_current_date_time();
 	};
 }

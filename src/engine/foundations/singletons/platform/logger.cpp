@@ -26,7 +26,8 @@
 #include <chrono>
 #include <ctime>
 #include <SDL3/SDL_log.h>
-#include <SDL3/SDL_time.h>
+#include "platform.hpp"
+
 
 
 void Omnific::Logger::filter_priority(Priority log_priority)
@@ -112,14 +113,5 @@ std::vector<std::string> Omnific::Logger::get_logs()
 
 std::string Omnific::Logger::time_stamp(std::string message)
 {
-	SDL_Time sdl_time;
-	SDL_DateTime sdl_data_time;
-	SDL_GetCurrentTime(&sdl_time);
-	SDL_TimeToDateTime(sdl_time, &sdl_data_time, true);
-	return "[" + std::to_string(sdl_data_time.year) + "/" +
-			std::to_string(sdl_data_time.month) + "/" + 
-			std::to_string(sdl_data_time.day) + ", " + 
-			std::to_string(sdl_data_time.hour) + ":" + 
-			std::to_string(sdl_data_time.minute) + ":" +
-			std::to_string(sdl_data_time.second) +  "]: " + message;
+	return "[" + Platform::get_time_with_meridiem_string() + " " + Platform::get_calendar_date_string() + "]: " + message;
 }

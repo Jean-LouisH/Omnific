@@ -31,6 +31,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Logger
 	{
+	public:
 		enum class Category
 		{
 			APPLICATION = SDL_LOG_CATEGORY_APPLICATION,
@@ -56,7 +57,6 @@ namespace Omnific
 			CRITICAL = SDL_LOG_PRIORITY_CRITICAL
 		};
 
-	public:
 		void filter_priority(Priority log_priority);
 		void filter_priority_for_category(Category log_category, Priority log_priority);
 		void write(std::string message);
