@@ -10,7 +10,11 @@ int main(int argc, char* argv[])
 #endif
 
 	std::string executable_filepath = argv[0];
+#ifdef _WIN32
 	size_t directory_slash_index = executable_filepath.find_last_of("\\");
+#else
+	size_t directory_slash_index = executable_filepath.find_last_of("/");
+#endif
 	executable_filepath.insert(directory_slash_index + 1, application_relative_directory);
 	std::string arg_strings;
 
@@ -20,21 +24,9 @@ int main(int argc, char* argv[])
 		arg_strings += argv[i];
 	}
 
-	if (executable_filepath.size() > 0)
-		executable_filepath = "\"" + executable_filepath + "\"";
-
 	std::string command_string;
+	command_string = (executable_filepath + arg_strings);
 
-	if (arg_strings.size() > 0)
-	{
-		arg_strings = "\"" + arg_strings + "\"";
-		command_string = ("\"" + executable_filepath + arg_strings + "\"");
-	}
-	else
-	{
-		command_string = executable_filepath;
-	}
-	
 	system(command_string.c_str());
 	return 0;
 }

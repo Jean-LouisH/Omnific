@@ -9,8 +9,8 @@ _["Niagara Falls" by Brian Trepanier](https://sketchfab.com/3d-models/niagara-fa
 
 * [Notable Features](#notable-features)
 * [Demos](#demos)
-* [Manual](#manual)
 * [Compilation Instructions](#compilation-instructions)
+* [Manual](#manual)
 * [Architecture](#architecture)
 * [License](#license)
 
@@ -57,10 +57,6 @@ Click the name of each project to download their Windows x86-64 builds.
 
 ![omnific_pong](docs/images/omnific_clock_demo.gif)
 
-# Manual
-
-...
-
 # Compilation Instructions
 
 * Install [CMake](https://cmake.org/). On Debian-based Linux: `sudo apt-get install cmake`, Fedora-based Linux: `sudo dnf install cmake`
@@ -70,6 +66,58 @@ Click the name of each project to download their Windows x86-64 builds.
 * Set the `CMAKE_CONFIGURATION_TYPES` to the build configuration you want.
 * Use your C++ IDE or compiler of choice to build Omnific from the project.
 * To be able to install third-party packages in the embedded Python build, uncomment the last line in python*._pth. Then download [get-pip.py](https://bootstrap.pypa.io/get-pip.py), place it in the embeddable python folder, and run `> python get-pip.py`. Install packages to the embeddable folder with `> python -m pip install package-name`.
+
+# Manual
+
+## Making an Omnific project
+
+### 1. Boot
+
+Every Omnific application or game project folder should at least have a "boot.yml" file. This is a YAML key-value pair document. It should contain metadata that at least specify the "entry_scene_filepath". This is the very first scene the Engine will load to start the application/game.
+
+```yaml
+metadata:
+  entry_scene_filepath: my_entry_scene.yml
+  title: My Application Name
+  version: 1.0.0
+  developer: my_username
+  icon_filepath: icon.png
+  ...
+```
+
+Additionally, "windows_settings" can be specified:
+
+```yaml
+window_settings:
+  width: 853
+  height: 480
+  fullscreen: false
+  maximized: false
+  resizable: false
+  ...
+```
+
+You can optionally define the "enabled_systems". By default, everything is enabled:
+
+```yaml
+enabled_systems:
+  rendering_system: true
+  physics_system: false
+  ...
+```
+
+The filepath strings in all entries are relative to the list of app_data paths added by default and by you.
+
+### 2. Main Application and app_data paths
+### 3. Scene Building
+### 4. Scripting
+#### 4.1. Entities, Components, Systems Architecture
+#### 4.2. The Engine Loop
+#### 4.2. Python Scripts
+#### 4.3. C++ Scripts
+    
+
+...
 
 
 # Architecture

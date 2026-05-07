@@ -1,0 +1,21 @@
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Audio Player"
+  ScriptCollection:
+    Python: ["apps/audio_player/scripts/python/audio_player.py"]
+Entity:
+  name: "1 Key"
+  parent: "Audio Player"
+  GUI:
+    Button:
+      text: "1"
+      font: ["tests/fonts/Lato-Regular.ttf", 20]
+      text_colour: "#000000FF"
+      position: [10.0, 57.0]
+      pivot: "bottom_left"
+Entity:
+  name: "Camera"
+  Camera: "default"
