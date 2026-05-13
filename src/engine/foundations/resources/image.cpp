@@ -73,6 +73,64 @@ Omnific::Image::Image(std::string text, std::shared_ptr<Font> font, std::shared_
 	this->size = this->width * this->height * this->colour_channel_count;
 }
 
+Omnific::Image::Image(std::vector<float> plot_points, int width, int height, std::shared_ptr<Colour> background_colour, std::shared_ptr<Colour> plot_colour)
+{
+	this->type = TYPE_STRING;
+
+	std::vector<uint8_t> data(width * height * 4, 0);
+	float maximum_plot_point = 0.0;
+
+	for (int i = 0; i < plot_points.size(); ++i)
+	{
+		maximum_plot_point = std::max(plot_points[i], 0.0f);
+	}
+
+	for (int y = 0; y < height; ++y)
+	{
+		for (int x = 0; x < width; ++x)
+		{
+			int index = (y * width + x) * 4;
+			data[index] = background_colour->get_red();
+			data[index + 1] = background_colour->get_green();
+			data[index + 2] = background_colour->get_blue();
+			data[index + 3] = background_colour->get_alpha();
+		}
+	}
+
+	int plot_point_count = plot_points.size();
+	for (int i = 0; i < plot_point_count - 1; i += 2)
+	{
+		int x1 = static_cast<int>(i * width);
+		int y1 = static_cast<int>((plot_points[i] / maximum_plot_point) * 0.5 * height);
+		int x2 = static_cast<int>((i + 1) * width);
+		int y2 = static_cast<int>((plot_points[i + 1] / maximum_plot_point) * 0.5 * height);
+
+		// Bresenham's line algorithm
+		int dx = std::abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
+		int dy = -std::abs(y2 - y1), sy = y1 < y2 ? 1 : -1;
+		int err = dx + dy;
+		int e2;
+
+		while (true) 
+		{
+			if (x1 >= 0 && x1 < width && y1 >= 0 && y1 < height) 
+			{
+				int index = (y1 * width + x1) * 4;
+				data[index] = plot_colour->get_red();
+				data[index + 1] = plot_colour->get_green();
+				data[index + 2] = plot_colour->get_blue();
+				data[index + 3] = plot_colour->get_alpha();
+			}
+			if (x1 == x2 && y1 == y2) break;
+			e2 = 2 * err;
+			if (e2 >= dy) { err += dy; x1 += sx; }
+			if (e2 <= dx) { err += dx; y1 += sy; }
+		}
+	}
+
+	this->set_to_parameters(4, width, height, data.data());
+}
+
 Omnific::Image::Image(std::shared_ptr<Colour> colour)
 {
 	int width = 256;

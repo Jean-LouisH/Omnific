@@ -92,8 +92,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_delta", &Omnific::Clock::get_delta)
 		.def("get_delta_in_seconds", &Omnific::Clock::get_delta_in_seconds);
 
-	pybind11::class_<Omnific::Colour>(m, "Colour")
+	pybind11::class_<Omnific::Colour, std::shared_ptr<Omnific::Colour>>(m, "Colour")
 		.def(pybind11::init<std::string>())
+		.def(pybind11::init<uint8_t, uint8_t, uint8_t>())
 		.def(pybind11::init<uint8_t, uint8_t, uint8_t, uint8_t>())
 		.def("get_red", &Omnific::Colour::get_red)
 		.def("get_green", &Omnific::Colour::get_green)
@@ -108,7 +109,19 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 
 	pybind11::class_<Omnific::SharedLibraryAccess>(m, "SharedLibraryAccess");
 
-	pybind11::class_<Omnific::FileAccess>(m, "FileAccess");
+	pybind11::class_<Omnific::FileAccess>(m, "FileAccess")
+		.def("find_path", &Omnific::FileAccess::find_path)
+		.def("get_executable_file_path", &Omnific::FileAccess::get_executable_file_path)
+		.def("get_executable_name", &Omnific::FileAccess::get_executable_name)
+		.def("get_executable_directory_path", &Omnific::FileAccess::get_executable_directory_path)
+		.def("get_file_name_without_extension", &Omnific::FileAccess::get_file_name_without_extension)
+		.def("get_file_extension", &Omnific::FileAccess::get_file_extension)
+		.def("get_path_before_file", &Omnific::FileAccess::get_path_before_file)
+		.def("get_last_modified_time", &Omnific::FileAccess::get_last_modified_time)
+		.def("exists", &Omnific::FileAccess::exists)
+		.def("read_string", &Omnific::FileAccess::read_string)
+		.def("read_binary", &Omnific::FileAccess::read_binary)
+		.def("write_binary", &Omnific::FileAccess::write_binary);
 
 	pybind11::class_<Omnific::Inputs>(m, "Input")
 		.def("is_on_press", pybind11::overload_cast<std::string>(&Omnific::Inputs::is_on_press))
@@ -215,6 +228,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("remove_entity", &Omnific::Scene::remove_entity)
 		.def("remove_component", &Omnific::Scene::remove_component)
 		.def("get_component", pybind11::overload_cast<std::string, Omnific::EntityID>(&Omnific::Scene::get_component))
+		.def("get_component_from_entity_by_name", &Omnific::Scene::get_component_from_entity_by_name)
 		.def("get_components", &Omnific::Scene::get_components)
 		.def("get_entity", &Omnific::Scene::get_entity)
 		.def("get_entity_by_name", &Omnific::Scene::get_entity_by_name)
@@ -275,6 +289,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::AudioSource, Omnific::Component, std::shared_ptr<Omnific::AudioSource>>(m, Omnific::AudioSource::TYPE_STRING)
 		.def(pybind11::init<>())
+		.def_readwrite("is_capturing_waveform", &Omnific::AudioSource::is_capturing_waveform)
+		.def_readwrite("is_looping", &Omnific::AudioSource::is_looping)
+		.def("add_audio_clip", &Omnific::AudioSource::add_audio_clip)
 		.def("clear_audio_clip", &Omnific::AudioSource::clear_audio_clip)
 		.def("remove_audio_clip", &Omnific::AudioSource::remove_audio_clip)
 		.def("play_audio_clip", &Omnific::AudioSource::play_audio_clip)
@@ -292,7 +309,11 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_playback_state", &Omnific::AudioSource::get_playback_state)
 		.def("get_audio_clip_names", &Omnific::AudioSource::get_audio_clip_names)
 		.def("get_active_audio_clip", &Omnific::AudioSource::get_active_audio_clip)
-		.def("get_audio_clip_by_name", &Omnific::AudioSource::get_audio_clip_by_name);
+		.def("get_audio_clip_by_name", &Omnific::AudioSource::get_audio_clip_by_name)
+		.def("is_playing", &Omnific::AudioSource::is_playing)
+		.def("is_paused", &Omnific::AudioSource::is_paused)
+		.def("is_stopped", &Omnific::AudioSource::is_stopped)
+		.def("get_current_waveform", &Omnific::AudioSource::get_current_waveform);
 	pybind11::class_<Omnific::Camera, Omnific::Component, std::shared_ptr<Omnific::Camera>>(m, Omnific::Camera::TYPE_STRING)
 		.def(pybind11::init<>())
 		.def("toggle_wireframe_mode", &Omnific::Camera::toggle_wireframe_mode)
@@ -334,7 +355,10 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::GUI, Omnific::Renderable, std::shared_ptr<Omnific::GUI>> gui(m, Omnific::GUI::TYPE_STRING);
 		gui.def(pybind11::init<>());
-		gui.def("set_to_label", &Omnific::GUI::set_to_label);
+		gui.def("set_to_label", &Omnific::GUI::set_to_label)
+		.def("set_to_plot", &Omnific::GUI::set_to_plot)
+		.def("set_to_colour_canvas", &Omnific::GUI::set_to_colour_canvas)
+		.def("set_to_image_canvas", &Omnific::GUI::set_to_image_canvas);
 		pybind11::class_<Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Element>>(gui, Omnific::GUI::Element::TYPE_STRING)
 			.def(pybind11::init<>());
 		pybind11::class_<Omnific::GUI::Button, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Button>>(gui, Omnific::GUI::Button::TYPE_STRING)
@@ -434,7 +458,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("get_logger", &Omnific::Platform::get_logger, pybind11::return_value_policy::reference);
 	m.def("get_network_access", &Omnific::Platform::get_network_access, pybind11::return_value_policy::reference);
 	m.def("get_window", &Omnific::Platform::get_window, pybind11::return_value_policy::reference);
-	m.def("get_args", &Omnific::Platform::get_args);
+	m.def("get_command_line_arguments", &Omnific::Platform::get_command_line_arguments, pybind11::return_value_policy::reference);
 }
 
 #endif /*ENABLE_PYTHON_BUILD*/

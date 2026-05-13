@@ -10,6 +10,7 @@ project_name_type_pairs = {
     #"platformer": "game",
     #"shooter" : "game",
     #"fighting" : "game",
+    "audio_player" : "app",
     "clock" : "app",
     "calculator" : "app",
     #"music_keyboard" : "app",

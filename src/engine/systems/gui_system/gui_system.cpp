@@ -81,7 +81,7 @@ void Omnific::GUISystem::on_early_update()
 			std::vector<std::shared_ptr<GUI::Button>> gui_list_items =  gui_list->get_list_items();
 			this->detect_inputs_for_gui_element(
 				element, 
-				gui_list->get_position() - gui_list->get_pivot_offset(), 
+				gui_list->get_position() - gui_list->get_position_pivot_offset(), 
 				mouse_position);
 
 			for (int i = 0; i < gui_list_items.size(); ++i)
@@ -89,7 +89,7 @@ void Omnific::GUISystem::on_early_update()
 				std::shared_ptr<GUI::Button>& gui_list_item = gui_list_items[i];
 				this->detect_inputs_for_gui_element(
 					std::dynamic_pointer_cast<GUI::Element>(gui_list_item), 
-					gui_list_item->get_position() - gui_list_item->get_pivot_offset(),
+					gui_list_item->get_position() - gui_list_item->get_position_pivot_offset(),
 					mouse_position);
 			}
 		}
@@ -97,7 +97,7 @@ void Omnific::GUISystem::on_early_update()
 		{
 			this->detect_inputs_for_gui_element(
 				element, 
-				element->get_position() - element->get_pivot_offset(),
+				element->get_position() - element->get_position_pivot_offset(),
 				mouse_position);
 		}
 		gui->update_image();
@@ -126,15 +126,15 @@ void Omnific::GUISystem::on_fixed_update()
 		/* Enforce element pivot to some point on the GUI*/
 		switch (element->pivot)
 		{
-			case GUI::Element::PivotPoint::TOP_LEFT: element->pivot_offset = glm::vec2(-centre.x, centre.y); break;
-			case GUI::Element::PivotPoint::TOP_CENTRE: element->pivot_offset = glm::vec2(0.0, centre.y); break;
-			case GUI::Element::PivotPoint::TOP_RIGHT: element->pivot_offset = glm::vec2(centre.x, centre.y); break;
-			case GUI::Element::PivotPoint::CENTRE_LEFT: element->pivot_offset = glm::vec2(-centre.x, 0.0); break;
-			case GUI::Element::PivotPoint::CENTRE: element->pivot_offset = glm::vec2(0.0, 0.0); break;
-			case GUI::Element::PivotPoint::CENTRE_RIGHT: element->pivot_offset = glm::vec2(centre.x, 0.0); break;
-			case GUI::Element::PivotPoint::BOTTOM_LEFT: element->pivot_offset = glm::vec2(-centre.x, -centre.y); break;
-			case GUI::Element::PivotPoint::BOTTOM_CENTRE: element->pivot_offset = glm::vec2(0.0, -centre.y); break;
-			case GUI::Element::PivotPoint::BOTTOM_RIGHT: element->pivot_offset = glm::vec2(centre.x, -centre.y); break;
+			case GUI::Element::PivotPoint::TOP_LEFT: element->position_pivot_offset = glm::vec2(-centre.x, centre.y); break;
+			case GUI::Element::PivotPoint::TOP_CENTRE: element->position_pivot_offset = glm::vec2(0.0, centre.y); break;
+			case GUI::Element::PivotPoint::TOP_RIGHT: element->position_pivot_offset = glm::vec2(centre.x, centre.y); break;
+			case GUI::Element::PivotPoint::CENTRE_LEFT: element->position_pivot_offset = glm::vec2(-centre.x, 0.0); break;
+			case GUI::Element::PivotPoint::CENTRE: element->position_pivot_offset = glm::vec2(0.0, 0.0); break;
+			case GUI::Element::PivotPoint::CENTRE_RIGHT: element->position_pivot_offset = glm::vec2(centre.x, 0.0); break;
+			case GUI::Element::PivotPoint::BOTTOM_LEFT: element->position_pivot_offset = glm::vec2(-centre.x, -centre.y); break;
+			case GUI::Element::PivotPoint::BOTTOM_CENTRE: element->position_pivot_offset = glm::vec2(0.0, -centre.y); break;
+			case GUI::Element::PivotPoint::BOTTOM_RIGHT: element->position_pivot_offset = glm::vec2(centre.x, -centre.y); break;
 		}
 
 		std::shared_ptr<Entity> gui_entity = scene->get_entity(gui->get_entity_id());

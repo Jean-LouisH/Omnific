@@ -222,6 +222,21 @@ Omnific::AudioSource::PlaybackState Omnific::AudioSource::get_playback_state()
 	return this->playback_state;
 }
 
+bool Omnific::AudioSource::is_playing()
+{
+	return this->playback_state == PlaybackState::PLAYING;
+}
+
+bool Omnific::AudioSource::is_paused()
+{
+	return this->playback_state == PlaybackState::PAUSED;
+}
+
+bool Omnific::AudioSource::is_stopped()
+{
+	return this->playback_state == PlaybackState::STOPPED;
+}
+
 std::vector<std::string> Omnific::AudioSource::get_audio_clip_names()
 {
 	std::vector<std::string> audio_clip_names;
@@ -256,7 +271,7 @@ std::shared_ptr<Omnific::AudioClip> Omnific::AudioSource::get_audio_clip_by_name
 	return audio_clip;
 }
 
-std::vector<int16_t>& Omnific::AudioSource::get_current_waveform()
+std::vector<float> Omnific::AudioSource::get_current_waveform()
 {
 	return this->current_waveform;
 }

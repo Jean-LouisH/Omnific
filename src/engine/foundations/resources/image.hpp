@@ -49,6 +49,7 @@ namespace Omnific
 			this->type = TYPE_STRING;
 		};
 		Image(std::string text, std::shared_ptr<Font> font, std::shared_ptr<Colour> colour, uint16_t wrap_length);
+		Image(std::vector<float> plot_points, int width, int height, std::shared_ptr<Colour> background_colour, std::shared_ptr<Colour> plot_colour);
 		Image(std::shared_ptr<Colour> colour);
 		Image(std::shared_ptr<Colour> colour, int width, int height);
 		Image(uint8_t* data, int width, int height, int colour_channels);

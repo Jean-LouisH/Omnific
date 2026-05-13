@@ -90,8 +90,9 @@ namespace Omnific
 		static FileAccess& get_file_access();
 		static NetworkAccess& get_network_access();
 
+		static std::vector<std::string> get_command_line_arguments();
+
 		static Clock& get_run_clock();
-		static std::vector<std::string> get_args();
 		static void add_game_controller_mappings(std::string mapping_filepath);
 	private:
 		static Platform* instance;

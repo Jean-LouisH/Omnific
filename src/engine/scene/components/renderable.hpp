@@ -32,56 +32,57 @@
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Material
-	{
-		friend class Renderable;
-		friend class RenderingSystem;
-	public:
-		enum class DiffuseReflectionModel
-		{
-			NONE,
-			LAMBERT,
-			BURLEY,
-			OREN_NAYER
-		};
-
-		enum class SpecularReflectionModel
-		{
-			NONE,
-			PHONG,
-			BLINN_PHONG,
-			GGX,
-			BECKMANN
-		};
-
-		std::shared_ptr<Image> albedo_map;
-		std::shared_ptr<Image> metallic_map;
-		std::shared_ptr<Image> specular_map;
-		std::shared_ptr<Image> roughness_map;
-		std::shared_ptr<Image> anisotropic_map;
-		std::shared_ptr<Image> emission_map;
-		std::shared_ptr<Image> normal_map;
-		std::shared_ptr<Image> displacement_map;
-		std::shared_ptr<Image> occlusion_map;
-
-	private:
-		DiffuseReflectionModel diffuse_reflection_model = DiffuseReflectionModel::LAMBERT;
-		SpecularReflectionModel specular_reflection_model = SpecularReflectionModel::GGX;
-	};
-
-	class OMNIFIC_ENGINE_API Rig
-	{
-	public:
-	};
-
-	class OMNIFIC_ENGINE_API SkeletalAnimation
-	{
-	public:
-	};
-
 	class OMNIFIC_ENGINE_API Renderable : public Component
 	{
 	public:
+
+		class OMNIFIC_ENGINE_API Material
+		{
+			friend class Renderable;
+			friend class RenderingSystem;
+		public:
+			enum class DiffuseReflectionModel
+			{
+				NONE,
+				LAMBERT,
+				BURLEY,
+				OREN_NAYER
+			};
+
+			enum class SpecularReflectionModel
+			{
+				NONE,
+				PHONG,
+				BLINN_PHONG,
+				GGX,
+				BECKMANN
+			};
+
+			std::shared_ptr<Image> albedo_map;
+			std::shared_ptr<Image> metallic_map;
+			std::shared_ptr<Image> specular_map;
+			std::shared_ptr<Image> roughness_map;
+			std::shared_ptr<Image> anisotropic_map;
+			std::shared_ptr<Image> emission_map;
+			std::shared_ptr<Image> normal_map;
+			std::shared_ptr<Image> displacement_map;
+			std::shared_ptr<Image> occlusion_map;
+
+		private:
+			DiffuseReflectionModel diffuse_reflection_model = DiffuseReflectionModel::LAMBERT;
+			SpecularReflectionModel specular_reflection_model = SpecularReflectionModel::GGX;
+		};
+
+		class OMNIFIC_ENGINE_API Rig
+		{
+		public:
+		};
+
+		class OMNIFIC_ENGINE_API SkeletalAnimation
+		{
+		public:
+		};
+
 		enum class FaceCullMode
 		{
 			NONE,

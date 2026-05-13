@@ -166,9 +166,9 @@ glm::vec2 Omnific::GUI::Element::get_dimensions()
 	return this->dimensions;
 }
 
-glm::vec2 Omnific::GUI::Element::get_pivot_offset()
+glm::vec2 Omnific::GUI::Element::get_position_pivot_offset()
 {
-	return this->pivot_offset;
+	return this->position_pivot_offset;
 }
 
 std::string Omnific::GUI::Element::get_name()
@@ -207,6 +207,14 @@ void Omnific::GUI::Element::highlight_on_input()
 		{
 			this->target_current_colour  = this->target_default_background_colour;
 		}
+	}
+}
+
+void Omnific::GUI::PlotCanvas::update_image()
+{
+	if (!this->is_hidden)
+	{
+		this->image = std::shared_ptr<Image>(new Image(this->plot_points, this->dimensions.x, this->dimensions.y, this->target_plot_background_colour, this->target_plot_colour));
 	}
 }
 
@@ -367,6 +375,36 @@ std::shared_ptr<Omnific::GUI::Element> Omnific::GUI::deserialize_gui_element(YAM
 			gui_panel->deserialize_common_properties(it5->second);
 			gui_panel->update_image();
 			gui_element = std::dynamic_pointer_cast<Element>(gui_panel);
+		}
+		else if (it5->first.as<std::string>() == "ImageCanvas")
+		{
+			std::shared_ptr<ImageCanvas> gui_image_canvas(new ImageCanvas());
+
+			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+			{
+				if (it6->first.as<std::string>() == "")
+				{
+
+				}
+			}
+
+			gui_image_canvas->deserialize_common_properties(it5->second);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_image_canvas);
+		}
+		else if (it5->first.as<std::string>() == "PlotCanvas")
+		{
+			std::shared_ptr<PlotCanvas> gui_plot_canvas(new PlotCanvas());
+
+			for (YAML::const_iterator it6 = it5->second.begin(); it6 != it5->second.end(); ++it6)
+			{
+				if (it6->first.as<std::string>() == "")
+				{
+
+				}
+			}
+
+			gui_plot_canvas->deserialize_common_properties(it5->second);
+			gui_element = std::dynamic_pointer_cast<Element>(gui_plot_canvas);
 		}
 		else if (it5->first.as<std::string>() == "MenuBar")
 		{
@@ -654,6 +692,44 @@ void Omnific::GUI::set_to_label(std::string text)
 	}
 
 	this->update_image();
+}
+
+void Omnific::GUI::set_to_plot(std::vector<float> plot_points, std::shared_ptr<Colour> background_colour, std::shared_ptr<Colour> plot_colour)
+{
+	if (this->root_element == nullptr)
+	{
+		this->root_element = std::shared_ptr<Element>(new Element());
+	}
+
+	std::shared_ptr<PlotCanvas> gui_plot;
+
+	if (root_element->gui_element_type == PlotCanvas::TYPE_STRING)
+	{
+		gui_plot = std::dynamic_pointer_cast<PlotCanvas>(root_element);
+	}
+	else
+	{
+		this->element_cache.clear();
+		gui_plot = std::shared_ptr<PlotCanvas>(new PlotCanvas());
+		this->root_element = gui_plot;
+	}
+
+	gui_plot->plot_points = plot_points;
+	gui_plot->target_plot_colour = plot_colour;
+	gui_plot->target_plot_background_colour = background_colour;
+	gui_plot->dimensions = Platform::get_window().get_window_size();
+	gui_plot->update_image();
+	this->update_image();
+}
+
+void Omnific::GUI::set_to_colour_canvas(std::shared_ptr<Colour> colour)
+{
+	// Implementation for setting colour canvas
+}
+
+void Omnific::GUI::set_to_image_canvas(std::shared_ptr<Image> image)
+{
+	// Implementation for setting image canvas
 }
 
 std::shared_ptr<Omnific::GUI::Element> Omnific::GUI::get_element(std::string gui_element_name)

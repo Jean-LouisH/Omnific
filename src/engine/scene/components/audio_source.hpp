@@ -90,14 +90,17 @@ namespace Omnific
 		float get_volume();
 		float get_current_playback_time();
 		PlaybackState get_playback_state();
+		bool is_playing();
+		bool is_paused();
+		bool is_stopped();
 		std::vector<std::string> get_audio_clip_names();
 		std::shared_ptr<AudioClip> get_active_audio_clip();
 		std::shared_ptr<AudioClip> get_audio_clip_by_name(std::string audio_clip_name);
-		std::vector<int16_t>& get_current_waveform();
+		std::vector<float> get_current_waveform();
 
 	private:
 		std::unordered_map<std::string, std::shared_ptr<AudioClip>> audio_clip_collection;
-		std::vector<int16_t> current_waveform;
+		std::vector<float> current_waveform;
 		std::string active_audio_clip_name;
 		PlaybackState playback_state = PlaybackState::STOPPED;
 		float volume = 1.0;

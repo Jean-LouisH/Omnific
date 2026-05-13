@@ -576,11 +576,11 @@ void Omnific::Inputs::clear()
 	this->keyboard_events.clear();
 	this->has_detected_input_changes = false;
 
-	if (this->drop_event.data != NULL)
-	{
-		SDL_free((void*)this->drop_event.data);
-		SDL_zero(this->drop_event);
-	}
+	// if (this->drop_event.data != NULL)
+	// {
+	// 	SDL_free((void*)this->drop_event.data);
+	// 	SDL_zero(this->drop_event);
+	// }
 
 	SDL_zero(this->mouse_wheel_event);
 	SDL_zero(this->mouse_motion_event);

@@ -27,29 +27,35 @@
 #include "foundations/constants.hpp"
 #include <stdint.h>
 #include "scene/components/component.hpp"
+#include <unordered_map>
 
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Animator : public Component
 	{
 	public:
-		float value = 0.0;
-		std::vector<float> key_frames;
-		float duration = 0.0;
-		float playback_speed_percentage = 1.0;
-		float delay = 0.0;
-		float progress = 0.0;
-		float maximum_value = 0.0;
-		float minimum_value = 0.0;
-		uint8_t repeats = 0;
-		uint8_t repeat_count = 0;
-		bool is_playing = false;
+
+		class OMNIFIC_ENGINE_API Animation
+		{
+		public:
+			float value = 0.0;
+			std::vector<float> key_frames;
+			float duration = 0.0;
+			float playback_speed_percentage = 1.0;
+			float delay = 0.0;
+			float progress = 0.0;
+			float maximum_value = 0.0;
+			float minimum_value = 0.0;
+			uint8_t repeats = 0;
+			uint8_t repeat_count = 0;
+			bool is_playing = false;
+		};
 
 		Animator()
 		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "PropertyAnimation";
+		static constexpr const char* TYPE_STRING = "Animator";
 
 		virtual Registerable* instance() override
 		{
@@ -57,7 +63,11 @@ namespace Omnific
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
+
+		std::unordered_map<std::string, Animation> animations;
+
 		virtual void deserialize(YAML::Node yaml_node);
+		float get_animation_value(std::string animation_name);
 	private:
 	};
 }

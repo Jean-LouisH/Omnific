@@ -93,7 +93,7 @@ namespace Omnific
 			bool get_is_selected();
 			glm::vec2 get_position();
 			glm::vec2 get_dimensions();
-			glm::vec2 get_pivot_offset();
+			glm::vec2 get_position_pivot_offset();
 			std::string get_name();
 			std::string get_gui_element_type();
 			std::string get_parent_type();
@@ -104,7 +104,7 @@ namespace Omnific
 
 			glm::vec2 position = glm::vec2(0.0);
 			glm::vec2 dimensions = glm::vec2(0.0);
-			glm::vec2 pivot_offset = glm::vec2(0.0);
+			glm::vec2 position_pivot_offset = glm::vec2(0.0);
 			glm::vec2 margin = glm::vec2(0.0);
 
 			std::string name;
@@ -148,7 +148,11 @@ namespace Omnific
 				this->parent_type = Element::TYPE_STRING;
 			};
 
-			//virtual void update_image() override;
+			std::vector<float> plot_points;
+			std::shared_ptr<Colour> target_plot_background_colour;
+			std::shared_ptr<Colour> target_plot_colour;
+
+			virtual void update_image() override;
 		};
 
 		class OMNIFIC_ENGINE_API ColourCanvas : public Element
@@ -473,6 +477,9 @@ namespace Omnific
 
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_to_label(std::string text);
+		void set_to_plot(std::vector<float> plot_points, std::shared_ptr<Colour> background_colour, std::shared_ptr<Colour> plot_colour);
+		void set_to_colour_canvas(std::shared_ptr<Colour> colour);
+		void set_to_image_canvas(std::shared_ptr<Image> image);
 
 		std::shared_ptr<Element> get_element(std::string gui_element_name);
 		std::shared_ptr<Element> get_root_element();

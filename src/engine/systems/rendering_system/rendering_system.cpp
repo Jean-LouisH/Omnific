@@ -187,7 +187,7 @@ void Omnific::RenderingSystem::on_output()
 								renderable->mesh != nullptr)
 							{
 								this->opengl_backend->enable_blending();
-								std::shared_ptr<Material> material = renderable->material;
+								std::shared_ptr<Renderable::Material> material = renderable->material;
 								std::shared_ptr<Shader> shader = renderable->get_shader();
 								std::shared_ptr<ShaderParameters> shader_parameters = renderable->shader_parameters;
 
@@ -222,7 +222,7 @@ void Omnific::RenderingSystem::on_output()
 									std::shared_ptr<Renderable> overriding_renderable =
 										std::dynamic_pointer_cast<Renderable>(scene->get_component_by_id(top_entity->get_renderable_id()));
 
-									std::shared_ptr<Material> overriding_material = overriding_renderable->overriding_material;
+									std::shared_ptr<Renderable::Material> overriding_material = overriding_renderable->overriding_material;
 									std::shared_ptr<Shader> overriding_shader = overriding_renderable->get_overriding_shader();
 								
 									if (overriding_material != nullptr)
@@ -480,7 +480,7 @@ void Omnific::RenderingSystem::on_output()
 			std::shared_ptr<GUI::Element> root_element = gui->get_root_element();
 
 			/* Standard GUI uniforms */
-			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_pivot_offset());
+			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_position_pivot_offset());
 			shader_program->set_vec2("screen_viewport", Platform::get_window().get_window_size());
 			shader_program->set_int("albedo_texture_sampler", 0);
 			shader_program->set_float("alpha", gui->get_alpha_in_percentage());

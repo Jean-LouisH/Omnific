@@ -293,14 +293,14 @@ Omnific::NetworkAccess& Omnific::Platform::get_network_access()
 	return *get_instance()->network_access;
 }
 
+std::vector<std::string> Omnific::Platform::get_command_line_arguments()
+{
+	return get_instance()->command_line_arguments;
+}
+
 Omnific::Clock& Omnific::Platform::get_run_clock()
 {
 	return *get_instance()->run_clock;
-}
-
-std::vector<std::string> Omnific::Platform::get_args()
-{
-	return get_instance()->command_line_arguments;
 }
 
 void Omnific::Platform::add_game_controller_mappings(std::string mapping_filepath)

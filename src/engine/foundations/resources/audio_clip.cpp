@@ -29,6 +29,7 @@
 Omnific::AudioClip::AudioClip(std::string filepath)
 {
 	this->type = TYPE_STRING;
+	this->set_name(filepath);
 	std::string file_extension = Platform::get_file_access().get_file_extension(filepath);
 	std::string full_filepath = Platform::get_file_access().find_path(filepath);
 	short* data_output;

@@ -176,12 +176,12 @@ void Omnific::AudioSystem::on_output()
 
 						if (audio_source->is_capturing_waveform)
 						{
-							if (audio_source->current_waveform.size() > 0)
+							if (audio_source->current_waveform.size() < this->mix_samples_per_frame)
 							{
 								audio_source->current_waveform.resize(this->mix_samples_per_frame, 0);
 							}
 
-							for (int i = 0; i < mix_samples_per_frame; ++i)
+							for (int i = 0; i < audio_source->current_waveform.size(); ++i)
 							{
 								audio_source->current_waveform[i] = temp_cumulative_buffer[i];
 							}
@@ -221,7 +221,7 @@ void Omnific::AudioSystem::on_output()
 
 					for (int i = 0; i < mix_samples_per_frame; ++i)
 					{
-						audio_listener->current_waveform[i] = mix_buffer[i];
+						audio_listener->current_waveform[i] = (float)mix_buffer[i];
 					}
 				}
 			}

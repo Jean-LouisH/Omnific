@@ -726,6 +726,17 @@ std::shared_ptr<Omnific::Component> Omnific::Scene::get_component(std::string ty
 	return component;
 }
 
+std::shared_ptr<Omnific::Component> Omnific::Scene::get_component_from_entity_by_name(std::string type, std::string entity_name)
+{
+	std::shared_ptr<Entity> entity = this->get_entity_by_name(entity_name);
+	std::shared_ptr<Component> component;
+
+	if (entity)
+		component = this->get_component(type, entity->get_id());
+
+	return component;
+}
+
 std::vector<std::shared_ptr<Omnific::Renderable>> Omnific::Scene::get_renderables_in_order()
 {
 	std::vector<std::shared_ptr<Renderable>> renderables;
@@ -846,7 +857,7 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 				std::vector<uint32_t> indices = this->read_gltf_primitive_indices(gltf_model, mesh_index);
 
 				std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, indices));
-				std::shared_ptr<Material> material(new Material());
+				std::shared_ptr<Renderable::Material> material(new Renderable::Material());
 
 				material->albedo_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
 				material->metallic_map = std::shared_ptr<Image>(new Image("Image::#000000FF"));

@@ -49,12 +49,28 @@ Omnific::Colour::Colour(uint32_t value)
 	this->set_rgba(value);
 }
 
+Omnific::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue)
+{
+	this->red = float(red) / 255.0;
+	this->green = float(green) / 255.0;
+	this->blue = float(blue) / 255.0;
+	this->alpha = 1.0;
+}
+
 Omnific::Colour::Colour(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
 	this->red = float(red) / 255.0;
 	this->green = float(green) / 255.0;
 	this->blue = float(blue) / 255.0;
 	this->alpha = float(alpha) / 255.0;
+}
+
+Omnific::Colour::Colour(double red, double green, double blue)
+{
+	this->red = red;
+	this->green = green;
+	this->blue = blue;
+	this->alpha = 1.0;
 }
 
 Omnific::Colour::Colour(double red, double green, double blue, double alpha)
