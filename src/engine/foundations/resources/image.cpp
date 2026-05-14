@@ -79,10 +79,13 @@ Omnific::Image::Image(std::vector<float> plot_points, int width, int height, std
 
 	std::vector<uint8_t> data(width * height * 4, 0);
 	float maximum_plot_point = 0.0;
+	int y_centre = height / 2;
+	float y_scale = 0.2f;
+	float plot_points_per_pixel = plot_points.size() / width;
 
-	for (int i = 0; i < plot_points.size(); ++i)
+	for (int i = 0; i < width; ++i)
 	{
-		maximum_plot_point = std::max(plot_points[i], 0.0f);
+		maximum_plot_point = std::max(std::abs(plot_points[i * plot_points_per_pixel]), 1.0f);
 	}
 
 	for (int y = 0; y < height; ++y)
@@ -97,13 +100,12 @@ Omnific::Image::Image(std::vector<float> plot_points, int width, int height, std
 		}
 	}
 
-	int plot_point_count = plot_points.size();
-	for (int i = 0; i < plot_point_count - 1; i += 2)
+	for (int i = 0; i < width - 1; ++i)
 	{
-		int x1 = static_cast<int>(i * width);
-		int y1 = static_cast<int>((plot_points[i] / maximum_plot_point) * 0.5 * height);
-		int x2 = static_cast<int>((i + 1) * width);
-		int y2 = static_cast<int>((plot_points[i + 1] / maximum_plot_point) * 0.5 * height);
+		int x1 = static_cast<int>(i);
+		int x2 = static_cast<int>((i + 1));
+		int y1 = static_cast<int>(y_centre + (plot_points[i * plot_points_per_pixel] / maximum_plot_point) * (height / 2) * y_scale);
+		int y2 = static_cast<int>(y_centre + (plot_points[(i + 1) * plot_points_per_pixel] / maximum_plot_point) * (height / 2) * y_scale);
 
 		// Bresenham's line algorithm
 		int dx = std::abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
@@ -121,10 +123,23 @@ Omnific::Image::Image(std::vector<float> plot_points, int width, int height, std
 				data[index + 2] = plot_colour->get_blue();
 				data[index + 3] = plot_colour->get_alpha();
 			}
-			if (x1 == x2 && y1 == y2) break;
+
+			if (x1 == x2 && y1 == y2) 
+				break;
+			
 			e2 = 2 * err;
-			if (e2 >= dy) { err += dy; x1 += sx; }
-			if (e2 <= dx) { err += dx; y1 += sy; }
+
+			if (e2 >= dy) 
+			{ 
+				err += dy; 
+				x1 += sx; 
+			}
+
+			if (e2 <= dx) 
+			{ 
+				err += dx; 
+				y1 += sy; 
+			}
 		}
 	}
 

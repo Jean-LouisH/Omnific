@@ -195,7 +195,7 @@ void Omnific::GUI::Element::highlight_on_input()
 {
 	if (this->is_highlightable)
 	{
-		if (Platform::get_inputs().is_left_mouse_button_pressed())
+		if (this->is_clicked)
 		{
 			this->target_current_colour = this->target_clicked_colour;
 		}

@@ -46,6 +46,7 @@ namespace Omnific
 			return clone;
 		}
 		bool is_capturing_waveform = false;
+		int32_t waveform_capture_sample_count = -1;
 
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_volume(float value);

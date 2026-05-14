@@ -262,6 +262,14 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 				!(is_any_mouse_button_pressed)))
 			{
 				gui_element->is_hovered_in_focus = true;
+				if (Platform::get_inputs().is_left_mouse_button_pressed())
+				{
+					gui_element->is_clicked = true;
+				}
+				else
+				{
+					gui_element->is_clicked = false;
+				}
 				gui_element->update_image();
 			}
 			else if (!is_mouse_hovering_over_gui_element && gui_element->is_hovered_in_focus)

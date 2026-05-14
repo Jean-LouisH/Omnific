@@ -176,14 +176,18 @@ void Omnific::AudioSystem::on_output()
 
 						if (audio_source->is_capturing_waveform)
 						{
-							if (audio_source->current_waveform.size() < this->mix_samples_per_frame)
+							const float source_waveform_capture_quality = audio_source->waveform_capture_sample_count > 0 && 
+								audio_source->waveform_capture_sample_count < this->mix_samples_per_frame ? 
+								(float)audio_source->waveform_capture_sample_count / (float)this->mix_samples_per_frame : 1.0f;
+								
+							if (audio_source->current_waveform.size() < this->mix_samples_per_frame * source_waveform_capture_quality)
 							{
-								audio_source->current_waveform.resize(this->mix_samples_per_frame, 0);
+								audio_source->current_waveform.resize(this->mix_samples_per_frame * source_waveform_capture_quality, 0);
 							}
 
 							for (int i = 0; i < audio_source->current_waveform.size(); ++i)
 							{
-								audio_source->current_waveform[i] = temp_cumulative_buffer[i];
+								audio_source->current_waveform[i] = temp_cumulative_buffer[i * (1.0f / source_waveform_capture_quality)];
 							}
 						}
 
@@ -214,14 +218,18 @@ void Omnific::AudioSystem::on_output()
 
 				if (audio_listener->is_capturing_waveform)
 				{
-					if (audio_listener->current_waveform.size() > 0)
+					const float listener_waveform_capture_quality = audio_listener->waveform_capture_sample_count > 0 && 
+						audio_listener->waveform_capture_sample_count < this->mix_samples_per_frame ? 
+						(float)audio_listener->waveform_capture_sample_count / (float)this->mix_samples_per_frame : 1.0f;
+
+					if (audio_listener->current_waveform.size() < mix_samples_per_frame * listener_waveform_capture_quality)
 					{
-						audio_listener->current_waveform.resize(this->mix_samples_per_frame, 0);
+						audio_listener->current_waveform.resize(this->mix_samples_per_frame * listener_waveform_capture_quality, 0);
 					}
 
-					for (int i = 0; i < mix_samples_per_frame; ++i)
+					for (int i = 0; i < audio_listener->current_waveform.size(); ++i)
 					{
-						audio_listener->current_waveform[i] = (float)mix_buffer[i];
+						audio_listener->current_waveform[i] = (float)mix_buffer[i * (1.0f / listener_waveform_capture_quality)];
 					}
 				}
 			}

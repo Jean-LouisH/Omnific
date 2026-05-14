@@ -217,6 +217,16 @@ float Omnific::AudioSource::get_current_playback_time()
 	return this->playback_time;
 }
 
+float Omnific::AudioSource::get_playback_length()
+{
+	std::shared_ptr<AudioClip> active_audio_clip = this->get_active_audio_clip();
+	if (active_audio_clip)
+	{
+		return active_audio_clip->get_playback_length();
+	}
+	return 0.0f;
+}
+
 Omnific::AudioSource::PlaybackState Omnific::AudioSource::get_playback_state()
 {
 	return this->playback_state;

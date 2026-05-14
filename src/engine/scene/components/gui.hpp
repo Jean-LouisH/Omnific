@@ -101,6 +101,7 @@ namespace Omnific
 
 			bool is_hovered_in_focus = false;
 			bool is_selected = false;
+			bool is_clicked = false;
 
 			glm::vec2 position = glm::vec2(0.0);
 			glm::vec2 dimensions = glm::vec2(0.0);

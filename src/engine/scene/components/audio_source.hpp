@@ -72,6 +72,7 @@ namespace Omnific
 
 		bool is_capturing_waveform = false;
 		bool is_looping = false;
+		int32_t waveform_capture_sample_count = -1;
 
 		virtual void deserialize(YAML::Node yaml_node);
 		void add_audio_clip(std::shared_ptr<AudioClip> audio_clip);
@@ -89,6 +90,7 @@ namespace Omnific
 		void set_volume(float value);
 		float get_volume();
 		float get_current_playback_time();
+		float get_playback_length();
 		PlaybackState get_playback_state();
 		bool is_playing();
 		bool is_paused();
