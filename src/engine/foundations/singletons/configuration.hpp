@@ -48,6 +48,7 @@ namespace Omnific
 			bool is_starting_fullscreen;
 			bool is_starting_maximized;
 			bool is_resizable;
+			std::string render_device;
 		} window_settings;
 
 		struct PerformanceSettings

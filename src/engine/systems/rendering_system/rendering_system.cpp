@@ -33,6 +33,7 @@
 #include <foundations/singletons/configuration.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/scene_storage.hpp>
+#include "render_device/opengl_render_device.hpp"
 
 #define RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "rendering_system_on_output_frame_time"
 
@@ -43,7 +44,6 @@ Omnific::RenderingSystem::RenderingSystem()
 	this->dummy_light_transform->translate_y(5.0);
 	this->dummy_light_transform->translate_z(5.0);
 	this->dummy_light_transform->rotate_x(-45.0);
-	this->opengl_backend = std::shared_ptr<OpenGLRenderingBackend>(new OpenGLRenderingBackend());
 	this->type = TYPE_STRING;
 }
 
@@ -56,14 +56,21 @@ void Omnific::RenderingSystem::initialize()
 {
 	SDL_InitSubSystem(SDL_INIT_VIDEO);
 
-	Platform::create_window(Configuration::get_instance()->metadata.title.c_str(),
-		640,
-		480,
-		false,
-		this->get_rendering_backend_name());
+	Configuration* configuration = Configuration::get_instance();
+	std::string render_device_name = configuration->window_settings.render_device;
+
+	if (render_device_name == "opengl")
+		this->render_device = std::shared_ptr<OpenGLRenderDevice>(new OpenGLRenderDevice());
+
+	Platform::create_window(configuration->metadata.title.c_str(),
+		configuration->window_settings.width,
+		configuration->window_settings.height,
+		configuration->window_settings.is_starting_fullscreen,
+		render_device_name);
 
 	Image image = Image(
-		Platform::get_file_access().find_path(Configuration::get_instance()->metadata.icon_filepath));
+		Platform::get_file_access().find_path(configuration->metadata.icon_filepath));
+		
 	Platform::get_window().change_icon(
 		image.get_data(),
 		image.get_width(),
@@ -71,7 +78,7 @@ void Omnific::RenderingSystem::initialize()
 		image.get_depth(),
 		image.get_pitch());
 
-	this->opengl_backend->initialize();
+	this->render_device->initialize();
 	this->is_initialized = true;
 	Profiler::add_clock(RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"rendering_system", "on_output_frame_time"});
 	Platform::get_logger().write("Initialized Rendering System");
@@ -95,12 +102,12 @@ void Omnific::RenderingSystem::on_output()
 		switch(world_environment->background_mode)
 		{
 			case WorldEnvironment::BackgroundMode::SKY:; break;
-			case WorldEnvironment::BackgroundMode::CLEAR_COLOUR: this->opengl_backend->clear_colour_buffer(world_environment->clear_colour->get_rgba_in_vec4()); break;
+			case WorldEnvironment::BackgroundMode::CLEAR_COLOUR: this->render_device->clear_colour_buffer(world_environment->clear_colour->get_rgba_in_vec4()); break;
 		}
 	}
 	else
 	{
-		this->opengl_backend->clear_colour_buffer(0, 0, 0, 255);
+		this->render_device->clear_colour_buffer(0, 0, 0, 255);
 	}
 
 	/* Render all models except GUIs */
@@ -121,18 +128,18 @@ void Omnific::RenderingSystem::on_output()
 
 					if (camera_entity->is_2d)
 					{
-						this->opengl_backend->disable_depth_test();
+						this->render_device->disable_depth_test();
 					}
 					else
 					{
-						this->opengl_backend->clear_depth_buffer();
-						this->opengl_backend->enable_depth_test();
+						this->render_device->clear_depth_buffer();
+						this->render_device->enable_depth_test();
 					}
 
 					if (camera->get_is_wireframe_mode())
-						this->opengl_backend->enable_wireframe_mode();
+						this->render_device->enable_wireframe_mode();
 					else
-						this->opengl_backend->disable_wireframe_mode();
+						this->render_device->disable_wireframe_mode();
 
 
 					std::vector<std::shared_ptr<Light>> lights = scene->get_components_by_type<Light>();
@@ -186,7 +193,7 @@ void Omnific::RenderingSystem::on_output()
 								!renderable->is_hidden() &&
 								renderable->mesh != nullptr)
 							{
-								this->opengl_backend->enable_blending();
+								this->render_device->enable_blending();
 								std::shared_ptr<Renderable::Material> material = renderable->material;
 								std::shared_ptr<Shader> shader = renderable->get_shader();
 								std::shared_ptr<ShaderParameters> shader_parameters = renderable->shader_parameters;
@@ -247,28 +254,19 @@ void Omnific::RenderingSystem::on_output()
 								switch (face_cull_mode)
 								{
 									case Renderable::FaceCullMode::NONE:
-									case Renderable::FaceCullMode::BACK: this->opengl_backend->set_face_culling_to_back(); break;
-									case Renderable::FaceCullMode::FRONT: this->opengl_backend->set_face_culling_to_front(); break;
-									case Renderable::FaceCullMode::FRONT_AND_BACK: this->opengl_backend->set_face_culling_to_front_and_back(); break;
+									case Renderable::FaceCullMode::BACK: this->render_device->set_face_culling_to_back(); break;
+									case Renderable::FaceCullMode::FRONT: this->render_device->set_face_culling_to_front(); break;
+									case Renderable::FaceCullMode::FRONT_AND_BACK: this->render_device->set_face_culling_to_front_and_back(); break;
 								}
 
 								if (face_cull_mode == Renderable::FaceCullMode::NONE)
-									this->opengl_backend->disable_face_culling();
+									this->render_device->disable_face_culling();
 								else
-									this->opengl_backend->enable_face_culling();
+									this->render_device->enable_face_culling();
 
 								
-								std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(renderable->mesh);
-								vertex_array->bind();
-
-								this->opengl_backend->get_texture(material->albedo_map)->bind(OpenGLTexture::Unit::_0);
-								this->opengl_backend->get_texture(material->metallic_map)->bind(OpenGLTexture::Unit::_1);
-								this->opengl_backend->get_texture(material->roughness_map)->bind(OpenGLTexture::Unit::_2);
-								this->opengl_backend->get_texture(material->emission_map)->bind(OpenGLTexture::Unit::_3);
-								this->opengl_backend->get_texture(material->normal_map)->bind(OpenGLTexture::Unit::_4);
-								this->opengl_backend->get_texture(material->occlusion_map)->bind(OpenGLTexture::Unit::_5);
-
-								std::shared_ptr<OpenGLShaderProgram> shader_program;
+								this->render_device->bind_mesh(renderable->mesh);
+								this->render_device->bind_material(material);
 
 								if (shader != nullptr)
 								{
@@ -278,167 +276,152 @@ void Omnific::RenderingSystem::on_output()
 
 									if (renderable_entity->is_2d)
 									{
-										default_vertex_input = this->opengl_backend->get_default_2d_vertex_input();
-										default_fragment_input = this->opengl_backend->get_default_2d_fragment_input();
+										default_vertex_input = this->render_device->get_default_2d_vertex_input();
+										default_fragment_input = this->render_device->get_default_2d_fragment_input();
 									}
 									else
 									{
-										default_vertex_input = this->opengl_backend->get_default_3d_vertex_input();
-										default_fragment_input = this->opengl_backend->get_default_3d_fragment_input();
+										default_vertex_input = this->render_device->get_default_3d_vertex_input();
+										default_fragment_input = this->render_device->get_default_3d_fragment_input();
 									}
 
-									if (!this->opengl_backend->shader_programs.count(shader_id))
+									std::shared_ptr<Shader> complete_shader;
+
+									//Check for a selected Shader preset. Otherwise, load custom shaders.
+									std::string preset = shader->get_preset();
+
+									if (renderable_entity->is_2d || (!renderable_entity->is_2d && preset == "Shader::CUSTOM"))
 									{
-										std::shared_ptr<Shader> complete_shader;
+										std::string vertex_source_input = default_vertex_input;
+										std::string fragment_source_input = default_fragment_input;
 
-										//Check for a selected Shader preset. Otherwise, load custom shaders.
-										std::string preset = shader->get_preset();
+										if (shader->get_vertex_source() != "")
+											vertex_source_input = shader->get_vertex_source();
 
-										if (renderable_entity->is_2d || (!renderable_entity->is_2d && preset == "Shader::CUSTOM"))
-										{
-											std::string vertex_source_input = default_vertex_input;
-											std::string fragment_source_input = default_fragment_input;
+										if (shader->get_fragment_source() != "")
+											fragment_source_input = shader->get_fragment_source();
 
-											if (shader->get_vertex_source() != "")
-												vertex_source_input = shader->get_vertex_source();
-
-											if (shader->get_fragment_source() != "")
-												fragment_source_input = shader->get_fragment_source();
-
-											complete_shader = std::shared_ptr<Shader>(new Shader(
-												vertex_source_input,
-												fragment_source_input,
-												false,
-												false));
-										}
-										else if (preset == "Shader::LIGHT_SOURCE")
-										{
-											complete_shader = std::shared_ptr<Shader>(new Shader(
-												default_vertex_input,
-												this->opengl_backend->get_light_source_fragment_input(),
-												false,
-												false));
-										}
-										else if (preset == "Shader::UNLIT")
-										{
-											complete_shader = std::shared_ptr<Shader>(new Shader(
-												default_vertex_input,
-												this->opengl_backend->get_unlit_fragment_input(),
-												false,
-												false));
-										}
-										else if (preset == "Shader::SIMPLE")
-										{
-											complete_shader = std::shared_ptr<Shader>(new Shader(
-												default_vertex_input,
-												this->opengl_backend->get_simple_fragment_input(),
-												false,
-												false));
-										}
-										else if (preset == "Shader::PBR")
-										{
-											complete_shader = std::shared_ptr<Shader>(new Shader(
-												default_vertex_input,
-												this->opengl_backend->get_pbr_fragment_input(),
-												false,
-												false));
-										}
-
-										this->opengl_backend->shader_programs.emplace(
-											shader_id,
-											std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(complete_shader)));
+										complete_shader = std::shared_ptr<Shader>(new Shader(
+											vertex_source_input,
+											fragment_source_input,
+											false,
+											false));
+									}
+									else if (preset == "Shader::LIGHT_SOURCE")
+									{
+										complete_shader = std::shared_ptr<Shader>(new Shader(
+											default_vertex_input,
+											this->render_device->get_light_source_fragment_input(),
+											false,
+											false));
+									}
+									else if (preset == "Shader::UNLIT")
+									{
+										complete_shader = std::shared_ptr<Shader>(new Shader(
+											default_vertex_input,
+											this->render_device->get_unlit_fragment_input(),
+											false,
+											false));
+									}
+									else if (preset == "Shader::SIMPLE")
+									{
+										complete_shader = std::shared_ptr<Shader>(new Shader(
+											default_vertex_input,
+											this->render_device->get_simple_fragment_input(),
+											false,
+											false));
+									}
+									else if (preset == "Shader::PBR")
+									{
+										complete_shader = std::shared_ptr<Shader>(new Shader(
+											default_vertex_input,
+											this->render_device->get_pbr_fragment_input(),
+											false,
+											false));
 									}
 
-									shader_program = this->opengl_backend->shader_programs.at(shader_id);
+									this->render_device->use_shader(complete_shader);
 								}
 								else if (renderable_entity->is_2d)
 								{
-									shader_program = this->opengl_backend->built_in_shader_program_2d;
+									this->render_device->use_default_2d_shader();
 								}
 								else
 								{
-									shader_program = this->opengl_backend->built_in_shader_program_3d;
+									this->render_device->use_default_3d_shader();
 								}
-
-								shader_program->use();
 
 								/* Custom uniforms. */
 								for (auto const& [name, int_uniform] : shader_parameters->int_uniforms)
-									shader_program->set_int(name, int_uniform);
+									this->render_device->set_int_uniform(name, int_uniform);
 
 								for (auto const& [name, bool_uniform] : shader_parameters->bool_uniforms)
-									shader_program->set_bool(name, bool_uniform);
+									this->render_device->set_bool_uniform(name, bool_uniform);
 
 								for (auto const& [name, float_uniform] : shader_parameters->float_uniforms)
-									shader_program->set_float(name, float_uniform);
+									this->render_device->set_float_uniform(name, float_uniform);
 
 								for (auto const& [name, vec2_uniform] : shader_parameters->vec2_uniforms)
-									shader_program->set_vec2(name, vec2_uniform);
+									this->render_device->set_vec2_uniform(name, vec2_uniform);
 
 								for (auto const& [name, vec3_uniform] : shader_parameters->vec3_uniforms)
-									shader_program->set_vec3(name, vec3_uniform);
+									this->render_device->set_vec3_uniform(name, vec3_uniform);
 
 								for (auto const& [name, vec4_uniform] : shader_parameters->vec4_uniforms)
-									shader_program->set_vec4(name, vec4_uniform);
+									this->render_device->set_vec4_uniform(name, vec4_uniform);
 
 								for (auto const& [name, mat4_uniform] : shader_parameters->mat4_uniforms)
-									shader_program->set_mat4(name, mat4_uniform);
+									this->render_device->set_mat4_uniform(name, mat4_uniform);
 
 								/* Standard uniforms */
-								shader_program->set_mat4("mvp", mvp);
-								shader_program->set_mat4("model_to_world_matrix", model_to_world_matrix);
-								shader_program->set_mat4("world_to_model_matrix", glm::inverse(model_to_world_matrix));
-								shader_program->set_int("albedo_texture_sampler", 0);
-								shader_program->set_int("metallicity_texture_sampler", 1);
-								shader_program->set_int("roughness_texture_sampler", 2);
-								shader_program->set_int("emission_texture_sampler", 3);
-								shader_program->set_int("normal_texture_sampler", 4);
-								shader_program->set_int("occlusion_texture_sampler", 5);
-								shader_program->set_float("alpha", alpha);
-								shader_program->set_int("diffuse_reflection_model", (int)renderable->material->diffuse_reflection_model);
-								shader_program->set_int("specular_reflection_model", (int)renderable->material->specular_reflection_model);
-								shader_program->set_vec4("highlight_colour", renderable->highlight_colour->get_rgba_in_vec4());
-								shader_program->set_int("light_count", lights_count);
-								shader_program->set_int_array("light_modes", light_modes);
-								shader_program->set_vec3_array("light_colours", light_colours);
-								shader_program->set_vec3_array("shadow_colours", shadow_colours);
-								shader_program->set_float_array("light_intensities", light_intensities);
-								shader_program->set_float_array("light_ranges", light_ranges);
-								shader_program->set_bool_array("are_shadows_enabled", are_shadows_enabled);
-								shader_program->set_vec3_array("light_translations", light_translations);
-								shader_program->set_vec3_array("light_rotations", light_rotations);
-								shader_program->set_float_array("light_inner_cutoff_angles", light_inner_cutoff_angles);
-								shader_program->set_float_array("light_outer_cutoff_angles", light_outer_cutoff_angles);
-								shader_program->set_vec2("camera_viewport", camera->get_viewport());
-								shader_program->set_vec3("camera_translation", camera_transform->translation);
-								shader_program->set_vec3("camera_rotation", camera_transform->get_rotation_in_radians_euler_angles());
-								shader_program->set_vec3("entity_translation", renderable_transform->translation);
-								shader_program->set_vec3("entity_rotation", renderable_transform->get_rotation_in_radians_euler_angles());
-								shader_program->set_vec3("entity_scale", renderable_transform->scale);
+								this->render_device->set_mat4_uniform("mvp", mvp);
+								this->render_device->set_mat4_uniform("model_to_world_matrix", model_to_world_matrix);
+								this->render_device->set_mat4_uniform("world_to_model_matrix", glm::inverse(model_to_world_matrix));
+								this->render_device->set_int_uniform("albedo_texture_sampler", 0);
+								this->render_device->set_int_uniform("metallicity_texture_sampler", 1);
+								this->render_device->set_int_uniform("roughness_texture_sampler", 2);
+								this->render_device->set_int_uniform("emission_texture_sampler", 3);
+								this->render_device->set_int_uniform("normal_texture_sampler", 4);
+								this->render_device->set_int_uniform("occlusion_texture_sampler", 5);
+								this->render_device->set_float_uniform("alpha", alpha);
+								this->render_device->set_int_uniform("diffuse_reflection_model", (int)renderable->material->diffuse_reflection_model);
+								this->render_device->set_int_uniform("specular_reflection_model", (int)renderable->material->specular_reflection_model);
+								this->render_device->set_vec4_uniform("highlight_colour", renderable->highlight_colour->get_rgba_in_vec4());
+								this->render_device->set_int_uniform("light_count", lights_count);
+								this->render_device->set_int_array_uniform("light_modes", light_modes);
+								this->render_device->set_vec3_array_uniform("light_colours", light_colours);
+								this->render_device->set_vec3_array_uniform("shadow_colours", shadow_colours);
+								this->render_device->set_float_array_uniform("light_intensities", light_intensities);
+								this->render_device->set_float_array_uniform("light_ranges", light_ranges);
+								this->render_device->set_bool_array_uniform("are_shadows_enabled", are_shadows_enabled);
+								this->render_device->set_vec3_array_uniform("light_translations", light_translations);
+								this->render_device->set_vec3_array_uniform("light_rotations", light_rotations);
+								this->render_device->set_float_array_uniform("light_inner_cutoff_angles", light_inner_cutoff_angles);
+								this->render_device->set_float_array_uniform("light_outer_cutoff_angles", light_outer_cutoff_angles);
+								this->render_device->set_vec2_uniform("camera_viewport", camera->get_viewport());
+								this->render_device->set_vec3_uniform("camera_translation", camera_transform->translation);
+								this->render_device->set_vec3_uniform("camera_rotation", camera_transform->get_rotation_in_radians_euler_angles());
+								this->render_device->set_vec3_uniform("entity_translation", renderable_transform->translation);
+								this->render_device->set_vec3_uniform("entity_rotation", renderable_transform->get_rotation_in_radians_euler_angles());
+								this->render_device->set_vec3_uniform("entity_scale", renderable_transform->scale);
 
-								if (vertex_array->get_index_count() > 0)
+								if (renderable->mesh->get_is_indexed())
 								{
-									this->opengl_backend->draw_triangles_from_elements(vertex_array->get_index_count());
+									this->render_device->draw_indexed_triangles(renderable->mesh);
 								}
 								else
 								{
-									Mesh::PrimitiveMode primitive_mode = renderable->mesh->get_primitive_mode();
-									if (primitive_mode == Mesh::PrimitiveMode::TRIANGLES)
+									switch (renderable->mesh->get_primitive_mode())
 									{
-										this->opengl_backend->draw_triangles_from_arrays(vertex_array->get_vertex_count());
-									}
-									else if (primitive_mode == Mesh::PrimitiveMode::POINTS)
-									{
-										this->opengl_backend->draw_points_from_arrays(vertex_array->get_vertex_count());
-									}
-									else if (primitive_mode == Mesh::PrimitiveMode::LINE_STRIP)
-									{
-										this->opengl_backend->draw_line_strip_from_arrays(vertex_array->get_vertex_count());
+										case Mesh::PrimitiveMode::TRIANGLES: this->render_device->draw_triangles(renderable->mesh); break;
+										case Mesh::PrimitiveMode::POINTS: this->render_device->draw_points(renderable->mesh); break;
+										case Mesh::PrimitiveMode::LINE_STRIP: this->render_device->draw_line_strip(renderable->mesh); break;
 									}
 								}
 
-								vertex_array->unbind();
-								this->opengl_backend->disable_blending();
+								this->render_device->unbind_mesh();
+								this->render_device->unbind_material();
+								this->render_device->disable_blending();
 							}
 						}
 					}
@@ -447,9 +430,9 @@ void Omnific::RenderingSystem::on_output()
 		}
 	}
 
-	this->opengl_backend->disable_depth_test();
-	this->opengl_backend->disable_wireframe_mode();
-	this->opengl_backend->disable_face_culling();
+	this->render_device->disable_depth_test();
+	this->render_device->disable_wireframe_mode();
+	this->render_device->disable_face_culling();
 
 	/* Render all GUIs */
 	for (auto& gui : scene->get_components_by_type<GUI>())
@@ -458,41 +441,30 @@ void Omnific::RenderingSystem::on_output()
 
 		if (gui->mesh != nullptr && gui_entity->is_2d)
 		{
-			this->opengl_backend->enable_blending();
-			std::shared_ptr<OpenGLVertexArray> vertex_array = this->opengl_backend->get_vertex_array(gui->mesh);
-			vertex_array->bind();
-			this->opengl_backend->get_texture(gui->material->albedo_map)->bind(OpenGLTexture::Unit::_0);
-
-			std::shared_ptr<OpenGLShaderProgram> shader_program;
-			std::shared_ptr<Shader> shader = gui->get_shader();
-			AssetID shader_id = shader->get_id();
-
-			if (!this->opengl_backend->shader_programs.count(shader_id))
-			{
-				this->opengl_backend->shader_programs.emplace(
-					shader_id,
-					std::shared_ptr<OpenGLShaderProgram>(new OpenGLShaderProgram(shader)));
-			}
-
-			shader_program = this->opengl_backend->shader_programs.at(shader_id);
-			shader_program->use();
+			this->render_device->enable_blending();
+			this->render_device->bind_mesh(gui->mesh);
+			this->render_device->bind_texture(gui->material->albedo_map, RenderDevice::TextureSemantic::ALBEDO);
+			this->render_device->use_shader(gui->get_shader());
 
 			std::shared_ptr<GUI::Element> root_element = gui->get_root_element();
 
 			/* Standard GUI uniforms */
-			shader_program->set_vec2("gui_position", root_element->get_position() - root_element->get_position_pivot_offset());
-			shader_program->set_vec2("screen_viewport", Platform::get_window().get_window_size());
-			shader_program->set_int("albedo_texture_sampler", 0);
-			shader_program->set_float("alpha", gui->get_alpha_in_percentage());
-			shader_program->set_vec4("highlight_colour", gui->highlight_colour->get_rgba_in_vec4());
+			this->render_device->set_vec2_uniform("gui_position", root_element->get_position() - root_element->get_position_pivot_offset());
+			this->render_device->set_vec2_uniform("screen_viewport", Platform::get_window().get_window_size());
+			this->render_device->set_int_uniform("albedo_texture_sampler", 0);
+			this->render_device->set_float_uniform("alpha", gui->get_alpha_in_percentage());
+			this->render_device->set_vec4_uniform("highlight_colour", gui->highlight_colour->get_rgba_in_vec4());
 
-			this->opengl_backend->draw_triangles_from_elements(vertex_array->get_index_count());
-			this->opengl_backend->disable_blending();
+			this->render_device->draw_indexed_triangles(gui->mesh);
+
+			this->render_device->unbind_mesh();
+			this->render_device->unbind_texture(RenderDevice::TextureSemantic::ALBEDO);
+			this->render_device->disable_blending();
 		}
 	}
 
-	this->opengl_backend->collect_garbage();
-	this->opengl_backend->swap_buffers();
+	this->render_device->collect_garbage();
+	Platform::get_window().swap_buffers();
 	frame_time_clock->set_end();
 }
 
@@ -511,12 +483,12 @@ void Omnific::RenderingSystem::on_window_resize()
 	if (this->last_detected_window_size.x != window_size.x ||
 		this->last_detected_window_size.y != window_size.y)
 	{
-		this->opengl_backend->set_viewport(window_size.x, window_size.y);
+		this->render_device->set_viewport(window_size.x, window_size.y);
 		this->last_detected_window_size = window_size;
 	}
 }
 
-std::string Omnific::RenderingSystem::get_rendering_backend_name()
+std::string Omnific::RenderingSystem::get_render_device_name()
 {
-	return this->opengl_backend->get_rendering_backend_name();
+	return this->render_device->get_name();
 }

@@ -29,7 +29,7 @@
 #include <vector>
 #include "foundations/singletons/platform/window.hpp"
 #include "foundations/aliases.hpp"
-#include "rendering_backends/opengl_rendering_backend/opengl_rendering_backend.hpp"
+#include "render_device/render_device.hpp"
 #include <memory>
 #include <map>
 #include <foundations/singletons/platform/platform.hpp>
@@ -62,9 +62,9 @@ namespace Omnific
 		virtual void initialize() override;
 		virtual void on_output() override;
 		virtual void finalize() override;
-		std::string get_rendering_backend_name();
+		std::string get_render_device_name();
 	private:
-		std::shared_ptr<OpenGLRenderingBackend> opengl_backend;
+		std::shared_ptr<RenderDevice> render_device;
 		SceneID active_scene_id = 0;
 		glm::vec2 last_detected_window_size = glm::vec2(0.0);
 

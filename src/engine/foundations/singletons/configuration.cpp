@@ -88,6 +88,10 @@ void Omnific::Configuration::load_from_file(std::string boot_filepath)
 					{
 						configuration->window_settings.is_resizable = it1->second.as<bool>();
 					}
+					else if (it1->first.as<std::string>() == "render_device")
+					{
+						configuration->window_settings.render_device = it1->second.as<std::string>();
+					}
 				}
 			}
 			else if (it0->first.as<std::string>() == "performance_settings")
@@ -175,6 +179,13 @@ Omnific::Configuration* Omnific::Configuration::get_instance()
 		configuration->performance_settings.target_fps = DEFAULT_TARGET_FPS;
 		configuration->performance_settings.fixed_frame_time = DEFAULT_FIXED_FRAME_TIME;
 		configuration->performance_settings.enable_multithreading = true;
+
+		configuration->window_settings.height = 480;
+		configuration->window_settings.width = 640;
+		configuration->window_settings.is_starting_fullscreen = false;
+		configuration->window_settings.is_starting_maximized = false;
+		configuration->window_settings.is_resizable = false;
+		configuration->window_settings.render_device = "opengl";
 
 		configuration->enabled_systems.animation_system = true;
 		configuration->enabled_systems.audio_system = true;

@@ -48,17 +48,17 @@ namespace Omnific
 		static void increment_lag_count(uint64_t delta_time);
 		static void decrement_lag_count(uint64_t delta_time);
 
-		static void set_rendering_backend_name(std::string rendering_backend_name);
+		static void set_render_device_name(std::string render_device_name);
 		/* In milliseconds */
 		static uint64_t get_lag_count();
 
-		static std::string get_rendering_backend_name();
+		static std::string get_render_device_name();
 		static uint64_t get_frame_count();
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Clock>> clocks;
 		std::unordered_map<std::string, bool> is_removable_map;
 		std::unordered_map<std::string, std::vector<std::string>> clock_names_by_tags;
-		std::string rendering_backend_name;
+		std::string render_device_name;
 		/* In milliseconds */
 		uint64_t lag = 0;
 		FrameID frame_count = 0;

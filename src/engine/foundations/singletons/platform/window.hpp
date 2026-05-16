@@ -49,6 +49,7 @@ namespace Omnific
 		void restore();
 		void hide();
 		void show();
+		void swap_buffers();
 		glm::vec2 get_window_size();
 		glm::vec2 get_window_position();
 

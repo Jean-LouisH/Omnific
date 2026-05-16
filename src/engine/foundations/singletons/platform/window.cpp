@@ -50,6 +50,7 @@ void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t hei
 		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
 		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	}
 
 	this->sdl_window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
@@ -218,6 +219,11 @@ void Omnific::Window::show()
 		SDL_ShowWindow(this->sdl_window.get());
 		Platform::get_logger().write("Showed Window.");
 	}
+}
+	
+void Omnific::Window::swap_buffers()
+{
+	SDL_GL_SwapWindow(this->sdl_window.get());
 }
 
 glm::vec2 Omnific::Window::get_window_size()

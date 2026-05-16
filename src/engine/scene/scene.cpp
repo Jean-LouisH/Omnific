@@ -1117,7 +1117,7 @@ void Omnific::Scene::update_debug_statistics()
 		fps_monitor_clock->set_start();
 		if (debug_gui->get_alpha_in_percentage() > 0.1)
 		{
-			debug_string += Profiler::get_rendering_backend_name();
+			debug_string += Profiler::get_render_device_name();
 			debug_gui->set_to_label(debug_string);
 		}
 	}

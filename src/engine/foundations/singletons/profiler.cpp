@@ -128,9 +128,9 @@ void Omnific::Profiler::decrement_lag_count(uint64_t delta_time_ms)
 	Profiler::get_instance()->lag -= delta_time_ms;
 }
 
-void Omnific::Profiler::set_rendering_backend_name(std::string rendering_backend_name)
+void Omnific::Profiler::set_render_device_name(std::string render_device_name)
 {
-	Profiler::get_instance()->rendering_backend_name = rendering_backend_name;
+	Profiler::get_instance()->render_device_name = render_device_name;
 }
 
 uint64_t Omnific::Profiler::get_lag_count()
@@ -138,9 +138,9 @@ uint64_t Omnific::Profiler::get_lag_count()
 	return Profiler::get_instance()->lag;
 }
 
-std::string Omnific::Profiler::get_rendering_backend_name()
+std::string Omnific::Profiler::get_render_device_name()
 {
-	return Profiler::get_instance()->rendering_backend_name;
+	return Profiler::get_instance()->render_device_name;
 }
 
 uint64_t Omnific::Profiler::get_frame_count()
