@@ -37,6 +37,26 @@
 
 // Core class headers
 ////////////////////////////////////////////////////
+#include "scene/components/ai_perception.hpp"
+#include "scene/components/animator.hpp"
+#include "scene/components/button.hpp"
+#include "scene/components/button_list.hpp"
+#include "scene/components/button_tree.hpp"
+#include "scene/components/button_tree_view.hpp"
+#include "scene/components/colour_canvas.hpp"
+#include "scene/components/context_menu.hpp"
+#include "scene/components/drop_down_button_list.hpp"
+#include "scene/components/gui_element.hpp"
+#include "scene/components/image_canvas.hpp"
+#include "scene/components/label.hpp"
+#include "scene/components/line_element.hpp"
+#include "scene/components/menu_bar.hpp"
+#include "scene/components/panel.hpp"
+#include "scene/components/plot_canvas.hpp"
+#include "scene/components/slider.hpp"
+#include "scene/components/spinner.hpp"
+#include "scene/components/tiles.hpp"
+#include "scene/components/toggle_button.hpp"
 #include "scene/components/audio_listener.hpp"
 #include "scene/components/audio_source.hpp"
 #include "scene/components/camera.hpp"
@@ -47,7 +67,6 @@
 #include "scene/components/light.hpp"
 #include "scene/components/renderable.hpp"
 #include "scene/components/physics_body.hpp"
-#include "scene/components/animator.hpp"
 #include "scene/components/script_collection.hpp"
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
@@ -111,6 +130,25 @@ namespace Omnific
 			registry->add<Timer, Component>();
 			registry->add<Viewport, Component>();
 			registry->add<WorldEnvironment, Component>();
+
+			registry->add<AIPerception, Component>();
+			registry->add<Button, Component>();
+			registry->add<ButtonList, Component>();
+			registry->add<ButtonTree, Component>();
+			registry->add<ButtonTreeView, Component>();
+			registry->add<ContextMenu, Component>();
+			registry->add<MenuBar, Component>();
+			registry->add<Spinner, Component>();
+			registry->add<LineElement, Component>();
+			registry->add<Panel, Component>();
+			registry->add<DropDownButtonList, Component>();
+			registry->add<Tiles, Component>();
+			registry->add<ColourCanvas, Component>();
+			registry->add<ImageCanvas, Component>();
+			registry->add<Label, Component>();
+			registry->add<PlotCanvas, Component>();
+			registry->add<Slider, Component>();
+			registry->add<ToggleButton, Component>();
 
 			if (configuration->enabled_systems.animation_system)
 				registry->add<AnimationSystem, System>();

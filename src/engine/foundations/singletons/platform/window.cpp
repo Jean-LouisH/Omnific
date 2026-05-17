@@ -52,6 +52,14 @@ void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t hei
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	}
+	else if (rendering_context == "sdl_gpu")
+	{
+
+	}
+	else if (rendering_context == "vulkan")
+	{
+
+	}
 
 	this->sdl_window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
 		title.c_str(),
@@ -70,6 +78,14 @@ void Omnific::Window::initialize_window_context(std::string rendering_context)
 	if (rendering_context == "opengl")
 	{
 		this->sdl_gl_context = SDL_GL_CreateContext(this->sdl_window.get());
+	}
+	if (rendering_context == "sdl_gpu")
+	{
+
+	}
+	else if (rendering_context == "vulkan")
+	{
+
 	}
 	else if (rendering_context == "webgl")
 	{

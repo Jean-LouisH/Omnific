@@ -229,7 +229,8 @@ std::string Omnific::Platform::get_month_string()
 		"January", "February", "March", "April", "May", "June",
 		"July", "August", "September", "October", "November", "December"
 	};
-	return months[get_day_of_the_month() - 1];
+
+	return months[get_month() - 1];
 }
 
 std::string Omnific::Platform::get_calendar_date_string()

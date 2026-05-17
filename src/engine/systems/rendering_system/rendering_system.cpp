@@ -34,6 +34,8 @@
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/scene_storage.hpp>
 #include "render_device/opengl_render_device.hpp"
+#include "render_device/sdl_gpu_render_device.hpp"
+#include "render_device/vulkan_render_device.hpp"
 
 #define RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME "rendering_system_on_output_frame_time"
 
@@ -60,7 +62,22 @@ void Omnific::RenderingSystem::initialize()
 	std::string render_device_name = configuration->window_settings.render_device;
 
 	if (render_device_name == "opengl")
+	{
 		this->render_device = std::shared_ptr<OpenGLRenderDevice>(new OpenGLRenderDevice());
+	}
+	else if (render_device_name == "sdl_gpu")
+	{
+		this->render_device = std::shared_ptr<SDLGPURenderDevice>(new SDLGPURenderDevice());
+	}
+	else if (render_device_name == "vulkan")
+	{
+		this->render_device = std::shared_ptr<VulkanRenderDevice>(new VulkanRenderDevice());
+	}
+	else
+	{
+		Platform::get_logger().write("Invalid render device specified in configuration file. Defaulting to OpenGL.");
+		this->render_device = std::shared_ptr<OpenGLRenderDevice>(new OpenGLRenderDevice());
+	}
 
 	Platform::create_window(configuration->metadata.title.c_str(),
 		configuration->window_settings.width,
