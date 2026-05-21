@@ -8,7 +8,7 @@ class omnific_script:
 
     def on_entity_start(self):
         self.score = 0
-        self.gui = omnific.get_component("GUI")
+        self.label = omnific.get_component("Label")
         self.ai_mode = True
         pass
 
@@ -30,6 +30,6 @@ class omnific_script:
         if not self.ai_mode:
             player_name = "Player 2"
 
-        self.gui.set_to_label(player_name + ": " + str(self.score))
+        self.label.set_text(player_name + ": " + str(self.score))
         pass
     

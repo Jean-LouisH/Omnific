@@ -8,23 +8,21 @@ Entity:
       preset: "Shader::UNLIT"
 Entity:
   name: "Instructions"
-  GUI:
-    Label: 
-      text: "Controls: 'W' - Up, 'S' - Down                   'P' - Toggle AI/P2"
-      font: ["games/pong/fonts/Lato-Regular.ttf", 16]
-      text_colour: "#FFFFFFFF"
-      pivot: "top_left"
-      anchor_pivot: "top_left"
-      margin: [20.0, -20.0]
+  Label: 
+    text: "Controls: 'W' - Up, 'S' - Down                   'P' - Toggle AI/P2"
+    font: ["games/pong/fonts/Lato-Regular.ttf", 16]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_left"
+    anchor_pivot: "top_left"
+    margin: [20.0, -20.0]
 Entity:
   name: "MessageBoard"
-  GUI:
-    Label: 
-      text: "Loading..."
-      font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-      text_colour: "#FFFFFFFF"
-      pivot: "centre"
-      anchor_pivot: "centre"
+  Label: 
+    text: "Loading..."
+    font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+    text_colour: "#FFFFFFFF"
+    pivot: "centre"
+    anchor_pivot: "centre"
 Entity:
   name: "Camera"
   transform:
@@ -59,15 +57,13 @@ Entity:
 Entity:
   name: "ScoreCount1"
   parent: "Paddle1"
-  GUI:
+  Label: 
+    text: "a"
+    font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+    text_colour: "#FF0000FF"
+    pivot: "bottom_centre"
     follow_target_entity_name: "Paddle1"
     follow_offset: [0.0, 50.0]
-    Label: 
-      text: "a"
-      font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-      text_colour: "#FF0000FF"
-      pivot: "bottom_centre"
-      #position: [0.0, 40.0]
   ScriptCollection:
     Python: ["games/pong/scripts/python/player_score.py"]
 Entity:
@@ -89,15 +85,13 @@ Entity:
 Entity:
   name: "ScoreCount2"
   parent: "Paddle2"
-  GUI:
+  Label: 
+    text: "b"
+    font: ["games/pong/fonts/Lato-Regular.ttf", 32]
+    text_colour: "#0000FFFF"
+    pivot: "bottom_centre"
     follow_target_entity_name: "Paddle2"
     follow_offset: [0.0, 50.0]
-    Label: 
-      text: "b"
-      font: ["games/pong/fonts/Lato-Regular.ttf", 32]
-      text_colour: "#0000FFFF"
-      pivot: "bottom_centre"
-      #position: [0.0, 0.0]
   ScriptCollection:
     Python: ["games/pong/scripts/python/ai_score.py"]
 Entity:

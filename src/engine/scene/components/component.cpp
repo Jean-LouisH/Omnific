@@ -52,3 +52,8 @@ bool Omnific::Component::is_renderable()
 {
 	return false;
 }
+
+bool Omnific::Component::is_gui_element()
+{
+	return false;
+}

@@ -140,6 +140,11 @@ bool Omnific::Mesh::get_is_indexed()
     return this->is_indexed;
 }
 
+glm::vec3 Omnific::Mesh::get_dimensions()
+{
+    return this->dimensions;
+}
+
 Omnific::Mesh::PrimitiveMode Omnific::Mesh::get_primitive_mode()
 {
     return this->primitive_mode;
@@ -436,6 +441,13 @@ void Omnific::Mesh::populate_data(
         float* texture_coords_data = texture_coords.data();
         float* normals_data = normals.data();
 
+        float lowest_x_value = 0.0;
+        float lowest_y_value = 0.0;
+        float lowest_z_value = 0.0;
+        float highest_x_value = 0.0;
+        float highest_y_value = 0.0;
+        float highest_z_value = 0.0;
+
         for (size_t i = 0; i < vertex_count; ++i)
         {
             Vertex vertex;
@@ -451,6 +463,18 @@ void Omnific::Mesh::populate_data(
                 normals_data[i * vec3_stride + 1],
                 normals_data[i * vec3_stride + 2] };
             this->vertices.push_back(vertex);
+
+            lowest_x_value = std::min(lowest_x_value, vertex.position.x);
+            lowest_y_value = std::min(lowest_y_value, vertex.position.y);
+            lowest_z_value = std::min(lowest_z_value, vertex.position.z);
+            highest_x_value = std::max(highest_x_value, vertex.position.x);
+            highest_y_value = std::max(highest_y_value, vertex.position.y);
+            highest_z_value = std::max(highest_z_value, vertex.position.z);
         }
+
+        this->dimensions = glm::vec3(
+            highest_x_value - lowest_x_value,
+            highest_y_value - lowest_y_value,
+            highest_z_value - lowest_z_value);
     }
 }

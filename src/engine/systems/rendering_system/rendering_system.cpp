@@ -24,11 +24,12 @@
 #include <foundations/resources/shader.hpp>
 #include <foundations/resources/image.hpp>
 #include <foundations/singletons/platform/platform.hpp>
+#include <memory>
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
 #include <foundations/transform.hpp>
-#include <scene/components/gui.hpp>
 #include <scene/components/light.hpp>
+#include <scene/components/gui_element.hpp>
 #include <scene/components/world_environment.hpp>
 #include <foundations/singletons/configuration.hpp>
 #include <foundations/singletons/profiler.hpp>
@@ -206,7 +207,7 @@ void Omnific::RenderingSystem::on_output()
 							std::shared_ptr<Transform> renderable_transform = renderable_entity->get_transform();
 
 							if (renderable_entity->is_2d == camera_entity->is_2d &&
-								(!renderable->is_type(GUI::TYPE_STRING) || !renderable_entity->is_2d) &&
+								!renderable->is_gui_element() &&
 								!renderable->is_hidden() &&
 								renderable->mesh != nullptr)
 							{
@@ -452,31 +453,33 @@ void Omnific::RenderingSystem::on_output()
 	this->render_device->disable_face_culling();
 
 	/* Render all GUIs */
-	for (auto& gui : scene->get_components_by_type<GUI>())
+	for (auto& renderable : scene->get_renderables_in_order())
 	{
-		std::shared_ptr<Entity> gui_entity = scene->get_entity(gui->get_entity_id());
-
-		if (gui->mesh != nullptr && gui_entity->is_2d)
+		if (renderable->is_gui_element())
 		{
-			this->render_device->enable_blending();
-			this->render_device->bind_mesh(gui->mesh);
-			this->render_device->bind_texture(gui->material->albedo_map, RenderDevice::TextureSemantic::ALBEDO);
-			this->render_device->use_shader(gui->get_shader());
+			std::shared_ptr<GUIElement> gui_element = std::dynamic_pointer_cast<GUIElement>(renderable);
+			std::shared_ptr<Entity> gui_element_entity = scene->get_entity(gui_element->get_entity_id());
 
-			std::shared_ptr<GUI::Element> root_element = gui->get_root_element();
+			if (renderable->mesh != nullptr)
+			{
+				this->render_device->enable_blending();
+				this->render_device->bind_mesh(gui_element->mesh);
+				this->render_device->bind_texture(gui_element->material->albedo_map, RenderDevice::TextureSemantic::ALBEDO);
+				this->render_device->use_shader(gui_element->get_shader());
 
-			/* Standard GUI uniforms */
-			this->render_device->set_vec2_uniform("gui_position", root_element->get_position() - root_element->get_position_pivot_offset());
-			this->render_device->set_vec2_uniform("screen_viewport", Platform::get_window().get_window_size());
-			this->render_device->set_int_uniform("albedo_texture_sampler", 0);
-			this->render_device->set_float_uniform("alpha", gui->get_alpha_in_percentage());
-			this->render_device->set_vec4_uniform("highlight_colour", gui->highlight_colour->get_rgba_in_vec4());
+				/* Standard GUI uniforms */
+				this->render_device->set_vec2_uniform("gui_position", glm::vec2(gui_element_entity->get_transform()->translation) - gui_element->get_position_pivot_offset());
+				this->render_device->set_vec2_uniform("screen_viewport", Platform::get_window().get_window_size());
+				this->render_device->set_int_uniform("albedo_texture_sampler", 0);
+				this->render_device->set_float_uniform("alpha", gui_element->get_alpha_in_percentage());
+				this->render_device->set_float_uniform("highlight_opacity", gui_element->current_highlight_opacity);
 
-			this->render_device->draw_indexed_triangles(gui->mesh);
+				this->render_device->draw_indexed_triangles(gui_element->mesh);
 
-			this->render_device->unbind_mesh();
-			this->render_device->unbind_texture(RenderDevice::TextureSemantic::ALBEDO);
-			this->render_device->disable_blending();
+				this->render_device->unbind_mesh();
+				this->render_device->unbind_texture(RenderDevice::TextureSemantic::ALBEDO);
+				this->render_device->disable_blending();
+			}
 		}
 	}
 

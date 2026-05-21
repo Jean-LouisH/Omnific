@@ -68,7 +68,7 @@ void Omnific::Panel::update_image()
 			this->vertical_scrollbar_thumb_image = std::shared_ptr<Image>(new Image(this->target_scrollbar_thumb_colour, vertical_scrollbar_thumb_dimensions.x, vertical_scrollbar_thumb_dimensions.y));
 		}
 
-		this->set_to_image(std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y)));
+		this->set_to_image(std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y)));
 			
 	}
 }

@@ -2,14 +2,13 @@ Entity:
   name: "Project List"
   ScriptCollection:
     Python: ["selection_menu.py"]
-  GUI:
-    Label: 
-      text: ""
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#FFFFFFFF"
-      wrap_length: 1000
-      anchor_pivot: "top_left"
-      margin: [20.0, -10.0]
+  Label: 
+    text: ""
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    wrap_length: 1000
+    anchor_pivot: "top_left"
+    margin: [20.0, -10.0]
 Entity:
   name: "Camera"
   Camera: "default"

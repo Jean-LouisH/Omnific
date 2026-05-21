@@ -32,6 +32,7 @@
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
 #include <scene/components/renderable.hpp>
+#include <scene/components/label.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/matrix_decompose.hpp>
@@ -180,16 +181,15 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 			}
 
 			std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>("debug_gui_entity");
-			std::shared_ptr<GUI> debug_gui = std::make_shared<GUI>();
+			std::shared_ptr<Label> debug_label = std::make_shared<Label>();
 
 			debug_gui_entity->is_2d = true;
-			debug_gui->hide();
-			debug_gui->set_to_label("");
-			std::shared_ptr<GUI::Element> root_element = debug_gui->get_root_element();
-			root_element->pivot = GUI::Element::PivotPoint::TOP_RIGHT;
-			root_element->anchor_pivot = GUI::Element::PivotPoint::TOP_RIGHT;
+			debug_label->hide();
+			debug_label->set_text("");
+			debug_label->pivot = GUIElement::PivotPoint::TOP_RIGHT;
+			debug_label->anchor_pivot = GUIElement::PivotPoint::TOP_RIGHT;
 			this->add_entity(debug_gui_entity);
-			this->add_component_to_last_entity(debug_gui);
+			this->add_component_to_last_entity(debug_label);
 		}
 		else
 		{
@@ -417,11 +417,6 @@ void Omnific::Scene::add_component(EntityID entity_id, std::shared_ptr<Component
 			{
 				entity->renderable_id = component->get_id();
 				this->rendering_order_index_cache.push_back(last_index);
-			}
-
-			if (component->type == GUI::TYPE_STRING)
-			{
-				entity->is_2d = std::dynamic_pointer_cast<GUI>(component)->is_2d_override;
 			}
 
 			std::shared_ptr<Entity> viewport_entity = this->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
@@ -1106,7 +1101,7 @@ Omnific::SceneID Omnific::Scene::get_id()
 void Omnific::Scene::update_debug_statistics()
 {
 	std::string debug_string = Profiler::get_clock_deltas_to_string_by_tag("total");
-	std::shared_ptr<GUI> debug_gui = this->get_component_by_type<GUI>(this->get_entity_by_name("debug_gui_entity")->get_id());
+	std::shared_ptr<Label> debug_label = this->get_component_by_type<Label>(this->get_entity_by_name("debug_gui_entity")->get_id());
 	Inputs& inputs = Platform::get_inputs();
 	const int monitor_time_period = 1;
 
@@ -1115,22 +1110,22 @@ void Omnific::Scene::update_debug_statistics()
 	if (fps_monitor_clock->get_delta_in_seconds() >= monitor_time_period)
 	{
 		fps_monitor_clock->set_start();
-		if (debug_gui->get_alpha_in_percentage() > 0.1)
+		if (debug_label->get_alpha_in_percentage() > 0.1)
 		{
 			debug_string += Profiler::get_render_device_name();
-			debug_gui->set_to_label(debug_string);
+			debug_label->set_text(debug_string);
 		}
 	}
 
 	if (inputs.is_on_release("f3"))
 	{
-		if (debug_gui->get_alpha_in_percentage() < 0.5)
+		if (debug_label->get_alpha_in_percentage() < 0.5)
 		{
-			debug_gui->show();
+			debug_label->show();
 		}
 		else
 		{
-			debug_gui->hide();
+			debug_label->hide();
 		}
 	}
 }

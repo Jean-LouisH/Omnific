@@ -17,14 +17,13 @@ Entity:
       albedo: "Image::#FFFFFF"
 Entity:
   name: "TranslationText"
-  GUI:
+  Label: 
+    text: "Translation"
+    font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "bottom_centre"
     follow_target_entity_name: "Translation"
     follow_offset: [0.0, 75.0]
-    Label: 
-      text: "Translation"
-      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#FFFFFFFF"
-      pivot: "bottom_centre"
 Entity: 
   name: "Translation Child"
   parent: "Translation"
@@ -48,14 +47,13 @@ Entity:
       albedo: "Image::#FFFFFF"
 Entity:
   name: "RotationText"
-  GUI:
+  Label: 
+    text: "Rotation"
+    font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "bottom_centre"
     follow_target_entity_name: "Rotation"
     follow_offset: [0.0, 75.0]
-    Label: 
-      text: "Rotation"
-      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#FFFFFFFF"
-      pivot: "bottom_centre"
 Entity:
   name: "Rotation Child"
   parent: "Rotation"
@@ -79,14 +77,13 @@ Entity:
       albedo: "Image::#FFFFFF"
 Entity:
   name: "ScaleText"
-  GUI:
+  Label: 
+    text: "Scale"
+    font: ["games/pong/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "bottom_centre"
     follow_target_entity_name: "Scale"
     follow_offset: [0.0, 75.0]
-    Label: 
-      text: "Scale"
-      font: ["games/pong/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#FFFFFFFF"
-      pivot: "bottom_centre"
 Entity:
   name: "Scale Child"
   parent: "Scale"

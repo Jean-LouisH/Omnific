@@ -24,7 +24,6 @@
 
 #include <foundations/aliases.hpp>
 #include <foundations/constants.hpp>
-#include "scene/components/component.hpp"
 #include "scene/components/gui_element.hpp"
 
 namespace Omnific
@@ -35,7 +34,7 @@ namespace Omnific
 		Label()
 		{
 			this->type = TYPE_STRING;
-			this->text_colour = std::shared_ptr<Colour>(new Colour(0.0, 0.0, 0.0, 1.0));
+			this->text_colour = std::shared_ptr<Colour>(new Colour(1.0, 1.0, 1.0, 1.0));
 			this->font = std::shared_ptr<Font>(new Font());
 		};
 		static constexpr const char* TYPE_STRING = "Label";

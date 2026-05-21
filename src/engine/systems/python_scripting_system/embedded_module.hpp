@@ -355,53 +355,49 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING)
 		.def(pybind11::init<>());
-	pybind11::class_<Omnific::GUI, Omnific::Renderable, std::shared_ptr<Omnific::GUI>> gui(m, Omnific::GUI::TYPE_STRING);
-		gui.def(pybind11::init<>());
-		gui.def("set_to_label", &Omnific::GUI::set_to_label)
-		.def("set_to_plot", &Omnific::GUI::set_to_plot)
-		.def("set_to_colour_canvas", &Omnific::GUI::set_to_colour_canvas)
-		.def("set_to_image_canvas", &Omnific::GUI::set_to_image_canvas)
-		.def("get_element", &Omnific::GUI::get_element)
-		.def("get_root_element", &Omnific::GUI::get_root_element);
-		pybind11::class_<Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Element>>(gui, Omnific::GUI::Element::TYPE_STRING)
-			.def(pybind11::init<>())
-			.def_readwrite("is_hovered_in_focus", &Omnific::GUI::Element::is_hovered_in_focus)
-			.def_readwrite("is_selected", &Omnific::GUI::Element::is_selected)
-			.def_readwrite("is_clicked", &Omnific::GUI::Element::is_clicked);
-		pybind11::class_<Omnific::GUI::Button, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Button>>(gui, Omnific::GUI::Button::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ButtonList, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ButtonList>>(gui, Omnific::GUI::ButtonList::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::DropDownButtonList, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::DropDownButtonList>>(gui, Omnific::GUI::DropDownButtonList::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ButtonTree, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ButtonTree>>(gui, Omnific::GUI::ButtonTree::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ButtonTreeView, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ButtonTreeView>>(gui, Omnific::GUI::ButtonTreeView::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ToggleButton, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ToggleButton>>(gui, Omnific::GUI::ToggleButton::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ColourCanvas, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ColourCanvas>>(gui, Omnific::GUI::ColourCanvas::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ImageCanvas, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ImageCanvas>>(gui, Omnific::GUI::ImageCanvas::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::PlotCanvas, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::PlotCanvas>>(gui, Omnific::GUI::PlotCanvas::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::ContextMenu, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::ContextMenu>>(gui, Omnific::GUI::ContextMenu::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::LineElement, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::LineElement>>(gui, Omnific::GUI::LineElement::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::Label, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Label>>(gui, Omnific::GUI::Label::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::MenuBar, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::MenuBar>>(gui, Omnific::GUI::MenuBar::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::Panel, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Panel>>(gui, Omnific::GUI::Panel::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::Slider, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Slider>>(gui, Omnific::GUI::Slider::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::Spinner, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Spinner>>(gui, Omnific::GUI::Spinner::TYPE_STRING)
-			.def(pybind11::init<>());
-		pybind11::class_<Omnific::GUI::Tiles, Omnific::GUI::Element, std::shared_ptr<Omnific::GUI::Tiles>>(gui, Omnific::GUI::Tiles::TYPE_STRING)
-			.def(pybind11::init<>());
+	pybind11::class_<Omnific::GUIElement, std::shared_ptr<Omnific::GUIElement>>(m, Omnific::GUIElement::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def_readwrite("is_hovered_in_focus", &Omnific::GUIElement::is_hovered_in_focus)
+		.def_readwrite("is_selected", &Omnific::GUIElement::is_selected)
+		.def_readwrite("is_clicked", &Omnific::GUIElement::is_clicked);
+	pybind11::class_<Omnific::Button, Omnific::GUIElement, std::shared_ptr<Omnific::Button>>(m, Omnific::Button::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::ButtonList, Omnific::GUIElement, std::shared_ptr<Omnific::ButtonList>>(m, Omnific::ButtonList::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::DropDownButtonList, Omnific::GUIElement, std::shared_ptr<Omnific::DropDownButtonList>>(m, Omnific::DropDownButtonList::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::ButtonTree, Omnific::GUIElement, std::shared_ptr<Omnific::ButtonTree>>(m, Omnific::ButtonTree::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::ButtonTreeView, Omnific::GUIElement, std::shared_ptr<Omnific::ButtonTreeView>>(m, Omnific::ButtonTreeView::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::ToggleButton, Omnific::GUIElement, std::shared_ptr<Omnific::ToggleButton>>(m, Omnific::ToggleButton::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::ColourCanvas, Omnific::GUIElement, std::shared_ptr<Omnific::ColourCanvas>>(m, Omnific::ColourCanvas::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::ImageCanvas, Omnific::GUIElement, std::shared_ptr<Omnific::ImageCanvas>>(m, Omnific::ImageCanvas::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::PlotCanvas, Omnific::GUIElement, std::shared_ptr<Omnific::PlotCanvas>>(m, Omnific::PlotCanvas::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def("set_plot_points", &Omnific::PlotCanvas::set_plot_points);
+	pybind11::class_<Omnific::ContextMenu, Omnific::GUIElement, std::shared_ptr<Omnific::ContextMenu>>(m, Omnific::ContextMenu::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::LineElement, Omnific::GUIElement, std::shared_ptr<Omnific::LineElement>>(m, Omnific::LineElement::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Label, Omnific::GUIElement, std::shared_ptr<Omnific::Label>>(m, Omnific::Label::TYPE_STRING)
+		.def(pybind11::init<>())
+		.def("set_text", &Omnific::Label::set_text)
+		.def("set_font", &Omnific::Label::set_font)
+		.def("set_text_colour", &Omnific::Label::set_text_colour);
+	pybind11::class_<Omnific::MenuBar, Omnific::GUIElement, std::shared_ptr<Omnific::MenuBar>>(m, Omnific::MenuBar::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Panel, Omnific::GUIElement, std::shared_ptr<Omnific::Panel>>(m, Omnific::Panel::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Slider, Omnific::GUIElement, std::shared_ptr<Omnific::Slider>>(m, Omnific::Slider::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Spinner, Omnific::GUIElement, std::shared_ptr<Omnific::Spinner>>(m, Omnific::Spinner::TYPE_STRING)
+		.def(pybind11::init<>());
+	pybind11::class_<Omnific::Tiles, Omnific::GUIElement, std::shared_ptr<Omnific::Tiles>>(m, Omnific::Tiles::TYPE_STRING)
+		.def(pybind11::init<>());
 
 	pybind11::class_<Omnific::Viewport, Omnific::Component, std::shared_ptr<Omnific::Viewport>>(m, Omnific::Viewport::TYPE_STRING)
 		.def(pybind11::init<>());

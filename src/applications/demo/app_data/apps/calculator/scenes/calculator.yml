@@ -9,133 +9,120 @@ Entity:
 Entity:
   name: "1 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "1"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [10.0, 57.0]
-      pivot: "bottom_left"
+  Button:
+    text: "1"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [10.0, 57.0]
+    pivot: "bottom_left"
 Entity:
   name: "2 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "2"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [45.0, 57.0]
-      pivot: "bottom_left"
+  Button:
+    text: "2"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [45.0, 57.0]
+    pivot: "bottom_left"
 Entity:
   name: "3 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "3"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [80.0, 57.0]
-      pivot: "bottom_left"
+  Button:
+    text: "3"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [80.0, 57.0]
+    pivot: "bottom_left"
 Entity:
   name: "4 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "4"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [10.0, 104.0]
-      pivot: "bottom_left"
+  Button:
+    text: "4"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [10.0, 104.0]
+    pivot: "bottom_left"
 Entity:
   name: "5 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "5"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [45.0, 104.0]
-      pivot: "bottom_left"
+  Button:
+    text: "5"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [45.0, 104.0]
+    pivot: "bottom_left"
 Entity:
   name: "6 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "6"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [80.0, 104.0]
-      pivot: "bottom_left"
+  Button:
+    text: "6"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [80.0, 104.0]
+    pivot: "bottom_left"
 Entity:
   name: "7 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "7"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [10.0, 151.0]
-      pivot: "bottom_left"
+  Button:
+    text: "7"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [10.0, 151.0]
+    pivot: "bottom_left"
 Entity:
   name: "8 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "8"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [45.0, 151.0]
-      pivot: "bottom_left"
+  Button:
+    text: "8"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [45.0, 151.0]
+    pivot: "bottom_left"
 Entity:
   name: "9 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "9"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [80.0, 151.0]
-      pivot: "bottom_left"
+  Button:
+    text: "9"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [80.0, 151.0]
+    pivot: "bottom_left"
 Entity:
   name: "C Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "C"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [10.0, 198.0]
-      pivot: "bottom_left"
+  Button:
+    text: "C"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [10.0, 198.0]
+    pivot: "bottom_left"
 Entity:
   name: "() Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "()"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [45.0, 198.0]
-      pivot: "bottom_left"
+  Button:
+    text: "()"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [45.0, 198.0]
+    pivot: "bottom_left"
 Entity:
   name: "% Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "%"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [80.0, 198.0]
-      pivot: "bottom_left"
+  Button:
+    text: "%"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [80.0, 198.0]
+    pivot: "bottom_left"
 Entity:
   name: "0 Key"
   parent: "Calculator"
-  GUI:
-    Button:
-      text: "0"
-      font: ["tests/fonts/Lato-Regular.ttf", 20]
-      text_colour: "#000000FF"
-      position: [10.0, 10.0]
-      pivot: "bottom_left"
+  Button:
+    text: "0"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    position: [10.0, 10.0]
+    pivot: "bottom_left"
 Entity:
   name: "Camera"
   Camera: "default"

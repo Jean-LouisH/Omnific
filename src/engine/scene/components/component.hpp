@@ -51,6 +51,7 @@ namespace Omnific
 		std::string get_entity_name();
 		bool is_attached_to_entity();
 		virtual bool is_renderable();
+		virtual bool is_gui_element();
 	protected:
 		std::unordered_map<std::string, std::string> properties_with_types; //<PropertyName, PropertyType>
 	private:

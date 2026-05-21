@@ -26,12 +26,12 @@ class omnific_script:
         self.left_post_transform = scene.get_entity_by_name("LeftGoalPost").get_transform()
         self.right_post_transform = scene.get_entity_by_name("RightGoalPost").get_transform()
         self.message_board_entity = scene.get_entity_by_name("MessageBoard")
-        self.message_board_gui = scene.get_component("GUI", self.message_board_entity.get_id())
+        self.message_board_label = scene.get_component("Label", self.message_board_entity.get_id())
         omnific_script.reset_ball(self)
         #omnific.get_component("AudioSource").play_infinitely()
 
         omnific.publish_event(omnific.Event(constants.press_start_wait_event), True)
-        self.message_board_gui.set_to_label("Press 'Enter' / 'Start'")
+        self.message_board_label.set_text("Press 'Enter' / 'Start'")
         pass
 
     def on_update(self):
@@ -41,7 +41,7 @@ class omnific_script:
             if inputs.is_pressed(["enter", "button_menu"]):
                 omnific.remove_continuous_event(constants.press_start_wait_event, "")
                 omnific.publish_event(omnific.Event(constants.game_is_playing_event), True)
-                self.message_board_gui.hide()
+                self.message_board_label.hide()
                 omnific_script.reset_ball(self)
         pass
 
@@ -87,8 +87,8 @@ class omnific_script:
     def on_late_update(self):
         for event in omnific.query_events(constants.game_set_event):
             winner = event.get_parameters().strings["winner"]
-            self.message_board_gui.set_to_label(winner + " is the winner! Press 'Enter' / 'Start' to play again.")
-            self.message_board_gui.show()
+            self.message_board_label.set_text(winner + " is the winner! Press 'Enter' / 'Start' to play again.")
+            self.message_board_label.show()
             omnific.publish_event(omnific.Event(constants.press_start_wait_event), True)
             omnific.remove_continuous_event(constants.game_is_playing_event, "")
             omnific.remove_continuous_event(constants.game_set_event, "")

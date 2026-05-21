@@ -33,6 +33,7 @@ void Omnific::Renderable::deserialize(YAML::Node yaml_node)
 		if (it3->first.as<std::string>() == "mesh")
 		{
 			this->mesh = std::shared_ptr<Mesh>(new Mesh(it3->second.as<std::string>()));
+			this->dimensions = this->mesh->get_dimensions();
 		}
 		else if (it3->first.as<std::string>() == "material" | it3->first.as<std::string>() == "overriding_material")
 		{
@@ -151,13 +152,6 @@ void Omnific::Renderable::deserialize(YAML::Node yaml_node)
 			else
 				this->set_overriding_shader(shader);
 		}
-		else if (it3->first.as<std::string>() == "dimensions")
-		{
-			this->set_dimensions(
-				it3->second[0].as<double>(),
-				it3->second[1].as<double>(),
-				it3->second[2].as<double>());
-		}
 		else if (it3->first.as<std::string>() == "alpha")
 		{
 			this->set_alpha((uint8_t)(it3->second.as<double>() * 255.0));
@@ -170,22 +164,24 @@ void Omnific::Renderable::set_to_cube()
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::CUBE"));
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo_map = std::shared_ptr<Image>(new Image("Image::default"));
+	this->dimensions = this->mesh->get_dimensions();
 }
 
 void Omnific::Renderable::set_to_textured_cube(std::shared_ptr<Material> material)
 {
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::CUBE"));
 	this->material = material;
+	this->dimensions = this->mesh->get_dimensions();
 }
 
 void Omnific::Renderable::set_to_image(std::shared_ptr<Image> image)
 {
 	this->material = std::shared_ptr<Material>(new Material());
 	this->material->albedo_map = image;
-	glm::vec2 dimensions = image->get_dimensions();
+	this->dimensions = glm::vec3(image->get_dimensions(), 0.0f);
 	this->mesh = std::shared_ptr<Mesh>(new Mesh("Mesh::QUAD"));
-	int width = dimensions.x;
-	int height = dimensions.y;
+	int width = this->dimensions.x;
+	int height = this->dimensions.y;
 	int x_centre = width / 2;
 	int y_centre = height / 2;
 

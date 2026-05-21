@@ -38,13 +38,8 @@ namespace Omnific
 		GUIElement()
 		{
 			this->type = TYPE_STRING;
-			this->set_to_image(std::shared_ptr<Image>(new Image()));
 			this->shader = std::shared_ptr<Shader>(new Shader(DefaultAssets::vertex_gui_glsl, DefaultAssets::fragment_gui_glsl, false, false));
-			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
-			this->target_highlight_colour = std::shared_ptr<Colour>(new Colour(0.5, 0.5, 0.5, 1.0));
-			this->target_clicked_colour = std::shared_ptr<Colour>(new Colour(0.7, 0.7, 0.7, 1.0));
-			this->target_current_colour = target_default_background_colour;
-			this->dimensions = glm::vec3(0.0);
+			this->background_colour = std::shared_ptr<Colour>(new Colour(0.3, 0.3, 0.3, 1.0));
 			this->pivot = PivotPoint::TOP_LEFT;
 			this->anchor_pivot = PivotPoint::NONE;
 			this->margin = glm::vec2(0.0);
@@ -91,21 +86,23 @@ namespace Omnific
 
 		glm::vec2 position_pivot_offset = glm::vec2(0.0);
 		glm::vec2 margin = glm::vec2(0.0);
+		std::shared_ptr<Colour> background_colour;
 
-		std::shared_ptr<Colour> target_highlight_colour;
-		std::shared_ptr<Colour> target_default_background_colour;
-		std::shared_ptr<Colour> target_clicked_colour;
-		std::shared_ptr<Colour> target_current_colour;
+		float hover_highlight_opacity = 0.1;
+		float select_highlight_opacity = 0.2;
+		float click_highlight_opacity = 0.3;
+
+		float current_highlight_opacity = 0.0;
 
 		std::string follow_target_entity_name;
 		bool is_following_entity = false;
 		glm::vec2 follow_offset = glm::vec2(0.0);
-		bool is_2d_override = true;
 
 		virtual void update_image();
 		bool get_is_in_focus();
 		bool get_is_selected();
 		glm::vec2 get_position_pivot_offset();
+		bool is_gui_element() override;
 	protected:
 		void highlight_on_input();
 	private:

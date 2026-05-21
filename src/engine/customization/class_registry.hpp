@@ -62,7 +62,6 @@
 #include "scene/components/camera.hpp"
 #include "scene/components/camera_relative_movement.hpp"
 #include "scene/components/collider.hpp"
-#include "scene/components/gui.hpp"
 #include "scene/components/jump_movement.hpp"
 #include "scene/components/light.hpp"
 #include "scene/components/renderable.hpp"
@@ -120,7 +119,6 @@ namespace Omnific
 			registry->add<Camera, Component>();
 			registry->add<CameraRelativeMovement, Component>();
 			registry->add<Collider, Component>();
-			registry->add<GUI, Component>();
 			registry->add<JumpMovement, Component>();
 			registry->add<Light, Component>();
 			registry->add<PhysicsBody, Component>();

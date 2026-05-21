@@ -41,6 +41,6 @@ void Omnific::ColourCanvas::update_image()
 {
 	if (!this->is_hidden())
 	{
-		this->set_to_image(std::shared_ptr<Image>(new Image(this->target_default_background_colour, this->dimensions.x, this->dimensions.y)));
+		this->set_to_image(std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y)));
 	}
 }

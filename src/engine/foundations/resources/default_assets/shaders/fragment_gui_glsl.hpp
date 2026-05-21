@@ -30,8 +30,8 @@ namespace Omnific
             #version 330 core
             in vec2 uv;
             out vec4 colour;
-            uniform vec4 highlight_colour;
             uniform float alpha;
+            uniform float highlight_opacity;
             uniform sampler2D albedo_texture_sampler;
             uniform bool is_highlightable;
             uniform bool is_xstretched_to_panel;
@@ -42,7 +42,7 @@ namespace Omnific
             void main()
             {    
                 colour = texture(albedo_texture_sampler, uv);
-                colour = mix(colour, highlight_colour, highlight_colour.a);
+                colour = mix(colour, vec4(1.0), highlight_opacity);
                 colour.a *= alpha;
             }  
         )";

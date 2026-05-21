@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 #include "plot_canvas.hpp"
+#include <foundations/singletons/platform/platform.hpp>
 
 void Omnific::PlotCanvas::deserialize(YAML::Node yaml_node)
 {
@@ -35,9 +36,18 @@ void Omnific::PlotCanvas::deserialize(YAML::Node yaml_node)
 	}
 }
 
+void Omnific::PlotCanvas::set_plot_points(std::vector<float> plot_points, std::shared_ptr<Omnific::Colour> background_colour, std::shared_ptr<Omnific::Colour> plot_colour)
+{
+	this->plot_points = plot_points;
+	this->target_plot_colour = plot_colour;
+	this->target_plot_background_colour = background_colour;
+	this->dimensions = glm::vec3(Platform::get_window().get_window_size(), 0.0);
+	this->update_image();
+}
+
 void Omnific::PlotCanvas::update_image()
 {
-	if (!this->is_hidden())
+	if (!this->is_hidden() && this->plot_points.size() > 0)
 	{
 		this->set_to_image(std::shared_ptr<Image>(new Image(this->plot_points, this->dimensions.x, this->dimensions.y, this->target_plot_background_colour, this->target_plot_colour)));
 	}

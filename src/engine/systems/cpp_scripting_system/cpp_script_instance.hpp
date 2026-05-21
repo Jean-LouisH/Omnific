@@ -43,7 +43,6 @@
 #include "scene/components/audio_source.hpp"
 #include "scene/components/camera.hpp"
 #include "scene/components/collider.hpp"
-#include "scene/components/gui.hpp"
 #include "scene/components/light.hpp"
 #include "scene/components/renderable.hpp"
 #include "scene/components/physics_body.hpp"

@@ -1,13 +1,11 @@
 Entity:
   name: "Clock"
-  GUI:
-    Label: 
-      text: "This is a Label!"
-      font: ["apps/clock/fonts/Lato-Regular.ttf", 50]
-      text_colour: "#0000FFFF"
-      pivot: "centre"
-      anchor_pivot: "centre"
-      #position: [315, 215]
+  Label: 
+    text: "This is a Label!"
+    font: ["apps/clock/fonts/Lato-Regular.ttf", 50]
+    text_colour: "#0000FFFF"
+    pivot: "centre"
+    anchor_pivot: "centre"
   ScriptCollection:
       Python: ["apps/clock/scripts/python/clock.py"]
 Entity:

@@ -10,5 +10,5 @@ class omnific_script:
         omnific.get_window().change_title("Omnific Clock")
 
     def on_update(self):
-        omnific.get_component("GUI").set_to_label(time.strftime("%H:%M:%S"))
+        omnific.get_component("Label").set_text(time.strftime("%H:%M:%S"))
         pass

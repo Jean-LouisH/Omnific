@@ -50,6 +50,7 @@ namespace Omnific
 		std::shared_ptr<Colour> target_plot_colour;
 
 		virtual void deserialize(YAML::Node yaml_node);
+		void set_plot_points(std::vector<float> plot_points, std::shared_ptr<Colour> background_colour, std::shared_ptr<Colour> plot_colour);
 		virtual void update_image() override;
 	private:
 

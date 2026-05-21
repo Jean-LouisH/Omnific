@@ -59,7 +59,7 @@ void Omnific::Button::update_image()
 		
 		/* The border of the button wraps around the text it contains by an offset. */
 		this->dimensions = this->gui_label->get_dimensions() + glm::vec3(this->button_space_from_text, 0.0);
-		std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->target_current_colour, this->dimensions.x, this->dimensions.y));
+		std::shared_ptr<Image> base_button_image = std::shared_ptr<Image>(new Image(this->background_colour, this->dimensions.x, this->dimensions.y));
 		std::shared_ptr<Image> gui_label_image = this->gui_label->get_image();
 
 		Image::normal_blend(

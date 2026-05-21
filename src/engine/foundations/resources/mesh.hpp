@@ -88,10 +88,12 @@ namespace Omnific
 		}
 
 		bool get_is_indexed();
+		glm::vec3 get_dimensions();
 		PrimitiveMode get_primitive_mode();
 
 	private:
 		bool is_indexed = true;
+		glm::vec3 dimensions;
 		PrimitiveMode primitive_mode = PrimitiveMode::TRIANGLES;
 
 		void set_to_cube();

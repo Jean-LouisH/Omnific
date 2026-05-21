@@ -5,11 +5,10 @@ class omnific_script:
 
     def __init__(self):
         self.score = 0
-        self.gui = None
         pass
 
     def on_entity_start(self):
-        self.gui = omnific.get_component("GUI")
+        self.label = omnific.get_component("GUI")
         pass
 
     def on_update(self):
@@ -23,6 +22,6 @@ class omnific_script:
         if omnific.has_event("Player won"):
             self.score += 1
 
-        self.gui.set_to_label("Player 1: " + str(self.score))
+        self.label.set_text("Player 1: " + str(self.score))
         pass
     

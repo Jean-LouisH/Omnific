@@ -29,7 +29,17 @@ void Omnific::GUIElement::deserialize(YAML::Node yaml_node)
 
 	for (YAML::const_iterator it = yaml_node.begin(); it != yaml_node.end(); ++it)
 	{
-		if (it->first.as<std::string>() == "pivot")
+		if (it->first.as<std::string>() == "follow_target_entity_name")
+		{
+			this->follow_target_entity_name = it->second.as<std::string>();
+			this->is_following_entity = true;
+		}
+		else if (it->first.as<std::string>() == "follow_offset")
+		{
+			this->follow_offset.x = it->second[0].as<double>();
+			this->follow_offset.y = it->second[1].as<double>();
+		}
+		else if (it->first.as<std::string>() == "pivot")
 		{
 			if (it->second.as<std::string>() == "top_left")
 				this->pivot = GUIElement::PivotPoint::TOP_LEFT;
@@ -115,21 +125,26 @@ glm::vec2 Omnific::GUIElement::get_position_pivot_offset()
 	return this->position_pivot_offset;
 }
 
+bool Omnific::GUIElement::is_gui_element()
+{
+	return true;
+}
+
 void Omnific::GUIElement::highlight_on_input()
 {
 	if (this->is_highlightable)
 	{
 		if (this->is_clicked)
 		{
-			this->target_current_colour = this->target_clicked_colour;
+			this->current_highlight_opacity = this->click_highlight_opacity;
 		}
 		else if (this->is_hovered_in_focus)
 		{
-			this->target_current_colour  = this->target_highlight_colour;
+			this->current_highlight_opacity = this->hover_highlight_opacity;
 		}
 		else
 		{
-			this->target_current_colour  = this->target_default_background_colour;
+			this->current_highlight_opacity = 0.0;
 		}
 	}
 }

@@ -6,5 +6,5 @@ class omnific_script:
         pass
 
     def on_update(self):
-        omnific.get_component("GUI").set_to_label("Blah.")
+        omnific.get_component("Label").set_text("Blah.")
         pass

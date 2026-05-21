@@ -35,7 +35,7 @@ namespace Omnific
 		Panel()
 		{
 			this->type = TYPE_STRING;
-			this->target_default_background_colour = std::shared_ptr<Colour>(new Colour(0.8, 0.8, 0.8, 1.0));
+			this->background_colour = std::shared_ptr<Colour>(new Colour(0.8, 0.8, 0.8, 1.0));
 			this->target_scrollbar_colour = std::shared_ptr<Colour>(new Colour("#222222"));
 			this->target_scrollbar_thumb_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));
 			this->target_scrollbar_arrow_colour = std::shared_ptr<Colour>(new Colour("#3b3b3b"));

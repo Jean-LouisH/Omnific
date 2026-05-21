@@ -24,7 +24,7 @@
 
 #include "scene/scene.hpp"
 #include "systems/system.hpp"
-#include "scene/components/gui.hpp"
+#include <scene/components/gui_element.hpp>
 #include <memory>
 
 namespace Omnific
@@ -52,7 +52,7 @@ namespace Omnific
 		virtual void finalize() override;
 	private:
 		void detect_inputs_for_gui_element(
-			std::shared_ptr<Omnific::GUI::Element> gui_element, 
+			std::shared_ptr<Omnific::GUIElement> gui_element, 
 			glm::vec2 gui_element_global_position,
 			glm::vec2 mouse_position);
 	};
