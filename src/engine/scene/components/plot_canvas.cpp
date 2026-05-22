@@ -36,19 +36,42 @@ void Omnific::PlotCanvas::deserialize(YAML::Node yaml_node)
 	}
 }
 
-void Omnific::PlotCanvas::set_plot_points(std::vector<float> plot_points, std::shared_ptr<Omnific::Colour> background_colour, std::shared_ptr<Omnific::Colour> plot_colour)
+void Omnific::PlotCanvas::set_plot_points(std::vector<float> plot_points, std::shared_ptr<Omnific::Colour> plot_colour)
 {
-	this->plot_points = plot_points;
-	this->target_plot_colour = plot_colour;
-	this->target_plot_background_colour = background_colour;
-	this->dimensions = glm::vec3(Platform::get_window().get_window_size(), 0.0);
-	this->update_image();
+	if (!this->is_hidden() && plot_points.size() > 0)
+	{
+		this->dimensions = glm::vec3(Platform::get_window().get_window_size(), 0.0);
+		float maximum_plot_point = 0.0;
+		float y_centre = this->dimensions.y / 2;
+		float x_centre = this->dimensions.x / 2;
+		float y_scale = 0.2f;
+		size_t plot_points_size = plot_points.size();
+
+		for (int i = 0; i < plot_points_size; ++i)
+		{
+			maximum_plot_point = std::max(std::abs(plot_points[i]), 0.0f);
+		}
+
+		std::vector<float> positions;
+
+		for (int i = 0; i < plot_points_size; ++i)
+		{
+			float x = (float)i / (plot_points_size - 1) * this->dimensions.x - x_centre;
+			float y = plot_points.at(i) / maximum_plot_point * this->dimensions.y / 2.0f * y_scale;
+			float z = 0.0;
+
+			positions.push_back(x);
+			positions.push_back(y);
+			positions.push_back(z);
+		}
+		
+		this->mesh = std::shared_ptr<Mesh>(new Mesh(positions, Mesh::PrimitiveMode::LINE_STRIP));
+		this->material = std::shared_ptr<Material>(new Material());
+		this->material->albedo_map = std::shared_ptr<Image>(new Image(plot_colour));
+	}
 }
 
 void Omnific::PlotCanvas::update_image()
 {
-	if (!this->is_hidden() && this->plot_points.size() > 0)
-	{
-		this->set_to_image(std::shared_ptr<Image>(new Image(this->plot_points, this->dimensions.x, this->dimensions.y, this->target_plot_background_colour, this->target_plot_colour)));
-	}
+
 }

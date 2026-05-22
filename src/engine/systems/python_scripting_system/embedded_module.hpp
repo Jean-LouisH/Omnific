@@ -355,7 +355,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING)
 		.def(pybind11::init<>());
-	pybind11::class_<Omnific::GUIElement, std::shared_ptr<Omnific::GUIElement>>(m, Omnific::GUIElement::TYPE_STRING)
+	pybind11::class_<Omnific::GUIElement, Omnific::Renderable, std::shared_ptr<Omnific::GUIElement>>(m, Omnific::GUIElement::TYPE_STRING)
 		.def(pybind11::init<>())
 		.def_readwrite("is_hovered_in_focus", &Omnific::GUIElement::is_hovered_in_focus)
 		.def_readwrite("is_selected", &Omnific::GUIElement::is_selected)

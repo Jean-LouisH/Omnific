@@ -423,19 +423,7 @@ void Omnific::RenderingSystem::on_output()
 								this->render_device->set_vec3_uniform("entity_rotation", renderable_transform->get_rotation_in_radians_euler_angles());
 								this->render_device->set_vec3_uniform("entity_scale", renderable_transform->scale);
 
-								if (renderable->mesh->get_is_indexed())
-								{
-									this->render_device->draw_indexed_triangles(renderable->mesh);
-								}
-								else
-								{
-									switch (renderable->mesh->get_primitive_mode())
-									{
-										case Mesh::PrimitiveMode::TRIANGLES: this->render_device->draw_triangles(renderable->mesh); break;
-										case Mesh::PrimitiveMode::POINTS: this->render_device->draw_points(renderable->mesh); break;
-										case Mesh::PrimitiveMode::LINE_STRIP: this->render_device->draw_line_strip(renderable->mesh); break;
-									}
-								}
+								this->draw(renderable);
 
 								this->render_device->unbind_mesh();
 								this->render_device->unbind_material();
@@ -474,7 +462,7 @@ void Omnific::RenderingSystem::on_output()
 				this->render_device->set_float_uniform("alpha", gui_element->get_alpha_in_percentage());
 				this->render_device->set_float_uniform("highlight_opacity", gui_element->current_highlight_opacity);
 
-				this->render_device->draw_indexed_triangles(gui_element->mesh);
+				this->draw(gui_element);
 
 				this->render_device->unbind_mesh();
 				this->render_device->unbind_texture(RenderDevice::TextureSemantic::ALBEDO);
@@ -505,6 +493,23 @@ void Omnific::RenderingSystem::on_window_resize()
 	{
 		this->render_device->set_viewport(window_size.x, window_size.y);
 		this->last_detected_window_size = window_size;
+	}
+}
+
+void Omnific::RenderingSystem::draw(std::shared_ptr<Renderable> renderable)
+{
+	if (renderable->mesh->get_is_indexed())
+	{
+		this->render_device->draw_indexed_triangles(renderable->mesh);
+	}
+	else
+	{
+		switch (renderable->mesh->get_primitive_mode())
+		{
+			case Mesh::PrimitiveMode::TRIANGLES: this->render_device->draw_triangles(renderable->mesh); break;
+			case Mesh::PrimitiveMode::POINTS: this->render_device->draw_points(renderable->mesh); break;
+			case Mesh::PrimitiveMode::LINE_STRIP: this->render_device->draw_line_strip(renderable->mesh); break;
+		}
 	}
 }
 

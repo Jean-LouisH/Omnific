@@ -13,7 +13,7 @@ class omnific_script:
         scene = omnific.get_scene()
         self.audio_source = omnific.get_component("AudioSource")
         self.audio_source.is_capturing_waveform = True
-        self.audio_source.waveform_capture_sample_count = int(omnific.get_window().get_window_size().x * 4.0)
+        self.audio_source.waveform_capture_sample_count = int(omnific.get_window().get_window_size().x / 8)
         self.playback_time_label = scene.get_component_from_entity_by_name("Label", "Playback Time")
         self.playback_length_label = scene.get_component_from_entity_by_name("Label", "Playback Length")
         self.oscilloscope_plot_canvas = scene.get_component_from_entity_by_name("PlotCanvas", "Oscilloscope")
@@ -40,9 +40,9 @@ class omnific_script:
             playback_length = self.audio_source.get_playback_length()
             self.playback_time_label.set_text(str(int(current_playback_time // 60)).zfill(2) + ":" + str(int(current_playback_time % 60)).zfill(2))
             self.playback_length_label.set_text(str(int(playback_length // 60)).zfill(2) + ":" + str(int(playback_length % 60)).zfill(2))
-            self.oscilloscope_plot_canvas.set_plot_points(self.audio_source.get_current_waveform(), omnific.Colour(0, 0, 0), omnific.Colour(255, 255, 255))
+            self.oscilloscope_plot_canvas.set_plot_points(self.audio_source.get_current_waveform(), omnific.Colour(255, 255, 255))
             self.start_message_label.hide()
-        if self.play_pause_button.is_clicked:
+        if self.play_pause_button.is_clicked and omnific.get_inputs().is_left_mouse_button_on_press():
             if self.audio_source.is_playing():
                 self.audio_source.pause()
             else:

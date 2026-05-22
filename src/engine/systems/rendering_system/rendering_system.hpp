@@ -74,6 +74,7 @@ namespace Omnific
 		RenderingPath rendering_path = RenderingPath::FORWARD;
 
 		void on_window_resize();
+		void draw(std::shared_ptr<Renderable> renderable);
 	};
 }
 
