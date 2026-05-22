@@ -45,6 +45,9 @@ namespace Omnific
 			return clone;
 		}
 
+		float maximum_plot_point = 0.0;
+		float y_scale = 0.5;
+
 		virtual void deserialize(YAML::Node yaml_node);
 		void set_plot_points(std::vector<float> plot_points, std::shared_ptr<Colour> plot_colour);
 		virtual void update_image() override;

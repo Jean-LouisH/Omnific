@@ -41,23 +41,18 @@ void Omnific::PlotCanvas::set_plot_points(std::vector<float> plot_points, std::s
 	if (!this->is_hidden() && plot_points.size() > 0)
 	{
 		this->dimensions = glm::vec3(Platform::get_window().get_window_size(), 0.0);
-		float maximum_plot_point = 0.0;
 		float y_centre = this->dimensions.y / 2;
 		float x_centre = this->dimensions.x / 2;
-		float y_scale = 0.2f;
 		size_t plot_points_size = plot_points.size();
-
-		for (int i = 0; i < plot_points_size; ++i)
-		{
-			maximum_plot_point = std::max(std::abs(plot_points[i]), 0.0f);
-		}
 
 		std::vector<float> positions;
 
 		for (int i = 0; i < plot_points_size; ++i)
 		{
+			float plot_point = plot_points.at(i);
+			this->maximum_plot_point = std::max(std::abs(plot_point), this->maximum_plot_point);
 			float x = (float)i / (plot_points_size - 1) * this->dimensions.x - x_centre;
-			float y = plot_points.at(i) / maximum_plot_point * this->dimensions.y / 2.0f * y_scale;
+			float y = plot_point / this->maximum_plot_point * this->dimensions.y / 2.0f * this->y_scale;
 			float z = 0.0;
 
 			positions.push_back(x);
