@@ -43,6 +43,7 @@ namespace Omnific
 		std::string get_executable_file_path();
 		std::string get_executable_name();
 		std::string get_executable_directory_path();
+		std::string get_file_name(std::string filepath);
 		std::string get_file_name_without_extension(std::string filepath);
 		std::string get_file_extension(std::string filepath);
 		std::string get_path_before_file(std::string filepath);

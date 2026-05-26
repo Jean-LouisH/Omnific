@@ -11,6 +11,7 @@ project_name_type_pairs = {
     #"shooter" : "game",
     #"fighting" : "game",
     "audio_player" : "app",
+    "image_viewer" : "app",
     "clock" : "app",
     "calculator" : "app",
     #"music_keyboard" : "app",
@@ -54,8 +55,9 @@ class omnific_script:
         pass
 
     def on_entity_start(self):
-        omnific.get_window().resize(853, 480)
-        omnific.get_window().change_title("Omnific Demo")
+        window = omnific.get_window()
+        window.set_to_windowed(853, 480)
+        window.change_title("Omnific Demo")
         print("Python: " + sys.version)
         project_print_string = ""
 

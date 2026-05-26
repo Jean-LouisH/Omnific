@@ -1,0 +1,39 @@
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+Entity:
+  name: "Image Viewer"
+  AudioSource:
+    play_infinitely: false
+  AudioListener: "default"
+  ScriptCollection:
+    Python: ["apps/image_viewer/scripts/python/image_viewer.py"]
+Entity:
+  name: "Slideshow Timer"
+  Timer: default
+Entity:
+  name: "Start Message"
+  Label: 
+    text: "Drop a .jpg or .png file onto the window to view it and all the other images in the same folder."
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "centre"
+    anchor_pivot: "centre"
+Entity:
+  name: "Image"
+  ImageCanvas: 
+    pivot: "centre"
+    anchor_pivot: "centre"
+Entity:
+  name: "Slideshow Button"
+  Button:
+    text: "Slideshow"
+    font: ["tests/fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    pivot: "bottom_centre"
+    anchor_pivot: "bottom_centre"
+    margin: [0.0, 5.0]
+Entity:
+  name: "Camera"
+  Camera: "default"

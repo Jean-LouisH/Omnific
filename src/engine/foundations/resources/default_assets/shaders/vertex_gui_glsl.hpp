@@ -33,6 +33,7 @@ namespace Omnific
             out vec3 translation;
             out vec2 uv;
             uniform vec2 gui_position;
+            uniform vec2 gui_scale;
             uniform vec2 screen_viewport;
         
             void main()
@@ -40,8 +41,8 @@ namespace Omnific
                 translation = model_vertex_translation;
                 uv = vec2(model_vertex_uv.x, model_vertex_uv.y);
         
-                float x = ((gui_position.x + translation.x) - (screen_viewport.x / 2.0)) / (screen_viewport.x / 2.0);
-                float y = ((gui_position.y + translation.y) - (screen_viewport.y / 2.0)) / (screen_viewport.y / 2.0);
+                float x = ((gui_position.x + (translation.x * gui_scale.x)) - (screen_viewport.x / 2.0)) / (screen_viewport.x / 2.0);
+                float y = ((gui_position.y + (translation.y * gui_scale.y)) - (screen_viewport.y / 2.0)) / (screen_viewport.y / 2.0);
                 float z_rotation = 0.0;
         
                 gl_Position = vec4(

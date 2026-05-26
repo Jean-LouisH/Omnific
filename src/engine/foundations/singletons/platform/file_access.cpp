@@ -104,6 +104,34 @@ std::string Omnific::FileAccess::get_executable_directory_path()
 	return this->get_path_before_file(this->executable_filepath);
 }
 
+std::string Omnific::FileAccess::get_file_name(std::string filepath)
+{
+	std::string file_name;
+	size_t filepath_size = filepath.size();
+	int name_index_start = filepath_size - 1;
+
+	if (name_index_start > -1)
+	{
+		//Find the first slash from the end
+		while (filepath.at(name_index_start) != '/' && filepath.at(name_index_start) != '\\')
+		{
+			name_index_start--;
+			if (name_index_start < 0)
+			{
+				break;
+			}
+		}
+	}
+
+	//append from the start index to the extension name or the end of string.
+	for (int j = name_index_start + 1; j < filepath_size; ++j)
+	{
+		file_name += filepath.at(j);
+	}
+
+	return file_name;
+}
+
 std::string Omnific::FileAccess::get_file_name_without_extension(std::string filepath)
 {
 	std::string file_name;

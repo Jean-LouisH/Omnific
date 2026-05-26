@@ -47,6 +47,9 @@ namespace Omnific
 
 		virtual void deserialize(YAML::Node yaml_node);
 		virtual void update_image() override;
+
+		void set_image(std::shared_ptr<Omnific::Image> image);
+		bool has_image();
 	private:
 
 	};

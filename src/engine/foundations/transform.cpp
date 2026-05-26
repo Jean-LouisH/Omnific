@@ -146,6 +146,12 @@ void Omnific::Transform::interpolate_with_scale(glm::vec3 target_scale, float in
 	this->scale = glm::mix(this->scale, target_scale, interpolation_delta);
 }
 
+void Omnific::Transform::set_xy_scale(float amount)
+{
+	this->scale.x = amount;
+	this->scale.y = amount;
+}
+
 void Omnific::Transform::set_xyz_scale(float amount)
 {
 	this->scale.x = amount;

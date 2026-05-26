@@ -457,6 +457,7 @@ void Omnific::RenderingSystem::on_output()
 
 				/* Standard GUI uniforms */
 				this->render_device->set_vec2_uniform("gui_position", glm::vec2(gui_element_entity->get_transform()->translation) - gui_element->get_position_pivot_offset());
+				this->render_device->set_vec2_uniform("gui_scale", glm::vec2(gui_element_entity->get_transform()->scale));
 				this->render_device->set_vec2_uniform("screen_viewport", Platform::get_window().get_window_size());
 				this->render_device->set_int_uniform("albedo_texture_sampler", 0);
 				this->render_device->set_float_uniform("alpha", gui_element->get_alpha_in_percentage());

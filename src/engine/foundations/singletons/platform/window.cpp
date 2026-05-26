@@ -105,6 +105,8 @@ void Omnific::Window::set_to_windowed(uint16_t width_px, uint16_t height_px)
 	{
 		SDL_SetWindowFullscreen(this->sdl_window.get(), 0);
 		SDL_SetWindowSize(this->sdl_window.get(), width_px, height_px);
+		SDL_SetWindowPosition(this->sdl_window.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		SDL_ShowCursor();
 		Platform::get_logger().write("Set Window to windowed.");
 	}
 }
@@ -115,6 +117,7 @@ void Omnific::Window::set_to_fullscreen()
 	{
 		SDL_SetWindowFullscreenMode(this->sdl_window.get(), this->sdl_display_mode.get());
 		SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN);
+		SDL_HideCursor();
 		Platform::get_logger().write("Set Window to fullscreen.");
 	}
 }
@@ -129,7 +132,6 @@ void Omnific::Window::toggle_windowed_fullscreen()
 		{
 			SDL_SetWindowFullscreen(this->sdl_window.get(), SDL_WINDOW_FULLSCREEN);
 			Platform::get_logger().write("Set Window to windowed fullscreen.");
-			SDL_HideCursor();
 		}
 		else
 		{
@@ -139,7 +141,6 @@ void Omnific::Window::toggle_windowed_fullscreen()
 			// 	SDL_WINDOWPOS_CENTERED,
 			// 	SDL_WINDOWPOS_CENTERED);
 			Platform::get_logger().write("Set Window to windowed.");
-			SDL_ShowCursor();
 		}
 	}
 }

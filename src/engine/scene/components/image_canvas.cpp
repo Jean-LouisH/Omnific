@@ -39,3 +39,13 @@ void Omnific::ImageCanvas::update_image()
 {
 
 }
+
+void Omnific::ImageCanvas::set_image(std::shared_ptr<Omnific::Image> image)
+{
+	this->set_to_image(image);
+}
+	
+bool Omnific::ImageCanvas::has_image()
+{
+	return 	this->get_image() != nullptr;
+}

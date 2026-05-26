@@ -62,6 +62,7 @@ namespace Omnific
 		void interpolate_with_translation(glm::vec3 target_translation, float interpolation_delta);
 		void interpolate_with_rotation(glm::quat target_rotation, float interpolation_delta);
 		void interpolate_with_scale(glm::vec3 target_scale, float interpolation_delta);
+		void set_xy_scale(float amount);
 		void set_xyz_scale(float amount);
 		void flatten_to_2d();
 		float calculate_distance_from(glm::vec3 position);

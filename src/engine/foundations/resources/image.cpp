@@ -169,7 +169,7 @@ Omnific::Image::Image(uint8_t* data, int width, int height, int colour_channels)
 
 Omnific::Image::Image(std::string filepath)
 {
-	stbi_set_flip_vertically_on_load(0);
+	stbi_set_flip_vertically_on_load(1);
 	this->type = TYPE_STRING;
 	this->set_name(filepath);
 

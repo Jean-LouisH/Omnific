@@ -79,6 +79,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_rotation_in_euler_angles", &Omnific::Transform::get_rotation_in_euler_angles)
 		.def("get_rotation_in_radians_euler_angles", &Omnific::Transform::get_rotation_in_radians_euler_angles)
 		.def("get_rotation_in_degrees_euler_angles", &Omnific::Transform::get_rotation_in_degrees_euler_angles)
+		.def("set_xy_scale", &Omnific::Transform::set_xy_scale)
 		.def("set_xyz_scale", &Omnific::Transform::set_xyz_scale)
 		.def("set_x_rotation", &Omnific::Transform::set_x_rotation)
 		.def("set_y_rotation", &Omnific::Transform::set_y_rotation)
@@ -114,6 +115,7 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_executable_file_path", &Omnific::FileAccess::get_executable_file_path)
 		.def("get_executable_name", &Omnific::FileAccess::get_executable_name)
 		.def("get_executable_directory_path", &Omnific::FileAccess::get_executable_directory_path)
+		.def("get_file_name", &Omnific::FileAccess::get_file_name)
 		.def("get_file_name_without_extension", &Omnific::FileAccess::get_file_name_without_extension)
 		.def("get_file_extension", &Omnific::FileAccess::get_file_extension)
 		.def("get_path_before_file", &Omnific::FileAccess::get_path_before_file)
@@ -261,7 +263,15 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	pybind11::class_<Omnific::Image, Omnific::Resource, std::shared_ptr<Omnific::Image>>(m, Omnific::Image::TYPE_STRING)
 		.def(pybind11::init<>())
 		.def(pybind11::init<std::string>())
-		.def(pybind11::init<std::shared_ptr<Omnific::Colour>>());
+		.def(pybind11::init<std::shared_ptr<Omnific::Colour>>())
+		.def("get_data", &Omnific::Image::get_data)
+		.def("get_width", &Omnific::Image::get_width)
+		.def("get_height", &Omnific::Image::get_height)
+		.def("get_depth", &Omnific::Image::get_depth)
+		.def("get_pitch", &Omnific::Image::get_pitch)
+		.def("get_aspect_ratio", &Omnific::Image::get_aspect_ratio)
+		.def("get_dimensions", &Omnific::Image::get_dimensions)
+		.def("get_bytes_per_pixel", &Omnific::Image::get_bytes_per_pixel);
 
 	pybind11::class_<Omnific::Text, Omnific::Resource, std::shared_ptr<Omnific::Text>>(m, Omnific::Text::TYPE_STRING)
 		.def(pybind11::init<>())
@@ -348,7 +358,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("set_to_textured_cube", &Omnific::Renderable::set_to_textured_cube)
 		.def("get_surface_mode_string", &Omnific::Renderable::get_reflection_models_as_string)
 		.def("show", &Omnific::Renderable::show)
-		.def("hide", &Omnific::Renderable::hide);
+		.def("hide", &Omnific::Renderable::hide)
+		.def("get_image", &Omnific::Renderable::get_image);
 	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING)
@@ -375,7 +386,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	pybind11::class_<Omnific::ColourCanvas, Omnific::GUIElement, std::shared_ptr<Omnific::ColourCanvas>>(m, Omnific::ColourCanvas::TYPE_STRING)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::ImageCanvas, Omnific::GUIElement, std::shared_ptr<Omnific::ImageCanvas>>(m, Omnific::ImageCanvas::TYPE_STRING)
-		.def(pybind11::init<>());
+		.def(pybind11::init<>())
+		.def("set_image", &Omnific::ImageCanvas::set_image)
+		.def("has_image", &Omnific::ImageCanvas::has_image);
 	pybind11::class_<Omnific::PlotCanvas, Omnific::GUIElement, std::shared_ptr<Omnific::PlotCanvas>>(m, Omnific::PlotCanvas::TYPE_STRING)
 		.def(pybind11::init<>())
 		.def("set_plot_points", &Omnific::PlotCanvas::set_plot_points);
