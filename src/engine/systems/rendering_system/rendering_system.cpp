@@ -452,7 +452,7 @@ void Omnific::RenderingSystem::on_output()
 			{
 				this->render_device->enable_blending();
 				this->render_device->bind_mesh(gui_element->mesh);
-				this->render_device->bind_texture(gui_element->material->albedo_map, RenderDevice::TextureSemantic::ALBEDO);
+				this->render_device->bind_texture(gui_element->material->albedo_map, RenderDevice::TextureSemantic::ALBEDO, gui_element->material->albedo_texture_properties);
 				this->render_device->use_shader(gui_element->get_shader());
 
 				/* Standard GUI uniforms */

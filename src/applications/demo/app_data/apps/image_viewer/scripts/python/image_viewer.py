@@ -122,7 +122,7 @@ class omnific_script:
         filename = omnific.get_file_access().get_file_name(image_filepath)
         image_width = image.get_width()
         image_height = image.get_height()
-        omnific.get_window().change_title(self.app_name + " - " + " [" + str(self.current_image_index) + 
+        omnific.get_window().change_title(self.app_name + " - " + " [" + str(self.current_image_index + 1) + 
                                              "/" + str(len(self.playlist)) + "] " + filename + 
                                              " (" + str(image_width) + "x" + str(image_height) + ")")
         self.scale_image_to_window()

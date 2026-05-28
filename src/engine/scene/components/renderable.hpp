@@ -58,6 +58,53 @@ namespace Omnific
 				BECKMANN
 			};
 
+			enum class TextureWrap
+			{
+				REPEAT,
+				CLAMP_TO_EDGE,
+				MIRRORED_REPEAT,
+				CLAMP_TO_BORDER
+			};
+
+			enum class TextureFilter
+			{
+				NEAREST,
+				LINEAR,
+				NEAREST_MIPMAP_NEAREST,
+				LINEAR_MIPMAP_NEAREST,
+				NEAREST_MIPMAP_LINEAR,
+				LINEAR_MIPMAP_LINEAR
+			};
+
+			enum class TextureSwizzle
+			{
+				RED,
+				GREEN,
+				BLUE,
+				ALPHA,
+				ZERO,
+				ONE
+			};
+
+			typedef struct TextureProperties 
+			{
+				TextureWrap wrap_s = TextureWrap::REPEAT;
+				TextureWrap wrap_t = TextureWrap::REPEAT;
+				TextureFilter minification_filter = TextureFilter::LINEAR_MIPMAP_LINEAR;
+				TextureFilter magnification_filter = TextureFilter::LINEAR;
+
+				float max_anisotropy = 1.0f;
+				float lod_bias = 0.0f;
+				
+				float border_color[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+				
+				bool use_immutable_storage = false;
+				TextureSwizzle swizzle_r = TextureSwizzle::RED;
+				TextureSwizzle swizzle_g = TextureSwizzle::GREEN;
+				TextureSwizzle swizzle_b = TextureSwizzle::BLUE;
+				TextureSwizzle swizzle_a = TextureSwizzle::ALPHA;
+			};
+
 			std::shared_ptr<Image> albedo_map;
 			std::shared_ptr<Image> metallic_map;
 			std::shared_ptr<Image> specular_map;
@@ -67,6 +114,16 @@ namespace Omnific
 			std::shared_ptr<Image> normal_map;
 			std::shared_ptr<Image> displacement_map;
 			std::shared_ptr<Image> occlusion_map;
+
+			TextureProperties albedo_texture_properties;
+			TextureProperties metallic_texture_properties;
+			TextureProperties specular_texture_properties;
+			TextureProperties roughness_texture_properties;
+			TextureProperties anisotropic_texture_properties;
+			TextureProperties emission_texture_properties;
+			TextureProperties normal_texture_properties;
+			TextureProperties displacement_texture_properties;
+			TextureProperties occlusion_texture_properties;
 
 		private:
 			DiffuseReflectionModel diffuse_reflection_model = DiffuseReflectionModel::LAMBERT;

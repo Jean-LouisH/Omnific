@@ -80,7 +80,7 @@ namespace Omnific
 		virtual std::string get_pbr_fragment_input() override;
         virtual void bind_mesh(std::shared_ptr<Mesh> mesh) override;
         virtual void unbind_mesh() override;
-        virtual void bind_texture(std::shared_ptr<Image> image, TextureSemantic semantic) override;
+        virtual void bind_texture(std::shared_ptr<Image> image, TextureSemantic semantic, const Renderable::Material::TextureProperties& texture_properties) override;
         virtual void unbind_texture(TextureSemantic semantic) override;
         virtual void bind_material(std::shared_ptr<Renderable::Material> material) override;
         virtual void unbind_material() override;

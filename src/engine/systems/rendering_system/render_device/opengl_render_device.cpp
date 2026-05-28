@@ -29,6 +29,7 @@
 #include <foundations/resources/default_assets/shaders/fragment_unlit_glsl.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/singletons/profiler.hpp>
+#include <unordered_map>
 #include <string>
 #include <SDL3/SDL_video.h>
 
@@ -381,7 +382,7 @@ void Omnific::OpenGLRenderDevice::unbind_mesh()
 }
 
 
-void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, TextureSemantic semantic) 
+void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, TextureSemantic semantic, const Renderable::Material::TextureProperties& texture_properties) 
 {
 	if (image == nullptr)
 		return;
@@ -393,51 +394,105 @@ void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, Tex
 		GLuint texture_id = 0;
 
 		glGenTextures(1, &texture_id);
+
+		GLint last_active_texture;
+		glGetIntegerv(GL_ACTIVE_TEXTURE, &last_active_texture);
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		GLint texture_wrap_s = GL_REPEAT;
+		GLint texture_wrap_t = GL_REPEAT;
+
+		std::unordered_map<Renderable::Material::TextureWrap, GLint> wrap_mode_map = {
+			{ Renderable::Material::TextureWrap::REPEAT, GL_REPEAT },
+			{ Renderable::Material::TextureWrap::MIRRORED_REPEAT, GL_MIRRORED_REPEAT },
+			{ Renderable::Material::TextureWrap::CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE },
+			{ Renderable::Material::TextureWrap::CLAMP_TO_BORDER, GL_CLAMP_TO_BORDER }
+		};
+
+		texture_wrap_s = wrap_mode_map[texture_properties.wrap_s];
+		texture_wrap_t = wrap_mode_map[texture_properties.wrap_t];
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texture_wrap_s);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texture_wrap_t);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		std::shared_ptr<Image> texture_image;
+		if (texture_properties.wrap_s == Renderable::Material::TextureWrap::CLAMP_TO_BORDER || 
+			texture_properties.wrap_t == Renderable::Material::TextureWrap::CLAMP_TO_BORDER)
+		{
+			glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, texture_properties.border_color);
+		}
 
-		if (image == nullptr)
-			texture_image = std::shared_ptr<Image>(new Image("Image::default"));
-		else
-			texture_image = image;
+		if (texture_properties.lod_bias != 0.0f)
+		{
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, texture_properties.lod_bias);
+		}
 
-		uint64_t format = 0;
-		uint64_t internal_format = 0;
+		GLint swizzle_mask[4];
 
-		switch (texture_image->get_bytes_per_pixel())
+		std::unordered_map<Renderable::Material::TextureSwizzle, GLint> swizzle_map = {
+			{ Renderable::Material::TextureSwizzle::RED, GL_RED },
+			{ Renderable::Material::TextureSwizzle::GREEN, GL_GREEN },
+			{ Renderable::Material::TextureSwizzle::BLUE, GL_BLUE },
+			{ Renderable::Material::TextureSwizzle::ALPHA, GL_ALPHA },
+			{ Renderable::Material::TextureSwizzle::ZERO, GL_ZERO },
+			{ Renderable::Material::TextureSwizzle::ONE, GL_ONE }
+		};
+
+		swizzle_mask[0] = swizzle_map[texture_properties.swizzle_r];
+		swizzle_mask[1] = swizzle_map[texture_properties.swizzle_g];
+		swizzle_mask[2] = swizzle_map[texture_properties.swizzle_b];
+		swizzle_mask[3] = swizzle_map[texture_properties.swizzle_a];
+
+		glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzle_mask);
+
+		uint64_t format = GL_RGBA8;
+		uint64_t internal_format = GL_RGBA;
+
+		switch (image->get_bytes_per_pixel())
 		{
 			case 1: 
-				format = GL_RGBA8;
+				internal_format = GL_R8;
+				format = GL_RED; 
 				break;
 			case 3: 
+				internal_format = GL_RGB8; 
 				format = GL_RGB; 
 				break;
 			case 4: 
+				internal_format = GL_RGBA8; 
 				format = GL_RGBA; 
 				break;
 		}
 
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA,
-			texture_image->get_width(),
-			texture_image->get_height(),
+			internal_format,
+			image->get_width(),
+			image->get_height(),
 			0,
 			format,
 			GL_UNSIGNED_BYTE,
-			texture_image->get_data());
-		glGenerateMipmap(GL_TEXTURE_2D);
+			image->get_data());
+
+		if (texture_properties.minification_filter == Renderable::Material::TextureFilter::LINEAR_MIPMAP_LINEAR  || 
+			texture_properties.minification_filter == Renderable::Material::TextureFilter::LINEAR_MIPMAP_NEAREST ||
+			texture_properties.minification_filter == Renderable::Material::TextureFilter::NEAREST_MIPMAP_LINEAR || 
+			texture_properties.minification_filter == Renderable::Material::TextureFilter::NEAREST_MIPMAP_NEAREST)
+		{
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
 
 		this->textures.emplace(image_id, texture_id);
 		this->missed_frame_counts.emplace(image_id, 0);
+
+		// Restore original active texture state
+		glActiveTexture(last_active_texture);
 	}
 	else
 	{
@@ -457,12 +512,12 @@ void Omnific::OpenGLRenderDevice::unbind_texture(TextureSemantic semantic)
 
 void Omnific::OpenGLRenderDevice::bind_material(std::shared_ptr<Renderable::Material> material) 
 {
-	this->bind_texture(material->albedo_map, RenderDevice::TextureSemantic::ALBEDO);
-	this->bind_texture(material->metallic_map, RenderDevice::TextureSemantic::METALLIC);
-	this->bind_texture(material->roughness_map, RenderDevice::TextureSemantic::ROUGHNESS);
-	this->bind_texture(material->emission_map, RenderDevice::TextureSemantic::EMISSION);
-	this->bind_texture(material->normal_map, RenderDevice::TextureSemantic::NORMAL);
-	this->bind_texture(material->occlusion_map, RenderDevice::TextureSemantic::OCCLUSION);
+	this->bind_texture(material->albedo_map, RenderDevice::TextureSemantic::ALBEDO, material->albedo_texture_properties);
+	this->bind_texture(material->metallic_map, RenderDevice::TextureSemantic::METALLIC, material->metallic_texture_properties);
+	this->bind_texture(material->roughness_map, RenderDevice::TextureSemantic::ROUGHNESS, material->roughness_texture_properties);
+	this->bind_texture(material->emission_map, RenderDevice::TextureSemantic::EMISSION, material->emission_texture_properties);
+	this->bind_texture(material->normal_map, RenderDevice::TextureSemantic::NORMAL, material->normal_texture_properties);
+	this->bind_texture(material->occlusion_map, RenderDevice::TextureSemantic::OCCLUSION, material->occlusion_texture_properties);
 }
 
 void Omnific::OpenGLRenderDevice::unbind_material() 

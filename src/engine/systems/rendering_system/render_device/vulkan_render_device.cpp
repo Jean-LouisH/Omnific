@@ -248,7 +248,7 @@ void Omnific::VulkanRenderDevice::unbind_mesh()
 }
 
 
-void Omnific::VulkanRenderDevice::bind_texture(std::shared_ptr<Image> image, TextureSemantic semantic) 
+void Omnific::VulkanRenderDevice::bind_texture(std::shared_ptr<Image> image, TextureSemantic semantic, const Renderable::Material::TextureProperties& texture_properties) 
 {
 
 }
@@ -260,12 +260,12 @@ void Omnific::VulkanRenderDevice::unbind_texture(TextureSemantic semantic)
 
 void Omnific::VulkanRenderDevice::bind_material(std::shared_ptr<Renderable::Material> material) 
 {
-	this->bind_texture(material->albedo_map, RenderDevice::TextureSemantic::ALBEDO);
-	this->bind_texture(material->metallic_map, RenderDevice::TextureSemantic::METALLIC);
-	this->bind_texture(material->roughness_map, RenderDevice::TextureSemantic::ROUGHNESS);
-	this->bind_texture(material->emission_map, RenderDevice::TextureSemantic::EMISSION);
-	this->bind_texture(material->normal_map, RenderDevice::TextureSemantic::NORMAL);
-	this->bind_texture(material->occlusion_map, RenderDevice::TextureSemantic::OCCLUSION);
+	this->bind_texture(material->albedo_map, RenderDevice::TextureSemantic::ALBEDO, material->albedo_texture_properties);
+	this->bind_texture(material->metallic_map, RenderDevice::TextureSemantic::METALLIC, material->metallic_texture_properties);
+	this->bind_texture(material->roughness_map, RenderDevice::TextureSemantic::ROUGHNESS, material->roughness_texture_properties);
+	this->bind_texture(material->emission_map, RenderDevice::TextureSemantic::EMISSION, material->emission_texture_properties);
+	this->bind_texture(material->normal_map, RenderDevice::TextureSemantic::NORMAL, material->normal_texture_properties);
+	this->bind_texture(material->occlusion_map, RenderDevice::TextureSemantic::OCCLUSION, material->occlusion_texture_properties);
 }
 
 void Omnific::VulkanRenderDevice::unbind_material() 
