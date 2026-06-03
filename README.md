@@ -53,6 +53,14 @@ Click the name of each project to download their Windows x86-64 builds.
 
 ![omnific_pong](docs/images/omnific_pong_demo.gif)
 
+- Image Viewer
+
+![image_viewer](docs/images/image_viewer_demo.gif)
+
+- Audio Player
+
+![audio_player](docs/images/audio_player_demo.gif)
+
 - Clock
 
 ![omnific_pong](docs/images/omnific_clock_demo.gif)

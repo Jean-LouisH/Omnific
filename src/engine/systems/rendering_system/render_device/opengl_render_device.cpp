@@ -425,10 +425,7 @@ void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, Tex
 			glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, texture_properties.border_color);
 		}
 
-		if (texture_properties.lod_bias != 0.0f)
-		{
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, texture_properties.lod_bias);
-		}
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, texture_properties.lod_bias);
 
 		GLint swizzle_mask[4];
 
@@ -491,7 +488,6 @@ void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, Tex
 		this->textures.emplace(image_id, texture_id);
 		this->missed_frame_counts.emplace(image_id, 0);
 
-		// Restore original active texture state
 		glActiveTexture(last_active_texture);
 	}
 	else
