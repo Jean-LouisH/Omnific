@@ -1,6 +1,5 @@
 from ast import arg
 import os
-#import random
 
 import omnific
 import sys
@@ -14,7 +13,8 @@ class omnific_script:
         self.current_image_index = -1
         self.slideshow_delay = 5.0
         self.is_slideshow_playing = False
-        self.is_slideshow_shuffled = False
+        self.is_slideshow_shuffled = True
+        self.demo_image = omnific.get_file_access().find_path("apps/image_viewer/images/banff.jpg")
         pass
 
     def on_entity_start(self):
@@ -44,9 +44,15 @@ class omnific_script:
             self.scale_image_to_window()
 
         if inputs.is_on_release("right"):
-            self.shift_image_index(1)
+            if len(self.playlist) > 0:
+                self.shift_image_index(1)
+            else:
+                self.open_image(self.demo_image)
         elif inputs.is_on_release("left"):
-            self.shift_image_index(-1)
+            if len(self.playlist) > 0:
+                self.shift_image_index(-1)
+            else:
+                self.open_image(self.demo_image)
 
 
         mouse_position = inputs.get_mouse_position()
@@ -79,7 +85,7 @@ class omnific_script:
                 self.slideshow_timer.start(self.slideshow_delay)
                 shift_amount = 0
                 if self.is_slideshow_shuffled:
-                    #shift_amount = random.randint(1, len(self.playlist) - 1)
+                    shift_amount = omnific.get_random_integer(1, len(self.playlist) - 1)
                     pass
                 else:
                     shift_amount = 1

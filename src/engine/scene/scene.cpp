@@ -180,15 +180,17 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 
 			}
 
-			std::shared_ptr<Entity> debug_gui_entity = std::make_shared<Entity>("debug_gui_entity");
+			std::shared_ptr<Entity> debug_label_entity = std::make_shared<Entity>("debug_label_entity");
 			std::shared_ptr<Label> debug_label = std::make_shared<Label>();
 
-			debug_gui_entity->is_2d = true;
+			debug_label_entity->is_2d = true;
 			debug_label->hide();
-			debug_label->set_text("");
 			debug_label->pivot = GUIElement::PivotPoint::TOP_RIGHT;
 			debug_label->anchor_pivot = GUIElement::PivotPoint::TOP_RIGHT;
-			this->add_entity(debug_gui_entity);
+			debug_label->margin = glm::vec2(-10.0f,-10.0f);
+			debug_label->set_text("");
+			debug_label->set_horizontal_alignment(Font::HorizontalAlignment::RIGHT);
+			this->add_entity(debug_label_entity);
 			this->add_component_to_last_entity(debug_label);
 		}
 		else
@@ -291,14 +293,14 @@ void Omnific::Scene::merge_another_scene_to_parent_entity(std::shared_ptr<Scene>
 	{
 		std::shared_ptr<Entity> viewport_entity = other_scene->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
 		std::shared_ptr<Entity> debug_camera_entity = other_scene->get_entity_by_name("debug_camera_entity");
-		std::shared_ptr<Entity> debug_gui_entity = other_scene->get_entity_by_name("debug_gui_entity");
+		std::shared_ptr<Entity> debug_label_entity = other_scene->get_entity_by_name("debug_label_entity");
 		
 		if (viewport_entity != nullptr)
 			other_scene->remove_entity(viewport_entity->get_id());
 		if (debug_camera_entity != nullptr)
 			other_scene->remove_entity(debug_camera_entity->get_id());
-		if (debug_gui_entity != nullptr)
-			other_scene->remove_entity(debug_gui_entity->get_id());
+		if (debug_label_entity != nullptr)
+			other_scene->remove_entity(debug_label_entity->get_id());
 
 		/* Transfer Entities and their Components */
 		std::unordered_map<EntityID, std::shared_ptr<Entity>> other_scene_entities = other_scene->get_entities();
@@ -1101,7 +1103,7 @@ Omnific::SceneID Omnific::Scene::get_id()
 void Omnific::Scene::update_debug_statistics()
 {
 	std::string debug_string = Profiler::get_clock_deltas_to_string_by_tag("total");
-	std::shared_ptr<Label> debug_label = this->get_component_by_type<Label>(this->get_entity_by_name("debug_gui_entity")->get_id());
+	std::shared_ptr<Label> debug_label = this->get_component_by_type<Label>(this->get_entity_by_name("debug_label_entity")->get_id());
 	Inputs& inputs = Platform::get_inputs();
 	const int monitor_time_period = 1;
 

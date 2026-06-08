@@ -1,5 +1,4 @@
 import omnific
-import math
 import constants
 
 class omnific_script:
@@ -32,11 +31,11 @@ class omnific_script:
                 #Based on an older project: Suprannua, this is a placeholder
                 #until better AI code is determined.
 
-                position_angle_with_ball = math.atan2(self.ball_transform.translation.y - self.transform.translation.y,
+                position_angle_with_ball = omnific.atan2(self.ball_transform.translation.y - self.transform.translation.y,
                                                     self.ball_transform.translation.x - self.transform.translation.x)
 
                 if (self.ball_physics_body.linear_velocity.x > 0):
-                    self.paddle_physics_body.accelerate_y(constants.acceleration * math.sin(position_angle_with_ball), constants.maximum_speed)
+                    self.paddle_physics_body.accelerate_y(constants.acceleration * omnific.sin(position_angle_with_ball), constants.maximum_speed)
                 else:
                     self.paddle_physics_body.decelerate(constants.deceleration)
 

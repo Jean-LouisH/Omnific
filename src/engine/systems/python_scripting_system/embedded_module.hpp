@@ -40,9 +40,11 @@
 #include <scene/scene.hpp>
 #include <foundations/aliases.hpp>
 #include <foundations/singletons/event_bus.hpp>
+#include <foundations/singletons/random_number_generator.hpp>
 #include <foundations/singletons/profiler.hpp>
 #include <foundations/singletons/thread_pool.hpp>
 #include <memory>
+#include <cmath>
 
 #include <customization/class_registry.hpp>
 
@@ -449,6 +451,10 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("publish_event", pybind11::overload_cast<Omnific::Event, bool>(&Omnific::EventBus::publish_event));
 	m.def("publish_event", pybind11::overload_cast<std::string, std::unordered_map<std::string, std::string>, std::unordered_map<std::string, double>, std::unordered_map<std::string, bool>, std::unordered_map<std::string, std::shared_ptr<Omnific::Component>>, std::string, bool>(&Omnific::EventBus::publish_event));
 
+	m.def("get_random_integer", &Omnific::RandomNumberGenerator::get_random_integer);
+	m.def("get_random_float", &Omnific::RandomNumberGenerator::get_random_float);
+	m.def("get_random_boolean", &Omnific::RandomNumberGenerator::get_random_boolean);
+
 	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::load_scene));
 	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::load_scene));
 	m.def("remove_scene", &Omnific::SceneStorage::remove_scene);
@@ -475,6 +481,16 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("get_network_access", &Omnific::Platform::get_network_access, pybind11::return_value_policy::reference);
 	m.def("get_window", &Omnific::Platform::get_window, pybind11::return_value_policy::reference);
 	m.def("get_command_line_arguments", &Omnific::Platform::get_command_line_arguments, pybind11::return_value_policy::reference);
+
+	m.def("sin", static_cast<double(*)(double)>(&std::sin));
+	m.def("cos", static_cast<double(*)(double)>(&std::cos));
+	m.def("tan", static_cast<double(*)(double)>(&std::tan));
+	m.def("asin", static_cast<double(*)(double)>(&std::asin));
+	m.def("acos", static_cast<double(*)(double)>(&std::acos));
+	m.def("atan", static_cast<double(*)(double)>(&std::atan));
+	m.def("atan2", static_cast<double(*)(double, double)>(&std::atan2));
+	m.def("pow", static_cast<double(*)(double, double)>(&std::pow));
+	m.def("sqrt", static_cast<double(*)(double)>(&std::sqrt));
 }
 
 #endif /*ENABLE_PYTHON_BUILD*/

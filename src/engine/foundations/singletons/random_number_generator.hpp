@@ -23,44 +23,21 @@
 #pragma once
 
 #include <foundations/aliases.hpp>
-#include <foundations/constants.hpp>
-#include "scene/components/gui_element.hpp"
+#include <engine_api.hpp>
+#include <random>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Label : public GUIElement
+	class OMNIFIC_ENGINE_API RandomNumberGenerator
 	{
 	public:
-		Label()
-		{
-			this->type = TYPE_STRING;
-			this->text_colour = std::shared_ptr<Colour>(new Colour(1.0, 1.0, 1.0, 1.0));
-			this->font = std::shared_ptr<Font>(new Font(this->horizontal_alignment));
-		};
-		static constexpr const char* TYPE_STRING = "Label";
-
-		virtual Registerable* instance() override
-		{
-			Label* clone = new Label(*this);
-			clone->id = UIDGenerator::get_new_uid();
-			return clone;
-		}
-
-		std::string text;
-		std::shared_ptr<Font> font;
-		Font::HorizontalAlignment horizontal_alignment = Font::HorizontalAlignment::LEFT;
-		uint16_t wrap_length = 500;
-		std::shared_ptr<Colour> text_colour;
-		bool is_edittable = false;
-
-		void set_text(std::string text);
-		void set_font(std::shared_ptr<Font> font);
-		void set_horizontal_alignment(Font::HorizontalAlignment alignment);
-		void set_text_colour(std::shared_ptr<Colour> colour);
-
-		virtual void deserialize(YAML::Node yaml_node);
-		virtual void update_image() override;
+		static int get_random_integer(int a, int b);
+		static double get_random_float(double a, double b);
+		static bool get_random_boolean();
 	private:
+		std::mt19937 random_engine;
 
+		static RandomNumberGenerator* instance;
+		static RandomNumberGenerator* get_instance();
 	};
 }

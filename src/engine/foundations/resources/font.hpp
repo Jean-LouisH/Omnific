@@ -28,6 +28,8 @@
 #include <string>
 #include <memory>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <unordered_map>
+#include <engine_api.hpp>
 
 
 namespace Omnific
@@ -37,9 +39,19 @@ namespace Omnific
 	public:
 		static constexpr const char* TYPE_STRING = "Font";
 
+		enum class HorizontalAlignment
+		{
+			LEFT,
+			CENTER,
+			RIGHT
+		};
+
 		Font();
+		Font(HorizontalAlignment horizontal_alignment);
+		Font(HorizontalAlignment horizontal_alignment, uint16_t font_size);
 		Font(std::string filepath);
 		Font(std::string filepath, uint16_t size_px);
+		Font(std::string filepath, uint16_t size_px, HorizontalAlignment horizontal_alignment);
 		Font(TTF_Font* font);
 
 		virtual Registerable* instance() override
@@ -53,5 +65,11 @@ namespace Omnific
 	private:
 		std::shared_ptr<TTF_Font> font = { nullptr, TTF_CloseFont };
 		uint16_t font_size = 0;
+		HorizontalAlignment horizontal_alignment = HorizontalAlignment::LEFT;
+		std::unordered_map<HorizontalAlignment, int> horizontal_alignment_to_sdl_value = {
+			{ HorizontalAlignment::LEFT, TTF_HORIZONTAL_ALIGN_LEFT },
+			{ HorizontalAlignment::CENTER, TTF_HORIZONTAL_ALIGN_CENTER },
+			{ HorizontalAlignment::RIGHT, TTF_HORIZONTAL_ALIGN_RIGHT }
+		};
 	};
 }

@@ -8,7 +8,7 @@ class omnific_script:
         pass
 
     def on_entity_start(self):
-        self.label = omnific.get_component("GUI")
+        self.label = omnific.get_component("Label")
         pass
 
     def on_update(self):

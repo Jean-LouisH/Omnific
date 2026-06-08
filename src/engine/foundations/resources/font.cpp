@@ -22,6 +22,7 @@
 
 #include "font.hpp"
 #include "foundations/resources/default_assets/fonts/lato_regular_ttf.hpp"
+#include <unordered_map>
 
 Omnific::Font::Font() 
 { 
@@ -31,6 +32,30 @@ Omnific::Font::Font()
 	TTF_Font* font = TTF_OpenFontIO(rw, 1, default_font_size);
 	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 };
+
+Omnific::Font::Font(Omnific::Font::HorizontalAlignment horizontal_alignment)
+{
+	this->horizontal_alignment = horizontal_alignment;
+	this->type = TYPE_STRING;
+	const uint16_t default_font_size = 16;
+	SDL_IOStream* rw = SDL_IOFromConstMem(DefaultAssets::lato_regular_ttf, DefaultAssets::lato_regular_ttf_len);
+	TTF_Font* font = TTF_OpenFontIO(rw, 1, default_font_size);
+	TTF_SetFontWrapAlignment(font, (TTF_HorizontalAlignment)horizontal_alignment_to_sdl_value[horizontal_alignment]);	
+	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
+
+}
+
+Omnific::Font::Font(Omnific::Font::HorizontalAlignment horizontal_alignment, uint16_t font_size)
+{
+	this->horizontal_alignment = horizontal_alignment;
+	this->font_size = font_size;
+	this->type = TYPE_STRING;
+	const uint16_t default_font_size = 16;
+	SDL_IOStream* rw = SDL_IOFromConstMem(DefaultAssets::lato_regular_ttf, DefaultAssets::lato_regular_ttf_len);
+	TTF_Font* font = TTF_OpenFontIO(rw, 1, font_size);
+	TTF_SetFontWrapAlignment(font, (TTF_HorizontalAlignment)horizontal_alignment_to_sdl_value[horizontal_alignment]);
+	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
+}
 
 Omnific::Font::Font(std::string filepath)
 {
@@ -46,6 +71,17 @@ Omnific::Font::Font(std::string filepath, uint16_t size_px)
 	this->set_name(filepath);
 	this->type = TYPE_STRING;
 	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
+}
+
+Omnific::Font::Font(std::string filepath, uint16_t size_px, HorizontalAlignment horizontal_alignment)
+{
+	this->font_size = size_px;
+	this->horizontal_alignment = horizontal_alignment;
+	this->set_name(filepath);
+	this->type = TYPE_STRING;
+	TTF_Font* font = TTF_OpenFont(filepath.c_str(), this->font_size);
+	TTF_SetFontWrapAlignment(font, (TTF_HorizontalAlignment)horizontal_alignment_to_sdl_value[horizontal_alignment]);
+	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
 }
 
 Omnific::Font::Font(TTF_Font* font)

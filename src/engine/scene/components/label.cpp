@@ -73,6 +73,21 @@ void Omnific::Label::set_text_colour(std::shared_ptr<Colour> colour)
 	this->update_image();
 }
 
+void Omnific::Label::set_horizontal_alignment(Font::HorizontalAlignment alignment)
+{
+	this->horizontal_alignment = alignment;
+	if (this->font != nullptr)
+	{
+		this->font = std::shared_ptr<Font>(new Font(this->horizontal_alignment));
+	}
+	else
+	{
+		uint16_t font_size = this->font->get_font_size();
+		this->font = std::shared_ptr<Font>(new Font(this->horizontal_alignment, font_size));
+	}
+	this->update_image();
+}
+
 void Omnific::Label::update_image()
 {
 	if (!this->is_hidden() && this->font != nullptr && this->text_colour != nullptr)
