@@ -49,6 +49,7 @@ namespace Omnific
 		std::string get_path_before_file(std::string filepath);
 		std::string get_last_modified_time(std::string filepath);
 		bool exists(std::string filepath);
+		bool is_file_type(std::string filepath, std::string file_type);
 
 		std::string read_string(std::string filepath, bool apply_app_data_path = true);
 		std::vector<uint8_t> read_binary(std::string filepath, bool apply_app_data_path = true);
@@ -87,6 +88,17 @@ namespace Omnific
 
 		std::vector<std::thread*> io_threads;
 		std::unordered_map<std::string, std::vector<uint8_t>> asynchronously_loaded_binaries;
+
+		std::unordered_map<std::string, std::vector<uint8_t>> file_type_magic_numbers = {
+			{"png", {0x89, 0x50, 0x4E, 0x47}},
+			{"jpg", {0xFF, 0xD8, 0xFF}},
+			{"jpeg", {0xFF, 0xD8, 0xFF}},
+			{"bmp", {0x42, 0x4D}},
+			{"tga", {0x00, 0x00, 0x02, 0x00}},
+			{"ogg", {0x4F, 0x67, 0x67, 0x53}},
+			{"wav", {0x52, 0x49, 0x46, 0x46}},
+			{"ttf", {0x00, 0x01, 0x00, 0x00}}
+		};
 
 		std::string get_filepath_with_app_data_path(std::string filepath, bool apply_app_data_path = true);
 		void read_binary_asynchronously(std::string filepath, bool apply_app_data_path);

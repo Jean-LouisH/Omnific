@@ -233,6 +233,14 @@ bool Omnific::FileAccess::exists(std::string filepath)
 	return input_file.good();
 }
 
+bool Omnific::FileAccess::is_file_type(std::string filepath, std::string file_type)
+{
+	std::vector<uint8_t> target_magic_number = this->file_type_magic_numbers.at(file_type);
+	std::vector<uint8_t> file_magic_number = this->read_binary(filepath);
+	file_magic_number.resize(target_magic_number.size());
+	return file_magic_number == target_magic_number;
+}
+
 std::string Omnific::FileAccess::read_string(std::string filepath, bool apply_data_directory)
 {
 	std::string output_string;

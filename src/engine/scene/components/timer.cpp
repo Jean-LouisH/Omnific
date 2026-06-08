@@ -55,3 +55,13 @@ bool Omnific::Timer::is_finished()
 {
 	return this->current_time <= 0.0;
 }
+
+float Omnific::Timer::get_remaining_time()
+{
+	return this->current_time;
+}
+
+float Omnific::Timer::get_elapsed_time()
+{
+	return this->start_time - this->current_time;
+}

@@ -23,6 +23,7 @@
 #include "font.hpp"
 #include "foundations/resources/default_assets/fonts/lato_regular_ttf.hpp"
 #include <unordered_map>
+#include <foundations/singletons/platform/platform.hpp>
 
 Omnific::Font::Font() 
 { 
@@ -62,7 +63,8 @@ Omnific::Font::Font(std::string filepath)
 	this->font_size = 16;
 	this->set_name(filepath);
 	this->type = TYPE_STRING;
-	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
+	if (Platform::get_file_access().is_file_type(filepath, "ttf"))
+		this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
 }
 
 Omnific::Font::Font(std::string filepath, uint16_t size_px)
@@ -70,7 +72,8 @@ Omnific::Font::Font(std::string filepath, uint16_t size_px)
 	this->font_size = size_px;
 	this->set_name(filepath);
 	this->type = TYPE_STRING;
-	this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
+	if (Platform::get_file_access().is_file_type(filepath, "ttf"))
+		this->font = std::shared_ptr<TTF_Font>(TTF_OpenFont(filepath.c_str(), this->font_size), TTF_CloseFont);
 }
 
 Omnific::Font::Font(std::string filepath, uint16_t size_px, HorizontalAlignment horizontal_alignment)
@@ -79,9 +82,12 @@ Omnific::Font::Font(std::string filepath, uint16_t size_px, HorizontalAlignment 
 	this->horizontal_alignment = horizontal_alignment;
 	this->set_name(filepath);
 	this->type = TYPE_STRING;
-	TTF_Font* font = TTF_OpenFont(filepath.c_str(), this->font_size);
-	TTF_SetFontWrapAlignment(font, (TTF_HorizontalAlignment)horizontal_alignment_to_sdl_value[horizontal_alignment]);
-	this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
+	if (Platform::get_file_access().is_file_type(filepath, "ttf"))
+	{
+		TTF_Font* font = TTF_OpenFont(filepath.c_str(), this->font_size);
+		TTF_SetFontWrapAlignment(font, (TTF_HorizontalAlignment)horizontal_alignment_to_sdl_value[horizontal_alignment]);
+		this->font = std::shared_ptr<TTF_Font>(font, TTF_CloseFont);
+	}
 }
 
 Omnific::Font::Font(TTF_Font* font)

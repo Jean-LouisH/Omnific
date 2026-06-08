@@ -49,6 +49,8 @@ namespace Omnific
 		void update(float delta_time);
 		void stop();
 		bool is_finished();
+		float get_remaining_time();
+		float get_elapsed_time();
 	private:
 		bool is_active = false;
 		float start_time = 0.0;

@@ -338,7 +338,10 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def(pybind11::init<>())
 		.def("start", &Omnific::Timer::start)
 		.def("stop", &Omnific::Timer::stop)
-		.def("is_finished", &Omnific::Timer::is_finished);
+		.def("is_finished", &Omnific::Timer::is_finished)
+		.def("get_remaining_time", &Omnific::Timer::get_remaining_time)
+		.def("get_elapsed_time", &Omnific::Timer::get_elapsed_time)
+		;
 	pybind11::class_<Omnific::PhysicsBody, Omnific::Component, std::shared_ptr<Omnific::PhysicsBody>>(m, Omnific::PhysicsBody::TYPE_STRING)
 		.def(pybind11::init<>())
 		.def_readwrite("linear_velocity", &Omnific::PhysicsBody::linear_velocity)

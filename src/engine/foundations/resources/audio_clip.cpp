@@ -30,17 +30,18 @@ Omnific::AudioClip::AudioClip(std::string filepath)
 {
 	this->type = TYPE_STRING;
 	this->set_name(filepath);
-	std::string file_extension = Platform::get_file_access().get_file_extension(filepath);
-	std::string full_filepath = Platform::get_file_access().find_path(filepath);
+	FileAccess& file_access = Platform::get_file_access();
+	std::string file_extension = file_access.get_file_extension(filepath);
+	std::string full_filepath = file_access.find_path(filepath);
 	short* data_output;
 
-	if (file_extension == "ogg")
+	if (file_access.is_file_type(filepath, "ogg"))
 	{
 		this->samples_per_channel = stb_vorbis_decode_filename(full_filepath.c_str(), &this->channel_count, &this->sample_rate, &data_output);
 		this->data = std::vector<int16_t>(data_output, data_output + this->samples_per_channel * this->channel_count);
 		free(data_output);
 	}
-	else if (file_extension == "wav")
+	else if (file_access.is_file_type(filepath, "wav"))
 	{
 		unsigned int* channels;
 
