@@ -238,7 +238,8 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_entity_by_name", &Omnific::Scene::get_entity_by_name)
 		.def("get_last_entity", &Omnific::Scene::get_last_entity)
 		.def("get_entities", &Omnific::Scene::get_entities)
-		.def("get_id", &Omnific::Scene::get_id);
+		.def("get_id", &Omnific::Scene::get_id)
+		.def("get_dimensions", &Omnific::Scene::get_dimensions);
 
 	/*Resource classes*/
 
@@ -330,6 +331,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_current_waveform", &Omnific::AudioSource::get_current_waveform);
 	pybind11::class_<Omnific::Camera, Omnific::Component, std::shared_ptr<Omnific::Camera>>(m, Omnific::Camera::TYPE_STRING)
 		.def(pybind11::init<>())
+		.def_readwrite("field_of_view", &Omnific::Camera::field_of_view)
+		.def_readwrite("near_plane", &Omnific::Camera::near_plane)
+		.def_readwrite("far_plane", &Omnific::Camera::far_plane)
 		.def("toggle_wireframe_mode", &Omnific::Camera::toggle_wireframe_mode)
 		.def("set_controller_state_by_string", &Omnific::Camera::set_controller_state_by_string)
 		.def_readwrite("clear_colour", &Omnific::Camera::clear_colour)

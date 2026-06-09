@@ -34,6 +34,7 @@ namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Renderable : public Component
 	{
+		friend class Scene;
 	public:
 
 		class OMNIFIC_ENGINE_API Material

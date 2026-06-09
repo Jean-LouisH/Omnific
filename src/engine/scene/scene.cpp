@@ -115,6 +115,11 @@ void Omnific::Scene::deserialize_from(std::string filepath)
 								name = it2->second.as<std::string>();
 								this->set_entity_name(this->get_last_entity()->get_id(), name);
 							}
+							else if (it2->first.as<std::string>() == "dimension")
+							{
+								if (it2->second.as<int>() == 2)
+									this->get_last_entity()->is_2d = true;
+							}
 							else if (it2->first.as<std::string>() == "source")
 							{
 								source = it2->second.as<std::string>();
@@ -751,6 +756,27 @@ std::vector<std::shared_ptr<Omnific::Renderable>> Omnific::Scene::get_renderable
 	return renderables;
 }
 
+glm::vec3 Omnific::Scene::get_dimensions()
+{
+	glm::vec3 dimensions = glm::vec3(0.0f);
+
+	for (const auto& [entity_id, entity] : this->entities)
+	{
+		std::shared_ptr<Renderable> renderable = this->get_component_by_type<Renderable>(entity_id);
+		glm::vec3 renderable_dimensions = renderable != nullptr ? renderable->get_dimensions() : glm::vec3(0.0f);
+		std::shared_ptr<Transform> global_transform = this->calculate_global_transform(entity_id);
+
+		if (global_transform != nullptr)
+		{
+			 dimensions.x = std::max(dimensions.x, std::abs(global_transform->translation.x) + renderable_dimensions.x);
+			 dimensions.y = std::max(dimensions.y, std::abs(global_transform->translation.y) + renderable_dimensions.y);
+			 dimensions.z = std::max(dimensions.z, std::abs(global_transform->translation.z) + renderable_dimensions.z);
+		}
+	}
+
+	return dimensions;
+}
+
 void Omnific::Scene::load_from_gltf(std::string filepath)
 {
 	tinygltf::Model gltf_model;
@@ -1007,6 +1033,7 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 
 				renderable->material = material;
 				renderable->mesh = mesh;
+				renderable->dimensions = mesh->get_dimensions();
 				renderable->set_shader(std::shared_ptr<Shader>(new Shader("Shader::PBR")));
 				this->add_component_to_last_entity(std::dynamic_pointer_cast<Component>(renderable));
 			}

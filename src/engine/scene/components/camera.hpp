@@ -28,6 +28,7 @@
 #include "scene/components/component.hpp"
 #include "foundations/resources/shader.hpp"
 #include <foundations/transform.hpp>
+#include <foundations/colour.hpp>
 
 
 namespace Omnific
@@ -55,6 +56,7 @@ namespace Omnific
 			this->type = TYPE_STRING;
 			this->set_viewport_height(480);
 			this->follow_mode.target_transform = std::make_shared<Transform>();
+			this->clear_colour = std::make_shared<Colour>("#000000FF");
 		};
 
 		virtual Registerable* instance() override
@@ -78,7 +80,7 @@ namespace Omnific
 		void set_controller_state_by_string(std::string state);
 		glm::mat4 get_view_to_projection_matrix();
 
-		glm::vec3 clear_colour = glm::vec3(0.0);
+		std::shared_ptr<Colour> clear_colour;
 		ControllerState controller_state;
 		bool enable_flyby_mode_on_default_input = false;
 
@@ -89,6 +91,10 @@ namespace Omnific
 		glm::vec3 rotation_upper_limits = glm::vec3(90.0, 90.0, 90.0);
 		bool is_x_rotation_inverted = true;
 		bool is_y_rotation_inverted = false;
+
+		float field_of_view = 45.0;
+		float near_plane = 0.1;
+		float far_plane = 1000.0;
 
 		struct FollowMode
 		{
@@ -113,9 +119,6 @@ namespace Omnific
 	private:
 		const float default_aspect = 1920.0 / 1080.0;
 		float aspect = default_aspect;
-		float field_of_view = 45.0;
-		float near_plane = 0.1;
-		float far_plane = 1000.0;
 		glm::vec2 min_limit = glm::vec2(0.0);
 		glm::vec2 max_limit = glm::vec2(0.0);
 		glm::vec2 viewport = glm::vec2(0.0);

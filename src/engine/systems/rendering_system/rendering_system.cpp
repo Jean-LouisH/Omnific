@@ -143,6 +143,7 @@ void Omnific::RenderingSystem::on_output()
 					std::shared_ptr<Transform> camera_global_transform = scene->calculate_global_transform(camera->get_entity_id());
 					glm::mat4 world_to_view_matrix = glm::inverse(camera_global_transform->get_transform_matrix());
 					glm::mat4 view_to_projection_matrix = camera->get_view_to_projection_matrix();
+					this->render_device->clear_colour_buffer(camera->clear_colour->get_rgba_in_vec4());
 
 					if (camera_entity->is_2d)
 					{

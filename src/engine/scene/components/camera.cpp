@@ -71,6 +71,10 @@ void Omnific::Camera::deserialize(YAML::Node yaml_node)
 		{
 			this->enable_flyby_mode_on_default_input = it3->second.as<bool>();
 		}
+		else if (it3->first.as<std::string>() == "clear_colour")
+		{
+			this->clear_colour = std::make_shared<Colour>(it3->second.as<std::string>());
+		}
 		else if (it3->first.as<std::string>() == "camera_shader")
 		{
 			std::string vertex = "";

@@ -99,6 +99,7 @@ namespace Omnific
 		std::shared_ptr<Component> get_component(std::string type, EntityID entity_id);
 		std::shared_ptr<Component> get_component_from_entity_by_name(std::string type, std::string entity_name);
 		std::vector<std::shared_ptr<Renderable>> get_renderables_in_order();
+		glm::vec3 get_dimensions();
 
 		template <class T>
 		std::shared_ptr<T> get_component_by_type(EntityID entity_id)
