@@ -235,10 +235,20 @@ bool Omnific::FileAccess::exists(std::string filepath)
 
 bool Omnific::FileAccess::is_file_type(std::string filepath, std::string file_type)
 {
-	std::vector<uint8_t> target_magic_number = this->file_type_magic_numbers.at(file_type);
-	std::vector<uint8_t> file_magic_number = this->read_binary(filepath);
-	file_magic_number.resize(target_magic_number.size());
-	return file_magic_number == target_magic_number;
+	std::vector<uint8_t> expected_magic_number = this->file_type_magic_numbers.at(file_type);
+	std::vector<uint8_t> file_magic_number;
+	std::string full_filepath = this->get_filepath_with_app_data_path(filepath);
+	std::FILE* file_pointer = std::fopen(full_filepath.c_str(), "rb");
+
+	if (file_pointer)
+	{
+		std::fseek(file_pointer, 0, SEEK_SET);
+		file_magic_number.resize(expected_magic_number.size());
+		std::fread(&file_magic_number[0], 1, file_magic_number.size(), file_pointer);	
+		std::fclose(file_pointer);
+	}
+
+	return file_magic_number == expected_magic_number;
 }
 
 std::string Omnific::FileAccess::read_string(std::string filepath, bool apply_data_directory)
