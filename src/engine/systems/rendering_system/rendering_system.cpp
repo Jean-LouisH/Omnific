@@ -97,6 +97,33 @@ void Omnific::RenderingSystem::initialize()
 		image.get_pitch());
 
 	this->render_device->initialize();
+
+	std::string default_vertex_input = this->render_device->get_default_3d_vertex_input();
+
+	this->light_source_shader = std::shared_ptr<Shader>(new Shader(
+		default_vertex_input,
+		this->render_device->get_light_source_fragment_input(),
+		false,
+		false));
+
+	this->unlit_shader = std::shared_ptr<Shader>(new Shader(
+		default_vertex_input,
+		this->render_device->get_unlit_fragment_input(),
+		false,
+		false));
+
+	this->simple_shader = std::shared_ptr<Shader>(new Shader(
+		default_vertex_input,
+		this->render_device->get_simple_fragment_input(),
+		false,
+		false));
+
+	this->pbr_shader = std::shared_ptr<Shader>(new Shader(
+		default_vertex_input,
+		this->render_device->get_pbr_fragment_input(),
+		false,
+		false));
+
 	this->is_initialized = true;
 	Profiler::add_clock(RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"rendering_system", "on_output_frame_time"});
 	Platform::get_logger().write("Initialized Rendering System");
@@ -320,43 +347,38 @@ void Omnific::RenderingSystem::on_output()
 										if (shader->get_fragment_source() != "")
 											fragment_source_input = shader->get_fragment_source();
 
-										complete_shader = std::shared_ptr<Shader>(new Shader(
-											vertex_source_input,
-											fragment_source_input,
-											false,
-											false));
+										std::string custom_shader_cache_key = vertex_source_input + fragment_source_input;
+
+										if (this->custom_shader_cache.count(custom_shader_cache_key))
+										{
+											complete_shader = this->custom_shader_cache.at(custom_shader_cache_key);
+										}
+										else
+										{
+											complete_shader = std::shared_ptr<Shader>(new Shader(
+												vertex_source_input,
+												fragment_source_input,
+												false,
+												false));
+
+											this->custom_shader_cache.emplace(custom_shader_cache_key, complete_shader);
+										}
 									}
 									else if (preset == "Shader::LIGHT_SOURCE")
 									{
-										complete_shader = std::shared_ptr<Shader>(new Shader(
-											default_vertex_input,
-											this->render_device->get_light_source_fragment_input(),
-											false,
-											false));
+										complete_shader = this->light_source_shader;
 									}
 									else if (preset == "Shader::UNLIT")
 									{
-										complete_shader = std::shared_ptr<Shader>(new Shader(
-											default_vertex_input,
-											this->render_device->get_unlit_fragment_input(),
-											false,
-											false));
+										complete_shader = this->unlit_shader;
 									}
 									else if (preset == "Shader::SIMPLE")
 									{
-										complete_shader = std::shared_ptr<Shader>(new Shader(
-											default_vertex_input,
-											this->render_device->get_simple_fragment_input(),
-											false,
-											false));
+										complete_shader = this->simple_shader;
 									}
 									else if (preset == "Shader::PBR")
 									{
-										complete_shader = std::shared_ptr<Shader>(new Shader(
-											default_vertex_input,
-											this->render_device->get_pbr_fragment_input(),
-											false,
-											false));
+										complete_shader = this->pbr_shader;
 									}
 
 									this->render_device->use_shader(complete_shader);

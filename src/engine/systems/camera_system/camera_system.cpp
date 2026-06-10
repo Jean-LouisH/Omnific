@@ -124,6 +124,10 @@ void Omnific::CameraSystem::move_with_controller_states(std::shared_ptr<Scene> s
 		if (viewport != nullptr)
 		{
 			std::shared_ptr<Entity> camera_entity = scene->get_entity_by_name(viewport->get_camera_entity_name());
+
+			if (camera_entity == nullptr)
+				return; 
+			
 			std::shared_ptr<Camera> camera = scene->get_component_by_type<Camera>(camera_entity->get_id());
 			std::shared_ptr<Transform> camera_transform = camera_entity->get_transform();
 			std::shared_ptr<Transform> camera_global_transform = scene->calculate_global_transform(camera->get_entity_id());

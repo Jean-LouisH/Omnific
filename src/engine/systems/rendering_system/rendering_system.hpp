@@ -71,6 +71,13 @@ namespace Omnific
 		std::shared_ptr<Light> dummy_light;
 		std::shared_ptr<Transform> dummy_light_transform;
 
+		std::shared_ptr<Shader> light_source_shader;
+		std::shared_ptr<Shader> unlit_shader;
+		std::shared_ptr<Shader> simple_shader;
+		std::shared_ptr<Shader> pbr_shader;
+
+		std::unordered_map<std::string, std::shared_ptr<Shader>> custom_shader_cache;
+
 		RenderingPath rendering_path = RenderingPath::FORWARD;
 
 		void on_window_resize();
