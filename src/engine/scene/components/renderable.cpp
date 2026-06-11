@@ -198,6 +198,11 @@ void Omnific::Renderable::set_dimensions(float width, float height)
 	this->dimensions.y = height;
 }
 
+void Omnific::Renderable::set_dimensions(glm::vec3 dimensions)
+{
+	this->dimensions = dimensions;
+}
+
 void Omnific::Renderable::set_dimensions(float width, float height, float depth)
 {
 	this->dimensions.x = width;

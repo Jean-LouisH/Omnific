@@ -177,10 +177,10 @@ namespace Omnific
 		std::unordered_map<EntityID, std::shared_ptr<Transform>> cached_global_transforms;
 
 		void load_from_gltf(std::string filepath);
-		std::vector<uint8_t> read_gltf_buffer(std::vector<unsigned char> buffer_data, tinygltf::BufferView buffer_view);
-		std::vector<float> read_gltf_primitive_attribute(tinygltf::Model model, std::string attribute_name, size_t index);
-		std::vector<uint32_t> read_gltf_primitive_indices(tinygltf::Model model, size_t index);
-		std::shared_ptr<Image> read_gltf_image(tinygltf::Model model, int texture_index);
+		void process_gltf_node(const tinygltf::Model& model, int node_index, std::shared_ptr<Entity> parent_entity);
+		std::vector<float> read_gltf_primitive_attribute(const tinygltf::Model& model, const std::string& attribute_name, const tinygltf::Primitive& primitive);
+		std::vector<uint32_t> read_gltf_primitive_indices(const tinygltf::Model& model, const tinygltf::Primitive& primitive);
+		std::shared_ptr<Image> read_gltf_image(const tinygltf::Model& model, int texture_index);
 
 		void update_debug_statistics();
 	};

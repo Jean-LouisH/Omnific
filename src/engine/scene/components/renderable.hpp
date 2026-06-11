@@ -170,6 +170,7 @@ namespace Omnific
 		void set_to_image(std::shared_ptr<Image> image);
 		void set_dimensions(float width, float height);
 		void set_dimensions(float width, float height, float depth);
+		void set_dimensions(glm::vec3 dimensions);
 		void set_shader(std::shared_ptr<Shader> shader);
 		void set_overriding_shader(std::shared_ptr<Shader> overriding_shader);
 		void set_diffuse_reflection_model(Material::DiffuseReflectionModel diffuse_reflection_model);

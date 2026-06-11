@@ -229,7 +229,8 @@ void Omnific::RenderingSystem::on_output()
 
 					if (this->rendering_path == RenderingPath::FORWARD)
 					{
-						for (auto& renderable : scene->get_renderables_in_order())
+						std::vector<std::shared_ptr<Renderable>> renderables = scene->get_renderables_in_order();
+						for (auto& renderable : renderables)
 						{
 							std::shared_ptr<Entity> renderable_entity = scene->get_entity(renderable->get_entity_id());
 							std::shared_ptr<Transform> renderable_transform = renderable_entity->get_transform();
