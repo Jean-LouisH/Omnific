@@ -32,6 +32,8 @@
 #include <scene/components/camera.hpp>
 #include <scene/components/viewport.hpp>
 #include <scene/components/renderable.hpp>
+#include <scene/components/skeleton.hpp>
+#include <scene/components/animator.hpp>
 #include <scene/components/label.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -818,14 +820,22 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
         unsigned char* data = 0;
         unsigned int size = 0;
 
-        if (token == "CONE") { data = DefaultAssets::cone_glb; size = DefaultAssets::cone_glb_len; }
-        else if (token == "CUBE") { data = DefaultAssets::cube_glb; size = DefaultAssets::cube_glb_len; }
-        else if (token == "CYLINDER") { data = DefaultAssets::cylinder_glb; size = DefaultAssets::cylinder_glb_len; }
-        else if (token == "ICOSPHERE") { data = DefaultAssets::icosphere_glb; size = DefaultAssets::icosphere_glb_len; }    
-        else if (token == "MONKEY") { data = DefaultAssets::monkey_glb; size = DefaultAssets::monkey_glb_len; }    
-        else if (token == "PLANE") { data = DefaultAssets::plane_glb; size = DefaultAssets::plane_glb_len; }        
-        else if (token == "SPHERE") { data = DefaultAssets::sphere_glb; size = DefaultAssets::sphere_glb_len; }    
-        else if (token == "TORUS") { data = DefaultAssets::torus_glb; size = DefaultAssets::torus_glb_len; }
+        if (token == "CONE") 
+			{ data = DefaultAssets::cone_glb; size = DefaultAssets::cone_glb_len; }
+        else if (token == "CUBE") 
+			{ data = DefaultAssets::cube_glb; size = DefaultAssets::cube_glb_len; }
+        else if (token == "CYLINDER") 
+			{ data = DefaultAssets::cylinder_glb; size = DefaultAssets::cylinder_glb_len; }
+        else if (token == "ICOSPHERE") 
+			{ data = DefaultAssets::icosphere_glb; size = DefaultAssets::icosphere_glb_len; }    
+        else if (token == "MONKEY") 
+			{ data = DefaultAssets::monkey_glb; size = DefaultAssets::monkey_glb_len; }    
+        else if (token == "PLANE") 
+			{ data = DefaultAssets::plane_glb; size = DefaultAssets::plane_glb_len; }        
+        else if (token == "SPHERE") 
+			{ data = DefaultAssets::sphere_glb; size = DefaultAssets::sphere_glb_len; }    
+        else if (token == "TORUS") 
+			{ data = DefaultAssets::torus_glb; size = DefaultAssets::torus_glb_len; }
             
         ret = tiny_gltf.LoadBinaryFromMemory(&gltf_model, &err, &warn, data, size);
     }
@@ -836,7 +846,7 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
 
     if (!warn.empty()) 
 		printf("Warn: %s\n", warn.c_str());
-    if (!err.empty()) 
+    if (!err.empty()) 	
 		printf("Err: %s\n", err.c_str());
 
     if (!ret)
@@ -848,19 +858,48 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
         std::shared_ptr<Entity> gltf_scene_root_entity(new Entity("GLTF root"));
         this->add_entity(gltf_scene_root_entity);
 
+        std::map<int, uint32_t> gltf_node_to_entity_id;
+        std::vector<std::pair<uint32_t, int>> entity_skin_assignments;
+
         int scene_index = gltf_model.defaultScene >= 0 ? gltf_model.defaultScene : 0;
         if (scene_index < gltf_model.scenes.size())
         {
             const tinygltf::Scene& scene = gltf_model.scenes[scene_index];
             for (int node_index : scene.nodes)
             {
-                this->process_gltf_node(gltf_model, node_index, gltf_scene_root_entity);
+                this->process_gltf_node(
+					gltf_model, node_index, 
+					gltf_scene_root_entity, 
+					gltf_node_to_entity_id, 
+					entity_skin_assignments
+				);
             }
+        }
+
+        // Load and register skeletal rig structures if present
+        if (!gltf_model.skins.empty())
+        {
+            this->load_gltf_skins(
+				gltf_model, 
+				gltf_node_to_entity_id, 
+				entity_skin_assignments
+			);
+        }
+
+        // Load and register time-series keyframe animation animations if present
+        if (!gltf_model.animations.empty())
+        {
+            this->load_gltf_animations(
+				gltf_model, 
+				gltf_scene_root_entity, 
+				gltf_node_to_entity_id
+			);
         }
     }
 }
 
-void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_index, std::shared_ptr<Entity> parent_entity)
+void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_index, std::shared_ptr<Entity> parent_entity, 
+                                      std::map<int, uint32_t>& node_map, std::vector<std::pair<uint32_t, int>>& skin_assignments)
 {
     const tinygltf::Node& gltf_node = model.nodes[node_index];
     
@@ -868,6 +907,13 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
     node_entity->parent_id = parent_entity->get_id();
     this->add_entity(node_entity);
     
+    node_map[node_index] = node_entity->get_id();
+    
+    if (gltf_node.skin != -1)
+    {
+        skin_assignments.push_back({ node_entity->get_id(), gltf_node.skin });
+    }
+
     std::shared_ptr<Transform> transform = node_entity->get_transform();
 
     if (gltf_node.matrix.size() == 16)
@@ -875,7 +921,14 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
         glm::mat4 local_matrix = glm::make_mat4(gltf_node.matrix.data());
         glm::vec3 skew;
         glm::vec4 perspective;
-        glm::decompose(local_matrix, transform->scale, transform->rotation, transform->translation, skew, perspective);
+        glm::decompose(
+			local_matrix, 
+			transform->scale, 
+			transform->rotation,
+			transform->translation,
+			skew, 
+			perspective
+		);
     }
     else
     {
@@ -903,9 +956,12 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
             std::vector<float> positions = this->read_gltf_primitive_attribute(model, "POSITION", primitive);
             std::vector<float> texture_coords = this->read_gltf_primitive_attribute(model, "TEXCOORD_0", primitive);
             std::vector<float> normals = this->read_gltf_primitive_attribute(model, "NORMAL", primitive);
+			std::vector<float> tangents = this->read_gltf_primitive_attribute(model, "TANGENT", primitive);
             std::vector<uint32_t> indices = this->read_gltf_primitive_indices(model, primitive);
+            std::vector<uint32_t> joints = this->read_gltf_primitive_joint_attribute(model, primitive);
+            std::vector<float> weights = this->read_gltf_primitive_attribute(model, "WEIGHTS_0", primitive);
 
-            std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, indices));
+            std::shared_ptr<Mesh> mesh(new Mesh(positions, texture_coords, normals, tangents, indices, joints, weights));
             std::shared_ptr<Renderable::Material> material(new Renderable::Material());
 
             material->albedo_map = std::shared_ptr<Image>(new Image("Image::#FFFFFFFF"));
@@ -928,59 +984,39 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
                 int emissive_texture_index = gltf_material.emissiveTexture.index;
                 int occlusion_texture_index = gltf_material.occlusionTexture.index;
 
-                if (base_colour_texture_index != -1)
-                {
-                    material->albedo_map = this->read_gltf_image(model, base_colour_texture_index);
-                }
-                else
+                if (base_colour_texture_index != -1) { material->albedo_map = this->read_gltf_image(model, base_colour_texture_index); }
+                else 
                 {
                     const auto& base_color_factor = gltf_material.pbrMetallicRoughness.baseColorFactor;
-                    if (base_color_factor.size() == 3)
-                    {
-                        material->albedo_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(base_color_factor[0], base_color_factor[1], base_color_factor[2], 1.0))));
-                    }
-                    else if (base_color_factor.size() == 4)
-                    {
-                        material->albedo_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(base_color_factor[0], base_color_factor[1], base_color_factor[2], base_color_factor[3]))));
-                    }
+
+                    if (base_color_factor.size() == 3) 
+					{ material->albedo_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(base_color_factor[0], base_color_factor[1], base_color_factor[2], 1.0)))); }
+                    else if (base_color_factor.size() == 4) 
+					{ material->albedo_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(base_color_factor[0], base_color_factor[1], base_color_factor[2], base_color_factor[3])))); }
                 }
 
-                if (metallic_rougness_texture_index != -1)
-                {
-                    material->metallic_map = this->read_gltf_image(model, metallic_rougness_texture_index);
-                }
-                else
+                if (metallic_rougness_texture_index != -1) { material->metallic_map = this->read_gltf_image(model, metallic_rougness_texture_index); }
+                else 
                 {
                     double metallic_factor = gltf_material.pbrMetallicRoughness.metallicFactor;
                     double roughness_factor = gltf_material.pbrMetallicRoughness.roughnessFactor;
-
                     material->metallic_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(metallic_factor, metallic_factor, metallic_factor, 1.0))));
                     material->roughness_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(roughness_factor, roughness_factor, roughness_factor, 1.0))));
                 }
 
-                if (normal_texture_index != -1)
-                {
-                    material->normal_map = this->read_gltf_image(model, normal_texture_index);
-                }
-                else
-                {
-                    material->normal_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(0.5, 0.5, 1.0, 1.0))));
-                }
+                if (normal_texture_index != -1) 
+					{ material->normal_map = this->read_gltf_image(model, normal_texture_index); }
+                else 
+					{ material->normal_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(0.5, 0.5, 1.0, 1.0)))); }
 
-                if (emissive_texture_index != -1)
-                {
-                    material->emission_map = this->read_gltf_image(model, emissive_texture_index);
-                }
-                else if (gltf_material.emissiveFactor.size() == 3)
+                if (emissive_texture_index != -1) { material->emission_map = this->read_gltf_image(model, emissive_texture_index); }
+                else if (gltf_material.emissiveFactor.size() == 3) 
                 {
                     const auto& emissive_factor = gltf_material.emissiveFactor;
                     material->emission_map = std::shared_ptr<Image>(new Image(std::shared_ptr<Colour>(new Colour(emissive_factor[0], emissive_factor[1], emissive_factor[2], 1.0))));
                 }
 
-                if (occlusion_texture_index != -1)
-                {
-                    material->occlusion_map = this->read_gltf_image(model, occlusion_texture_index);
-                }
+                if (occlusion_texture_index != -1) { material->occlusion_map = this->read_gltf_image(model, occlusion_texture_index); }
             }
 
             std::shared_ptr<Entity> primitive_entity(new Entity("GLTF primitive"));
@@ -998,8 +1034,143 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
 
     for (int child_index : gltf_node.children)
     {
-        this->process_gltf_node(model, child_index, node_entity);
+        this->process_gltf_node(
+			model, 
+			child_index,
+			node_entity, 
+			node_map, 
+			skin_assignments
+		);
     }
+}
+
+void Omnific::Scene::load_gltf_skins(const tinygltf::Model& model, const std::map<int, uint32_t>& node_map, const std::vector<std::pair<uint32_t, int>>& skin_assignments)
+{
+    std::map<int, std::shared_ptr<Skeleton>> loaded_skeletons;
+
+    for (size_t i = 0; i < model.skins.size(); ++i)
+    {
+        const auto& gltf_skin = model.skins[i];
+        std::shared_ptr<Skeleton> skeleton(new Skeleton());
+        skeleton->skin_name = gltf_skin.name;
+
+        for (int joint_node_idx : gltf_skin.joints)
+        {
+            if (node_map.count(joint_node_idx) > 0)
+            {
+                skeleton->joint_entity_ids.push_back(node_map.at(joint_node_idx));
+            }
+        }
+
+        if (gltf_skin.inverseBindMatrices != -1)
+        {
+            const auto& accessor = model.accessors.at(gltf_skin.inverseBindMatrices);
+            const auto& buffer_view = model.bufferViews.at(accessor.bufferView);
+            const auto& buffer = model.buffers.at(buffer_view.buffer);
+
+            size_t stride = accessor.ByteStride(buffer_view);
+            const unsigned char* data_ptr = buffer.data.data() + buffer_view.byteOffset + accessor.byteOffset;
+
+            for (size_t k = 0; k < accessor.count; ++k)
+            {
+                glm::mat4 ibm = glm::make_mat4(reinterpret_cast<const float*>(data_ptr + (k * stride)));
+                skeleton->inverse_bind_matrices.push_back(ibm);
+            }
+        }
+        loaded_skeletons[static_cast<int>(i)] = skeleton;
+    }
+
+    for (const auto& [target_entity_id, skin_index] : skin_assignments)
+    {
+        if (loaded_skeletons.count(skin_index) > 0)
+        {
+			this->add_component(target_entity_id, loaded_skeletons[skin_index]);
+        }
+    }
+}
+
+void Omnific::Scene::load_gltf_animations(const tinygltf::Model& model, std::shared_ptr<Entity> root_entity, const std::map<int, uint32_t>& node_map)
+{
+	std::shared_ptr<Animator> animator = std::make_shared<Animator>();
+
+    for (const auto& gltf_anim : model.animations)
+    {
+        std::shared_ptr<SkeletalAnimation> skeletal_animation(new SkeletalAnimation());
+        skeletal_animation->name = gltf_anim.name;
+
+        for (const auto& gltf_sampler : gltf_anim.samplers)
+        {
+            SkeletalAnimation::Sampler sampler;
+            
+            if (gltf_sampler.interpolation == "LINEAR") 
+				sampler.interpolation = Animation::InterpolationType::LINEAR;
+            else if (gltf_sampler.interpolation == "STEP") 
+				sampler.interpolation = Animation::InterpolationType::STEP;
+            else if (gltf_sampler.interpolation == "CUBICSPLINE") 
+				sampler.interpolation = Animation::InterpolationType::CUBIC_SPLINE;
+
+            // Extract Input Timestamps (Seconds)
+            const auto& in_accessor = model.accessors.at(gltf_sampler.input);
+            const auto& in_view = model.bufferViews.at(in_accessor.bufferView);
+            const auto& in_buffer = model.buffers.at(in_view.buffer);
+            const unsigned char* in_ptr = in_buffer.data.data() + in_view.byteOffset + in_accessor.byteOffset;
+            size_t in_stride = in_accessor.ByteStride(in_view);
+
+            for (size_t idx = 0; idx < in_accessor.count; ++idx)
+            {
+                sampler.input_timestamps.push_back(*reinterpret_cast<const float*>(in_ptr + (idx * in_stride)));
+            }
+
+            if (!sampler.input_timestamps.empty())
+            {
+                skeletal_animation->duration = std::max(skeletal_animation->duration, sampler.input_timestamps.back());
+            }
+
+            // Extract Transformation States Output Values
+            const auto& out_accessor = model.accessors.at(gltf_sampler.output);
+            const auto& out_view = model.bufferViews.at(out_accessor.bufferView);
+            const auto& out_buffer = model.buffers.at(out_view.buffer);
+            const unsigned char* out_ptr = out_buffer.data.data() + out_view.byteOffset + out_accessor.byteOffset;
+            size_t out_stride = out_accessor.ByteStride(out_view);
+
+            for (size_t idx = 0; idx < out_accessor.count; ++idx)
+            {
+                const float* val = reinterpret_cast<const float*>(out_ptr + (idx * out_stride));
+                if (out_accessor.type == TINYGLTF_TYPE_VEC3)
+                {
+                    sampler.output_values.push_back(glm::vec4(val[0], val[1], val[2], 0.0f));
+                }
+                else if (out_accessor.type == TINYGLTF_TYPE_VEC4) // Quaternions
+                {
+                    sampler.output_values.push_back(glm::vec4(val[0], val[1], val[2], val[3]));
+                }
+            }
+            skeletal_animation->samplers.push_back(sampler);
+        }
+
+        for (const auto& gltf_channel : gltf_anim.channels)
+        {
+            if (node_map.count(gltf_channel.target_node) == 0) 
+				continue; // Skip targets that are missing
+
+            SkeletalAnimation::Channel channel;
+            channel.sampler_index = gltf_channel.sampler;
+            channel.target_entity_id = node_map.at(gltf_channel.target_node);
+
+            if (gltf_channel.target_path == "translation") 
+				channel.path = SkeletalAnimation::Path::TRANSLATION;
+            else if (gltf_channel.target_path == "rotation") 
+				channel.path = SkeletalAnimation::Path::ROTATION;
+            else if (gltf_channel.target_path == "scale") 
+				channel.path = SkeletalAnimation::Path::SCALE;
+
+            skeletal_animation->channels.push_back(channel);
+        }
+        
+		animator->skeletal_animations.emplace(skeletal_animation->name, skeletal_animation);
+    }
+
+	this->add_component(root_entity->get_id(), animator);
 }
 
 std::vector<float> Omnific::Scene::read_gltf_primitive_attribute(const tinygltf::Model& model, const std::string& attribute_name, const tinygltf::Primitive& primitive)
@@ -1014,29 +1185,65 @@ std::vector<float> Omnific::Scene::read_gltf_primitive_attribute(const tinygltf:
     size_t stride = accessor.ByteStride(buffer_view);
     const unsigned char* data_ptr = buffer.data.data() + buffer_view.byteOffset + accessor.byteOffset;
 
-    size_t component_count = 1;
-    if (accessor.type == TINYGLTF_TYPE_VEC2) component_count = 2;
-    else if (accessor.type == TINYGLTF_TYPE_VEC3) component_count = 3;
-    else if (accessor.type == TINYGLTF_TYPE_VEC4) component_count = 4;
+    size_t num_components = 1;
+    if (accessor.type == TINYGLTF_TYPE_VEC2) num_components = 2;
+    else if (accessor.type == TINYGLTF_TYPE_VEC3) num_components = 3;
+    else if (accessor.type == TINYGLTF_TYPE_VEC4) num_components = 4;
 
-    attribute.reserve(accessor.count * component_count);
+    attribute.reserve(accessor.count * num_components);
 
     for (size_t i = 0; i < accessor.count; ++i)
     {
         const float* ptr = reinterpret_cast<const float*>(data_ptr + (i * stride));
-        for (size_t c = 0; c < component_count; ++c)
+        for (size_t c = 0; c < num_components; ++c)
         {
             attribute.push_back(ptr[c]);
         }
     }
-
     return attribute;
+}
+
+std::vector<uint32_t> Omnific::Scene::read_gltf_primitive_joint_attribute(const tinygltf::Model& model, const tinygltf::Primitive& primitive)
+{
+    std::vector<uint32_t> joints;
+
+    if (primitive.attributes.count("JOINTS_0") == 0) 
+		return joints;
+
+    const tinygltf::Accessor& accessor = model.accessors.at(primitive.attributes.at("JOINTS_0"));
+    const tinygltf::BufferView& buffer_view = model.bufferViews.at(accessor.bufferView);
+    const tinygltf::Buffer& buffer = model.buffers.at(buffer_view.buffer);
+
+    size_t stride = accessor.ByteStride(buffer_view);
+    const unsigned char* data_ptr = buffer.data.data() + buffer_view.byteOffset + accessor.byteOffset;
+
+    size_t num_components = 4;
+    joints.reserve(accessor.count * num_components);
+
+    for (size_t i = 0; i < accessor.count; ++i)
+    {
+        const unsigned char* element_ptr = data_ptr + (i * stride);
+        for (size_t c = 0; c < num_components; ++c)
+        {
+            if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_SHORT)
+            {
+                joints.push_back(reinterpret_cast<const uint16_t*>(element_ptr)[c]);
+            }
+            else if (accessor.componentType == TINYGLTF_COMPONENT_TYPE_UNSIGNED_BYTE)
+            {
+                joints.push_back(reinterpret_cast<const uint8_t*>(element_ptr)[c]);
+            }
+        }
+    }
+    return joints;
 }
 
 std::vector<uint32_t> Omnific::Scene::read_gltf_primitive_indices(const tinygltf::Model& model, const tinygltf::Primitive& primitive)
 {
     std::vector<uint32_t> indices;
-    if (primitive.indices == -1) return indices;
+
+    if (primitive.indices == -1) 
+		return indices;
 
     const tinygltf::Accessor& accessor = model.accessors.at(primitive.indices);
     const tinygltf::BufferView& buffer_view = model.bufferViews.at(accessor.bufferView);
@@ -1070,10 +1277,13 @@ std::vector<uint32_t> Omnific::Scene::read_gltf_primitive_indices(const tinygltf
 
 std::shared_ptr<Omnific::Image> Omnific::Scene::read_gltf_image(const tinygltf::Model& model, int texture_index)
 {
-    if (texture_index < 0 || texture_index >= model.textures.size()) return nullptr;
+    if (texture_index < 0 || texture_index >= model.textures.size()) 
+		return nullptr;
     
     int image_index = model.textures[texture_index].source;
-    if (image_index < 0 || image_index >= model.images.size()) return nullptr;
+	
+    if (image_index < 0 || image_index >= model.images.size()) 
+		return nullptr;
 
     const tinygltf::Image& gltf_image = model.images[image_index];
 

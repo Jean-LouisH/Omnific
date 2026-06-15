@@ -38,8 +38,9 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords;
     std::vector<float> normals;
     std::vector<float> tangents;
-    std::vector<float> bitangents;
     std::vector<uint32_t> indices;
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
 
     this->type = TYPE_STRING;
     this->primitive_mode = primitive_mode;
@@ -47,8 +48,10 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
         texture_coords,
         normals,
         tangents,
-        bitangents,
-        indices);
+        indices,
+        joints,
+        weights
+    );
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
@@ -56,16 +59,19 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
 {
     std::vector<float> normals;
     std::vector<float> tangents;
-    std::vector<float> bitangents;
     std::vector<uint32_t> indices;
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
 
     this->type = TYPE_STRING;
     this->populate_data(positions,
         texture_coords,
         normals,
         tangents,
-        bitangents,
-        indices);
+        indices,
+        joints,
+        weights
+    );
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
@@ -73,16 +79,19 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> normals)
 {
     std::vector<float> tangents;
-    std::vector<float> bitangents;
     std::vector<uint32_t> indices;
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
 
     this->type = TYPE_STRING;
     this->populate_data(positions,
         texture_coords,
         normals,
         tangents,
-        bitangents,
-        indices);
+        indices,
+        joints,
+        weights
+    );
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
@@ -91,15 +100,18 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
 {
     std::vector<float> normals;
     std::vector<float> tangents;
-    std::vector<float> bitangents;
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
 
     this->type = TYPE_STRING;
     this->populate_data(positions,
         texture_coords,
         normals,
         tangents,
-        bitangents,
-        indices);
+        indices,
+        joints,
+        weights
+    );
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
@@ -108,31 +120,57 @@ Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<uint32_t> indices)
 {
     std::vector<float> tangents;
-    std::vector<float> bitangents;
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
 
     this->type = TYPE_STRING;
     this->populate_data(positions,
         texture_coords,
         normals,
         tangents,
-        bitangents,
-        indices);
+        indices,
+        joints,
+        weights
+    );
 }
 
 Omnific::Mesh::Mesh(std::vector<float> positions,
     std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<float> tangents,
-    std::vector<float> bitangents,
     std::vector<uint32_t> indices)
+{
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
+
+    this->type = TYPE_STRING;
+    this->populate_data(positions,
+        texture_coords,
+        normals,
+        tangents,
+        indices,
+        joints,
+        weights
+    );
+}
+
+Omnific::Mesh::Mesh(std::vector<float> positions,
+			std::vector<float> texture_coords,
+			std::vector<float> normals,
+			std::vector<float> tangents,
+			std::vector<uint32_t> indices,
+			std::vector<uint32_t> joints,
+			std::vector<float> weights)
 {
     this->type = TYPE_STRING;
     this->populate_data(positions,
         texture_coords,
         normals,
         tangents,
-        bitangents,
-        indices);
+        indices,
+        joints,
+        weights
+    );
 }
 
 bool Omnific::Mesh::get_is_indexed()
@@ -152,6 +190,9 @@ Omnific::Mesh::PrimitiveMode Omnific::Mesh::get_primitive_mode()
 
 void Omnific::Mesh::set_to_cube()
 {
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
+
     std::vector<float> cube_positions = {
         // Front face
         -0.5f, -0.5f,  0.5f,
@@ -268,78 +309,40 @@ void Omnific::Mesh::set_to_cube()
 
     std::vector<float> cube_tangents = {
         // Front
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
 
         // Back
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
-        -1.0f, 0.0f, 0.0f,
+        -1.0f, 0.0f, 0.0f, 1.0f,
+        -1.0f, 0.0f, 0.0f, 1.0f,
+        -1.0f, 0.0f, 0.0f, 1.0f,
+        -1.0f, 0.0f, 0.0f, 1.0f,
 
         // Left
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
-        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
+        0.0f, 0.0f, 1.0f, 1.0f,
 
         // Right
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f, 1.0f,
+        0.0f, 0.0f, -1.0f, 1.0f,
+        0.0f, 0.0f, -1.0f, 1.0f,
+        0.0f, 0.0f, -1.0f, 1.0f,
 
         // Top
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
 
         // Bottom
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-    };
-
-    std::vector<float> cube_bitangents = {
-        // Front
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Back
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Left
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Right
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-
-        // Top
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-        0.0f, 0.0f, -1.0f,
-
-        // Bottom
-        0.0f, 0.0f,  1.0f,
-        0.0f, 0.0f,  1.0f,
-        0.0f, 0.0f,  1.0f,
-        0.0f, 0.0f,  1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
     };
 
     std::vector<uint32_t> cube_indices = {
@@ -351,11 +354,21 @@ void Omnific::Mesh::set_to_cube()
         20, 21, 22, 20, 22, 23   // Bottom
     };
 
-    this->populate_data(cube_positions, cube_texture_coords, cube_normals, cube_tangents, cube_bitangents, cube_indices);
+       this->populate_data(cube_positions,
+        cube_texture_coords,
+        cube_normals,
+        cube_tangents,
+        cube_indices,
+        joints,
+        weights
+    );
 }
 
 void Omnific::Mesh::set_to_quad()
 {
+    std::vector<uint32_t> joints;
+    std::vector<float> weights;
+
     const std::vector<float> quad_positions =
     {
         0.5f,  0.5f, 0.0f,
@@ -386,20 +399,20 @@ void Omnific::Mesh::set_to_quad()
     };
 
     std::vector<float> quad_tangents = {
-        1.0f, 0.0f, 0.0f,  // +X
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,  // +X
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
+        1.0f, 0.0f, 0.0f, 1.0f,
     };
 
-    std::vector<float> quad_bitangents = {
-        0.0f, 1.0f, 0.0f,  // +Y
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-    };
-
-    this->populate_data(quad_positions, quad_texture_coords, quad_normals, quad_tangents, quad_bitangents, quad_indices);
+        this->populate_data(quad_positions,
+        quad_texture_coords,
+        quad_normals,
+        quad_tangents,
+        quad_indices,
+        joints,
+        weights
+    );
 }
 
 void Omnific::Mesh::populate_data(
@@ -407,14 +420,18 @@ void Omnific::Mesh::populate_data(
     std::vector<float> texture_coords,
     std::vector<float> normals,
     std::vector<float> tangents,
-    std::vector<float> bitangents,
-    std::vector<uint32_t> indices)
+    std::vector<uint32_t> indices,
+    std::vector<uint32_t> joints,
+    std::vector<float> weights)
 {
-    uint8_t vec3_stride = 3;
-    uint8_t vec2_stride = 2;
+    const uint8_t vec4_stride = 4;
+    const uint8_t vec3_stride = 3;
+    const uint8_t vec2_stride = 2;
 
     if (positions.size() != 0)
     {
+        size_t vertex_count = positions.size() / vec3_stride;
+
         if (texture_coords.size() == 0)
             for (size_t i = 0; i < positions.size(); ++i)
                 texture_coords.push_back(0.0);
@@ -424,23 +441,35 @@ void Omnific::Mesh::populate_data(
                 normals.push_back(0.0);
 
         if (tangents.size() == 0)
-            for (size_t i = 0; i < positions.size(); ++i)
+            for (size_t i = 0; i < vertex_count * vec4_stride; ++i)
                 tangents.push_back(0.0);
 
-        if (bitangents.size() == 0)
-            for (size_t i = 0; i < positions.size(); ++i)
-                bitangents.push_back(0.0);
+        if (joints.size() == 0)
+            for (size_t i = 0; i < vertex_count * vec4_stride; ++i)
+                joints.push_back(0);
+
+        if (weights.size() == 0)
+        {
+            for (size_t i = 0; i < vertex_count; ++i)
+            {
+                weights.push_back(1.0f);
+                weights.push_back(0.0f);
+                weights.push_back(0.0f);
+                weights.push_back(0.0f);
+            }
+        }
 
         if (indices.size() == 0)
             this->is_indexed = false;
         else
             this->indices = indices;
 
-        size_t vertex_count = positions.size() / vec3_stride;
         float* positions_data = positions.data();
         float* texture_coords_data = texture_coords.data();
         float* normals_data = normals.data();
-
+        float* tangents_data = tangents.data();
+        uint32_t* joints_data = joints.data();
+        float* weights_data = weights.data();
         float lowest_x_value = 0.0;
         float lowest_y_value = 0.0;
         float lowest_z_value = 0.0;
@@ -455,13 +484,36 @@ void Omnific::Mesh::populate_data(
                 positions_data[i * vec3_stride + 0],
                 positions_data[i * vec3_stride + 1],
                 positions_data[i * vec3_stride + 2] };
+
             vertex.uv = {
                 texture_coords_data[i * vec2_stride + 0],
                 texture_coords_data[i * vec2_stride + 1] };
+
             vertex.normal = {
                 normals_data[i * vec3_stride + 0],
                 normals_data[i * vec3_stride + 1],
                 normals_data[i * vec3_stride + 2] };
+
+            vertex.tangent = {
+                tangents_data[i * vec4_stride + 0],
+                tangents_data[i * vec4_stride + 1],
+                tangents_data[i * vec4_stride + 2],
+                tangents_data[i * vec4_stride + 3] };
+
+            vertex.joint_indices = {
+                static_cast<int>(joints_data[i * vec4_stride + 0]),
+                static_cast<int>(joints_data[i * vec4_stride + 1]),
+                static_cast<int>(joints_data[i * vec4_stride + 2]),
+                static_cast<int>(joints_data[i * vec4_stride + 3])
+            };
+
+            vertex.joint_weights = {
+                weights_data[i * vec4_stride + 0],
+                weights_data[i * vec4_stride + 1],
+                weights_data[i * vec4_stride + 2],
+                weights_data[i * vec4_stride + 3]
+            };
+
             this->vertices.push_back(vertex);
 
             lowest_x_value = std::min(lowest_x_value, vertex.position.x);

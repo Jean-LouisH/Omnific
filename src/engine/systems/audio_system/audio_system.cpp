@@ -27,7 +27,7 @@
 #include "scene/components/audio_listener.hpp"
 #include <scene/components/audio_source.hpp>
 #include <foundations/singletons/event_bus.hpp>
-#include <foundations/resources/audio_clip.hpp>
+#include <foundations/resources/audio.hpp>
 #include <scene/components/physics_body.hpp>
 #include <foundations/singletons/scene_storage.hpp>
 #include <SDL3/SDL.h>
@@ -124,13 +124,13 @@ void Omnific::AudioSystem::on_output()
 						std::shared_ptr<PhysicsBody> source_physics_body = scene->get_component_by_type<PhysicsBody>(audio_source->get_entity_id());
 						std::shared_ptr<Transform> source_global_transform = scene->calculate_global_transform(source_entity->get_id());
 
-						std::shared_ptr<AudioClip> audio_clip = audio_source->get_active_audio_clip();
-						const int audio_sample_rate = audio_clip->sample_rate;
-						const int audio_channel_count = audio_clip->get_channel_count();
+						std::shared_ptr<Audio> audio = audio_source->get_active_audio();
+						const int audio_sample_rate = audio->sample_rate;
+						const int audio_channel_count = audio->get_channel_count();
 						const float gain = audio_source->get_volume() * audio_listener->get_volume();
 						const int current_sample_index = (int)(audio_source->playback_time * audio_sample_rate) * audio_channel_count;
 						const double duration_per_sample = 1.0 / audio_sample_rate;
-						const int total_audio_samples = audio_clip->data.size();
+						const int total_audio_samples = audio->data.size();
 
 						if (audio_channel_count == 1)
 						{
@@ -141,12 +141,12 @@ void Omnific::AudioSystem::on_output()
 
 								if (current_sample_index + i < total_audio_samples)
 								{
-									mix_value = (int16_t)(audio_clip->data[current_sample_index + i] * gain);
+									mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
 								}
 								else if (audio_source->is_looping)
 								{
 									int looped_index = (current_sample_index + i) % total_audio_samples;
-									mix_value = (int16_t)(audio_clip->data[looped_index] * gain);
+									mix_value = (int16_t)(audio->data[looped_index] * gain);
 								}
 
 								temp_cumulative_buffer[i * 2] += (float)mix_value;
@@ -162,12 +162,12 @@ void Omnific::AudioSystem::on_output()
 
 								if (current_sample_index + i < total_audio_samples)
 								{
-									mix_value = (int16_t)(audio_clip->data[current_sample_index + i] * gain);
+									mix_value = (int16_t)(audio->data[current_sample_index + i] * gain);
 								}
 								else if (audio_source->is_looping)
 								{
 									int looped_index = (current_sample_index + i) % total_audio_samples;
-									mix_value = (int16_t)(audio_clip->data[looped_index] * gain);
+									mix_value = (int16_t)(audio->data[looped_index] * gain);
 								}
 
 								temp_cumulative_buffer[i] += (float)mix_value;
@@ -193,7 +193,7 @@ void Omnific::AudioSystem::on_output()
 
 						audio_source->playback_time += this->mix_samples_per_channel_per_frame * duration_per_sample;
 
-						if (audio_source->playback_time > audio_clip->playback_length)
+						if (audio_source->playback_time > audio->playback_length)
 						{
 							audio_source->playback_time = 0.0;
 

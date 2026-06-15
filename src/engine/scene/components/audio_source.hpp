@@ -30,7 +30,7 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "foundations/resources/audio_clip.hpp"
+#include "foundations/resources/audio.hpp"
 #include "scene/components/component.hpp"
 
 
@@ -75,11 +75,11 @@ namespace Omnific
 		int32_t waveform_capture_sample_count = -1;
 
 		virtual void deserialize(YAML::Node yaml_node);
-		void add_audio_clip(std::shared_ptr<AudioClip> audio_clip);
-		void clear_audio_clip();
-		void remove_audio_clip(std::string audio_clip_name);
-		void play_audio_clip(std::string audio_clip_name);
-		void play_audio_clip_infinitely(std::string audio_clip_name);
+		void add_audio(std::shared_ptr<Audio> audio);
+		void clear_audio();
+		void remove_audio(std::string audio_name);
+		void play_audio(std::string audio_name);
+		void play_audio_infinitely(std::string audio_name);
 		void play();
 		void play_infinitely();
 		void pause();
@@ -95,15 +95,15 @@ namespace Omnific
 		bool is_playing();
 		bool is_paused();
 		bool is_stopped();
-		std::vector<std::string> get_audio_clip_names();
-		std::shared_ptr<AudioClip> get_active_audio_clip();
-		std::shared_ptr<AudioClip> get_audio_clip_by_name(std::string audio_clip_name);
+		std::vector<std::string> get_audio_names();
+		std::shared_ptr<Audio> get_active_audio();
+		std::shared_ptr<Audio> get_audio_by_name(std::string audio_name);
 		std::vector<float> get_current_waveform();
 
 	private:
-		std::unordered_map<std::string, std::shared_ptr<AudioClip>> audio_clip_collection;
+		std::unordered_map<std::string, std::shared_ptr<Audio>> audio_collection;
 		std::vector<float> current_waveform;
-		std::string active_audio_clip_name;
+		std::string active_audio_name;
 		PlaybackState playback_state = PlaybackState::STOPPED;
 		float volume = 1.0;
 		float playback_time = 0.0;

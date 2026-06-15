@@ -356,10 +356,13 @@ void Omnific::OpenGLRenderDevice::bind_mesh(std::shared_ptr<Mesh> mesh)
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
 		// vertex tangent
 		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
-		// vertex bitangent
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+
 		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+        glVertexAttribIPointer(4, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, joint_indices));
+
+		glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, joint_weights));
 
 		glBindVertexArray(0);
 

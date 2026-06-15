@@ -24,13 +24,12 @@
 
 #pragma once
 
-#include <foundations/resources/audio_clip.hpp>
+#include <foundations/resources/audio.hpp>
 #include <foundations/resources/font.hpp>
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/mesh.hpp>
 #include "foundations/resources/script.hpp"
 #include <foundations/resources/shader.hpp>
-#include <foundations/resources/text.hpp>
 
 #include <scene/components/component.hpp>
 #include "python_entity_context.hpp"
@@ -249,14 +248,14 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_name", &Omnific::Resource::get_name)
 		.def("get_type", &Omnific::Resource::get_type);
 
-	pybind11::class_<Omnific::AudioClip, Omnific::Resource, std::shared_ptr<Omnific::AudioClip>>(m, Omnific::AudioClip::TYPE_STRING)
+	pybind11::class_<Omnific::Audio, Omnific::Resource, std::shared_ptr<Omnific::Audio>>(m, Omnific::Audio::TYPE_STRING)
 		.def(pybind11::init<>())
 		.def(pybind11::init<std::string>())
 		.def(pybind11::init<std::vector<int16_t>, int, int, int>())
-		.def("get_sample_rate", &Omnific::AudioClip::get_sample_rate)
-		.def("get_channel_count", &Omnific::AudioClip::get_channel_count)
-		.def("get_playback_length", &Omnific::AudioClip::get_playback_length)
-		.def("get_spectrum", &Omnific::AudioClip::get_spectrum);
+		.def("get_sample_rate", &Omnific::Audio::get_sample_rate)
+		.def("get_channel_count", &Omnific::Audio::get_channel_count)
+		.def("get_playback_length", &Omnific::Audio::get_playback_length)
+		.def("get_spectrum", &Omnific::Audio::get_spectrum);
 
 	pybind11::class_<Omnific::Font, Omnific::Resource, std::shared_ptr<Omnific::Font>>(m, Omnific::Font::TYPE_STRING)
 		.def(pybind11::init<>())
@@ -275,10 +274,6 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_aspect_ratio", &Omnific::Image::get_aspect_ratio)
 		.def("get_dimensions", &Omnific::Image::get_dimensions)
 		.def("get_bytes_per_pixel", &Omnific::Image::get_bytes_per_pixel);
-
-	pybind11::class_<Omnific::Text, Omnific::Resource, std::shared_ptr<Omnific::Text>>(m, Omnific::Text::TYPE_STRING)
-		.def(pybind11::init<>())
-		.def(pybind11::init<std::string>());
 
 	/*Component classes*/
 	pybind11::class_<Omnific::Component, std::shared_ptr<Omnific::Component>>(m, Omnific::Component::TYPE_STRING)
@@ -305,11 +300,11 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def_readwrite("is_capturing_waveform", &Omnific::AudioSource::is_capturing_waveform)
 		.def_readwrite("is_looping", &Omnific::AudioSource::is_looping)
 		.def_readwrite("waveform_capture_sample_count", &Omnific::AudioSource::waveform_capture_sample_count)
-		.def("add_audio_clip", &Omnific::AudioSource::add_audio_clip)
-		.def("clear_audio_clip", &Omnific::AudioSource::clear_audio_clip)
-		.def("remove_audio_clip", &Omnific::AudioSource::remove_audio_clip)
-		.def("play_audio_clip", &Omnific::AudioSource::play_audio_clip)
-		.def("play_audio_clip_infinitely", &Omnific::AudioSource::play_audio_clip_infinitely)
+		.def("add_audio", &Omnific::AudioSource::add_audio)
+		.def("clear_audio", &Omnific::AudioSource::clear_audio)
+		.def("remove_audio", &Omnific::AudioSource::remove_audio)
+		.def("play_audio", &Omnific::AudioSource::play_audio)
+		.def("play_audio_infinitely", &Omnific::AudioSource::play_audio_infinitely)
 		.def("play", &Omnific::AudioSource::play)
 		.def("play_infinitely", &Omnific::AudioSource::play_infinitely)
 		.def("stop", &Omnific::AudioSource::stop)
@@ -322,9 +317,9 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_current_playback_time", &Omnific::AudioSource::get_current_playback_time)
 		.def("get_playback_length", &Omnific::AudioSource::get_playback_length)
 		.def("get_playback_state", &Omnific::AudioSource::get_playback_state)
-		.def("get_audio_clip_names", &Omnific::AudioSource::get_audio_clip_names)
-		.def("get_active_audio_clip", &Omnific::AudioSource::get_active_audio_clip)
-		.def("get_audio_clip_by_name", &Omnific::AudioSource::get_audio_clip_by_name)
+		.def("get_audio_names", &Omnific::AudioSource::get_audio_names)
+		.def("get_active_audio", &Omnific::AudioSource::get_active_audio)
+		.def("get_audio_by_name", &Omnific::AudioSource::get_audio_by_name)
 		.def("is_playing", &Omnific::AudioSource::is_playing)
 		.def("is_paused", &Omnific::AudioSource::is_paused)
 		.def("is_stopped", &Omnific::AudioSource::is_stopped)

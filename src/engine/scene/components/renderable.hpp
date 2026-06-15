@@ -87,7 +87,7 @@ namespace Omnific
 				ONE
 			};
 
-			typedef struct TextureProperties 
+			struct TextureProperties 
 			{
 				TextureWrap wrap_s = TextureWrap::REPEAT;
 				TextureWrap wrap_t = TextureWrap::REPEAT;
@@ -131,16 +131,6 @@ namespace Omnific
 			SpecularReflectionModel specular_reflection_model = SpecularReflectionModel::GGX;
 		};
 
-		class OMNIFIC_ENGINE_API Rig
-		{
-		public:
-		};
-
-		class OMNIFIC_ENGINE_API SkeletalAnimation
-		{
-		public:
-		};
-
 		enum class FaceCullMode
 		{
 			NONE,
@@ -155,6 +145,7 @@ namespace Omnific
 			this->shader_parameters = std::shared_ptr<ShaderParameters>(new ShaderParameters());
 			this->highlight_colour = std::shared_ptr<Colour>(new Colour("#FFFFFF00"));
 		};
+
 		static constexpr const char* TYPE_STRING = "Renderable";
 
 		virtual Registerable* instance() override
@@ -201,8 +192,6 @@ namespace Omnific
 		std::shared_ptr<Mesh> mesh;
 		std::shared_ptr<Material> material;
 		std::shared_ptr<Material> overriding_material;
-		std::shared_ptr<Rig> rig;
-		std::vector<std::shared_ptr<SkeletalAnimation>> skeletal_animations;
 		std::shared_ptr<ShaderParameters> shader_parameters;
 	protected:
 		glm::vec3 dimensions;

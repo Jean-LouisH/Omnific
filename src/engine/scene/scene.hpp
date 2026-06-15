@@ -177,7 +177,11 @@ namespace Omnific
 		std::unordered_map<EntityID, std::shared_ptr<Transform>> cached_global_transforms;
 
 		void load_from_gltf(std::string filepath);
-		void process_gltf_node(const tinygltf::Model& model, int node_index, std::shared_ptr<Entity> parent_entity);
+		void process_gltf_node(const tinygltf::Model& model, int node_index, std::shared_ptr<Entity> parent_entity, 
+                                      std::map<int, uint32_t>& node_map, std::vector<std::pair<uint32_t, int>>& skin_assignments);
+		void load_gltf_animations(const tinygltf::Model& model, std::shared_ptr<Entity> root_entity, const std::map<int, uint32_t>& node_map);
+		void load_gltf_skins(const tinygltf::Model& model, const std::map<int, uint32_t>& node_map, const std::vector<std::pair<uint32_t, int>>& skin_assignments);
+		std::vector<uint32_t> read_gltf_primitive_joint_attribute(const tinygltf::Model& model, const tinygltf::Primitive& primitive);
 		std::vector<float> read_gltf_primitive_attribute(const tinygltf::Model& model, const std::string& attribute_name, const tinygltf::Primitive& primitive);
 		std::vector<uint32_t> read_gltf_primitive_indices(const tinygltf::Model& model, const tinygltf::Primitive& primitive);
 		std::shared_ptr<Image> read_gltf_image(const tinygltf::Model& model, int texture_index);

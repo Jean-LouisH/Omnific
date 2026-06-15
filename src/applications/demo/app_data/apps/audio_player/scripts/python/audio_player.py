@@ -26,16 +26,16 @@ class omnific_script:
             for arg in args[1:]:
                 if omnific.get_file_access().exists(arg):
                     self.playlist.append(arg)
-                    self.audio_source.add_audio_clip(omnific.AudioClip(arg))
+                    self.audio_source.add_audio(omnific.Audio(arg))
             if len(self.playlist) > 0:
-                self.audio_source.play_audio_clip(self.playlist[0])
+                self.audio_source.play_audio(self.playlist[0])
 
     def on_input(self):
         pass
 
     def on_update(self):
-        active_audio_clip = self.audio_source.get_active_audio_clip()
-        if active_audio_clip is not None:
+        active_audio = self.audio_source.get_active_audio()
+        if active_audio is not None:
             current_playback_time = self.audio_source.get_current_playback_time()
             playback_length = self.audio_source.get_playback_length()
             self.playback_time_label.set_text(str(int(current_playback_time // 60)).zfill(2) + ":" + str(int(current_playback_time % 60)).zfill(2))
@@ -55,8 +55,8 @@ class omnific_script:
             audio_filepath = file_drop_events[0].get_parameters().strings["drop_file_path"]
             if omnific.get_file_access().exists(audio_filepath):
                 self.start_message_label.set_text("Loading: " + audio_filepath)
-                self.audio_source.add_audio_clip(omnific.AudioClip(audio_filepath))
+                self.audio_source.add_audio(omnific.Audio(audio_filepath))
                 self.playlist.append(audio_filepath)
                 if not self.audio_source.is_playing():
-                    self.audio_source.play_audio_clip(audio_filepath)
+                    self.audio_source.play_audio(audio_filepath)
         pass

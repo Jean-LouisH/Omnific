@@ -20,10 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "text.hpp"
-#include <foundations/singletons/uid_generator.hpp>
+#pragma once
 
-Omnific::Text::Text(std::string filepath)
+#include <foundations/aliases.hpp>
+#include <foundations/constants.hpp>
+#include "scene/components/component.hpp"
+
+namespace Omnific
 {
-	this->type = TYPE_STRING;
+	class OMNIFIC_ENGINE_API Skeleton : public Component
+	{
+	public:
+		Skeleton()
+		{
+			this->type = TYPE_STRING;
+		};
+		static constexpr const char* TYPE_STRING = "Skeleton";
+
+		virtual Registerable* instance() override
+		{
+			Skeleton* clone = new Skeleton(*this);
+			clone->id = UIDGenerator::get_new_uid();
+			return clone;
+		}
+		virtual void deserialize(YAML::Node yaml_node);
+
+		std::string skin_name;
+		
+		// The Entity IDs of the joints (bones) in your engine's scene graph
+		std::vector<uint32_t> joint_entity_ids; 
+		
+		// Transforms vertices from Mesh Space to Joint Space.
+		// One 4x4 matrix per joint.
+		std::vector<glm::mat4> inverse_bind_matrices;
+	private:
+
+	};
 }

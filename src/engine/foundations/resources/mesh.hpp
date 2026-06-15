@@ -48,33 +48,53 @@ namespace Omnific
 
 		Mesh(std::string filepath);
 		Mesh(std::vector<float> positions,
-			PrimitiveMode primitive_mode);
+			PrimitiveMode primitive_mode
+		);
+		
 		Mesh(std::vector<float> positions,
-			std::vector<float> texture_coords);
+			std::vector<float> texture_coords
+		);
+
 		Mesh(std::vector<float> positions,
 			std::vector<float> texture_coords,
-			std::vector<float> normals);
+			std::vector<float> normals
+		);
+
 		Mesh(std::vector<float> positions,
 			std::vector<float> texture_coords,
-			std::vector<uint32_t> indices);
+			std::vector<uint32_t> indices
+		);
+
 		Mesh(std::vector<float> positions,
 			std::vector<float> texture_coords,
 			std::vector<float> normals,
-			std::vector<uint32_t> indices);
+			std::vector<uint32_t> indices
+		);
+
 		Mesh(std::vector<float> positions,
 			std::vector<float> texture_coords,
 			std::vector<float> normals,
 			std::vector<float> tangents,
-			std::vector<float> bitangents,
-			std::vector<uint32_t> indices);
+			std::vector<uint32_t> indices
+		);
+
+		Mesh(std::vector<float> positions,
+			std::vector<float> texture_coords,
+			std::vector<float> normals,
+			std::vector<float> tangents,
+			std::vector<uint32_t> indices,
+			std::vector<uint32_t> joints,
+			std::vector<float> weights
+		);
 
 		struct Vertex 
 		{
 			glm::vec3 position;
 			glm::vec3 normal;
 			glm::vec2 uv;
-			glm::vec3 tangent;
-			glm::vec3 bitangent;
+			glm::vec4 tangent;
+			glm::ivec4 joint_indices;
+    		glm::vec4 joint_weights;
 		};
 
 		std::vector<Vertex> vertices;
@@ -104,7 +124,8 @@ namespace Omnific
 			std::vector<float> texture_coords,
 			std::vector<float> normals,
 			std::vector<float> tangents,
-			std::vector<float> bitangents,
-			std::vector<uint32_t> indices);
+			std::vector<uint32_t> indices,
+			std::vector<uint32_t> joints,
+			std::vector<float> weights);
 	};
 }

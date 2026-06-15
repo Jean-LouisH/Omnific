@@ -67,6 +67,7 @@
 #include "scene/components/renderable.hpp"
 #include "scene/components/physics_body.hpp"
 #include "scene/components/script_collection.hpp"
+#include "scene/components/skeleton.hpp"
 #include "scene/components/sprite.hpp"
 #include "scene/components/timer.hpp"
 #include "scene/components/viewport.hpp"
@@ -124,6 +125,7 @@ namespace Omnific
 			registry->add<PhysicsBody, Component>();
 			registry->add<Renderable, Component>();
 			registry->add<ScriptCollection, Component>();
+			registry->add<Skeleton, Component>();
 			registry->add<Sprite, Component>();
 			registry->add<Timer, Component>();
 			registry->add<Viewport, Component>();

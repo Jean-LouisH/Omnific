@@ -23,25 +23,44 @@
 #pragma once
 
 #include "foundations/resources/resource.hpp"
+#include <string>
+#include <memory>
 #include <stdint.h>
+#include <vector>
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Midi : public Resource
+	class OMNIFIC_ENGINE_API Audio : public Resource
 	{
+		friend class AudioSystem;
 	public:
-		Midi() 
-		{ 
+		static constexpr const char* TYPE_STRING = "Audio";
+		Audio()
+		{
 			this->type = TYPE_STRING;
 		};
-		static constexpr const char* TYPE_STRING = "Midi";
+
+		Audio(std::string filepath);
+		Audio(std::vector<int16_t> data, int channel_count, int sample_rate, int samples_per_channel);
 
 		virtual Registerable* instance() override
 		{
-			Midi* clone = new Midi(*this);
+			Audio* clone = new Audio(*this);
 			clone->id = UIDGenerator::get_new_uid();
 			return clone;
 		}
+
+		int get_sample_rate();
+		int get_channel_count();
+		float get_playback_length();
+		std::vector<int16_t> get_spectrum();
+
+		std::vector<int16_t> data;
 	private:
+		int sample_rate = 0;
+		int channel_count = 0;
+		int samples_per_channel = 0;
+		float playback_length = 0.0;
+		int bytes_per_sample = sizeof(int16_t);
 	};
 }

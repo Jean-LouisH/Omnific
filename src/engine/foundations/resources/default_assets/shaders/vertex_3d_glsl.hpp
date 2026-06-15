@@ -31,8 +31,9 @@ namespace Omnific
             layout (location = 0) in vec3 model_vertex_translation;
             layout (location = 1) in vec3 model_normal;
             layout (location = 2) in vec2 model_vertex_uv;
-            layout (location = 3) in vec3 model_tangent;
-            layout (location = 4) in vec3 model_bitangent;
+            layout (location = 3) in vec4 model_tangent;
+            layout (location = 4) in ivec4 model_joint_indices;
+            layout (location = 5) in vec4 model_joint_weights;
             out vec3 translation;
             out vec3 normal;
             out vec2 uv;
@@ -48,8 +49,8 @@ namespace Omnific
                 translation = model_vertex_translation;
                 normal = mat3(transpose(world_to_model_matrix)) * model_normal;
                 uv = model_vertex_uv;
-                tangent = model_tangent;
-                bitangent = model_bitangent;
+                tangent = model_tangent.xyz;
+                bitangent = (model_normal * model_tangent.xyz) * model_tangent.w;
                 fragment_translation = vec3(model_to_world_matrix * vec4(translation, 1.0));
                 gl_Position = mvp *	vec4(translation, 1.0);
             }	

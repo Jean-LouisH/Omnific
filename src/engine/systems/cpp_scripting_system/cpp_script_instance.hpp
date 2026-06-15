@@ -31,13 +31,12 @@
 #include <foundations/singletons/scene_storage.hpp>
 #include <scene/entity.hpp>
 
-#include <foundations/resources/audio_clip.hpp>
+#include <foundations/resources/audio.hpp>
 #include <foundations/resources/font.hpp>
 #include <foundations/resources/image.hpp>
 #include <foundations/resources/mesh.hpp>
 #include <foundations/resources/script.hpp>
 #include <foundations/resources/shader.hpp>
-#include <foundations/resources/text.hpp>
 
 #include "scene/components/audio_listener.hpp"
 #include "scene/components/audio_source.hpp"

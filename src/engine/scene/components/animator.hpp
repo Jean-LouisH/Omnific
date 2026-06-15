@@ -31,26 +31,74 @@
 
 namespace Omnific
 {
+	class OMNIFIC_ENGINE_API Animation
+	{
+	public:
+		enum class InterpolationType 
+		{
+			LINEAR,
+			STEP,
+			CUBIC_SPLINE
+		};
+
+		std::string name;
+		float duration = 0.0f;  
+		float playback_speed_percentage = 1.0;
+		float progress = 0.0;
+		uint8_t allowable_repeats = 0;
+		uint8_t repeat_count = 0;
+		bool is_playing = false; 
+	private:
+	};
+
+	class OMNIFIC_ENGINE_API PropertyAnimation : public Animation
+	{
+	public:
+		struct Sampler 
+		{
+			InterpolationType interpolation;
+			std::vector<float> input_timestamps;
+			std::vector<float> output_values; 
+		};
+
+		std::vector<PropertyAnimation::Sampler> samplers;
+		float* target_property;
+		size_t sampler_index;
+		
+	private:
+	};
+
+	class OMNIFIC_ENGINE_API SkeletalAnimation : public Animation
+	{
+	public:
+		enum class Path 
+		{
+			TRANSLATION,
+			ROTATION,
+			SCALE
+		};
+
+		struct Sampler 
+		{
+			InterpolationType interpolation;
+			std::vector<float> input_timestamps;
+			std::vector<glm::vec4> output_values; 
+		};
+
+		struct Channel 
+		{
+			uint32_t target_entity_id; 
+			Path path;
+			size_t sampler_index;
+		};
+  
+		std::vector<SkeletalAnimation::Sampler> samplers;
+		std::vector<SkeletalAnimation::Channel> channels;
+	};
+
 	class OMNIFIC_ENGINE_API Animator : public Component
 	{
 	public:
-
-		class OMNIFIC_ENGINE_API Animation
-		{
-		public:
-			float value = 0.0;
-			std::vector<float> key_frames;
-			float duration = 0.0;
-			float playback_speed_percentage = 1.0;
-			float delay = 0.0;
-			float progress = 0.0;
-			float maximum_value = 0.0;
-			float minimum_value = 0.0;
-			uint8_t repeats = 0;
-			uint8_t repeat_count = 0;
-			bool is_playing = false;
-		};
-
 		Animator()
 		{
 			this->type = TYPE_STRING;
@@ -64,10 +112,10 @@ namespace Omnific
 			return clone;
 		}
 
-		std::unordered_map<std::string, Animation> animations;
+		std::unordered_map<std::string, std::shared_ptr<SkeletalAnimation>> skeletal_animations;
+		std::unordered_map<std::string, std::shared_ptr<PropertyAnimation>> property_animations;
 
 		virtual void deserialize(YAML::Node yaml_node);
-		float get_animation_value(std::string animation_name);
 	private:
 	};
 }

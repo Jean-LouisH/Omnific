@@ -20,4 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "voice.hpp"
+#pragma once
+
+#include "scene/scene.hpp"
+#include "systems/system.hpp"
+
+namespace Omnific
+{
+	class PathfindingSystem : public System
+	{
+	public:
+		PathfindingSystem()
+		{
+			this->type = TYPE_STRING;
+		};
+
+		~PathfindingSystem();
+		static constexpr const char* TYPE_STRING = "PathfindingSystem";
+
+		virtual Registerable* instance() override
+		{
+			return new PathfindingSystem(*this);
+		}
+
+		virtual void initialize() override;
+		virtual void on_fixed_update() override;
+		virtual void finalize() override;
+	private:
+	};
+}
+
