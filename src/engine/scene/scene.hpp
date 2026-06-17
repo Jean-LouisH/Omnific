@@ -33,6 +33,7 @@
 #include <engine_api.hpp>
 
 #include <foundations/resources/image.hpp>
+#include <foundations/resources/resource.hpp>
 
 #include "scene/components/component.hpp"
 #include <scene/components/renderable.hpp>
@@ -42,7 +43,7 @@
 
 namespace Omnific
 {
-	class OMNIFIC_ENGINE_API Scene
+	class OMNIFIC_ENGINE_API Scene : public Resource
 	{
 		friend class Engine;
 	public:

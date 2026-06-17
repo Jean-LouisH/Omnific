@@ -546,6 +546,9 @@ void Omnific::Scene::remove_component(EntityID entity_id, std::string type)
 							EventBus::publish_event(OMNIFIC_EVENT_COMPONENT_REMOVED, {}, {}, {}, {{"component", component}, {component->get_type(), component}});
 						}
 
+						component->entity_id = 0;
+						component->entity_name = "";
+
 						/*Blanks out the component instead of erasing so index caches 
 						do not have to be rebuilt. */
 						std::shared_ptr<Component> blank_component;
@@ -865,6 +868,7 @@ void Omnific::Scene::load_from_gltf(std::string filepath)
         if (scene_index < gltf_model.scenes.size())
         {
             const tinygltf::Scene& scene = gltf_model.scenes[scene_index];
+			this->set_entity_name(gltf_scene_root_entity->get_id(), scene.name); 
             for (int node_index : scene.nodes)
             {
                 this->process_gltf_node(
@@ -903,7 +907,7 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
 {
     const tinygltf::Node& gltf_node = model.nodes[node_index];
     
-    std::shared_ptr<Entity> node_entity(new Entity("GLTF node"));
+    std::shared_ptr<Entity> node_entity(new Entity(gltf_node.name));
     node_entity->parent_id = parent_entity->get_id();
     this->add_entity(node_entity);
     
@@ -1019,7 +1023,7 @@ void Omnific::Scene::process_gltf_node(const tinygltf::Model& model, int node_in
                 if (occlusion_texture_index != -1) { material->occlusion_map = this->read_gltf_image(model, occlusion_texture_index); }
             }
 
-            std::shared_ptr<Entity> primitive_entity(new Entity("GLTF primitive"));
+            std::shared_ptr<Entity> primitive_entity(new Entity(gltf_mesh.name));
             primitive_entity->parent_id = node_entity->get_id();
             this->add_entity(primitive_entity);
 

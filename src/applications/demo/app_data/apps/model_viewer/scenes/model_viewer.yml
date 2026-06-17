@@ -23,6 +23,7 @@ Entity:
   name: "Camera"
   parent: "CameraPivot"
   transform:
-    translation: [0.0, 0.0, 5.0]
+    translation: [0.0, 0.0, 1.0]
   Camera: 
     clear_colour: "#CCCCCCFF"
+    enable_flyby_mode_on_default_input: true
