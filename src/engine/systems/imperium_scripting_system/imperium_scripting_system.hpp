@@ -23,7 +23,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include "foundations/aliases.hpp"
 #include "systems/system.hpp"
 #include <scene/components/script_collection.hpp>

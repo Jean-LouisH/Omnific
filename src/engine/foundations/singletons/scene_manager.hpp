@@ -32,7 +32,7 @@
 namespace Omnific
 {
 	/* Loads and stores multiple Scenes at once. */
-	class OMNIFIC_ENGINE_API SceneStorage
+	class OMNIFIC_ENGINE_API SceneManager
 	{
 		friend class Engine;
 	public:
@@ -48,9 +48,9 @@ namespace Omnific
 		static bool has_active_scene_changed();
 		static void clear_scenes();
 		static std::shared_ptr<Scene> get_scene_by_name(std::string scene_name);
-		static SceneStorage* get_instance();
+		static SceneManager* get_instance();
 	private:
-		static SceneStorage* instance;
+		static SceneManager* instance;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> scenes;
 		std::unordered_map<std::string, std::shared_ptr<Scene>> removed_scenes;
 		std::string active_scene_name;

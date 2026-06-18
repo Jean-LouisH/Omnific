@@ -55,7 +55,7 @@ std::shared_ptr<Omnific::Transform> Omnific::ImperiumEntityContext::get_transfor
 
 std::shared_ptr<Omnific::Scene> Omnific::ImperiumEntityContext::get_scene()
 {
-	return SceneStorage::get_active_scene();
+	return SceneManager::get_active_scene();
 }
 
 std::shared_ptr<Omnific::Component> Omnific::ImperiumEntityContext::get_component(std::string type)

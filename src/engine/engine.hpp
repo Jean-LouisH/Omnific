@@ -25,7 +25,7 @@
 #include <vector>
 #include <string>
 #include "foundations/singletons/configuration.hpp"
-#include "foundations/singletons/scene_storage.hpp"
+#include "foundations/singletons/scene_manager.hpp"
 #include "systems/system.hpp"
 #include "foundations/singletons/platform/platform.hpp"
 #include "foundations/singletons/profiler.hpp"

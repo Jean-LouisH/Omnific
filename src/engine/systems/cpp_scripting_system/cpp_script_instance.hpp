@@ -28,7 +28,7 @@
 #include <application_api.hpp>
 #include <systems/cpp_scripting_system/cpp_entity_context.hpp>
 
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <scene/entity.hpp>
 
 #include <foundations/resources/audio.hpp>

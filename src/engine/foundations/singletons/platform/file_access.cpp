@@ -68,12 +68,6 @@ void Omnific::FileAccess::add_app_data_paths(std::vector<std::string> app_data_p
 	Platform::get_logger().write("The following data directories were added: \"" + app_data_paths_string + "\"");
 }
 
-std::shared_ptr<Omnific::Scene> Omnific::FileAccess::load_scene(std::string filepath)
-{
-	std::shared_ptr<Scene> scene;
-	return scene;
-}
-
 std::string Omnific::FileAccess::find_path(std::string filepath)
 {
 	std::string combined_filepath = filepath;
@@ -237,7 +231,7 @@ bool Omnific::FileAccess::is_file_type(std::string filepath, std::string file_ty
 {
 	std::vector<uint8_t> expected_magic_number = this->file_type_magic_numbers.at(file_type);
 	std::vector<uint8_t> file_magic_number;
-	std::string full_filepath = this->get_filepath_with_app_data_path(filepath);
+	std::string full_filepath = this->find_path(filepath);
 	std::FILE* file_pointer = std::fopen(full_filepath.c_str(), "rb");
 
 	if (file_pointer)
@@ -251,18 +245,18 @@ bool Omnific::FileAccess::is_file_type(std::string filepath, std::string file_ty
 	return file_magic_number == expected_magic_number;
 }
 
-std::string Omnific::FileAccess::read_string(std::string filepath, bool apply_data_directory)
+std::string Omnific::FileAccess::read_string(std::string filepath)
 {
 	std::string output_string;
-	std::vector<uint8_t> binary = this->read_binary(filepath, apply_data_directory);
+	std::vector<uint8_t> binary = this->read_binary(filepath);
 	output_string.assign(binary.begin(), binary.end());
 	return output_string;
 }
 
-std::vector<uint8_t> Omnific::FileAccess::read_binary(std::string filepath, bool apply_data_directory)
+std::vector<uint8_t> Omnific::FileAccess::read_binary(std::string filepath)
 {
 	std::vector<uint8_t> output_binary;
-	std::string full_filepath = this->get_filepath_with_app_data_path(filepath, apply_data_directory);
+	std::string full_filepath = this->find_path(filepath);
 	std::FILE* file_pointer = std::fopen(full_filepath.c_str(), "rb");
 
 	if (file_pointer)
@@ -277,64 +271,47 @@ std::vector<uint8_t> Omnific::FileAccess::read_binary(std::string filepath, bool
 	return output_binary;
 }
 
-void Omnific::FileAccess::write_binary(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
+void Omnific::FileAccess::write_binary(std::string filepath, std::vector<uint8_t> binary)
 {
 
 }
 
-void Omnific::FileAccess::request_asynchronous_binary_reading(std::string filepath, bool apply_data_directory)
+void Omnific::FileAccess::request_asynchronous_binary_reading(std::string filepath)
 {
-	std::string full_filepath = this->get_filepath_with_app_data_path(filepath, apply_data_directory);
+	std::string full_filepath = this->find_path(filepath);
 
 	if (!this->asynchronously_loaded_binaries.count(full_filepath))
-		this->io_threads.push_back(new std::thread(&FileAccess::read_binary_asynchronously, this, filepath, apply_data_directory));
+		this->io_threads.push_back(new std::thread(&FileAccess::read_binary_asynchronously, this, filepath));
 }
 
-void Omnific::FileAccess::request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
+void Omnific::FileAccess::request_asynchronous_binary_writing(std::string filepath, std::vector<uint8_t> binary)
 {
-	std::string full_filepath = this->get_filepath_with_app_data_path(filepath, apply_data_directory);
-	this->io_threads.push_back(new std::thread(&FileAccess::write_binary_asynchronously, this, filepath, binary, apply_data_directory));
+	std::string full_filepath = this->find_path(filepath);
+	this->io_threads.push_back(new std::thread(&FileAccess::write_binary_asynchronously, this, filepath, binary));
 }
 
-bool Omnific::FileAccess::has_binary_been_read_asynchronously(std::string filepath, bool apply_data_directory)
+bool Omnific::FileAccess::has_binary_been_read_asynchronously(std::string filepath)
 {
-	std::string full_filepath = this->get_filepath_with_app_data_path(filepath, apply_data_directory);
+	std::string full_filepath = this->find_path(filepath);
 	return this->asynchronously_loaded_binaries.count(full_filepath);
 }
 
-std::vector<uint8_t> Omnific::FileAccess::fetch_asynchronously_read_binary(std::string filepath, bool apply_data_directory)
+std::vector<uint8_t> Omnific::FileAccess::fetch_asynchronously_read_binary(std::string filepath)
 {
-	std::string full_filepath = this->get_filepath_with_app_data_path(filepath, apply_data_directory);
+	std::string full_filepath = this->find_path(filepath);
 	std::vector<uint8_t> binary;
 	if (this->asynchronously_loaded_binaries.count(full_filepath))
 		binary = this->asynchronously_loaded_binaries.at(full_filepath);
 	return binary;
 }
 
-std::string Omnific::FileAccess::get_filepath_with_app_data_path(std::string filepath, bool apply_data_directory)
+void Omnific::FileAccess::read_binary_asynchronously(std::string filepath)
 {
-	std::string full_filepath;
-
-	if (apply_data_directory)
-		full_filepath = this->find_path(filepath);
-	else
-		full_filepath = filepath;
-
-	return full_filepath;
-}
-
-void Omnific::FileAccess::read_binary_asynchronously(std::string filepath, bool apply_data_directory)
-{
-	std::vector<uint8_t> binary = this->read_binary(filepath, apply_data_directory);
+	std::vector<uint8_t> binary = this->read_binary(filepath);
 	this->asynchronously_loaded_binaries.emplace(filepath, binary);
 }
 
-void Omnific::FileAccess::write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary, bool apply_data_directory)
+void Omnific::FileAccess::write_binary_asynchronously(std::string filepath, std::vector<uint8_t> binary)
 {
-	this->write_binary(filepath, binary, apply_data_directory);
-}
-
-void Omnific::FileAccess::log_loading_resource_from_file(std::string filepath)
-{
-	Platform::get_logger().write("Loading Resource from file: " + filepath);	
+	this->write_binary(filepath, binary);
 }

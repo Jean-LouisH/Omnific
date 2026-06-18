@@ -460,17 +460,17 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 	m.def("get_random_float", &Omnific::RandomNumberGenerator::get_random_float);
 	m.def("get_random_boolean", &Omnific::RandomNumberGenerator::get_random_boolean);
 
-	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneStorage::load_scene));
-	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnific::SceneStorage::load_scene));
-	m.def("remove_scene", &Omnific::SceneStorage::remove_scene);
-	m.def("reload_active_scene", &Omnific::SceneStorage::reload_active_scene);
-	m.def("get_active_scene", &Omnific::SceneStorage::get_active_scene);
-	m.def("get_active_scene_name", &Omnific::SceneStorage::get_active_scene_name);
-	m.def("has_no_scenes", &Omnific::SceneStorage::has_no_scenes);
-	m.def("has_scene", &Omnific::SceneStorage::has_scene);
-	m.def("has_active_scene_changed", &Omnific::SceneStorage::has_active_scene_changed);
-	m.def("clear_scenes", &Omnific::SceneStorage::clear_scenes);
-	m.def("get_scene_by_name", &Omnific::SceneStorage::get_scene_by_name);
+	m.def("load_scene", pybind11::overload_cast<std::shared_ptr<Omnific::Scene>>(&Omnific::SceneManager::load_scene));
+	m.def("load_scene", pybind11::overload_cast<std::string>(&Omnific::SceneManager::load_scene));
+	m.def("remove_scene", &Omnific::SceneManager::remove_scene);
+	m.def("reload_active_scene", &Omnific::SceneManager::reload_active_scene);
+	m.def("get_active_scene", &Omnific::SceneManager::get_active_scene);
+	m.def("get_active_scene_name", &Omnific::SceneManager::get_active_scene_name);
+	m.def("has_no_scenes", &Omnific::SceneManager::has_no_scenes);
+	m.def("has_scene", &Omnific::SceneManager::has_scene);
+	m.def("has_active_scene_changed", &Omnific::SceneManager::has_active_scene_changed);
+	m.def("clear_scenes", &Omnific::SceneManager::clear_scenes);
+	m.def("get_scene_by_name", &Omnific::SceneManager::get_scene_by_name);
 
 	m.def("has_component", &Omnific::PythonEntityContext::has_component);
 	m.def("get_entity", &Omnific::PythonEntityContext::get_entity);

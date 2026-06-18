@@ -23,6 +23,7 @@
 #include "sprite.hpp"
 #include <scene/scene.hpp>
 #include <foundations/singletons/platform/platform.hpp>
+#include <foundations/singletons/resource_manager.hpp>
 
 void Omnific::Sprite::deserialize(YAML::Node yaml_node)
 {
@@ -42,7 +43,7 @@ void Omnific::Sprite::deserialize(YAML::Node yaml_node)
 			}
 			else if (file_access.exists(file_access.find_path(image_string_value)))
 			{
-				this->add_image(file_access.load_resource_by_type<Image>(image_string_value));
+				this->add_image(ResourceManager::load<Image>(image_string_value));
 			}
 			else
 			{

@@ -25,7 +25,7 @@
 #pragma once
 
 #include "scene/scene.hpp"
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <foundations/singletons/configuration.hpp>
 #include "foundations/aliases.hpp"
 #include "foundations/singletons/platform/platform.hpp"
@@ -34,7 +34,7 @@
 #include <memory>
 #include <scene/components/component.hpp>
 #include <scene/scene.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <foundations/aliases.hpp>
 #include <foundations/singletons/event_bus.hpp>
 #include <engine_api.hpp>

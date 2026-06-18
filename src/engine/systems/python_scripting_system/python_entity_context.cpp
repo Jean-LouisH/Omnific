@@ -57,7 +57,7 @@ std::shared_ptr<Omnific::Transform> Omnific::PythonEntityContext::get_transform(
 
 std::shared_ptr<Omnific::Scene> Omnific::PythonEntityContext::get_scene()
 {
-	return SceneStorage::get_active_scene();
+	return SceneManager::get_active_scene();
 }
 
 std::shared_ptr<Omnific::Component> Omnific::PythonEntityContext::get_component(std::string type)

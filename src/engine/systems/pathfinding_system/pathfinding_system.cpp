@@ -32,7 +32,7 @@
 #include <scene/components/camera.hpp>
 #include <scene/components/renderable.hpp>
 #include <foundations/singletons/profiler.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <scene/components/viewport.hpp>
 #include <foundations/singletons/configuration.hpp>
 #include <math.h>
@@ -54,7 +54,7 @@ void Omnific::PathfindingSystem::initialize()
 
 void Omnific::PathfindingSystem::on_fixed_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PATHFINDING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 

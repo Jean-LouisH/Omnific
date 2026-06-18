@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include "imperium_scripting_system.hpp"
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 #include <iostream>
 
@@ -89,7 +89,7 @@ void Omnific::ImperiumScriptingSystem::load_script_modules()
 
 void Omnific::ImperiumScriptingSystem::on_entity_start()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_ENTITY_START_FRAME_TIME_CLOCK_NAME);
 	std::string method_name = "on_entity_start";
 	frame_time_clock->set_start();
@@ -105,7 +105,7 @@ void Omnific::ImperiumScriptingSystem::on_entity_start()
 
 void Omnific::ImperiumScriptingSystem::on_input()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->execute_regular_methods(scene, "on_input");
@@ -114,7 +114,7 @@ void Omnific::ImperiumScriptingSystem::on_input()
 
 void Omnific::ImperiumScriptingSystem::on_early_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->execute_regular_methods(scene, "on_early_update");
@@ -123,7 +123,7 @@ void Omnific::ImperiumScriptingSystem::on_early_update()
 
 void Omnific::ImperiumScriptingSystem::on_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->execute_regular_methods(scene, "on_update");
@@ -132,7 +132,7 @@ void Omnific::ImperiumScriptingSystem::on_update()
 
 void Omnific::ImperiumScriptingSystem::on_fixed_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->execute_regular_methods(scene, "on_fixed_update");
@@ -141,7 +141,7 @@ void Omnific::ImperiumScriptingSystem::on_fixed_update()
 
 void Omnific::ImperiumScriptingSystem::on_late_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_LATE_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->execute_regular_methods(scene, "on_late_update");
@@ -150,7 +150,7 @@ void Omnific::ImperiumScriptingSystem::on_late_update()
 
 void Omnific::ImperiumScriptingSystem::on_entity_finish()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME);
 	std::string method_name = "on_entity_finish";
 	frame_time_clock->set_start();
@@ -167,7 +167,7 @@ void Omnific::ImperiumScriptingSystem::on_entity_finish()
 
 void Omnific::ImperiumScriptingSystem::on_output()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(IMPERIUM_SCRIPTING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->execute_regular_methods(scene, "on_output");

@@ -24,6 +24,7 @@
 #include <scene/scene.hpp>
 #include <foundations/singletons/platform/platform.hpp>
 #include <foundations/resources/script.hpp>
+#include <foundations/singletons/resource_manager.hpp>
 
 void Omnific::ScriptCollection::deserialize(YAML::Node yaml_node)
 {
@@ -35,7 +36,7 @@ void Omnific::ScriptCollection::deserialize(YAML::Node yaml_node)
 		{
 			for (int i = 0; i < it3->second.size(); ++i)
 			{
-				std::shared_ptr<Script> python_script(Platform::get_file_access().load_resource_by_type<Script>(it3->second[i].as<std::string>(), false));
+				std::shared_ptr<Script> python_script(ResourceManager::load<Script>(it3->second[i].as<std::string>()));
 				python_script->set_language_name(language_name);
 				this->scripts.push_back(python_script);
 			}
@@ -44,7 +45,7 @@ void Omnific::ScriptCollection::deserialize(YAML::Node yaml_node)
 		{
 			for (int i = 0; i < it3->second.size(); ++i)
 			{
-				std::shared_ptr<Script> cpp_script(Platform::get_file_access().load_resource_by_type<Script>(it3->second[i].as<std::string>(), false));
+				std::shared_ptr<Script> cpp_script(ResourceManager::load<Script>(it3->second[i].as<std::string>()));
 				cpp_script->set_language_name(language_name);
 				this->scripts.push_back(cpp_script);
 			}

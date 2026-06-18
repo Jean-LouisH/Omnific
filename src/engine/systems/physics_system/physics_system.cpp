@@ -33,7 +33,7 @@
 
 #include <foundations/singletons/event_bus.hpp>
 #include <foundations/singletons/profiler.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 
 #define PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "physics_system_on_fixed_update_frame_time"
 
@@ -51,7 +51,7 @@ void Omnific::PhysicsSystem::initialize()
 
 void Omnific::PhysicsSystem::on_fixed_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(PHYSICS_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->update_timers(scene);

@@ -22,6 +22,7 @@
 
 #include "label.hpp"
 #include <foundations/singletons/platform/platform.hpp>
+#include <foundations/singletons/resource_manager.hpp>
 
 void Omnific::Label::deserialize(YAML::Node yaml_node)
 {
@@ -35,7 +36,7 @@ void Omnific::Label::deserialize(YAML::Node yaml_node)
 		}
 		else if (it3->first.as<std::string>() == "font")
 		{
-			std::shared_ptr<Omnific::Font> font = Platform::get_file_access().load_resource_by_type<Font>(it3->second[0].as<std::string>());
+			std::shared_ptr<Omnific::Font> font = ResourceManager::load<Font>(it3->second[0].as<std::string>());
 			*font = Font(font->get_name(), it3->second[1].as<int>());
 			this->font = font;
 		}

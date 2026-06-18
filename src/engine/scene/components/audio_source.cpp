@@ -22,6 +22,7 @@
 
 #include "audio_source.hpp"
 #include "foundations/singletons/platform/platform.hpp"
+#include <foundations/singletons/resource_manager.hpp>
 #include "foundations/singletons/event_bus.hpp"
 
 void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
@@ -32,7 +33,7 @@ void Omnific::AudioSource::deserialize(YAML::Node yaml_node)
 		{
 			for (int i = 0; i < it3->second.size(); ++i)
 			{
-				std::shared_ptr<Audio> audio(Platform::get_file_access().load_resource_by_type<Audio>(it3->second[i].as<std::string>(), false));
+				std::shared_ptr<Audio> audio(ResourceManager::load<Audio>(it3->second[i].as<std::string>()));
 				this->add_audio(audio);
 			}
 		}

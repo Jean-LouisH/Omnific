@@ -33,7 +33,7 @@
 #include <scene/components/world_environment.hpp>
 #include <foundations/singletons/configuration.hpp>
 #include <foundations/singletons/profiler.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include "render_device/opengl_render_device.hpp"
 #include "render_device/sdl_gpu_render_device.hpp"
 #include "render_device/vulkan_render_device.hpp"
@@ -133,7 +133,7 @@ void Omnific::RenderingSystem::on_output()
 {
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(RENDERING_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::vector<size_t> rendering_order_index_cache = scene->get_rendering_order_index_cache();
 	this->on_window_resize();
 

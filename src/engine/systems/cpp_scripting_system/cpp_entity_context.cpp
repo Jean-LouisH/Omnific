@@ -48,7 +48,7 @@ std::shared_ptr<Omnific::Entity> Omnific::CPPEntityContext::get_entity()
 
 std::shared_ptr<Omnific::Scene> Omnific::CPPEntityContext::get_scene()
 {
-	return SceneStorage::get_active_scene();
+	return SceneManager::get_active_scene();
 }
 
 std::shared_ptr<Omnific::Component> Omnific::CPPEntityContext::get_component(std::string type)

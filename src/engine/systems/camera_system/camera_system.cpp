@@ -32,7 +32,7 @@
 #include <scene/components/camera.hpp>
 #include <scene/components/renderable.hpp>
 #include <foundations/singletons/profiler.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <scene/components/viewport.hpp>
 #include <foundations/singletons/configuration.hpp>
 #include <math.h>
@@ -55,7 +55,7 @@ void Omnific::CameraSystem::initialize()
 
 void Omnific::CameraSystem::on_input()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_INPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 
@@ -86,7 +86,7 @@ void Omnific::CameraSystem::on_input()
 
 void Omnific::CameraSystem::on_fixed_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(CAMERA_SYSTEM_ON_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	this->autofit_viewports_to_renderable_widths(scene);

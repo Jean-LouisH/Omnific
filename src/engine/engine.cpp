@@ -176,7 +176,7 @@ void Omnific::Engine::run_frame()
 		std::string app_data_entry_scene_filepath = file_access.find_path(entry_scene_filepath);
 		if (app_data_entry_scene_filepath != "")
 		{
-			SceneStorage::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
+			SceneManager::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
 		}
 
 		this->state = State::RUNNING;
@@ -204,7 +204,7 @@ void Omnific::Engine::run_frame()
 		system.second->on_entity_start();
 	total_on_entity_start_frame_time_clock->set_end();
 
-	SceneStorage::get_active_scene()->clear_start_entity_queue();
+	SceneManager::get_active_scene()->clear_start_entity_queue();
 
 	total_on_input_frame_time_clock->set_start();
 	if (Platform::get_inputs().get_has_detected_input_changes())
@@ -253,7 +253,7 @@ void Omnific::Engine::run_frame()
 		system.second->on_entity_finish();
 	total_on_entity_finish_frame_time_clock->set_end();
 
-	SceneStorage::get_active_scene()->clear_finish_entity_queue();
+	SceneManager::get_active_scene()->clear_finish_entity_queue();
 
 	if (this->state == State::RESTARTING || 
 		this->state == State::FINALIZING) 
@@ -268,9 +268,9 @@ void Omnific::Engine::run_frame()
 #endif
     }
 
-	SceneStorage::get_active_scene()->update_debug_statistics();
+	SceneManager::get_active_scene()->update_debug_statistics();
 	EventBus::clear_instant_events();
-	SceneStorage::service_scene_change_requests();
+	SceneManager::service_scene_change_requests();
 	Profiler::increment_frame_count();
 	frame_time_clock->set_end();
 	frame_time_clock->set_start();
@@ -292,7 +292,7 @@ void Omnific::Engine::sleep_for(uint32_t target_fps, std::shared_ptr<Clock> run_
 
 void Omnific::Engine::finalize()
 {
-	SceneStorage::clear_scenes();
+	SceneManager::clear_scenes();
 	ThreadPool::finalize();
 	ClassRegistry::finalize();
 	this->systems.clear();

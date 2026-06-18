@@ -29,7 +29,7 @@
 #include <foundations/singletons/event_bus.hpp>
 #include <foundations/resources/audio.hpp>
 #include <scene/components/physics_body.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 #include <SDL3/SDL.h>
 #include <math.h>
 #include <algorithm>
@@ -82,7 +82,7 @@ void Omnific::AudioSystem::initialize()
 
 void Omnific::AudioSystem::on_output()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 

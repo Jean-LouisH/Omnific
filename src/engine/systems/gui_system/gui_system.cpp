@@ -32,7 +32,7 @@
 #include <scene/components/viewport.hpp>
 #include <scene/components/camera.hpp>
 #include <foundations/singletons/profiler.hpp>
-#include <foundations/singletons/scene_storage.hpp>
+#include <foundations/singletons/scene_manager.hpp>
 
 #define GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME "gui_system_on_early_update_frame_time"
 #define GUI_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "gui_system_on_fixed_update_frame_time"
@@ -54,7 +54,7 @@ void Omnific::GUISystem::initialize()
 
 void Omnific::GUISystem::on_early_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(GUI_SYSTEM_ON_EARLY_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	Inputs& inputs = Platform::get_inputs();
@@ -110,7 +110,7 @@ void Omnific::GUISystem::on_early_update()
 
 void Omnific::GUISystem::on_fixed_update()
 {
-	std::shared_ptr<Scene> scene = SceneStorage::get_active_scene();
+	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(GUI_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
 	Inputs& inputs = Platform::get_inputs();

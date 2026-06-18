@@ -95,7 +95,7 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API EventBus
 	{
 		friend class Engine;
-		friend class SceneStorage;
+		friend class SceneManager;
 	public:
 		static void publish_event(
 			Event event,

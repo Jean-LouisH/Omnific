@@ -684,8 +684,8 @@ bool Omnific::Scene::is_active()
 		}
 	}
 
-	return SceneStorage::get_active_scene_name() == this->name || 
-		SceneStorage::get_active_scene_name() == "";
+	return SceneManager::get_active_scene_name() == this->name || 
+		SceneManager::get_active_scene_name() == "";
 }
 
 std::queue<Omnific::EntityID> Omnific::Scene::get_start_entity_queue()
