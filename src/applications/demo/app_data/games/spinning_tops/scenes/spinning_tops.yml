@@ -22,6 +22,7 @@ Entity:
     shader:
       preset: "Shader::PBR"
   CameraRelativeMovement: default
+  JumpMovement: default
 Entity:
   name: "Face"
   parent: "Player"

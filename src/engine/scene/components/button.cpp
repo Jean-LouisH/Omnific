@@ -38,7 +38,7 @@ void Omnific::Button::deserialize(YAML::Node yaml_node)
 		}
 		else if (it3->first.as<std::string>() == "font")
 		{
-			std::shared_ptr<Omnific::Font> font = ResourceManager::load<Font>(it3->second[0].as<std::string>());
+			std::shared_ptr<Omnific::Font> font = ResourceManager::load_resource<Font>(it3->second[0].as<std::string>());
 			*font = Font(font->get_name(), it3->second[1].as<int>());
 			this->gui_label->font = font;
 		}

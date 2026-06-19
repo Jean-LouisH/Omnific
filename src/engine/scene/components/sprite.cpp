@@ -43,7 +43,7 @@ void Omnific::Sprite::deserialize(YAML::Node yaml_node)
 			}
 			else if (file_access.exists(file_access.find_path(image_string_value)))
 			{
-				this->add_image(ResourceManager::load<Image>(image_string_value));
+				this->add_image(ResourceManager::load_resource<Image>(image_string_value));
 			}
 			else
 			{

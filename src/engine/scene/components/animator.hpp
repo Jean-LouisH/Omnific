@@ -45,8 +45,8 @@ namespace Omnific
 		float duration = 0.0f;  
 		float playback_speed_percentage = 1.0;
 		float progress = 0.0;
-		uint8_t allowable_repeats = 0;
-		uint8_t repeat_count = 0;
+		uint64_t allowable_repeats = 0;
+		uint64_t repeat_count = 0;
 		bool is_playing = false; 
 	private:
 	};
@@ -87,7 +87,7 @@ namespace Omnific
 
 		struct Channel 
 		{
-			uint32_t target_entity_id; 
+			EntityID target_entity_id; 
 			Path path;
 			size_t sampler_index;
 		};
@@ -116,6 +116,17 @@ namespace Omnific
 		std::unordered_map<std::string, std::shared_ptr<PropertyAnimation>> property_animations;
 
 		virtual void deserialize(YAML::Node yaml_node);
+
+		void play(std::string animation_name);
+		void play_repeatedly(std::string animation_name, uint64_t repeat_count);
+		void play_infinitely(std::string animation_name);
+		void pause(std::string animation_name);
+		void reset(std::string animation_name);
+		void stop(std::string animation_name);
+		void set_playback_speed(std::string animation_name);
+		std::vector<std::string> get_animation_names();
+		float get_animation_duration(std::string animation_name);
 	private:
+		std::shared_ptr<Animation> get_animation(std::string animation_name);
 	};
 }

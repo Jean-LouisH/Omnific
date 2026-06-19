@@ -48,9 +48,10 @@ namespace Omnific
 		virtual void on_fixed_update() override;
 		virtual void finalize() override;
 	private:
-		void update_sprites(std::shared_ptr<Scene> scene);
-		void execute_camera_relative_movements(std::shared_ptr<Scene> scene);
-		void execute_jump_movements(std::shared_ptr<Scene> scene);
+		void animate_sprites(std::shared_ptr<Scene> scene);
+		void animate_camera_relative_movements(std::shared_ptr<Scene> scene);
+		void animate_jump_movements(std::shared_ptr<Scene> scene);
+		void animate_skeletons_and_properties(std::shared_ptr<Scene> scene);
 	};
 }
 

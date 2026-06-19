@@ -31,7 +31,7 @@
 
 Omnific::ResourceManager* Omnific::ResourceManager::instance = nullptr;
 
-std::shared_ptr<Omnific::Resource> Omnific::ResourceManager::load(std::string filepath)
+std::shared_ptr<Omnific::Resource> Omnific::ResourceManager::load_resource(std::string filepath)
 {
 	std::shared_ptr<Resource> resource;
 	ResourceManager* resource_manager = get_instance();

@@ -34,9 +34,9 @@ namespace Omnific
 	class OMNIFIC_ENGINE_API ResourceManager
 	{
 	public:
-		static std::shared_ptr<Resource> load(std::string filepath);
+		static std::shared_ptr<Resource> load_resource(std::string filepath);
 		template <class DerivedResource>
-		static std::shared_ptr<DerivedResource> load(std::string filepath)
+		static std::shared_ptr<DerivedResource> load_resource(std::string filepath)
 		{
 			std::shared_ptr<DerivedResource> derived_resource;
 			std::string full_filepath = Platform::get_file_access().find_path(filepath);

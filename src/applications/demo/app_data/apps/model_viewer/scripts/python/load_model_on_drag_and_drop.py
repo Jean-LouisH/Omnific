@@ -31,7 +31,12 @@ class omnific_script:
             largest_dimension = max(renderable_dimensions.x, renderable_dimensions.y, renderable_dimensions.z)
             print("largest dimension size = " + str(largest_dimension))
 
-            camera_transform = self.camera_entity.get_transform()
+            components = new_model.get_components()
+            for i in range(len(components)):
+                if components[i].is_type("Animator"):
+                    print("Animation names:")
+                    print(components[i].get_animation_names())
+
             self.camera_pivot_transform.translation.x = renderable_global_translation.x
             self.camera_pivot_transform.translation.y = renderable_global_translation.y #+ renderable_dimensions.y / 2.0
             self.camera_pivot_transform.translation.z = renderable_global_translation.z

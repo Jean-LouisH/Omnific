@@ -277,8 +277,13 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_dimensions", &Omnific::Image::get_dimensions)
 		.def("get_bytes_per_pixel", &Omnific::Image::get_bytes_per_pixel);
 
+	pybind11::class_<Omnific::Registerable, std::shared_ptr<Omnific::Registerable>>(m, "Registerable")
+		.def("get_id", &Omnific::Registerable::get_id)
+		.def("get_type", &Omnific::Registerable::get_type)
+		.def("is_type", &Omnific::Registerable::is_type);
+
 	/*Component classes*/
-	pybind11::class_<Omnific::Component, std::shared_ptr<Omnific::Component>>(m, Omnific::Component::TYPE_STRING)
+	pybind11::class_<Omnific::Component, Omnific::Registerable, std::shared_ptr<Omnific::Component>>(m, Omnific::Component::TYPE_STRING)
 		.def("get_id", &Omnific::Component::get_id)
 		.def("get_entity_id", &Omnific::Component::get_entity_id)
 		.def("get_entity_name", &Omnific::Component::get_entity_name)
@@ -368,7 +373,16 @@ PYBIND11_EMBEDDED_MODULE(omnific, m)
 		.def("get_dimensions", &Omnific::Renderable::get_dimensions)
 		.def("get_image", &Omnific::Renderable::get_image);
 	pybind11::class_<Omnific::Animator, Omnific::Component, std::shared_ptr<Omnific::Animator>>(m, Omnific::Animator::TYPE_STRING)
-		.def(pybind11::init<>());
+		.def(pybind11::init<>())
+		.def("play", &Omnific::Animator::play)
+		.def("play_repeatedly", &Omnific::Animator::play_repeatedly)
+		.def("play_infinitely", &Omnific::Animator::play_infinitely)
+		.def("pause", &Omnific::Animator::pause)
+		.def("reset", &Omnific::Animator::reset)
+		.def("stop", &Omnific::Animator::stop)
+		.def("set_playback_speed", &Omnific::Animator::set_playback_speed)
+		.def("get_animation_names", &Omnific::Animator::get_animation_names)
+		.def("get_animation_duration", &Omnific::Animator::get_animation_duration);
 	pybind11::class_<Omnific::Collider, Omnific::Component, std::shared_ptr<Omnific::Collider>>(m, Omnific::Collider::TYPE_STRING)
 		.def(pybind11::init<>());
 	pybind11::class_<Omnific::Sprite, Omnific::Renderable, std::shared_ptr<Omnific::Sprite>>(m, Omnific::Sprite::TYPE_STRING)

@@ -33,6 +33,7 @@
 #include <scene/components/collider.hpp>
 #include <scene/components/viewport.hpp>
 #include <scene/components/camera.hpp>
+#include <scene/components/animator.hpp>
 #include <foundations/singletons/scene_manager.hpp>
 
 #define ANIMATION_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME "animation_system_on_fixed_update_frame_time"
@@ -54,9 +55,10 @@ void Omnific::AnimationSystem::on_fixed_update()
 	std::shared_ptr<Scene> scene = SceneManager::get_active_scene();
 	std::shared_ptr<Clock> frame_time_clock = Profiler::get_clock(ANIMATION_SYSTEM_ON_FIXED_UPDATE_FRAME_TIME_CLOCK_NAME);
 	frame_time_clock->set_start();
-	this->update_sprites(scene);
-	this->execute_camera_relative_movements(scene);
-	this->execute_jump_movements(scene);
+	this->animate_sprites(scene);
+	this->animate_camera_relative_movements(scene);
+	this->animate_jump_movements(scene);
+	this->animate_skeletons_and_properties(scene);
 	frame_time_clock->set_end();
 }
 
@@ -65,7 +67,7 @@ void Omnific::AnimationSystem::finalize()
 	this->is_initialized = false;
 }
 
-void Omnific::AnimationSystem::update_sprites(std::shared_ptr<Scene> scene)
+void Omnific::AnimationSystem::animate_sprites(std::shared_ptr<Scene> scene)
 {
 	const uint32_t ms_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time;
 	std::vector<std::shared_ptr<Sprite>> sprites = scene->get_components_by_type<Sprite>();
@@ -76,7 +78,7 @@ void Omnific::AnimationSystem::update_sprites(std::shared_ptr<Scene> scene)
 	}
 }
 
-void Omnific::AnimationSystem::execute_camera_relative_movements(std::shared_ptr<Scene> scene)
+void Omnific::AnimationSystem::animate_camera_relative_movements(std::shared_ptr<Scene> scene)
 {
 	float fixed_frame_time = Configuration::get_instance()->performance_settings.fixed_frame_time / MS_IN_S;
 	std::vector<std::shared_ptr<CameraRelativeMovement>> camera_relative_movements = scene->get_components_by_type<CameraRelativeMovement>();
@@ -126,7 +128,7 @@ void Omnific::AnimationSystem::execute_camera_relative_movements(std::shared_ptr
 	}
 }
 
-void Omnific::AnimationSystem::execute_jump_movements(std::shared_ptr<Scene> scene)
+void Omnific::AnimationSystem::animate_jump_movements(std::shared_ptr<Scene> scene)
 {
 	float fixed_frame_time = Configuration::get_instance()->performance_settings.fixed_frame_time / MS_IN_S;
 	std::vector<std::shared_ptr<JumpMovement>> jump_movements = scene->get_components_by_type<JumpMovement>();
@@ -167,4 +169,98 @@ void Omnific::AnimationSystem::execute_jump_movements(std::shared_ptr<Scene> sce
 			}
 		}
 	}
+}
+
+void Omnific::AnimationSystem::animate_skeletons_and_properties(std::shared_ptr<Scene> scene)
+{
+	const uint32_t ms_per_fixed_update = Configuration::get_instance()->performance_settings.fixed_frame_time;
+    std::vector<std::shared_ptr<Animator>> animators = scene->get_components_by_type<Animator>();
+
+    for (std::shared_ptr<Animator>& animator : animators)
+    {
+        //Skeletal Animation
+        for (auto& [animation_name, skeletal_animation] : animator->skeletal_animations)
+        {
+            if (!skeletal_animation->is_playing || skeletal_animation->repeat_count >= skeletal_animation->allowable_repeats)
+                continue;
+
+            skeletal_animation->progress += (ms_per_fixed_update * 1.0 / MS_IN_S) * skeletal_animation->playback_speed_percentage;
+
+            if (skeletal_animation->progress > skeletal_animation->duration)
+            {
+                skeletal_animation->repeat_count++;
+                if (skeletal_animation->repeat_count < skeletal_animation->allowable_repeats)
+                {
+                    // Loop back around (modulo remainder preserves timing precision)
+                    skeletal_animation->progress = std::fmod(skeletal_animation->progress, skeletal_animation->duration);
+                }
+                else
+                {
+                    skeletal_animation->progress = skeletal_animation->duration;
+                    continue;
+                }
+            }
+
+            for (const auto& channel : skeletal_animation->channels)
+            {
+                std::shared_ptr<Entity> entity = scene->get_entity(channel.target_entity_id);
+                if (!entity) continue; 
+
+                const auto& sampler = skeletal_animation->samplers[channel.sampler_index];
+                if (sampler.input_timestamps.empty()) continue;
+
+                size_t next_index = 0;
+                while (next_index < sampler.input_timestamps.size() && skeletal_animation->progress > sampler.input_timestamps[next_index])
+                {
+                    next_index++;
+                }
+
+                size_t previous_index = (next_index == 0) ? 0 : next_index - 1;
+                if (next_index >= sampler.input_timestamps.size()) 
+                {
+                    next_index = previous_index; 
+                }
+
+                float blend_factor = 0.0f;
+                if (previous_index != next_index)
+                {
+                    float prev_time = sampler.input_timestamps[previous_index];
+                    float next_time = sampler.input_timestamps[next_index];
+                    blend_factor = (skeletal_animation->progress - prev_time) / (next_time - prev_time);
+                }
+
+                if (sampler.interpolation == SkeletalAnimation::InterpolationType::STEP)
+                {
+                    blend_factor = 0.0f; // Lock 100% to previous frame until next index boundaries trigger
+                }
+
+                std::shared_ptr<Transform> transform = entity->get_transform();
+                if (!transform) continue;
+
+                if (channel.path == SkeletalAnimation::Path::TRANSLATION)
+                {
+                    glm::vec3 start_translation = glm::vec3(sampler.output_values[previous_index]);
+                    glm::vec3 end_translation = glm::vec3(sampler.output_values[next_index]);
+                    transform->translation = glm::mix(start_translation, end_translation, blend_factor);
+                }
+                else if (channel.path == SkeletalAnimation::Path::ROTATION)
+                {
+				
+					glm::vec4 start_rotation = sampler.output_values[previous_index];
+					glm::vec4 end_rotation = sampler.output_values[next_index];
+					glm::quat start_rotation_quat(start_rotation.w, start_rotation.x, start_rotation.y, start_rotation.z);
+					glm::quat end_rotation_quat(end_rotation.w, end_rotation.x, end_rotation.y, end_rotation.z);
+                    transform->rotation = glm::slerp(start_rotation_quat, end_rotation_quat, blend_factor);
+                }
+                else if (channel.path == SkeletalAnimation::Path::SCALE)
+                {
+                    glm::vec3 start_scale = glm::vec3(sampler.output_values[previous_index]);
+                    glm::vec3 end_scale = glm::vec3(sampler.output_values[next_index]);
+                    transform->scale = glm::mix(start_scale, end_scale, blend_factor);
+                }
+            }
+        }
+
+        // TODO: Property Animation
+    }
 }
