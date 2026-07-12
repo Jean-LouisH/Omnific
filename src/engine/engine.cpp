@@ -191,7 +191,6 @@ void Omnific::Engine::run_frame()
 	std::shared_ptr<Clock> total_on_entity_finish_frame_time_clock = Profiler::get_clock(TOTAL_ON_ENTITY_FINISH_FRAME_TIME_CLOCK_NAME);
 	std::shared_ptr<Clock> total_on_output_frame_time_clock = Profiler::get_clock(TOTAL_ON_OUTPUT_FRAME_TIME_CLOCK_NAME);
 
-	inputs.detect_game_controllers();
 	inputs.poll_input_events();
 
 	if (inputs.has_requested_shutdown())

@@ -21,10 +21,6 @@ add_library(omnific_engine STATIC
 
 message (STATUS "Engine detected system name: ${CMAKE_SYSTEM_NAME}")
 
-find_package(SDL3_ttf REQUIRED)
-find_package(glm CONFIG REQUIRED)
-find_package(yaml-cpp CONFIG REQUIRED)
-find_package(imgui CONFIG REQUIRED)
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	add_definitions(-D_WEB_PLATFORM)
@@ -40,11 +36,13 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 		SDL3_ttf::SDL3_ttf-static
 		yaml-cpp::yaml-cpp
 		glm::glm
-		imgui::imgui
 	)
 else()
 
 	set (THIRD_PARTY_PROJECTS ${THIRD_PARTY_PROJECTS} glad)
+	find_package(glm CONFIG REQUIRED)
+	find_package(yaml-cpp CONFIG REQUIRED)
+	find_package(SDL3_ttf REQUIRED)
 	find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
 	find_package(volk CONFIG REQUIRED)
 
@@ -91,7 +89,6 @@ else()
 			yaml-cpp::yaml-cpp
 			glm::glm
 			volk::volk
-			imgui::imgui
 		)
 	else()
 		find_package(Python COMPONENTS Interpreter Development REQUIRED)
@@ -106,7 +103,6 @@ else()
 			yaml-cpp::yaml-cpp
 			glm::glm
 			volk::volk
-			imgui::imgui
 		)
 	endif()
 endif()

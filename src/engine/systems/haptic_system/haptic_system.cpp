@@ -55,7 +55,6 @@ void Omnific::HapticSystem::on_output()
 		Event& haptic_signal_event = haptic_signal_events.at(i);
 		Event::Parameters event_parameters = haptic_signal_event.get_parameters();
 		std::unordered_map<std::string, double> event_numbers = haptic_signal_event.get_parameters().numbers;
-		std::vector<SDL_Haptic*> haptics = inputs.get_haptics();
 
 		PlayerID player_id = 0;
 		uint16_t duration = 0;
@@ -68,8 +67,11 @@ void Omnific::HapticSystem::on_output()
 		if (event_numbers.count("strength"))
 			strength = event_numbers.at("strength");
 
-		if (player_id < haptics.size())
+		for (int i = 0; i < MAX_GAMEPAD_PLAYERS; ++i)
 		{
+			if (!inputs.gamepad_players[i].is_active || inputs.gamepad_players[i].joystick_id != player_id)
+				continue;
+
 			/*Every PlayerID event encountered will result in it and its 
 		  	corresponding haptic_playback_hashtable being added.*/
 			if (this->haptic_playback_hashtables.count(player_id) == 0)
@@ -124,7 +126,7 @@ void Omnific::HapticSystem::on_output()
 
 				if (haptic_playback_hashtable.size() < 1)
 				{
-					SDL_StopHapticRumble(haptics.at(player_id));
+					SDL_RumbleGamepad(inputs.gamepad_players[player_id].gamepad, 0.0f, 0.0f, 0);
 				}
 				else
 				{
@@ -133,9 +135,9 @@ void Omnific::HapticSystem::on_output()
 					if (!(previous_total_strength + epsilon > total_strength &&
 						total_strength > previous_total_strength - epsilon))  
 					{
-						SDL_StopHapticRumble(haptics.at(player_id));
-						SDL_PlayHapticRumble(
-							haptics.at(player_id),
+						SDL_RumbleGamepad(inputs.gamepad_players[player_id].gamepad, 0.0f, 0.0f, 0);
+						SDL_RumbleGamepad(inputs.gamepad_players[player_id].gamepad,
+							total_strength,
 							total_strength,
 							duration);
 						previous_total_strength = total_strength;
@@ -152,9 +154,10 @@ void Omnific::HapticSystem::on_output()
 				haptic_playback.clock->set_start();
 				haptic_playback_hashtable.emplace(event_parameters.key, haptic_playback);
 
-				SDL_PlayHapticRumble(haptics.at(player_id),
-					strength,
-					duration);
+				SDL_RumbleGamepad(inputs.gamepad_players[player_id].gamepad,
+							strength,
+							strength,
+							duration);
 			}
 		}
 	}

@@ -52,9 +52,9 @@ void Omnific::AudioSystem::initialize()
 {
 	Profiler::add_clock(AUDIO_SYSTEM_ON_OUTPUT_FRAME_TIME_CLOCK_NAME, {"audio_system", "on_output_frame_time"});
 
-	if (!SDL_InitSubSystem(SDL_INIT_AUDIO)) 
+	if (!SDL_Init(SDL_INIT_AUDIO)) 
 	{
-        SDL_Log("SDL_Init failed: %s", SDL_GetError());
+        Platform::get_logger().write_error("SDL_Init failed: " + std::string(SDL_GetError()), Logger::Category::AUDIO);
         return;
     }
 
@@ -63,7 +63,7 @@ void Omnific::AudioSystem::initialize()
 
 	if (this->device_id == 0) 
 	{
-		SDL_Log("Failed to open audio: %s", SDL_GetError());
+		Platform::get_logger().write_error("Failed to open audio: " + std::string(SDL_GetError()), Logger::Category::AUDIO);
 		return;
 	}
 

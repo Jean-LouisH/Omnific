@@ -34,12 +34,22 @@
 #include <atomic>
 #include <array>
 
+#define MAX_GAMEPAD_PLAYERS 16
+
 namespace Omnific
 {
 	class OMNIFIC_ENGINE_API Inputs
 	{
 		friend class Engine;
+		friend class HapticSystem;
 	public:
+		typedef struct 
+		{
+			SDL_Gamepad* gamepad;
+			SDL_JoystickID joystick_id;
+			bool is_active;
+		} GamepadPlayer;
+
 		Inputs();
 
 		bool is_on_press(std::string input_code);
@@ -105,16 +115,12 @@ namespace Omnific
 		bool has_requested_command_line();
 		bool get_has_detected_input_changes();
 
-		std::vector<SDL_Haptic*> get_haptics();
-		std::unordered_map<PlayerID, SDL_JoystickID> get_controller_player_map();
-		std::queue<PlayerID>& get_newly_loaded_player_ids();
 	private:
-		void detect_game_controllers();
 		void poll_input_events();
 
 		std::unordered_map<std::string, SDL_Scancode> keyboard_events_by_string;
-		std::unordered_map<std::string, SDL_GamepadButton> controller_buttons_by_string;
-		std::unordered_map<std::string, SDL_GamepadAxis> controller_axis_events_by_string;
+		std::unordered_map<std::string, SDL_GamepadButton> gamepad_buttons_by_string;
+		std::unordered_map<std::string, SDL_GamepadAxis> gamepad_axis_events_by_string;
 
 		std::unordered_map<std::string, std::vector<std::string>> action_button_map;
 		std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> action_axis_map;
@@ -123,22 +129,18 @@ namespace Omnific
 
 		std::set<SDL_Keycode> held_keys;
 		std::set<Uint8> held_mouse_buttons;
-		std::unordered_map<SDL_GamepadButton, SDL_JoystickID> held_controller_buttons;
+		std::unordered_map<SDL_GamepadButton, SDL_JoystickID> held_gamepad_buttons;
 
-		std::unordered_map<SDL_GamepadButton, SDL_GamepadButtonEvent> controller_button_events;
+		std::unordered_map<SDL_GamepadButton, SDL_GamepadButtonEvent> gamepad_button_events;
 		std::unordered_map<SDL_Keycode, SDL_KeyboardEvent> keyboard_events;
-		std::unordered_map<SDL_GamepadAxis, SDL_GamepadAxisEvent> controller_axis_events;
+		std::unordered_map<SDL_GamepadAxis, SDL_GamepadAxisEvent> gamepad_axis_events;
 		SDL_MouseButtonEvent mouse_button_event;
 		SDL_MouseMotionEvent mouse_motion_event;
 		SDL_MouseWheelEvent  mouse_wheel_event;
 		SDL_WindowEvent window_event;
 		SDL_DropEvent drop_event;
 
-		std::vector<SDL_Gamepad*> game_controllers;
-		std::vector<SDL_Haptic*> haptics;
-
-		std::unordered_map<PlayerID, SDL_JoystickID> controller_player_map;
-		std::queue<PlayerID> newly_loaded_player_ids;
+		GamepadPlayer gamepad_players[MAX_GAMEPAD_PLAYERS] = {0};
 
 		glm::vec2 mouse_position;
 

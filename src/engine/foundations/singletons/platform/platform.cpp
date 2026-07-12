@@ -62,13 +62,8 @@ void Omnific::Platform::initialize(
 #endif
 
 	SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
-	SDL_SetHint(SDL_HINT_JOYSTICK_HIDAPI, "0");
-	SDL_SetHint(SDL_HINT_JOYSTICK_DIRECTINPUT, "1");
 
-	if (!SDL_Init(
-		SDL_INIT_EVENTS || 
-		SDL_INIT_GAMEPAD || 
-		SDL_INIT_JOYSTICK))
+	if (!SDL_Init(SDL_INIT_GAMEPAD | SDL_INIT_EVENTS))
 	{
 		new_instance->logger->write_error("Failed to initialize SDL: " + std::string(SDL_GetError()), Logger::Category::INPUT);
 	}
@@ -85,7 +80,7 @@ void Omnific::Platform::initialize(
         } 
 		else 
 		{
-            new_instance->logger->write("Loaded " + std::to_string(gamepad_mappings_count) + " embedded mappings.");
+            new_instance->logger->write("Loaded " + std::to_string(gamepad_mappings_count) + " embedded gamepad mappings.");
         }
     } 
 	else 
