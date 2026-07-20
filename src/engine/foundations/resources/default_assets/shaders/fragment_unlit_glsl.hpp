@@ -27,7 +27,6 @@ namespace Omnific
     namespace DefaultAssets
     {
         const char fragment_unlit_glsl[] = R"(
-            #version 330 core
             in vec2 uv;
             out vec4 colour;
             uniform vec4 highlight_colour;

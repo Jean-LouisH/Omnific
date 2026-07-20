@@ -27,8 +27,6 @@ namespace Omnific
     namespace DefaultAssets
     {
         const char fragment_simple_glsl[] = R"(
-            #version 330 core
-            
             #define LIGHT_DIRECTIONAL 0
             #define LIGHT_POINT 1
             #define LIGHT_SPOT 2

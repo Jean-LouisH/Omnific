@@ -24,8 +24,6 @@
 
 #pragma once
 
-#define _STL_CRT_SECURE_INVALID_PARAMETER(expr) _CRT_SECURE_INVALID_PARAMETER(expr)
-
 #include "scene/scene.hpp"
 #include <foundations/singletons/scene_manager.hpp>
 #include "foundations/aliases.hpp"

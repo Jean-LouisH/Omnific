@@ -80,6 +80,7 @@ void Omnific::Engine::run()
 		{
 #ifdef _WEB_PLATFORM
 			emscripten_set_main_loop_arg(run_frame_on_callback, this, 0, 1);
+			logger.write("Running Engine on Web Platform...");
 #else
 			Configuration* configuration = Configuration::get_instance();
 
@@ -133,11 +134,6 @@ void Omnific::Engine::initialize()
 			it.first,
 			std::dynamic_pointer_cast<System>(std::shared_ptr<Registerable>(system->instance())));
 	}
-
-#ifdef DEBUG_CONSOLE_ENABLED
-	std::cout << "\n\nPress '`' in-application to write to command line via console.";
-	std::cout << "\n\n";
-#endif
 
 	if (Configuration::get_instance()->is_loaded)
 	{

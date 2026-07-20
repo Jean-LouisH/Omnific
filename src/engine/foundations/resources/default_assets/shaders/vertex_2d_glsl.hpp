@@ -27,7 +27,6 @@ namespace Omnific
     namespace DefaultAssets
     {
         const char vertex_2d_glsl[] = R"(
-            #version 330 core
             layout (location = 0) in vec3 model_vertex_translation;
             layout (location = 2) in vec2 model_vertex_uv;
             out vec3 translation;

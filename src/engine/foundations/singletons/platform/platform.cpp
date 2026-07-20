@@ -33,6 +33,12 @@
 
 Omnific::Platform* Omnific::Platform::instance = nullptr;
 
+void WebBrowserLogCallback(void *userdata, int category, SDL_LogPriority priority, const char *message) 
+{
+    // Forward SDL logs to stdout so Module.print catches them
+    printf("%s\n", message);
+}
+
 void Omnific::Platform::initialize(
 	int argc,
 	char* argv[])
@@ -87,6 +93,10 @@ void Omnific::Platform::initialize(
 	{
         new_instance->logger->write_error("Failed to create IOStream: " + std::string(SDL_GetError()), Logger::Category::INPUT);
     }
+
+#ifdef __EMSCRIPTEN__
+	SDL_SetLogOutputFunction(WebBrowserLogCallback, NULL);
+#endif
 }
 
 void Omnific::Platform::create_window(std::string title,

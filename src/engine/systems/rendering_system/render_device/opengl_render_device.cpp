@@ -42,10 +42,8 @@
 void Omnific::OpenGLRenderDevice::initialize()
 {
 	Window& window = Platform::get_window();
-#ifdef _WEB_PLATFORM
-	window.initialize_window_context("webgl");
-#else
 	window.initialize_window_context("opengl");
+#ifndef _WEB_PLATFORM
 
 	if ((!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)))
 	{
@@ -407,12 +405,20 @@ void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, Tex
 		GLint texture_wrap_s = GL_REPEAT;
 		GLint texture_wrap_t = GL_REPEAT;
 
+#ifdef _WEB_PLATFORM
+   		std::unordered_map<Renderable::Material::TextureWrap, GLint> wrap_mode_map = {
+			{ Renderable::Material::TextureWrap::REPEAT, GL_REPEAT },
+			{ Renderable::Material::TextureWrap::MIRRORED_REPEAT, GL_MIRRORED_REPEAT },
+			{ Renderable::Material::TextureWrap::CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE }
+		};
+#else
 		std::unordered_map<Renderable::Material::TextureWrap, GLint> wrap_mode_map = {
 			{ Renderable::Material::TextureWrap::REPEAT, GL_REPEAT },
 			{ Renderable::Material::TextureWrap::MIRRORED_REPEAT, GL_MIRRORED_REPEAT },
 			{ Renderable::Material::TextureWrap::CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE },
 			{ Renderable::Material::TextureWrap::CLAMP_TO_BORDER, GL_CLAMP_TO_BORDER }
 		};
+#endif
 
 		texture_wrap_s = wrap_mode_map[texture_properties.wrap_s];
 		texture_wrap_t = wrap_mode_map[texture_properties.wrap_t];
@@ -422,7 +428,23 @@ void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, Tex
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+
+#ifdef _WEB_PLATFORM
 		if (texture_properties.wrap_s == Renderable::Material::TextureWrap::CLAMP_TO_BORDER || 
+			texture_properties.wrap_t == Renderable::Material::TextureWrap::CLAMP_TO_BORDER)
+		{
+			Platform::get_logger().write("Warning: CLAMP_TO_BORDER is not supported on WebGL. Using CLAMP_TO_EDGE instead.");
+		}
+
+		if (texture_properties.swizzle_r != Renderable::Material::TextureSwizzle::RED ||
+			texture_properties.swizzle_g != Renderable::Material::TextureSwizzle::GREEN ||
+			texture_properties.swizzle_b != Renderable::Material::TextureSwizzle::BLUE ||
+			texture_properties.swizzle_a != Renderable::Material::TextureSwizzle::ALPHA)
+		{
+			Platform::get_logger().write("Warning: Texture swizzling is not supported on WebGL. Swizzling will be ignored.");
+		}
+#else
+    	if (texture_properties.wrap_s == Renderable::Material::TextureWrap::CLAMP_TO_BORDER || 
 			texture_properties.wrap_t == Renderable::Material::TextureWrap::CLAMP_TO_BORDER)
 		{
 			glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, texture_properties.border_color);
@@ -447,6 +469,7 @@ void Omnific::OpenGLRenderDevice::bind_texture(std::shared_ptr<Image> image, Tex
 		swizzle_mask[3] = swizzle_map[texture_properties.swizzle_a];
 
 		glTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_SWIZZLE_RGBA, swizzle_mask);
+#endif
 
 		uint64_t format = GL_RGBA8;
 		uint64_t internal_format = GL_RGBA;
@@ -531,6 +554,16 @@ void Omnific::OpenGLRenderDevice::unbind_material()
 
 void Omnific::OpenGLRenderDevice::use_shader(std::shared_ptr<Shader> shader) 
 {
+#ifdef __EMSCRIPTEN__
+    const char* GLSL_HEADER = 
+        "#version 300 es\n"
+        "precision mediump float;\n";
+#else
+    const char* GLSL_HEADER = 
+        "#version 330 core\n"
+        "precision mediump float;\n";
+#endif
+
 	if (shader == nullptr)
 		return;
 
@@ -541,14 +574,14 @@ void Omnific::OpenGLRenderDevice::use_shader(std::shared_ptr<Shader> shader)
 		bool compilation_success = true;
 
 		GLuint vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
-		std::string vertex_shader_source = shader->get_vertex_source();
+		std::string vertex_shader_source = std::string(GLSL_HEADER) + shader->get_vertex_source();
 		GLchar* gl_vertex_shader_source = (GLchar*)vertex_shader_source.c_str();
 		glShaderSource(vertex_shader_id, 1, &gl_vertex_shader_source, NULL);
 		glCompileShader(vertex_shader_id);
 		compilation_success &= this->check_shader_compile_time_errors(vertex_shader_id, GL_COMPILE_STATUS);
 
 		GLuint fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
-		std::string fragment_shader_source = shader->get_fragment_source();
+		std::string fragment_shader_source = std::string(GLSL_HEADER) + shader->get_fragment_source();
 		GLchar* gl_fragment_shader_source = (GLchar*)fragment_shader_source.c_str();
 		glShaderSource(fragment_shader_id, 1, &gl_fragment_shader_source, NULL);
 		glCompileShader(fragment_shader_id);

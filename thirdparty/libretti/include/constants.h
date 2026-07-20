@@ -14,6 +14,10 @@
 extern "C" {
 #endif
 
+#ifndef M_PI
+	#define M_PI 3.1415926535897931
+#endif
+
 #define MAX_TRACKS 24
 #define LYRICS_LENGTH 128
 

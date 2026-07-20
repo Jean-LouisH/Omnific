@@ -35,6 +35,9 @@
 #include <foundations/clock.hpp>
 #include <SDL3/SDL_time.h>
 
+
+void WebBrowserLogCallback(void *userdata, int category, SDL_LogPriority priority, const char *message);
+
 namespace Omnific
 {
 	/* Singleton for objects related to Operating System utilities. */

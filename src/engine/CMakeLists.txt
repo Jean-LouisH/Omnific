@@ -21,10 +21,14 @@ add_library(omnific_engine STATIC
 
 message (STATUS "Engine detected system name: ${CMAKE_SYSTEM_NAME}")
 
+find_package(glm CONFIG REQUIRED)
+find_package(yaml-cpp CONFIG REQUIRED)
+find_package(SDL3_ttf REQUIRED)
+find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 	add_definitions(-D_WEB_PLATFORM)
-    set(USE_FLAGS "-sWASM=1 -sUSE_SDL=3 -sUSE_SDL_TTF=3 -sFULL_ES3=1 -sOFFSCREEN_FRAMEBUFFER=1")
+    set(USE_FLAGS "-sWASM=1 -sOFFSCREEN_FRAMEBUFFER=1 -sUSE_WEBGL2=1 -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
@@ -33,18 +37,13 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 
 	target_link_libraries (omnific_engine 
 		${THIRD_PARTY_PROJECTS}
-		SDL3_ttf::SDL3_ttf-static
-		yaml-cpp::yaml-cpp
 		glm::glm
+		yaml-cpp::yaml-cpp
+		SDL3::SDL3
+		SDL3_ttf::SDL3_ttf
 	)
 else()
-
 	set (THIRD_PARTY_PROJECTS ${THIRD_PARTY_PROJECTS} glad)
-	find_package(glm CONFIG REQUIRED)
-	find_package(yaml-cpp CONFIG REQUIRED)
-	find_package(SDL3_ttf REQUIRED)
-	find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3)
-	find_package(volk CONFIG REQUIRED)
 
 	if (MSVC)
 		add_definitions(/bigobj)
@@ -88,7 +87,6 @@ else()
 			pybind11::module
 			yaml-cpp::yaml-cpp
 			glm::glm
-			volk::volk
 		)
 	else()
 		find_package(Python COMPONENTS Interpreter Development REQUIRED)
@@ -102,7 +100,6 @@ else()
 			pybind11::headers
 			yaml-cpp::yaml-cpp
 			glm::glm
-			volk::volk
 		)
 	endif()
 endif()

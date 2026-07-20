@@ -26,6 +26,10 @@
 #include "time_conversions.hpp"
 #include "physics_constants.hpp"
 
+#ifndef M_PI
+	#define M_PI 3.1415926535897931
+#endif
+
 #define DEFAULT_APP_DATA_PATH_NAME "app_data"
 #define DEFAULT_APP_DATA_PATH "app_data/"
 

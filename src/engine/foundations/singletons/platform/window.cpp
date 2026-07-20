@@ -35,7 +35,25 @@ void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t hei
 
 #ifdef __EMSCRIPTEN__
 	const char* target = "#canvas";
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	emscripten_set_canvas_element_size(target, width, height);
+
+	this->sdl_window = std::shared_ptr<SDL_Window>(SDL_CreateWindow(
+		title.c_str(),
+		width,
+		height,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE), SDL_DestroyWindow
+	);
 #else
 	if (rendering_context == "opengl")
 	{
@@ -48,7 +66,7 @@ void Omnific::Window::initialize(std::string title, uint16_t width, uint16_t hei
 		SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32);
-		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+		SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 	}
@@ -77,6 +95,13 @@ void Omnific::Window::initialize_window_context(std::string rendering_context)
 {
 	if (rendering_context == "opengl")
 	{
+#ifdef __EMSCRIPTEN__
+		EmscriptenWebGLContextAttributes webgl_context_attributes;
+		emscripten_webgl_init_context_attributes(&webgl_context_attributes);
+		webgl_context_attributes.majorVersion = 2;
+		EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webgl_context = emscripten_webgl_create_context("#canvas", &webgl_context_attributes);
+		emscripten_webgl_make_context_current(webgl_context);
+#endif
 		this->sdl_gl_context = SDL_GL_CreateContext(this->sdl_window.get());
 	}
 	if (rendering_context == "sdl_gpu")
@@ -86,16 +111,6 @@ void Omnific::Window::initialize_window_context(std::string rendering_context)
 	else if (rendering_context == "vulkan")
 	{
 
-	}
-	else if (rendering_context == "webgl")
-	{
-#ifdef __EMSCRIPTEN__
-		EmscriptenWebGLContextAttributes webgl_context_attributes;
-		emscripten_webgl_init_context_attributes(&webgl_context_attributes);
-		webgl_context_attributes.majorVersion = 2;
-		EMSCRIPTEN_WEBGL_CONTEXT_HANDLE webgl_context = emscripten_webgl_create_context("#canvas", &webgl_context_attributes);
-		emscripten_webgl_make_context_current(webgl_context);
-#endif
 	}
 }
 

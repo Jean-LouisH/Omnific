@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "constants.h"
 
+
 void generate_waveform(lb_Waveforms* waveforms, lb_Note current_notes[], int sample_rate)
 {
 	static double timesteps[MAX_TRACKS];
