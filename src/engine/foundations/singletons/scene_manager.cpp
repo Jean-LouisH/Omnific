@@ -32,7 +32,7 @@ void Omnific::SceneManager::load_scene(std::shared_ptr<Scene> scene)
 	SceneManager* scene_manager = SceneManager::get_instance();
 	EventBus::publish_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED, {{"scene_name", scene->get_name()}});
 	scene_manager->scene_change_request = scene;
-	if (scene_manager->active_scene_name == "")
+	if (scene_manager->has_no_scenes())
 		scene_manager->service_scene_change_requests();
 }
 
@@ -41,7 +41,7 @@ void Omnific::SceneManager::load_scene(std::string scene_name)
 	SceneManager* scene_manager = SceneManager::get_instance();
 	EventBus::publish_event(OMNIFIC_EVENT_CHANGE_SCENE_REQUESTED, {{"scene_name", scene_name}});
 	scene_manager->scene_change_request_name = scene_name;
-	if (scene_manager->active_scene_name == "")
+	if (scene_manager->has_no_scenes())
 		scene_manager->service_scene_change_requests();
 }
 
@@ -49,33 +49,25 @@ void Omnific::SceneManager::remove_scene(std::string scene_name)
 {
 	SceneManager* scene_manager = SceneManager::get_instance();
 
-	if (scene_name != "")
+	if (scene_manager->has_scene(scene_name))
 	{
-		if (scene_manager->has_scene(scene_name))
+		std::shared_ptr<Scene> scene_to_remove = scene_manager->scenes.at(scene_name);
+
+		if (scene_manager->removed_scenes.count(scene_name))
 		{
-			std::shared_ptr<Scene> scene_to_remove = scene_manager->scenes.at(scene_name);
-
-			if (scene_manager->removed_scenes.count(scene_name))
-			{
-				scene_manager->removed_scenes.erase(scene_name);
-			}
-
-			scene_manager->removed_scenes.emplace(scene_name, scene_to_remove);
-
-			if (scene_name == scene_manager->get_active_scene_name())
-			{
-				scene_manager->load_scene("");
-			}
-
-			scene_manager->scenes.erase(scene_name);
-			Platform::get_logger().write("Removed Scene: \"" + scene_name + "\"");
+			scene_manager->removed_scenes.erase(scene_name);
 		}
 
+		scene_manager->removed_scenes.emplace(scene_name, scene_to_remove);
+
+		if (scene_name == scene_manager->get_active_scene_name())
+		{
+			scene_manager->load_scene("");
+		}
+
+		scene_manager->scenes.erase(scene_name);
+		Platform::get_logger().write("Removed Scene: \"" + scene_name + "\"");
 		EventBus::publish_event(OMNIFIC_EVENT_SCENE_REMOVED);
-	}
-	else
-	{
-		Platform::get_logger().write("Error: Attempted to remove empty Scene.");
 	}
 }
 
@@ -161,8 +153,7 @@ std::string Omnific::SceneManager::get_active_scene_name()
 
 bool Omnific::SceneManager::has_no_scenes()
 {
-	/*Accounting for Scenes other than the dummy scene.*/
-	return SceneManager::get_instance()->scenes.size() <= 1;
+	return SceneManager::get_instance()->scenes.size() == 0;
 }
 
 bool Omnific::SceneManager::has_scene(std::string scene_name)
@@ -202,8 +193,6 @@ Omnific::SceneManager* Omnific::SceneManager::get_instance()
 	if (instance == nullptr)
 	{
 		instance = new SceneManager();
-		std::shared_ptr<Scene> dummy_scene(std::shared_ptr<Scene>(new Scene()));
-		instance->scenes.emplace(dummy_scene->get_name(), dummy_scene);
 		instance->modified_active_scene_monitor_clock = std::make_shared<Clock>();
 		instance->modified_active_scene_monitor_clock->set_start();
 		instance->last_reload_frame_id = 0;

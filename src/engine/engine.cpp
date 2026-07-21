@@ -172,7 +172,20 @@ void Omnific::Engine::run_frame()
 		std::string app_data_entry_scene_filepath = file_access.find_path(entry_scene_filepath);
 		if (app_data_entry_scene_filepath != "")
 		{
+#ifdef __EMSCRIPTEN__
+			std::shared_ptr<Scene> scene = std::make_shared<Scene>();
+			scene->add_empty_entity("Web Confirmation Button");
+			std::shared_ptr<Button> button = std::make_shared<Button>();
+			button->anchor_pivot = GUIElement::PivotPoint::CENTRE;
+			button->pivot = GUIElement::PivotPoint::CENTRE;
+			button->label->set_text("Click to Start.");
+			button->scene_hyperlink = entry_scene_filepath;
+			button->update_image();
+			scene->add_component_to_last_entity(button);
+			SceneManager::load_scene(scene);
+#else
 			SceneManager::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
+#endif
 		}
 
 		this->state = State::RUNNING;

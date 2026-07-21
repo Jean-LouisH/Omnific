@@ -82,7 +82,16 @@ void Omnific::AnimationSystem::animate_camera_relative_movements(std::shared_ptr
 {
 	float fixed_frame_time = Configuration::get_instance()->performance_settings.fixed_frame_time / MS_IN_S;
 	std::vector<std::shared_ptr<CameraRelativeMovement>> camera_relative_movements = scene->get_components_by_type<CameraRelativeMovement>();
-	std::shared_ptr<Viewport> default_viewport = scene->get_component_by_type<Viewport>(scene->get_entity_by_name(DEFAULT_VIEWPORT_NAME)->get_id());
+	std::shared_ptr<Entity> default_viewport_entity = scene->get_entity_by_name(DEFAULT_VIEWPORT_NAME);
+
+	if (default_viewport_entity == nullptr)
+		return;
+
+	std::shared_ptr<Viewport> default_viewport = scene->get_component_by_type<Viewport>(default_viewport_entity->get_id());
+
+	if (default_viewport == nullptr)
+		return;
+
 	std::shared_ptr<Entity> current_camera_entity = scene->get_entity_by_name(default_viewport->get_camera_entity_name());
 
 	if (current_camera_entity == nullptr)

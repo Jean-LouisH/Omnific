@@ -98,6 +98,8 @@ namespace Omnific
 		bool is_following_entity = false;
 		glm::vec2 follow_offset = glm::vec2(0.0);
 
+		std::string scene_hyperlink;
+
 		virtual void update_image();
 		bool get_is_in_focus();
 		bool get_is_selected();

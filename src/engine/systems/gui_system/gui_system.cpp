@@ -268,8 +268,17 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 			if (is_mouse_hovering_over_gui_element && (!(!gui_element->is_hovered_in_focus) ||
 				!(is_any_mouse_button_pressed)))
 			{
+				Inputs& inputs = Platform::get_inputs();
 				gui_element->is_hovered_in_focus = true;
-				if (Platform::get_inputs().is_left_mouse_button_pressed())
+
+				if (inputs.is_left_mouse_button_on_release() &&
+					gui_element->is_clicked && 
+					gui_element->scene_hyperlink != "")
+				{
+					SceneManager::load_scene(std::shared_ptr<Scene>(new Scene(gui_element->scene_hyperlink)));
+				}
+
+				if (inputs.is_left_mouse_button_pressed())
 				{
 					gui_element->is_clicked = true;
 				}

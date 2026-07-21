@@ -43,7 +43,7 @@ void Omnific::ButtonList::update_image()
 void Omnific::ButtonList::add_item(std::string button_name)
 {
 	std::shared_ptr<Button> button(new Button());
-	button->gui_label->set_text(button_name);
+	button->label->set_text(button_name);
 	this->list_items.push_back(button);
 }
 

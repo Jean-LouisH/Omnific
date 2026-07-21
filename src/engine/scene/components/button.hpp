@@ -38,7 +38,7 @@ namespace Omnific
 			this->type = TYPE_STRING;
 			this->is_clickable = true;
 			this->is_highlightable = true;
-			this->gui_label = std::shared_ptr<Label>(new Label());
+			this->label = std::shared_ptr<Label>(new Label());
 			this->button_space_from_text = glm::vec2(20.0);
 		};
 		static constexpr const char* TYPE_STRING = "Button";
@@ -50,7 +50,7 @@ namespace Omnific
 			return clone;
 		}
 
-		std::shared_ptr<Label> gui_label;
+		std::shared_ptr<Label> label;
 		glm::vec2 button_space_from_text = glm::vec2(0.0);
 
 		virtual void deserialize(YAML::Node yaml_node);

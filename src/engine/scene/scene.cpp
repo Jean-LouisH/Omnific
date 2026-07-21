@@ -65,7 +65,6 @@ Omnific::Scene::Scene()
 Omnific::Scene::Scene(std::string filepath)
 {
 	this->id = UIDGenerator::get_new_uid();
-	this->name = "Scene (ID:" + std::to_string(this->id) + ")";
 	this->deserialize_from(filepath);
 	this->fps_monitor_clock = std::make_shared<Clock>();
 	this->fps_monitor_clock->set_start();
@@ -1338,7 +1337,12 @@ Omnific::SceneID Omnific::Scene::get_id()
 void Omnific::Scene::update_debug_statistics()
 {
 	std::string debug_string = Profiler::get_clock_deltas_to_string_by_tag("total");
-	std::shared_ptr<Label> debug_label = this->get_component_by_type<Label>(this->get_entity_by_name("debug_label_entity")->get_id());
+	std::shared_ptr<Entity> debug_label_entity = this->get_entity_by_name("debug_label_entity");
+
+	if (debug_label_entity == nullptr)
+		return;
+	
+	std::shared_ptr<Label> debug_label = this->get_component_by_type<Label>(debug_label_entity->get_id());
 	Inputs& inputs = Platform::get_inputs();
 	const int monitor_time_period = 1;
 
