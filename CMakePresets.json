@@ -144,6 +144,7 @@
         {
             "name": "emscripten-release",
             "displayName": "Emscripten Release",
+            "inherits": "emscripten-debug",
             "description": "Build with Emscripten for WebAssembly (Release)",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
