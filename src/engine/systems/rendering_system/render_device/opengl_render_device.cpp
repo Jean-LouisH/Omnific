@@ -554,7 +554,7 @@ void Omnific::OpenGLRenderDevice::unbind_material()
 
 void Omnific::OpenGLRenderDevice::use_shader(std::shared_ptr<Shader> shader) 
 {
-#ifdef __EMSCRIPTEN__
+#ifdef _WEB_PLATFORM
     const char* GLSL_HEADER = 
         "#version 300 es\n"
         "precision mediump float;\n";

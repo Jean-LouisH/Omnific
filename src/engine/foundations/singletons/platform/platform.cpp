@@ -64,7 +64,7 @@ void Omnific::Platform::initialize(
 #ifdef _DEBUG
 	new_instance->logger->filter_priority(Logger::Priority::DEBUG);
 #else
-	new_instance->logger->filter_priority(Logger::Priority::ERROR);	
+	new_instance->logger->filter_priority(Logger::Priority::ERROR);
 #endif
 
 	SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
@@ -94,7 +94,7 @@ void Omnific::Platform::initialize(
         new_instance->logger->write_error("Failed to create IOStream: " + std::string(SDL_GetError()), Logger::Category::INPUT);
     }
 
-#ifdef __EMSCRIPTEN__
+#ifdef _WEB_PLATFORM && defined(_DEBUG)
 	SDL_SetLogOutputFunction(WebBrowserLogCallback, NULL);
 #endif
 }
@@ -141,7 +141,7 @@ void Omnific::Platform::set_clipboard_text(std::string text)
 {
 	if (!SDL_SetClipboardText(text.c_str()))
 	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, SDL_GetError());
+		get_instance()->logger->write_error("Failed to set clipboard text: " + std::string(SDL_GetError()), Logger::Category::INPUT);
 	}
 }
 

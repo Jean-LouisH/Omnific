@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 {
 	Omnific::Engine* omnific_engine = new Omnific::Engine(argc, argv);
 
-	omnific_engine->add_debug_app_data_paths(
+	omnific_engine->add_app_data_paths(
 		{
 			PROJECT_SOURCE_DIRECTORY, 
 			PROJECT_APP_DATA_DIRECTORY,

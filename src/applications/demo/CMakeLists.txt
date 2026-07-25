@@ -38,7 +38,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
-    set(USE_FLAGS "-sWASM=1 -sOFFSCREEN_FRAMEBUFFER=1 -sUSE_WEBGL2=1 -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2 --embed-file ${CMAKE_CURRENT_SOURCE_DIR}/app_data")
+    set(USE_FLAGS "-sWASM=1 -sOFFSCREEN_FRAMEBUFFER=1 -sUSE_WEBGL2=1 -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2 --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/app_data")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
@@ -48,27 +48,29 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 		SUFFIX ".html"
 	)
 
-	if (CMAKE_BUILD_TYPE STREQUAL "Release")
-		set(GITHUB_PAGES_DIR "${CMAKE_SOURCE_DIR}/docs")
+	set(GITHUB_PAGES_DIR "${CMAKE_SOURCE_DIR}/docs")
 
-		add_custom_command(TARGET omnific_demo POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E make_directory "${GITHUB_PAGES_DIR}"
+	add_custom_command(TARGET omnific_demo POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E make_directory "${GITHUB_PAGES_DIR}"
 
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/index.html"
-				"${GITHUB_PAGES_DIR}/index.html"
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"$<TARGET_FILE_DIR:omnific_demo>/index.html"
+			"${GITHUB_PAGES_DIR}/index.html"
 
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/index.js"
-				"${GITHUB_PAGES_DIR}/index.js"
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"$<TARGET_FILE_DIR:omnific_demo>/index.js"
+			"${GITHUB_PAGES_DIR}/index.js"
 
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/index.wasm"
-				"${GITHUB_PAGES_DIR}/index.wasm"
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"$<TARGET_FILE_DIR:omnific_demo>/index.wasm"
+			"${GITHUB_PAGES_DIR}/index.wasm"
 
-			VERBATIM
-		)
-	endif()
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"$<TARGET_FILE_DIR:omnific_demo>/index.data"
+			"${GITHUB_PAGES_DIR}/index.data"
+
+		VERBATIM
+	)
 else ()
 	message (STATUS "Demo Python version: ${PYTHON_VERSION_CACHED}")
 	string(REGEX MATCH "[0-9]+\\.[0-9]+" Python_VERSION_MAJOR_MINOR "${PYTHON_VERSION_CACHED}")

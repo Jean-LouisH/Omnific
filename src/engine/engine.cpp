@@ -44,13 +44,6 @@ void Omnific::Engine::add_app_data_paths(std::vector<std::string> app_data_paths
 	Platform::get_file_access().add_app_data_paths(app_data_paths);
 }
 
-void Omnific::Engine::add_debug_app_data_paths(std::vector<std::string> app_data_paths)
-{
-#ifdef _DEBUG
-	this->add_app_data_paths(app_data_paths);
-#endif
-}
-
 void Omnific::Engine::run()
 {
 	Logger& logger = Platform::get_logger();
@@ -116,12 +109,25 @@ void Omnific::Engine::initialize()
 
 	ThreadPool::initialize();
 
+	logger.write("Initialized ThreadPool");
+
 	FileAccess& file_access = Platform::get_file_access();
+	logger.write("Got FileAccess");
 	file_access.add_app_data_paths({"./", DEFAULT_APP_DATA_PATH});
+	logger.write("Add app data path");
 	std::string boot_filepath = file_access.find_path(BOOT_FILE_NAME);
+	logger.write("boot filepath: " + boot_filepath);
 
 	if (boot_filepath != "")
+	{
 		Configuration::load_from_file(boot_filepath);
+	}
+	else
+	{
+		logger.write("Shutting down Engine due to error in loading Configuration.");
+		this->state = State::FINALIZING;
+		return;
+	}
 
 	ClassRegistry::initialize();
 	logger.write("Loading Systems from ClassRegistry...");
@@ -170,9 +176,9 @@ void Omnific::Engine::run_frame()
 		std::string entry_scene_filepath = configuration->metadata.entry_scene_filepath;
 
 		std::string app_data_entry_scene_filepath = file_access.find_path(entry_scene_filepath);
-		if (app_data_entry_scene_filepath != "")
+		if (app_data_entry_scene_filepath != "" && entry_scene_filepath != "")
 		{
-#ifdef __EMSCRIPTEN__
+#ifdef _WEB_PLATFORM
 			std::shared_ptr<Scene> scene = std::make_shared<Scene>();
 			scene->add_empty_entity("Web Confirmation Button");
 			std::shared_ptr<Button> button = std::make_shared<Button>();
@@ -187,9 +193,18 @@ void Omnific::Engine::run_frame()
 #else
 			SceneManager::load_scene(std::shared_ptr<Scene>(new Scene(entry_scene_filepath)));
 #endif
+			this->state = State::RUNNING;
 		}
+		else
+		{
+			Platform::show_error_box(
+				"Could not load entry scene",
+				"The entry scene is either missing or corrupted. Reinstall and try again");
+			Platform::get_logger().write("Shutting down Engine due to error in loading entry scene.");
+			this->state = State::FINALIZING;
 
-		this->state = State::RUNNING;
+			return;
+		}
 	}
 
 	std::shared_ptr<Clock> total_on_input_frame_time_clock = Profiler::get_clock(TOTAL_ON_INPUT_FRAME_TIME_CLOCK_NAME);

@@ -28,6 +28,7 @@ Omnific::ThreadPool* Omnific::ThreadPool::instance = nullptr;
 
 void Omnific::ThreadPool::initialize()
 {
+#ifndef _WEB_PLATFORM
 	int thread_count = Platform::get_logical_core_count() - 1;
 	ThreadPool* instance = ThreadPool::get_instance();
 
@@ -35,28 +36,34 @@ void Omnific::ThreadPool::initialize()
 		instance->threads.push_back(std::thread(&ThreadPool::run_worker_thread));
 
 	instance->busy_thread_count = 0;
+#endif
 }
 
 void Omnific::ThreadPool::enqueue_task(std::function<void()> task)
 {
+#ifndef _WEB_PLATFORM
 	ThreadPool* instance = ThreadPool::get_instance();
 	{
 		std::unique_lock<std::mutex> lock(instance->queue_mutex);
 		instance->tasks.emplace(std::move(task));
 	}
 	instance->task_condition.notify_one();
+#endif
 }
 
 void Omnific::ThreadPool::wait_for_all_tasks()
 {
+#ifndef _WEB_PLATFORM
 	ThreadPool* instance = ThreadPool::get_instance();
     std::unique_lock<std::mutex> lock(instance->queue_mutex);
     instance->all_tasks_completed_condition.wait(lock, [instance](){ 
 		return instance->tasks.empty() && (instance->busy_thread_count == 0);});
+#endif
 }
 
 void Omnific::ThreadPool::finalize()
 {
+#ifndef _WEB_PLATFORM
 	ThreadPool* instance = ThreadPool::get_instance();
 
 	{
@@ -70,10 +77,12 @@ void Omnific::ThreadPool::finalize()
 	{
 		thread.join();
 	}
+#endif
 }
 
 void Omnific::ThreadPool::run_worker_thread()
 {
+#ifndef _WEB_PLATFORM
 	ThreadPool* instance = ThreadPool::get_instance();
 	while (true)
 	{
@@ -100,11 +109,14 @@ void Omnific::ThreadPool::run_worker_thread()
 			break;
 		}
 	}
+#endif
 }
 
 Omnific::ThreadPool* Omnific::ThreadPool::get_instance()
 {
+#ifndef _WEB_PLATFORM
 	if (instance == nullptr)
 		instance = new ThreadPool();
 	return instance;
+#endif
 }
