@@ -275,6 +275,7 @@ void Omnific::GUISystem::detect_inputs_for_gui_element(
 					gui_element->is_clicked && 
 					gui_element->scene_hyperlink != "")
 				{
+					Platform::get_logger().write("GUISystem loading scene hyperlink: " + gui_element->scene_hyperlink);
 					SceneManager::load_scene(std::shared_ptr<Scene>(new Scene(gui_element->scene_hyperlink)));
 				}
 

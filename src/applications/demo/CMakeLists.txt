@@ -42,8 +42,11 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${USE_FLAGS}")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${USE_FLAGS}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${USE_FLAGS}")
-    set(CMAKE_EXECUTABLE_SUFFIX ".html")
-	set (THIRD_PARTY_BINS) 
+
+	set_target_properties(${TARGET_NAME} PROPERTIES
+		OUTPUT_NAME "index"
+		SUFFIX ".html"
+	)
 
 	if (CMAKE_BUILD_TYPE STREQUAL "Release")
 		set(GITHUB_PAGES_DIR "${CMAKE_SOURCE_DIR}/docs")
@@ -51,21 +54,25 @@ if (CMAKE_SYSTEM_NAME MATCHES "Emscripten")
 		add_custom_command(TARGET omnific_demo POST_BUILD
 			COMMAND ${CMAKE_COMMAND} -E make_directory "${GITHUB_PAGES_DIR}"
 
+			COMMAND ${CMAKE_COMMAND} -E copy_directory
+				"${CMAKE_CURRENT_SOURCE_DIR}/app_data"
+				"${PROJECT_BINARY_DIR}/app_data"
+
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/omnific_demo.html"
+				"$<TARGET_FILE_DIR:omnific_demo>/index.html"
 				"${GITHUB_PAGES_DIR}/index.html"
 
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/omnific_demo.js"
-				"${GITHUB_PAGES_DIR}/omnific_demo.js"
+				"$<TARGET_FILE_DIR:omnific_demo>/index.js"
+				"${GITHUB_PAGES_DIR}/index.js"
 
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/omnific_demo.wasm"
-				"${GITHUB_PAGES_DIR}/omnific_demo.wasm"
+				"$<TARGET_FILE_DIR:omnific_demo>/index.wasm"
+				"${GITHUB_PAGES_DIR}/index.wasm"
 
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different
-				"$<TARGET_FILE_DIR:omnific_demo>/omnific_demo.data"
-				"${GITHUB_PAGES_DIR}/omnific_demo.data"
+				"$<TARGET_FILE_DIR:omnific_demo>/index.data"
+				"${GITHUB_PAGES_DIR}/index.data"
 
 			VERBATIM
 		)

@@ -65,7 +65,9 @@ void Omnific::FileAccess::add_app_data_paths(std::vector<std::string> app_data_p
 		app_data_paths.end()
 	);
 
+#ifndef __EMSCRIPTEN__
 	Platform::get_logger().write("The following data directories were added: \"" + app_data_paths_string + "\"");
+#endif
 }
 
 std::string Omnific::FileAccess::find_path(std::string filepath)
