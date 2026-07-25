@@ -178,8 +178,9 @@ void Omnific::Engine::run_frame()
 			std::shared_ptr<Button> button = std::make_shared<Button>();
 			button->anchor_pivot = GUIElement::PivotPoint::CENTRE;
 			button->pivot = GUIElement::PivotPoint::CENTRE;
-			button->label->set_text("Click to Start.");
+			button->label->set_text("START");
 			button->scene_hyperlink = entry_scene_filepath;
+			Platform::get_logger().write("Scene hyperlink: " + entry_scene_filepath + " added to Button.");
 			button->update_image();
 			scene->add_component_to_last_entity(button);
 			SceneManager::load_scene(scene);
