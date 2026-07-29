@@ -163,4 +163,4 @@ Entity:
 Entity:
   name: "DemoUtilityScripts"
   ScriptCollection:
-    Python: ["escape_to_selection_menu.py", "reload_active_scene.py"]
+    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]

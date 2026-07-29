@@ -74,7 +74,7 @@ namespace Omnific
 
             void main()
             {   
-                float shininess = 32;
+                float shininess = 32.0;
 
                 vec3 albedo = texture(albedo_texture_sampler, uv).rgb;
                 float metalness = clamp(texture(metallicity_texture_sampler, uv).r, 0.0, 1.0);
@@ -233,7 +233,7 @@ namespace Omnific
                         fresnel = F0;
                     }
 
-                    diffuse_component = diffuse * albedo * (1 - fresnel) * (1.0 - metalness);
+                    diffuse_component = diffuse * albedo * (vec3(1.0) - fresnel) * (1.0 - metalness);
                     reflected_light += (diffuse_component + specular_component) * light_radiance * n_dot_l; 
                 }
 

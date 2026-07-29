@@ -1,7 +1,7 @@
 Entity:
   name: "Project List"
   ScriptCollection:
-    Python: ["selection_menu.py"]
+    CPP: ["SelectionMenu"]
   Label: 
     text: ""
     font: ["tests/fonts/Lato-Regular.ttf", 20]

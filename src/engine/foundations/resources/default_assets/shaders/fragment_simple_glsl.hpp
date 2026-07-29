@@ -57,7 +57,7 @@ namespace Omnific
             void main()
             {
                 vec3 albedo = texture(albedo_texture_sampler, uv).rgb;
-                float shininess = 16;
+                float shininess = 16.0;
                 vec3 ambient = vec3(0.2) * albedo;
                 vec3 reflected_light = vec3(0.0);
 

@@ -29,6 +29,10 @@
 #include "y_translation_sine_wave.hpp"
 #include "z_rotation_sine_wave.hpp"
 
+#include "selection_menu.hpp"
+#include "escape_to_selection_menu.hpp"
+#include "reload_active_scene.hpp"
+
 /**Regular entry point*/
 
 int main(int argc, char* argv[])
@@ -47,6 +51,10 @@ int main(int argc, char* argv[])
 	Omnific::ClassRegistry::add<OmnificDemo::XYZScaleSineWave, Omnific::CPPScriptInstance>();
 	Omnific::ClassRegistry::add<OmnificDemo::YTranslationSineWave, Omnific::CPPScriptInstance>();
 	Omnific::ClassRegistry::add<OmnificDemo::ZRotationSineWave, Omnific::CPPScriptInstance>();
+
+	Omnific::ClassRegistry::add<OmnificDemo::SelectionMenu, Omnific::CPPScriptInstance>();
+	Omnific::ClassRegistry::add<OmnificDemo::EscapeToSelectionMenu, Omnific::CPPScriptInstance>();
+	Omnific::ClassRegistry::add<OmnificDemo::ReloadActiveScene, Omnific::CPPScriptInstance>();
 
 	omnific_engine->run();
 	return 0;
