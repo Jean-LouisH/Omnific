@@ -28,6 +28,6 @@ void OmnificDemo::EscapeToSelectionMenu::on_input()
 
     if (inputs.is_on_release("escape"))
     {
-        Omnific::SceneManager::load_scene("selection_menu.yml");
+        Omnific::SceneManager::load_scene("scenes/selection_menu.yml");
     }
 }

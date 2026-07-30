@@ -1,0 +1,36 @@
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0, 0, 5]
+    rotation: [0, 0, 0]
+  Camera: "default"
+  ScriptCollection:
+    Python: ["scenes/tests/camera_control.py"]
+Entity:
+  name: "LightSource"
+  transform:
+    translation: [2.0, 0.25, 0.0]
+    scale: [0.5, 0.5, 0.5]
+  Renderable:
+    mesh: "Mesh::CUBE"
+    shader:
+      preset: "Shader::LIGHT_SOURCE"
+  ScriptCollection:
+    Python: ["scenes/tests/light_movement.py"]
+  Light: default
+Entity:
+  name: "Renderable"
+  transform:
+    translation: [0, 0, 0]
+  ScriptCollection:
+    Python: ["scenes/tests/constantly_rotate.py"]
+  Renderable:
+    overriding_shader:
+      preset: "Shader::SIMPLE"
+Scene:
+  name: ["models/suzanne.glb", ""]
+  parent: "Renderable"
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]

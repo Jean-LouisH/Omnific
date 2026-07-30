@@ -1,0 +1,22 @@
+Entity:
+  name: "Audio Label"
+  Label: 
+    text: "Playing Background Audio"
+    font: ["fonts/Lato-Regular.ttf", 40]
+    text_colour: "#FFFFFFFF"
+    pivot: "centre"
+    anchor_pivot: "centre"
+    #position: [200, 215]
+  AudioSource:
+      audio: ["audio/Mary Had a Little Lamb.txt"]
+      play_infinitely: true
+  ScriptCollection:
+    Python: ["scenes/tests/audio_playback_time.py"]
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]
+Entity:
+  name: "Camera"
+  Camera: "default"
+  AudioListener: "default"

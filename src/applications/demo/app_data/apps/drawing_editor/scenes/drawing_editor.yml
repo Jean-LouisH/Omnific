@@ -1,7 +1,0 @@
-Entity:
-  name: "DemoUtilityScripts"
-  ScriptCollection:
-    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]
-Entity:
-  name: "Camera"
-  Camera: "default"

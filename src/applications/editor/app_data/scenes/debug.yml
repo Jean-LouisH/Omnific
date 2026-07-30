@@ -10,7 +10,7 @@ Entity:
     font: ["assets/fonts/Lato-Regular.ttf", 90]
     colour: [0, 0, 255, 255]
   ScriptCollection: 
-    Python: ["assets/scripts/python/debug_time_display.py", "assets/scripts/python/debug_escape_to_splash_screen.py", "assets/scripts/python/debug_input_logging.py"]
+    Python: ["assets/debug_time_display.py", "assets/debug_escape_to_splash_screen.py", "assets/debug_input_logging.py"]
 Entity:
   name: "Viewport"
   Viewport:

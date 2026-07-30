@@ -1,0 +1,17 @@
+Entity:
+  name: "Clock"
+  Label: 
+    text: "This is a Label!"
+    font: ["fonts/Lato-Regular.ttf", 50]
+    text_colour: "#0000FFFF"
+    pivot: "centre"
+    anchor_pivot: "centre"
+  ScriptCollection:
+      Python: ["scenes/apps/clock/clock.py"]
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]
+Entity:
+  name: "Camera"
+  Camera: "default"

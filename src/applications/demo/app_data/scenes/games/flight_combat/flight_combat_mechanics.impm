@@ -1,0 +1,16 @@
+
+shared<GUI> message_board_gui
+shared<Entity> message_board_entity
+
+game_mechanics():
+    pass
+
+void on_entity_start():
+    shared<Scene> scene = get_scene()
+    this.message_board_gui = scene.get_component("GUI", this.message_board_entity.get_id())
+    publish_event(Event("press_start_wait"))
+    this.message_board_gui.set_to_label("Press 'Enter' / 'Start'")
+    pass
+
+void on_update() -> void:
+    pass

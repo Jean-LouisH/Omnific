@@ -1,0 +1,142 @@
+Scene:
+  name: "Unlit"
+  source: "Scene::MONKEY"
+  transform:
+    translation: [-2.0, 0.0, 0.0]
+    scale: [0.75, 0.75, 0.75]
+  Renderable: 
+    overriding_material:
+      albedo: "Image::#FF0000"
+    overriding_shader:
+      preset: "Shader::UNLIT"
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -30.0, 0.0]
+Entity:
+  name: "UnlitText"
+  Label: 
+    text: "Unlit Shader"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_centre"
+    follow_target_entity_name: "Unlit"
+    follow_offset: [0.0, -100.0]
+Entity:
+  name: "UnlitSurfaceModes"
+  parent: "Unlit"
+  Label: 
+    text: "None + None"
+    font: ["fonts/Lato-Regular.ttf", 16]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_centre"
+    follow_target_entity_name: "Unlit"
+    follow_offset: [0.0, -125.0]
+Scene:
+  name: "Simple"
+  source: "Scene::MONKEY"
+  transform:
+    translation: [0.0, 0.0, 0.0]
+    scale: [0.75, 0.75, 0.75]
+  Renderable: 
+    overriding_material:
+      albedo: "Image::#FF0000"
+    overriding_shader:
+      preset: "Shader::SIMPLE"
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -30.0, 0.0]
+Entity:
+  name: "SimpleText"
+  Label: 
+    text: "Simple Shader"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_centre"
+    follow_target_entity_name: "Simple"
+    follow_offset: [0.0, -100.0]
+Entity:
+  name: "SimpleSurfaceModes"
+  parent: "Simple"
+  Label: 
+    text: "None + None"
+    font: ["fonts/Lato-Regular.ttf", 16]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_centre"
+    follow_target_entity_name: "Simple"
+    follow_offset: [0.0, -125.0]
+  ScriptCollection:
+    Python: ["scenes/tests/set_surface_modes_to_label_text.py"]
+Scene:
+  name: "PBR"
+  source: "Scene::MONKEY"
+  transform:
+    translation: [2.0, 0.0, 0.0]
+    scale: [0.75, 0.75, 0.75]
+  Renderable: 
+    overriding_material:
+      albedo: "Image::#FF0000"
+      roughness: "Image::#FFFFFF"
+    overriding_shader:
+      preset: "Shader::PBR"
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -30.0, 0.0]
+Entity:
+  name: "PBRText"
+  Label: 
+    text: "PBR Shader"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_centre"
+    follow_target_entity_name: "PBR"
+    follow_offset: [0.0, -100.0]
+Entity:
+  name: "PBRSurfaceModes"
+  parent: "PBR"
+  Label: 
+    text: "None + None"
+    font: ["fonts/Lato-Regular.ttf", 16]
+    text_colour: "#FFFFFFFF"
+    pivot: "top_centre"
+    follow_target_entity_name: "PBR"
+    follow_offset: [0.0, -125.0]
+  ScriptCollection:
+    Python: ["scenes/tests/set_surface_modes_to_label_text.py"]
+Entity:
+  name: "Light Armature"
+  PhysicsBody:
+    has_gravity: false
+    angular_velocity: [0.0, -45.0, 0.0]
+Entity:
+  name: "Spot Light"
+  parent: "Light Armature"
+  transform: 
+    translation: [0.0, 0.0, 6.0]
+  Renderable: 
+    mesh: "Mesh::CUBE"
+    material:
+      albedo: "Image::#FFFFFF"
+    shader:
+      preset: "Shader::LIGHT_SOURCE"
+  Light:
+    light_mode: "point"
+    colour: "#FFFFFF"
+    intensity: 1.5
+Entity:
+  name: "Global Light"
+  transform:
+    rotation: [10.0, 30.0, 0.0]
+  Light:
+    light_mode: "directional"
+    colour: "#FFFFFF"
+    intensity: 1.5
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]
+Entity:
+  name: "Camera"
+  transform:
+    translation: [0.0, 0.0, 5.0]
+  Camera:
+    enable_flyby_mode_on_default_input: true

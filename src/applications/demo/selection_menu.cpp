@@ -76,11 +76,11 @@ void OmnificDemo::SelectionMenu::list_project(std::string project_name, std::str
 
     if (project_type == "test")
     {
-        menu_item_path = "tests/scenes/" + project_name + ".yml";
+        menu_item_path = "scenes/tests/" + project_name + ".yml";
     }
     else
     {
-        menu_item_path = project_type + "s/" + project_name + "/scenes/" + project_name + ".yml";
+        menu_item_path = "scenes/" + project_type + "s/" + project_name + "/"+ project_name + ".yml";
     }
     this->project_paths.push_back({this->last_letter, menu_item_path});
     this->last_letter = this->last_letter[0] + 1;

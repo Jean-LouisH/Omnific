@@ -1,0 +1,72 @@
+Entity:
+  name: "DemoUtilityScripts"
+  ScriptCollection:
+    CPP: ["EscapeToSelectionMenu", "ReloadActiveScene"]
+Entity:
+  name: "Audio Player"
+  AudioSource:
+    play_infinitely: false
+  AudioListener: "default"
+  ScriptCollection:
+    Python: ["scenes/apps/audio_player/audio_player.py"]
+Entity:
+  name: "Start Message"
+  Label: 
+    text: "Drop a .ogg or .wav file onto the window to play it"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "centre"
+    anchor_pivot: "centre"
+Entity:
+  name: "Oscilloscope"
+  PlotCanvas: 
+    pivot: "centre"
+    anchor_pivot: "centre"
+Entity:
+  name: "Previous Button"
+  Button:
+    text: "Previous"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    pivot: "bottom_right"
+    anchor_pivot: "bottom_centre"
+    margin: [-75.0, 5.0]
+Entity:
+  name: "Play/Pause Button"
+  Button:
+    text: "Play/Pause"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    pivot: "bottom_centre"
+    anchor_pivot: "bottom_centre"
+    margin: [0.0, 5.0]
+Entity:
+  name: "Next Button"
+  Button:
+    text: "Next"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#000000FF"
+    pivot: "bottom_left"
+    anchor_pivot: "bottom_centre"
+    margin: [75.0, 5.0]
+Entity:
+  name: "Playback Time"
+  Label: 
+    text: "00:00"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "bottom_left"
+    anchor_pivot: "bottom_left"
+    margin: [10.0, 10.0]
+Entity:
+  name: "Playback Length"
+  Label: 
+    text: "00:00"
+    font: ["fonts/Lato-Regular.ttf", 20]
+    text_colour: "#FFFFFFFF"
+    pivot: "bottom_right"
+    anchor_pivot: "bottom_right"
+    margin: [-10.0, 10.0]
+Entity:
+  name: "Camera"
+  Camera: "default"
